@@ -6,7 +6,7 @@ pre-commit:
   jobs:
     # 1. Auto-format staged files (formatter only, no linter)
     - name: format
-      run: npx oxfmt {staged_files}
+      run: npx ultracite fix {staged_files}
       glob:
         - "**/*.{js,jsx,ts,tsx,mjs,cjs,md,mdx,json,jsonc,css,yml,yaml}"
       stage_fixed: true
