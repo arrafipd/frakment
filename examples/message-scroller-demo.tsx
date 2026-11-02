@@ -91,7 +91,7 @@ export function MessageScrollerDemo() {
   return (
     <MessageScrollerProvider>
       <div className="relative flex flex-col gap-4">
-        <Card className="mx-auto h-[560px] w-full max-w-sm gap-0">
+        <Card className="mx-auto h-140 w-full max-w-sm gap-0">
           <CardHeader className="gap-1 border-b">
             <CardTitle>New Chat</CardTitle>
             <CardDescription>How can I help you today?</CardDescription>
@@ -121,16 +121,16 @@ export function MessageScrollerDemo() {
                   <EmptyMedia variant="icon">
                     <MessageCircleDashedIcon />
                   </EmptyMedia>
-                  <EmptyTitle>Start a conversation</EmptyTitle>
+                  <EmptyTitle>Morning, frakment!</EmptyTitle>
                   <EmptyDescription>
-                    Press send to start a new chat.
+                    What are we working on today? Press send to start a new conversation
                   </EmptyDescription>
                 </EmptyHeader>
               </Empty>
             ) : (
               <MessageScroller>
                 <MessageScrollerViewport>
-                  <MessageScrollerContent aria-busy={isBusy} className="p-4">
+                  <MessageScrollerContent aria-busy={isBusy} className="p-(--card-spacing)">
                     {messages.map((message) => (
                       <MessageAnimated
                         key={message.id}
