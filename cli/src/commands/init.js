@@ -33,32 +33,42 @@ export async function init() {
   }
 
   const configPath = path.join(cwd, CONFIG_FILE);
-  if (existsSync(configPath)) {
+  const configExists = existsSync(configPath);
+  let shouldWriteConfig = !configExists;
+
+  if (configExists) {
     const overwrite = await p.confirm({
-      message: `${CONFIG_FILE} already exists. Reconfigure?`,
+      message: `${CONFIG_FILE} already exists. Overwrite?`,
       initialValue: false,
     });
-    if (p.isCancel(overwrite) || !overwrite) {
+    if (p.isCancel(overwrite)) {
       p.outro(pc.dim("cancelled"));
       return;
+    }
+    if (!overwrite) {
+      p.log.info(`keeping existing ${CONFIG_FILE}`);
+    } else {
+      shouldWriteConfig = true;
     }
   }
 
   const s = p.spinner();
-
-  // 1. components.json
-  s.start("writing components.json");
-  const template = JSON.parse(
-    await readFile(path.join(TEMPLATES_DIR, "components.json"), "utf8")
-  );
   const cssPath = detectGlobalsCss(cwd);
-  const config = {
-    ...template,
-    registry: DEFAULT_REGISTRY,
-    tailwind: { ...template.tailwind, css: cssPath },
-  };
-  await writeFile(configPath, JSON.stringify(config, null, 2) + "\n");
-  s.stop(pc.green("✓") + " components.json");
+
+  // 1. components.json (write only if new or user chose to overwrite)
+  if (shouldWriteConfig) {
+    s.start("writing components.json");
+    const template = JSON.parse(
+      await readFile(path.join(TEMPLATES_DIR, "components.json"), "utf8")
+    );
+    const config = {
+      ...template,
+      registry: DEFAULT_REGISTRY,
+      tailwind: { ...template.tailwind, css: cssPath },
+    };
+    await writeFile(configPath, JSON.stringify(config, null, 2) + "\n");
+    s.stop(pc.green("✓") + " components.json");
+  }
 
   // 2. theme
   const cssFullPath = path.join(cwd, cssPath);
