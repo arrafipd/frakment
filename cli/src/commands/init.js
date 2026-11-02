@@ -70,7 +70,7 @@ export async function init() {
     s.stop(pc.green("✓") + " components.json");
   }
 
-  // 2. theme
+  // 2. theme (inline block, shadcn-style)
   const cssFullPath = path.join(cwd, cssPath);
   if (!existsSync(cssFullPath)) {
     p.log.error(`CSS file not found: ${cssPath}`);
@@ -84,6 +84,7 @@ export async function init() {
   let css = await readFile(cssFullPath, "utf8");
   // Strip UTF-8 BOM if present (Windows editors and some tools add it)
   css = css.replace(/^\uFEFF/, "");
+
   if (!/^@import\s+["']tailwindcss(\/|["'])/m.test(css)) {
     p.outro(
       pc.red("error ") +
@@ -93,36 +94,37 @@ export async function init() {
     process.exit(1);
   }
 
-  // Migration: strip legacy inline theme block from previous init versions
-  if (css.includes(THEME_MARKER_START)) {
-    const legacyRe = new RegExp(
+  // Cleanup: strip any prior theme block (marker-bounded) and
+  // any split-approach @import "./theme.css" line.
+  css = css.replace(
+    new RegExp(
       `\\n*${escapeRegex(THEME_MARKER_START)}[\\s\\S]*?${escapeRegex(THEME_MARKER_END)}\\n*`,
       "g"
-    );
-    css = css.replace(legacyRe, "\n").trimEnd() + "\n";
-  }
+    ),
+    "\n"
+  );
+  css = css.replace(/^@import\s+["']\.\/theme\.css["'];?\s*$\n?/gm, "");
+  css = css.replace(/\n{3,}/g, "\n\n").trimEnd() + "\n";
 
-  // 2a. Write theme.css next to globals.css
-  s.start("writing theme.css");
+  // Inject fresh theme block right after the last top-level @import
+  s.start("injecting theme block");
   const themeContent = await readFile(
     path.join(TEMPLATES_DIR, "theme.css"),
     "utf8"
   );
-  const themePath = path.join(path.dirname(cssFullPath), "theme.css");
-  await writeFile(themePath, themeContent);
-  s.stop(pc.green("✓") + " theme.css");
+  const wrapped = `${THEME_MARKER_START}\n${themeContent.trim()}\n${THEME_MARKER_END}`;
 
-  // 2b. Inject @import "./theme.css"; after @import "tailwindcss"
-  s.start("injecting theme import");
-  const importLine = '@import "./theme.css";';
-  if (!new RegExp(`^${escapeRegex(importLine)}`, "m").test(css)) {
-    const tailwindLineRe = /^@import\s+["']tailwindcss(\/|["'])[^;\n]*;\s*$/m;
-    css = tailwindLineRe.test(css)
-      ? css.replace(tailwindLineRe, (match) => `${match}\n${importLine}`)
-      : `${importLine}\n${css}`;
-    await writeFile(cssFullPath, css);
+  const importMatches = [...css.matchAll(/^@import\s+[^;\n]+;\s*$/gm)];
+  if (importMatches.length > 0) {
+    const lastMatch = importMatches[importMatches.length - 1];
+    const insertAt = lastMatch.index + lastMatch[0].length;
+    css = css.slice(0, insertAt) + "\n\n" + wrapped + css.slice(insertAt);
+  } else {
+    css = css.trimEnd() + "\n\n" + wrapped + "\n";
   }
-  s.stop(pc.green("✓") + " theme import");
+
+  await writeFile(cssFullPath, css);
+  s.stop(pc.green("✓") + " theme block");
 
   // 3. lib/utils.ts
   if (!existsSync(path.join(cwd, "lib/utils.ts"))) {

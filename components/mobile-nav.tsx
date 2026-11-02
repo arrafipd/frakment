@@ -17,7 +17,7 @@ import { ROUTES } from "@/constants/routes";
 import { useFeedback } from "@/hooks/use-feedback";
 // NOTE: This component mirrors components/docs-sidebar.tsx.'s structure.
 // Both render TOP_LEVEL_SECTIONS (flat) + tree.children grouped, filtered by
-// EXCLUDED_SECTIONS. If you change one, change the other â€” or better, hoist
+// EXCLUDED_SECTIONS. If you change one, change the other - or better, hoist
 // the shared logic into a helper.
 import {
   EXCLUDED_SECTIONS,
