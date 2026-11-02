@@ -63,7 +63,8 @@ export async function add(componentName, options) {
     process.exit(1);
   }
 
-  const config = JSON.parse(await readFile(configPath, "utf-8"));
+  const configRaw = await readFile(configPath, "utf-8");
+  const config = JSON.parse(configRaw.replace(/^\uFEFF/, ""));
   const registryUrl = (options.registry ?? config.registry).replace(/\/$/, "");
   const s = p.spinner();
 
@@ -95,7 +96,8 @@ export async function add(componentName, options) {
   // 3. Install npm dependencies
   if (npmDeps.size > 0) {
     const pkgPath = path.join(cwd, "package.json");
-    const pkg = JSON.parse(await readFile(pkgPath, "utf-8"));
+    const pkgRaw = await readFile(pkgPath, "utf-8");
+    const pkg = JSON.parse(pkgRaw.replace(/^\uFEFF/, ""));
     const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
     const missing = [...npmDeps].filter((d) => !allDeps[d]);
     if (missing.length > 0) {
