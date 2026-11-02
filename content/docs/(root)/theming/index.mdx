@@ -230,20 +230,12 @@ This works because the variant matches `.dark *` (any descendant of `.dark`), no
 
 This is what `npx frakment init` injects into `globals.css`. If you're setting up manually, paste it after your last `@import` (see [Manual](/docs/installation/manual)).
 
-> The full block also includes 9 `@utility` helpers (`container`, `no-scrollbar`, `border-grid`, etc.) used by some components. See [`cli/templates/theme.css`](https://github.com/hanshapd/frakment/blob/main/cli/templates/theme.css) for the source.
+The full block also includes 9 `@utility` helpers (`container`, `no-scrollbar`, `border-grid`, etc.) used by some components. See [`cli/templates/theme.css`](https://github.com/hanshapd/frakment/blob/main/cli/templates/theme.css) for the source.
 
 <CodeCollapsibleWrapper>
 
 ```css title="app/globals.css (paste after @import statements)"
 /* ==== FRAKMENT THEME START ==== */
-/**
- * Frakment theme - canonical design tokens.
- *
- * Injected into user projects by `npx frakment init`. Contains only
- * the @theme block (design tokens). Base styles, utilities, and
- * component behaviors stay in globals.css.
- */
-
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

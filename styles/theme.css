@@ -1,11 +1,3 @@
-/**
- * Frakment theme - canonical design tokens.
- *
- * Injected into user projects by `npx frakment init`. Contains only
- * the @theme block (design tokens). Base styles, utilities, and
- * component behaviors stay in globals.css.
- */
-
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
