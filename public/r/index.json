@@ -59,6 +59,41 @@
       "description": "Scroll container for chat transcripts. Anchors turns, follows streamed replies, restores position, and tracks visibility."
     },
     {
+      "name": "input",
+      "version": "0.1.0",
+      "deprecated": false,
+      "title": "Input",
+      "description": "A single-line text input."
+    },
+    {
+      "name": "textarea",
+      "version": "0.1.0",
+      "deprecated": false,
+      "title": "Textarea",
+      "description": "A multi-line text input."
+    },
+    {
+      "name": "empty",
+      "version": "0.1.0",
+      "deprecated": false,
+      "title": "Empty",
+      "description": "A centered placeholder for empty states."
+    },
+    {
+      "name": "input-group",
+      "version": "0.1.0",
+      "deprecated": false,
+      "title": "Input Group",
+      "description": "A composable input wrapper with inline addons, buttons, and text groups."
+    },
+    {
+      "name": "message-animated",
+      "version": "0.1.0",
+      "deprecated": false,
+      "title": "Message Animated",
+      "description": "An animated chat message that fades in and pins to the message scroller."
+    },
+    {
       "name": "bubble",
       "version": "0.1.0",
       "deprecated": false,

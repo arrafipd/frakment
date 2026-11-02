@@ -1,0 +1,77 @@
+---
+title: Textarea
+description: A multi-line text input.
+---
+
+import { TextareaDemo } from "@/examples/textarea-demo";
+
+import { Textarea } from "@/components/ui/textarea";
+
+<ComponentPreview name="textarea" title="textarea.tsx">
+  <TextareaDemo />
+</ComponentPreview>
+
+Textarea is a multi-line text field. It grows automatically with its content thanks to `field-sizing: content`.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add textarea
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>No npm dependencies required.</Step>
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="textarea" title="components/ui/textarea.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="textarea.tsx"
+import { Textarea } from "@/components/ui/textarea";
+```
+
+```tsx title="textarea.tsx"
+<Textarea placeholder="Write a message..." />
+```
+
+## Examples
+
+### States
+
+```tsx
+<Textarea placeholder="Disabled" disabled />
+<Textarea placeholder="Invalid" aria-invalid />
+```
+
+### Auto-grow
+
+Because of `field-sizing-content`, the textarea grows to fit its content without JavaScript. Set `rows` for a minimum height:
+
+```tsx
+<Textarea rows={3} placeholder="Type a long message..." />
+```
+
+## API Reference
+
+Extends `React.ComponentProps<"textarea">`. Every native attribute is forwarded to the underlying `<textarea>`.
+
+Adds `data-slot="textarea"` for styling hooks.

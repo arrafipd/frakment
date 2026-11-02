@@ -1,5 +1,16 @@
 {
   "title": "Components",
   "root": true,
-  "pages": ["avatar", "badge", "button", "code-block", "item", "separator"]
+  "pages": [
+    "avatar",
+    "badge",
+    "button",
+    "code-block",
+    "empty",
+    "input",
+    "input-group",
+    "item",
+    "separator",
+    "textarea"
+  ]
 }

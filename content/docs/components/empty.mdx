@@ -1,0 +1,118 @@
+---
+title: Empty
+description: A centered placeholder for empty states.
+---
+
+import { EmptyDemo } from "@/examples/empty-demo";
+
+<ComponentPreview name="empty" title="empty.tsx">
+  <EmptyDemo />
+</ComponentPreview>
+
+Empty is a composable placeholder for zero-data screens — inbox, search results, project lists, first-run onboarding. It renders a dashed surface with a stacked icon, title, description, and optional call-to-action.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add empty
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install class-variance-authority
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="empty" title="components/ui/empty.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Anatomy
+
+```tsx
+<Empty>
+  <EmptyHeader>
+    <EmptyMedia variant="icon" />
+    <EmptyTitle />
+    <EmptyDescription />
+  </EmptyHeader>
+  <EmptyContent />
+</Empty>
+```
+
+- **Empty** — centered flex column with dashed border, `rounded-xl`, padding, and `text-balance`
+- **EmptyHeader** — max-width container that keeps title and description centered
+- **EmptyMedia** — icon container; `variant="icon"` gives a rounded square with muted background
+- **EmptyTitle** — small medium-weight heading
+- **EmptyDescription** — muted secondary text; accepts links
+- **EmptyContent** — full-width content block for actions below the header
+
+## Examples
+
+### With action
+
+```tsx
+<Empty>
+  <EmptyHeader>
+    <EmptyMedia variant="icon">
+      <Folder />
+    </EmptyMedia>
+    <EmptyTitle>No projects yet</EmptyTitle>
+    <EmptyDescription>
+      Create your first project to get started.
+    </EmptyDescription>
+  </EmptyHeader>
+  <EmptyContent>
+    <Button size="sm">
+      <PlusIcon /> New project
+    </Button>
+  </EmptyContent>
+</Empty>
+```
+
+### Without media
+
+```tsx
+<Empty>
+  <EmptyHeader>
+    <EmptyTitle>No results</EmptyTitle>
+    <EmptyDescription>Try a different search term.</EmptyDescription>
+  </EmptyHeader>
+</Empty>
+```
+
+## API Reference
+
+All parts extend `React.ComponentProps<"div">` (except **EmptyDescription** which renders a `<div>` too for layout consistency).
+
+### EmptyMedia
+
+<PropsTable
+  rows={[
+    {
+      name: "variant",
+      type: '"default" | "icon"',
+      defaultValue: '"default"',
+      description:
+        "Icon wraps the child in a rounded muted square; default is transparent.",
+    },
+  ]}
+/>

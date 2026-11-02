@@ -88,4 +88,16 @@ export {
   BookOpen as BookOpenText,
   WarningCircle as CircleAlertIcon,
   WarningCircle as CircleAlert,
+  // Chat demo
+  ArrowUp,
+  ArrowUp as ArrowUpIcon,
+  ArrowClockwise,
+  ArrowClockwise as ArrowClockwiseIcon,
+  Paperclip,
+  Image,
+  Binoculars,
+  Binoculars as TelescopeIcon,
+  Globe,
+  ChatTeardropDots,
+  ChatTeardropDots as MessageCircleDashedIcon,
 } from "@phosphor-icons/react";

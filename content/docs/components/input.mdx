@@ -1,0 +1,80 @@
+---
+title: Input
+description: A single-line text input.
+---
+
+import { InputDemo } from "@/examples/input-demo";
+
+import { Input } from "@/components/ui/input";
+
+<ComponentPreview name="input" title="input.tsx">
+  <InputDemo />
+</ComponentPreview>
+
+Input is a single-line text field for forms and inline editing. It inherits all native `<input>` attributes and behaviors.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add input
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>No npm dependencies required.</Step>
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="input" title="components/ui/input.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="input.tsx"
+import { Input } from "@/components/ui/input";
+```
+
+```tsx title="input.tsx"
+<Input placeholder="Email" type="email" />
+```
+
+## Examples
+
+### Types
+
+```tsx
+<Input type="email" placeholder="Email" />
+<Input type="password" placeholder="Password" />
+<Input type="search" placeholder="Search" />
+<Input type="file" />
+```
+
+### States
+
+```tsx
+<Input placeholder="Disabled" disabled />
+<Input placeholder="Invalid" aria-invalid />
+```
+
+The `aria-invalid` attribute triggers the destructive ring color from the theme tokens.
+
+## API Reference
+
+Extends `React.ComponentProps<"input">`. Every native attribute (`type`, `placeholder`, `value`, `onChange`, `disabled`, `required`, `aria-*`) is forwarded to the underlying `<input>`.
+
+Adds `data-slot="input"` for styling hooks.

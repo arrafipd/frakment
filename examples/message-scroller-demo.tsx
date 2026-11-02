@@ -1,128 +1,224 @@
 "use client";
 
-import * as React from "react";
-import { PlusIcon, RotateCcwIcon } from "lucide-react";
+import { useChat } from "@ai-sdk/react";
+import {
+  ArrowClockwiseIcon,
+  ArrowUpIcon,
+  Globe,
+  Image,
+  MessageCircleDashedIcon,
+  Paperclip,
+  PlusIcon,
+  TelescopeIcon,
+} from "@/lib/icons";
 
+import { createChat, getMessageText } from "@/lib/ai";
+import { MessageAnimated } from "@/components/message-animated";
 import { Button } from "@/components/ui/button";
 import {
-  MessageScrollerProvider,
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+} from "@/components/ui/input-group";
+import {
   MessageScroller,
-  MessageScrollerViewport,
-  MessageScrollerContent,
-  MessageScrollerItem,
   MessageScrollerButton,
+  MessageScrollerContent,
+  MessageScrollerProvider,
+  MessageScrollerViewport,
 } from "@/components/ui/message-scroller";
-import { cn } from "@/lib/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
-type ChatMessage = {
-  id: string;
-  role: "user" | "assistant";
-  text: string;
-};
+const chat = createChat()
+  .user(
+    "I'm building a chat for our app and the scroll behavior is driving me nuts. Every time the AI streams a reply, the whole thread jumps around."
+  )
+  .sleep(1000)
+  .assistant(
+    "That's the classic streaming scroll problem. Wrap your message list in `MessageScroller` and turn on `autoScroll` — the viewport pins to the bottom as tokens arrive, so users always see the latest text land in place.",
+  )
+  .user(
+    "Okay, but when someone sends a new message the view still feels jarring — like the whole conversation reloads from the top."
+  )
+  .sleep(1000)
+  .assistant(
+    "MessageScrollerItem fixes that with turn anchoring. Set `scrollAnchor` on the turn that should settle near the top instead of blindly snapping to the document bottom.",
+  )
+  .user("Last one — does this work with assistive tech?")
+  .sleep(1000)
+  .assistant(
+    "Yes. MessageScrollerContent sets role=log and aria-relevant=additions by default, so screen readers announce new messages as they stream in.",
+  );
 
-const initialMessages: ChatMessage[] = [
-  {
-    id: "1",
-    role: "user",
-    text: "What's the build time for the dashboard route?",
-  },
-  {
-    id: "2",
-    role: "assistant",
-    text: "The dashboard route builds in 1.8s on average. Breakdown:\n\n- Bundle: 1240 KB\n- 3 network requests on /dashboard: 620ms\n- Render tree scan: 180ms\n\nWant me to profile /settings next?",
-  },
-  {
-    id: "3",
-    role: "user",
-    text: "Yes, and also check the API latency.",
-  },
-  {
-    id: "4",
-    role: "assistant",
-    text: "Settings builds in 2.1s. API latency (p95):\n\n- /api/status: 42ms\n- /api/registry: 118ms\n- /api/search: 340ms",
-  },
-];
-
-const turnPool: Array<[ChatMessage, ChatMessage]> = [
-  [
-    { id: "t1", role: "user", text: "Any regressions since last week?" },
-    {
-      id: "t2",
-      role: "assistant",
-      text: "No regressions in bundle size. The registry endpoint gained 12ms — likely the new skill manifest payload.",
-    },
-  ],
-  [
-    { id: "t3", role: "user", text: "Which endpoint has the worst p95?" },
-    {
-      id: "t4",
-      role: "assistant",
-      text: "Worst p95 is /api/search at 340ms. 80% of that is the fuzzy matcher. Caching common queries would cut it in half.",
-    },
-  ],
-  [
-    { id: "t5", role: "user", text: "Write it up and I'll pick it up tomorrow." },
-    {
-      id: "t6",
-      role: "assistant",
-      text: "Drafted. Summary:\n\n- 3 endpoints profiled\n- 1 regression flagged (registry payload)\n- 1 optimization suggested (cache /api/search)\n\nSaved as profile-2026-11-02.md.",
-    },
-  ],
-];
+const initialMessages = chat.get(0);
+const transport = chat.transport({ delayMs: 20 });
 
 export function MessageScrollerDemo() {
-  const [messages, setMessages] = React.useState<ChatMessage[]>(initialMessages);
-  const [turn, setTurn] = React.useState(0);
-
-  const addTurn = () => {
-    const pair = turnPool[turn % turnPool.length];
-    setMessages((prev) => [...prev, ...pair]);
-    setTurn((t) => t + 1);
-  };
-
-  const reset = () => {
-    setMessages(initialMessages);
-    setTurn(0);
-  };
+  const { messages, sendMessage, status, setMessages } = useChat({
+    messages: initialMessages,
+    transport,
+  });
+  const nextMessage = chat.next(messages);
+  const isBusy = status === "submitted" || status === "streaming";
 
   return (
-    <div className="w-full max-w-md">
-      <div className="relative h-[420px] overflow-hidden rounded-lg border bg-background">
-        <MessageScrollerProvider>
-          <MessageScroller>
-            <MessageScrollerViewport>
-              <MessageScrollerContent className="p-4">
-                {messages.map((m) => (
-                  <MessageScrollerItem
-                    key={m.id}
-                    scrollAnchor={m.role === "user"}
+    <MessageScrollerProvider>
+      <div className="relative flex flex-col gap-4">
+        <Card className="mx-auto h-[560px] w-full max-w-sm gap-0">
+          <CardHeader className="gap-1 border-b">
+            <CardTitle>New Chat</CardTitle>
+            <CardDescription>How can I help you today?</CardDescription>
+            <CardAction>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon-sm"
+                    aria-label="Reset conversation"
+                    onClick={() => setMessages(initialMessages)}
+                    disabled={isBusy}
                   >
-                    <div
-                      className={cn(
-                        "max-w-[85%] whitespace-pre-wrap rounded-lg px-3 py-2 text-sm",
-                        m.role === "user"
-                          ? "ml-auto bg-primary text-primary-foreground"
-                          : "bg-muted text-foreground"
-                      )}
-                    >
-                      {m.text}
-                    </div>
-                  </MessageScrollerItem>
-                ))}
-              </MessageScrollerContent>
-            </MessageScrollerViewport>
-            <MessageScrollerButton />
-          </MessageScroller>
-        </MessageScrollerProvider>
+                    <ArrowClockwiseIcon />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Reset</p>
+                </TooltipContent>
+              </Tooltip>
+            </CardAction>
+          </CardHeader>
+          <CardContent className="flex-1 overflow-hidden p-0">
+            {messages.length === 0 ? (
+              <Empty className="h-full">
+                <EmptyHeader>
+                  <EmptyMedia variant="icon">
+                    <MessageCircleDashedIcon />
+                  </EmptyMedia>
+                  <EmptyTitle>Start a conversation</EmptyTitle>
+                  <EmptyDescription>
+                    Press send to start a new chat.
+                  </EmptyDescription>
+                </EmptyHeader>
+              </Empty>
+            ) : (
+              <MessageScroller>
+                <MessageScrollerViewport>
+                  <MessageScrollerContent aria-busy={isBusy} className="p-4">
+                    {messages.map((message) => (
+                      <MessageAnimated
+                        key={message.id}
+                        message={message}
+                        scrollAnchor={message.role === "user"}
+                      />
+                    ))}
+                  </MessageScrollerContent>
+                </MessageScrollerViewport>
+                <MessageScrollerButton />
+              </MessageScroller>
+            )}
+          </CardContent>
+          <CardFooter className="flex-col gap-2">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (!nextMessage || isBusy) return;
+                void sendMessage(nextMessage);
+              }}
+              className="w-full"
+            >
+              <InputGroup>
+                <div className="h-14 w-full px-3 py-2.5">
+                  <span
+                    className="line-clamp-2 opacity-60 data-[status=ready]:opacity-100"
+                    data-status={status}
+                  >
+                    {nextMessage ? (
+                      getMessageText(nextMessage)
+                    ) : (
+                      <span className="text-muted-foreground">
+                        No messages queued. Reset the conversation.
+                      </span>
+                    )}
+                  </span>
+                </div>
+                <InputGroupAddon align="block-end" className="pt-1">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <InputGroupButton
+                        aria-label="Add files"
+                        type="button"
+                        size="icon-sm"
+                        variant="outline"
+                      >
+                        <PlusIcon />
+                      </InputGroupButton>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start" side="top" className="w-44">
+                      <DropdownMenuItem>
+                        <Paperclip />
+                        Add Photos & Files
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem>
+                        <Image />
+                        Create Image
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <TelescopeIcon />
+                        Deep Research
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Globe />
+                        Web Search
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  <InputGroupButton
+                    type="submit"
+                    variant="default"
+                    size="icon-sm"
+                    disabled={!nextMessage || isBusy}
+                    className="ml-auto"
+                  >
+                    <ArrowUpIcon />
+                    <span className="sr-only">Send</span>
+                  </InputGroupButton>
+                </InputGroupAddon>
+              </InputGroup>
+            </form>
+          </CardFooter>
+        </Card>
+        <div className="px-0.5 text-center text-xs text-muted-foreground">
+          Demo is read only. Press send to send messages.
+        </div>
       </div>
-      <div className="mt-3 flex gap-2">
-        <Button size="sm" onClick={addTurn}>
-          <PlusIcon /> Add turn
-        </Button>
-        <Button size="sm" variant="outline" onClick={reset}>
-          <RotateCcwIcon /> Reset
-        </Button>
-      </div>
-    </div>
+    </MessageScrollerProvider>
   );
 }

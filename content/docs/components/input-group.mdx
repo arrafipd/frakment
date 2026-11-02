@@ -1,0 +1,163 @@
+---
+title: Input Group
+description: A composable input wrapper with inline addons, buttons, and text groups.
+---
+
+import { InputGroupDemo } from "@/examples/input-group-demo";
+
+<ComponentPreview name="input-group" title="input-group.tsx">
+  <InputGroupDemo />
+</ComponentPreview>
+
+Input Group wraps a single input or textarea and lets you compose inline addons — icons, text prefixes, and buttons — in a single bordered surface.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add input-group
+```
+
+The CLI also installs the registry dependencies: `button`, `input`, and `textarea`.
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install class-variance-authority
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="input-group" title="components/ui/input-group.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Anatomy
+
+```tsx
+<InputGroup>
+  <InputGroupAddon align="inline-start">
+    <Search />
+  </InputGroupAddon>
+  <InputGroupInput placeholder="Search..." />
+  <InputGroupAddon align="inline-end">
+    <InputGroupButton>Go</InputGroupButton>
+  </InputGroupAddon>
+</InputGroup>
+```
+
+- **InputGroup** — bordered wrapper; auto-sizes height when an addon uses `align="block-start"` / `align="block-end"`
+- **InputGroupAddon** — icon, text, or button container; `align` controls position
+- **InputGroupButton** — compact button sized for the group; inherits from Frakment `Button`
+- **InputGroupInput** — native input stripped of border and ring (the group provides them)
+- **InputGroupTextarea** — same, for textarea
+- **InputGroupText** — inline text (prefixes, units) with muted styling
+
+## Examples
+
+### Search
+
+```tsx
+<InputGroup>
+  <InputGroupAddon>
+    <Search />
+  </InputGroupAddon>
+  <InputGroupInput placeholder="Search..." />
+</InputGroup>
+```
+
+### Prefix
+
+```tsx
+<InputGroup>
+  <InputGroupAddon>
+    <InputGroupText>https://</InputGroupText>
+  </InputGroupAddon>
+  <InputGroupInput placeholder="example.com" />
+</InputGroup>
+```
+
+### Trailing button
+
+```tsx
+<InputGroup>
+  <InputGroupInput placeholder="Enter email" />
+  <InputGroupAddon align="inline-end">
+    <InputGroupButton variant="default">Subscribe</InputGroupButton>
+  </InputGroupAddon>
+</InputGroup>
+```
+
+### Vertical layout
+
+```tsx
+<InputGroup>
+  <InputGroupInput placeholder="Type a message" />
+  <InputGroupAddon align="block-end">
+    <InputGroupButton size="icon-sm">
+      <ArrowUpIcon />
+    </InputGroupButton>
+  </InputGroupAddon>
+</InputGroup>
+```
+
+## API Reference
+
+### InputGroupAddon
+
+<PropsTable
+  rows={[
+    {
+      name: "align",
+      type: '"inline-start" | "inline-end" | "block-start" | "block-end"',
+      defaultValue: '"inline-start"',
+      description: "Position of the addon inside the group.",
+    },
+  ]}
+/>
+
+### InputGroupButton
+
+Extends Frakment `Button`. Accepts all button props (`variant`, `size`, `disabled`, `asChild`, …). Additional compact sizes:
+
+<PropsTable
+  rows={[
+    {
+      name: "size xs",
+      type: '"xs"',
+      defaultValue: "",
+      description: "6×24px — default for InputGroupButton.",
+    },
+    {
+      name: "size icon-xs",
+      type: '"icon-xs"',
+      defaultValue: "",
+      description: "6×6px icon-only.",
+    },
+    {
+      name: "size icon-sm",
+      type: '"icon-sm"',
+      defaultValue: "",
+      description: "8×8px icon-only.",
+    },
+  ]}
+/>
+
+### InputGroupInput / InputGroupTextarea
+
+Extend native `input` / `textarea` props. Borders, ring, and background are stripped so the group provides the visual shell.

@@ -82,6 +82,56 @@
       "registryDependencies": ["button"]
     },
     {
+      "name": "input",
+      "version": "0.1.0",
+      "title": "Input",
+      "description": "A single-line text input.",
+      "source": "registry/input.tsx",
+      "target": "components/ui/input.tsx",
+      "dependencies": [],
+      "registryDependencies": []
+    },
+    {
+      "name": "textarea",
+      "version": "0.1.0",
+      "title": "Textarea",
+      "description": "A multi-line text input.",
+      "source": "registry/textarea.tsx",
+      "target": "components/ui/textarea.tsx",
+      "dependencies": [],
+      "registryDependencies": []
+    },
+    {
+      "name": "empty",
+      "version": "0.1.0",
+      "title": "Empty",
+      "description": "A centered placeholder for empty states.",
+      "source": "registry/empty.tsx",
+      "target": "components/ui/empty.tsx",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": []
+    },
+    {
+      "name": "input-group",
+      "version": "0.1.0",
+      "title": "Input Group",
+      "description": "A composable input wrapper with inline addons, buttons, and text groups.",
+      "source": "registry/input-group.tsx",
+      "target": "components/ui/input-group.tsx",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["button", "input", "textarea"]
+    },
+    {
+      "name": "message-animated",
+      "version": "0.1.0",
+      "title": "Message Animated",
+      "description": "An animated chat message that fades in and pins to the message scroller.",
+      "source": "registry/message-animated.tsx",
+      "target": "components/ui/message-animated.tsx",
+      "dependencies": ["motion"],
+      "registryDependencies": ["bubble", "message-scroller"]
+    },
+    {
       "name": "bubble",
       "version": "0.1.0",
       "title": "Bubble",
