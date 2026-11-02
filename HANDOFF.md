@@ -1,0 +1,685 @@
+# Frakment - Session Handoff
+
+Panduan lengkap untuk AI / developer yang melanjutkan pekerjaan. Baca ini dulu sebelum sentuh apa pun.
+
+---
+
+## TL;DR
+
+- **Registry**: 26 komponen (dari 15 awal). Semua fungsional + live di main.
+- **Docs**: 11 komponen punya halaman (mixed quality: 3 rich, 1 medium, 4 minimal, 3 baru belum dibuat).
+- **Next priority**: batch Textarea + Empty (upgrade minimal ke rich), lalu InputGroup, lalu Field upgrade, lalu Checkbox/Label/Switch docs.
+- **Blocker**: tidak ada. Semua build sukses, test hijau, working tree clean.
+
+---
+
+## Current State
+
+```
+ca0f7bd docs: upgrade input page to rich format (6 examples)
+d5eb8ca docs: add field page with rich examples
+14ca017 feat(registry): add label, switch, checkbox, select, field primitives
+3b46eb8 feat(registry): add input, textarea, empty, input-group, message-animated
+1a26cd8 docs: framework guides, SKILL.md, theming, changelog; remove competitor marketing
+```
+
+**Working tree**: clean. All pushed to origin/main.
+
+**Build status**: `npm run build` sukses, `npm test` 39 passed, typecheck clean.
+
+---
+
+## Component Registry (26 komponen)
+
+### Primitives (form controls)
+
+| Name          | Deps                               | Regdeps                 |
+| ------------- | ---------------------------------- | ----------------------- |
+| `button`      | class-variance-authority, radix-ui | -                       |
+| `input`       | -                                  | -                       |
+| `textarea`    | -                                  | -                       |
+| `label`       | radix-ui                           | -                       |
+| `switch`      | radix-ui                           | -                       |
+| `checkbox`    | radix-ui                           | -                       |
+| `select`      | radix-ui                           | -                       |
+| `field`       | class-variance-authority           | label, separator        |
+| `input-group` | class-variance-authority           | button, input, textarea |
+| `empty`       | class-variance-authority           | -                       |
+
+### Display
+
+| Name         | Deps                                   | Regdeps |
+| ------------ | -------------------------------------- | ------- |
+| `badge`      | class-variance-authority, radix-ui     | -       |
+| `avatar`     | radix-ui                               | -       |
+| `separator`  | radix-ui                               | -       |
+| `item`       | class-variance-authority, radix-ui     | -       |
+| `marker`     | class-variance-authority, radix-ui     | -       |
+| `spinner`    | lucide-react                           | -       |
+| `bubble`     | class-variance-authority, radix-ui     | -       |
+| `message`    | -                                      | -       |
+| `code-block` | class-variance-authority, lucide-react | button  |
+
+### AI / agent
+
+| Name               | Deps                           | Regdeps                    |
+| ------------------ | ------------------------------ | -------------------------- |
+| `trace`            | lucide-react, motion, radix-ui | -                          |
+| `terminal`         | lucide-react, motion           | trace, code-block          |
+| `chain-of-thought` | lucide-react                   | trace                      |
+| `pulse`            | lucide-react                   | badge, pulse-status, trace |
+| `pulse-status`     | lucide-react                   | -                          |
+| `message-scroller` | @shadcn/react                  | button                     |
+| `message-animated` | ai, motion                     | bubble, message-scroller   |
+
+**Note penting**: `message-scroller` masih import `@shadcn/react/message-scroller` (engine headless). Ini dependency npm biasa, bukan UI library. Kalau mau zero shadcn, butuh reimplement engine atau pakai `use-stick-to-bottom` langsung (2-4 jam).
+
+---
+
+## Docs Status
+
+### `content/docs/components/` (11 MDX)
+
+| File              | Lines | ##  | ### | Preview | Status                  |
+| ----------------- | ----- | --- | --- | ------- | ----------------------- |
+| `badge.mdx`       | 449   | 23  | 10  | 15      | RICH (template)         |
+| `code-block.mdx`  | 386   | 19  | 3   | 13      | RICH (template)         |
+| `item.mdx`        | 320   | 12  | 2   | 6       | RICH                    |
+| `field.mdx`       | 244   | 15  | 10  | 4       | MEDIUM                  |
+| `input.mdx`       | 137   | 7   | 3   | 5       | RICH (upgraded)         |
+| `textarea.mdx`    | 77    | 6   | 2   | 1       | MINIMAL (needs upgrade) |
+| `empty.mdx`       | 118   | 7   | 3   | 1       | MINIMAL (needs upgrade) |
+| `input-group.mdx` | 163   | 11  | 7   | 1       | MINIMAL (needs upgrade) |
+| `avatar.mdx`      | -     | -   | -   | -       | existing, not checked   |
+| `separator.mdx`   | -     | -   | -   | -       | existing, not checked   |
+| `button.mdx`      | -     | -   | -   | -       | existing, not checked   |
+
+**Missing docs**: `checkbox.mdx`, `label.mdx`, `switch.mdx`, `select.mdx` (4 file belum dibuat).
+
+### `content/docs/ai-elements/` (10 MDX)
+
+- Semua sudah ada. `message-scroller.mdx` dibuat session ini (rich, 243 lines).
+
+### Target format RICH (contoh `badge.mdx`)
+
+Setiap section yang punya visual variant HARUS pakai `<ComponentPreview>`, bukan cuma code static.
+
+Struktur minimal:
+
+1. **Hero**: 1 `<ComponentPreview>` full showcase
+2. `## Installation` (CodeTabs CLI + Manual)
+3. `## Usage` (import + basic example)
+4. `## Anatomy` (component tree + parts table)
+5. `## Examples` - multiple `###` subsections, tiap satu preview + code
+6. `## API Reference` - PropsTable per component
+7. Optional: `## Accessibility`, `## Best Practices`
+
+---
+
+## Demo Files Status (`examples/`)
+
+### Yang sudah ada
+
+```
+field-demo.tsx          (payment form)
+field-input.tsx         (username/password)
+field-invalid.tsx       (invalid state)
+field-textarea.tsx      (feedback form)
+input-demo.tsx          (API key, password)
+input-basic.tsx         (bare input)
+input-field.tsx         (username field)
+input-fieldgroup.tsx    (name/email group)
+input-invalid.tsx       (invalid state)
+textarea-demo.tsx       (OLD minimal - perlu rewrite)
+empty-demo.tsx          (OLD minimal - perlu rewrite)
+input-group-demo.tsx    (OLD minimal - perlu rewrite)
+message-scroller-demo.tsx (full chat, sudah rewrite)
+```
+
+### Yang masih perlu dibuat
+
+```
+textarea-field.tsx      (Field wrapper)
+textarea-invalid.tsx    (invalid state)
+empty-outline.tsx       (dashed border)
+empty-muted.tsx         (bg-muted/30)
+empty-avatar-group.tsx  (stacked avatars)
+input-group-inline-start.tsx
+input-group-inline-end.tsx
+input-group-block-end.tsx
+input-group-icon.tsx
+field-checkbox.tsx
+field-switch.tsx
+field-select.tsx
+checkbox-demo.tsx
+checkbox-basic.tsx
+checkbox-invalid.tsx
+label-demo.tsx
+switch-demo.tsx
+switch-description.tsx
+switch-choice-card.tsx
+select-demo.tsx
+select-groups.tsx
+```
+
+---
+
+## Patterns (WAJIB IKUTI)
+
+### 1. Write/read file (PowerShell)
+
+JANGAN pakai `Get-Content` / `Set-Content` untuk file dengan emoji atau non-ASCII. Selalu:
+
+```powershell
+$utf8 = New-Object System.Text.UTF8Encoding $false
+[System.IO.File]::WriteAllText("$path", $content, $utf8)
+$c = [System.IO.File]::ReadAllText($path, $utf8)
+```
+
+Untuk file panjang, pakai array of lines (hindari here-string cutoff):
+
+```powershell
+$lines = @(
+  'line 1',
+  'line 2'
+)
+[System.IO.File]::WriteAllLines($path, $lines, $utf8)
+```
+
+### 2. MDX rich format (template)
+
+````mdx
+---
+title: ComponentName
+description: One-line description.
+---
+
+import { ComponentNameDemo } from "@/examples/component-name-demo";
+
+<ComponentPreview
+  name="component-name"
+  title="component-name.tsx"
+  previewClassName="h-auto py-8"
+>
+  <ComponentNameDemo />
+</ComponentPreview>
+
+Brief intro paragraph.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add component-name
+```
+````
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+      ```bash
+      npm install <deps>
+      ```
+      <Step>Copy and paste the following code into your project.</Step>
+      <ComponentSource name="component-name" title="components/ui/component-name.tsx" />
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="component-name.tsx"
+import { ComponentName } from "@/components/ui/component-name";
+```
+
+## Anatomy
+
+```tsx
+<ComponentName>
+  <ComponentNamePart />
+</ComponentName>
+```
+
+- **ComponentName** - short description
+
+## Examples
+
+### Variant A
+
+<ComponentPreview name="component-name" title="component-name.tsx" previewClassName="h-auto py-8">
+  <ComponentNameVariant />
+</ComponentPreview>
+
+## API Reference
+
+<PropsTable
+rows={[
+{
+name: "variant",
+type: '"a" | "b"',
+defaultValue: '"a"',
+description: "Visual variant.",
+},
+]}
+/>
+
+````
+
+### 3. Demo file format
+
+```tsx
+"use client";
+
+import { SomeIcon } from "@/lib/icons";  // ALWAYS use shim
+import { Button } from "@/components/ui/button";
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+
+export function ComponentNameDemo() {
+  return (
+    <div className="w-full max-w-xs">
+      <Field>
+        <FieldLabel htmlFor="demo-id">Label</FieldLabel>
+        <Input id="demo-id" placeholder="..." />
+        <FieldDescription>Helper text.</FieldDescription>
+      </Field>
+    </div>
+  );
+}
+````
+
+Aturan: WAJIB `"use client"` kalau ada state/event. Icons dari `@/lib/icons`. Root wrapper `max-w-xs` (input) / `max-w-sm` (form) / `max-w-md` (rich). Props hardcoded (demo showcase).
+
+### 4. Icon shim (`lib/icons.ts`)
+
+File ini = Lucide-compatible shim di atas Phosphor. Setiap icon baru di-add di sini dulu.
+
+Format:
+
+```
+IconName,
+IconName as IconNameIcon,
+```
+
+Import dari `@/lib/icons`, bukan `@phosphor-icons/react` langsung.
+
+Icons yang sudah ada di shim:
+
+- `Check`, `CheckIcon`
+- `ArrowDown`, `ArrowDownIcon`
+- `ArrowUp`, `ArrowUpIcon`
+- `ArrowClockwise`, `ArrowClockwiseIcon`
+- `ArrowUpRight`, `ArrowUpRightIcon`
+- `ChevronDown`, `ChevronDownIcon`
+- `ChevronUp`, `ChevronUpIcon`
+- `Plus`, `PlusIcon`
+- `Paperclip`, `Image`, `Globe`, `Cloud`, `Bell`
+- `Envelope`, `MailIcon`
+- `CreditCard`, `EyeClosed`, `EyeOffIcon`
+- `Star`, `Minus`
+- `ArrowsClockwise`, `RefreshCcwIcon`
+- `Folder`
+- `Binoculars` (used as TelescopeIcon)
+- `ChatTeardropDots` (used as MessageCircleDashedIcon)
+
+### 5. Registry entry (`frakment.json`)
+
+```json
+{
+  "name": "component-name",
+  "version": "0.1.0",
+  "title": "Component Name",
+  "description": "One-line description",
+  "source": "registry/component-name.tsx",
+  "target": "components/ui/component-name.tsx",
+  "dependencies": ["class-variance-authority", "radix-ui"],
+  "registryDependencies": ["button"]
+}
+```
+
+Setelah edit, `npm run registry:build`. Generate `public/r/*.json` + update `index.json` + rebuild SKILL.md.
+
+### 6. Meta.json (navigation)
+
+`content/docs/components/meta.json` mengontrol urutan sidebar:
+
+```json
+{
+  "title": "Components",
+  "root": true,
+  "pages": [
+    "avatar",
+    "badge",
+    "button",
+    "checkbox",
+    "code-block",
+    "empty",
+    "field",
+    "input",
+    "input-group",
+    "item",
+    "label",
+    "select",
+    "separator",
+    "switch",
+    "textarea"
+  ]
+}
+```
+
+Setelah edit:
+
+```powershell
+Remove-Item -Recurse -Force .source -ErrorAction SilentlyContinue
+npx fumadocs-mdx
+```
+
+---
+
+## Known Issues / Gotchas (WAJIB BACA)
+
+### 1. PowerShell quoting di array
+
+JANGAN pakai `'...'` untuk escape single-quote di dalam string. Contoh SALAH:
+
+```powershell
+'type: ''"xs"'','
+```
+
+GUNAKAN backtick:
+
+```powershell
+"type: `"xs`","
+```
+
+### 2. `$file:` parse error
+
+`"$file: message"` - error "Variable reference is not valid". Fix:
+
+```powershell
+"${file}: message"
+```
+
+### 3. `-ForegroundColor` needs `Write-Host`
+
+`"string" -ForegroundColor Green` - error. Fix:
+
+```powershell
+Write-Host "string" -ForegroundColor Green
+```
+
+### 4. Jangan paste build output dengan box chars
+
+Karakter `┌ ├ │ └` (dari Next.js) break PowerShell. Cek build dengan:
+
+```powershell
+npm run build 2>&1 | Select-String -Pattern 'Compiled|Error|Failed|error TS' | Select-Object -Last 10
+```
+
+### 5. `Select items={}` not supported
+
+Frakment `select.tsx` (custom shadcn-temp) NOT accept `items` prop on root. Signature: `value? defaultValue? onValueChange?`.
+
+**Wrong**: `<Select items={months}>`
+**Right**: `<Select>` (no items)
+
+### 6. Radix Select tidak boleh `value=""`
+
+Empty string placeholder break Radix Select. Remove:
+
+```tsx
+// WRONG
+{ label: "MM", value: "" }
+
+// RIGHT - no placeholder, atau "placeholder" string
+{ label: "01", value: "01" }
+```
+
+### 7. `Button data-icon` not supported
+
+Frakment Button tidak support `data-icon`. Skip di shadcn demos:
+
+```tsx
+// Skip: <RefreshCcwIcon data-icon="inline-start" />
+// Use: <RefreshCcwIcon />
+```
+
+### 8. `render={}` vs `asChild`
+
+Shadcn Nova: `<TooltipTrigger render={<Button/>} />`
+Frakment classic: `<TooltipTrigger asChild><Button/></TooltipTrigger>`
+
+Convert accordingly.
+
+### 9. NEVER use Get-Content / Set-Content
+
+`Get-Content` reads UTF-8 as CP1252, emoji jadi mojibake. Selalu:
+
+```powershell
+$utf8 = New-Object System.Text.UTF8Encoding $false
+[System.IO.File]::ReadAllText($path, $utf8)
+[System.IO.File]::WriteAllText($path, $content, $utf8)
+```
+
+### 10. Empty data-slot naming
+
+`Empty` component has `data-slot="empty-icon"` (bukan `empty-media`) - from shadcn-nova. Jangan ubah.
+
+### 11. MessageAnimated alignment (final)
+
+```
+isUser ? "end" : "start"     // user RIGHT, assistant LEFT
+isUser ? "default" : "ghost" // user bubble, assistant plain
+```
+
+Plus `motion.div` needs `className="flex flex-col"` for `Bubble align` to work. **Do not change.**
+
+---
+
+## Next Steps (Priority Order)
+
+### Batch 1 - Textarea + Empty (1-1.5 jam)
+
+**Textarea**:
+
+- `examples/textarea-demo.tsx` (rewrite basic)
+- `examples/textarea-field.tsx`
+- `examples/textarea-invalid.tsx`
+- `content/docs/components/textarea.mdx` (upgrade rich, 4 previews)
+
+**Empty**:
+
+- `examples/empty-demo.tsx` (rewrite with action)
+- `examples/empty-outline.tsx`
+- `examples/empty-muted.tsx`
+- `examples/empty-avatar-group.tsx`
+- `content/docs/components/empty.mdx` (upgrade rich, 5 previews)
+
+### Batch 2 - Input Group (1 jam)
+
+- `examples/input-group-demo.tsx` (rewrite: search + trailing)
+- `examples/input-group-inline-start.tsx`
+- `examples/input-group-inline-end.tsx`
+- `examples/input-group-block-end.tsx`
+- `examples/input-group-icon.tsx`
+- `content/docs/components/input-group.mdx` (upgrade rich, 7 previews)
+
+### Batch 3 - Field upgrade (45 menit)
+
+Add sections to `content/docs/components/field.mdx`:
+
+- `## With Checkbox` + `examples/field-checkbox.tsx`
+- `## With Switch` + `examples/field-switch.tsx`
+- `## With Select` + `examples/field-select.tsx`
+
+### Batch 4 - Checkbox + Label + Switch (2 jam)
+
+**Checkbox** (3 demo + MDX):
+
+- `checkbox-demo.tsx`, `checkbox-basic.tsx`, `checkbox-invalid.tsx`
+- `content/docs/components/checkbox.mdx` (rich)
+
+**Label** (1 demo + MDX):
+
+- `label-demo.tsx` (with checkbox)
+- `content/docs/components/label.mdx` (simple, 1-2 previews OK)
+
+**Switch** (3 demo + MDX):
+
+- `switch-demo.tsx`, `switch-description.tsx`, `switch-choice-card.tsx`
+- `content/docs/components/switch.mdx` (rich)
+
+### Batch 5 - Select (1 jam)
+
+- `examples/select-demo.tsx` (basic)
+- `examples/select-groups.tsx` (grouped)
+- `content/docs/components/select.mdx` (rich)
+
+### Final - Update meta.json
+
+```json
+[
+  "avatar",
+  "badge",
+  "button",
+  "checkbox",
+  "code-block",
+  "empty",
+  "field",
+  "input",
+  "input-group",
+  "item",
+  "label",
+  "select",
+  "separator",
+  "switch",
+  "textarea"
+]
+```
+
+Then:
+
+```powershell
+Remove-Item -Recurse -Force .source -ErrorAction SilentlyContinue
+npx fumadocs-mdx
+npm run build
+```
+
+---
+
+## Changelog Policy
+
+`content/docs/changelog/` hanya untuk **UI library** user-facing changes.
+
+**JANGAN** masukkan:
+
+- Docs overhaul
+- Marketing copy
+- Site CSS refactor
+- Internal tooling
+- Bug fixes site infra
+
+**BOLEH** masukkan:
+
+- New components
+- Component behavior changes
+- New props / variants
+- Dependency changes (motion, @shadcn/react, dll)
+- CLI behavior (init, add, list)
+
+Format reference: `content/docs/changelog/2026-11-02.mdx`.
+
+---
+
+## Verification Commands (setelah setiap batch)
+
+```powershell
+# 1. Check commit state
+git status --short
+git log --oneline -3
+
+# 2. Verify files exist
+foreach ($n in 'demo1','demo2') { "  examples/$n.tsx : $(Test-Path "examples\$n.tsx")" }
+
+# 3. Verify MDX structure
+$path = "content\docs\components\X.mdx"
+"  lines: $((Get-Content $path).Count)"
+"  previews: $((Select-String -LiteralPath $path -Pattern '<ComponentPreview').Count)"
+"  sections: $((Select-String -LiteralPath $path -Pattern '^##').Count)"
+
+# 4. Build (avoid box chars)
+npm run build 2>&1 | Select-String -Pattern 'Compiled|Error|Failed|error TS' | Select-Object -Last 10
+
+# 5. Commit + push
+git add <files>
+git diff --cached --stat
+git commit -m "docs: <description>"
+git push origin main
+```
+
+Pre-commit: format + lint + typecheck + registry-build (~20s).
+Pre-push: build + test (~35s).
+
+Kalau typecheck fails on demo (e.g., `items` prop, `value=""`), fix demo, re-stage, re-commit.
+
+---
+
+## Important Files Reference
+
+| File                                | Purpose                                             |
+| ----------------------------------- | --------------------------------------------------- |
+| `frakment.json`                     | Registry manifest - edit + `npm run registry:build` |
+| `content/docs/components/meta.json` | Sidebar order                                       |
+| `lib/icons.ts`                      | Lucide-compatible shim over Phosphor                |
+| `registry/*.tsx`                    | Source of truth (shipped to users)                  |
+| `components/ui/*.tsx`               | Site version (must match registry)                  |
+| `public/r/*.json`                   | Generated - do not edit                             |
+| `examples/*.tsx`                    | Demo components for ComponentPreview                |
+| `cli/templates/theme.css`           | Theme block injected by `frakment init`             |
+| `styles/theme.css`                  | Site theme (must match cli/templates/theme.css)     |
+
+**Sync rule**: `registry/X.tsx` must match `components/ui/X.tsx` (hash equal). Verify:
+
+```powershell
+(Get-FileHash "registry\X.tsx").Hash -eq (Get-FileHash "components\ui\X.tsx").Hash
+```
+
+---
+
+## Design Decisions (Jangan Ubah Tanpa Diskusi)
+
+1. **Theme is inline in globals.css** - bukan file terpisah. Pakai `/* ==== FRAKMENT THEME START/END ==== */` markers. `frakment init` inject otomatis.
+2. **`@shadcn/react` = headless engine** for message-scroller. Bukan UI library. Zero styling. Full replace = 5-10 jam reimplement.
+3. **`lib/icons.ts` = Lucide-to-Phosphor shim**. Semua import internal `@/lib/icons`, tidak lucide-react atau @phosphor langsung.
+4. **`Button` pakai `asChild`** - classic Radix. Convert shadcn Nova demos accordingly.
+5. **message-scroller alignment**: user=right/bubble, assistant=left/ghost. Konvensi chat app (WhatsApp), deviates from shadcn.
+6. **Setiap komponen baru butuh**: registry entry + site copy + demo + MDX + meta.json.
+7. **Rich MDX wajib**: min 1 ComponentPreview hero + multiple per variant. Jangan minimal.
+
+---
+
+## Open Questions
+
+- Changelog untuk `message-animated`: belum documented as separate entry.
+- `@shadcn/react` removal: deferred. Alternatif `use-stick-to-bottom` (2-4 jam).
+- Deploy + npm publish: belum. Registry `https://frakment.vercel.app/r/` masih 404. Defer.
+- `SKILL.md` regen: otomatis via `npm run registry:build`. Jangan edit `public/skills/` manual.
+
+---
+
+## Contact
+
+Repo: `hanshapd/frakment`
+Docs dev: `localhost:3000`
+
+History: `git log --oneline -20 --stat`
