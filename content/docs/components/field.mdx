@@ -1,0 +1,244 @@
+---
+title: Field
+description: A layout primitive for form fields — label, description, and inputs.
+---
+
+import { FieldDemo } from "@/examples/field-demo";
+import { FieldInput } from "@/examples/field-input";
+import { FieldTextarea } from "@/examples/field-textarea";
+import { FieldInvalid } from "@/examples/field-invalid";
+
+<ComponentPreview name="field" title="field.tsx" previewClassName="h-auto py-8">
+  <FieldDemo />
+</ComponentPreview>
+
+Field wraps a form control with its label, description, and error message. It handles vertical and horizontal orientation, works with `FieldSet` and `FieldGroup` for multi-field forms, and surfaces validation state through `data-invalid` on the wrapper.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add field
+```
+
+The CLI installs the registry dependencies: `label` and `separator`.
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install class-variance-authority
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="field" title="components/ui/field.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="field.tsx"
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+```
+
+```tsx
+<Field>
+  <FieldLabel htmlFor="email">Email</FieldLabel>
+  <Input id="email" type="email" placeholder="name@example.com" />
+  <FieldDescription>We'll send updates to this address.</FieldDescription>
+</Field>
+```
+
+## Anatomy
+
+```tsx
+<FieldSet>
+  <FieldLegend>Section title</FieldLegend>
+  <FieldDescription>Section description</FieldDescription>
+  <FieldGroup>
+    <Field>
+      <FieldLabel />
+      <Input />
+      <FieldDescription />
+    </Field>
+  </FieldGroup>
+</FieldSet>
+```
+
+- **FieldSet** — semantic `<fieldset>` wrapper for grouped fields
+- **FieldLegend** — `<legend>` for the set
+- **FieldGroup** — vertical flex column with consistent gap
+- **Field** — wraps one control + label + description; `orientation` switches between vertical (default) and horizontal
+- **FieldContent** — stack for label + description when placed beside the control (horizontal mode)
+- **FieldLabel** — the label; when used with a checkbox or switch, allows click-through to toggle
+- **FieldTitle** — bold title, used inside **FieldContent** when the description is below
+- **FieldDescription** — muted helper text below (or beside, in horizontal mode) the control
+- **FieldError** — inline error message; accepts `children` or an `errors` array
+- **FieldSeparator** — visual break between fields or sets, with optional inline label
+
+## Examples
+
+### Input
+
+<ComponentPreview name="field" title="field.tsx" previewClassName="h-auto py-8">
+  <FieldInput />
+</ComponentPreview>
+
+```tsx
+<FieldSet>
+  <FieldGroup>
+    <Field>
+      <FieldLabel htmlFor="username">Username</FieldLabel>
+      <Input id="username" placeholder="Max Leiter" />
+      <FieldDescription>
+        Choose a unique username for your account.
+      </FieldDescription>
+    </Field>
+    <Field>
+      <FieldLabel htmlFor="password">Password</FieldLabel>
+      <FieldDescription>Must be at least 8 characters.</FieldDescription>
+      <Input id="password" type="password" />
+    </Field>
+  </FieldGroup>
+</FieldSet>
+```
+
+### Textarea
+
+<ComponentPreview name="field" title="field.tsx" previewClassName="h-auto py-8">
+  <FieldTextarea />
+</ComponentPreview>
+
+```tsx
+<Field>
+  <FieldLabel htmlFor="feedback">Feedback</FieldLabel>
+  <Textarea id="feedback" rows={4} />
+  <FieldDescription>Share your thoughts.</FieldDescription>
+</Field>
+```
+
+### Invalid
+
+Set `data-invalid` on **Field** (or `aria-invalid` on the control) to trigger destructive styling on the label and control ring.
+
+<ComponentPreview name="field" title="field.tsx" previewClassName="h-auto py-8">
+  <FieldInvalid />
+</ComponentPreview>
+
+```tsx
+<Field data-invalid>
+  <FieldLabel htmlFor="email">Email</FieldLabel>
+  <Input id="email" aria-invalid />
+  <FieldDescription>This field contains validation errors.</FieldDescription>
+</Field>
+```
+
+### With FieldError
+
+```tsx
+<Field data-invalid>
+  <FieldLabel htmlFor="email">Email</FieldLabel>
+  <Input id="email" aria-invalid />
+  <FieldError>Email is required.</FieldError>
+</Field>
+```
+
+### Horizontal with FieldContent
+
+`orientation="horizontal"` places the label and control side by side. Use **FieldContent** to stack a title and description beside the control.
+
+```tsx
+<Field orientation="horizontal">
+  <Checkbox id="terms" />
+  <FieldLabel htmlFor="terms">Accept terms and conditions</FieldLabel>
+</Field>
+```
+
+```tsx
+<Field orientation="horizontal">
+  <FieldContent>
+    <FieldTitle>Share across devices</FieldTitle>
+    <FieldDescription>Focused settings sync between devices.</FieldDescription>
+  </FieldContent>
+  <Switch id="sync" />
+</Field>
+```
+
+### Separator with label
+
+```tsx
+<FieldSeparator>Or continue with</FieldSeparator>
+```
+
+## API Reference
+
+### Field
+
+<PropsTable
+  rows={[
+    {
+      name: "orientation",
+      type: '"vertical" | "horizontal"',
+      defaultValue: '"vertical"',
+      description:
+        "Stack label above the control, or place it beside the control.",
+    },
+    {
+      name: "data-invalid",
+      type: "boolean",
+      defaultValue: "false",
+      description:
+        "Propagates invalid styling to the label and any descendant with data-slot=input.",
+    },
+    {
+      name: "data-disabled",
+      type: "boolean",
+      defaultValue: "false",
+      description: "Grays out label and description.",
+    },
+  ]}
+/>
+
+### FieldSet / FieldLegend / FieldGroup / FieldLabel / FieldDescription / FieldContent / FieldTitle
+
+Extend native `<fieldset>`, `<legend>`, `<div>`, `<label>`, and `<p>`.
+
+### FieldError
+
+<PropsTable
+  rows={[
+    {
+      name: "children",
+      type: "ReactNode",
+      defaultValue: "",
+      description: "Single error message to render.",
+    },
+    {
+      name: "errors",
+      type: "Array<{ message?: string } | undefined>",
+      defaultValue: "",
+      description:
+        "Array of field errors; renders unique messages joined. Children take priority.",
+    },
+  ]}
+/>
+
+### FieldSeparator
+
+Renders Frakment `Separator`. Accepts an optional `children` that renders as a centered label between two divider lines.
