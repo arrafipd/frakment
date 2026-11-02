@@ -1,17 +1,6 @@
-import type { UIMessage } from "ai";
+// Public AI helper entry. Re-exports the internal @shadcn/helpers replacement.
+// Previously: export { createChat } from "@shadcn/helpers/ai-sdk";
+// Now: local implementation in lib/ai/index.ts.
 
-export { createChat } from "@shadcn/helpers/ai-sdk";
-
-export function getMessageText(message: UIMessage): string {
-  if (!Array.isArray(message.parts)) {
-    return "";
-  }
-  return message.parts
-    .filter(
-      (part): part is { type: "text"; text: string } =>
-        part.type === "text" &&
-        typeof (part as { text?: string }).text === "string"
-    )
-    .map((part) => part.text)
-    .join("");
-}
+export { createChat, getMessageText } from "./ai/index";
+export type { UIMessage } from "./ai/types";
