@@ -1,0 +1,164 @@
+---
+title: Select
+description: A dropdown list of options for picking a single value.
+---
+
+import { SelectDemo } from "@/examples/select-demo";
+import { SelectGroups } from "@/examples/select-groups";
+import { SelectDisabled } from "@/examples/select-disabled";
+import { SelectInvalid } from "@/examples/select-invalid";
+
+<ComponentPreview name="select" title="select.tsx">
+  <SelectDemo />
+</ComponentPreview>
+
+Select is a compound Radix dropdown styled with Frakment tokens. It exposes `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`, and grouping/scroll helpers.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add select
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install radix-ui
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="select" title="components/ui/select.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="select.tsx"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+```
+
+```tsx
+<Select>
+  <SelectTrigger>
+    <SelectValue placeholder="Select a fruit" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="apple">Apple</SelectItem>
+    <SelectItem value="banana">Banana</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+> **Note:** `Select` does **not** accept an `items` prop. Pass `value` / `defaultValue` / `onValueChange` on the root, and never pass an empty string to `value` — Radix Select treats `""` as a special state.
+
+## Anatomy
+
+```tsx
+<Select>
+  <SelectTrigger>
+    <SelectValue />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectGroup>
+      <SelectLabel />
+      <SelectItem />
+    </SelectGroup>
+  </SelectContent>
+</Select>
+```
+
+- **Select** — Radix `Select.Root`; accepts `value`, `defaultValue`, `onValueChange`, `disabled`
+- **SelectTrigger** — the button that opens the dropdown; accepts `aria-invalid`
+- **SelectValue** — renders the current value or `placeholder`
+- **SelectContent** — the popup; portals into `document.body`
+- **SelectItem** — a selectable option; must have a non-empty `value`
+- **SelectGroup** / **SelectLabel** — group related items with a heading
+- **SelectSeparator** / **SelectScrollUpButton** / **SelectScrollDownButton** — additional Radix helpers
+
+## Examples
+
+### Groups
+
+<ComponentPreview name="select" title="select.tsx">
+  <SelectGroups />
+</ComponentPreview>
+
+```tsx
+<Select>
+  <SelectTrigger>
+    <SelectValue placeholder="Select a timezone" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectGroup>
+      <SelectLabel>North America</SelectLabel>
+      <SelectItem value="est">Eastern (EST)</SelectItem>
+      <SelectItem value="pst">Pacific (PST)</SelectItem>
+    </SelectGroup>
+  </SelectContent>
+</Select>
+```
+
+### Disabled
+
+Pass `disabled` on the root `Select` to lock the entire control.
+
+<ComponentPreview name="select" title="select.tsx">
+  <SelectDisabled />
+</ComponentPreview>
+
+```tsx
+<Select disabled>
+  <SelectTrigger>
+    <SelectValue placeholder="Disabled select" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="a">Option A</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+### Invalid
+
+Set `aria-invalid` on `SelectTrigger` to trigger the destructive border and ring.
+
+<ComponentPreview name="select" title="select.tsx">
+  <SelectInvalid />
+</ComponentPreview>
+
+```tsx
+<Select>
+  <SelectTrigger aria-invalid>
+    <SelectValue placeholder="Select a value" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="a">Option A</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+## API Reference
+
+All parts extend their corresponding Radix `Select` primitives. Frakment adds `data-slot="select-*"` markers on each part for styling hooks.

@@ -7,6 +7,9 @@ import { FieldDemo } from "@/examples/field-demo";
 import { FieldInput } from "@/examples/field-input";
 import { FieldTextarea } from "@/examples/field-textarea";
 import { FieldInvalid } from "@/examples/field-invalid";
+import { FieldCheckbox } from "@/examples/field-checkbox";
+import { FieldSwitch } from "@/examples/field-switch";
+import { FieldSelect } from "@/examples/field-select";
 
 <ComponentPreview name="field" title="field.tsx" previewClassName="h-auto py-8">
   <FieldDemo />
@@ -184,6 +187,64 @@ Set `data-invalid` on **Field** (or `aria-invalid` on the control) to trigger de
 
 ```tsx
 <FieldSeparator>Or continue with</FieldSeparator>
+```
+
+### Checkbox in horizontal Field
+
+Combine `orientation="horizontal"` with `Checkbox` and `FieldLabel` for an inline consent row.
+
+<ComponentPreview name="field" title="field.tsx" previewClassName="h-auto py-8">
+  <FieldCheckbox />
+</ComponentPreview>
+
+```tsx
+<Field orientation="horizontal">
+  <Checkbox id="terms" />
+  <FieldLabel htmlFor="terms">Accept terms and conditions</FieldLabel>
+</Field>
+```
+
+### Switch with FieldContent
+
+Use `FieldContent` to stack a `FieldTitle` and `FieldDescription` beside the `Switch`.
+
+<ComponentPreview name="field" title="field.tsx" previewClassName="h-auto py-8">
+  <FieldSwitch />
+</ComponentPreview>
+
+```tsx
+<Field orientation="horizontal">
+  <FieldContent>
+    <FieldTitle>Share across devices</FieldTitle>
+    <FieldDescription>Focused settings sync between devices.</FieldDescription>
+  </FieldContent>
+  <Switch id="sync" />
+</Field>
+```
+
+### Select
+
+Compose `Field` with `Select` for a labelled dropdown with a description.
+
+<ComponentPreview name="field" title="field.tsx" previewClassName="h-auto py-8">
+  <FieldSelect />
+</ComponentPreview>
+
+```tsx
+<Field>
+  <FieldLabel htmlFor="fruit">Favorite fruit</FieldLabel>
+  <Select>
+    <SelectTrigger id="fruit">
+      <SelectValue placeholder="Select a fruit" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectItem value="apple">Apple</SelectItem>
+      <SelectItem value="banana">Banana</SelectItem>
+      <SelectItem value="cherry">Cherry</SelectItem>
+    </SelectContent>
+  </Select>
+  <FieldDescription>Choose one from the list.</FieldDescription>
+</Field>
 ```
 
 ## API Reference

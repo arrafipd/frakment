@@ -1,17 +1,19 @@
 ---
 title: Textarea
-description: A multi-line text input.
+description: A multi-line text input with auto-grow support.
 ---
 
 import { TextareaDemo } from "@/examples/textarea-demo";
-
-import { Textarea } from "@/components/ui/textarea";
+import { TextareaAutogrow } from "@/examples/textarea-autogrow";
+import { TextareaDisabled } from "@/examples/textarea-disabled";
+import { TextareaInvalid } from "@/examples/textarea-invalid";
+import { TextareaField } from "@/examples/textarea-field";
 
 <ComponentPreview name="textarea" title="textarea.tsx">
   <TextareaDemo />
 </ComponentPreview>
 
-Textarea is a multi-line text field. It grows automatically with its content thanks to `field-sizing: content`.
+Textarea is a styled native `<textarea>` with `field-sizing-content` for automatic height, a consistent focus ring, and disabled / invalid states. Every native attribute is forwarded to the underlying `<textarea>`.
 
 ## Installation
 
@@ -42,7 +44,6 @@ npx frakment add textarea
 
   </TabsContent>
 </CodeTabs>
-
 ## Usage
 
 ```tsx title="textarea.tsx"
@@ -53,21 +54,91 @@ import { Textarea } from "@/components/ui/textarea";
 <Textarea placeholder="Write a message..." />
 ```
 
-## Examples
-
-### States
+## Anatomy
 
 ```tsx
-<Textarea placeholder="Disabled" disabled />
-<Textarea placeholder="Invalid" aria-invalid />
+<Textarea />
 ```
+
+- **Textarea** — native `<textarea>` with `data-slot="textarea"`, `field-sizing-content`, `min-h-16`, and Frakment focus / disabled / invalid styling
+
+## Examples
 
 ### Auto-grow
 
-Because of `field-sizing-content`, the textarea grows to fit its content without JavaScript. Set `rows` for a minimum height:
+Because of `field-sizing-content`, the textarea grows to fit its content without JavaScript. Set `rows` for a minimum height.
+
+<ComponentPreview
+  name="textarea"
+  title="textarea.tsx"
+  previewClassName="h-auto py-8"
+>
+  <TextareaAutogrow />
+</ComponentPreview>
 
 ```tsx
-<Textarea rows={3} placeholder="Type a long message..." />
+<Textarea
+  placeholder="Type a long message..."
+  defaultValue="field-sizing-content makes this grow automatically."
+/>
+```
+
+### Disabled
+
+<ComponentPreview
+  name="textarea"
+  title="textarea.tsx"
+  previewClassName="h-auto py-8"
+>
+  <TextareaDisabled />
+</ComponentPreview>
+
+```tsx
+<Textarea
+  placeholder="Disabled textarea"
+  disabled
+  defaultValue="This field is disabled."
+/>
+```
+
+### Invalid
+
+Set `aria-invalid` on the textarea to trigger the destructive border and ring.
+
+<ComponentPreview
+  name="textarea"
+  title="textarea.tsx"
+  previewClassName="h-auto py-8"
+>
+  <TextareaInvalid />
+</ComponentPreview>
+
+```tsx
+<Textarea
+  placeholder="Invalid"
+  aria-invalid
+  defaultValue="This content is not allowed."
+/>
+```
+
+### With Field
+
+Compose with `Field` for a label and description around the textarea.
+
+<ComponentPreview
+  name="textarea"
+  title="textarea.tsx"
+  previewClassName="h-auto py-8"
+>
+  <TextareaField />
+</ComponentPreview>
+
+```tsx
+<Field>
+  <FieldLabel htmlFor="feedback">Feedback</FieldLabel>
+  <Textarea id="feedback" placeholder="Share your thoughts..." rows={4} />
+  <FieldDescription>We read every message.</FieldDescription>
+</Field>
 ```
 
 ## API Reference

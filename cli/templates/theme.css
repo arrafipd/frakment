@@ -1,3 +1,14 @@
+/* Frakment custom variants — required by registry components using data-*: utilities.
+   Without these, utility classes like data-checked:bg-primary become no-ops. */
+@custom-variant fixed (&:is(.layout-fixed *));
+@custom-variant data-open (&[data-state="open"]);
+@custom-variant data-closed (&[data-state="closed"]);
+@custom-variant data-checked (&[data-state="checked"]);
+@custom-variant data-unchecked (&[data-state="unchecked"]);
+@custom-variant data-disabled (&[data-disabled]);
+@custom-variant data-selected (&[data-state="selected"]);
+@custom-variant data-active (&[data-state="active"]);
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

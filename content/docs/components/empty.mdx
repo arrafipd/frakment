@@ -4,8 +4,11 @@ description: A centered placeholder for empty states.
 ---
 
 import { EmptyDemo } from "@/examples/empty-demo";
+import { EmptyNoMedia } from "@/examples/empty-no-media";
+import { EmptyLink } from "@/examples/empty-link";
+import { EmptyOutline } from "@/examples/empty-outline";
 
-<ComponentPreview name="empty" title="empty.tsx">
+<ComponentPreview name="empty" title="empty.tsx" previewClassName="h-auto py-8">
   <EmptyDemo />
 </ComponentPreview>
 
@@ -44,7 +47,6 @@ npx frakment add empty
 
   </TabsContent>
 </CodeTabs>
-
 ## Anatomy
 
 ```tsx
@@ -67,7 +69,30 @@ npx frakment add empty
 
 ## Examples
 
-### With action
+### Without media
+
+Omit `EmptyMedia` entirely for the simplest empty state.
+
+<ComponentPreview name="empty" title="empty.tsx" previewClassName="h-auto py-8">
+  <EmptyNoMedia />
+</ComponentPreview>
+
+```tsx
+<Empty>
+  <EmptyHeader>
+    <EmptyTitle>No results found</EmptyTitle>
+    <EmptyDescription>Try adjusting your search or filters.</EmptyDescription>
+  </EmptyHeader>
+</Empty>
+```
+
+### With description link
+
+`EmptyDescription` accepts inline links that pick up Frakment underline styling.
+
+<ComponentPreview name="empty" title="empty.tsx" previewClassName="h-auto py-8">
+  <EmptyLink />
+</ComponentPreview>
 
 ```tsx
 <Empty>
@@ -77,24 +102,30 @@ npx frakment add empty
     </EmptyMedia>
     <EmptyTitle>No projects yet</EmptyTitle>
     <EmptyDescription>
-      Create your first project to get started.
+      <a href="#docs">Read the guide</a> to learn how to create one.
     </EmptyDescription>
   </EmptyHeader>
-  <EmptyContent>
-    <Button size="sm">
-      <PlusIcon /> New project
-    </Button>
-  </EmptyContent>
 </Empty>
 ```
 
-### Without media
+### Outline media
+
+Use `variant="default"` on `EmptyMedia` to render media without a muted background square.
+
+<ComponentPreview name="empty" title="empty.tsx" previewClassName="h-auto py-8">
+  <EmptyOutline />
+</ComponentPreview>
 
 ```tsx
 <Empty>
   <EmptyHeader>
-    <EmptyTitle>No results</EmptyTitle>
-    <EmptyDescription>Try a different search term.</EmptyDescription>
+    <EmptyMedia>
+      <Folder />
+    </EmptyMedia>
+    <EmptyTitle>Nothing here</EmptyTitle>
+    <EmptyDescription>
+      Use variant="default" to render media without a background.
+    </EmptyDescription>
   </EmptyHeader>
 </Empty>
 ```

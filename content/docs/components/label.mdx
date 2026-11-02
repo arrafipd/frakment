@@ -1,0 +1,94 @@
+---
+title: Label
+description: An accessible label associated with a form control.
+---
+
+import { LabelDemo } from "@/examples/label-demo";
+import { LabelRequired } from "@/examples/label-required";
+import { LabelDisabled } from "@/examples/label-disabled";
+
+<ComponentPreview name="label" title="label.tsx">
+  <LabelDemo />
+</ComponentPreview>
+
+Label renders a Radix `<Label>` primitive that forwards clicks to its associated control via `htmlFor`. Disabled styling is inherited automatically when the wrapped control is disabled.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add label
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install radix-ui
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="label" title="components/ui/label.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="label.tsx"
+import { Label } from "@/components/ui/label";
+```
+
+```tsx
+<Label htmlFor="email">Email</Label>
+<Input id="email" type="email" />
+```
+
+## Examples
+
+### Required
+
+Append a `*` (or any indicator) inline to signal a required field.
+
+<ComponentPreview name="label" title="label.tsx">
+  <LabelRequired />
+</ComponentPreview>
+
+```tsx
+<Label htmlFor="req">
+  Email <span className="text-destructive">*</span>
+</Label>
+```
+
+### Disabled
+
+When the associated control is disabled, dim the label with `opacity-50` — matching the control.
+
+<ComponentPreview name="label" title="label.tsx">
+  <LabelDisabled />
+</ComponentPreview>
+
+```tsx
+<Label htmlFor="dis" className="opacity-50">Disabled field</Label>
+<Input id="dis" disabled />
+```
+
+## API Reference
+
+Extends `React.ComponentProps<typeof LabelPrimitive.Root>` from `radix-ui`.
+
+Adds `data-slot="label"` for styling hooks.

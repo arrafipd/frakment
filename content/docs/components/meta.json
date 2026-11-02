@@ -5,13 +5,17 @@
     "avatar",
     "badge",
     "button",
+    "checkbox",
     "code-block",
     "empty",
     "field",
     "input",
     "input-group",
     "item",
+    "label",
+    "select",
     "separator",
+    "switch",
     "textarea"
   ]
 }

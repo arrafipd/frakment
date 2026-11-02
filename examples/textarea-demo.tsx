@@ -4,10 +4,11 @@ import { Textarea } from "@/components/ui/textarea";
 
 export function TextareaDemo() {
   return (
-    <div className="flex w-full max-w-sm flex-col gap-3">
+    <div className="grid w-full max-w-sm gap-3">
       <Textarea placeholder="Write a message..." />
-      <Textarea placeholder="Disabled" disabled />
-      <Textarea placeholder="Invalid" aria-invalid />
+      <Textarea placeholder="Reply..." rows={3} />
+      <Textarea placeholder="Disabled" disabled defaultValue="Cannot edit" />
+      <Textarea placeholder="Invalid" aria-invalid defaultValue="Invalid value" />
     </div>
   );
 }

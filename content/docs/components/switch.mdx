@@ -1,0 +1,115 @@
+---
+title: Switch
+description: A toggle control for a single on/off setting.
+---
+
+import { SwitchDemo } from "@/examples/switch-demo";
+import { SwitchChecked } from "@/examples/switch-checked";
+import { SwitchDisabled } from "@/examples/switch-disabled";
+import { SwitchWithDescription } from "@/examples/switch-with-description";
+
+<ComponentPreview name="switch" title="switch.tsx">
+  <SwitchDemo />
+</ComponentPreview>
+
+Switch is a Radix toggle styled with Frakment tokens. Pair it with `Label` (via `htmlFor`) for accessible click-through, or wrap it in `Field` for larger settings rows.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add switch
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install radix-ui
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="switch" title="components/ui/switch.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="switch.tsx"
+import { Switch } from "@/components/ui/switch";
+```
+
+```tsx
+<Switch />
+```
+
+## Examples
+
+### Checked
+
+Use `defaultChecked` for uncontrolled initial state, or `checked` / `onCheckedChange` for a controlled switch.
+
+<ComponentPreview name="switch" title="switch.tsx">
+  <SwitchChecked />
+</ComponentPreview>
+
+```tsx
+<Switch id="s-wifi" defaultChecked />
+<Label htmlFor="s-wifi">Wi-Fi</Label>
+```
+
+### Disabled
+
+<ComponentPreview name="switch" title="switch.tsx">
+  <SwitchDisabled />
+</ComponentPreview>
+
+```tsx
+<Switch id="s-dis" disabled />
+<Label htmlFor="s-dis" className="opacity-50">Disabled</Label>
+```
+
+### With description
+
+For settings rows with a title and helper text, compose with `Field` and `FieldContent` (see Field docs) — or lay out manually as below.
+
+<ComponentPreview
+  name="switch"
+  title="switch.tsx"
+  previewClassName="h-auto py-8"
+>
+  <SwitchWithDescription />
+</ComponentPreview>
+
+```tsx
+<div className="flex items-start justify-between gap-4">
+  <div className="flex flex-col gap-1">
+    <Label htmlFor="s-sync">Share across devices</Label>
+    <p className="text-sm text-muted-foreground">
+      Focused settings sync between devices.
+    </p>
+  </div>
+  <Switch id="s-sync" />
+</div>
+```
+
+## API Reference
+
+Extends `React.ComponentProps<typeof SwitchPrimitive.Root>` from `radix-ui`.
+
+Adds `data-slot="switch"` on the root and `data-slot="switch-thumb"` on the thumb.

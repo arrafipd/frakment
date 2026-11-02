@@ -4,6 +4,12 @@ description: A composable input wrapper with inline addons, buttons, and text gr
 ---
 
 import { InputGroupDemo } from "@/examples/input-group-demo";
+import { InputGroupBlockEnd } from "@/examples/input-group-block-end";
+import { InputGroupBlockStart } from "@/examples/input-group-block-start";
+import { InputGroupTextareaDemo } from "@/examples/input-group-textarea";
+import { InputGroupKbd } from "@/examples/input-group-kbd";
+import { InputGroupDisabled } from "@/examples/input-group-disabled";
+import { InputGroupInvalid } from "@/examples/input-group-invalid";
 
 <ComponentPreview name="input-group" title="input-group.tsx">
   <InputGroupDemo />
@@ -46,6 +52,27 @@ The CLI also installs the registry dependencies: `button`, `input`, and `textare
 
   </TabsContent>
 </CodeTabs>
+## Usage
+
+```tsx title="input-group.tsx"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+  InputGroupText,
+  InputGroupTextarea,
+} from "@/components/ui/input-group";
+```
+
+```tsx title="input-group.tsx"
+<InputGroup>
+  <InputGroupAddon>
+    <Search />
+  </InputGroupAddon>
+  <InputGroupInput placeholder="Search..." />
+</InputGroup>
+```
 
 ## Anatomy
 
@@ -70,7 +97,78 @@ The CLI also installs the registry dependencies: `button`, `input`, and `textare
 
 ## Examples
 
-### Search
+### Block end
+
+`align="block-end"` stacks content below the control and lets the group grow taller automatically.
+
+<ComponentPreview
+  name="input-group"
+  title="input-group.tsx"
+  previewClassName="h-auto py-8"
+>
+  <InputGroupBlockEnd />
+</ComponentPreview>
+
+```tsx
+<InputGroup>
+  <InputGroupTextarea placeholder="Type a message" rows={2} />
+  <InputGroupAddon align="block-end" className="justify-end">
+    <InputGroupButton size="icon-sm" variant="default">
+      <ArrowUpIcon />
+    </InputGroupButton>
+  </InputGroupAddon>
+</InputGroup>
+```
+
+### Block start
+
+`align="block-start"` stacks content above the control — useful for a compact inline label.
+
+<ComponentPreview
+  name="input-group"
+  title="input-group.tsx"
+  previewClassName="h-auto py-8"
+>
+  <InputGroupBlockStart />
+</ComponentPreview>
+
+```tsx
+<InputGroup>
+  <InputGroupAddon align="block-start">
+    <InputGroupText>Subject</InputGroupText>
+  </InputGroupAddon>
+  <InputGroupInput placeholder="Enter a subject" />
+</InputGroup>
+```
+
+### Textarea
+
+Swap `InputGroupInput` for `InputGroupTextarea` to keep the same shell around a multi-line control.
+
+<ComponentPreview
+  name="input-group"
+  title="input-group.tsx"
+  previewClassName="h-auto py-8"
+>
+  <InputGroupTextareaDemo />
+</ComponentPreview>
+
+```tsx
+<InputGroup>
+  <InputGroupAddon align="block-start">
+    <InputGroupText>Message</InputGroupText>
+  </InputGroupAddon>
+  <InputGroupTextarea placeholder="Write a reply..." rows={3} />
+</InputGroup>
+```
+
+### Keyboard hint
+
+Any element inside `InputGroupAddon` works — here a `kbd` shortcut hint on the trailing edge.
+
+<ComponentPreview name="input-group" title="input-group.tsx">
+  <InputGroupKbd />
+</ComponentPreview>
 
 ```tsx
 <InputGroup>
@@ -78,41 +176,47 @@ The CLI also installs the registry dependencies: `button`, `input`, and `textare
     <Search />
   </InputGroupAddon>
   <InputGroupInput placeholder="Search..." />
+  <InputGroupAddon align="inline-end">
+    <kbd>Ctrl K</kbd>
+  </InputGroupAddon>
 </InputGroup>
 ```
 
-### Prefix
+### Disabled
+
+Set `data-disabled="true"` on the group, or `disabled` on the control, to dim the whole surface.
+
+<ComponentPreview name="input-group" title="input-group.tsx">
+  <InputGroupDisabled />
+</ComponentPreview>
+
+```tsx
+<InputGroup data-disabled="true">
+  <InputGroupAddon>
+    <Search />
+  </InputGroupAddon>
+  <InputGroupInput placeholder="Disabled" disabled />
+</InputGroup>
+```
+
+### Invalid
+
+Set `aria-invalid` on the control to trigger the destructive border and ring on the group.
+
+<ComponentPreview name="input-group" title="input-group.tsx">
+  <InputGroupInvalid />
+</ComponentPreview>
 
 ```tsx
 <InputGroup>
   <InputGroupAddon>
-    <InputGroupText>https://</InputGroupText>
+    <Search />
   </InputGroupAddon>
-  <InputGroupInput placeholder="example.com" />
-</InputGroup>
-```
-
-### Trailing button
-
-```tsx
-<InputGroup>
-  <InputGroupInput placeholder="Enter email" />
-  <InputGroupAddon align="inline-end">
-    <InputGroupButton variant="default">Subscribe</InputGroupButton>
-  </InputGroupAddon>
-</InputGroup>
-```
-
-### Vertical layout
-
-```tsx
-<InputGroup>
-  <InputGroupInput placeholder="Type a message" />
-  <InputGroupAddon align="block-end">
-    <InputGroupButton size="icon-sm">
-      <ArrowUpIcon />
-    </InputGroupButton>
-  </InputGroupAddon>
+  <InputGroupInput
+    placeholder="Invalid"
+    aria-invalid
+    defaultValue="Not found"
+  />
 </InputGroup>
 ```
 
