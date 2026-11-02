@@ -133,7 +133,8 @@ export function cn(...inputs: ClassValue[]) {
 
   // 4. dependencies
   const pkgPath = path.join(cwd, "package.json");
-  const pkg = JSON.parse(await readFile(pkgPath, "utf8"));
+  const pkgRaw = await readFile(pkgPath, "utf8");
+  const pkg = JSON.parse(pkgRaw.replace(/^\uFEFF/, ""));
   const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
   const missing = ["clsx", "tailwind-merge", "class-variance-authority", "radix-ui", "lucide-react", "motion"].filter((d) => !allDeps[d]);
 
