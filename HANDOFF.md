@@ -937,3 +937,28 @@ Total halaman content/docs/components = 15.
 - Site: build EXIT=0, typecheck EXIT=0, 15 halaman docs semua RICH
 - End-user flow: template fix, verifikasi statis idempoten
 - Bug kritis globals.css: fixed di dua layer (site + user distribution)
+
+### SESSION_UPDATE: fix preview off-center (commit 05980bd)
+
+**Gejala:** di /docs/components/field, section "Checkbox in horizontal Field" dan "Switch with FieldContent" — konten menempel di pinggir kiri preview, bukan center.
+
+**Root cause:** wrapper demo `examples/field-checkbox.tsx` dan `examples/field-switch.tsx` memakai `w-full max-w-sm` (384px). Field horizontal (registry/field.tsx line 60-61) punya `flex w-full ... *:data-[slot=field-label]:flex-auto` — label mengisi seluruh 384px, sehingga checkbox/switch tampak di ujung.
+
+**Fix:** `<div className="w-full max-w-sm">` -> `<div className="w-fit">` di kedua file. Wrapper shrink-wrap, parent `preview flex justify-center` otomatis center-kan.
+
+**Verifikasi:** build EXIT=0, 144/144 static pages, test 39/39, commit 05980bd pushed ke origin/main.
+
+**Tidak diubah (by design):**
+
+- switch-demo, switch-checked, switch-disabled: `flex items-center gap-2` tanpa w-full (shrink-wrap natural)
+- checkbox-demo, checkbox-states, checkbox-disabled, checkbox-with-label: idem
+- switch-with-description: pola settings row, sengaja spread
+- select-_, textarea-_, label-_, input-group-_: `w-full max-w-sm` vertical (isi mengisi 384px, center otomatis)
+
+**Gotcha baru:**
+
+13. ComponentPreview container (components/component-preview-tabs.tsx) memakai `flex w-full justify-center` + `data-[align=center]:items-center`. Konten shrink-wrap (`w-fit` atau tanpa w-full) otomatis center. Konten dengan `w-full` akan mengisi lebar dan membuat anak-anaknya terlihat menempel kiri jika tidak ada layout center. Aturan: demo dengan komponen tunggal sempit (checkbox+label, switch) pakai `w-fit` atau tanpa wrapper w-full. Demo vertical dengan trigger/input 384px pakai `w-full max-w-sm`.
+
+14. Kalau user melaporkan preview tidak center, audit demo file untuk pola `<div className="w-full max-w-sm">` yang berisi komponen horizontal (Field orientation="horizontal", flex-row, dsb). Vertical aman. Fix minimal: ganti ke w-fit, JANGAN ubah ComponentPreviewTabs global (risiko regresi preview lain).
+
+**Status:** branch main = origin/main = 05980bd, build EXIT=0, typecheck EXIT=0, test 39/39, registry 26 komponen.
