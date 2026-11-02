@@ -1,14 +1,20 @@
 "use client";
 
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 
 export function InputDemo() {
   return (
-    <div className="flex w-full max-w-sm flex-col gap-3">
-      <Input placeholder="Email" />
-      <Input type="password" placeholder="Password" />
-      <Input placeholder="Disabled" disabled />
-      <Input placeholder="Invalid" aria-invalid />
-    </div>
+    <Field className="w-full max-w-xs">
+      <FieldLabel htmlFor="input-demo-api-key">API Key</FieldLabel>
+      <Input id="input-demo-api-key" type="password" placeholder="sk-..." />
+      <FieldDescription>
+        Your API key is encrypted and stored securely.
+      </FieldDescription>
+    </Field>
   );
 }

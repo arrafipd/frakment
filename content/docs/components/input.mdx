@@ -4,14 +4,16 @@ description: A single-line text input.
 ---
 
 import { InputDemo } from "@/examples/input-demo";
+import { InputBasic } from "@/examples/input-basic";
+import { InputField } from "@/examples/input-field";
+import { InputFieldgroup } from "@/examples/input-fieldgroup";
+import { InputInvalid } from "@/examples/input-invalid";
 
-import { Input } from "@/components/ui/input";
-
-<ComponentPreview name="input" title="input.tsx">
+<ComponentPreview name="input" title="input.tsx" previewClassName="h-auto py-8">
   <InputDemo />
 </ComponentPreview>
 
-Input is a single-line text field for forms and inline editing. It inherits all native `<input>` attributes and behaviors.
+Input is a single-line text field for forms and inline editing. It inherits all native `<input>` attributes and behaviors, and pairs with [Field](/docs/components/field) for labels and descriptions.
 
 ## Installation
 
@@ -49,11 +51,77 @@ npx frakment add input
 import { Input } from "@/components/ui/input";
 ```
 
-```tsx title="input.tsx"
+```tsx
 <Input placeholder="Email" type="email" />
 ```
 
 ## Examples
+
+### Basic
+
+<ComponentPreview name="input" title="input.tsx" previewClassName="h-auto py-8">
+  <InputBasic />
+</ComponentPreview>
+
+```tsx
+<Input placeholder="Enter text" />
+```
+
+### With label
+
+<ComponentPreview name="input" title="input.tsx" previewClassName="h-auto py-8">
+  <InputField />
+</ComponentPreview>
+
+```tsx
+<Field>
+  <FieldLabel htmlFor="username">Username</FieldLabel>
+  <Input id="username" placeholder="Enter your username" />
+  <FieldDescription>
+    Choose a unique username for your account.
+  </FieldDescription>
+</Field>
+```
+
+### Form
+
+Use [FieldGroup](/docs/components/field) for multiple fields with consistent spacing.
+
+<ComponentPreview name="input" title="input.tsx" previewClassName="h-auto py-8">
+  <InputFieldgroup />
+</ComponentPreview>
+
+```tsx
+<FieldGroup>
+  <Field>
+    <FieldLabel htmlFor="name">Name</FieldLabel>
+    <Input id="name" placeholder="Jordan Lee" />
+  </Field>
+  <Field>
+    <FieldLabel htmlFor="email">Email</FieldLabel>
+    <Input id="email" type="email" placeholder="name@example.com" />
+  </Field>
+  <Field orientation="horizontal">
+    <Button type="submit">Submit</Button>
+  </Field>
+</FieldGroup>
+```
+
+### Invalid
+
+Set `aria-invalid` on the input, or `data-invalid` on the **Field** wrapper, to trigger destructive styling.
+
+<ComponentPreview name="input" title="input.tsx" previewClassName="h-auto py-8">
+  <InputInvalid />
+</ComponentPreview>
+
+```tsx
+<Field data-invalid>
+  <FieldLabel htmlFor="email">Email</FieldLabel>
+  <Input id="email" aria-invalid />
+  <FieldDescription>This field contains validation errors.</FieldDescription>
+</Field>
+```
 
 ### Types
 
@@ -63,15 +131,6 @@ import { Input } from "@/components/ui/input";
 <Input type="search" placeholder="Search" />
 <Input type="file" />
 ```
-
-### States
-
-```tsx
-<Input placeholder="Disabled" disabled />
-<Input placeholder="Invalid" aria-invalid />
-```
-
-The `aria-invalid` attribute triggers the destructive ring color from the theme tokens.
 
 ## API Reference
 
