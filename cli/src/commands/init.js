@@ -62,34 +62,7 @@ export async function init() {
 
   // 2. theme
   const cssFullPath = path.join(cwd, cssPath);
-  if (existsSync(cssFullPath)) {
-    let css = await readFile(cssFullPath, "utf8");
-    if (!/^@import\s+["']tailwindcss(\/|["'])/m.test(css)) {
-      p.outro(
-        pc.red("error ") +
-          'Frakment requires Tailwind v4. Could not find @import "tailwindcss" in ' +
-          cssPath
-      );
-      process.exit(1);
-    }
-
-    s.start("injecting theme tokens");
-    const themeContent = await readFile(
-      path.join(TEMPLATES_DIR, "theme.css"),
-      "utf8"
-    );
-    const wrapped = `${THEME_MARKER_START}\n${themeContent.trim()}\n${THEME_MARKER_END}`;
-    if (css.includes(THEME_MARKER_START)) {
-      const re = new RegExp(
-        `${escapeRegex(THEME_MARKER_START)}[\\s\\S]*?${escapeRegex(THEME_MARKER_END)}`
-      );
-      css = css.replace(re, wrapped);
-    } else {
-      css = css.trimEnd() + "\n\n" + wrapped + "\n";
-    }
-    await writeFile(cssFullPath, css);
-    s.stop(pc.green("✓") + " theme tokens");
-  } else {
+  if (!existsSync(cssFullPath)) {
     p.log.error(`CSS file not found: ${cssPath}`);
     p.outro(
       pc.red("error ") +
@@ -97,6 +70,47 @@ export async function init() {
     );
     process.exit(1);
   }
+
+  let css = await readFile(cssFullPath, "utf8");
+  if (!/^@import\s+["']tailwindcss(\/|["'])/m.test(css)) {
+    p.outro(
+      pc.red("error ") +
+        'Frakment requires Tailwind v4. Could not find @import "tailwindcss" in ' +
+        cssPath
+    );
+    process.exit(1);
+  }
+
+  // Migration: strip legacy inline theme block from previous init versions
+  if (css.includes(THEME_MARKER_START)) {
+    const legacyRe = new RegExp(
+      `\\n*${escapeRegex(THEME_MARKER_START)}[\\s\\S]*?${escapeRegex(THEME_MARKER_END)}\\n*`,
+      "g"
+    );
+    css = css.replace(legacyRe, "\n").trimEnd() + "\n";
+  }
+
+  // 2a. Write theme.css next to globals.css
+  s.start("writing theme.css");
+  const themeContent = await readFile(
+    path.join(TEMPLATES_DIR, "theme.css"),
+    "utf8"
+  );
+  const themePath = path.join(path.dirname(cssFullPath), "theme.css");
+  await writeFile(themePath, themeContent);
+  s.stop(pc.green("✓") + " theme.css");
+
+  // 2b. Inject @import "./theme.css"; after @import "tailwindcss"
+  s.start("injecting theme import");
+  const importLine = '@import "./theme.css";';
+  if (!new RegExp(`^${escapeRegex(importLine)}`, "m").test(css)) {
+    const tailwindLineRe = /^@import\s+["']tailwindcss(\/|["'])[^;\n]*;\s*$/m;
+    css = tailwindLineRe.test(css)
+      ? css.replace(tailwindLineRe, (match) => `${match}\n${importLine}`)
+      : `${importLine}\n${css}`;
+    await writeFile(cssFullPath, css);
+  }
+  s.stop(pc.green("✓") + " theme import");
 
   // 3. lib/utils.ts
   if (!existsSync(path.join(cwd, "lib/utils.ts"))) {
