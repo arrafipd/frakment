@@ -100,4 +100,6 @@ export {
   Globe,
   ChatTeardropDots,
   ChatTeardropDots as MessageCircleDashedIcon,
+  CaretUp as ChevronUpIcon,
+  CaretUp as ChevronUp,
 } from "@phosphor-icons/react";

@@ -122,6 +122,56 @@
       "registryDependencies": ["button", "input", "textarea"]
     },
     {
+      "name": "label",
+      "version": "0.1.0",
+      "title": "Label",
+      "description": "A text label for form controls.",
+      "source": "registry/label.tsx",
+      "target": "components/ui/label.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "switch",
+      "version": "0.1.0",
+      "title": "Switch",
+      "description": "A toggle control for boolean settings.",
+      "source": "registry/switch.tsx",
+      "target": "components/ui/switch.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "checkbox",
+      "version": "0.1.0",
+      "title": "Checkbox",
+      "description": "A control that lets the user toggle between checked and not checked.",
+      "source": "registry/checkbox.tsx",
+      "target": "components/ui/checkbox.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "select",
+      "version": "0.1.0",
+      "title": "Select",
+      "description": "A dropdown for selecting a single value from a list.",
+      "source": "registry/select.tsx",
+      "target": "components/ui/select.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "field",
+      "version": "0.1.0",
+      "title": "Field",
+      "description": "A layout primitive for form fields — label, description, and inputs.",
+      "source": "registry/field.tsx",
+      "target": "components/ui/field.tsx",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["label", "separator"]
+    },
+    {
       "name": "message-animated",
       "version": "0.1.0",
       "title": "Message Animated",

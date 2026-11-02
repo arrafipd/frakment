@@ -87,6 +87,41 @@
       "description": "A composable input wrapper with inline addons, buttons, and text groups."
     },
     {
+      "name": "label",
+      "version": "0.1.0",
+      "deprecated": false,
+      "title": "Label",
+      "description": "A text label for form controls."
+    },
+    {
+      "name": "switch",
+      "version": "0.1.0",
+      "deprecated": false,
+      "title": "Switch",
+      "description": "A toggle control for boolean settings."
+    },
+    {
+      "name": "checkbox",
+      "version": "0.1.0",
+      "deprecated": false,
+      "title": "Checkbox",
+      "description": "A control that lets the user toggle between checked and not checked."
+    },
+    {
+      "name": "select",
+      "version": "0.1.0",
+      "deprecated": false,
+      "title": "Select",
+      "description": "A dropdown for selecting a single value from a list."
+    },
+    {
+      "name": "field",
+      "version": "0.1.0",
+      "deprecated": false,
+      "title": "Field",
+      "description": "A layout primitive for form fields — label, description, and inputs."
+    },
+    {
       "name": "message-animated",
       "version": "0.1.0",
       "deprecated": false,
