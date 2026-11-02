@@ -41,6 +41,8 @@ export default defineConfig({
         "unicorn/prefer-export-from": "off",
         "promise/avoid-new": "off",
         "eslint/no-use-before-define": "off",
+        "eslint/complexity": "off",
+        "eslint/no-inner-declarations": "off",
       },
     },
     {
