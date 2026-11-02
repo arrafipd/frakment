@@ -24,7 +24,7 @@ export const SITE = {
     SHORT: "A monochrome component registry",
   },
   KEYWORDS: [
-    "frakment",
+    "Frakment",
     "component registry",
     "monochrome",
     "design system",
@@ -32,7 +32,7 @@ export const SITE = {
     "tailwindcss",
     "npx frakment add",
   ] as const,
-  NAME: "frakment",
+  NAME: "Frakment",
   OG_IMAGE: `${baseUrl}/og`,
   REGISTRY: baseUrl,
   URL: baseUrl,

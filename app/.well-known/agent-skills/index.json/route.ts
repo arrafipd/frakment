@@ -33,7 +33,7 @@ export const GET = async (request: Request) => {
       skills: [
         {
           description:
-            "Site-wide orientation for frakment, a standalone registry of AI and chat primitives with no shadcn dependency.",
+            "Site-wide orientation for Frakment, a standalone registry of AI and chat primitives with no shadcn dependency.",
           digest: siteAgentSkillDigest(),
           name: "frakment",
           type: "skill-md",
@@ -43,7 +43,7 @@ export const GET = async (request: Request) => {
           ? [
               {
                 description:
-                  "Discover, fetch, search, and install frakment components. Covers /r/index.json, per-component JSON, and the frakment CLI.",
+                  "Discover, fetch, search, and install Frakment components. Covers /r/index.json, per-component JSON, and the frakment CLI.",
                 digest: frakmentUsageDigest,
                 name: "frakment-usage",
                 type: "skill-md",
