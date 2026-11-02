@@ -56,30 +56,35 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-const chat = createChat()
-  .user(
+const chat = createChat()  .user(
     "I'm building a chat for our app and the scroll behavior is driving me nuts. Every time the AI streams a reply, the whole thread jumps around."
   )
   .sleep(1000)
   .assistant(
-    "That's the classic streaming scroll problem. Wrap your message list in `MessageScroller` and turn on `autoScroll` — the viewport pins to the bottom as tokens arrive, so users always see the latest text land in place.",
+    "That's the classic streaming scroll problem. Wrap your message list in `MessageScroller` and turn on `autoScroll` — the viewport pins to the bottom as tokens arrive, so users always see the latest text land in place.\n\nThe important part: it only auto-scrolls while the reader is already at the bottom. The moment they scroll up to read something earlier, auto-scroll backs off and their position is preserved."
   )
   .user(
     "Okay, but when someone sends a new message the view still feels jarring — like the whole conversation reloads from the top."
   )
   .sleep(1000)
   .assistant(
-    "MessageScrollerItem fixes that with turn anchoring. Set `scrollAnchor` on the turn that should settle near the top instead of blindly snapping to the document bottom.",
+    "MessageScrollerItem fixes that with turn anchoring. Set `scrollAnchor` on the turn that should settle near the top instead of snapping to the document bottom.\n\nIt also leaves a small peek of the previous exchange visible above the anchor, so context isn't lost."
+  )
+  .user(
+    "And if they've scrolled up to re-read an older answer? I don't want to yank them back down."
+  )
+  .sleep(1000)
+  .assistant(
+    "You won't. Auto-scroll only runs when the viewport is already pinned to the bottom, so scrolling up is a deliberate opt-out.\n\nWhen there is content they haven't seen yet, `MessageScrollerButton` appears at the bottom. One tap jumps them back to the newest message and re-engages auto-scroll."
   )
   .user("Last one — does this work with assistive tech?")
   .sleep(1000)
   .assistant(
-    "Yes. MessageScrollerContent sets role=log and aria-relevant=additions by default, so screen readers announce new messages as they stream in.",
+    "`MessageScrollerContent` sets `role=\"log\"` and `aria-relevant=\"additions\"` by default, so screen readers announce new messages as they stream in.\n\nThe scroll button is a real `<button>` with an sr-only label, and it's removed from the tab order when you're already at the bottom."
   );
 
 const initialMessages = chat.get(0);
 const transport = chat.transport({ delayMs: 20 });
-
 export function MessageScrollerDemo() {
   const { messages, sendMessage, status, setMessages } = useChat({
     messages: initialMessages,
@@ -113,8 +118,7 @@ export function MessageScrollerDemo() {
                 </TooltipContent>
               </Tooltip>
             </CardAction>
-          </CardHeader>
-          <CardContent className="flex-1 overflow-hidden p-0">
+          </CardHeader>          <CardContent className="flex-1 overflow-hidden p-0">
             {messages.length === 0 ? (
               <Empty className="h-full">
                 <EmptyHeader>
@@ -123,14 +127,18 @@ export function MessageScrollerDemo() {
                   </EmptyMedia>
                   <EmptyTitle>Morning, frakment!</EmptyTitle>
                   <EmptyDescription>
-                    What are we working on today? Press send to start a new conversation
+                    What are we working on today? Press send to start a new
+                    conversation
                   </EmptyDescription>
                 </EmptyHeader>
               </Empty>
             ) : (
               <MessageScroller>
                 <MessageScrollerViewport>
-                  <MessageScrollerContent aria-busy={isBusy} className="p-(--card-spacing)">
+                  <MessageScrollerContent
+                    aria-busy={isBusy}
+                    className="p-(--card-spacing)"
+                  >
                     {messages.map((message) => (
                       <MessageAnimated
                         key={message.id}
@@ -143,12 +151,13 @@ export function MessageScrollerDemo() {
                 <MessageScrollerButton />
               </MessageScroller>
             )}
-          </CardContent>
-          <CardFooter className="flex-col gap-2">
+          </CardContent>          <CardFooter className="flex-col gap-2">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                if (!nextMessage || isBusy) return;
+                if (!nextMessage || isBusy) {
+                  return;
+                }
                 void sendMessage(nextMessage);
               }}
               className="w-full"
@@ -180,7 +189,11 @@ export function MessageScrollerDemo() {
                         <PlusIcon />
                       </InputGroupButton>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" side="top" className="w-44">
+                    <DropdownMenuContent
+                      align="start"
+                      side="top"
+                      className="w-44"
+                    >
                       <DropdownMenuItem>
                         <Paperclip />
                         Add Photos & Files
