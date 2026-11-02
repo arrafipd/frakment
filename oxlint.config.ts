@@ -35,6 +35,13 @@ export default defineConfig({
   },
   overrides: [
     {
+      files: ["lib/ai/types.ts"],
+      rules: {
+        "typescript/method-signature-style": "off",
+        "unicorn/prefer-export-from": "off",
+      },
+    },
+    {
       files: [
         "app/.well-known/agent-skills/index.json/route.ts",
         "lib/read-file.ts",

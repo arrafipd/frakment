@@ -19,7 +19,7 @@
 | Phase | File                                                    | Status |
 | ----- | ------------------------------------------------------- | ------ |
 | -1    | HANDOFF compact + plan                                  | ✅     |
-| 0     | `lib/ai/types.ts`                                       | ⏳     |
+| 0     | `lib/ai/types.ts`                                       | ✅     |
 | 1     | `ids.ts` + `utils.ts` + `payloads.ts`                   | ⏳     |
 | 2     | `envelope.ts` + `stream.ts`                             | ⏳     |
 | 3     | `writer.ts`                                             | ⏳     |
@@ -55,7 +55,7 @@
 
 ### PowerShell (critical)
 
-- **#18:** single-quote tidak interpret backtick. Untuk newline/multi-line selalu pakai array literal + `[IO.File]::WriteAllLines` atau `-join [Environment]::NewLine`. Jangan `.Replace('...','...`r`n...')`.
+- **#18:** single-quote tidak interpret backtick. Untuk newline multi-line pakai array literal + `WriteAllLines`. Detail di archive.
 - **#9:** jangan `Get-Content`/`Set-Content` untuk baca/tulis source — pakai `[IO.File]::ReadAllText/WriteAllText` dengan `UTF8Encoding($false)`.
 - **#2:** `$file:` = parse error. Pakai `${file}:`.
 - **#3:** `-ForegroundColor` hanya untuk `Write-Host`.
@@ -71,7 +71,7 @@
 
 ### Lefthook (pre-commit + pre-push)
 
-- **#24:** pre-commit otomatis jalankan format (oxfmt) + lint (ultracite) + typecheck + registry:build. Pre-push jalankan build + test. Kalau commit/push gagal karena hook: **baca error, fix, commit/push ulang**. JANGAN `--no-verify` (kecuali sangat darurat, dan tetap jalankan manual `npm run check` + `npm run build` dulu).
+- **#24:** hook pre-commit jalankan format+lint+typecheck; pre-push jalankan build+test. Gagal hook → fix, ulang. JANGAN `--no-verify`. Detail di archive.
 
 ### Component / styling
 
@@ -100,7 +100,7 @@
 2. Script yang menulis file **wajib diakhiri verifikasi** (`Test-Path`, `Get-FileHash`, `[IO.File]::ReadAllText().Contains(...)`).
 3. Script panjang (>10 baris / multi-line) **pecah per-chunk** (2–4 chunk), tunggu output tiap chunk.
 4. **Build verifikasi** sebelum commit: `BUILD_EXIT=0`.
-5. **Commit + push + HANDOFF update** per phase. Jangan tumpuk.
+5. **1 commit per phase**: tulis code → update HANDOFF (mark phase ✅) → commit code + HANDOFF **bareng**. Hash tercatat di `git log`, tidak perlu di HANDOFF.
 6. Kalau error build: **baca tail build.log 25 baris** dulu, jangan fix buta.
 
 ## Verification Commands (copy-paste)
@@ -144,7 +144,7 @@
 
 ## SESSION_UPDATE Template
 
-Setiap sesi **wajib** append 1 entry ringkas (≤10 baris):
+Setiap **phase** selesai → append 1 entry ringkas (≤10 baris). Jangan tulis per sub-task:
 
 ```markdown
 ### SESSION_UPDATE: <judul singkat> — <hash>
@@ -161,7 +161,7 @@ Setiap sesi **wajib** append 1 entry ringkas (≤10 baris):
 
 ## Maintenance Rules
 
-- **Setiap phase selesai** → update phase tracker (⏳ → ✅ + commit hash).
+- **Setiap phase selesai** → update phase tracker (⏳ → ✅) → commit code + HANDOFF bareng. Hash di `git log`.
 - **Setiap batch fitur selesai** → append 1 SESSION_UPDATE ringkas (template di atas).
 - **Setiap gotcha baru** → tambahkan 1 baris di section Gotchas Active. Kalau >20, pindahkan yang jarang ke archive.
 - **HANDOFF.md ≤ 10 KB.** Lewat → kompres atau pindah ke archive.

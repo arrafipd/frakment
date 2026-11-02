@@ -1094,3 +1094,11 @@ Total halaman content/docs/components = 15.
 
 - #18: PowerShell single-quote tidak interpret backtick. Pakai array literal + WriteAllLines.
 - #23: `detectImports` regex catch `from "X"` di komentar. Hindari pattern di komentar source.
+
+### Detail gotcha #24 (lefthook)
+
+- **#24:** pre-commit otomatis jalankan format (oxfmt) + lint (ultracite) + typecheck + registry:build. Pre-push jalankan build + test. Kalau commit/push gagal karena hook: **baca error, fix, commit/push ulang**. JANGAN `--no-verify` (kecuali sangat darurat, dan tetap jalankan manual `npm run check` + `npm run build` dulu).
+
+### Detail gotcha #18 (PowerShell quoting)
+
+- **#18:** single-quote tidak interpret backtick. Untuk newline/multi-line selalu pakai array literal + `[IO.File]::WriteAllLines` atau `-join [Environment]::NewLine`. Jangan `.Replace('...','...`r`n...')`.
