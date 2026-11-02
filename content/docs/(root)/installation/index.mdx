@@ -30,7 +30,7 @@ Components target React 19 and Tailwind v4. For React 18, some components need `
 npx frakment@latest init
 ```
 
-Creates `components.json`, writes `theme.css` next to your `globals.css`, injects `@import "./theme.css";` into `globals.css`, adds `lib/utils.ts`, and installs 6 dependencies: `class-variance-authority`, `clsx`, `tailwind-merge`, `radix-ui`, `lucide-react`, `motion`.
+Creates `components.json`, injects the theme block (tokens + dark mode + 9 utilities) into `globals.css` between `/* ==== FRAKMENT THEME START/END ==== */` markers, adds `lib/utils.ts`, and installs 6 dependencies: `class-variance-authority`, `clsx`, `tailwind-merge`, `radix-ui`, `lucide-react`, `motion`.
 
 <Step>Add components</Step>
 
@@ -66,14 +66,14 @@ After `frakment init`, your project will have:
   <FileTreeFolder name="my-app" defaultOpen>
     <FileTreeFile name="components.json" />
     <FileTreeFile name="globals.css" />
-    <FileTreeFile name="theme.css" />
+    <FileTreeFile name="components.json" />
     <FileTreeFolder name="lib" defaultOpen>
       <FileTreeFile name="utils.ts" />
     </FileTreeFolder>
   </FileTreeFolder>
 </FileTree>
 
-`theme.css` includes the `.dark` block and `@custom-variant dark`. As soon as your app toggles `.dark` on `<html>` (via `next-themes`, a custom button, or anything else), components switch automatically — no extra config needed. See [Theming](/docs/theming) for the full wiring.
+The theme block includes `.dark` and `@custom-variant dark`. As soon as your app toggles `.dark` on `<html>` (via `next-themes`, a custom button, or anything else), components switch automatically — no extra config needed. See [Theming](/docs/theming) for the full wiring.
 
 ## Existing Project
 

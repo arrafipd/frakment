@@ -5,23 +5,23 @@ description: Customize Frakment with CSS variables and theme tokens.
 
 frakment uses **CSS variables** for theming. Every component references semantic tokens like `bg-background`, `text-foreground`, `border-border` — never hardcoded colors. Change the tokens, change the entire look of your app.
 
-Theme tokens ship as a plain `theme.css` file — no config file, no build step, no runtime dependency. `npx frakment init` drops it next to your `globals.css` and imports it. Manual setup is one copy + one `@import`.
+Theme tokens live directly in your `globals.css`, wrapped between `/* ==== FRAKMENT THEME START ==== */` and `/* ==== FRAKMENT THEME END ==== */`. `npx frakment init` injects the block automatically. Manual setup is one copy-paste.
 
 ## Where the tokens live
 
-frakment keeps theme tokens in **`theme.css`**, separate from your `globals.css`. `npx frakment init` sets up:
+frakment injects its theme tokens directly into `globals.css`, wrapped between two markers. `npx frakment init` sets up:
 
-- **`app/theme.css`** (or `src/app/theme.css`) — tokens, dark mode, component utilities
-- **`app/globals.css`** — your Tailwind entry, which imports `theme.css`
+- **Theme block in `globals.css`** — tokens, dark mode, component utilities
+- **`components.json`** — CLI config (registry URL, aliases, globals.css path)
 
 ```css title="app/globals.css"
 @import "tailwindcss";
-@import "./theme.css"; /* ← frakment tokens */
+/* ==== FRAKMENT THEME START ==== */
 ```
 
-`theme.css` is self-contained: it defines `@theme inline`, `:root` (light), `.dark` (dark), `@custom-variant dark`, and 9 `@utility` helpers. To customize the look, edit `theme.css` — you never need to touch `globals.css`.
+The block is self-contained: it defines `@theme inline`, `:root` (light), `.dark` (dark), `@custom-variant dark`, and 9 `@utility` helpers. To customize the look, edit the block in `globals.css` — anywhere between the markers.
 
-**Tailwind v4 required.** `theme.css` uses `@theme`, `@utility`, and `@custom-variant` — Tailwind v3 is not supported.
+**Tailwind v4 required.** The theme block uses `@theme`, `@utility`, and `@custom-variant` — Tailwind v3 is not supported.
 
 ## Token convention
 
@@ -39,7 +39,7 @@ Each surface token controls a background; its paired `-foreground` controls text
 
 ## Theme tokens
 
-Define these in `:root` (light) and `.dark` (dark mode) inside `theme.css`:
+Define these in `:root` (light) and `.dark` (dark mode) inside the FRAKMENT THEME block:
 
 | Token                                | Controls                       | Used by                           |
 | :----------------------------------- | :----------------------------- | :-------------------------------- |
@@ -80,7 +80,7 @@ Change `--radius` once and the entire radius scale updates across all components
 
 Define it under `:root` and `.dark`, then expose it with `@theme inline`:
 
-```css title="app/theme.css"
+```css title="app/globals.css (inside FRAKMENT THEME block)"
 :root {
   --warning: oklch(0.84 0.16 84);
   --warning-foreground: oklch(0.28 0.07 46);
@@ -117,14 +117,14 @@ Swap the OKLCH values in `:root` and `.dark` for any of these — frakment compo
 
 ## Dark mode
 
-frakment's dark mode is wired through two pieces in `theme.css`:
+frakment's dark mode is wired through two pieces in the theme block:
 
 1. **`@custom-variant dark (&:is(.dark *))`** — registers the `dark:` Tailwind variant
 2. **A `.dark { ... }` block** — dark token values
 
 When `<html class="dark">`, every `dark:*` utility and every token in `.dark` kicks in. When `.dark` is absent, `:root` tokens apply.
 
-```css title="app/theme.css (excerpt)"
+```css title="app/globals.css (excerpt)"
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -206,7 +206,7 @@ To persist the choice, store it in `localStorage` and apply on mount. Or use [`n
 
 ### Using `dark:` utilities
 
-Because `@custom-variant dark` is registered in `theme.css`, all `dark:` utilities work out of the box:
+Because `@custom-variant dark` is registered in the theme block, all `dark:` utilities work out of the box:
 
 ```tsx
 <div className="bg-background text-foreground dark:bg-card dark:text-card-foreground" />
@@ -228,13 +228,13 @@ This works because the variant matches `.dark *` (any descendant of `.dark`), no
 
 ## Default theme
 
-This is what `npx frakment init` writes to `theme.css`. If you're setting up manually, copy it next to your `globals.css` and import it (see [Manual](/docs/installation/manual)).
+This is what `npx frakment init` injects into `globals.css`. If you're setting up manually, paste it after your last `@import` (see [Manual](/docs/installation/manual)).
 
-> The full `theme.css` also includes 9 `@utility` helpers (`container`, `no-scrollbar`, `border-grid`, etc.) used by some components. See [`styles/theme.css`](https://github.com/hanshapd/frakment/blob/main/styles/theme.css) for the exact file.
+> The full block also includes 9 `@utility` helpers (`container`, `no-scrollbar`, `border-grid`, etc.) used by some components. See [`cli/templates/theme.css`](https://github.com/hanshapd/frakment/blob/main/cli/templates/theme.css) for the source.
 
 <CodeCollapsibleWrapper>
 
-```css title="app/theme.css"
+```css title="app/globals.css (FRAKMENT THEME block)"
 @import "tailwindcss";
 @import "tw-animate-css";
 

@@ -18,15 +18,15 @@ npx frakment@latest init
 What it does:
 
 1. Writes `components.json` at project root (CLI config)
-2. Copies `theme.css` next to your `globals.css` (design tokens + 9 `@utility` + `.dark` + `@custom-variant dark`)
-3. Injects `@import "./theme.css";` after `@import "tailwindcss";` in your `globals.css`
+2. Injects the theme block into `globals.css` between `/* ==== FRAKMENT THEME START/END ==== */` markers (design tokens + 9 `@utility` + `.dark` + `@custom-variant dark`)
+3. Preserves anything outside the markers — your `@import` statements, overrides, and custom CSS stay untouched
 4. Creates `lib/utils.ts` (the `cn` helper) if missing
 5. Installs 6 dependencies: `clsx`, `tailwind-merge`, `class-variance-authority`, `radix-ui`, `lucide-react`, `motion`
 
 **Idempotent.** Safe to re-run:
 
 - Existing `components.json` is preserved unless you choose to overwrite
-- Existing `@import "./theme.css";` is not duplicated
+- Marker block is replaced in place (no duplicates)
 - Legacy inline theme blocks (from older `init` versions) are auto-migrated
 - UTF-8 BOM in `globals.css` / `package.json` is stripped before parsing (Windows compatibility)
 

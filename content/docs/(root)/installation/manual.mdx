@@ -48,23 +48,22 @@ export function cn(...inputs: ClassValue[]) {
 }
 ```
 
-<Step>Add theme.css</Step>
+<Step>Paste theme block</Step>
 
-Copy [`theme.css`](https://github.com/hanshapd/frakment/blob/main/styles/theme.css) into the same folder as your `globals.css`, then import it **after** `@import "tailwindcss";`:
+Copy the theme block from [`cli/templates/theme.css`](https://github.com/hanshapd/frakment/blob/main/cli/templates/theme.css) and paste it into your `globals.css` **after** `@import "tailwindcss";`:
 
 ```css title="app/globals.css"
 @import "tailwindcss";
-@import "./theme.css";
+/* ==== FRAKMENT THEME START ==== */
 ```
 
-`theme.css` contains the design tokens (`:root` + `.dark`), `@custom-variant dark` (for `dark:` utilities), `@theme inline` (Tailwind mapping), and 9 `@utility` helpers. Dark mode works as soon as `<html>` gets the `.dark` class — no extra setup. See [Theming](/docs/theming) for tokens and dark-mode wiring.
+The block contains the design tokens (`:root` + `.dark`), `@custom-variant dark` (for `dark:` utilities), `@theme inline` (Tailwind mapping), and 9 `@utility` helpers. Dark mode works as soon as `<html>` gets the `.dark` class — no extra setup. See [Theming](/docs/theming) for tokens and dark-mode wiring.
 
 <Alert variant="warning" className="mt-6">
-  <AlertTitle>Import order matters</AlertTitle>
+  <AlertTitle>Placement matters</AlertTitle>
   <AlertDescription>
-    `@import "./theme.css";` must come **after** `@import "tailwindcss";` and
-    **before** any other CSS. Imports placed below other rules are silently
-    ignored by browsers — components will render unstyled.
+    The theme block must come **after** all your `@import` statements. Anything
+    after it is your overrides — CSS custom properties resolve last-wins.
   </AlertDescription>
 </Alert>
 
