@@ -1,4 +1,4 @@
-﻿import { existsSync } from "node:fs";
+import { existsSync } from "node:fs";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -105,7 +105,7 @@ export function cn(...inputs: ClassValue[]) {
   const pkgPath = path.join(cwd, "package.json");
   const pkg = JSON.parse(await readFile(pkgPath, "utf8"));
   const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
-  const missing = ["clsx", "tailwind-merge", "class-variance-authority", "radix-ui", "lucide-react"].filter((d) => !allDeps[d]);
+  const missing = ["clsx", "tailwind-merge", "class-variance-authority", "radix-ui", "lucide-react", "motion"].filter((d) => !allDeps[d]);
 
   if (missing.length > 0) {
     s.start(`installing ${missing.join(", ")}`);
