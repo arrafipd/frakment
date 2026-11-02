@@ -679,6 +679,40 @@ Kalau typecheck fails on demo (e.g., `items` prop, `value=""`), fix demo, re-sta
 
 ---
 
+---
+
+## WORKFLOW — AI ↔ User (WAJIB)
+
+**AI TIDAK eksekusi langsung.** Semua interaksi via PowerShell script yang user copy-paste.
+
+### Pattern yang WAJIB diikuti:
+
+1. **AI kasih script PowerShell** (bukan bash, bukan command langsung)
+2. **User copy-paste ke PowerShell** di Windows
+3. **User kirim output** balik ke AI
+4. **AI analisis output** → next step atau fix
+
+### Rules:
+
+- **JANGAN** kasih command bash (`#!/bin/bash`, `curl`, `rm -rf`)
+- **JANGAN** asumsi AI bisa baca/tulis file sendiri — kasih script yang user jalankan
+- **SELALU** validasi output user sebelum next step — jangan asumsi sukses
+- **Kalau script gagal**: minta full error, jangan lanjut tanpa diagnosis
+- **Multi-step**: 1 script per step, tunggu output, baru next
+- **Batch besar**: pecah jadi sub-script per file (hindari here-string cutoff)
+- **Verifikasi wajib**: setiap script yang modify file, akhiri dengan verify (Test-Path, Select-String, Get-FileHash)
+
+### Anti-pattern:
+
+- ❌ "Saya akan edit file X" — bukan tugas AI, kasih script
+- ❌ Multi-aksi dalam 1 script tanpa output — user tidak bisa verifikasi
+- ❌ Assume filesystem state — selalu `Test-Path` dulu
+- ❌ Script tanpa `Write-Host` verifikasi di akhir
+
+### Kalau user minta AI "langsung edit":
+
+Ingatkan: AI tidak punya filesystem access. Kasih PowerShell script.
+
 ## MAINTENANCE — WAJIB (untuk AI selanjutnya)
 
 **HANDOFF.md ini adalah dokumen hidup.** Kalau kamu (AI berikutnya) menyelesaikan task, menemukan bug baru, mengubah keputusan, atau menyelesaikan salah satu batch di "Next Steps", **WAJIB perbarui file ini** sebelum akhiri sesi.
@@ -693,6 +727,7 @@ Kalau typecheck fails on demo (e.g., `items` prop, `value=""`), fix demo, re-sta
 6. **Defer task** — pindahkan ke "Open Questions" dengan alasan + estimasi.
 7. **Ubah commit state** — update "Current State" dengan 5 commit terbaru.
 8. **Ganti versi dependency** — update tabel deps di "Component Registry" + catat di "Known Issues" kalau breaking.
+9. **Ketemu pattern workflow baru** — tambah ke section "WORKFLOW — AI ↔ User".
 
 ### Format update minimal (checklist sebelum akhiri sesi):
 
