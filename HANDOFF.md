@@ -24,8 +24,8 @@
 | 2     | `envelope.ts` + `stream.ts`                             | ✅     |
 | 3     | `writer.ts`                                             | ✅     |
 | 4     | `builder.ts` core (user/assistant/error/sleep/get/next) | ✅     |
-| 5     | `builder.ts` continuation (callback, tools, approvals)  | ⏳     |
-| 6     | `transport.ts`                                          | ⏳     |
+| 5     | `builder.ts` continuation (callback, tools, approvals)  | ✅     |
+| 6     | `transport.ts`                                          | ✅     |
 | 7     | `adapter.ts`                                            | ⏳     |
 | 8     | `index.ts` + `lib/ai.ts` re-export + build verify       | ⏳     |
 | 9     | Parity test 3 demo + uninstall `@shadcn/helpers`        | ⏳     |

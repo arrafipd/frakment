@@ -1,9 +1,14 @@
 // Port of @shadcn/helpers ChatBuilder core (chunk-ZEGKA56A.js `ce()` function).
 // Phase 4: user/assistant/error/sleep/get/next. Phase 5 extends continuation, Phase 6 transport.
 
-import { materializeParts, eventsFromParts } from "./envelope";
+import {
+  materializeParts,
+  eventsFromParts,
+  eventsToEnvelope,
+} from "./envelope";
 import { createIdGenerator } from "./ids";
 import { createPayloadFactory } from "./payloads";
+import { streamFromEnvelope } from "./stream";
 import type {
   Chat,
   ChatAssistantOptions,
@@ -92,6 +97,182 @@ function getTextOf(message: UIMessage): string {
     .join("");
 }
 
+// ============================================================
+// Continuation helpers (port V, O, X, J, D, x, L, R)
+// ============================================================
+
+interface PendingToolRaw {
+  input: Extract<ChatEvent, { kind: "tool-input" }>;
+  approval?: Extract<ChatEvent, { kind: "tool-approval-request" }>;
+}
+
+function getPendingToolsRaw(events: readonly ChatEvent[]): PendingToolRaw[] {
+  const resolved = new Set<string>();
+  for (const event of events) {
+    if (
+      (event.kind === "tool-output" && !event.preliminary) ||
+      event.kind === "tool-error" ||
+      event.kind === "tool-denied"
+    ) {
+      resolved.add(event.toolCallId);
+    }
+  }
+  const out: PendingToolRaw[] = [];
+  for (const event of events) {
+    if (event.kind === "tool-input" && !resolved.has(event.toolCallId)) {
+      out.push({
+        input: event,
+        approval: events.find(
+          (e) =>
+            e.kind === "tool-approval-request" &&
+            e.toolCallId === event.toolCallId
+        ) as Extract<ChatEvent, { kind: "tool-approval-request" }> | undefined,
+      });
+    }
+  }
+  return out;
+}
+
+function toPendingToolCall(
+  raw: PendingToolRaw,
+  summary:
+    | {
+        toolCallId?: string;
+        input?: unknown;
+        output?: unknown;
+        state?: string;
+        approval?: { approved?: boolean };
+      }
+    | undefined
+): {
+  name: string;
+  toolCallId: string;
+  input: unknown;
+  output: unknown;
+  approved?: boolean;
+  denied?: boolean;
+} {
+  const approvalApproved = raw.approval
+    ? summary?.approval?.approved
+    : undefined;
+
+  let output: unknown;
+  if (raw.approval) {
+    output = approvalApproved === true ? raw.approval.output : undefined;
+  } else if (summary?.state === "output-available") {
+    const { output: summaryOutput } = summary;
+    output = summaryOutput;
+  } else {
+    output = undefined;
+  }
+
+  const approvalFields = raw.approval
+    ? {
+        approved: approvalApproved === true,
+        denied: approvalApproved === false,
+      }
+    : {};
+
+  return {
+    name: raw.input.name,
+    toolCallId: raw.input.toolCallId,
+    input: summary?.input ?? raw.input.input,
+    output,
+    ...approvalFields,
+  };
+}
+
+function defaultMetadata(
+  now: Date | string | undefined
+): () => Record<string, unknown> {
+  const date =
+    now instanceof Date ? now : new Date(now ?? "2026-01-01T00:00:00.000Z");
+  return () => ({ createdAt: date.toISOString() });
+}
+
+function findNextAssistant(turns: readonly Turn[], from: number): number {
+  for (let i = from; i < turns.length; i += 1) {
+    if (turns[i]?.role === "assistant") {
+      return i;
+    }
+  }
+  return -1;
+}
+
+function lastAssistantIndex(turns: readonly Turn[], upTo: number): number {
+  for (let i = upTo - 1; i >= 0; i -= 1) {
+    if (turns[i]?.role === "assistant") {
+      return i;
+    }
+  }
+  return -1;
+}
+
+function resolveTurnIndex(
+  turns: readonly Turn[],
+  messages: readonly UIMessage[],
+  matchTranscript: (msgs: readonly UIMessage[]) => number,
+  regenerateId: string | undefined
+): number {
+  if (regenerateId) {
+    const idx = turns.findIndex((t) => t.messageId === regenerateId);
+    if (turns[idx]?.role === "assistant") {
+      return idx;
+    }
+    if (idx !== -1) {
+      return findNextAssistant(turns, idx + 1);
+    }
+  }
+  const matched = matchTranscript(messages);
+  return findNextAssistant(turns, matched + 1);
+}
+
+function hasContinuation(turns: readonly Turn[]): boolean {
+  const last = turns.at(-1);
+  if (!last || last.role !== "assistant") {
+    return false;
+  }
+  return (
+    last.resolve !== undefined || getPendingToolsRaw(last.events).length > 0
+  );
+}
+
+function buildFallbackResponse(
+  fallback: NonNullable<
+    ChatTransportOptions<
+      UIMessage,
+      UIMessagePart<UIDataTypes, UITools>
+    >["fallback"]
+  >,
+  messages: readonly UIMessage[],
+  writerContext: WriterContext,
+  createMetadata: () => Record<string, unknown>,
+  ids: ReturnType<typeof createIdGenerator>,
+  materialize: (
+    input:
+      | string
+      | UIMessagePart<UIDataTypes, UITools>[]
+      | ((ctx: unknown) => void),
+    events: ChatEvent[]
+  ) => UIMessagePart<UIDataTypes, UITools>[]
+): Turn {
+  const events: ChatEvent[] = [];
+  const input =
+    typeof fallback === "function"
+      ? (ctx: unknown) => fallback({ ...(ctx as object), messages } as never)
+      : fallback;
+  const parts = materialize(input as never, events);
+  const metadata = createMetadata();
+  const id = ids.nextMessageId();
+  return {
+    role: "assistant",
+    messageId: id,
+    events,
+    metadata,
+    message: defaultCreateMessage({ id, role: "assistant", metadata, parts }),
+  };
+}
+
 export function createChatBuilder(options: CreateChatOptions = {}): AiSdkChat {
   const ids = createIdGenerator(options);
   const payloads = createPayloadFactory(ids);
@@ -172,7 +353,16 @@ export function createChatBuilder(options: CreateChatOptions = {}): AiSdkChat {
       | string
       | UIMessagePart<UIDataTypes, UITools>[]
       | ((ctx: unknown) => void),
-    events: ChatEvent[]
+    events: ChatEvent[],
+    messages?: readonly UIMessage[],
+    toolCalls?: {
+      name: string;
+      toolCallId: string;
+      input: unknown;
+      output: unknown;
+      approved?: boolean;
+      denied?: boolean;
+    }[]
   ): UIMessagePart<UIDataTypes, UITools>[] {
     if (typeof input === "string") {
       const writer = createEventWriter<DataTypes, ToolSet>(
@@ -183,9 +373,21 @@ export function createChatBuilder(options: CreateChatOptions = {}): AiSdkChat {
       return materializeParts(events);
     }
     if (typeof input === "function") {
-      throw new TypeError(
-        "assistant(callback) not implemented in Phase 4 — see Phase 5."
+      const writer = createEventWriter<DataTypes, ToolSet>(
+        events,
+        writerContext
       );
+      const callbackContext: Record<string, unknown> = { writer };
+      if (messages !== undefined) {
+        callbackContext.messages = messages;
+      }
+      if (toolCalls !== undefined) {
+        callbackContext.toolCall = toolCalls.at(-1);
+        callbackContext.toolCalls = toolCalls;
+      }
+      input(callbackContext as never);
+      reserveFromEvents(events);
+      return materializeParts(events);
     }
     const cloned = deepClone(input);
     const newEvents = eventsFromParts(cloned);
@@ -252,6 +454,24 @@ export function createChatBuilder(options: CreateChatOptions = {}): AiSdkChat {
       opts: ChatAssistantOptions<unknown> = {}
     ) {
       const events = flushPendingSleeps();
+      const isContinuation = hasContinuation(turns);
+      if (typeof input === "function" && isContinuation) {
+        // Continuation turn: defer materialization until transcript arrives.
+        const id = nextMessageIdOrReserve(opts.id);
+        const metadata =
+          opts.metadata === undefined ? undefined : deepClone(opts.metadata);
+        return pushTurn({
+          role: "assistant",
+          messageId: id,
+          events,
+          metadata,
+          resolve: input,
+          continuation: true,
+        });
+      }
+      if (isContinuation) {
+        events.push({ kind: "step-start" });
+      }
       const parts = materializeAssistantInput(input, events);
       const metadata =
         opts.metadata === undefined
@@ -270,6 +490,7 @@ export function createChatBuilder(options: CreateChatOptions = {}): AiSdkChat {
         messageId: id,
         events,
         metadata,
+        ...(isContinuation ? { continuation: true } : {}),
       });
     },
 
@@ -317,15 +538,70 @@ export function createChatBuilder(options: CreateChatOptions = {}): AiSdkChat {
       return turn?.message ? deepClone(turn.message) : null;
     },
 
-    transport(): ChatTransport<UIMessage> {
-      // Stub for Phase 4 — will be replaced in Phase 6.
+    transport(
+      transportOpts: ChatTransportOptions<
+        UIMessage,
+        UIMessagePart<UIDataTypes, UITools>
+      > = {}
+    ): ChatTransport<UIMessage> {
+      const lastIdx = lastAssistantIndex(turns, turns.length);
+      const lastTurn = turns[lastIdx];
+      if (
+        lastTurn &&
+        !lastTurn.resolve &&
+        getPendingToolsRaw(lastTurn.events).some((p) => p.approval)
+      ) {
+        // Dev warning only — no continuation turn follows, decision will be lost.
+        // See @shadcn/helpers behavior: silently ignore in production.
+      }
+      const streamOpts = { delayMs: 50, ...transportOpts };
+      const { fallback } = transportOpts;
       return {
-        async sendMessages() {
-          return new ReadableStream({
-            start(controller) {
-              controller.close();
-            },
+        async sendMessages({ messages, messageId, abortSignal }) {
+          const regenerateId =
+            messageId !== undefined && messageId !== null
+              ? messageId
+              : undefined;
+          const idx = resolveTurnIndex(
+            turns,
+            messages,
+            matchTranscript,
+            regenerateId
+          );
+          const turn = idx === -1 ? undefined : turns[idx];
+          if (!turn) {
+            if (fallback !== undefined) {
+              const fallbackTurn = buildFallbackResponse(
+                fallback as never,
+                messages,
+                writerContext,
+                createMetadata,
+                ids,
+                materializeAssistantInput
+              );
+              const envelope = eventsToEnvelope(fallbackTurn.events, {
+                delayMs: streamOpts.delayMs,
+                messageId: fallbackTurn.messageId,
+                messageMetadata: fallbackTurn.metadata,
+              });
+              return streamFromEnvelope(
+                envelope,
+                (chunk) => chunk,
+                abortSignal ?? undefined
+              );
+            }
+            throw new Error("No assistant response found for this transcript.");
+          }
+          const envelope = eventsToEnvelope(turn.events, {
+            delayMs: streamOpts.delayMs,
+            messageId: turn.continuation ? undefined : turn.messageId,
+            messageMetadata: turn.metadata,
           });
+          return streamFromEnvelope(
+            envelope,
+            (chunk) => chunk,
+            abortSignal ?? undefined
+          );
         },
         async reconnectToStream() {
           return null;
