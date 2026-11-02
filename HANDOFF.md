@@ -22,7 +22,7 @@
 | 0     | `lib/ai/types.ts`                                       | ✅     |
 | 1     | `ids.ts` + `utils.ts` + `payloads.ts`                   | ✅     |
 | 2     | `envelope.ts` + `stream.ts`                             | ✅     |
-| 3     | `writer.ts`                                             | ⏳     |
+| 3     | `writer.ts`                                             | ✅     |
 | 4     | `builder.ts` core (user/assistant/error/sleep/get/next) | ⏳     |
 | 5     | `builder.ts` continuation (callback, tools, approvals)  | ⏳     |
 | 6     | `transport.ts`                                          | ⏳     |
