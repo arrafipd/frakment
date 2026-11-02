@@ -90,7 +90,12 @@ export async function init() {
     await writeFile(cssFullPath, css);
     s.stop(pc.green("✓") + " theme tokens");
   } else {
-    p.log.warn(`CSS file not found: ${cssPath}`);
+    p.log.error(`CSS file not found: ${cssPath}`);
+    p.outro(
+      pc.red("error ") +
+        "Could not find globals.css. Frakment needs an existing Tailwind v4 entry file."
+    );
+    process.exit(1);
   }
 
   // 3. lib/utils.ts
