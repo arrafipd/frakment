@@ -1,0 +1,154 @@
+---
+title: Card
+description: A container for grouping related content and actions.
+---
+
+import { CardDemo } from "@/examples/card-demo";
+import { CardSmall } from "@/examples/card-small";
+import { CardSpacing } from "@/examples/card-spacing";
+import { CardEdgeToEdge } from "@/examples/card-edge-to-edge";
+import { CardImage } from "@/examples/card-image";
+
+<ComponentPreview name="card" title="card.tsx" previewClassName="h-auto py-8">
+  <CardDemo />
+</ComponentPreview>
+
+Card is a flexible surface for content and actions. It supports a `size` prop (`default` / `sm`), an auto-spacing variable `--card-spacing` (default 16px, `sm` 12px), and image-friendly slots (`pt-0` / `rounded-t-xl`).
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add card
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>No npm dependencies required.</Step>
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="card" title="components/ui/card.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Anatomy
+
+```tsx
+<Card>
+  <CardHeader>
+    <CardTitle />
+    <CardDescription />
+    <CardAction />
+  </CardHeader>
+  <CardContent />
+  <CardFooter />
+</Card>
+```
+
+- **Card** — root surface; accepts `size` (`default` / `sm`), sets `--card-spacing`
+- **CardHeader** — grid container; auto-column when `CardAction` is present
+- **CardTitle** — heading
+- **CardDescription** — muted helper text
+- **CardAction** — top-right slot (grid column 2)
+- **CardContent** — body; padding via `px-(--card-spacing)`
+- **CardFooter** — bottom row; auto border-top + muted background
+
+## Examples
+
+### Small size
+
+Pass `size="sm"` for tighter padding (12px) and smaller title.
+
+<ComponentPreview name="card" title="card.tsx" previewClassName="h-auto py-8">
+  <CardSmall />
+</ComponentPreview>
+
+```tsx
+<Card size="sm" className="mx-auto w-full max-w-xs">
+  <CardHeader>
+    <CardTitle>Scheduled reports</CardTitle>
+    <CardDescription>Weekly snapshots.</CardDescription>
+  </CardHeader>
+  <CardContent>...</CardContent>
+  <CardFooter>...</CardFooter>
+</Card>
+```
+
+### Custom spacing
+
+Override `--card-spacing` via an inline arbitrary class — the entire card (header, content, footer) adapts.
+
+<ComponentPreview name="card" title="card.tsx" previewClassName="h-auto py-8">
+  <CardSpacing />
+</ComponentPreview>
+
+```tsx
+<Card className="[--card-spacing:--spacing(6)]">...</Card>
+```
+
+### Edge to edge
+
+Negate `--card-spacing` on `CardContent` (`-mb-(--card-spacing)`, `-mx-(--card-spacing)`) for full-bleed sections like scrollable terms.
+
+<ComponentPreview name="card" title="card.tsx" previewClassName="h-auto py-8">
+  <CardEdgeToEdge />
+</ComponentPreview>
+
+```tsx
+<CardContent className="-mb-(--card-spacing)">
+  <div className="-mx-(--card-spacing) px-(--card-spacing) py-4">...</div>
+</CardContent>
+```
+
+### With image
+
+Any `<img>` as the first child gets `pt-0` + rounded top automatically — no extra classes needed on the image itself.
+
+<ComponentPreview name="card" title="card.tsx" previewClassName="h-auto py-8">
+  <CardImage />
+</ComponentPreview>
+
+```tsx
+<Card className="pt-0">
+  <img src="..." alt="..." className="aspect-video w-full object-cover" />
+  <CardHeader>...</CardHeader>
+</Card>
+```
+
+## API Reference
+
+Extends `React.ComponentProps<"div">`.
+
+### Card
+
+<PropsTable
+  rows={[
+    {
+      name: "size",
+      type: '"default" | "sm"',
+      defaultValue: '"default"',
+      description:
+        "Root padding via --card-spacing (16px → 12px) and smaller title.",
+    },
+  ]}
+/>
+
+### Other parts
+
+All other parts extend `React.ComponentProps<"div">`.
+
+Adds `data-slot="card-*"` for styling hooks.

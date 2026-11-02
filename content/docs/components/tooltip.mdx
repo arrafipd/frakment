@@ -1,0 +1,142 @@
+---
+title: Tooltip
+description: A popup that displays information related to an element on hover or focus.
+---
+
+import { TooltipDemo } from "@/examples/tooltip-demo";
+import { TooltipSides } from "@/examples/tooltip-sides";
+import { TooltipDisabled } from "@/examples/tooltip-disabled";
+
+<ComponentPreview name="tooltip" title="tooltip.tsx">
+  <TooltipDemo />
+</ComponentPreview>
+
+Tooltip is a Radix Tooltip primitive. It shows a small label on hover or focus, supports `side` / `align` / `sideOffset`, and requires wrapping the app in `TooltipProvider`.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add tooltip
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install radix-ui
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="tooltip" title="components/ui/tooltip.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="tooltip.tsx"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+```
+
+```tsx
+<Tooltip>
+  <TooltipTrigger asChild>
+    <Button variant="outline">Hover</Button>
+  </TooltipTrigger>
+  <TooltipContent>
+    <p>Add to library</p>
+  </TooltipContent>
+</Tooltip>
+```
+
+## Anatomy
+
+```tsx
+<Tooltip>
+  <TooltipTrigger asChild />
+  <TooltipContent />
+</Tooltip>
+```
+
+- **Tooltip** — Radix `Tooltip.Root`; accepts `open`, `defaultOpen`, `onOpenChange`, `delayDuration`
+- **TooltipTrigger** — the trigger; use `asChild` to merge into a single child
+- **TooltipContent** — the popup; accepts `side`, `sideOffset`, `align`
+- **TooltipProvider** — required ancestor (Frakment root layout already provides one)
+
+## Examples
+
+### Sides
+
+<ComponentPreview name="tooltip" title="tooltip.tsx">
+  <TooltipSides />
+</ComponentPreview>
+
+```tsx
+<Tooltip>
+  <TooltipTrigger asChild>
+    <Button>Top</Button>
+  </TooltipTrigger>
+  <TooltipContent side="top">Add to library</TooltipContent>
+</Tooltip>
+```
+
+### Disabled trigger
+
+Wrap a disabled button in a `<span>` — Radix needs a focusable/hoverable host to trigger the tooltip.
+
+<ComponentPreview name="tooltip" title="tooltip.tsx">
+  <TooltipDisabled />
+</ComponentPreview>
+
+```tsx
+<Tooltip>
+  <TooltipTrigger asChild>
+    <span className="inline-block w-fit">
+      <Button variant="outline" disabled>
+        Disabled
+      </Button>
+    </span>
+  </TooltipTrigger>
+  <TooltipContent>This feature is currently unavailable</TooltipContent>
+</Tooltip>
+```
+
+## API Reference
+
+### TooltipProvider
+
+<PropsTable
+  rows={[
+    {
+      name: "delayDuration",
+      type: "number",
+      defaultValue: "0",
+      description: "Delay before the tooltip appears (ms).",
+    },
+  ]}
+/>
+
+### TooltipContent
+
+Extends Radix `Tooltip.Content`. Supports `side` (`top` / `right` / `bottom` / `left`), `sideOffset`, `align` (`start` / `center` / `end`), and `avoidCollisions`.
+
+Adds `data-slot="tooltip-content"` for styling hooks.

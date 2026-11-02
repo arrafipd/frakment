@@ -1,0 +1,178 @@
+---
+title: Dropdown Menu
+description: A menu of actions or options triggered by a button.
+---
+
+import { DropdownMenuDemo } from "@/examples/dropdown-menu-demo";
+import { DropdownMenuBasic } from "@/examples/dropdown-menu-basic";
+import { DropdownMenuIcons } from "@/examples/dropdown-menu-icons";
+import { DropdownMenuSubmenu } from "@/examples/dropdown-menu-submenu";
+import { DropdownMenuCheckboxes } from "@/examples/dropdown-menu-checkboxes";
+
+<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
+  <DropdownMenuBasic />
+</ComponentPreview>
+
+Dropdown Menu is a compound Radix primitive. It supports plain items, groups with labels, separators, nested submenus, checkbox / radio items, icons, and destructive variants.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add dropdown-menu
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install radix-ui
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="dropdown-menu" title="components/ui/dropdown-menu.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="dropdown-menu.tsx"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+```
+
+```tsx
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button variant="outline">Open</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem>Profile</DropdownMenuItem>
+    <DropdownMenuItem>Settings</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+## Anatomy
+
+```tsx
+<DropdownMenu>
+  <DropdownMenuTrigger asChild />
+  <DropdownMenuContent>
+    <DropdownMenuLabel />
+    <DropdownMenuItem />
+    <DropdownMenuSeparator />
+    <DropdownMenuSub>
+      <DropdownMenuSubTrigger />
+      <DropdownMenuSubContent />
+    </DropdownMenuSub>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+## Examples
+
+### Basic
+
+<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
+  <DropdownMenuBasic />
+</ComponentPreview>
+
+### With submenu
+
+Nest a submenu using `DropdownMenuSub` — the trigger opens a side panel with its own items.
+
+<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
+  <DropdownMenuSubmenu />
+</ComponentPreview>
+
+### With icons
+
+Icons render at 16px inside `DropdownMenuItem` — any `@/lib/icons` export works. Use `variant="destructive"` for irreversible actions.
+
+<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
+  <DropdownMenuIcons />
+</ComponentPreview>
+
+### Checkbox items
+
+`DropdownMenuCheckboxItem` accepts `checked` / `onCheckedChange` for multi-select toggles.
+
+<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
+  <DropdownMenuCheckboxes />
+</ComponentPreview>
+
+### Full example
+
+Combine groups, labels, submenus, and shortcuts in a single menu.
+
+<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
+  <DropdownMenuDemo />
+</ComponentPreview>
+
+## API Reference
+
+All parts extend their corresponding Radix `DropdownMenu` primitives.
+
+### DropdownMenuContent
+
+<PropsTable
+  rows={[
+    {
+      name: "sideOffset",
+      type: "number",
+      defaultValue: "4",
+      description: "Gap between trigger and content (px).",
+    },
+    {
+      name: "align",
+      type: '"start" | "center" | "end"',
+      defaultValue: '"start"',
+      description: "Horizontal alignment relative to the trigger.",
+    },
+  ]}
+/>
+
+### DropdownMenuItem
+
+<PropsTable
+  rows={[
+    {
+      name: "variant",
+      type: '"default" | "destructive"',
+      defaultValue: '"default"',
+      description: "Use `destructive` for irreversible actions.",
+    },
+    {
+      name: "disabled",
+      type: "boolean",
+      defaultValue: "false",
+      description: "Prevents selection and dims the item.",
+    },
+  ]}
+/>
+
+### Other parts
+
+`DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuGroup`, `DropdownMenuLabel`, `DropdownMenuSeparator`, `DropdownMenuShortcut`, `DropdownMenuSub`, `DropdownMenuSubTrigger`, `DropdownMenuSubContent`, `DropdownMenuPortal`, `DropdownMenuCheckboxItem`, `DropdownMenuRadioGroup`, `DropdownMenuRadioItem` — all extend their Radix counterparts.
+
+Adds `data-slot="dropdown-menu-*"` markers for styling hooks.
