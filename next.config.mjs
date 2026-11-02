@@ -8,6 +8,12 @@ const { ROUTES } = await jiti.import("./constants/routes");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    optimizePackageImports: [
+      "@phosphor-icons/react",
+      "@icons-pack/react-simple-icons",
+    ],
+  },
   devIndicators: false,
   typescript: { ignoreBuildErrors: true },
   headers() {
