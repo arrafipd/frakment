@@ -15,7 +15,7 @@ export default function IndexPage() {
       <PageTransition>
         <section className="container-wrapper relative">
           <div className="container flex flex-col max-w-170 items-center gap-4 py-16 text-center md:py-20 lg:py-24">
-            <h1 className="max-w-72.5 sm:max-w-full text-foreground text-2xl font-bold">
+            <h1 className="max-w-72.5 sm:max-w-full text-foreground text-2xl font-semibold">
               Fabric for interfaces in the age of agents.
             </h1>
 
