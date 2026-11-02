@@ -24,7 +24,7 @@
                          "execa":  "^10.2.1",
                          "picocolors":  "^1.0.0"
                      },
-    "license":  "SEE LICENSE IN ../../LICENSE",
+    "license":  "SEE LICENSE IN LICENSE",
     "author":  "hanshapd (https://github.com/hanshapd)",
     "engines":  {
                     "node":  ">=22.12.0"
