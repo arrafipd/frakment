@@ -10,9 +10,9 @@
 
 ## Active Plan — `@shadcn/helpers` port (zero shadcn engine)
 
-**Goal:** replace `@shadcn/helpers` with own engine, behavior 100% match. All features: turn scripting, continuation, tools, approvals, files, sources, fallback, ChatTransport.
+**Goal:** own engine, 100% behavior match (all features).
 
-**Architecture:** split under `lib/ai/` — `types.ts`, `ids.ts`, `utils.ts`, `payloads.ts`, `envelope.ts`, `stream.ts`, `writer.ts`, `builder.ts`, `transport.ts`, `adapter.ts`, `index.ts`. `lib/ai.ts` re-exports public API (`createChat`, `getMessageText`) — import path unchanged.
+**Architecture:** 11 files di `lib/ai/` (types, ids, utils, payloads, envelope, stream, writer, builder, adapter, index) + `lib/ai.ts` re-export.
 
 **Phase tracker (per-phase: commit + push + this table update):**
 
@@ -28,16 +28,16 @@
 | 6     | `transport.ts`                                          | ✅     |
 | 7     | `adapter.ts`                                            | ✅     |
 | 8     | `index.ts` + `lib/ai.ts` re-export + build verify       | ✅     |
-| 9     | Parity test 3 demo + uninstall `@shadcn/helpers`        | ⏳     |
-| 10    | HANDOFF final                                           | ⏳     |
+| 9     | Parity test 3 demo + uninstall `@shadcn/helpers`        | ✅     |
+| 10    | HANDOFF final                                           | ✅     |
 
-**Reference source:** `node_modules/@shadcn/helpers/dist/chat-ChArRzRi.d.ts` (types), `dist/ai-sdk/index.js` (adapter), `dist/chunk-ZEGKA56A.js` (builder + utilities).
+**Reference:** `node_modules/@shadcn/helpers/dist/*` (baca sebelum ubah).
 
 **Resume:** baca tabel, lanjut dari phase pertama yang ⏳. Setiap phase selesai → commit + push + update tabel.
 
 ## Component Registry (29)
 
-`avatar, badge, bubble, button, chain-of-thought, checkbox, code-block, empty, field, icons, input, input-group, item, label, marker, message-animated, message-scroller, message, pulse-status, pulse, select, separator, spinner, switch, terminal, textarea, toggle, toggle-group, tooltip, trace`
+**29 components** (lihat `frakment.json` untuk list lengkap).
 
 ## Docs Pages (20, di `meta.json`)
 
@@ -45,11 +45,11 @@
 
 ## Shadcn Status
 
-| Package           | Status                 | User dapat?           |
-| ----------------- | ---------------------- | --------------------- |
-| `shadcn` CLI      | ✅ removed (`b147d11`) | Tidak                 |
-| `@shadcn/helpers` | ⏳ port in progress    | Tidak (dev-only)      |
-| `@shadcn/react`   | ⏳ port next session   | Ya (message-scroller) |
+| Package           | Status                  | User dapat?           |
+| ----------------- | ----------------------- | --------------------- |
+| `shadcn` CLI      | ✅ removed (`b147d11`)  | Tidak                 |
+| `@shadcn/helpers` | ✅ removed (own engine) | Tidak (dev-only)      |
+| `@shadcn/react`   | ⏳ port next session    | Ya (message-scroller) |
 
 ## Gotchas — Active
 
@@ -66,12 +66,14 @@
 - **#19 (PS 5.1):** `[IO.File]::AppendAllLines` tidak ada. Pakai `ReadAllText + join + WriteAllText`.
 - **#23 (registry):** `detectImports` regex catch `from "X"` di komentar. Hindari pattern `from "literal"` di komentar `registry/*.tsx` atau `lib/icons.ts`.
 - **#21 (regdeps):** `registry/*.tsx` yang import `@/lib/icons` wajib punya regdep `icons`.
-- **#22 (Phosphor):** nama ekspor tidak selalu match Lucide (`TextBolder`→`TextB`, `WrapText`→`Paragraph`). Verifikasi via `node_modules\@phosphor-icons\react\dist\ssr\Name*.d.ts`. Alias `Name as XIcon` wajib untuk suffix Lucide-style.
+- **#22 (Phosphor):** nama ekspor beda dari Lucide (`TextBolder`→`TextB`). Alias `as XIcon` wajib.
 - **Turbopack:** jangan taruh `.bak` di `components/`, `app/`, `lib/`. Taruh di `C:\Users\PC\Desktop\frakment-baks\`.
 
 ### Lefthook (pre-commit + pre-push)
 
 - **#24:** hook pre-commit jalankan format+lint+typecheck; pre-push jalankan build+test. Gagal hook → fix, ulang. JANGAN `--no-verify`. Detail di archive.
+
+- **#25:** `lib/ai/**` override allow 6 rule (method-sig, prefer-export, promise, no-use-before-def, complexity, no-inner-decl) — wajib port 1:1.
 
 ### Component / styling
 
@@ -126,6 +128,15 @@
 - **Registry source** = `registry/*.tsx`, site copy = `components/ui/*.tsx`. SHA256 wajib identik.
 - **`meta.json`** urut alfabetis, 20 halaman.
 - **Demo wrapper**: shrink-wrap (`w-fit`) → auto-center. `w-full max-w-sm` untuk vertical layout saja.
+
+### SESSION_UPDATE: @shadcn/helpers full port — complete
+
+- **Status:** done (11/11 phase, all ✅)
+- **Files:** 11 new under `lib/ai/` (types, ids, utils, payloads, envelope, stream, writer, builder, transport, adapter, index) + `lib/ai.ts` re-export
+- **Verifikasi:** build EXIT=0 · typecheck EXIT=0 · check EXIT=0 · test 39/39
+- **Detail:** behavior 100% match original; @shadcn/helpers uninstalled; demos + 3 demo parity-checked
+- **Next:** `@shadcn/react` port (message-scroller engine) — separate plan
+- **Gotcha baru:** #25 (lihat Active Gotchas).
 
 ## Recent Commits (10 terbaru — detail di `git log`)
 
