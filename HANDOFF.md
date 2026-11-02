@@ -1,6 +1,6 @@
 # Frakment - Session Handoff
 
-Panduan lengkap untuk AI / developer yang melanjutkan pekerjaan. Baca ini dulu sebelum sentuh apa pun.
+**Living document** — WAJIB di-update setiap akhir sesi. Baca section `## MAINTENANCE` di bawah sebelum akhiri pekerjaan.
 
 ---
 
@@ -206,7 +206,7 @@ import { ComponentNameDemo } from "@/examples/component-name-demo";
 
 Brief intro paragraph.
 
-## Installation
+##### Installation
 
 <CodeTabs>
   <TabsList>
@@ -236,13 +236,13 @@ npx frakment add component-name
   </TabsContent>
 </CodeTabs>
 
-## Usage
+##### Usage
 
 ```tsx title="component-name.tsx"
 import { ComponentName } from "@/components/ui/component-name";
 ```
 
-## Anatomy
+##### Anatomy
 
 ```tsx
 <ComponentName>
@@ -252,7 +252,7 @@ import { ComponentName } from "@/components/ui/component-name";
 
 - **ComponentName** - short description
 
-## Examples
+##### Examples
 
 ### Variant A
 
@@ -260,7 +260,7 @@ import { ComponentName } from "@/components/ui/component-name";
   <ComponentNameVariant />
 </ComponentPreview>
 
-## API Reference
+##### API Reference
 
 <PropsTable
 rows={[
@@ -676,6 +676,95 @@ Kalau typecheck fails on demo (e.g., `items` prop, `value=""`), fix demo, re-sta
 - `SKILL.md` regen: otomatis via `npm run registry:build`. Jangan edit `public/skills/` manual.
 
 ---
+
+---
+
+## MAINTENANCE — WAJIB (untuk AI selanjutnya)
+
+**HANDOFF.md ini adalah dokumen hidup.** Kalau kamu (AI berikutnya) menyelesaikan task, menemukan bug baru, mengubah keputusan, atau menyelesaikan salah satu batch di "Next Steps", **WAJIB perbarui file ini** sebelum akhiri sesi.
+
+### Rule wajib update HANDOFF.md saat:
+
+1. **Selesai batch** — pindahkan item dari "Next Steps" ke "Yang sudah ada", update tabel Docs Status (Lines, Preview, Status).
+2. **Tambah komponen baru** — tambahkan ke tabel "Component Registry" (kategori sesuai). Update total count di TL;DR.
+3. **Tambah/ubah MDX** — update tabel "Docs Status" dengan line count + preview count terbaru.
+4. **Ketemu bug/gotcha baru** — tambah ke "Known Issues / Gotchas" (nomor urut baru).
+5. **Putuskan design decision** — tambahkan ke "Design Decisions" + alasan.
+6. **Defer task** — pindahkan ke "Open Questions" dengan alasan + estimasi.
+7. **Ubah commit state** — update "Current State" dengan 5 commit terbaru.
+8. **Ganti versi dependency** — update tabel deps di "Component Registry" + catat di "Known Issues" kalau breaking.
+
+### Format update minimal (checklist sebelum akhiri sesi):
+
+```powershell
+# 1. Cek commit state
+git log --oneline -5
+git status --short
+
+# 2. Update tabel Docs Status (Lines, Preview count)
+#    — pastikan line count & ComponentPreview count sesuai fakta
+
+# 3. Update tabel Component Registry kalau ada komponen baru
+#    — 26 → 26+N kalau ada tambahan
+
+# 4. Update section "Next Steps" — hapus yang selesai, tambah yang baru
+
+# 5. Commit HANDOFF.md bersama task utama
+git add HANDOFF.md
+git commit -m "docs: <task> + update handoff"
+```
+
+### Anti-pattern (JANGAN):
+
+- ❌ Commit task tanpa update HANDOFF.md → next AI akan bekerja dari info stale
+- ❌ Copy-paste full file untuk edit → rawan corrupt. Edit targeted via:
+  ```powershell
+  $lines = [System.IO.File]::ReadAllLines($path, $utf8)
+  # edit $lines[N] atau splice array
+  [System.IO.File]::WriteAllLines($path, $lines, $utf8)
+  ```
+- ❌ Ubah "Design Decisions" tanpa diskusi user — itu keputusan final
+- ❌ Tandai batch "selesai" tanpa `npm run build` sukses + commit ter-push
+
+### Sanity check sebelum commit HANDOFF.md:
+
+> **Note**: `Select-String -Pattern '^## '` akan false-positive pada `## Installation`/`## Usage`/`## Anatomy`/`## Examples`/`## API Reference` yang ada di dalam ```mdx code fence di section "Patterns". Itu **bukan** section asli. Kalau mau bersih, pakai pattern `^## [A-Z]` + skip lines yang di dalam code fence. Atau verifikasi manual bahwa 15 section utama (TL;DR sampai Contact) ada semua.
+
+```powershell
+# Preview struktur
+Get-Content .\\HANDOFF.md -TotalCount 20
+Get-Content .\\HANDOFF.md | Select-Object -Last 20
+
+# Line count harus masuk akal (450-700)
+(Get-Content .\\HANDOFF.md).Count
+
+# Semua section utama harus ada
+Select-String -LiteralPath .\\HANDOFF.md -Pattern '^## ' | ForEach-Object { $_.Line }
+```
+
+Kalau line count drop drastic (< 400) → file terpotong, restore dari git:
+
+```powershell
+git checkout HEAD -- HANDOFF.md
+```
+
+### Section yang harus ada setelah edit:
+
+- `## TL;DR`
+- `## Current State`
+- `## Component Registry` (26 komponen, update kalau nambah)
+- `## Docs Status`
+- `## Demo Files Status`
+- `## Patterns (WAJIB IKUTI)`
+- `## Known Issues / Gotchas (WAJIB BACA)`
+- `## Next Steps (Priority Order)`
+- `## Changelog Policy`
+- `## Verification Commands`
+- `## Important Files Reference`
+- `## Design Decisions`
+- `## Open Questions`
+- `## MAINTENANCE` (section ini)
+- `## Contact`
 
 ## Contact
 
