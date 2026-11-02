@@ -1,6 +1,6 @@
 "use client";
 
-import { EllipsisIcon, LinkIcon } from "lucide-react";
+import { EllipsisIcon, LinkIcon } from "@/lib/icons";
 import { useCallback, useMemo, useRef } from "react";
 import { toast } from "sonner";
 

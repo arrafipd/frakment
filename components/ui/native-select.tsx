@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDownIcon } from "lucide-react";
+import { ChevronDownIcon } from "@/lib/icons";
 
 import { useFeedback } from "@/hooks/use-feedback";
 import { cn } from "@/lib/utils";

@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDownIcon } from "lucide-react";
+import { ChevronDownIcon } from "@/lib/icons";
 import { Accordion as AccordionPrimitive } from "radix-ui";
 
 import type { FeedbackType } from "@/hooks/use-feedback";

@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckIcon, CopyIcon } from "lucide-react";
+import { CheckIcon, CopyIcon } from "@/lib/icons";
 
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 
@@ -38,7 +38,7 @@ export function BrandColorSwatch({ name, hex, rgb }: BrandColorSwatchProps) {
             aria-hidden="true"
           >
             {isCopied ? (
-              <CheckIcon className="size-3.5" strokeWidth={3} />
+              <CheckIcon className="size-3.5" weight="bold" />
             ) : (
               <CopyIcon className="size-3.5" />
             )}

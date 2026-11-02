@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpenTextIcon } from "lucide-react";
+import { BookOpenTextIcon } from "@/lib/icons";
 
 import { GITHUB, LINK } from "@/constants/links";
 import { DOCS_DIR } from "@/lib/docs";

@@ -1,4 +1,4 @@
-import { FileIcon, TerminalSquareIcon } from "lucide-react";
+import { FileIcon, TerminalSquareIcon } from "@/lib/icons";
 
 import type { PackageManager } from "@/hooks/use-package-manager";
 import { cn } from "@/lib/utils";

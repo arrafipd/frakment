@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Collapsible as CollapsiblePrimitive } from "radix-ui";
-import { ChevronRightIcon } from "lucide-react";
+import { ChevronRightIcon } from "@/lib/icons";
 import { motion, useReducedMotion } from "motion/react";
 
 import { cn } from "@/lib/utils";

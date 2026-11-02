@@ -1,6 +1,6 @@
 "use client";
 
-import { DownloadIcon } from "lucide-react";
+import { DownloadIcon } from "@/lib/icons";
 import { useTheme } from "next-themes";
 import { useCallback } from "react";
 import { toast } from "sonner";

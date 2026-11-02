@@ -1,8 +1,8 @@
 "use client";
 
-import { cva } from "class-variance-authority";
-import type { VariantProps } from "class-variance-authority";
-import { CheckIcon, CopyIcon } from "lucide-react";
+import { cva } from 'class-variance-authority';
+import type { VariantProps } from 'class-variance-authority';
+import { CheckIcon, CopyIcon } from "@/lib/icons";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";

@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckIcon, CopyIcon } from "lucide-react";
+import { CheckIcon, CopyIcon } from "@/lib/icons";
 import type { HTMLMotionProps, Variants } from "motion/react";
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback } from "react";
@@ -93,7 +93,7 @@ export const CopyButton = ({
       <AnimatePresence mode="popLayout" initial={false}>
         {isCopied ? (
           <motion.span key="done" {...motionIconProps}>
-            <CheckIcon strokeWidth={3} />
+            <CheckIcon weight="bold" />
           </motion.span>
         ) : (
           <motion.span key="idle" {...motionIconProps}>

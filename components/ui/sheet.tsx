@@ -1,6 +1,6 @@
 "use client";
 
-import { XIcon } from "lucide-react";
+import { XIcon } from "@/lib/icons";
 import { Dialog as SheetPrimitive } from "radix-ui";
 import { useCallback, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";

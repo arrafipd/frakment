@@ -1,4 +1,4 @@
-import { ExternalLink, Heart, Star } from "lucide-react";
+import { ExternalLink, Heart, Star } from "@/lib/icons";
 import type { Metadata } from "next";
 import Image from "next/image";
 

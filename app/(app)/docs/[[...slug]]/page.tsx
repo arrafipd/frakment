@@ -1,5 +1,5 @@
 import { findNeighbour } from "fumadocs-core/page-tree";
-import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon } from "lucide-react";
+import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon } from "@/lib/icons";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 

@@ -7,7 +7,7 @@ import {
   CircleDashedIcon,
   SearchIcon,
   SquareDashedIcon,
-} from "lucide-react";
+} from "@/lib/icons";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 

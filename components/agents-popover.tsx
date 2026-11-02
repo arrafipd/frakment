@@ -1,6 +1,6 @@
 "use client";
 
-import { PlusIcon } from "lucide-react";
+import { PlusIcon } from "@/lib/icons";
 import { useState } from "react";
 
 import { CodeBlockCommand } from "@/components/code-block-command";
