@@ -1,6 +1,5 @@
 "use client";
 
-import { PlusIcon } from "@/lib/icons";
 import { useState } from "react";
 
 import { CodeBlockCommand } from "@/components/code-block-command";
@@ -20,6 +19,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { PlusIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 const title = "For Agents";

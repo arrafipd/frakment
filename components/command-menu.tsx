@@ -1,13 +1,6 @@
 "use client";
 
 import type { Root as PageTreeRoot } from "fumadocs-core/page-tree";
-import {
-  ArrowRightIcon,
-  CornerDownLeftIcon,
-  CircleDashedIcon,
-  SearchIcon,
-  SquareDashedIcon,
-} from "@/lib/icons";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
@@ -43,6 +36,13 @@ import {
   TOP_LEVEL_SECTIONS,
 } from "@/lib/docs";
 import { trackEvent } from "@/lib/events";
+import {
+  ArrowRightIcon,
+  CornerDownLeftIcon,
+  CircleDashedIcon,
+  SearchIcon,
+  SquareDashedIcon,
+} from "@/lib/icons";
 import { getAllPagesFromFolder, getPagesFromFolder } from "@/lib/page-tree";
 import { cn } from "@/lib/utils";
 

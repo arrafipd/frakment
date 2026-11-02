@@ -1,6 +1,5 @@
 "use client";
 
-import { CheckIcon, CopyIcon } from "@/lib/icons";
 import Link from "next/link";
 import { useCallback, useRef } from "react";
 
@@ -9,6 +8,7 @@ import type { ArrowRightIconHandle } from "@/components/animated-icons/arrow-rig
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import { CheckIcon, CopyIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 const GetStartedButton = () => {

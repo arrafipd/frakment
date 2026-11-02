@@ -1,4 +1,3 @@
-import { ExternalLink, Heart, Star } from "@/lib/icons";
 import type { Metadata } from "next";
 import Image from "next/image";
 
@@ -13,6 +12,7 @@ import { UserAvatar } from "@/components/user-avatar";
 import { LINK } from "@/constants/links";
 import { ROUTES } from "@/constants/routes";
 import { getContributors, getSponsors } from "@/lib/github";
+import { ExternalLink, Heart, Star } from "@/lib/icons";
 import { createPageMetadata } from "@/seo/metadata";
 
 export const metadata: Metadata = createPageMetadata({

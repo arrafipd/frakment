@@ -1,5 +1,4 @@
 import type { LucideIcon } from "@/lib/icons";
-
 import { cn } from "@/lib/utils";
 
 interface IntroFeatureCardProps {

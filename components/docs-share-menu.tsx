@@ -1,6 +1,5 @@
 "use client";
 
-import { EllipsisIcon, LinkIcon } from "@/lib/icons";
 import { useCallback, useMemo, useRef } from "react";
 import { toast } from "sonner";
 
@@ -15,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import { EllipsisIcon, LinkIcon } from "@/lib/icons";
 
 export const DocsShareMenu = ({
   title,

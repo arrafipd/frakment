@@ -1,6 +1,5 @@
 "use client";
 
-import { DownloadIcon } from "@/lib/icons";
 import { useTheme } from "next-themes";
 import { useCallback } from "react";
 import { toast } from "sonner";
@@ -13,6 +12,7 @@ import {
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import { DownloadIcon } from "@/lib/icons";
 
 export const BrandContextMenu = ({
   children,

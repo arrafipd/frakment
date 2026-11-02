@@ -1,5 +1,4 @@
 import { findNeighbour } from "fumadocs-core/page-tree";
-import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon } from "@/lib/icons";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -15,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { ROUTES } from "@/constants/routes";
 import { getChangelogPages } from "@/lib/changelog";
 import { formatTitleFromSlug, TOP_LEVEL_SECTIONS } from "@/lib/docs";
+import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon } from "@/lib/icons";
 import { getPageImage, getPageMarkdownUrl, source } from "@/lib/source";
 import { absoluteUrl } from "@/lib/utils";
 import { mdxComponents } from "@/mdx-components";

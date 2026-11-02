@@ -1,6 +1,5 @@
 "use client";
 
-import { ChevronDownIcon } from "@/lib/icons";
 import { useCallback } from "react";
 
 import { CopyButton } from "@/components/copy-button";
@@ -30,6 +29,7 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { SITE } from "@/constants/site";
+import { ChevronDownIcon } from "@/lib/icons";
 
 const getPromptUrl = (baseURL: string, url: string, param = "q") =>
   `${baseURL}?${param}=${encodeURIComponent(

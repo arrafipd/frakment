@@ -1,10 +1,10 @@
 "use client";
 
-import { ChevronRightIcon, FileIcon, FolderIcon } from "@/lib/icons";
 import { motion, useReducedMotion } from "motion/react";
 import { Collapsible as CollapsiblePrimitive } from "radix-ui";
 import * as React from "react";
 
+import { ChevronRightIcon, FileIcon, FolderIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 const SPRING_SMOOTH = {

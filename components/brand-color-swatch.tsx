@@ -1,8 +1,7 @@
 "use client";
 
-import { CheckIcon, CopyIcon } from "@/lib/icons";
-
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import { CheckIcon, CopyIcon } from "@/lib/icons";
 
 interface BrandColorSwatchProps {
   name: string;

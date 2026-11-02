@@ -1,6 +1,5 @@
 "use client";
 
-import { CheckIcon, CopyIcon } from "@/lib/icons";
 import type { HTMLMotionProps, Variants } from "motion/react";
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback } from "react";
@@ -14,6 +13,7 @@ import {
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import type { Event } from "@/lib/events";
 import { trackEvent } from "@/lib/events";
+import { CheckIcon, CopyIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 export const motionIconVariants: Variants = {

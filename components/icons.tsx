@@ -1,6 +1,5 @@
-import { FileIcon, TerminalSquareIcon } from "@/lib/icons";
-
 import type { PackageManager } from "@/hooks/use-package-manager";
+import { FileIcon, TerminalSquareIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 export const ThemeIcon = ({

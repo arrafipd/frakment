@@ -1,7 +1,7 @@
-import { ArrowRightIcon } from "@/lib/icons";
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
+import { ArrowRightIcon } from "@/lib/icons";
 
 export const Announcement = () => (
   <Badge asChild variant="secondary" className="bg-transparent">

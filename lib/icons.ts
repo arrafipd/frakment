@@ -57,7 +57,6 @@ export {
   Plus,
   Plus as PlusIcon,
   Star,
-
   CaretRight as ChevronRightIcon,
   CaretRight as ChevronRight,
   CaretDown as ChevronDownIcon,

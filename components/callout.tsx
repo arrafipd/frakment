@@ -1,11 +1,10 @@
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   CircleAlertIcon,
   CircleCheckIcon,
   InfoIcon,
   TriangleAlertIcon,
 } from "@/lib/icons";
-
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { cn } from "@/lib/utils";
 
 const CALLOUT_TYPES = {

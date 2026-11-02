@@ -1,6 +1,5 @@
 "use client";
 
-import { MenuIcon } from "@/lib/icons";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -11,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useFeedback } from "@/hooks/use-feedback";
+import { MenuIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 const headingById = (id: string): Element | null =>
