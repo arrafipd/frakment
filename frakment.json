@@ -72,6 +72,16 @@
       "registryDependencies": ["trace", "code-block"]
     },
     {
+      "name": "message-scroller",
+      "version": "0.1.0",
+      "title": "Message Scroller",
+      "description": "Scroll container for chat transcripts. Anchors turns, follows streamed replies, restores position, and tracks visibility.",
+      "source": "registry/message-scroller.tsx",
+      "target": "components/ui/message-scroller.tsx",
+      "dependencies": ["@shadcn/react"],
+      "registryDependencies": ["button"]
+    },
+    {
       "name": "bubble",
       "version": "0.1.0",
       "title": "Bubble",

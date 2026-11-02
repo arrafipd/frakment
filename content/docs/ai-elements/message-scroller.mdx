@@ -1,0 +1,247 @@
+---
+title: Message Scroller
+description: Chat scroll container with anchored turns, stream-follow, and jump-to-latest controls.
+---
+
+import { MessageScrollerDemo } from "@/examples/message-scroller-demo";
+
+Message Scroller wraps a chat transcript in a scroll container that:
+
+- Anchors each user turn so streaming replies never push it out of view
+- Follows streamed content automatically while you are at the live edge
+- Stops following when you scroll up, resumes when you scroll back down
+- Tracks visibility per item (for impressions, lazy rendering, mark-as-read)
+
+It is a thin shell over `@shadcn/react/message-scroller` — the engine lives in that package. The wrapper adds `data-slot` attributes and the Tailwind classes Frakment components expect.
+
+<ComponentPreview
+  name="message-scroller"
+  title="message-scroller.tsx"
+  align="start"
+  previewClassName="h-auto py-6"
+>
+  <MessageScrollerDemo />
+</ComponentPreview>
+
+<Alert variant="warning" className="mt-6">
+  <AlertTitle>Parent needs a bounded height</AlertTitle>
+  <AlertDescription>
+    The provider measures the viewport on mount. Wrap it in a flex column with a
+    fixed height (`h-svh`, `h-[600px]`, or `flex-1` inside a flex column). If
+    the parent grows with content, following and restoring break.
+  </AlertDescription>
+</Alert>
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add message-scroller
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install @shadcn/react lucide-react radix-ui class-variance-authority clsx tailwind-merge
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="message-scroller" title="components/ui/message-scroller.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="chat.tsx"
+import {
+  MessageScrollerProvider,
+  MessageScroller,
+  MessageScrollerViewport,
+  MessageScrollerContent,
+  MessageScrollerItem,
+  MessageScrollerButton,
+} from "@/components/ui/message-scroller";
+
+export function Chat({ messages }: { messages: ChatMessage[] }) {
+  return (
+    <MessageScrollerProvider>
+      <MessageScroller>
+        <MessageScrollerViewport>
+          <MessageScrollerContent>
+            {messages.map((m) => (
+              <MessageScrollerItem key={m.id} scrollAnchor={m.role === "user"}>
+                {m.content}
+              </MessageScrollerItem>
+            ))}
+          </MessageScrollerContent>
+        </MessageScrollerViewport>
+        <MessageScrollerButton />
+      </MessageScroller>
+    </MessageScrollerProvider>
+  );
+}
+```
+
+## Anatomy
+
+```tsx
+<MessageScrollerProvider>
+  <MessageScroller>
+    <MessageScrollerViewport>
+      <MessageScrollerContent>
+        <MessageScrollerItem scrollAnchor />
+        <MessageScrollerItem />
+      </MessageScrollerContent>
+    </MessageScrollerViewport>
+    <MessageScrollerButton />
+  </MessageScroller>
+</MessageScrollerProvider>
+```
+
+- **MessageScrollerProvider** — owns scroll state; wraps the whole tree.
+- **MessageScroller** — relative flex column, `overflow-hidden`.
+- **MessageScrollerViewport** — the scroll element; handles anchoring and stick-to-bottom.
+- **MessageScrollerContent** — vertical flex column with `gap-6`.
+- **MessageScrollerItem** — content-visibility optimization; pass `scrollAnchor` on user turns.
+- **MessageScrollerButton** — floating "jump to latest/start" pill; shows only when scrolled away.
+
+## Anchoring
+
+Pass `scrollAnchor` on the item that should stay pinned when new content arrives. For chat, anchor the **user's question** — the assistant's streaming reply then appears below without pushing the question off-screen.
+
+```tsx
+<MessageScrollerItem scrollAnchor={message.role === "user"}>
+```
+
+If you skip anchoring, the scroller follows the top of the container and replies will push the question out of view during streaming.
+
+## Streaming
+
+The viewport auto-follows streamed content only when you are within a small threshold of the bottom. Scroll up and the viewport stops following; scroll back down and it resumes. No props needed.
+
+To react to the state in your UI (for example, show a "new message" badge):
+
+```tsx title="scroll-status.tsx"
+import { useMessageScrollerScrollable } from "@/components/ui/message-scroller";
+
+function ScrollStatus() {
+  const { isAtEnd } = useMessageScrollerScrollable();
+  return <span>{isAtEnd ? "Live" : "Reading history"}</span>;
+}
+```
+
+## Visibility
+
+Track which items are in the viewport (impressions, lazy rendering, mark-as-read):
+
+```tsx title="tracked-item.tsx"
+import { useMessageScrollerVisibility } from "@/components/ui/message-scroller";
+
+function TrackedItem({
+  id,
+  children,
+}: {
+  id: string;
+  children: React.ReactNode;
+}) {
+  const { ref } = useMessageScrollerVisibility({
+    onVisibilityChange: (visible) => {
+      if (visible) markRead(id);
+    },
+  });
+  return <MessageScrollerItem ref={ref}>{children}</MessageScrollerItem>;
+}
+```
+
+## Scroll Button
+
+`MessageScrollerButton` renders a floating pill that appears when the viewport is scrolled away from either edge. Defaults: `variant="secondary"`, `size="icon-sm"`.
+
+- `direction="end"` (default) — bottom, "jump to latest".
+- `direction="start"` — top, "jump to start".
+
+The button uses the Frakment [Button](/docs/components/button) component. Because `message-scroller` declares `registryDependencies: ["button"]`, running `npx frakment add message-scroller` also installs `button`.
+
+## API Reference
+
+### MessageScrollerProvider
+
+Extends the primitive provider from `@shadcn/react/message-scroller`. Owns scroll state.
+
+### MessageScroller / MessageScrollerViewport / MessageScrollerContent
+
+Extend `React.ComponentProps<"div">` from the primitive. Each adds a `data-slot` attribute for styling.
+
+### MessageScrollerItem
+
+<PropsTable
+  rows={[
+    {
+      name: "scrollAnchor",
+      type: "boolean",
+      defaultValue: "false",
+      description: "Pin this item during streaming. Set on user turns.",
+    },
+  ]}
+/>
+
+Also accepts `ref` forwarded to the underlying DOM node.
+
+### MessageScrollerButton
+
+<PropsTable
+  rows={[
+    {
+      name: "direction",
+      type: '"start" | "end"',
+      defaultValue: '"end"',
+      description: "Which edge to jump to.",
+    },
+    {
+      name: "variant",
+      type: "ButtonVariants",
+      defaultValue: '"secondary"',
+      description: "Underlying Button variant.",
+    },
+    {
+      name: "size",
+      type: "ButtonSizes",
+      defaultValue: '"icon-sm"',
+      description: "Underlying Button size.",
+    },
+  ]}
+/>
+
+### useMessageScroller
+
+Low-level hook from `@shadcn/react/message-scroller`. Rarely needed directly.
+
+### useMessageScrollerScrollable
+
+Returns `{ isAtStart, isAtEnd }` for the current viewport.
+
+### useMessageScrollerVisibility
+
+Returns a `ref` and calls `onVisibilityChange(visible)` when the item enters or leaves the viewport. Uses `IntersectionObserver`.
+
+## Accessibility
+
+- `MessageScrollerButton` includes `sr-only` text — "Scroll to end" / "Scroll to start".
+- The button only intercepts clicks when active (`data-active="true"`); when hidden, `pointer-events: none`.
+- `prefers-reduced-motion` shortens the button transition. The scroll animation respects the user's `scroll-behavior` setting.

@@ -22,6 +22,7 @@
     "@ai-sdk/react": "^4.0.163",
     "@icons-pack/react-simple-icons": "^13.15.1",
     "@phosphor-icons/react": "^2.1.10",
+    "@shadcn/react": "^0.3.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@vercel/analytics": "^2.0.1",
     "@web-kits/audio": "^0.2.0",
@@ -59,7 +60,6 @@
   },
   "devDependencies": {
     "@shadcn/helpers": "^0.3.0",
-    "@shadcn/react": "^0.3.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/mdx": "^2.0.14",
     "@types/node": "^26.6.6",

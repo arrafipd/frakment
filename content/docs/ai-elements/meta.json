@@ -6,6 +6,7 @@
     "chain-of-thought",
     "marker",
     "message",
+    "message-scroller",
     "pulse",
     "pulse-status",
     "spinner",

@@ -52,6 +52,13 @@
       "description": "A live terminal that streams commands and output with a typewriter effect."
     },
     {
+      "name": "message-scroller",
+      "version": "0.1.0",
+      "deprecated": false,
+      "title": "Message Scroller",
+      "description": "Scroll container for chat transcripts. Anchors turns, follows streamed replies, restores position, and tracks visibility."
+    },
+    {
       "name": "bubble",
       "version": "0.1.0",
       "deprecated": false,
