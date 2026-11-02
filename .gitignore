@@ -75,3 +75,5 @@ mcp/node_modules/
 
 _snapshot_*/
 build.log
+
+*.bak[0-9]*
