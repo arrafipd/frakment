@@ -20,7 +20,7 @@ Load when:
 
 Do not load when:
 
-- The user is asking about a different component library (shadcn, radix, mantine)
+- The user is asking about a different component library
 - The user needs only generic React patterns
 
 ## Registry surface
@@ -47,9 +47,11 @@ Per-component endpoint:
 curl https://frakment.vercel.app/r/button.json
 ```
 
-Response has `files[]` (each with `path`, `content`, `target`, `type`), `dependencies[]` (npm), and `registryDependencies[]` (other Frakment components).
+Response has `files[]` (each with `path`, `content`, and optionally `encoding: "base64"` for binary assets), `dependencies[]` (npm), and `registryDependencies[]` (other Frakment components).
 
 ## Steps
+
+**First time setup.** If `components.json` does not exist yet, run `npx frakment@latest init` before adding components. This injects the theme block into `globals.css`, creates `lib/utils.ts`, and installs the base dependencies (`clsx`, `tailwind-merge`, `class-variance-authority`, `radix-ui`, `lucide-react`, `motion`). Safe to skip when `components.json` is already present.
 
 1. **Discover** - fetch `/r/index.json` and pick a component name from `components[].name`. Never invent a slug.
 2. **Inspect** (optional) - fetch `/r/<name>.json` to read the source before using it.
@@ -61,12 +63,12 @@ Response has `files[]` (each with `path`, `content`, `target`, `type`), `depende
 
    The CLI resolves `registryDependencies` recursively and installs npm dependencies automatically.
 
-4. **Fallback** - if the CLI is not available, write each `files[].content` to its `files[].target` path, then run `npm install` for the listed `dependencies`.
+4. **Fallback** - if the CLI is not available, write each `files[].content` to its `files[].path` (decode base64 when `encoding: "base64"`), then run `npm install` for the listed `dependencies`.
 
 ## Constraints
 
 - **Never guess component names.** Always fetch `/r/index.json` first.
-- **Frakment is standalone.** Do not run `npx shadcn` against it.
+- **Frakment is standalone.** Do not invoke another registry CLI against it.
 - **Respect registryDependencies.** Install them before their consumers. The CLI handles ordering.
 - **Do not summarize source.** When fetching `/r/<name>.json` for inspection, quote it verbatim.
 

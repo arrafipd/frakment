@@ -4,7 +4,7 @@
 
 <p align="center">
   Standalone React primitives for AI and chat interfaces.<br/>
-  No shadcn dependency. Copy-paste. Built for agents too.
+  Zero external registry. Copy-paste. Built for agents too.
 </p>
 
 <p align="center">
@@ -14,11 +14,11 @@
 
 ---
 
-**Frakment** is a monochrome component registry for AI and chat interfaces. Every component is standalone - no shadcn dependency, no Radix wrapper, no hidden chain. Install one, drop it in, done.
+**Frakment** is a monochrome component registry for AI and chat interfaces. Every component is standalone - no external registry chain, no hidden dependencies. Install one, drop it in, done.
 
 ## Features
 
-- **Standalone** - single file per component, no shadcn or Radix wrapper.
+- **Standalone** - single file per component, no wrapper, no hidden chain.
 - **AI-first** - Bubble, Message, Trace, Chain of Thought, Pulse, Terminal.
 - **Agents included** - MCP server and Agent Skills for discover, fetch, and install.
 - **Copy-paste** - one command installs a component plus its registry dependencies.

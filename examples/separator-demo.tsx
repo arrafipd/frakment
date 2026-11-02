@@ -12,7 +12,7 @@ export function SeparatorDemo() {
       <Separator />
       <div>
         A set of beautifully designed components you can customize, extend, and
-        build on — without a dependency on shadcn.
+        build on —.
       </div>
     </div>
   );

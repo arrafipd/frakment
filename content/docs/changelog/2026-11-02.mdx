@@ -1,0 +1,35 @@
+---
+title: "November 2, 2026"
+description: "Inline theme injection, Windows-safe install, and smarter CLI."
+date: "2026-11-02"
+---
+
+This release moves the theme block inline into `globals.css`, makes every JSON read BOM-safe, and hardens the CLI against common setup mistakes.
+
+- [Inline theme block](#inline-theme-block): One block, no extra CSS file.
+- [Windows-safe install](#windows-safe-install): BOM stripped from `globals.css`, `package.json`, and `components.json`.
+- [Smarter CLI](#smarter-cli): Fail-fast on missing Tailwind v4 or `globals.css`, `src/` layout support, smarter prompt.
+- [Trace fix](#trace-fix): `motion` installed automatically.
+
+<hr className="my-16 border-border/40" />
+
+### Inline theme block
+
+`npx frakment init` now injects the theme block directly into your `globals.css`, between `/* ==== FRAKMENT THEME START ==== */` and `/* ==== FRAKMENT THEME END ==== */` markers. No extra `theme.css` file, no `@import` statement — the tokens land where Tailwind can see them.
+
+Re-running `init` replaces the block in place. Custom CSS below the `END` marker stays untouched.
+
+### Windows-safe install
+
+UTF-8 BOM is stripped from `globals.css`, `package.json`, and `components.json` before parsing. Files written by PowerShell's `Set-Content -Encoding utf8` (which prepends BOM) now work without error.
+
+### Smarter CLI
+
+- **Fail-fast Tailwind v4 check:** If `@import "tailwindcss";` is missing, `init` exits with a clear message instead of writing a broken block.
+- **Fail-fast `globals.css` check:** If no `globals.css` is found, `init` exits instead of silently skipping the theme.
+- **`src/` layout support:** `frakment add` writes components to `src/components/`, `src/lib/`, and `src/hooks/` when `components.json` points at `src/app/globals.css`. Binary assets still go to `public/`.
+- **Smarter prompt:** If `components.json` exists, `init` asks before overwriting. Choosing "no" keeps your config but still re-injects the theme block.
+
+### Trace fix
+
+The `trace` component depends on `motion` for animations. `frakment init` now installs `motion` alongside the existing five dependencies, so `frakment add trace` works out of the box.

@@ -14,7 +14,7 @@ frakment injects its theme tokens directly into `globals.css`, wrapped between t
 - **Theme block in `globals.css`** — tokens, dark mode, component utilities
 - **`components.json`** — CLI config (registry URL, aliases, globals.css path)
 
-Paste this entire block into your globals.css — **after** @import "tailwindcss"; and any other @import statements.
+The block goes **after** all your `@import` statements. Placement looks like this:
 
 ```css title="app/globals.css"
 @import "tailwindcss";
@@ -43,23 +43,24 @@ Each surface token controls a background; its paired `-foreground` controls text
 
 Define these in `:root` (light) and `.dark` (dark mode) inside the FRAKMENT THEME block:
 
-| Token                                | Controls                       | Used by                           |
-| :----------------------------------- | :----------------------------- | :-------------------------------- |
-| `background` / `foreground`          | Page background and text       | Page shell, sections              |
-| `card` / `card-foreground`           | Elevated surfaces              | Card, panels                      |
-| `popover` / `popover-foreground`     | Floating surfaces              | Popover, DropdownMenu             |
-| `primary` / `primary-foreground`     | High-emphasis actions          | Default Button, selected states   |
-| `secondary` / `secondary-foreground` | Lower-emphasis actions         | Secondary buttons                 |
-| `muted` / `muted-foreground`         | Subtle surfaces                | Descriptions, placeholders        |
-| `accent` / `accent-foreground`       | Hover and focus surfaces       | Ghost buttons, hover rows         |
-| `destructive`                        | Errors and destructive actions | Destructive buttons, error states |
-| `border`                             | Borders and separators         | Cards, Separator, inputs          |
-| `input`                              | Form control borders           | Input, Textarea                   |
-| `ring`                               | Focus rings                    | Buttons, inputs                   |
-| `radius`                             | Base corner radius             | All rounded elements              |
-| `surface` / `surface-foreground`     | Docs surface tokens            | Callout, LinkedCard               |
-| `code` / `code-foreground`           | Code block background and text | Code Block, inline code           |
-| `sidebar-*`                          | Sidebar tokens                 | Sidebar, docs navigation          |
+| Token                                | Controls                       | Used by                              |
+| :----------------------------------- | :----------------------------- | :----------------------------------- |
+| `background` / `foreground`          | Page background and text       | Page shell, sections                 |
+| `card` / `card-foreground`           | Elevated surfaces              | Card, panels                         |
+| `popover` / `popover-foreground`     | Floating surfaces              | Popover, DropdownMenu                |
+| `primary` / `primary-foreground`     | High-emphasis actions          | Default Button, selected states      |
+| `secondary` / `secondary-foreground` | Lower-emphasis actions         | Secondary buttons                    |
+| `muted` / `muted-foreground`         | Subtle surfaces                | Descriptions, placeholders           |
+| `accent` / `accent-foreground`       | Hover and focus surfaces       | Ghost buttons, hover rows            |
+| `destructive`                        | Errors and destructive actions | Destructive buttons, error states    |
+| `border`                             | Borders and separators         | Cards, Separator, inputs             |
+| `input`                              | Form control borders           | Input, Textarea                      |
+| `ring`                               | Focus rings                    | Buttons, inputs                      |
+| `radius`                             | Base corner radius             | All rounded elements                 |
+| `surface` / `surface-foreground`     | Docs surface tokens            | Callout, LinkedCard                  |
+| `code` / `code-foreground`           | Code block background and text | Code Block, inline code              |
+| `sidebar-*`                          | Sidebar tokens                 | Sidebar, docs navigation             |
+| `chart-*`                            | Data visualization colors      | Reserved for future chart components |
 
 ## Radius scale
 

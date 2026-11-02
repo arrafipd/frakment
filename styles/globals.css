@@ -361,11 +361,11 @@
     -webkit-text-fill-color: inherit !important;
   }
 }
-/* === shadcn v4: data-open / data-closed variants === */
+/* === data-open / data-closed variants === */
 @custom-variant data-open (&[data-state="open"]);
 @custom-variant data-closed (&[data-state="closed"]);
 
-/* === Accordion animation (standar shadcn) === */
+/* === Accordion animation === */
 @theme {
   --animate-accordion-down: accordion-down 200ms ease-out;
   --animate-accordion-up: accordion-up 200ms ease-out;

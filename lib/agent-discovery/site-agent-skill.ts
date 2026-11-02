@@ -7,11 +7,11 @@ export const SITE_AGENT_SKILL_MD = `# ${SITE.NAME}
 
 ## Summary
 
-Help users discover and install components from Frakment, a standalone registry of AI and chat primitives with no shadcn dependency.
+Help users discover and install components from Frakment, a standalone registry of AI and chat primitives with no external registry dependency.
 
 ## What Frakment is
 
-Frakment ships self-contained component primitives for AI interfaces. Every component is a single .tsx file installed by the frakment CLI. There is no shadcn dependency chain.
+Frakment ships self-contained component primitives for AI interfaces. Every component is a single .tsx file installed by the frakment CLI. There is no external registry dependency chain.
 
 ## Registry
 

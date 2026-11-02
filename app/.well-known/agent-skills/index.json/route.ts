@@ -33,7 +33,7 @@ export const GET = async (request: Request) => {
       skills: [
         {
           description:
-            "Site-wide orientation for Frakment, a standalone registry of AI and chat primitives with no shadcn dependency.",
+            "Site-wide orientation for Frakment, a standalone registry of AI and chat primitives with no external registry dependency.",
           digest: siteAgentSkillDigest(),
           name: "frakment",
           type: "skill-md",
