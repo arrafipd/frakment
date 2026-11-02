@@ -63,12 +63,21 @@ export async function init() {
   // 2. theme
   const cssFullPath = path.join(cwd, cssPath);
   if (existsSync(cssFullPath)) {
+    let css = await readFile(cssFullPath, "utf8");
+    if (!/^@import\s+["']tailwindcss(\/|["'])/m.test(css)) {
+      p.outro(
+        pc.red("error ") +
+          'Frakment requires Tailwind v4. Could not find @import "tailwindcss" in ' +
+          cssPath
+      );
+      process.exit(1);
+    }
+
     s.start("injecting theme tokens");
     const themeContent = await readFile(
       path.join(TEMPLATES_DIR, "theme.css"),
       "utf8"
     );
-    let css = await readFile(cssFullPath, "utf8");
     const wrapped = `${THEME_MARKER_START}\n${themeContent.trim()}\n${THEME_MARKER_END}`;
     if (css.includes(THEME_MARKER_START)) {
       const re = new RegExp(
