@@ -12,11 +12,7 @@ Use this guide if you prefer to copy files yourself instead of using the CLI. It
 - **TypeScript**
 - **Node.js** 18 or newer
 
-<Callout type="warning" title="Using an older stack?">
-
-Components target React 19 and Tailwind CSS v4. For React 18, some components may need `forwardRef` adjustments. For Tailwind v3, port the `@theme inline` block from [Theming](/docs/theming).
-
-</Callout>
+Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/theming) manually.
 
 ## Setup
 
@@ -52,9 +48,25 @@ export function cn(...inputs: ClassValue[]) {
 }
 ```
 
-<Step>Add theme tokens to globals.css</Step>
+<Step>Add theme.css</Step>
 
-Copy the CSS variables from [Theming](/docs/theming) into your `globals.css`.
+Copy [`theme.css`](https://github.com/hanshapd/frakment/blob/main/styles/theme.css) into the same folder as your `globals.css`, then import it **after** `@import "tailwindcss";`:
+
+```css title="app/globals.css"
+@import "tailwindcss";
+@import "./theme.css";
+```
+
+`theme.css` contains the design tokens (`:root` + `.dark`), `@custom-variant dark` (for `dark:` utilities), `@theme inline` (Tailwind mapping), and 9 `@utility` helpers. Dark mode works as soon as `<html>` gets the `.dark` class — no extra setup. See [Theming](/docs/theming) for tokens and dark-mode wiring.
+
+<Alert variant="warning" className="mt-6">
+  <AlertTitle>Import order matters</AlertTitle>
+  <AlertDescription>
+    `@import "./theme.css";` must come **after** `@import "tailwindcss";` and
+    **before** any other CSS. Imports placed below other rules are silently
+    ignored by browsers — components will render unstyled.
+  </AlertDescription>
+</Alert>
 
 <Step>Copy a component</Step>
 

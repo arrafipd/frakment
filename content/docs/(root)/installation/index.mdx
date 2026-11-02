@@ -18,11 +18,7 @@ frakment is a set of components you install into your own project. There are two
 - **Tailwind CSS** v4
 - **TypeScript** (recommended)
 
-<Callout type="warning" title="Using an older stack?">
-
-Components target React 19 and Tailwind CSS v4. For React 18, some components may require `forwardRef` adjustments. For Tailwind v3, port the `@theme inline` block from [Theming](/docs/theming) manually.
-
-</Callout>
+Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/theming) manually.
 
 ## Use the CLI
 
@@ -34,7 +30,7 @@ Components target React 19 and Tailwind CSS v4. For React 18, some components ma
 npx frakment@latest init
 ```
 
-Creates `components.json`, adds `lib/utils.ts`, configures CSS variables in `globals.css`, installs `class-variance-authority`, `radix-ui`, and `lucide-react`.
+Creates `components.json`, writes `theme.css` next to your `globals.css`, injects `@import "./theme.css";` into `globals.css`, adds `lib/utils.ts`, and installs 6 dependencies: `class-variance-authority`, `clsx`, `tailwind-merge`, `radix-ui`, `lucide-react`, `motion`.
 
 <Step>Add components</Step>
 
@@ -60,11 +56,7 @@ export default function Page() {
 
 </Steps>
 
-<Callout type="info" title="Binary assets">
-
 The `avatar` component ships with five AVIF avatars, embedded as base64 in `avatar.json` and written to `public/avatars/` on install.
-
-</Callout>
 
 ## What you get
 
@@ -74,11 +66,14 @@ After `frakment init`, your project will have:
   <FileTreeFolder name="my-app" defaultOpen>
     <FileTreeFile name="components.json" />
     <FileTreeFile name="globals.css" />
+    <FileTreeFile name="theme.css" />
     <FileTreeFolder name="lib" defaultOpen>
       <FileTreeFile name="utils.ts" />
     </FileTreeFolder>
   </FileTreeFolder>
 </FileTree>
+
+`theme.css` includes the `.dark` block and `@custom-variant dark`. As soon as your app toggles `.dark` on `<html>` (via `next-themes`, a custom button, or anything else), components switch automatically — no extra config needed. See [Theming](/docs/theming) for the full wiring.
 
 ## Existing Project
 
@@ -89,12 +84,6 @@ Pick your framework and follow that path.
 <div id="choose-your-framework" className="scroll-mt-24" />
 
 ## Choose Your Framework
-
-<Callout type="warning" title="React 19 + Tailwind v4 required">
-
-Components target React 19 and Tailwind CSS v4. For React 18, some components may require `forwardRef` adjustments.
-
-</Callout>
 
 <div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-6">
 

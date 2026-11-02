@@ -11,11 +11,7 @@ frakment works in any Astro project with the React integration, React 19, and Ta
 - **React** 19 + TypeScript
 - **Tailwind CSS** v4
 
-<Callout type="warning" title="Using an older stack?">
-
-Components target React 19 and Tailwind CSS v4. For React 18, some components may need `forwardRef` adjustments. For Tailwind v3, port the `@theme inline` block from [Theming](/docs/theming).
-
-</Callout>
+Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/theming) manually.
 
 <div id="use-cli" className="scroll-mt-24" />
 
@@ -80,6 +76,17 @@ npx astro add react
 ```bash
 npx astro add tailwind
 ```
+
+<Step>Add theme.css</Step>
+
+Copy [`theme.css`](https://github.com/hanshapd/frakment/blob/main/styles/theme.css) next to your `globals.css` and import it **after** Tailwind:
+
+```css title="globals.css"
+@import "tailwindcss";
+@import "./theme.css";
+```
+
+See [Manual](/docs/installation/manual) for details.
 
 <Step>Configure the import alias</Step>
 

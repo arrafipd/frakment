@@ -5,11 +5,23 @@ description: Customize Frakment with CSS variables and theme tokens.
 
 frakment uses **CSS variables** for theming. Every component references semantic tokens like `bg-background`, `text-foreground`, `border-border` — never hardcoded colors. Change the tokens, change the entire look of your app.
 
-<Callout type="info" title="No build step required">
+Theme tokens ship as a plain `theme.css` file — no config file, no build step, no runtime dependency. `npx frakment init` drops it next to your `globals.css` and imports it. Manual setup is one copy + one `@import`.
 
-Theme tokens live in your `globals.css`. There is no config file, no build step, and no runtime dependency — just CSS.
+## Where the tokens live
 
-</Callout>
+frakment keeps theme tokens in **`theme.css`**, separate from your `globals.css`. `npx frakment init` sets up:
+
+- **`app/theme.css`** (or `src/app/theme.css`) — tokens, dark mode, component utilities
+- **`app/globals.css`** — your Tailwind entry, which imports `theme.css`
+
+```css title="app/globals.css"
+@import "tailwindcss";
+@import "./theme.css"; /* ← frakment tokens */
+```
+
+`theme.css` is self-contained: it defines `@theme inline`, `:root` (light), `.dark` (dark), `@custom-variant dark`, and 9 `@utility` helpers. To customize the look, edit `theme.css` — you never need to touch `globals.css`.
+
+**Tailwind v4 required.** `theme.css` uses `@theme`, `@utility`, and `@custom-variant` — Tailwind v3 is not supported.
 
 ## Token convention
 
@@ -23,15 +35,11 @@ Each surface token has a matching `-foreground` token for text on that surface. 
 - `accent` → `accent-foreground`
 - `destructive` — no `-foreground`; always uses white text
 
-<Callout title="Why pairs?">
-
-`primary` controls the background of a surface. `primary-foreground` controls the text on it. This keeps contrast automatic and makes light/dark mode trivial.
-
-</Callout>
+Each surface token controls a background; its paired `-foreground` controls text on that surface. This keeps contrast automatic and makes light/dark mode trivial.
 
 ## Theme tokens
 
-Define these in `:root` (light) and `.dark` (dark mode) in your `globals.css`:
+Define these in `:root` (light) and `.dark` (dark mode) inside `theme.css`:
 
 | Token                                | Controls                       | Used by                           |
 | :----------------------------------- | :----------------------------- | :-------------------------------- |
@@ -72,7 +80,7 @@ Change `--radius` once and the entire radius scale updates across all components
 
 Define it under `:root` and `.dark`, then expose it with `@theme inline`:
 
-```css title="globals.css"
+```css title="app/theme.css"
 :root {
   --warning: oklch(0.84 0.16 84);
   --warning-foreground: oklch(0.28 0.07 46);
@@ -109,7 +117,30 @@ Swap the OKLCH values in `:root` and `.dark` for any of these — frakment compo
 
 ## Dark mode
 
-frakment components only reference CSS variables — they work with **any** dark mode setup. The docs site uses `next-themes`, but you can use anything that toggles a `.dark` class on `<html>`.
+frakment's dark mode is wired through two pieces in `theme.css`:
+
+1. **`@custom-variant dark (&:is(.dark *))`** — registers the `dark:` Tailwind variant
+2. **A `.dark { ... }` block** — dark token values
+
+When `<html class="dark">`, every `dark:*` utility and every token in `.dark` kicks in. When `.dark` is absent, `:root` tokens apply.
+
+```css title="app/theme.css (excerpt)"
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+}
+```
+
+### Toggle dark mode
+
+Any method that toggles `.dark` on `<html>` works. The docs site uses [`next-themes`](https://github.com/pacocoursey/next-themes):
 
 <CodeCollapsibleWrapper>
 
@@ -153,13 +184,57 @@ export default function RootLayout({
 
 </CodeCollapsibleWrapper>
 
+`suppressHydrationWarning` is required because `next-themes` sets `.dark` on the client after hydration. Without it, React warns about a server/client mismatch.
+
+### Manual toggle (no library)
+
+If you don't want a library, toggle the class yourself:
+
+```tsx
+"use client";
+
+export function ThemeToggle() {
+  return (
+    <button onClick={() => document.documentElement.classList.toggle("dark")}>
+      Toggle theme
+    </button>
+  );
+}
+```
+
+To persist the choice, store it in `localStorage` and apply on mount. Or use [`next-themes`](https://github.com/pacocoursey/next-themes) (recommended).
+
+### Using `dark:` utilities
+
+Because `@custom-variant dark` is registered in `theme.css`, all `dark:` utilities work out of the box:
+
+```tsx
+<div className="bg-background text-foreground dark:bg-card dark:text-card-foreground" />
+```
+
+You don't need to configure Tailwind's `darkMode` option — frakment uses a custom variant instead of the built-in `class` strategy.
+
+### Per-section theming (advanced)
+
+If you want a section of your app to always render in one mode, apply `.dark` to a wrapper:
+
+```tsx
+<div className="dark">
+  <Card>Always dark, regardless of root theme.</Card>
+</div>
+```
+
+This works because the variant matches `.dark *` (any descendant of `.dark`), not just `<html>`.
+
 ## Default theme
 
-A starting point that matches the docs. Copy into `globals.css` and adjust:
+This is what `npx frakment init` writes to `theme.css`. If you're setting up manually, copy it next to your `globals.css` and import it (see [Manual](/docs/installation/manual)).
+
+> The full `theme.css` also includes 9 `@utility` helpers (`container`, `no-scrollbar`, `border-grid`, etc.) used by some components. See [`styles/theme.css`](https://github.com/hanshapd/frakment/blob/main/styles/theme.css) for the exact file.
 
 <CodeCollapsibleWrapper>
 
-```css title="globals.css"
+```css title="app/theme.css"
 @import "tailwindcss";
 @import "tw-animate-css";
 
