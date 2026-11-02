@@ -16,6 +16,8 @@
     "select",
     "separator",
     "switch",
-    "textarea"
+    "textarea",
+    "toggle",
+    "toggle-group"
   ]
 }

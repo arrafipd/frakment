@@ -183,6 +183,20 @@
       "deprecated": false,
       "title": "Item",
       "description": "A flexible row for grouping media, content, and actions."
+    },
+    {
+      "name": "toggle",
+      "version": "0.1.0",
+      "deprecated": false,
+      "title": "Toggle",
+      "description": "A two-state button that can be toggled on or off."
+    },
+    {
+      "name": "toggle-group",
+      "version": "0.1.0",
+      "deprecated": false,
+      "title": "Toggle Group",
+      "description": "A set of grouped toggle buttons."
     }
   ]
 }

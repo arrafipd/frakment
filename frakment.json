@@ -271,6 +271,26 @@
       "description": "A flexible row for grouping media, content, and actions.",
       "source": "registry/item.tsx",
       "target": "components/ui/item.tsx"
+    },
+    {
+      "name": "toggle",
+      "version": "0.1.0",
+      "title": "Toggle",
+      "description": "A two-state button that can be toggled on or off.",
+      "source": "registry/toggle.tsx",
+      "target": "components/ui/toggle.tsx",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "toggle-group",
+      "version": "0.1.0",
+      "title": "Toggle Group",
+      "description": "A set of grouped toggle buttons.",
+      "source": "registry/toggle-group.tsx",
+      "target": "components/ui/toggle-group.tsx",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["toggle"]
     }
   ],
   "skills": [

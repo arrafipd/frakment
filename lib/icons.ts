@@ -118,4 +118,13 @@ export {
   Minus,
   Minus as MinusIcon,
   ArrowsClockwise as RefreshCcwIcon,
+  // toggle
+  Bookmark,
+  Bookmark as BookmarkIcon,
+  TextB as BoldIcon,
+  TextB as Bold,
+  TextItalic as ItalicIcon,
+  TextItalic as Italic,
+  TextUnderline as UnderlineIcon,
+  TextUnderline as Underline,
 } from "@phosphor-icons/react";
