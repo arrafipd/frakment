@@ -72,3 +72,6 @@ cli/node_modules/
 *.bak-*
 
 mcp/node_modules/
+
+_snapshot_*/
+build.log
