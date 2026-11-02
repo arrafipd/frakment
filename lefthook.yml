@@ -6,9 +6,7 @@ pre-commit:
   jobs:
     # 1. Auto-format staged files (formatter only, no linter)
     - name: format
-      run: npx ultracite fix {staged_files}
-      glob:
-        - "**/*.{js,jsx,ts,tsx,mjs,cjs,md,mdx,json,jsonc,css,yml,yaml}"
+      run: npx ultracite fix
       stage_fixed: true
 
     # 2. Full lint check (all files, includes format check + lint)
