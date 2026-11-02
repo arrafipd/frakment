@@ -72,6 +72,3 @@ cli/node_modules/
 *.bak-*
 
 mcp/node_modules/
-
-# Orbs rewrite backup
-.backup-orbs/
