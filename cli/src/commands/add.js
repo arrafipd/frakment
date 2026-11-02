@@ -85,11 +85,21 @@ export async function add(componentName, options) {
   }
 
   // 2. Write registry deps first (imports resolve), then main component
+  // Detect src/ layout: component files go under src/, but public/ assets
+  // stay at project root (Next.js serves public/ from root regardless of src/).
+  const isSrcLayout = config.tailwind?.css?.startsWith("src/") ?? false;
+  const resolveTargetPath = (p) => {
+    if (!isSrcLayout) return p;
+    if (p.startsWith("public/")) return p;
+    return `src/${p}`;
+  };
+
   const order = [...fetched.keys()].filter((n) => n !== componentName);
   order.push(componentName);
   for (const name of order) {
     for (const file of fetched.get(name).files ?? []) {
-      await writeFileSafely(file, cwd, options);
+      const targetFile = { ...file, path: resolveTargetPath(file.path) };
+      await writeFileSafely(targetFile, cwd, options);
     }
   }
 
