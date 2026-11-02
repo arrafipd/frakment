@@ -99,7 +99,7 @@ export {
   Binoculars as TelescopeIcon,
   Globe,
   ChatTeardropDots,
-  ChatTeardropDots as MessageCircleDashedIcon,
+  ChatCircleDots as MessageCircleDashedIcon,
   CaretUp as ChevronUpIcon,
   CaretUp as ChevronUp,
   // form/UI icons

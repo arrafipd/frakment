@@ -96,8 +96,8 @@ export function MessageScrollerDemo() {
   return (
     <MessageScrollerProvider>
       <div className="relative flex flex-col gap-4">
-        <Card className="mx-auto h-140 w-full max-w-sm gap-0">
-          <CardHeader className="gap-1 border-b">
+        <Card className="mx-auto h-140 w-full max-w-sm gap-0 rounded-2xl">
+          <CardHeader className="gap-1">
             <CardTitle>New Chat</CardTitle>
             <CardDescription>How can I help you today?</CardDescription>
             <CardAction>
@@ -106,6 +106,7 @@ export function MessageScrollerDemo() {
                   <Button
                     variant="outline"
                     size="icon-sm"
+                    className="rounded-full"
                     aria-label="Reset conversation"
                     onClick={() => setMessages(initialMessages)}
                     disabled={isBusy}
@@ -120,7 +121,7 @@ export function MessageScrollerDemo() {
             </CardAction>
           </CardHeader>          <CardContent className="flex-1 overflow-hidden p-0">
             {messages.length === 0 ? (
-              <Empty className="h-full">
+              <Empty className="h-full rounded-2xl">
                 <EmptyHeader>
                   <EmptyMedia variant="icon">
                     <MessageCircleDashedIcon />
@@ -151,7 +152,7 @@ export function MessageScrollerDemo() {
                 <MessageScrollerButton />
               </MessageScroller>
             )}
-          </CardContent>          <CardFooter className="flex-col gap-2">
+          </CardContent>          <CardFooter className="flex-col gap-2 border-t-0 bg-transparent">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -162,7 +163,7 @@ export function MessageScrollerDemo() {
               }}
               className="w-full"
             >
-              <InputGroup>
+              <InputGroup className="rounded-2xl border-0 focus-within:border-0 focus-within:ring-0">
                 <div className="h-14 w-full px-3 py-2.5">
                   <span
                     className="line-clamp-2 opacity-60 data-[status=ready]:opacity-100"
@@ -184,6 +185,7 @@ export function MessageScrollerDemo() {
                         aria-label="Add files"
                         type="button"
                         size="icon-sm"
+                        className="rounded-full"
                         variant="outline"
                       >
                         <PlusIcon />
@@ -218,7 +220,7 @@ export function MessageScrollerDemo() {
                     variant="default"
                     size="icon-sm"
                     disabled={!nextMessage || isBusy}
-                    className="ml-auto"
+                    className="ml-auto rounded-full"
                   >
                     <ArrowUpIcon />
                     <span className="sr-only">Send</span>
