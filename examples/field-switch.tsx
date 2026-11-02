@@ -10,7 +10,7 @@ import {
 
 export function FieldSwitch() {
   return (
-    <div className="w-full max-w-sm">
+    <div className="w-fit">
       <Field orientation="horizontal">
         <FieldContent>
           <FieldTitle>Share across devices</FieldTitle>
