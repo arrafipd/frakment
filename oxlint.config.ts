@@ -35,10 +35,12 @@ export default defineConfig({
   },
   overrides: [
     {
-      files: ["lib/ai/types.ts"],
+      files: ["lib/ai/**/*.ts"],
       rules: {
         "typescript/method-signature-style": "off",
         "unicorn/prefer-export-from": "off",
+        "promise/avoid-new": "off",
+        "eslint/no-use-before-define": "off",
       },
     },
     {
