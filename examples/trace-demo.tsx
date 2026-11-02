@@ -1,4 +1,4 @@
-import { CheckIcon, LoaderCircleIcon, ClockIcon } from "lucide-react";
+import { CheckIcon, LoaderCircleIcon, ClockIcon } from "@/lib/icons";
 
 import {
   Trace,

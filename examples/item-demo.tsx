@@ -10,7 +10,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ChevronRightIcon, StarIcon } from "lucide-react";
+import { ChevronRightIcon, StarIcon } from "@/lib/icons";
 
 export function ItemDemo() {
   return (

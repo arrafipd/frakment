@@ -197,6 +197,13 @@
       "deprecated": false,
       "title": "Toggle Group",
       "description": "A set of grouped toggle buttons."
+    },
+    {
+      "name": "icons",
+      "version": "0.1.0",
+      "deprecated": false,
+      "title": "Icons",
+      "description": "Phosphor icon shim with Icon-suffixed aliases."
     }
   ]
 }

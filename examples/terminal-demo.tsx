@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useChat } from "@ai-sdk/react";
 import type { UIMessage } from "ai";
-import { CheckIcon, ChevronRightIcon, CircleCheckIcon, CircleIcon, LoaderCircleIcon, TerminalSquareIcon } from "lucide-react";
+import { CheckIcon, ChevronRightIcon, CircleCheckIcon, CircleIcon, LoaderCircleIcon, TerminalSquareIcon } from "@/lib/icons";
 import { AnimatePresence, motion } from "motion/react";
 
 import { createChat, getMessageText } from "@/lib/ai";

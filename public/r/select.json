@@ -5,9 +5,12 @@
   "title": "Select",
   "description": "A dropdown for selecting a single value from a list.",
   "dependencies": [
+    "@phosphor-icons/react",
     "radix-ui"
   ],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "icons"
+  ],
   "files": [
     {
       "path": "components/ui/select.tsx",

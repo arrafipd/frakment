@@ -11,7 +11,7 @@ import {
   LoaderCircleIcon,
   NetworkIcon,
   PackageIcon,
-} from "lucide-react";
+} from "@/lib/icons";
 import { motion } from "motion/react";
 import * as React from "react";
 

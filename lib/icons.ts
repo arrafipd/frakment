@@ -1,16 +1,29 @@
 /**
- * Lucide-compatible shim — re-exports Phosphor icons under the names
+
+ * Phosphor icons re-exported under Icon-suffixed names.
+
  * the codebase already uses. Migration path: replace
- *   import { X } from "old-library"
+
+ *   import { X } from the old icon library
+
  * with:
+
  *   import { X } from "@/lib/icons"
+
  *
+
  * Zero logic change. Visual may shift slightly (Phosphor stroke width
- * differs from Lucide's 2px default). All icons are registered below.
+
+ * differs from other libraries' 2px default). All icons are registered below.
+
  *
+
  * For new code, prefer the Scalar-style adapter:
- *   import { Icon } from "@/components/ui/icon";
+
+ *   <Icon src="phosphor/regular/check" size={16} /> (Scalar adapter)
+
  *   <Icon src="phosphor/regular/check" size={16} />
+
  */
 
 "use client";
@@ -18,11 +31,14 @@
 import type { IconProps as PhosphorIconProps } from "@phosphor-icons/react";
 import type { ComponentType } from "react";
 
-/** Type alias replacing Lucide's LucideIcon type. */
-export type LucideIcon = ComponentType<PhosphorIconProps>;
+/** Type alias for icon components (Phosphor props). */
+
+export type IconComponent = ComponentType<PhosphorIconProps>;
 
 export {
+
   // direct matches
+
   Check,
   Check as CheckIcon,
   Copy,
@@ -88,7 +104,9 @@ export {
   BookOpen as BookOpenText,
   WarningCircle as CircleAlertIcon,
   WarningCircle as CircleAlert,
+
   // Chat demo
+
   ArrowUp,
   ArrowUp as ArrowUpIcon,
   ArrowClockwise,
@@ -102,7 +120,9 @@ export {
   ChatCircleDots as MessageCircleDashedIcon,
   CaretUp as ChevronUpIcon,
   CaretUp as ChevronUp,
+
   // form/UI icons
+
   Cloud,
   Cloud as CloudIcon,
   Bell,
@@ -118,7 +138,9 @@ export {
   Minus,
   Minus as MinusIcon,
   ArrowsClockwise as RefreshCcwIcon,
+
   // toggle
+
   Bookmark,
   Bookmark as BookmarkIcon,
   TextB as BoldIcon,
@@ -127,4 +149,46 @@ export {
   TextItalic as Italic,
   TextUnderline as UnderlineIcon,
   TextUnderline as Underline,
+
+  // misc icons
+
+  Clock,
+  Clock as ClockIcon,
+  FileCode,
+  FileCode as FileCodeIcon,
+  FileCode as FileCode2Icon,
+  Gauge,
+  Gauge as GaugeIcon,
+  GitBranch,
+  GitBranch as GitBranchIcon,
+  GitPullRequest,
+  GitPullRequest as GitPullRequestIcon,
+  Network,
+  Network as NetworkIcon,
+  Package,
+  Package as PackageIcon,
+  Rocket,
+  Rocket as RocketIcon,
+  Trash,
+  Trash as TrashIcon,
+  Paragraph,
+  Paragraph as WrapTextIcon,
+
+  // mdx docs icons
+  Robot,
+  Robot as BotIcon,
+  Code,
+  Code as CodeIcon,
+  Files,
+  Files as FilesIcon,
+  FileText,
+  FileText as FileTextIcon,
+  List,
+  List as ListIcon,
+  TreeStructure,
+  TreeStructure as ListTreeIcon,
+  ChatCentered,
+  ChatCentered as MessageSquareIcon,
+  Sparkle,
+  Sparkle as SparklesIcon,
 } from "@phosphor-icons/react";

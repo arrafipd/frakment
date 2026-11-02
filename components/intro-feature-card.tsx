@@ -1,8 +1,8 @@
-import type { LucideIcon } from "@/lib/icons";
+import type { IconComponent } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface IntroFeatureCardProps {
-  icon: LucideIcon;
+  icon: IconComponent;
   title: string;
   description: string;
   className?: string;

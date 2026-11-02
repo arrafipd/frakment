@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckIcon, LoaderCircleIcon, TerminalIcon } from "lucide-react";
+import { CheckIcon, LoaderCircleIcon, TerminalIcon } from "@/lib/icons";
 import { useEffect, useState } from "react";
 
 import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block";

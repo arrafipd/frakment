@@ -1,4 +1,3 @@
-import type { LucideIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
@@ -30,6 +29,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Kbd } from "@/components/ui/kbd";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import type { IconComponent } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 const LANGUAGE_TITLES: Record<string, string> = {
@@ -85,7 +85,7 @@ export const mdxComponents = {
     description,
     className,
   }: React.ComponentProps<typeof Card> & {
-    icon: LucideIcon;
+    icon: IconComponent;
     title: string;
     description: string;
   }) => (

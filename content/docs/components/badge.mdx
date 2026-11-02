@@ -15,7 +15,7 @@ import {
   SparklesIcon,
   StarIcon,
   XIcon,
-} from "lucide-react";
+} from "@/lib/icons";
 
 <ComponentPreview name="badge" title="badge.tsx">
   <BadgeDemo />
@@ -143,7 +143,7 @@ Intended for error states, failed operations, or prohibited items.
 
 ## With Icon
 
-Any Lucide icon placed inside a badge is automatically sized to 12px.
+Any icon placed inside a badge is automatically sized to 12px.
 
 ### Icon before text
 
@@ -167,7 +167,7 @@ The most common pattern. Icon on the left, label on the right.
 </ComponentPreview>
 
 ```tsx title="example.tsx"
-import { CheckIcon } from "lucide-react";
+import { CheckIcon } from "@/lib/icons";
 
 <Badge>
   <CheckIcon />
@@ -217,7 +217,7 @@ Render a spinner beside the label to indicate an in-progress state.
 </ComponentPreview>
 
 ```tsx title="example.tsx"
-import { LoaderCircleIcon } from "lucide-react";
+import { LoaderCircleIcon } from "@/lib/icons";
 
 <Badge variant="secondary">
   <LoaderCircleIcon className="animate-spin" />

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { CircleCheckIcon } from "lucide-react";
+import { CircleCheckIcon } from "@/lib/icons";
 
 import {
   Trace,

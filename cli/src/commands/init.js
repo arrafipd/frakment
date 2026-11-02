@@ -148,7 +148,7 @@ export function cn(...inputs: ClassValue[]) {
   const pkgRaw = await readFile(pkgPath, "utf8");
   const pkg = JSON.parse(pkgRaw.replace(/^\uFEFF/, ""));
   const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
-  const missing = ["clsx", "tailwind-merge", "class-variance-authority", "radix-ui", "lucide-react", "motion"].filter((d) => !allDeps[d]);
+  const missing = ["clsx", "tailwind-merge", "class-variance-authority", "radix-ui", "@phosphor-icons/react", "motion"].filter((d) => !allDeps[d]);
 
   if (missing.length > 0) {
     s.start(`installing ${missing.join(", ")}`);

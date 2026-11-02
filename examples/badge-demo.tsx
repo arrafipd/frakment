@@ -5,7 +5,7 @@ import {
   GitPullRequestIcon,
   RocketIcon,
   TriangleAlertIcon,
-} from "lucide-react";
+} from "@/lib/icons";
 
 export function BadgeDemo() {
   return (

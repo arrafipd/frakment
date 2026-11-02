@@ -5,13 +5,15 @@
   "title": "Spinner",
   "description": "A small animated loading indicator.",
   "dependencies": [
-    "lucide-react"
+    "@phosphor-icons/react"
   ],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "icons"
+  ],
   "files": [
     {
       "path": "components/ui/spinner.tsx",
-      "content": "import { LoaderCircleIcon, LoaderIcon } from \"lucide-react\";\n\nimport { cn } from \"@/lib/utils\";\n\nfunction Spinner({\n  className,\n  variant = \"default\",\n  ...props\n}: React.ComponentProps<\"svg\"> & {\n  variant?: \"default\" | \"spoke\";\n}) {\n  const Icon = variant === \"spoke\" ? LoaderIcon : LoaderCircleIcon;\n  return (\n    <Icon\n      data-slot=\"spinner\"\n      role=\"status\"\n      aria-label=\"Loading\"\n      className={cn(\n        \"inline-block size-4 shrink-0 align-middle animate-spin\",\n        className\n      )}\n      {...props}\n    />\n  );\n}\n\nexport { Spinner };\n"
+      "content": "import { LoaderCircleIcon, LoaderIcon } from \"@/lib/icons\";\n\nimport { cn } from \"@/lib/utils\";\n\nfunction Spinner({\n  className,\n  variant = \"default\",\n  ...props\n}: React.ComponentProps<\"svg\"> & {\n  variant?: \"default\" | \"spoke\";\n}) {\n  const Icon = variant === \"spoke\" ? LoaderIcon : LoaderCircleIcon;\n  return (\n    <Icon\n      data-slot=\"spinner\"\n      role=\"status\"\n      aria-label=\"Loading\"\n      className={cn(\n        \"inline-block size-4 shrink-0 align-middle animate-spin\",\n        className\n      )}\n      {...props}\n    />\n  );\n}\n\nexport { Spinner };\n"
     }
   ]
 }

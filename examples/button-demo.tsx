@@ -4,7 +4,7 @@ import {
   LoaderCircleIcon,
   PlusIcon,
   TrashIcon,
-} from "lucide-react";
+} from "@/lib/icons";
 
 export function ButtonDemo() {
   return (

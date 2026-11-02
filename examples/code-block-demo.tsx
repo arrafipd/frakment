@@ -1,6 +1,6 @@
 "use client";
 
-import { DownloadIcon, FileCodeIcon, WrapTextIcon } from "lucide-react";
+import { DownloadIcon, FileCodeIcon, WrapTextIcon } from "@/lib/icons";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";

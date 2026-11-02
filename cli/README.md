@@ -21,7 +21,7 @@ What it does:
 2. Injects the theme block into `globals.css` between `/* ==== FRAKMENT THEME START/END ==== */` markers (design tokens + 9 `@utility` + `.dark` + `@custom-variant dark`)
 3. Preserves anything outside the markers — your `@import` statements, overrides, and custom CSS stay untouched
 4. Creates `lib/utils.ts` (the `cn` helper) if missing
-5. Installs 6 dependencies: `clsx`, `tailwind-merge`, `class-variance-authority`, `radix-ui`, `lucide-react`, `motion`
+5. Installs 6 dependencies: `clsx`, `tailwind-merge`, `class-variance-authority`, `radix-ui`, `@phosphor-icons/react`, `motion`
 
 **Idempotent.** Safe to re-run:
 
