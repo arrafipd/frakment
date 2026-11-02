@@ -962,3 +962,14 @@ Total halaman content/docs/components = 15.
 14. Kalau user melaporkan preview tidak center, audit demo file untuk pola `<div className="w-full max-w-sm">` yang berisi komponen horizontal (Field orientation="horizontal", flex-row, dsb). Vertical aman. Fix minimal: ganti ke w-fit, JANGAN ubah ComponentPreviewTabs global (risiko regresi preview lain).
 
 **Status:** branch main = origin/main = 05980bd, build EXIT=0, typecheck EXIT=0, test 39/39, registry 26 komponen.
+
+### SESSION_UPDATE: card upgrade + message-scroller polish
+
+- components/ui/card.tsx: upgrade ke shadcn spec (size prop, --card-spacing var), backup di frakment-baks/
+- styles/theme.css + cli/templates/theme.css: tambah --card-spacing: --spacing(4) di @theme inline, SHA256 identik
+- examples/message-scroller-demo.tsx: p-(--card-spacing), h-140, title "Morning, frakment!"
+- Build EXIT=0, test 39/39, commit cd70a8f
+
+**Gotcha #15:** JANGAN taruh file .bak di components/, app/, atau lib/ - Turbopack akan mencoba parse sebagai module dan build gagal "Unknown module type". Taruh semua backup di luar tree project (C:\Users\PC\Desktop\frakment-baks).
+**Gotcha #16:** message-scroller-demo.tsx di Frakment sudah ada sejak awal, bukan hasil generate. Pakai pola existing sebagai basis - jangan replace total dari copy shadcn docs (import sudah disesuaikan @/lib/icons + asChild, gampang regress).
+**Gotcha #17:** Ketika paste multi-line script PowerShell di terminal ini, sering break (line terakhir tidak ke-Enter atau paste terpotong). Untuk perubahan kecil pakai single-line (Command; Command; ...). Untuk edit file besar pakai notepad atau WriteAllText dari file terpisah.
