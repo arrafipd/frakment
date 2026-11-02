@@ -33,3 +33,7 @@ pre-push:
     # Full build before push (slower but safer)
     - name: build
       run: npm run build
+
+    # Run test suite before push (catch regressions before CI)
+    - name: test
+      run: npm test
