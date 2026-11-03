@@ -187,3 +187,11 @@ npm run release
 - `HANDOFF.archive/gotchas.md` — full gotcha detail
 - `HANDOFF.archive/patterns.md` — PowerShell recipes
 - `HANDOFF.archive/session-ai-port.md` — lib/ai implementation history
+
+---
+
+## ✅ Status: COMPLETED
+
+Migrasi selesai di commit c87b29b (phase 1–5), diikuti 485021f (tarball fix), 13b3065 (registry format),  fc269e (public/r exclude). Detail final: [session-monorepo-migration.md](./session-monorepo-migration.md).
+
+[↑ Back to HANDOFF](../HANDOFF.md)

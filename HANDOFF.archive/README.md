@@ -44,3 +44,4 @@ Header template (paste at top):
 
 <Content>
 ```
+- [session-monorepo-migration](./session-monorepo-migration.md) — monorepo conversion (phase 1–5) + tarball fix + registry format
