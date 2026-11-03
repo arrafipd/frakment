@@ -550,14 +550,14 @@ export const createPlanetFaces = (options = {}) => {
     const loops = [];
     next.forEach((_, start) => {
       let list = next.get(start);
-      if (!(list && list.length)) {
+      if (!list?.length) {
         return;
       }
       const loop = [];
       let v = start;
       while (true) {
         list = next.get(v);
-        if (!(list && list.length)) {
+        if (!list?.length) {
           break;
         }
         loop.push([v % V, Math.floor(v / V)]);
@@ -1344,7 +1344,7 @@ export const createPlanetFaces = (options = {}) => {
       // the expression's tween
       if (face.x < 1) {
         const p = clamp01((now - face.xStart) / settings.expressMs);
-        face.x = p >= 1 ? 1 : p;
+        face.x = Math.min(p, 1);
       }
       if (face.x < 1 || face.dirty) {
         const stand = current();

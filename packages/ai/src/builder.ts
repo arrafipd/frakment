@@ -130,7 +130,7 @@ function getPendingToolsRaw(events: readonly ChatEvent[]): PendingToolRaw[] {
   return out;
 }
 
-function toPendingToolCall(
+function _toPendingToolCall(
   raw: PendingToolRaw,
   summary:
     | {
@@ -179,7 +179,7 @@ function toPendingToolCall(
   };
 }
 
-function defaultMetadata(
+function _defaultMetadata(
   now: Date | string | undefined
 ): () => Record<string, unknown> {
   const date =
@@ -226,7 +226,7 @@ function resolveTurnIndex(
 
 function hasContinuation(turns: readonly Turn[]): boolean {
   const last = turns.at(-1);
-  if (!last || last.role !== "assistant") {
+  if (last?.role !== "assistant") {
     return false;
   }
   return (
@@ -242,7 +242,7 @@ function buildFallbackResponse(
     >["fallback"]
   >,
   messages: readonly UIMessage[],
-  writerContext: WriterContext,
+  _writerContext: WriterContext,
   createMetadata: () => Record<string, unknown>,
   ids: ReturnType<typeof createIdGenerator>,
   materialize: (
@@ -409,8 +409,6 @@ export function createChatBuilder(options: CreateChatOptions = {}): AiSdkChat {
       });
     }
   }
-
-  // biome-ignore lint: forward reference ke tipe `AiSdkChat` yang dideklarasikan setelahnya - false positive noUseBeforeDefine
   const builder: AiSdkChat = {
     assistant(
       input:

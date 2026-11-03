@@ -1,7 +1,5 @@
 // Frakment chat engine â€” public and internal TypeScript interfaces.
 // Public API contract: createChat, ChatTransport, UIMessageChunk (AI SDK v7).
-
-// biome-ignore lint: explicit re-export untuk API publik - prefer-export-from tidak cocok di sini
 import type {
   ChatTransport,
   UIDataTypes,

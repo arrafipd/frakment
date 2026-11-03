@@ -110,7 +110,7 @@ function getOutput(message: ChatMessage, toolCallId: string) {
   return "";
 }
 
-function lineClass(line: string): string {
+function _lineClass(line: string): string {
   const t = line.trimStart();
   if (/^[✓✅]/u.test(t)) {
     return "-mx-3 rounded bg-green-500/10 px-3 text-green-700 dark:text-green-400";
@@ -365,7 +365,7 @@ export function TerminalDemo() {
             <MessageContent className="gap-4">
               {tools.length > 0 && (
                 <Trace>
-                  {tools.map((part, i) => (
+                  {tools.map((part, _i) => (
                     <CommandRow
                       allLines={
                         COMMANDS.find((c) => c.id === part.toolCallId)

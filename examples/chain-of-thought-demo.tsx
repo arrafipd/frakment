@@ -269,7 +269,7 @@ function ChainOfThought({
     return () => clearTimeout(t);
   }, [allDone]);
 
-  const effectiveOpen = open ?? (forceCollapsed ? false : true);
+  const effectiveOpen = open ?? !forceCollapsed;
   const failed = steps.filter((p) => p.state === "output-error").length;
   const status = running ? "running" : failed > 0 ? "error" : undefined;
 

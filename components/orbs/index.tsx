@@ -67,15 +67,15 @@ const ORB_ICON_SVGS = {
 
 const clamp = (v: number, lo: number, hi: number) =>
   Math.min(hi, Math.max(lo, v));
-const clamp01 = (v: number) => clamp(v, 0, 1);
-const easeInOut = (p: number) =>
+const _clamp01 = (v: number) => clamp(v, 0, 1);
+const _easeInOut = (p: number) =>
   p < 0.5 ? 4 * p * p * p : 1 - (-2 * p + 2) ** 3 / 2;
-const easeBack = (p: number) => 1 + 2.1 * (p - 1) ** 3 + 1.1 * (p - 1) ** 2;
-const idle = (fn) =>
+const _easeBack = (p: number) => 1 + 2.1 * (p - 1) ** 3 + 1.1 * (p - 1) ** 2;
+const _idle = (fn) =>
   window.requestIdleCallback
     ? window.requestIdleCallback(fn, { timeout: 3000 })
     : window.setTimeout(fn, 300);
-const cancelIdle = (id) =>
+const _cancelIdle = (id) =>
   window.cancelIdleCallback
     ? window.cancelIdleCallback(id)
     : window.clearTimeout(id);

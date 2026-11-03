@@ -36,7 +36,7 @@ export const getRegistrySource = async (
 
 export const getDemoItem = async (
   name: string,
-  styleName: string
+  _styleName: string
 ): Promise<{ files: { content: string }[] } | null> => {
   const content = await getDemoSource(name);
   if (!content) {
@@ -47,7 +47,7 @@ export const getDemoItem = async (
 
 export const getRegistryItem = async (
   name: string,
-  styleName: string
+  _styleName: string
 ): Promise<{ files: { content: string }[] } | null> => {
   const content = await getRegistrySource(name);
   if (!content) {
@@ -58,7 +58,7 @@ export const getRegistryItem = async (
 
 export const getRegistryComponent = (
   name: string,
-  styleName: string
+  _styleName: string
 ): React.ComponentType | null => {
   const candidates = [`@/components/ui/${name}`, `@/components/${name}`];
 
