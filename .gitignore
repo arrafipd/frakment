@@ -81,3 +81,5 @@ packages/*/dist
 packages/*/.turbo
 
 _node_modules_old
+*.tmp
+*.old
