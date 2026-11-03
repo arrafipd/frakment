@@ -18,7 +18,7 @@
     "url": "git+https://github.com/hanshapd/frakment.git",
     "directory": "packages/mcp"
   },
-  "license": "SEE LICENSE IN ../../LICENSE",
+  "license": "SEE LICENSE IN LICENSE",
   "author": "hanshapd (https://github.com/hanshapd)",
   "type": "module",
   "bin": {

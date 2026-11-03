@@ -1,15 +1,15 @@
 {
-  "name": "pulse-status",
-  "version": "0.1.0",
-  "deprecated": false,
-  "title": "Pulse Status",
-  "description": "A status badge for service health, used inside Pulse.",
   "dependencies": ["@phosphor-icons/react"],
-  "registryDependencies": ["icons"],
+  "deprecated": false,
+  "description": "A status badge for service health, used inside Pulse.",
   "files": [
     {
-      "path": "components/ui/pulse-status.tsx",
-      "content": "import { CircleCheck, TriangleAlert, X } from \"@/lib/icons\";\n\nimport { cn } from \"@/lib/utils\";\n\nexport type PulseStatusType = \"up\" | \"degraded\" | \"down\";\n\nconst STATUS_CONFIG = {\n  up: {\n    icon: CircleCheck,\n    color: \"text-emerald-600 dark:text-emerald-400\",\n    label: \"All systems operational\",\n  },\n  degraded: {\n    icon: TriangleAlert,\n    color: \"text-amber-600 dark:text-amber-400\",\n    label: \"Degraded\",\n  },\n  down: {\n    icon: X,\n    color: \"text-rose-600 dark:text-rose-400\",\n    label: \"Outage\",\n  },\n} as const;\n\ninterface PulseStatusProps extends React.ComponentProps<\"p\"> {\n  status: PulseStatusType;\n  label?: string;\n  count?: number;\n}\n\nfunction PulseStatus({\n  status,\n  label,\n  count,\n  className,\n  ...props\n}: PulseStatusProps) {\n  const config = STATUS_CONFIG[status];\n  const Icon = config.icon;\n  const text =\n    label ??\n    (count !== undefined\n      ? count === 1\n        ? \"1 service affected\"\n        : `${count} services affected`\n      : config.label);\n\n  return (\n    <p\n      data-slot=\"pulse-status\"\n      data-status={status}\n      className={cn(\n        \"flex items-center gap-1.5 text-sm\",\n        config.color,\n        className\n      )}\n      {...props}\n    >\n      <Icon aria-hidden className=\"size-4\" />\n      {text}\n    </p>\n  );\n}\n\nexport { PulseStatus };"
+      "content": "import { CircleCheck, TriangleAlert, X } from \"@/lib/icons\";\n\nimport { cn } from \"@/lib/utils\";\n\nexport type PulseStatusType = \"up\" | \"degraded\" | \"down\";\n\nconst STATUS_CONFIG = {\n  degraded: {\n    color: \"text-amber-600 dark:text-amber-400\",\n    icon: TriangleAlert,\n    label: \"Degraded\",\n  },\n  down: {\n    color: \"text-rose-600 dark:text-rose-400\",\n    icon: X,\n    label: \"Outage\",\n  },\n  up: {\n    color: \"text-emerald-600 dark:text-emerald-400\",\n    icon: CircleCheck,\n    label: \"All systems operational\",\n  },\n} as const;\n\ninterface PulseStatusProps extends React.ComponentProps<\"p\"> {\n  count?: number;\n  label?: string;\n  status: PulseStatusType;\n}\n\nfunction PulseStatus({\n  status,\n  label,\n  count,\n  className,\n  ...props\n}: PulseStatusProps) {\n  const config = STATUS_CONFIG[status];\n  const Icon = config.icon;\n  const text =\n    label ??\n    (count === undefined\n      ? config.label\n      : count === 1\n        ? \"1 service affected\"\n        : `${count} services affected`);\n\n  return (\n    <p\n      className={cn(\n        \"flex items-center gap-1.5 text-sm\",\n        config.color,\n        className\n      )}\n      data-slot=\"pulse-status\"\n      data-status={status}\n      {...props}\n    >\n      <Icon aria-hidden className=\"size-4\" />\n      {text}\n    </p>\n  );\n}\n\nexport { PulseStatus };\n",
+      "path": "components/ui/pulse-status.tsx"
     }
-  ]
+  ],
+  "name": "pulse-status",
+  "registryDependencies": ["icons"],
+  "title": "Pulse Status",
+  "version": "0.1.0"
 }

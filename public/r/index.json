@@ -1,209 +1,209 @@
 {
-  "name": "frakment",
-  "homepage": "https://github.com/hanshapd/frakment",
   "components": [
     {
+      "deprecated": false,
+      "description": "A small label for statuses, categories, or counts.",
       "name": "badge",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Badge",
-      "description": "A small label for statuses, categories, or counts."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A monochrome button with six variants and six sizes.",
       "name": "button",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Button",
-      "description": "A monochrome button with six variants and six sizes."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "",
       "name": "chain-of-thought",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "chain-of-thought",
-      "description": ""
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A status badge for service health, used inside Pulse.",
       "name": "pulse-status",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Pulse Status",
-      "description": "A status badge for service health, used inside Pulse."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A daily status timeline for service uptime, with inline incident logs.",
       "name": "pulse",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Pulse",
-      "description": "A daily status timeline for service uptime, with inline incident logs."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A list of lines for the steps an agent takes.",
       "name": "trace",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Trace",
-      "description": "A list of lines for the steps an agent takes."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A live terminal that streams commands and output with a typewriter effect.",
       "name": "terminal",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Terminal",
-      "description": "A live terminal that streams commands and output with a typewriter effect."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "Scroll container for chat transcripts. Anchors turns, follows streamed replies, restores position, and tracks visibility.",
       "name": "message-scroller",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Message Scroller",
-      "description": "Scroll container for chat transcripts. Anchors turns, follows streamed replies, restores position, and tracks visibility."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A single-line text input.",
       "name": "input",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Input",
-      "description": "A single-line text input."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A multi-line text input.",
       "name": "textarea",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Textarea",
-      "description": "A multi-line text input."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A centered placeholder for empty states.",
       "name": "empty",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Empty",
-      "description": "A centered placeholder for empty states."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A composable input wrapper with inline addons, buttons, and text groups.",
       "name": "input-group",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Input Group",
-      "description": "A composable input wrapper with inline addons, buttons, and text groups."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A text label for form controls.",
       "name": "label",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Label",
-      "description": "A text label for form controls."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A toggle control for boolean settings.",
       "name": "switch",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Switch",
-      "description": "A toggle control for boolean settings."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A control that lets the user toggle between checked and not checked.",
       "name": "checkbox",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Checkbox",
-      "description": "A control that lets the user toggle between checked and not checked."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A dropdown for selecting a single value from a list.",
       "name": "select",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Select",
-      "description": "A dropdown for selecting a single value from a list."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A layout primitive for form fields — label, description, and inputs.",
       "name": "field",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Field",
-      "description": "A layout primitive for form fields — label, description, and inputs."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "An animated chat message that fades in and pins to the message scroller.",
       "name": "message-animated",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Message Animated",
-      "description": "An animated chat message that fades in and pins to the message scroller."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "Chat bubble surface with variants, alignment, and optional reactions.",
       "name": "bubble",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Bubble",
-      "description": "Chat bubble surface with variants, alignment, and optional reactions."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A scrollable code container with header, copy button, line numbers, and diff highlighting.",
       "name": "code-block",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Code Block",
-      "description": "A scrollable code container with header, copy button, line numbers, and diff highlighting."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A chat message layout with alignment, avatar, header, and footer.",
       "name": "message",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Message",
-      "description": "A chat message layout with alignment, avatar, header, and footer."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A circular user image with fallback, badge, and stacking group.",
       "name": "avatar",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Avatar",
-      "description": "A circular user image with fallback, badge, and stacking group."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A small inline status row with icon, content, and separator variants.",
       "name": "marker",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Marker",
-      "description": "A small inline status row with icon, content, and separator variants."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A small animated loading indicator.",
       "name": "spinner",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Spinner",
-      "description": "A small animated loading indicator."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A visual divider between content sections.",
       "name": "separator",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Separator",
-      "description": "A visual divider between content sections."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A flexible row for grouping media, content, and actions.",
       "name": "item",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Item",
-      "description": "A flexible row for grouping media, content, and actions."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A two-state button that can be toggled on or off.",
       "name": "toggle",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Toggle",
-      "description": "A two-state button that can be toggled on or off."
+      "version": "0.1.0"
     },
     {
+      "deprecated": false,
+      "description": "A set of grouped toggle buttons.",
       "name": "toggle-group",
-      "version": "0.1.0",
-      "deprecated": false,
       "title": "Toggle Group",
-      "description": "A set of grouped toggle buttons."
+      "version": "0.1.0"
     },
     {
-      "name": "icons",
-      "version": "0.1.0",
       "deprecated": false,
+      "description": "Phosphor icon shim with Icon-suffixed aliases.",
+      "name": "icons",
       "title": "Icons",
-      "description": "Phosphor icon shim with Icon-suffixed aliases."
+      "version": "0.1.0"
     }
-  ]
+  ],
+  "homepage": "https://github.com/hanshapd/frakment",
+  "name": "frakment"
 }

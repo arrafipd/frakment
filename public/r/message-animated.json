@@ -1,15 +1,15 @@
 {
-  "name": "message-animated",
-  "version": "0.1.0",
-  "deprecated": false,
-  "title": "Message Animated",
-  "description": "An animated chat message that fades in and pins to the message scroller.",
   "dependencies": ["ai", "motion"],
-  "registryDependencies": ["bubble", "message-scroller"],
+  "deprecated": false,
+  "description": "An animated chat message that fades in and pins to the message scroller.",
   "files": [
     {
-      "path": "components/ui/message-animated.tsx",
-      "content": "\"use client\";\n\nimport { motion } from \"motion/react\";\nimport type { UIMessage } from \"ai\";\n\nimport { Bubble, BubbleContent } from \"@/components/ui/bubble\";\nimport { MessageScrollerItem } from \"@/components/ui/message-scroller\";\nimport { getMessageText } from \"@/lib/ai\";\n\nexport function MessageAnimated({\n  message,\n  scrollAnchor,\n}: {\n  message: UIMessage;\n  scrollAnchor?: boolean;\n}) {\n  const text = getMessageText(message);\n  const isUser = message.role === \"user\";\n\n  return (\n    <MessageScrollerItem scrollAnchor={scrollAnchor}>\n      <motion.div\n        className=\"flex flex-col\"\n        initial={{ opacity: 0, y: 8 }}\n        animate={{ opacity: 1, y: 0 }}\n        transition={{ duration: 0.2, ease: \"easeOut\" }}\n      >\n        <Bubble align={isUser ? \"end\" : \"start\"} variant={isUser ? \"default\" : \"ghost\"}>\n          <BubbleContent className=\"whitespace-pre-wrap\">\n            {text}\n          </BubbleContent>\n        </Bubble>\n      </motion.div>\n    </MessageScrollerItem>\n  );\n}\n"
+      "content": "\"use client\";\n\nimport type { UIMessage } from \"ai\";\nimport { motion } from \"motion/react\";\n\nimport { Bubble, BubbleContent } from \"@/components/ui/bubble\";\nimport { MessageScrollerItem } from \"@/components/ui/message-scroller\";\nimport { getMessageText } from \"@/lib/ai\";\n\nexport function MessageAnimated({\n  message,\n  scrollAnchor,\n}: {\n  message: UIMessage;\n  scrollAnchor?: boolean;\n}) {\n  const text = getMessageText(message);\n  const isUser = message.role === \"user\";\n\n  return (\n    <MessageScrollerItem scrollAnchor={scrollAnchor}>\n      <motion.div\n        animate={{ opacity: 1, y: 0 }}\n        className=\"flex flex-col\"\n        initial={{ opacity: 0, y: 8 }}\n        transition={{ duration: 0.2, ease: \"easeOut\" }}\n      >\n        <Bubble\n          align={isUser ? \"end\" : \"start\"}\n          variant={isUser ? \"default\" : \"ghost\"}\n        >\n          <BubbleContent className=\"whitespace-pre-wrap\">{text}</BubbleContent>\n        </Bubble>\n      </motion.div>\n    </MessageScrollerItem>\n  );\n}\n",
+      "path": "components/ui/message-animated.tsx"
     }
-  ]
+  ],
+  "name": "message-animated",
+  "registryDependencies": ["bubble", "message-scroller"],
+  "title": "Message Animated",
+  "version": "0.1.0"
 }
