@@ -111,3 +111,42 @@ Branch `main` dilindungi **3 ruleset terpisah** (Settings → Rules → Rulesets
 
 Update: tulis body JSON + `gh api -X PUT repos/hanshapd/frakment/rulesets/<id> --input body.json`.
 
+## React Engine (@frakment/react/message-scroller)
+
+Selesai di `2075e37`. Menggantikan `@shadcn/react` — sudah dihapus dari deps.
+
+### Files
+
+- `packages/react/src/message-scroller/` — 10 file: `context.tsx`, `provider.tsx`, `root.tsx`, `viewport.tsx`, `content.tsx`, `item.tsx`, `button.tsx`, `hooks.ts`, `use-merged-ref.ts`, `types.ts`, `index.ts`
+- Export: `MessageScroller` (Provider/Root/Viewport/Content/Item/Button) + 3 hook (`useMessageScroller`, `useMessageScrollerScrollable`, `useMessageScrollerVisibility`)
+
+### API surface (contract-first, matching @shadcn/react)
+
+- 13 tipe publik di `types.ts`
+- `useMessageScroller()`: `scrollToEnd`, `scrollToStart`, `scrollToMessage`
+- `useMessageScrollerScrollable()`: `{ start, end }`
+- `useMessageScrollerVisibility()`: `{ currentAnchorId, visibleMessageIds }`
+
+### Migrasi
+
+- `components/ui/message-scroller.tsx:8` — import diganti ke `@frakment/react/message-scroller`
+- `registry/message-scroller.tsx:8` — sama
+- Root `package.json`: `@shadcn/react` dihapus, `@frakment/react: 0.0.1` ditambah
+
+### Catatan build lokal Windows
+
+Turbopack crash (`0xC0000409` stack overrun) dengan multi-worker. Fix: `cross-env NEXT_WORKER_THREADS=1 next build` di `package.json` scripts. Tidak affect CI Linux.
+
+## Backlog Publish
+
+Semua paket siap publish (build + test hijau, tarball verified):
+
+| Paket | Versi | Ready |
+|---|---|---|
+| `frakment` | 0.0.1 | ✅ |
+| `@frakment/ai` | 0.0.1 | ✅ |
+| `@frakment/mcp` | 0.0.1 | ✅ |
+| `@frakment/react` | 0.0.1 | ✅ (engine selesai di `2075e37`) |
+
+Langkah: `npm login` → `npm run changeset` (4 paket, `minor`) → `npm run version:packages` → commit → `npm run release`.
+
