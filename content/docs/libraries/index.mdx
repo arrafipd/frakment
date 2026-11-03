@@ -10,8 +10,7 @@ Frakment ships three runtime layers beyond the component registry. Each is sourc
 | Layer            | Import                    | Purpose                                  | Status                 |
 | ---------------- | ------------------------- | ---------------------------------------- | ---------------------- |
 | **frakment CLI** | `npx frakment@latest ...` | Install components + theme               | Stable                 |
-| **AI helpers**   | `@/lib/ai`                | Deterministic chat engine (`createChat`) | Stable (repo-internal) |
-| **React engine** | `@frakment/react`         | Headless message-scroller engine         | Planned                |
+| **AI helpers**   | `@/lib/ai`                | Deterministic chat engine (`createChat`) |Stable |
 
 ## Design principles
 
@@ -29,11 +28,6 @@ Frakment ships three runtime layers beyond the component registry. Each is sourc
 | AI helpers (`@/lib/ai`)          | Bundled with this repo           |
 | React engine                     | Future npm package               |
 
-<Callout type="info" title="AI helpers are repo-internal">
-  `@/lib/ai` currently ships with the Frakment source. When you copy components
-  that depend on it (such as `message-scroller` demos), also copy `lib/ai/`.
-  Publishing as `@frakment/ai` is planned.
-</Callout>
 
 ## Quick links
 

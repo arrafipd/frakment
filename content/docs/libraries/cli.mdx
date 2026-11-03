@@ -45,12 +45,7 @@ No flags. Reads `registry` from `components.json` and prints every available com
 
 ## Registry resolution
 
-During `init`, the CLI writes a `registry` field to `components.json`. `add` and `list` read from it by default. Override per-command for local development against an unmerged registry:
-
-```bash
-npx frakment@latest add badge --registry http://localhost:8765
-```
-
+During `init`, the CLI writes a `registry` field to `components.json`. `add` and `list` read from it by default. 
 ### Registry entry format
 
 Each component lives at `<registry-url>/r/<name>.json`:

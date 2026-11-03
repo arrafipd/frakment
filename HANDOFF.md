@@ -237,3 +237,53 @@ Recommendation was option 1 (consistent with `ai`, self-contained registry). Use
 2. If option 1: create `message-scroller-engine` entry, swap import, rebuild, retest install, then update `docs/libraries/react.mdx` (create it only if engine is now shipped).
 3. If option 2: finish publish workflow first, then retest.
 4. Either way: remove `@shadcn/react` from `frakment.json` message-scroller deps — it is stale.
+
+## Docs & Changelog Rules (AI-facing)
+
+**HANDOFF is admin/AI only. Never mention it in `CONTRIBUTING.md`, `README.md`, user docs, changelog, commit messages, or code comments.** No contributor should ever know this file exists.
+
+User-facing guidelines live in `CONTRIBUTING.md`. The rules below are the AI-side mirror so docs stay consistent when written by an agent.
+
+### Docs rules (same as CONTRIBUTING)
+
+- **Shipped state only.** Docs describe what exists and works in `main` today. No roadmap, milestones, "planned", "in development", "coming soon", "TBD", "WIP", or "draft".
+- **No internal detail.** Never mention build tooling, dev paths, temporary files, local HTTP servers, `_old`, `node_modules`, or scratch notes in docs.
+- **English only.** No mixed-language prose.
+- **One sentence per paragraph.** Rich but simple.
+- **Component page shape:** frontmatter + 2–3 sentence intro + `## Installation` (`<Steps>`) + `## Usage` (`<ComponentPreview>`) + `## API`. Reference: `content/docs/components/button.mdx`.
+
+### Changelog rules (same as CONTRIBUTING)
+
+- **Only for library/package changes:** new registry component, visual/behaviour change, public API change, CLI command/flag change, `theme.css` token change, registry schema change, package publish/rename.
+- **Skip:** site-only UI (header, sidebar, demo page), docs typo, refactor internal, dev tooling, CI changes.
+- **One file per day:** `content/docs/changelog/YYYY-MM-DD.mdx`. Immutable after merge.
+- **Preview-first pattern:** for visual changes, `<ComponentPreview>` goes **above** the prose. Non-visual sections (CLI, config, dependency) use a fenced code diff only.
+- **Template reference:** `content/docs/changelog/2026-11-03.mdx`.
+
+### When adding or changing a registry component
+
+1. Update `registry/<name>.tsx` and `components/ui/<name>.tsx` (SHA256 identical).
+2. Update `content/docs/<section>/<name>.mdx` using the docs template.
+3. If the change is user-facing in a package, add a changelog entry.
+4. If the component is `registry:lib` and ships internal files, verify `public/r/<name>.json` lists them with the correct `targetDir`.
+5. Run `npm run registry:build`, `npm run fix`, `npm run check`, `npm run typecheck`, `npm test`, `npm run build`.
+6. Commit + push (admin bypass, or PR for non-admin).
+
+### When only changing site UI (header, sidebar, demo page)
+
+- No changelog. No docs update unless the component page itself changed.
+- Still run `npm run check` + `npm run typecheck` before commit.
+
+### When publishing a package to npm
+
+1. Update the corresponding docs page: replace "copy source" instructions with `npm install <pkg>`.
+2. Add a changelog entry with a `### Published: <pkg>` section and an install snippet.
+3. If a component no longer needs a `registry:lib` twin (because the npm package now covers it), decide explicitly: keep both paths or drop the registry twin. Document the decision in this file.
+4. Update `libraries/index.mdx` table — remove "not published" caveats.
+
+### Never
+
+- Never mention `HANDOFF.md` in any user-facing file (docs, README, CONTRIBUTING, changelog, commit messages, code comments).
+- Never write roadmap, milestone, or forward-looking content in docs or changelog.
+- Never write BOM, PowerShell, `_old`, `node_modules`, tooling workarounds, or local-server notes in docs. Those belong here, in HANDOFF, only.
+- Never document a component that is not shipped and working. If it is parked, note it in the "Parked" section here, not in docs.

@@ -1,98 +1,155 @@
 # Contributing to Frakment
 
-Thanks for considering a contribution. Frakment is a small project and every fix, doc improvement, and new component helps. It also satisfies the commercial-use requirement in the license (see the bottom of this file).
+Thanks for contributing. This guide covers the docs style, the changelog policy, and the review workflow.
 
-## Ways to contribute
+## Ground rules
 
-- **Report a bug** - open an issue with steps to reproduce.
-- **Suggest a feature** - open an issue describing the use case.
-- **Fix a typo or improve docs** - open a pull request directly.
-- **Add a test** - tests are always welcome.
-- **Translate content** - open an issue first to coordinate.
-- **Add a component** - open an issue to discuss scope before writing code.
+- **Shipped state only.** Docs describe what exists and works in the current `main`. No roadmap, no milestones, no "planned", no "in development", no "coming soon".
+- **No internal detail.** Never mention build tooling, dev paths, temporary files, local servers, `node_modules`, or scratch notes in docs or changelog.
+- **English only.** Docs and changelog are written in English. No mixed-language prose.
+- **Accurate.** If a component is in the registry, its docs page has a working `<ComponentPreview>`. If it is not shipped, it is not documented.
 
-## Development setup
+## Docs style
 
-Requirements: **Node.js 20+** and **npm**.
+Rich but simple. One sentence per paragraph. Every component page follows the same shape.
+
+### Template
+
+```mdx
+---
+title: "<Component Name>"
+description: "<One sentence: what it does and when to use it.>"
+---
+
+import { XDemo } from "@/examples/x-demo";
+
+<Two to three sentences: what it is and what problem it solves.>
+
+## Installation
+
+<Steps>
+  <Step>Install</Step>
 
 ```bash
-git clone https://github.com/hanshapd/frakment.git
-cd frakment
-npm install
-npm run dev
+npx frakment@latest add x
 ```
 
-The dev server runs at `http://localhost:3000`.
+  <Step>Import</Step>
 
-### Project layout
+```tsx
+import { X } from "@/components/ui/x";
+```
+</Steps>
 
-- `registry/` - component source (the library)
-- `cli/` - the `frakment` CLI
-- `mcp/` - the MCP server
-- `skills/` - agent skill files
-- `app/`, `components/`, `content/` - the docs website
-- `public/r/`, `public/skills/` - generated registry output
+## Usage
 
-## Before opening a pull request
+<ComponentPreview name="x" title="x.tsx">
+  <XDemo />
+</ComponentPreview>
 
-1. Run the typecheck and lint:
+```tsx
+<X prop="value" />
+```
 
-   ```bash
-   npm run typecheck
-   npm run check
-   ```
+## API
 
-   Both must pass with zero errors. If you touched `registry/` or `frakment.json`, also run:
+<PropsTable rows={[...]} />
+```
 
-   ```bash
-   npm run registry:build
-   ```
+### Reference
 
-2. Pre-commit hooks (lefthook) will automatically run format, lint, typecheck, and registry build. If a hook fails, fix the issue and commit again. Do not bypass with `--no-verify`.
+`content/docs/components/button.mdx` is the reference implementation. Copy its structure, not its content.
 
-3. Use a conventional commit message. Examples:
+### Rules
 
-   ```
-   feat(registry): add terminal component
-   fix(cli): handle missing components.json
-   docs: clarify installation for Astro
-   chore: bump dependencies
-   ```
+| Do | Do not |
+| --- | --- |
+| One sentence per paragraph | Wall of text |
+| Live `<ComponentPreview>` | Screenshot or placeholder |
+| `<Steps>` for installation | Inline bash mid-paragraph |
+| `## Usage` with a minimal example | Full demo source |
+| Link related components | Duplicate another page |
 
-   Accepted types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `style`, `perf`.
+## Changelog policy
 
-## Pull request guidelines
+Changelog entries exist **only** for library and package changes that affect users.
 
-- **One PR, one concern.** Small and focused beats large and mixed.
-- Include a short description of **what** and **why**, not just how.
-- If UI changes, attach a screenshot or short screen recording.
-- Link the related issue if one exists.
-- Be patient - this is a small project maintained part-time.
+| Change | Changelog? |
+| --- | --- |
+| New registry component | Yes |
+| Component visual or behaviour change | Yes |
+| Public API change (props, exports) | Yes |
+| CLI command or flag change | Yes |
+| Theme token change in `theme.css` | Yes |
+| Registry schema change | Yes |
+| Package rename or publish | Yes |
+| Site-only change (header, sidebar, demo page) | No |
+| Docs typo, refactor, or wording | No |
+| Internal tooling, CI, or dev scripts | No |
 
-## Code style
+### Template
 
-- **TypeScript strict** - no `any` unless genuinely necessary.
-- **Tailwind CSS 4** - utility-first, no custom CSS unless required.
-- **Ultracite** (oxlint + oxfmt) - run `npm run fix` to auto-format.
-- Components follow the existing patterns in `registry/*.tsx` - read a few before writing a new one.
+```mdx
+---
+title: "Month DD, YYYY"
+description: "<One sentence: what shipped.>"
+date: "YYYY-MM-DD"
+---
 
-## Commercial use
+import { XDemo } from "@/examples/x-demo";
 
-One merged pull request is the only path to commercial use under [LICENSE](./LICENSE) Section 4. The contribution can be as small as a typo fix, a doc correction, or a test. There is no minimum size.
+<One paragraph: the change and why it matters.>
 
-There is no sponsorship option and no written permission option for commercial use. If you cannot or will not contribute a pull request, you cannot use Frakment commercially.
+- [X](#x): One line.
+- [Y](#y): One line.
 
-## Questions
+<hr className="my-16 border-border/40" />
 
-Open a GitHub issue or reach out to [@hanshapd](https://github.com/hanshapd) directly.
+### X
 
-## Navigation consistency
+<ComponentPreview name="x" title="x.tsx">
+  <XDemo />
+</ComponentPreview>
 
-Navigation sources are centralized to prevent sidebar / mobile menu / search drift:
+<One paragraph describing the component or change.>
 
-- `lib/docs.ts#TOP_LEVEL_SECTIONS` — single source of truth for top-level docs sections
-- `components/docs-sidebar.tsx` and `components/mobile-nav.tsx` both consume it plus the same `tree.children` grouping and `EXCLUDED_SECTIONS` filter
-- `components/command-menu.tsx` also uses it for the "Pages" group in search
-- `components/site-header.tsx` derives `navItems` for the desktop `MainNav` from `pageTree`
+#### Installation
 
-If you add a new top-level docs section, add it to `TOP_LEVEL_SECTIONS` — not to the individual consumers. The `nav-consistency` test guards against regressions.
+<Steps>
+  <Step>Install</Step>
+
+```bash
+npx frakment@latest add x
+```
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<X />
+```
+```
+
+### Rules
+
+- **Preview first.** For visual changes, place `<ComponentPreview>` above the prose so readers see the result before the description.
+- **Code diff for non-visual sections.** CLI flags, config keys, and dependency fixes use a fenced code block, not a preview.
+- **One file per day.** Name is `YYYY-MM-DD.mdx`. Immutable after merge.
+- **No internal detail.** No dependency bumps without a user-visible effect, no `package.json` diffs, no CI notes, no roadmap language.
+
+## Workflow
+
+1. Branch from `main`.
+2. Run `npm ci`.
+3. Make your change. If it ships a component or changes a user-facing package, update the changelog.
+4. Run `npm run fix`, `npm run check`, `npm run typecheck`, `npm test`.
+5. Open a pull request. Required checks must pass before merge.
+
+## Review checklist
+
+- [ ] Docs page follows the template above.
+- [ ] `<ComponentPreview>` renders a working demo.
+- [ ] Changelog entry exists if the change is user-facing in a package.
+- [ ] No internal detail (paths, tooling, roadmap, temporary files).
+- [ ] No mentions of internal AI tooling, admin notes, or scratch files.
+- [ ] All checks pass.
