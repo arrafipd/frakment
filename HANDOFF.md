@@ -1,6 +1,6 @@
 # Frakment — HANDOFF
 
-> **Historical log lengkap** (semua SESSION_UPDATE lama, gotcha full text, patterns detail): `HANDOFF.archive.md`. Grep di sana kalau butuh detail.
+> **Historical log lengkap** (semua SESSION_UPDATE lama, gotcha full text, patterns detail): `HANDOFF.archive/README.md`. Grep di sana kalau butuh detail.
 
 ## Current State
 
@@ -8,9 +8,22 @@
 - Build `EXIT=0` (159 pages), typecheck `EXIT=0`, test **39/39**, registry **29 components**.
 - Shadcn deps remaining: `@shadcn/react` (runtime, user dapat via message-scroller), `@shadcn/helpers` (dev-only, demo).
 
+## Archive Index
+
+Detail per sesi + reference lengkap ada di folder `HANDOFF.archive/`. Setiap file archive punya link balik ke HANDOFF.
+
+- [README](./HANDOFF.archive/README.md) — TOC semua archive
+- [gotchas.md](./HANDOFF.archive/gotchas.md) — full detail #1–25
+- [patterns.md](./HANDOFF.archive/patterns.md) — MDX rich, demo, meta.json, PowerShell
+- [session-docs-enrichment](./HANDOFF.archive/session-docs-enrichment.md) — textarea/empty/input-group/field + checkbox/label/select/switch
+- [session-css-fixes](./HANDOFF.archive/session-css-fixes.md) — globals.css custom-variant, site↔CLI sync, preview off-center
+- [session-component-additions](./HANDOFF.archive/session-component-additions.md) — card, tooltip, dropdown, toggle, toggle-group
+- [session-lucide-migration](./HANDOFF.archive/session-lucide-migration.md) — lucide → phosphor
+- [session-ai-port](./HANDOFF.archive/session-ai-port.md) — first-party chat engine `lib/ai/`
+
 ## Active Plan — replace external chat helper
 
-**Status: COMPLETE.** External helper replaced with first-party engine at `lib/ai/` (11 modules + `lib/ai.ts`). Contract-complete. Package uninstalled. Details: `HANDOFF.archive.md`.
+**Status: COMPLETE.** External helper replaced with first-party engine at `lib/ai/` (11 modules + `lib/ai.ts`). Contract-complete. Package uninstalled. Details: `HANDOFF.archive/README.md`.
 
 **Next:** rewrite `@shadcn/react` (message-scroller engine) as `@frakment/react` — separate session, plan in archive.
 
@@ -38,6 +51,9 @@
 
 ### Build & registry
 
+- **#9:** jangan `Get-Content`/`Set-Content` untuk baca/tulis source — pakai `[IO.File]::ReadAllText/WriteAllText` dengan `UTF8Encoding($false)`. Emoji/multibyte korup dengan `Get-Content`.
+- **#2:** `$file:` di string PowerShell = parse error. Pakai `${file}:`.
+- **#3:** `-ForegroundColor` hanya valid di `Write-Host`.
 - **#15 (nvm4w):** `npm run build` via `cmd.exe /c "npm run build > build.log 2>&1"` (bukan `& npm` langsung).
 - **#19 (PS 5.1):** `[IO.File]::AppendAllLines` tidak ada — pakai `ReadAllText + join + WriteAllText`.
 - **#23 (registry):** `detectImports` regex catch `from "X"` di komentar. Hindari pattern `from "literal"` di komentar `registry/*.tsx` atau `lib/icons.ts`.
@@ -70,22 +86,25 @@
 
 - **#20:** `package-lock.json` masih ada `lucide-react` transitive dari fumadocs. Normal.
 
-**Gotcha #1–14 detail lengkap** ada di `HANDOFF.archive.md`.
+**Gotcha #1–14 detail lengkap** ada di `HANDOFF.archive/README.md`.
 
 ## Workflow
 
-1. AI copy-paste script ke PowerShell. Script tulis file → akhiri verifikasi (`Test-Path` / `.Contains`).
-2. Script >10 baris → pecah per-chunk. Tunggu output tiap chunk.
-3. **Build verify** sebelum commit. Error → baca tail `build.log` 25 baris.
-4. Commit + push + HANDOFF update per phase.
+1. AI **selalu** copy-paste script ke PowerShell (no fs access).
+2. Script tulis file → **wajib diakhiri verifikasi** (`Test-Path` / `Get-FileHash` / `.Contains`).
+3. Script >10 baris / multi-line → **pecah per-chunk** (2-4 chunk), tunggu output tiap chunk.
+4. **Build verify** sebelum commit (`BUILD_EXIT=0`). Error → baca tail `build.log` 25 baris **dulu**, jangan fix buta.
+5. **Commit + push + HANDOFF update per phase.** Jangan tumpuk banyak phase dalam 1 commit.
+6. **1 commit per phase**: tulis code → update HANDOFF → commit code + HANDOFF **bareng**. Hash di `git log`.
 
 ## Verification Commands
 
-- **Build:** `cmd.exe /c "npm run build > build.log 2>&1"`
-- **Typecheck:** `cmd.exe /c "npm run typecheck > tc.log 2>&1"`
-- **Lint+format:** `cmd.exe /c "npm run check > check.log 2>&1"` (fix: `npm run fix`)
-- **Registry:** `cmd.exe /c "npm run registry:build > reg.log 2>&1"`
-- **Commit+push:** `git add -A; git commit -m "..."; git push`
+- **Build:** `Set-Location "C:\Users\PC\Desktop\frakment"; cmd.exe /c "npm run build > build.log 2>&1"; Write-Output "BUILD_EXIT=$LASTEXITCODE"`
+- **Typecheck:** `cmd.exe /c "npm run typecheck > tc.log 2>&1"; Write-Output "TC_EXIT=$LASTEXITCODE"`
+- **Lint+format check:** `cmd.exe /c "npm run check > check.log 2>&1"; Write-Output "CHECK_EXIT=$LASTEXITCODE"`
+- **Lint+format fix:** `cmd.exe /c "npm run fix > fix.log 2>&1"; Write-Output "FIX_EXIT=$LASTEXITCODE"`
+- **Registry:** `cmd.exe /c "npm run registry:build > reg.log 2>&1"; Write-Output "REG_EXIT=$LASTEXITCODE"`
+- **Commit+push:** `git add -A; git commit -m "..."; git push 2>&1 | Write-Output; Write-Output "PUSH_EXIT=$LASTEXITCODE"`
 
 ## Design Decisions (jangan ubah tanpa diskusi)
 
@@ -172,14 +191,15 @@ Setiap **phase** selesai → append 1 entry ringkas (≤10 baris). Jangan tulis 
 - **Gotcha baru:** <#25 ...> (opsional)
 ```
 
-**Jangan** tulis ulang full history. Kalau butuh detail: `HANDOFF.archive.md` + `git log`.
+**Jangan** tulis ulang full history. Kalau butuh detail: `HANDOFF.archive/README.md` + `git log`.
 
 ## Maintenance Rules
 
 - **Setiap phase selesai** → update phase tracker (⏳ → ✅) → commit code + HANDOFF bareng. Hash di `git log`.
-- **Setiap batch fitur selesai** → append 1 SESSION_UPDATE ringkas (template di atas).
-- **Setiap gotcha baru** → tambahkan 1 baris di section Gotchas Active. Kalau >20, pindahkan yang jarang ke archive.
-- **Setiap perubahan library user-facing** → update changelog (`content/docs/changelog/YYYY-MM-DD.mdx`). Lihat Changelog Policy. Site-only/dev-only = skip.
-- **HANDOFF.md ≤ 10 KB.** Lewat → kompres atau pindah ke archive.
-- **Sebelum commit:** build EXIT=0 + typecheck EXIT=0 + check EXIT=0 + git status clean + HANDOFF ≤10 KB.
-- **Sebelum push:** hook pre-push akan jalankan build + test; pastikan keduanya hijau.
+- **Setiap batch fitur selesai** → append 1 SESSION_UPDATE ringkas (template di bawah).
+- **Setiap gotcha baru** → tambahkan 1 baris terse di Gotchas Active. Detail lengkap → `HANDOFF.archive/gotchas.md`.
+- **Setiap perubahan library user-facing** → update changelog (`content/docs/changelog/YYYY-MM-DD.mdx`). Lihat Changelog Policy. Site/dev-only = skip.
+- **HANDOFF.md ≤ 15 KB.** Kalau lewat → extract section besar ke `HANDOFF.archive/<topic>.md` + sisakan 1 baris pointer + update Archive Index. Jangan hapus konten, selalu pindah.
+- **`HANDOFF.archive/` unlimited.** Semua detail lama tetap di sana untuk grep. Setiap file archive punya link balik `↑ Back to HANDOFF` + TOC.
+- **Bidirectional link wajib.** HANDOFF → Archive Index → setiap file. Setiap file archive → HANDOFF + Archive README.
+- **Setiap commit/push:** `BUILD_EXIT=0` + `TC_EXIT=0` + `CHECK_EXIT=0`. Hook pre-commit & pre-push akan jalankan otomatis.
