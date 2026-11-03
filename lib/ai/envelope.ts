@@ -1,5 +1,5 @@
-// Port of @shadcn/helpers envelope utilities (chunk-ZEGKA56A.js).
-// Functions: I (materializeParts), M (eventsFromParts), q (eventsToEnvelope), Y (textStreamEnvelope)
+// Port of the reference envelope utilities.
+// Functions: materializeParts, eventsFromParts, eventsToEnvelope, textStreamEnvelope.
 
 import type {
   UIMessagePart,

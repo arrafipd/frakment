@@ -1,4 +1,4 @@
-// Port of @shadcn/helpers ChatBuilder core (chunk-ZEGKA56A.js `ce()` function).
+// Port of the reference ChatBuilder core (`ce()` function).
 // Phase 4: user/assistant/error/sleep/get/next. Phase 5 extends continuation, Phase 6 transport.
 
 import {
@@ -552,7 +552,7 @@ export function createChatBuilder(options: CreateChatOptions = {}): AiSdkChat {
         getPendingToolsRaw(lastTurn.events).some((p) => p.approval)
       ) {
         // Dev warning only — no continuation turn follows, decision will be lost.
-        // See @shadcn/helpers behavior: silently ignore in production.
+        // See reference behavior: silently ignore in production.
       }
       const streamOpts = { delayMs: 50, ...transportOpts };
       const { fallback } = transportOpts;

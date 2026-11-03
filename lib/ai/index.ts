@@ -1,4 +1,4 @@
-// Public entry for the internal @shadcn/helpers replacement.
+// Public entry for the internal deterministic chat engine.
 // Consumers: lib/ai.ts (re-export) + examples/*.tsx (via @/lib/ai).
 
 import { getMessageText } from "./adapter";
@@ -45,7 +45,7 @@ export type {
 } from "./types";
 
 // ============================================================
-// createChat — public factory (mirror @shadcn/helpers/ai-sdk)
+// createChat — public factory (mirrors reference AI SDK adapter).
 // ============================================================
 
 export function createChat<UI_MESSAGE extends UIMessage = UIMessage>(

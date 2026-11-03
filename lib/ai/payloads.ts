@@ -1,4 +1,4 @@
-// Port of @shadcn/helpers payload factory (chunk-ZEGKA56A.js `$()` function).
+// Port of the reference payload factory (`$()` function).
 // Reference: file, reasoningFile, sourceUrl, sourceDocument, custom with defaults.
 
 import type { IdGenerator } from "./ids";

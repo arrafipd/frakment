@@ -70,7 +70,7 @@ export async function init() {
     s.stop(pc.green("✓") + " components.json");
   }
 
-  // 2. theme (inline block, shadcn-style)
+  // 2. theme (inline block)
   const cssFullPath = path.join(cwd, cssPath);
   if (!existsSync(cssFullPath)) {
     p.log.error(`CSS file not found: ${cssPath}`);

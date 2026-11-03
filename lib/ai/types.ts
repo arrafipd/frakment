@@ -1,5 +1,5 @@
-// Port of @shadcn/helpers types (chat-ChArRzRi.d.ts).
-// Reference source: node_modules/@shadcn/helpers/dist/chat-ChArRzRi.d.ts
+// Port of the reference chat engine types.
+// Reference source: external helper library, ported 1:1.
 // Behavior parity required — do not change semantics without cross-checking the reference.
 
 import type {

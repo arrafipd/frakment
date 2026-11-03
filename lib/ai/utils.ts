@@ -1,6 +1,6 @@
-// Port of @shadcn/helpers utilities (chunk-ZEGKA56A.js).
-// Reference: U (assertNever), G (abortableSleep), E (deepClone), F (splitWords),
-//            H (stripDataPrefix), W (devWarn)
+// Port of the reference utility helpers.
+// Functions: assertNever, abortableSleep, deepClone, splitWords,
+// stripDataPrefix, devWarn.
 
 export function assertNever(value: never): never {
   throw new Error(`Unhandled variant: ${JSON.stringify(value)}`);

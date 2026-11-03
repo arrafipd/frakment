@@ -1,5 +1,5 @@
-// Port of @shadcn/helpers id generator (chunk-ZEGKA56A.js `_()` function).
-// Reference source: node_modules/@shadcn/helpers/dist/chat-ChArRzRi.d.ts + chunk-ZEGKA56A.js
+// Port of the reference id generator (`_()` function).
+// Reference source: external helper library, ported 1:1.
 
 import type { ChatIdsOptions } from "./types";
 

@@ -1,4 +1,4 @@
-// Port of @shadcn/helpers stream factory (chunk-ZEGKA56A.js `K()` function).
+// Port of the reference stream factory (`K()` function).
 // Turns ChatEventEnvelope[] into a ReadableStream<UIMessageChunk>.
 
 import type { UIMessageChunk, ChatEventEnvelope } from "./types";

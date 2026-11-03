@@ -1,5 +1,5 @@
-// Port of @shadcn/helpers EventWriter DSL (chunk-ZEGKA56A.js `P()` function).
-// Reference: fluent writer handed to assistant(callback).
+// Port of the reference EventWriter DSL (`P()` function).
+// Fluent writer handed to assistant(callback).
 
 import type { IdGenerator } from "./ids";
 import type { PayloadFactory } from "./payloads";

@@ -1,0 +1,85 @@
+---
+title: CLI Reference
+description: All frakment commands, flags, and registry format.
+---
+
+Complete reference for the `frakment` CLI. New to Frakment? Start with [Installation](/docs/installation) first — this page assumes the project is already bootstrapped.
+
+## Commands
+
+| Command                | Description                                                                                                                                  |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `frakment init`        | Bootstrap the project: write `components.json`, inject the theme block into `globals.css`, create `lib/utils.ts`, install base dependencies. |
+| `frakment add <name…>` | Fetch one or more components (plus `registryDependencies` recursively), write files, install missing npm deps.                               |
+| `frakment list`        | List all components exposed by the configured registry.                                                                                      |
+
+## Flags
+
+### `frakment add`
+
+<PropsTable
+  rows={[
+    {
+      name: "--registry <url>",
+      type: "string",
+      defaultValue: "from components.json",
+      description: "Override the registry URL for this run.",
+    },
+    {
+      name: "--overwrite",
+      type: "boolean",
+      defaultValue: "false",
+      description: "Overwrite existing files without prompting.",
+    },
+  ]}
+/>
+
+<Callout type="info" title="Multiple components">
+  Pass several names in one call — dependencies are deduplicated across the
+  batch. Example: `npx frakment@latest add button card badge`.
+</Callout>
+
+### `frakment list`
+
+No flags. Reads `registry` from `components.json` and prints every available component name with a one-line description.
+
+## Registry resolution
+
+During `init`, the CLI writes a `registry` field to `components.json`. `add` and `list` read from it by default. Override per-command for local development against an unmerged registry:
+
+```bash
+npx frakment@latest add badge --registry http://localhost:8765
+```
+
+### Registry entry format
+
+Each component lives at `<registry-url>/r/<name>.json`:
+
+```json title="r/button.json"
+{
+  "name": "button",
+  "dependencies": ["class-variance-authority", "radix-ui"],
+  "registryDependencies": [],
+  "files": [{ "path": "components/ui/button.tsx", "content": "..." }]
+}
+```
+
+`registryDependencies` are resolved recursively before any files are written. Install order: deepest dependency first.
+
+## Idempotency
+
+`init` is safe to re-run. Existing `components.json` is preserved unless overwritten. The theme marker block (`/* ==== FRAKMENT THEME START/END ==== */`) is replaced in place — no duplicates. Legacy inline theme blocks are auto-migrated.
+
+<Callout type="success" title="Windows BOM compatibility">
+  Files written by PowerShell 5.1 `Set-Content -Encoding utf8` (which prepends a
+  UTF-8 BOM) are handled. The CLI strips BOM from `globals.css`, `package.json`,
+  and `components.json` before parsing.
+</Callout>
+
+## Troubleshooting
+
+Specific errors (Tailwind v4 requirement, missing `globals.css`, `src/` layout) are documented in [Installation → Troubleshooting](/docs/installation#troubleshooting).
+
+## License
+
+Source-available. Commercial use requires at least one merged pull request to the Frakment repository.

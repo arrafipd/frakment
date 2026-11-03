@@ -1,0 +1,379 @@
+---
+title: AI Helpers
+description: Deterministic chat engine for building AI interfaces without a model.
+---
+
+`@/lib/ai` is Frakment's deterministic chat engine — a `createChat()` builder that scripts transcripts, streams them as AI SDK v7 `UIMessageChunk`s, and lets you test chat UIs without calling a model.
+
+## Installation
+
+<Callout type="info" title="Repo-internal for now">
+  `@/lib/ai` ships with the Frakment source. When copying components that depend
+  on it (such as `message-scroller` demos), also copy the `lib/ai/` directory.
+  Publishing as `@frakment/ai` is planned.
+</Callout>
+
+## Quick start
+
+```tsx title="chat.ts"
+import { createChat, getMessageText } from "@/lib/ai";
+
+const chat = createChat()
+  .user("Hello")
+  .sleep(500)
+  .assistant("Hi! How can I help?")
+  .user("What's the weather?")
+  .assistant("It's sunny and 72°F.");
+
+const initialMessages = chat.get(0); // UIMessage[]
+const transport = chat.transport({ delayMs: 20 });
+const nextMessage = chat.next(messages); // UIMessage | null
+```
+
+Wire it to `useChat` from `@ai-sdk/react`:
+
+```tsx
+import { useChat } from "@ai-sdk/react";
+
+const { messages, sendMessage, status } = useChat({
+  messages: initialMessages,
+  transport,
+});
+```
+
+## `createChat(options?)`
+
+Returns a chainable `Chat` object.
+
+<PropsTable
+  rows={[
+    {
+      name: "messageIdPrefix",
+      type: "string",
+      defaultValue: '"msg"',
+      description: "Prefix for generated message IDs.",
+    },
+    {
+      name: "toolCallIdPrefix",
+      type: "string",
+      defaultValue: '"call"',
+      description: "Prefix for tool call IDs.",
+    },
+    {
+      name: "sourceIdPrefix",
+      type: "string",
+      defaultValue: '"source"',
+      description: "Prefix for source citation IDs.",
+    },
+    {
+      name: "approvalIdPrefix",
+      type: "string",
+      defaultValue: '"approval"',
+      description: "Prefix for approval request IDs.",
+    },
+    {
+      name: "now",
+      type: "Date | string",
+      defaultValue: '"2026-01-01T00:00:00.000Z"',
+      description: "Fixed clock for message metadata.",
+    },
+    {
+      name: "messages",
+      type: "UIMessage[]",
+      defaultValue: "",
+      description: "Hydrate the builder from an existing transcript.",
+    },
+  ]}
+/>
+
+## Chat methods
+
+<PropsTable
+  rows={[
+    {
+      name: ".user(text?, options?)",
+      type: "Chat",
+      defaultValue: "",
+      description: "Script a user turn (instant text).",
+    },
+    {
+      name: ".assistant(input?, options?)",
+      type: "Chat",
+      defaultValue: "",
+      description:
+        "Script an assistant turn. String streams word-by-word; callback gets full DSL.",
+    },
+    {
+      name: ".error(errorText?)",
+      type: "Chat",
+      defaultValue: "",
+      description:
+        "Script an assistant turn that streams a single error chunk.",
+    },
+    {
+      name: ".sleep(delayMs)",
+      type: "Chat",
+      defaultValue: "",
+      description: "Delay the next turn's stream.",
+    },
+    {
+      name: ".get(count?)",
+      type: "UIMessage[]",
+      defaultValue: "",
+      description:
+        "Returns deep-cloned messages. Stops at the first continuation turn.",
+    },
+    {
+      name: ".next(messages)",
+      type: "UIMessage | null",
+      defaultValue: "",
+      description:
+        "Returns the next queued user message after the given transcript.",
+    },
+    {
+      name: ".transport(options?)",
+      type: "ChatTransport",
+      defaultValue: "",
+      description:
+        "Creates an AI SDK v7 transport that streams assistant responses.",
+    },
+  ]}
+/>
+
+## `chat.transport(options?)`
+
+<PropsTable
+  rows={[
+    {
+      name: "delayMs",
+      type: "number",
+      defaultValue: "50",
+      description: "Delay between text deltas (ms). Set to 0 to disable.",
+    },
+    {
+      name: "fallback",
+      type: "string | PART[] | (ctx) => void",
+      defaultValue: "",
+      description:
+        "Response when the transcript runs past the end of the script.",
+    },
+  ]}
+/>
+
+The returned object implements the AI SDK v7 `ChatTransport<UIMessage>` interface — `sendMessages()` streams `UIMessageChunk[]`, `reconnectToStream()` returns `null` (no server).
+
+## Assistant callback DSL
+
+Pass a callback to `.assistant()` for full control over parts and timing. The callback receives a `writer` — a fluent DSL that appends events to the turn.
+
+```tsx
+chat.assistant(({ writer }) => {
+  writer
+    .reasoning("Let me think...")
+    .sleep(300)
+    .text("Here's the answer:")
+    .text("42", { mode: "instant" });
+});
+```
+
+### Writer methods
+
+<PropsTable
+  rows={[
+    {
+      name: ".text(text?, { mode?, delayMs? })",
+      type: "EventWriter",
+      defaultValue: "",
+      description:
+        'Append text. mode: "instant" emits one chunk instead of word-by-word.',
+    },
+    {
+      name: ".reasoning(text?, opts?)",
+      type: "EventWriter",
+      defaultValue: "",
+      description: "Append a reasoning part.",
+    },
+    {
+      name: ".sleep(delayMs)",
+      type: "EventWriter",
+      defaultValue: "",
+      description: "Insert a delay between events.",
+    },
+    {
+      name: ".data({ type, id?, data })",
+      type: "EventWriter",
+      defaultValue: "",
+      description: 'Append a data part. type: "data-<name>".',
+    },
+    {
+      name: ".error(errorText?)",
+      type: "EventWriter",
+      defaultValue: "",
+      description: "Stream an error chunk and end the turn.",
+    },
+    {
+      name: ".tool(name, options?)",
+      type: "ToolHandle",
+      defaultValue: "",
+      description:
+        "Append a tool call. Returns a handle for output/error/denied.",
+    },
+    {
+      name: ".sourceUrl(overrides?)",
+      type: "EventWriter",
+      defaultValue: "",
+      description: "Append a URL source citation.",
+    },
+    {
+      name: ".sourceDocument(overrides?)",
+      type: "EventWriter",
+      defaultValue: "",
+      description: "Append a document source citation.",
+    },
+    {
+      name: ".file(overrides?)",
+      type: "EventWriter",
+      defaultValue: "",
+      description: "Append a file attachment.",
+    },
+    {
+      name: ".reasoningFile(overrides?)",
+      type: "EventWriter",
+      defaultValue: "",
+      description: "Append a reasoning file.",
+    },
+    {
+      name: ".custom(kind?)",
+      type: "EventWriter",
+      defaultValue: "",
+      description: "Append a custom part.",
+    },
+    {
+      name: ".stepStart()",
+      type: "EventWriter",
+      defaultValue: "",
+      description: "Mark the start of a new step.",
+    },
+  ]}
+/>
+
+## Tools
+
+```tsx
+chat.assistant(({ writer }) => {
+  writer
+    .text("Searching...")
+    .tool("web_search", {
+      input: { query: "Next.js 16 release notes" },
+      output: { results: [...] },
+      title: "Web search",
+    })
+    .text("Found the answer.")
+})
+```
+
+`writer.tool()` returns a `ToolHandle` for streaming multi-step tools:
+
+```tsx
+const handle = writer.tool("long_task", { input: { jobId: 123 } });
+handle
+  .sleep(500)
+  .output({ progress: 30 }, { preliminary: true })
+  .sleep(500)
+  .output({ result: "done" }); // final output
+```
+
+<PropsTable
+  rows={[
+    {
+      name: ".sleep(ms)",
+      type: "ToolHandle",
+      defaultValue: "",
+      description: "Delay before the next event.",
+    },
+    {
+      name: ".output(value, { preliminary? })",
+      type: "ToolHandle",
+      defaultValue: "",
+      description: "Stream an output. preliminary: true keeps the call open.",
+    },
+    {
+      name: ".error(text?)",
+      type: "ToolHandle",
+      defaultValue: "",
+      description: "Stream a tool error.",
+    },
+    {
+      name: ".denied()",
+      type: "ToolHandle",
+      defaultValue: "",
+      description: "Mark the tool call as denied by the user.",
+    },
+  ]}
+/>
+
+## Human-in-the-loop approvals
+
+Set `needsApproval: true` to pause the turn. The follow-up `.assistant(callback)` becomes a **continuation turn** — it materializes only when a real transcript arrives, and receives `{ toolCall, toolCalls, messages }` in its context.
+
+```tsx
+chat
+  .user("Send an email to the team.")
+  .assistant(({ writer }) => {
+    writer.text("I'll send it, but I need your approval first.");
+    writer.tool("send_email", {
+      input: { to: "team@company.com", subject: "Update" },
+      needsApproval: true,
+    });
+  })
+  .assistant(({ writer, toolCall }) => {
+    if (toolCall?.approved) {
+      writer.text("Email sent.");
+    } else {
+      writer.text("Email was not sent.");
+    }
+  });
+```
+
+<Callout type="info" title="Continuation turns">
+  A continuation turn has no materialized message until a live transcript
+  arrives. `chat.get(count)` stops before the first continuation turn, and
+  `chat.next(messages)` matches by message ID (fallback: role + text).
+</Callout>
+
+## Helper functions
+
+### `getMessageText(message)`
+
+Extracts the concatenated text parts from a `UIMessage`. Returns `""` if no text parts exist.
+
+```ts
+import { getMessageText } from "@/lib/ai";
+
+const text = getMessageText(messages[0]);
+```
+
+### `getToolCalls(message)`
+
+Extracts tool call descriptors from a `UIMessage`. Each descriptor: `{ toolCallId, name, dynamic, input, output, errorText, state, approval? }`.
+
+## Architecture
+
+`lib/ai/` is split into focused modules:
+
+| File          | Purpose                                                                                  |
+| ------------- | ---------------------------------------------------------------------------------------- |
+| `types.ts`    | Public + internal TypeScript interfaces                                                  |
+| `ids.ts`      | ID generator with reserve/next semantics                                                 |
+| `utils.ts`    | `assertNever`, `abortableSleep`, `deepClone`, `splitWords`, `stripDataPrefix`, `devWarn` |
+| `payloads.ts` | File / reasoning / source / custom payload factory                                       |
+| `envelope.ts` | `materializeParts`, `eventsFromParts`, `eventsToEnvelope`                                |
+| `stream.ts`   | `streamFromEnvelope` — `ReadableStream<UIMessageChunk>`                                  |
+| `writer.ts`   | `EventWriter` + `ToolHandle` DSL                                                         |
+| `builder.ts`  | `ChatBuilder` — core methods, continuation, transport                                    |
+| `adapter.ts`  | `getMessageText`, `getToolCalls`, `FrameworkAdapter`                                     |
+| `index.ts`    | Barrel export + `createChat` factory                                                     |
+
+## Parity
+
+`@/lib/ai` is a 1:1 behavioral port of its reference implementation. All `data-*` attributes, ARIA, timing, chunk encoding, and continuation semantics match. You can swap between `@/lib/ai` and the reference source without changing consumer code.

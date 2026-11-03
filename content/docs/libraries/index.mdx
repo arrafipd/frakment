@@ -1,0 +1,41 @@
+---
+title: Libraries
+description: CLI, AI helpers, and runtime engines shipped with Frakment.
+---
+
+Frakment ships three runtime layers beyond the component registry. Each is source-available, fully in-repo, and independently installable.
+
+## Layers
+
+| Layer            | Import                    | Purpose                                  | Status                 |
+| ---------------- | ------------------------- | ---------------------------------------- | ---------------------- |
+| **frakment CLI** | `npx frakment@latest ...` | Install components + theme               | Stable                 |
+| **AI helpers**   | `@/lib/ai`                | Deterministic chat engine (`createChat`) | Stable (repo-internal) |
+| **React engine** | `@frakment/react`         | Headless message-scroller engine         | Planned                |
+
+## Design principles
+
+- **Zero external engine dependencies.** Every runtime layer is source-available and fully in-repo.
+- **Deterministic.** No network calls, no model invocations. Same input → same output.
+- **Composable.** CLI, AI helper, and React engine are independently installable.
+- **Parity-first.** When a port from an earlier reference exists, behaviour matches 1:1 — no API drift.
+
+## Distribution
+
+| Layer                            | Installed via                    |
+| -------------------------------- | -------------------------------- |
+| Components (`button`, `card`, …) | `npx frakment@latest add <name>` |
+| Theme (tokens + utilities)       | `npx frakment@latest init`       |
+| AI helpers (`@/lib/ai`)          | Bundled with this repo           |
+| React engine                     | Future npm package               |
+
+<Callout type="info" title="AI helpers are repo-internal">
+  `@/lib/ai` currently ships with the Frakment source. When you copy components
+  that depend on it (such as `message-scroller` demos), also copy `lib/ai/`.
+  Publishing as `@frakment/ai` is planned.
+</Callout>
+
+## Quick links
+
+- **[CLI](/docs/libraries/cli)** — `init`, `add`, `list` commands and flags
+- **[AI helpers](/docs/libraries/ai)** — `createChat()` chainable API, transport, tools, approvals

@@ -1,5 +1,5 @@
-// Port of @shadcn/helpers AI SDK adapter (ai-sdk/index.js `S()` factory).
-// Reference source: node_modules/@shadcn/helpers/dist/ai-sdk/index.js
+// Port of the reference AI SDK adapter (index.js `S()` factory).
+// Reference source: external helper library, ported 1:1.
 //
 // FrameworkAdapter is the dependency-injection layer for ChatBuilder. It exposes
 // the framework-specific helpers the builder needs: materialize/encode/transport.
