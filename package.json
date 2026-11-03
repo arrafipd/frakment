@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "prebuild": "npm run build --workspaces --if-present",
-    "build": "next build",
+    "build": "cross-env NEXT_WORKER_THREADS=1 next build",
     "changeset": "changeset",
     "precheck": "npm run build --workspaces --if-present",
     "check": "ultracite check",
@@ -20,7 +20,7 @@
     "postinstall": "fumadocs-mdx",
     "prepare": "lefthook install",
     "registry:build": "node scripts/build-registry.mjs",
-    "release": "npm run build --workspaces --if-present && changeset publish",
+    "release": "npm run build --workspaces --if-present \u0026\u0026 changeset publish",
     "start": "next start",
     "pretest": "npm run build --workspaces --if-present",
     "test": "vitest run",
@@ -34,9 +34,9 @@
   },
   "dependencies": {
     "@ai-sdk/react": "^4.0.163",
+    "@frakment/react": "0.0.1",
     "@icons-pack/react-simple-icons": "^13.15.1",
     "@phosphor-icons/react": "^2.1.10",
-    "@shadcn/react": "^0.3.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@vercel/analytics": "^2.0.1",
     "@web-kits/audio": "^0.2.0",
@@ -80,6 +80,7 @@
     "@types/node": "^26.6.6",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
+    "cross-env": "^10.1.0",
     "lefthook": "^2.2.2",
     "oxfmt": "^0.75.0",
     "oxlint": "^1.90.0",
@@ -90,7 +91,7 @@
     "vitest": "^5.0.5"
   },
   "engines": {
-    "node": ">=22"
+    "node": "\u003e=22"
   },
   "allowScripts": {
     "esbuild@0.28.2": true,

@@ -9,16 +9,22 @@
   },
   "license": "SEE LICENSE IN LICENSE",
   "author": "hanshapd (https://github.com/hanshapd)",
+  "sideEffects": false,
   "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./message-scroller": {
+      "types": "./dist/message-scroller/index.d.ts",
+      "import": "./dist/message-scroller/index.js"
     }
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsup && node ../../node_modules/typescript/bin/tsc --emitDeclarationOnly --declaration --outDir dist --rootDir src --incremental false",

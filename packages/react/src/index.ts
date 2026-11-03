@@ -1,2 +1,2 @@
-// @frakment/react - engine placeholder.
-// The message-scroller / chat rendering engine lands in a follow-up session.
+// @frakment/react — message-scroller engine at ./message-scroller subpath.
+export {};

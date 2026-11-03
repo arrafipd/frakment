@@ -5,7 +5,7 @@ import {
   useMessageScroller,
   useMessageScrollerScrollable,
   useMessageScrollerVisibility,
-} from "@shadcn/react/message-scroller";
+} from "@frakment/react/message-scroller";
 import type * as React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowDownIcon } from "@/lib/icons";
