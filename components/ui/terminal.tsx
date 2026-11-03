@@ -80,7 +80,7 @@ function TerminalCommand({
       <TraceCollapsibleContent>
         <CodeBlock size="sm">
           <CodeBlockContent className="max-h-64 whitespace-pre-wrap">
-            {output || "\u00A0"}
+            {output || " "}
           </CodeBlockContent>
         </CodeBlock>
       </TraceCollapsibleContent>

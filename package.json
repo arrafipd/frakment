@@ -20,7 +20,7 @@
     "postinstall": "fumadocs-mdx",
     "prepare": "lefthook install",
     "registry:build": "node scripts/build-registry.mjs",
-    "release": "npm run build --workspaces --if-present \u0026\u0026 changeset publish",
+    "release": "npm run build --workspaces --if-present && changeset publish",
     "start": "next start",
     "pretest": "npm run build --workspaces --if-present",
     "test": "vitest run",
@@ -91,7 +91,7 @@
     "vitest": "^5.0.5"
   },
   "engines": {
-    "node": "\u003e=22"
+    "node": ">=22"
   },
   "allowScripts": {
     "esbuild@0.28.2": true,

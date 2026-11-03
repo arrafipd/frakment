@@ -148,7 +148,7 @@ const SmoothTypewriter = ({
           ease: "easeOut",
         }}
       >
-        {char === " " ? "\u00A0" : char}
+        {char}
       </motion.span>
     ))}
   </span>
