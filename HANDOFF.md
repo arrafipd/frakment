@@ -73,3 +73,41 @@ Enforcement server-side: **branch protection** di GitHub → require status chec
 ## Status Lint
 
 Lint **0 errors** (cleanup selesai di `f74f909`, 541 → 0). `npm run check` = `Checked N files. No fixes applied.` (exit 0).
+
+## GitHub Ruleset Setup
+
+Branch `main` dilindungi **3 ruleset terpisah** (Settings → Rules → Rulesets). Tidak ada branch protection klasik.
+
+| Ruleset | ID | Rules | Admin bypass | Non-admin |
+|---|---|---|---|---|
+| `main-pr-bypass` | 26273226 | `pull_request` | `always` | Wajib PR |
+| `main-ci-bypass` | 26446591 | `required_status_checks` | `always` | Wajib CI hijau |
+| `main-strict` | 26471084 | `non_fast_forward`, `deletion` | `always` | Diblok |
+
+### Efek per aktor
+
+**Admin (solo dev):**
+- Direct push ke `main` → bisa (bypass Ruleset B)
+- Force-push / delete `main` → bisa (bypass Ruleset C)
+- Merge PR saat CI merah → bisa (bypass Ruleset B)
+- Tidak perlu toggle ruleset untuk cleanup — cukup `git push --force`
+
+**Non-admin (future contributors):**
+- Direct push → diblok (Ruleset A)
+- Merge PR saat CI merah → diblok (Ruleset B)
+- Force-push / delete `main` → diblok (Ruleset C)
+- Wajib lewat PR + CI hijau
+
+### Konsekuensi
+
+- Admin bisa merusak `main` (force-push, delete). Recovery: `git reset --hard <sha>` + force-push.
+- History `main` bisa terpolusi kalau admin push commit test. Cleanup: force-push ke commit bersih.
+- Disiplin lokal tetap penting: lefthook pre-push jalankan build+test.
+
+### Perintah inspeksi
+
+`gh api repos/hanshapd/frakment/rulesets --jq ".[] | {id, name, enforcement}"`
+`gh api repos/hanshapd/frakment/rulesets/<id> --jq "{name, bypass: .bypass_actors, rules: [.rules[].type]}"`
+
+Update: tulis body JSON + `gh api -X PUT repos/hanshapd/frakment/rulesets/<id> --input body.json`.
+
