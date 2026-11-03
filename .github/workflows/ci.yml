@@ -19,10 +19,12 @@ jobs:
   lint-and-format:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
 
       - name: Setup
-        uses: ./.github/actions/setup
+        uses: $/.github/actions/setup
 
       - name: Lint and format
         run: npm run check
@@ -30,10 +32,12 @@ jobs:
   typecheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
 
       - name: Setup
-        uses: ./.github/actions/setup
+        uses: $/.github/actions/setup
 
       - name: Build
         env:
@@ -46,10 +50,12 @@ jobs:
   registry-drift:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
 
       - name: Setup
-        uses: ./.github/actions/setup
+        uses: $/.github/actions/setup
 
       - name: Build registry
         run: npm run registry:build
@@ -72,10 +78,12 @@ jobs:
   theme-drift:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
 
       - name: Setup
-        uses: ./.github/actions/setup
+        uses: $/.github/actions/setup
 
       - name: Check styles/theme.css in sync with CLI template
         run: |
@@ -92,10 +100,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
 
       - name: Setup
-        uses: ./.github/actions/setup
+        uses: $/.github/actions/setup
 
       - name: Test
         run: npm test
