@@ -13,5 +13,30 @@
       "!**/.changeset",
       "!**/public/r"
     ]
+  },
+  "linter": {
+    "rules": {
+      "style": {
+        "noIncrementDecrement": "off",
+        "useConsistentMethodSignatures": "off",
+        "noNestedTernary": "off"
+      },
+      "performance": {
+        "useTopLevelRegex": "off",
+        "noJsxPropsBind": "off",
+        "noNamespaceImport": "off",
+        "noBarrelFile": "off"
+      },
+      "complexity": {
+        "noForEach": "off",
+        "noExcessiveCognitiveComplexity": "off"
+      },
+      "suspicious": {
+        "useBaseline": "off"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
+      }
+    }
   }
 }
