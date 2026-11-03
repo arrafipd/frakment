@@ -20,6 +20,22 @@ Detail per sesi + reference lengkap ada di folder `HANDOFF.archive/`. Setiap fil
 - [session-component-additions](./HANDOFF.archive/session-component-additions.md) — card, tooltip, dropdown, toggle, toggle-group
 - [session-lucide-migration](./HANDOFF.archive/session-lucide-migration.md) — lucide → phosphor
 - [session-ai-port](./HANDOFF.archive/session-ai-port.md) — first-party chat engine `lib/ai/`
+- [plan-monorepo](./HANDOFF.archive/plan-monorepo.md) — monorepo conversion + npm publish plan (active)
+
+## Active Plan — Monorepo + npm publish
+
+Detail lengkap: [`HANDOFF.archive/plan-monorepo.md`](./HANDOFF.archive/plan-monorepo.md)
+
+Convert polyrepo-lite → npm workspace monorepo + changesets. 4 phase (~1.5 jam):
+
+1. Root `package.json` — rename `frakment` → `frakment-site`, add `workspaces: ["packages/*", "cli", "mcp"]`, `.changeset/` config + scripts (`changeset`, `version:packages`, `release`)
+2. Move `lib/ai/*` (10 files) → `packages/ai/src/` — `@frakment/ai` package (tsup + tsconfig), `lib/ai.ts` jadi shim re-export. 5 importers tetap resolve.
+3. Skeleton `packages/react/` — `@frakment/react` package (engine diisi sesi berikutnya)
+4. Cleanup — delete `cli/node_modules` + `mcp/node_modules` + lockfile per package, `transpilePackages: ["@frakment/ai", "@frakment/react"]`, `npm install` root (single hoist), verify build + typecheck + check + test + CLI + MCP
+
+**Publish besok (3 packages):** `frakment` (CLI), `frakment-mcp` (MCP server), `@frakment/ai` (engine). `@frakment/react` publish terpisah setelah engine selesai.
+
+**Publish cycle:** `npm run changeset` → `npm run version:packages` → `npm run release`.
 
 ## Active Plan — replace external chat helper
 
@@ -168,13 +184,14 @@ Acuan: `content/docs/changelog/2026-10-31.mdx`. Copy polanya (bukan 2026-11-02):
 
 ## Recent Commits (5 terbaru — detail `git log`)
 
-| Hash      | Summary                                          |
-| --------- | ------------------------------------------------ |
-| _(next)_  | Libraries + changelog + new dot + lib/ai rewrite |
-| `b147d11` | remove shadcn CLI                                |
-| `77b5108` | handoff lucide→phosphor                          |
-| `644fc04` | lucide→phosphor migration (54 files)             |
-| `7cb9244` | scrollbar + card radius + message-scroller sync  |
+| Hash      | Summary                                             |
+| --------- | --------------------------------------------------- |
+| _(next)_  | Monorepo conversion + changesets                    |
+| `f3d1d18` | split archive folder + restore gotchas + 15KB limit |
+| `b147d11` | remove shadcn CLI                                   |
+| `77b5108` | handoff lucide→phosphor                             |
+| `644fc04` | lucide→phosphor migration (54 files)                |
+| `7cb9244` | scrollbar + card radius + message-scroller sync     |
 
 ## SESSION_UPDATE Template
 
