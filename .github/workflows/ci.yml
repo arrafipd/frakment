@@ -79,12 +79,12 @@ jobs:
 
       - name: Check styles/theme.css in sync with CLI template
         run: |
-          if ! diff -q styles/theme.css cli/templates/theme.css; then
-            echo "::error::styles/theme.css and cli/templates/theme.css have drifted."
-            echo "::error::Run: cp styles/theme.css cli/templates/theme.css"
+          if ! diff -q styles/theme.css packages/cli/templates/theme.css; then
+            echo "::error::styles/theme.css and packages/cli/templates/theme.css have drifted."
+            echo "::error::Run: cp styles/theme.css packages/cli/templates/theme.css"
             echo ""
             echo "Diff:"
-            diff -u styles/theme.css cli/templates/theme.css || true
+            diff -u styles/theme.css packages/cli/templates/theme.css || true
             exit 1
           fi
           echo "theme.css is in sync with CLI template."
