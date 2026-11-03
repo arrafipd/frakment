@@ -17,11 +17,11 @@ export const ModeSwitcher = () => {
     <Tooltip>
       <TooltipTrigger asChild>
         <Button
-          variant="ghost"
-          size="icon"
           className="group/toggle extend-touch-target size-8"
           onClick={toggleTheme}
+          size="icon"
           title="Toggle theme"
+          variant="ghost"
         >
           <ThemeIcon className="size-4.5" strokeWidth="2" />
           <span className="sr-only">Toggle theme</span>

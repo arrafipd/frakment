@@ -4,9 +4,7 @@
   "deprecated": false,
   "title": "Switch",
   "description": "A toggle control for boolean settings.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "registryDependencies": [],
   "files": [
     {

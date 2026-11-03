@@ -3,25 +3,25 @@ import { unstable_cache } from "next/cache";
 import { GITHUB } from "@/constants/links";
 
 interface Stargazer {
-  login: string;
   avatar_url: string;
+  login: string;
 }
 
 export interface Contributor {
-  login: string;
   avatar_url: string;
-  html_url: string;
   contributions: number;
+  html_url: string;
+  login: string;
   type?: string;
 }
 
 export interface Sponsor {
-  login: string;
   avatar_url: string;
-  name: string;
-  url: string;
+  login: string;
   logo?: string;
+  name: string;
   type: "User" | "Organization";
+  url: string;
 }
 
 export const getContributors = unstable_cache(
@@ -74,15 +74,15 @@ export const getSponsors = unstable_cache(
 
     try {
       const res = await fetch("https://api.github.com/graphql", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({
           query: SPONSOR_QUERY,
           variables: { login: GITHUB.user },
         }),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        method: "POST",
       });
 
       if (!res.ok) {
@@ -113,11 +113,11 @@ export const getSponsors = unstable_cache(
         .map((n) => n.sponsorEntity)
         .filter((e): e is NonNullable<typeof e> => Boolean(e))
         .map((e) => ({
-          login: e.login,
           avatar_url: e.avatarUrl,
+          login: e.login,
           name: e.name || e.login,
-          url: e.url,
           type: e.__typename === "Organization" ? "Organization" : "User",
+          url: e.url,
         }));
     } catch {
       return [];

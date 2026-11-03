@@ -3,9 +3,9 @@ import { describe, expect, it } from "vitest";
 import {
   clamp,
   clamp01,
+  EXPRESSIONS,
   easeBack,
   easeInOut,
-  EXPRESSIONS,
   lookAngles,
   lookRotate,
   wanderAt,

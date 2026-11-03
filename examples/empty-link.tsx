@@ -1,6 +1,5 @@
 "use client";
 
-import { Folder } from "@/lib/icons";
 import {
   Empty,
   EmptyDescription,
@@ -8,6 +7,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
+import { Folder } from "@/lib/icons";
 
 export function EmptyLink() {
   return (

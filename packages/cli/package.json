@@ -1,0 +1,32 @@
+{
+  "name": "frakment",
+  "version": "0.0.1",
+  "description": "CLI and design system for the frakment component registry",
+  "keywords": [
+    "components",
+    "frakment",
+    "monochrome",
+    "registry",
+    "tailwindcss"
+  ],
+  "license": "SEE LICENSE IN LICENSE",
+  "author": "hanshapd (https://github.com/hanshapd)",
+  "type": "module",
+  "bin": {
+    "frakment": "./bin/index.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "templates"
+  ],
+  "dependencies": {
+    "@clack/prompts": "^1.8.1",
+    "commander": "^15.0.0",
+    "execa": "^10.2.1",
+    "picocolors": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

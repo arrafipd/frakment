@@ -4,9 +4,7 @@
   "deprecated": false,
   "title": "Label",
   "description": "A text label for form controls.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "registryDependencies": [],
   "files": [
     {

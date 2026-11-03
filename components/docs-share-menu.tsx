@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 import type { ShareIconHandle } from "@/components/animated-icons/share";
 import { ShareIcon } from "@/components/animated-icons/share";
-import { XIcon, LinkedInIcon } from "@/components/icons";
+import { LinkedInIcon, XIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -50,19 +50,19 @@ export const DocsShareMenu = ({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className="hidden sm:flex size-7 border-none active:scale-none"
-          variant="secondary"
-          size="icon-sm"
+          className="hidden size-7 border-none active:scale-none sm:flex"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
+          size="icon-sm"
+          variant="secondary"
         >
           <ShareIcon ref={shareIconRef} />
         </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
-        className="w-fit"
         alignOffset={-6}
+        className="w-fit"
         collisionPadding={8}
         onCloseAutoFocus={(e) => e.preventDefault()}
       >
@@ -79,8 +79,8 @@ export const DocsShareMenu = ({
         <DropdownMenuItem asChild>
           <a
             href={`https://x.com/intent/tweet?url=${urlEncoded}`}
-            target="_blank"
             rel="noopener"
+            target="_blank"
           >
             <XIcon />
             Share on X
@@ -90,8 +90,8 @@ export const DocsShareMenu = ({
         <DropdownMenuItem asChild>
           <a
             href={`https://www.linkedin.com/sharing/share-offsite?url=${urlEncoded}`}
-            target="_blank"
             rel="noopener"
+            target="_blank"
           >
             <LinkedInIcon />
             Share on LinkedIn

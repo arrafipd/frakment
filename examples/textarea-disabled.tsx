@@ -6,9 +6,9 @@ export function TextareaDisabled() {
   return (
     <div className="w-full max-w-sm">
       <Textarea
-        placeholder="Disabled textarea"
-        disabled
         defaultValue="This field is disabled."
+        disabled
+        placeholder="Disabled textarea"
       />
     </div>
   );

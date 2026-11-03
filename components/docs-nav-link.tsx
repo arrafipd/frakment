@@ -43,12 +43,12 @@ export const DocsNavLink = ({
 
   const link = (
     <Button
-      variant="secondary"
-      size={size}
-      className={cn("shadow-none", className)}
       asChild
+      className={cn("shadow-none", className)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      size={size}
+      variant="secondary"
       {...props}
     >
       <Link href={href} transitionTypes={transitionTypes}>

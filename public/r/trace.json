@@ -4,14 +4,8 @@
   "deprecated": false,
   "title": "Trace",
   "description": "A list of lines for the steps an agent takes.",
-  "dependencies": [
-    "@phosphor-icons/react",
-    "motion",
-    "radix-ui"
-  ],
-  "registryDependencies": [
-    "icons"
-  ],
+  "dependencies": ["@phosphor-icons/react", "motion", "radix-ui"],
+  "registryDependencies": ["icons"],
   "files": [
     {
       "path": "components/ui/trace.tsx",

@@ -48,7 +48,10 @@ describe("build-registry", () => {
   });
 
   it("terminal has registry dependencies on trace and code-block", async () => {
-    const raw = await fs.readFile(path.join(outputDir, "terminal.json"), "utf8");
+    const raw = await fs.readFile(
+      path.join(outputDir, "terminal.json"),
+      "utf8"
+    );
     const terminal = JSON.parse(raw);
 
     expect(terminal.registryDependencies).toContain("trace");
@@ -56,7 +59,10 @@ describe("build-registry", () => {
   });
 
   it("generates skill files under public/skills", async () => {
-    const skillPath = path.join(rootDir, "public/skills/frakment-usage/SKILL.md");
+    const skillPath = path.join(
+      rootDir,
+      "public/skills/frakment-usage/SKILL.md"
+    );
     const content = await fs.readFile(skillPath, "utf8");
 
     expect(content).toContain("name: frakment-usage");

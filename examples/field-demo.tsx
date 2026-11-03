@@ -122,8 +122,8 @@ export function FieldDemo() {
             </FieldDescription>
             <FieldGroup>
               <Field orientation="horizontal">
-                <Checkbox id="same-as-shipping" defaultChecked />
-                <FieldLabel htmlFor="same-as-shipping" className="font-normal">
+                <Checkbox defaultChecked id="same-as-shipping" />
+                <FieldLabel className="font-normal" htmlFor="same-as-shipping">
                   Same as shipping address
                 </FieldLabel>
               </Field>
@@ -134,16 +134,16 @@ export function FieldDemo() {
               <Field>
                 <FieldLabel htmlFor="comments">Comments</FieldLabel>
                 <Textarea
+                  className="resize-none"
                   id="comments"
                   placeholder="Add any additional comments"
-                  className="resize-none"
                 />
               </Field>
             </FieldGroup>
           </FieldSet>
           <Field orientation="horizontal">
             <Button type="submit">Submit</Button>
-            <Button variant="outline" type="button">
+            <Button type="button" variant="outline">
               Cancel
             </Button>
           </Field>

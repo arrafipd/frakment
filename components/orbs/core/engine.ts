@@ -27,50 +27,12 @@
  * anywhere yet.
  */
 
-import { idle, cancelIdle } from "./idle";
-import { clamp, clamp01, easeInOut, easeBack } from "./math";
+import { cancelIdle, idle } from "./idle";
+import { clamp, clamp01, easeBack, easeInOut } from "./math";
 
 export const createPlanetFaces = (options = {}) => {
   const DEFAULTS = {
-    // what the mark does: 'nose', 'eyes', 'smile' (it leads the name
-    // round the arc) or 'hide'. A planet whose mark makes a poor eye
-    // (a wordmark) opts out with data-mark-eyes="false" and keeps pills
-    mark: "nose",
-    // the pupils: 'pill' (upright capsule) or 'dot'; their width, how
-    // tall a pill is (times its width), and, when the eyes are the
-    // mark, the mark's size; then their distance from the middle and
-    // their height, each as a share of the ball's radius (up is negative)
-    eyeShape: "pill",
-    eye: 0.18,
-    eyeTall: 1.7,
-    eyeMark: 0.34,
-    eyeX: 0.3,
-    eyeY: -0.2,
-    // the smile: the circle the glyphs stand on and its lowest point,
-    // as shares of the radius
-    mouthR: 0.5,
-    mouthY: 0.55,
-    // a short name is spaced out to this arc, a long one scaled down
-    // to that (degrees)
-    minSpan: 75,
-    maxSpan: 150,
-    // where the nose lands, as a share of the radius
-    noseY: 0.1,
-    // the face's expression: 'happy' (the smile), 'straight' (the name
-    // on a line) or 'thinking' (the mouth pulled to one side, one eye
-    // narrowed, the head tilted); a change tweens over expressMs
-    expression: "happy",
-    expressMs: 340,
-    // how far the head turns towards the pointer (degrees, at most);
-    // past about 25 the far end of a long smile reaches the rim, and a
-    // look up is held short so the eyes stay clear of the bubble
-    turn: 24,
-    turnUp: 4,
     blink: true,
-    // without a pointer the head looks about on its own
-    wander: true,
-    inMs: 700,
-    outMs: 520,
     // the ball itself: 'ball' keeps the disc; 'shape' lets the mark's
     // silhouette take it over while the face is on (the mark drawn
     // filled, its holes filled and its gaps bridged, then softened: a
@@ -86,16 +48,54 @@ export const createPlanetFaces = (options = {}) => {
     // the disc with data-shape="false"; so does a host with no
     // .lp-orb-skin
     body: "ball",
+    // the face's expression: 'happy' (the smile), 'straight' (the name
+    // on a line) or 'thinking' (the mouth pulled to one side, one eye
+    // narrowed, the head tilted); a change tweens over expressMs
+    expression: "happy",
+    expressMs: 340,
+    eye: 0.18,
+    eyeMark: 0.34,
+    // the pupils: 'pill' (upright capsule) or 'dot'; their width, how
+    // tall a pill is (times its width), and, when the eyes are the
+    // mark, the mark's size; then their distance from the middle and
+    // their height, each as a share of the ball's radius (up is negative)
+    eyeShape: "pill",
+    eyeTall: 1.7,
+    eyeX: 0.3,
+    eyeY: -0.2,
+    inMs: 700,
+    // what the mark does: 'nose', 'eyes', 'smile' (it leads the name
+    // round the arc) or 'hide'. A planet whose mark makes a poor eye
+    // (a wordmark) opts out with data-mark-eyes="false" and keeps pills
+    mark: "nose",
+    maxSpan: 150,
+    // a short name is spaced out to this arc, a long one scaled down
+    // to that (degrees)
+    minSpan: 75,
+    // the smile: the circle the glyphs stand on and its lowest point,
+    // as shares of the radius
+    mouthR: 0.5,
+    mouthY: 0.55,
+    // where the nose lands, as a share of the radius
+    noseY: 0.1,
+    outMs: 520,
+    reduceMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    shapeClose: 0.02,
+    shapeMix: 1,
+    shapeRound: 0.015,
+    shapeSize: 1,
+    shapeSoft: 60,
     // the shapes baked ahead of time, by the planet's icon (the lab's
     // exportShapes() writes them): when given, nothing is traced on the
     // page, and a planet missing from them keeps its disc
     shapes: null,
-    shapeClose: 0.02,
-    shapeRound: 0.015,
-    shapeSoft: 60,
-    shapeSize: 1,
-    shapeMix: 1,
-    reduceMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    // how far the head turns towards the pointer (degrees, at most);
+    // past about 25 the far end of a long smile reaches the rim, and a
+    // look up is held short so the eyes stay clear of the bubble
+    turn: 24,
+    turnUp: 4,
+    // without a pointer the head looks about on its own
+    wander: true,
   };
   const settings = { ...DEFAULTS, ...options.settings };
   /* an expression: how the mouth lies, how open each eye is, and the
@@ -104,9 +104,9 @@ export const createPlanetFaces = (options = {}) => {
      'flat' on a line, 'hmm' on a line that rises to one side, shifted
      that way */
   const EXPRESSIONS = {
-    happy: { mouth: "smile", lids: [1, 1], tilt: 0 },
-    straight: { mouth: "flat", lids: [1, 1], tilt: 0 },
-    thinking: { mouth: "hmm", lids: [0.5, 1], tilt: -6 },
+    happy: { lids: [1, 1], mouth: "smile", tilt: 0 },
+    straight: { lids: [1, 1], mouth: "flat", tilt: 0 },
+    thinking: { lids: [0.5, 1], mouth: "hmm", tilt: -6 },
   };
   const faces = new Set();
   let pointer = null;
@@ -156,7 +156,7 @@ export const createPlanetFaces = (options = {}) => {
   const WANDER_STEP = 100;
   const WANDER_LAG = 80;
   function wake() {
-    if (!frame && !document.hidden) {
+    if (!(frame || document.hidden)) {
       last = null;
       frame = requestAnimationFrame(tick);
     }
@@ -449,7 +449,7 @@ export const createPlanetFaces = (options = {}) => {
     });
   });
   window.addEventListener("pointermove", onMove, { passive: true });
-  window.addEventListener("scroll", onScroll, { passive: true, capture: true });
+  window.addEventListener("scroll", onScroll, { capture: true, passive: true });
   window.addEventListener("pointerup", onUp, { passive: true });
   window.addEventListener("pointercancel", onUp, { passive: true });
   document.documentElement.addEventListener("mouseleave", onLeave);
@@ -478,7 +478,7 @@ export const createPlanetFaces = (options = {}) => {
     const seen = new Uint8Array(mask.length);
     const stack = [];
     const push = (i) => {
-      if (!seen[i] && !mask[i]) {
+      if (!(seen[i] || mask[i])) {
         seen[i] = 1;
         stack.push(i);
       }
@@ -550,14 +550,14 @@ export const createPlanetFaces = (options = {}) => {
     const loops = [];
     next.forEach((_, start) => {
       let list = next.get(start);
-      if (!list || !list.length) {
+      if (!(list && list.length)) {
         return;
       }
       const loop = [];
       let v = start;
       while (true) {
         list = next.get(v);
-        if (!list || !list.length) {
+        if (!(list && list.length)) {
           break;
         }
         loop.push([v % V, Math.floor(v / V)]);
@@ -585,7 +585,7 @@ export const createPlanetFaces = (options = {}) => {
      twentieth of it (a wordmark is more than one piece), biggest first */
   const loopsOf = (loops) => {
     const sized = loops
-      .map((loop) => ({ loop, a: Math.abs(area(loop)) }))
+      .map((loop) => ({ a: Math.abs(area(loop)), loop }))
       .filter((l) => l.a > 0)
       .sort((p, q) => q.a - p.a);
     if (!sized.length) {
@@ -642,12 +642,12 @@ export const createPlanetFaces = (options = {}) => {
       re[k + waves] = sr / n;
       im[k + waves] = si / n;
     }
-    return { re, im, n, waves };
+    return { im, n, re, waves };
   };
   const traceMark = (svg, closeK, roundK) => {
     const view = (svg.getAttribute("viewBox") || "")
       .trim()
-      .split(/[\s,]+/)
+      .split(/[\s,]+/u)
       .map(Number);
     const [vx, vy, vw, vh] =
       view.length === 4 && view.every((n) => Number.isFinite(n))
@@ -688,7 +688,7 @@ export const createPlanetFaces = (options = {}) => {
       const stroke = own("stroke", "none");
       const width = Number.parseFloat(own("stroke-width", "1")) || 1;
       ctx.save();
-      const move = /translate\(\s*([-\d.]+)[\s,]+([-\d.]+)/.exec(
+      const move = /translate\(\s*([-\d.]+)[\s,]+([-\d.]+)/u.exec(
         el.getAttribute("transform") || ""
       );
       if (move) {
@@ -881,7 +881,7 @@ export const createPlanetFaces = (options = {}) => {
     const out = [];
     text
       .trim()
-      .split(/\s+/)
+      .split(/\s+/u)
       .forEach((pair) => {
         const [a, b] = pair.split(",").map(Number);
         x += a;
@@ -901,8 +901,8 @@ export const createPlanetFaces = (options = {}) => {
     const holder = document.createElement("span");
     holder.className = "lp-eye-mark";
     holder.innerHTML = svg.outerHTML
-      .replaceAll(/id="([^"]+)"/g, `id="$1${suffix}"`)
-      .replaceAll(/url\(#([^)]+)\)/g, `url(#$1${suffix})`);
+      .replaceAll(/id="([^"]+)"/gu, `id="$1${suffix}"`)
+      .replaceAll(/url\(#([^)]+)\)/gu, `url(#$1${suffix})`);
     return holder;
   };
   /* a feature's place on the sphere: longitude and latitude (radians)
@@ -911,19 +911,19 @@ export const createPlanetFaces = (options = {}) => {
   const onSphere = (x, y) => {
     const lat = Math.asin(clamp(y, -0.96, 0.96));
     const lon = Math.asin(clamp(x / Math.cos(lat), -0.96, 0.96));
-    return { lon, lat };
+    return { lat, lon };
   };
   const place = (lon, lat, roll = 0) =>
     `rotateY(${(lon * RAD).toFixed(3)}deg) rotateX(${(-lat * RAD).toFixed(3)}deg) translateZ(calc(var(--s) / 2))${roll ? ` rotateZ(${(roll * RAD).toFixed(3)}deg)` : ""}`;
 
   const createFace = (orb, ring) => {
     const items = [...ring.querySelectorAll(".lp-orb-item")].map((item) => ({
-      el: item,
-      glyph: item.firstElementChild,
       a:
         (Number.parseFloat(item.style.getPropertyValue("--a")) * Math.PI) / 180,
-      lon: 0,
+      el: item,
+      glyph: item.firstElementChild,
       lat: 0,
+      lon: 0,
       roll: 0,
       scale: 1,
     }));
@@ -971,61 +971,61 @@ export const createPlanetFaces = (options = {}) => {
       lid.append(pupil);
       eye.append(lid);
       box.append(eye);
-      return { side, el: eye, lid, pupil, capA, bar, capB, markEl };
+      return { bar, capA, capB, el: eye, lid, markEl, pupil, side };
     });
     ring.append(box);
 
     const face = {
-      orb,
-      ring,
-      box,
-      eyes,
-      rect: null,
       arc: letters,
-      nose: { lon: 0, lat: 0 },
+      blinkAt: -1e9,
+      blinkTimer: 0,
+      blinkWritten: 1,
+      box,
+      dirty: true,
+      dur: 0,
+      e: 0,
+      expression: settings.expression,
+      eyes,
+      far: false,
+      from: 0,
+      // the expression's targets, the ones before, and the tween between
+      goal: null,
+      // the look, smoothed, and the head's own wander
+      gx: 0,
+      gy: 0,
+      lids: [1, 1],
       marks: false,
+      nextBlink: 0,
+      nose: { lat: 0, lon: 0 },
+      orb,
+      poly: null,
+      polyKey: null,
+      prior: null,
+      rect: null,
+      rectAt: 0,
+      rest: true,
+      ring,
+      rotateWritten: "",
+      seed: Math.random() * 1000,
       // the mark's outline as a series, and the shape the ball takes, each
       // with the settings it was made for, and the idle task making them
       series: null,
       seriesClose: null,
-      poly: null,
-      polyKey: null,
-      shapeTask: 0,
       shaped: false,
-      expression: settings.expression,
-      // the expression's targets, the ones before, and the tween between
-      goal: null,
-      prior: null,
-      x: 1,
-      xStart: 0,
-      lids: [1, 1],
-      tilt: 0,
-      e: 0,
-      to: 0,
-      from: 0,
+      shapeTask: 0,
       start: 0,
-      dur: 0,
-      rest: true,
-      // what the last frame wrote, to skip the writes nothing changed
-      written: -1,
-      blinkWritten: 1,
-      xWritten: -1,
-      dirty: true,
-      // the look, smoothed, and the head's own wander
-      gx: 0,
-      gy: 0,
-      seed: Math.random() * 1000,
-      nextBlink: 0,
-      blinkAt: -1e9,
-      blinkTimer: 0,
-      rectAt: 0,
+      tilt: 0,
+      tiltWritten: "",
+      to: 0,
       visible: true,
-      far: false,
       // the compositor's wander, and what the frame last wrote
       wanderAnim: null,
       wanderFrom: null,
-      rotateWritten: "",
-      tiltWritten: "",
+      // what the last frame wrote, to skip the writes nothing changed
+      written: -1,
+      x: 1,
+      xStart: 0,
+      xWritten: -1,
     };
 
     /* the face's geometry: each glyph's arc position on the equator
@@ -1231,8 +1231,8 @@ export const createPlanetFaces = (options = {}) => {
         items: face.goal.items.map((g, i) => {
           const o = face.prior.items[i] ?? g;
           return {
-            lon: mix(o.lon, g.lon),
             lat: mix(o.lat, g.lat),
+            lon: mix(o.lon, g.lon),
             roll: mix(o.roll, g.roll),
             scale: mix(o.scale, g.scale),
           };

@@ -1,5 +1,5 @@
-import { Project, ScriptKind } from "ts-morph";
 import type { SourceFile } from "ts-morph";
+import { Project, ScriptKind } from "ts-morph";
 
 type DisplayTransformer = (opts: {
   filename: string;

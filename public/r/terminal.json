@@ -4,15 +4,8 @@
   "deprecated": false,
   "title": "Terminal",
   "description": "A live terminal that streams commands and output with a typewriter effect.",
-  "dependencies": [
-    "@phosphor-icons/react",
-    "motion"
-  ],
-  "registryDependencies": [
-    "code-block",
-    "icons",
-    "trace"
-  ],
+  "dependencies": ["@phosphor-icons/react", "motion"],
+  "registryDependencies": ["code-block", "icons", "trace"],
   "files": [
     {
       "path": "components/ui/terminal.tsx",

@@ -1,7 +1,6 @@
 import Link from "next/link";
-
-import { BrandContextMenu } from "@/components/brand-context-menu";
 import { FrakmentMark } from "@/components/brand/frakment-mark";
+import { BrandContextMenu } from "@/components/brand-context-menu";
 import { CommandMenu } from "@/components/command-menu";
 import { MainNav } from "@/components/main-nav";
 import { MobileNav } from "@/components/mobile-nav";
@@ -46,21 +45,21 @@ export const SiteHeader = () => (
         <BrandContextMenu>
           <Button
             asChild
-            variant="ghost"
+            className="text-foreground -ml-1.5 flex size-8 md:ml-0"
             size="icon"
-            className="-ml-1.5 flex size-8 text-foreground md:ml-0"
+            variant="ghost"
           >
             <Link
+              className="text-foreground"
               href={ROUTES.HOME}
               transitionTypes={["nav-back"]}
-              className="text-foreground"
             >
               <FrakmentMark className="size-5" />
               <span className="sr-only">{SITE.NAME}</span>
             </Link>
           </Button>
         </BrandContextMenu>
-        <MainNav items={navItems} className="hidden lg:flex" />
+        <MainNav className="hidden lg:flex" items={navItems} />
         <div className="ml-auto flex items-center gap-2 md:flex-1 md:justify-end">
           <NavItemGithub />
           <div className="w-auto flex-none md:order-first md:w-full md:flex-1">
@@ -71,8 +70,8 @@ export const SiteHeader = () => (
             <ModeSwitcher />
           </div>
           <MobileNav
+            className="-mr-1.5 flex md:mr-0 lg:hidden"
             tree={source.pageTree}
-            className="-mr-1.5 flex lg:hidden md:mr-0"
           />
         </div>
       </div>

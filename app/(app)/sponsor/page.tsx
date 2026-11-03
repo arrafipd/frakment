@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 
 import { ExternalLinkButton } from "@/components/external-link-button";
 import { PageTransition } from "@/components/page-transition";
@@ -40,24 +39,24 @@ const SponsorPage = async () => {
     <PageTransition>
       <section className="container-wrapper relative">
         <div className="container flex max-w-2xl flex-col items-center gap-4 py-16 text-center md:py-20 lg:py-24">
-          <h1 className="bg-linear-to-b from-foreground via-foreground to-foreground/65 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-6xl">
+          <h1 className="from-foreground via-foreground to-foreground/65 bg-linear-to-b bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-6xl">
             Support Frakment
           </h1>
-          <p className="max-w-xl text-base text-balance text-muted-foreground">
+          <p className="text-muted-foreground max-w-xl text-base text-balance">
             Frakment is a monochrome component registry for AI interfaces. Every
             component is free, open source, and that is not changing.
           </p>
-          <p className="max-w-xl text-sm text-balance text-muted-foreground">
+          <p className="text-muted-foreground max-w-xl text-sm text-balance">
             No paywalled features, no gated components. If Frakment made your
             project better, sponsoring is a nice way to say so.
           </p>
           <div className="mt-4 flex items-center gap-3">
-            <ExternalLinkButton size="lg" href={LINK.SPONSOR}>
+            <ExternalLinkButton href={LINK.SPONSOR} size="lg">
               <Heart />
               Sponsor on GitHub
               <ExternalLink className="size-3.5 opacity-60" />
             </ExternalLinkButton>
-            <ExternalLinkButton size="lg" variant="outline" href={LINK.GITHUB}>
+            <ExternalLinkButton href={LINK.GITHUB} size="lg" variant="outline">
               <Star />
               Star on GitHub
             </ExternalLinkButton>
@@ -68,7 +67,7 @@ const SponsorPage = async () => {
       {sponsors.length > 0 && (
         <section className="container-wrapper relative">
           <div className="container mx-auto flex max-w-2xl flex-col items-center gap-3">
-            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
+            <p className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
               Sponsors
             </p>
             <div className="flex max-w-lg flex-wrap justify-center gap-y-1">
@@ -76,27 +75,27 @@ const SponsorPage = async () => {
                 <Tooltip key={s.login}>
                   <TooltipTrigger asChild>
                     <a
+                      className="group ring-background relative rounded-full ring-2 transition-transform hover:z-10 hover:scale-110"
                       href={s.url}
-                      target="_blank"
                       rel="noopener noreferrer"
-                      className="group relative rounded-full ring-2 ring-background transition-transform hover:z-10 hover:scale-110"
                       style={{ marginLeft: i === 0 ? 0 : "-10px" }}
+                      target="_blank"
                     >
                       {s.logo ? (
-                        <div className="flex size-13 items-center justify-center overflow-hidden rounded-full bg-white p-3 ring-1 ring-border">
+                        <div className="ring-border flex size-13 items-center justify-center overflow-hidden rounded-full bg-white p-3 ring-1">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
-                            src={s.logo}
                             alt={s.name}
                             className="size-full max-h-6 max-w-6 object-contain object-center"
+                            src={s.logo}
                           />
                         </div>
                       ) : (
                         <UserAvatar
-                          src={s.avatar_url}
+                          className="rounded-full"
                           name={s.name || s.login}
                           size={52}
-                          className="rounded-full"
+                          src={s.avatar_url}
                         />
                       )}
                     </a>
@@ -106,11 +105,11 @@ const SponsorPage = async () => {
               ))}
               {extraSponsors > 0 && (
                 <a
+                  className="bg-muted text-muted-foreground ring-background hover:bg-accent hover:text-foreground relative z-10 flex size-13 items-center justify-center rounded-full text-xs font-medium ring-2 transition-colors hover:z-20"
                   href={LINK.SPONSOR}
-                  target="_blank"
                   rel="noopener noreferrer"
-                  className="relative z-10 flex size-13 items-center justify-center rounded-full bg-muted text-xs font-medium text-muted-foreground ring-2 ring-background transition-colors hover:z-20 hover:bg-accent hover:text-foreground"
                   style={{ marginLeft: "-10px" }}
+                  target="_blank"
                 >
                   +{extraSponsors}
                 </a>
@@ -123,7 +122,7 @@ const SponsorPage = async () => {
       {contributors.length > 0 && (
         <section className="container-wrapper relative pt-12">
           <div className="container mx-auto flex max-w-2xl flex-col items-center gap-4">
-            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
+            <p className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
               Contributors
             </p>
             <div className="flex max-w-lg flex-wrap justify-center gap-y-1">
@@ -131,17 +130,17 @@ const SponsorPage = async () => {
                 <Tooltip key={c.login}>
                   <TooltipTrigger asChild>
                     <a
+                      className="group ring-background relative rounded-full ring-2 transition-transform hover:z-10 hover:scale-110"
                       href={c.html_url}
-                      target="_blank"
                       rel="noopener noreferrer"
-                      className="group relative rounded-full ring-2 ring-background transition-transform hover:z-10 hover:scale-110"
                       style={{ marginLeft: i === 0 ? 0 : "-8px" }}
+                      target="_blank"
                     >
                       <UserAvatar
-                        src={c.avatar_url}
+                        className="rounded-full"
                         name={c.login}
                         size={36}
-                        className="rounded-full"
+                        src={c.avatar_url}
                       />
                     </a>
                   </TooltipTrigger>
@@ -152,11 +151,11 @@ const SponsorPage = async () => {
               ))}
               {extraContributors > 0 && (
                 <a
+                  className="bg-muted text-muted-foreground ring-background hover:bg-accent hover:text-foreground relative z-10 flex size-9 items-center justify-center rounded-full text-[10px] font-medium ring-2 transition-colors hover:z-20"
                   href={`${LINK.GITHUB}/graphs/contributors`}
-                  target="_blank"
                   rel="noopener noreferrer"
-                  className="relative z-10 flex size-9 items-center justify-center rounded-full bg-muted text-[10px] font-medium text-muted-foreground ring-2 ring-background transition-colors hover:z-20 hover:bg-accent hover:text-foreground"
                   style={{ marginLeft: "-8px" }}
+                  target="_blank"
                 >
                   +{extraContributors}
                 </a>

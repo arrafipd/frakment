@@ -1,8 +1,6 @@
 "use client";
 
-import { DownloadIcon, FileCodeIcon, WrapTextIcon } from "@/lib/icons";
 import * as React from "react";
-
 import { Button } from "@/components/ui/button";
 import {
   CodeBlock,
@@ -14,6 +12,7 @@ import {
   CodeBlockTitle,
 } from "@/components/ui/code-block";
 import { useHighlightedCode } from "@/hooks/use-highlighted-code";
+import { DownloadIcon, FileCodeIcon, WrapTextIcon } from "@/lib/icons";
 
 const code = `import { streamText } from "ai"
 
@@ -52,27 +51,27 @@ export function CodeBlockDemo() {
           </CodeBlockTitle>
           <CodeBlockActions>
             <Button
-              variant="ghost"
-              size="icon-xs"
               aria-label="Wrap lines"
               aria-pressed={wrap}
               className="aria-pressed:text-foreground"
               onClick={() => setWrap(!wrap)}
+              size="icon-xs"
+              variant="ghost"
             >
               <WrapTextIcon />
             </Button>
             <Button
-              variant="ghost"
-              size="icon-xs"
               aria-label="Download"
               onClick={() => download(code, "route.ts")}
+              size="icon-xs"
+              variant="ghost"
             >
               <DownloadIcon />
             </Button>
             <CodeBlockCopyButton value={code} />
           </CodeBlockActions>
         </CodeBlockHeader>
-        <CodeBlockContent wrap={wrap} lineNumbers>
+        <CodeBlockContent lineNumbers wrap={wrap}>
           {lines.map((line, index) => (
             <CodeBlockLine
               key={index}

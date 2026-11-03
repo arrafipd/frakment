@@ -1,0 +1,367 @@
+// Frakment chat engine â€” public and internal TypeScript interfaces.
+// Public API contract: createChat, ChatTransport, UIMessageChunk (AI SDK v7).
+
+// biome-ignore lint: explicit re-export untuk API publik - prefer-export-from tidak cocok di sini
+import type {
+  ChatTransport,
+  UIDataTypes,
+  UIMessage,
+  UIMessageChunk,
+  UIMessagePart,
+  UITools,
+} from "ai";
+
+// ============================================================
+// Base
+// ============================================================
+
+export type JsonRecord = Record<string, unknown>;
+export type DataTypes = Record<string, unknown>;
+
+export interface ToolDefinition {
+  input: unknown;
+  output: unknown;
+}
+
+export type ToolSet = Record<string, ToolDefinition>;
+
+// ============================================================
+// Tool scripting
+// ============================================================
+
+export interface ToolWriterOptions<
+  TOOLS extends ToolSet,
+  NAME extends keyof TOOLS,
+> {
+  approvalId?: string;
+  dynamic?: boolean;
+  errorText?: string;
+  input?: TOOLS[NAME]["input"];
+  needsApproval?: boolean;
+  output?: TOOLS[NAME]["output"];
+  providerExecuted?: boolean;
+  title?: string;
+  toolCallId?: string;
+  toolMetadata?: JsonRecord;
+}
+
+export type PendingToolCall<TOOLS extends ToolSet> = {
+  [NAME in keyof TOOLS & string]: {
+    name: NAME;
+    toolCallId: string;
+    input: TOOLS[NAME]["input"];
+    output: TOOLS[NAME]["output"] | undefined;
+    approved?: boolean;
+    denied?: boolean;
+  };
+}[keyof TOOLS & string];
+
+export interface ToolOutputOptions {
+  preliminary?: boolean;
+}
+
+export interface ToolHandle<OUTPUT> {
+  denied(): ToolHandle<OUTPUT>;
+  error(errorText?: string): ToolHandle<OUTPUT>;
+  output(output: OUTPUT, options?: ToolOutputOptions): ToolHandle<OUTPUT>;
+  sleep(delayMs: number): ToolHandle<OUTPUT>;
+}
+
+// ============================================================
+// Payloads
+// ============================================================
+
+export interface StreamTextOptions {
+  delayMs?: number;
+  id?: string;
+  mode?: "stream" | "instant";
+}
+
+export interface FilePayload {
+  filename?: string;
+  mediaType: string;
+  providerMetadata?: JsonRecord;
+  url: string;
+}
+
+export interface ReasoningFilePayload {
+  filename?: string;
+  mediaType: string;
+  providerMetadata?: JsonRecord;
+  url: string;
+}
+
+export interface SourceUrlPayload {
+  providerMetadata?: JsonRecord;
+  sourceId: string;
+  title?: string;
+  url: string;
+}
+
+export interface SourceDocumentPayload {
+  filename?: string;
+  mediaType: string;
+  providerMetadata?: JsonRecord;
+  sourceId: string;
+  title: string;
+}
+
+export type DataEventInput<DATA extends DataTypes> = {
+  [NAME in keyof DATA & string]: {
+    type: `data-${NAME}`;
+    id?: string;
+    data: DATA[NAME];
+    transient?: boolean;
+  };
+}[keyof DATA & string];
+
+// ============================================================
+// Chat options
+// ============================================================
+
+export interface ChatIdsOptions {
+  approvalIdPrefix?: string;
+  messageIdPrefix?: string;
+  sourceIdPrefix?: string;
+  toolCallIdPrefix?: string;
+}
+
+export type ChatOptions = ChatIdsOptions & {
+  now?: Date | string;
+};
+
+export interface TurnStreamOptions {
+  delayMs?: number;
+}
+
+export interface ChatUserOptions<METADATA> {
+  files?: (FilePayload & { type?: "file" })[];
+  id?: string;
+  metadata?: METADATA;
+}
+
+export interface ChatAssistantOptions<METADATA> {
+  id?: string;
+  metadata?: METADATA;
+}
+
+export type ChatFallback<
+  MESSAGE,
+  PART,
+  DATA extends DataTypes = DataTypes,
+  TOOLS extends ToolSet = ToolSet,
+  WRITER = EventWriter<DATA, TOOLS>,
+> =
+  | string
+  | PART[]
+  | ((context: { writer: WRITER; messages: MESSAGE[] }) => void);
+
+export type ChatTransportOptions<
+  MESSAGE,
+  PART,
+  DATA extends DataTypes = DataTypes,
+  TOOLS extends ToolSet = ToolSet,
+  WRITER = EventWriter<DATA, TOOLS>,
+> = TurnStreamOptions & {
+  fallback?: ChatFallback<MESSAGE, PART, DATA, TOOLS, WRITER>;
+};
+
+// ============================================================
+// EventWriter (fluent DSL for assistant(callback))
+// ============================================================
+
+export interface EventWriter<DATA extends DataTypes, TOOLS extends ToolSet> {
+  custom(kind?: string): EventWriter<DATA, TOOLS>;
+  data(part: DataEventInput<DATA>): EventWriter<DATA, TOOLS>;
+  error(errorText?: string): EventWriter<DATA, TOOLS>;
+  file(overrides?: Partial<FilePayload>): EventWriter<DATA, TOOLS>;
+  reasoning(
+    text?: string,
+    options?: StreamTextOptions
+  ): EventWriter<DATA, TOOLS>;
+  reasoningFile(
+    overrides?: Partial<ReasoningFilePayload>
+  ): EventWriter<DATA, TOOLS>;
+  sleep(delayMs: number): EventWriter<DATA, TOOLS>;
+  sourceDocument(
+    overrides?: Partial<SourceDocumentPayload>
+  ): EventWriter<DATA, TOOLS>;
+  sourceUrl(overrides?: Partial<SourceUrlPayload>): EventWriter<DATA, TOOLS>;
+  stepStart(): EventWriter<DATA, TOOLS>;
+  text(text?: string, options?: StreamTextOptions): EventWriter<DATA, TOOLS>;
+  tool<NAME extends keyof TOOLS & string>(
+    name: NAME,
+    options?: ToolWriterOptions<TOOLS, NAME>
+  ): ToolHandle<TOOLS[NAME]["output"]>;
+}
+
+export interface AssistantTurnContext<
+  WRITER,
+  MESSAGE,
+  TOOLS extends ToolSet = ToolSet,
+> {
+  messages?: MESSAGE[];
+  toolCall?: PendingToolCall<TOOLS>;
+  toolCalls?: PendingToolCall<TOOLS>[];
+  writer: WRITER;
+}
+
+// ============================================================
+// Internal events (matches chunk-ZEGKA56A.js event kinds)
+// ============================================================
+
+export type ChatEvent =
+  | { kind: "text"; id: string; text: string; options?: StreamTextOptions }
+  | { kind: "reasoning"; id: string; text: string; options?: StreamTextOptions }
+  | {
+      kind: "sleep";
+      delayMs: number;
+      phase: "before-start" | "after-start";
+    }
+  | {
+      kind: "data";
+      name: string;
+      id: string | undefined;
+      data: unknown;
+      transient?: boolean;
+    }
+  | { kind: "error"; errorText: string }
+  | {
+      kind: "tool-input";
+      name: string;
+      toolCallId: string;
+      title?: string;
+      toolMetadata?: JsonRecord;
+      providerExecuted?: boolean;
+      dynamic?: boolean;
+      input: unknown;
+    }
+  | {
+      kind: "tool-approval-request";
+      toolCallId: string;
+      approvalId: string;
+      output?: unknown;
+      errorText?: string;
+    }
+  | {
+      kind: "tool-output";
+      toolCallId: string;
+      output: unknown;
+      preliminary?: boolean;
+      providerExecuted?: boolean;
+      toolMetadata?: JsonRecord;
+      dynamic?: boolean;
+    }
+  | {
+      kind: "tool-error";
+      toolCallId: string;
+      errorText: string;
+      providerExecuted?: boolean;
+      toolMetadata?: JsonRecord;
+      dynamic?: boolean;
+    }
+  | { kind: "tool-denied"; toolCallId: string }
+  | { kind: "source-url"; part: SourceUrlPayload }
+  | { kind: "source-document"; part: SourceDocumentPayload }
+  | { kind: "file"; part: FilePayload }
+  | { kind: "reasoning-file"; part: ReasoningFilePayload }
+  | { kind: "custom"; part: { kind: string } & JsonRecord }
+  | { kind: "step-start" };
+
+// Envelope for stream sequence (chunk | sleep | close)
+export type ChatEventEnvelope =
+  | { kind: "chunk"; chunk: UIMessageChunk }
+  | { kind: "sleep"; delayMs: number }
+  | { kind: "close" };
+
+// ============================================================
+// Public Chat interface
+// ============================================================
+
+export interface Chat<
+  MESSAGE,
+  PART,
+  TRANSPORT,
+  METADATA = unknown,
+  DATA extends DataTypes = DataTypes,
+  TOOLS extends ToolSet = ToolSet,
+  WRITER = EventWriter<DATA, TOOLS>,
+> {
+  assistant(
+    input?:
+      | string
+      | PART[]
+      | ((context: AssistantTurnContext<WRITER, MESSAGE, TOOLS>) => void),
+    options?: ChatAssistantOptions<METADATA>
+  ): Chat<MESSAGE, PART, TRANSPORT, METADATA, DATA, TOOLS, WRITER>;
+  error(
+    errorText?: string
+  ): Chat<MESSAGE, PART, TRANSPORT, METADATA, DATA, TOOLS, WRITER>;
+  get(count?: number): MESSAGE[];
+  next(messages: readonly MESSAGE[]): MESSAGE | null;
+  sleep(
+    delayMs: number
+  ): Chat<MESSAGE, PART, TRANSPORT, METADATA, DATA, TOOLS, WRITER>;
+  transport(
+    options?: ChatTransportOptions<MESSAGE, PART, DATA, TOOLS, WRITER>
+  ): TRANSPORT;
+  user(
+    text?: string,
+    options?: ChatUserOptions<METADATA>
+  ): Chat<MESSAGE, PART, TRANSPORT, METADATA, DATA, TOOLS, WRITER>;
+}
+
+// ============================================================
+// AI SDK adapter types (mirror ai-sdk/index.d.ts)
+// ============================================================
+
+export type MessageMetadata<UI_MESSAGE extends UIMessage> =
+  UI_MESSAGE extends UIMessage<infer METADATA> ? METADATA : unknown;
+
+export type MessageData<UI_MESSAGE extends UIMessage> =
+  UI_MESSAGE extends UIMessage<unknown, infer DATA_PARTS>
+    ? DATA_PARTS
+    : UIDataTypes;
+
+export type MessageTools<UI_MESSAGE extends UIMessage> =
+  UI_MESSAGE extends UIMessage<unknown, UIDataTypes, infer TOOLS>
+    ? TOOLS
+    : UITools;
+
+export type CreateChatOptions<UI_MESSAGE extends UIMessage = UIMessage> =
+  ChatOptions & {
+    messages?: UIMessage<
+      MessageMetadata<UI_MESSAGE>,
+      MessageData<UI_MESSAGE>,
+      MessageTools<UI_MESSAGE>
+    >[];
+  };
+
+export type AiSdkChat<UI_MESSAGE extends UIMessage = UIMessage> = Chat<
+  UIMessage<
+    MessageMetadata<UI_MESSAGE>,
+    MessageData<UI_MESSAGE>,
+    MessageTools<UI_MESSAGE>
+  >,
+  UIMessagePart<MessageData<UI_MESSAGE>, MessageTools<UI_MESSAGE>>,
+  ChatTransport<
+    UIMessage<
+      MessageMetadata<UI_MESSAGE>,
+      MessageData<UI_MESSAGE>,
+      MessageTools<UI_MESSAGE>
+    >
+  >,
+  MessageMetadata<UI_MESSAGE>,
+  MessageData<UI_MESSAGE>,
+  MessageTools<UI_MESSAGE>
+>;
+
+// Re-export AI SDK types (consumed by lib/ai/* modules)
+export type {
+  ChatTransport,
+  UIDataTypes,
+  UIMessage,
+  UIMessageChunk,
+  UIMessagePart,
+  UITools,
+};

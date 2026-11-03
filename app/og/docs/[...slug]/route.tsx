@@ -29,26 +29,26 @@ export const GET = async (
       <div tw="flex border absolute border-stone-700 inset-x-0 h-[1px] top-16" />
       <div tw="flex border absolute border-stone-700 inset-x-0 h-[1px] bottom-16" />
       <div tw="flex absolute flex-row bottom-24 right-24 text-white">
-        <FrakmentMark width={48} height={48} />
+        <FrakmentMark height={48} width={48} />
       </div>
       <div tw="flex flex-col absolute w-[896px] justify-center inset-32">
         <div
-          tw="text-base tracking-tight flex-grow-1 flex flex-col justify-center leading-[1.1]"
           style={{
             fontSize: title && title.length > 20 ? 64 : 80,
             fontWeight: 600,
             letterSpacing: "-0.04em",
             textWrap: "balance",
           }}
+          tw="text-base tracking-tight flex-grow-1 flex flex-col justify-center leading-[1.1]"
         >
           {title}
         </div>
         <div
-          tw="text-[40px] leading-[1.5] flex-grow-1 text-stone-400"
           style={{
             fontWeight: 500,
             textWrap: "balance",
           }}
+          tw="text-[40px] leading-[1.5] flex-grow-1 text-stone-400"
         >
           {description}
         </div>

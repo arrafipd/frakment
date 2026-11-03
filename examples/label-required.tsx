@@ -9,7 +9,7 @@ export function LabelRequired() {
       <Label htmlFor="req">
         Email <span className="text-destructive">*</span>
       </Label>
-      <Input id="req" type="email" placeholder="required" required />
+      <Input id="req" placeholder="required" required type="email" />
     </div>
   );
 }

@@ -11,7 +11,7 @@ export function BadgeDemo() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-4">
       <div className="flex flex-col gap-2">
-        <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+        <span className="text-muted-foreground text-xs font-medium tracking-wider uppercase">
           Deployment status
         </span>
         <div className="flex flex-wrap gap-2">
@@ -30,7 +30,7 @@ export function BadgeDemo() {
         </div>
       </div>
       <div className="flex flex-col gap-2">
-        <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+        <span className="text-muted-foreground text-xs font-medium tracking-wider uppercase">
           Pull requests
         </span>
         <div className="flex flex-wrap gap-2">
@@ -43,7 +43,7 @@ export function BadgeDemo() {
         </div>
       </div>
       <div className="flex flex-col gap-2">
-        <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+        <span className="text-muted-foreground text-xs font-medium tracking-wider uppercase">
           Latest release
         </span>
         <div className="flex items-center gap-2">
@@ -51,7 +51,7 @@ export function BadgeDemo() {
             <RocketIcon />
             v1.2.3
           </Badge>
-          <span className="text-sm text-muted-foreground">2 minutes ago</span>
+          <span className="text-muted-foreground text-sm">2 minutes ago</span>
         </div>
       </div>
     </div>

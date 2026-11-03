@@ -4,10 +4,7 @@
   "deprecated": false,
   "title": "Marker",
   "description": "A small inline status row with icon, content, and separator variants.",
-  "dependencies": [
-    "class-variance-authority",
-    "radix-ui"
-  ],
+  "dependencies": ["class-variance-authority", "radix-ui"],
   "registryDependencies": [],
   "files": [
     {

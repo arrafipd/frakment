@@ -18,10 +18,10 @@ export const MainNav = ({
   return (
     <nav className={cn("items-center gap-0.5", className)} {...props}>
       {items.map((item) => (
-        <Button key={item.href} variant="ghost" asChild size="sm">
+        <Button asChild key={item.href} size="sm" variant="ghost">
           <Link
-            href={item.href}
             className={cn(pathname === item.href && "text-primary")}
+            href={item.href}
             transitionTypes={["nav-forward"]}
           >
             {item.label}

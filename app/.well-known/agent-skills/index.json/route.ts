@@ -21,7 +21,7 @@ async function fileDigest(source: string): Promise<string | null> {
 
 export const GET = async (request: Request) => {
   const origin = requestOrigin(request);
-  const base = origin.replace(/\/$/, "");
+  const base = origin.replace(/\/$/u, "");
 
   const frakmentUsageDigest = await fileDigest(
     "skills/frakment-usage/SKILL.md"

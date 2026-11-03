@@ -1,9 +1,9 @@
-import { forwardRef } from "react";
 import type { SVGProps } from "react";
+import { forwardRef } from "react";
 
 export interface FrakmentMarkProps extends SVGProps<SVGSVGElement> {
-  size?: number | string;
   color?: string;
+  size?: number | string;
   title?: string;
 }
 
@@ -24,14 +24,14 @@ export const FrakmentMark = forwardRef<SVGSVGElement, FrakmentMarkProps>(
 
     return (
       <svg
-        ref={ref}
-        width={resolvedWidth}
-        height={resolvedHeight}
-        viewBox="0 0 4040 4040"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        role="img"
         aria-label={title}
+        fill="none"
+        height={resolvedHeight}
+        ref={ref}
+        role="img"
+        viewBox="0 0 4040 4040"
+        width={resolvedWidth}
+        xmlns="http://www.w3.org/2000/svg"
         {...props}
       >
         <title>{title}</title>

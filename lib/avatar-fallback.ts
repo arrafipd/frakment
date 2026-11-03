@@ -414,7 +414,7 @@ export const guessGender = (name: string): "male" | "female" => {
   const [first] = name
     .trim()
     .toLowerCase()
-    .split(/[\s._-]/);
+    .split(/[\s._-]/u);
   if (!first) {
     return "male";
   }

@@ -1,6 +1,14 @@
 "use client";
 
 import {
+  SiGithub,
+  SiNextdotjs,
+  SiReact,
+  SiTailwindcss,
+  SiTypescript,
+  SiVercel,
+} from "@icons-pack/react-simple-icons";
+import {
   ArrowLeft,
   ArrowRight,
   ArrowSquareOut,
@@ -17,14 +25,6 @@ import {
   WarningCircle,
   X,
 } from "@phosphor-icons/react";
-import {
-  SiGithub,
-  SiNextdotjs,
-  SiReact,
-  SiTailwindcss,
-  SiTypescript,
-  SiVercel,
-} from "@icons-pack/react-simple-icons";
 import type { CSSProperties } from "react";
 
 /**
@@ -78,12 +78,12 @@ export type PhosphorIconName = keyof typeof phosphorIcons;
 export type SimpleIconName = keyof typeof simpleIcons;
 
 export interface IconProps {
-  src: string;
-  size?: number;
-  color?: string;
-  title?: string;
   className?: string;
+  color?: string;
+  size?: number;
+  src: string;
   style?: CSSProperties;
+  title?: string;
 }
 
 export function Icon({
@@ -109,13 +109,13 @@ export function Icon({
 
     return (
       <Component
-        weight={weight}
-        size={size}
-        color={color}
-        className={className}
-        style={style}
         aria-label={title}
+        className={className}
+        color={color}
         role={title ? "img" : undefined}
+        size={size}
+        style={style}
+        weight={weight}
       />
     );
   }
@@ -133,23 +133,23 @@ export function Icon({
 
     return (
       <Component
-        size={size}
-        color={color}
-        title={title}
         className={className}
+        color={color}
+        size={size}
         style={style}
+        title={title}
       />
     );
   }
 
   return (
     <img
-      src={src}
       alt={title ?? ""}
-      width={size}
-      height={size}
       className={className}
+      height={size}
+      src={src}
       style={style}
+      width={size}
     />
   );
 }

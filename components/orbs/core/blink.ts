@@ -26,18 +26,18 @@ export const BLINK = Array.from(
 );
 
 export interface BlinkEye {
-  lid: HTMLElement;
   blink: Animation | null;
+  lid: HTMLElement;
 }
 
 export interface BlinkFace {
-  eyes: BlinkEye[];
-  /** face morph progress, 0..1 */
-  e: number;
-  /** lid scale per eye, from the current expression */
-  lids: [number, number];
   /** start time of the current blink */
   blinkAt: number;
+  /** face morph progress, 0..1 */
+  e: number;
+  eyes: BlinkEye[];
+  /** lid scale per eye, from the current expression */
+  lids: [number, number];
 }
 
 export const blinkLids = (face: BlinkFace): void => {

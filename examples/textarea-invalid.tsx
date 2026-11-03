@@ -6,9 +6,9 @@ export function TextareaInvalid() {
   return (
     <div className="w-full max-w-sm">
       <Textarea
-        placeholder="Invalid"
         aria-invalid
         defaultValue="This content is not allowed."
+        placeholder="Invalid"
       />
     </div>
   );

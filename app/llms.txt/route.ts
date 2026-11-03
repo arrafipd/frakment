@@ -11,15 +11,15 @@ export const revalidate = false;
 const documentationIndex = (base: string) =>
   llms(source)
     .index()
-    .replace(/^#\s+(.+)$/m, "## $1")
+    .replace(/^#\s+(.+)$/mu, "## $1")
     .replaceAll(
-      /\]\((\/docs(?:\/[^)#\s]+)?)(#[^)]+)?\)/g,
+      /\]\((\/docs(?:\/[^)#\s]+)?)(#[^)]+)?\)/gu,
       (_, pathname, hash = "") => `](${base}${pathname}.md${hash})`
     )
     .trim();
 
 const docsIndex = (origin: string) => {
-  const base = origin.replace(/\/$/, "");
+  const base = origin.replace(/\/$/u, "");
 
   return `# ${SITE.NAME}
 

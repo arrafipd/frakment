@@ -1,11 +1,11 @@
 "use client";
 
-import { Search } from "@/lib/icons";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
+import { Search } from "@/lib/icons";
 
 export function InputGroupInvalid() {
   return (
@@ -14,7 +14,11 @@ export function InputGroupInvalid() {
         <InputGroupAddon>
           <Search />
         </InputGroupAddon>
-        <InputGroupInput placeholder="Invalid" aria-invalid defaultValue="Not found" />
+        <InputGroupInput
+          aria-invalid
+          defaultValue="Not found"
+          placeholder="Invalid"
+        />
       </InputGroup>
     </div>
   );

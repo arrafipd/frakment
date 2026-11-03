@@ -1,12 +1,12 @@
 "use client";
 
-import { ArrowUpIcon } from "@/lib/icons";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupTextarea,
 } from "@/components/ui/input-group";
+import { ArrowUpIcon } from "@/lib/icons";
 
 export function InputGroupBlockEnd() {
   return (

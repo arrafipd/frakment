@@ -23,8 +23,8 @@ const ChangelogGrid = ({
 
 export const ChangelogList = () => {
   const pages = getChangelogPages().map((page) => ({
-    url: page.url,
     title: page.data.title,
+    url: page.url,
   }));
 
   if (pages.length === 0) {

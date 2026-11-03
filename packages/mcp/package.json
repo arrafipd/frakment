@@ -1,0 +1,38 @@
+{
+  "name": "@frakment/mcp",
+  "version": "0.0.1",
+  "description": "MCP server for the frakment component registry",
+  "keywords": [
+    "ai",
+    "frakment",
+    "mcp",
+    "model-context-protocol",
+    "registry"
+  ],
+  "homepage": "https://github.com/hanshapd/frakment/tree/main/packages/mcp#readme",
+  "bugs": {
+    "url": "https://github.com/hanshapd/frakment/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hanshapd/frakment.git",
+    "directory": "packages/mcp"
+  },
+  "license": "SEE LICENSE IN ../../LICENSE",
+  "author": "hanshapd (https://github.com/hanshapd)",
+  "type": "module",
+  "bin": {
+    "frakment-mcp": "./index.js"
+  },
+  "files": [
+    "index.js",
+    "README.md"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^4.6.7"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,3 +1,6 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Item,
   ItemActions,
@@ -7,9 +10,6 @@ import {
   ItemMedia,
   ItemTitle,
 } from "@/components/ui/item";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { ChevronRightIcon, StarIcon } from "@/lib/icons";
 
 export function ItemDemo() {
@@ -19,7 +19,7 @@ export function ItemDemo() {
         <Item variant="muted">
           <ItemMedia>
             <Avatar>
-              <AvatarImage src="/avatars/female-l-1.avif" alt="@aria" />
+              <AvatarImage alt="@aria" src="/avatars/female-l-1.avif" />
               <AvatarFallback>{"AC"}</AvatarFallback>
             </Avatar>
           </ItemMedia>
@@ -29,7 +29,7 @@ export function ItemDemo() {
           </ItemContent>
           <ItemActions>
             <Badge variant="secondary">{"Admin"}</Badge>
-            <Button variant="ghost" size="icon-xs" aria-label="Open">
+            <Button aria-label="Open" size="icon-xs" variant="ghost">
               <ChevronRightIcon />
             </Button>
           </ItemActions>
@@ -37,7 +37,7 @@ export function ItemDemo() {
         <Item variant="muted">
           <ItemMedia>
             <Avatar>
-              <AvatarImage src="/avatars/male-l.avif" alt="@ben" />
+              <AvatarImage alt="@ben" src="/avatars/male-l.avif" />
               <AvatarFallback>{"BO"}</AvatarFallback>
             </Avatar>
           </ItemMedia>
@@ -46,7 +46,7 @@ export function ItemDemo() {
             <ItemDescription>{"ben@frakment.dev"}</ItemDescription>
           </ItemContent>
           <ItemActions>
-            <Button variant="ghost" size="icon-xs" aria-label="Favorite">
+            <Button aria-label="Favorite" size="icon-xs" variant="ghost">
               <StarIcon />
             </Button>
           </ItemActions>
@@ -54,7 +54,7 @@ export function ItemDemo() {
         <Item variant="muted">
           <ItemMedia>
             <Avatar>
-              <AvatarImage src="/avatars/female-l-2.avif" alt="@cleo" />
+              <AvatarImage alt="@cleo" src="/avatars/female-l-2.avif" />
               <AvatarFallback>{"CP"}</AvatarFallback>
             </Avatar>
           </ItemMedia>

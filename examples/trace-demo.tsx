@@ -1,15 +1,14 @@
-import { CheckIcon, LoaderCircleIcon, ClockIcon } from "@/lib/icons";
-
 import {
   Trace,
-  TraceLine,
-  TraceIcon,
-  TraceTitle,
-  TraceDescription,
   TraceCollapsible,
-  TraceCollapsibleTrigger,
   TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceDescription,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
 } from "@/components/ui/trace";
+import { CheckIcon, ClockIcon, LoaderCircleIcon } from "@/lib/icons";
 
 export function TraceDemo() {
   return (

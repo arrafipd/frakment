@@ -6,7 +6,7 @@ description: "Run Frakment as a Model Context Protocol server so any MCP-capable
 import { DownloadIcon, ListIcon, SearchIcon, TerminalIcon } from "@/lib/icons";
 
 <Callout type="success" title="One line to start">
-  `npx -y frakment-mcp`. No install, no config file, just a working MCP server
+  `npx -y @frakment/mcp`. No install, no config file, just a working MCP server
   on stdio.
 </Callout>
 
@@ -23,7 +23,7 @@ Frakment ships an MCP server that exposes the registry as tools. Agents call the
   <TabsContent value="npx">
 
 ```bash
-npx -y frakment-mcp
+npx -y @frakment/mcp
 ```
 
   </TabsContent>
@@ -211,7 +211,7 @@ frakment-mcp
 <AccordionItem value="agent-blind">
   <AccordionTrigger>Agent does not see the tools</AccordionTrigger>
   <AccordionContent>
-    Verify the client config JSON parses, and that `npx -y frakment-mcp` runs
+    Verify the client config JSON parses, and that `npx -y @frakment/mcp` runs
     from a terminal without errors.
   </AccordionContent>
 </AccordionItem>

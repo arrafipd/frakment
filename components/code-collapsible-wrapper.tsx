@@ -20,9 +20,9 @@ export const CodeCollapsibleWrapper = ({
 
   return (
     <Collapsible
-      open={isOpened}
-      onOpenChange={setIsOpened}
       className={cn("group/collapsible relative md:-mx-1", className)}
+      onOpenChange={setIsOpened}
+      open={isOpened}
       {...props}
     >
       <CollapsibleTrigger asChild>
@@ -33,34 +33,34 @@ export const CodeCollapsibleWrapper = ({
           )}
         >
           <Button
-            variant="ghost"
-            size="sm"
             className="text-muted-foreground h-7 rounded-md px-2"
+            size="sm"
+            variant="ghost"
           >
             {isOpened ? "Collapse" : "Expand"}
           </Button>
-          <Separator orientation="vertical" className="mx-1.5 h-4!" />
+          <Separator className="mx-1.5 h-4!" orientation="vertical" />
         </div>
       </CollapsibleTrigger>
 
       <motion.div
-        initial={false}
         animate={{
           height: isOpened ? "auto" : 256,
         }}
+        className="relative mt-6 [&>figure]:mt-0 [&>figure]:md:mx-0!"
+        initial={false}
+        style={{ overflow: "hidden" }}
         transition={{
           duration: 0.3,
           ease: [0.4, 0, 0.2, 1],
         }}
-        style={{ overflow: "hidden" }}
-        className="relative mt-6 [&>figure]:mt-0 [&>figure]:md:mx-0!"
       >
         {children}
       </motion.div>
 
-      <div className="absolute inset-x-0 -bottom-2 flex h-20 items-center justify-center rounded-b-lg bg-linear-to-b from-code/70 to-code group-data-[state=open]/collapsible:hidden">
+      <div className="from-code/70 to-code absolute inset-x-0 -bottom-2 flex h-20 items-center justify-center rounded-b-lg bg-linear-to-b group-data-[state=open]/collapsible:hidden">
         <CollapsibleTrigger asChild>
-          <Button variant="outline" size="sm">
+          <Button size="sm" variant="outline">
             Expand
           </Button>
         </CollapsibleTrigger>

@@ -85,12 +85,12 @@ export const DocsTableOfContents = ({
 
   if (variant === "dropdown") {
     return (
-      <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenu onOpenChange={setOpen} open={open}>
         <DropdownMenuTrigger asChild>
           <Button
-            variant="outline"
-            size="sm"
             className={cn("h-8 md:h-7", className)}
+            size="sm"
+            variant="outline"
           >
             <MenuIcon /> On This Page
           </Button>
@@ -101,11 +101,11 @@ export const DocsTableOfContents = ({
         >
           {toc.map((item) => (
             <DropdownMenuItem
-              key={item.url}
               asChild
-              onClick={handleClose}
-              data-depth={item.depth}
               className="data-[depth=3]:pl-6 data-[depth=4]:pl-8"
+              data-depth={item.depth}
+              key={item.url}
+              onClick={handleClose}
             >
               <a href={item.url}>{item.title}</a>
             </DropdownMenuItem>
@@ -122,11 +122,11 @@ export const DocsTableOfContents = ({
       </p>
       {toc.map((item) => (
         <a
-          key={item.url}
-          href={item.url}
-          className="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] data-[active=true]:font-medium no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+          className="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[active=true]:font-medium data-[depth=3]:pl-4 data-[depth=4]:pl-6"
           data-active={item.url === `#${activeHeading}`}
           data-depth={item.depth}
+          href={item.url}
+          key={item.url}
           onClick={playTick}
         >
           {item.title}

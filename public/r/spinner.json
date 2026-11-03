@@ -4,12 +4,8 @@
   "deprecated": false,
   "title": "Spinner",
   "description": "A small animated loading indicator.",
-  "dependencies": [
-    "@phosphor-icons/react"
-  ],
-  "registryDependencies": [
-    "icons"
-  ],
+  "dependencies": ["@phosphor-icons/react"],
+  "registryDependencies": ["icons"],
   "files": [
     {
       "path": "components/ui/spinner.tsx",

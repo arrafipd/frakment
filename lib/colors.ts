@@ -1,21 +1,21 @@
 import { colors } from "@/lib/registry-colors";
 
 interface ColorItem {
-  name: string;
-  id: string;
-  scale: number;
   className: string;
-  hex: string;
-  rgb: string;
-  hsl: string;
   foreground: string;
+  hex: string;
+  hsl: string;
+  id: string;
+  name: string;
   oklch: string;
+  rgb: string;
+  scale: number;
   var: string;
 }
 
 export interface ColorPalette {
-  name: string;
   colors: ColorItem[];
+  name: string;
 }
 
 export const getColorFormat = (color: Color) => ({
@@ -31,7 +31,7 @@ export type ColorFormat = keyof ReturnType<typeof getColorFormat>;
 
 const toLinear = (number: number): number => {
   const base = number / 255;
-  return base <= 0.04045 ? base / 12.92 : ((base + 0.055) / 1.055) ** 2.4;
+  return base <= 0.040_45 ? base / 12.92 : ((base + 0.055) / 1.055) ** 2.4;
 };
 
 const getForegroundFromBackground = (rgb: string) => {
@@ -52,20 +52,20 @@ export const getColors = (): ColorPalette[] => {
 
       return {
         colors: color.map((c) => {
-          const rgb = c.rgb.replace(/^rgb\((\d+),(\d+),(\d+)\)$/, "$1 $2 $3");
+          const rgb = c.rgb.replace(/^rgb\((\d+),(\d+),(\d+)\)$/u, "$1 $2 $3");
 
           return {
             ...c,
             className: `${name}-${c.scale}`,
             foreground: getForegroundFromBackground(rgb),
             hsl: c.hsl.replace(
-              /^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/,
+              /^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/u,
               "$1 $2 $3"
             ),
             id: `${name}-${c.scale}`,
             name,
             oklch: `oklch(${c.oklch.replace(
-              /^oklch\(([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\)$/,
+              /^oklch\(([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\)$/u,
               "$1 $2 $3"
             )})`,
             rgb,

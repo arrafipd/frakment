@@ -4,9 +4,7 @@
   "deprecated": false,
   "title": "Avatar",
   "description": "A circular user image with fallback, badge, and stacking group.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "registryDependencies": [],
   "files": [
     {

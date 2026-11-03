@@ -18,21 +18,21 @@ export const SiteFooter = () => {
           <div className="text-muted-foreground w-full px-1 text-center text-xs leading-loose sm:text-sm">
             Built by{" "}
             <a
-              href={addQueryParams(LINK.AUTHOR, UTM_PARAMS)}
-              target="_blank"
-              rel="noreferrer"
               className="font-medium underline underline-offset-4"
+              href={addQueryParams(LINK.AUTHOR, UTM_PARAMS)}
               onClick={playClick}
+              rel="noreferrer"
+              target="_blank"
             >
               {SITE.AUTHOR.NAME}
             </a>
             . The source code is available on{" "}
             <a
-              href={addQueryParams(LINK.GITHUB, UTM_PARAMS)}
-              target="_blank"
-              rel="noreferrer"
               className="font-medium underline underline-offset-4"
+              href={addQueryParams(LINK.GITHUB, UTM_PARAMS)}
               onClick={playClick}
+              rel="noreferrer"
+              target="_blank"
             >
               GitHub
             </a>

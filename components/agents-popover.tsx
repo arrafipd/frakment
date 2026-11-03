@@ -26,7 +26,7 @@ const title = "For Agents";
 
 const MCP = {
   bun: "bunx frakment-mcp",
-  npm: "npx -y frakment-mcp",
+  npm: "npx -y @frakment/mcp",
   pnpm: "pnpm dlx frakment-mcp",
   yarn: "yarn dlx frakment-mcp",
 };
@@ -59,12 +59,12 @@ export const AgentsPopover = ({ className }: { className?: string }) => {
 
   const trigger = (
     <Button
-      variant="ghost"
-      size="sm"
       className={cn(
         "gap-1.5 border-none px-2 opacity-70 hover:opacity-100 focus-visible:opacity-100 [&_svg:not([class*='size-'])]:size-4 sm:[&_svg:not([class*='size-'])]:size-3.5",
         className
       )}
+      size="sm"
+      variant="ghost"
     >
       <PlusIcon />
       <span className="hidden sm:inline">Agent</span>
@@ -73,7 +73,7 @@ export const AgentsPopover = ({ className }: { className?: string }) => {
 
   if (isMobile) {
     return (
-      <Drawer open={isOpen} onOpenChange={setIsOpen}>
+      <Drawer onOpenChange={setIsOpen} open={isOpen}>
         <DrawerTrigger asChild>{trigger}</DrawerTrigger>
         <DrawerContent className="rounded-t-[20px]" style={{ height: "40vh" }}>
           <DrawerHeader>
@@ -88,7 +88,7 @@ export const AgentsPopover = ({ className }: { className?: string }) => {
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog onOpenChange={setIsOpen} open={isOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="w-fit max-w-[calc(100vw-2rem)] sm:max-w-fit">
         <DialogHeader>

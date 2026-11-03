@@ -1,8 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { CircleCheckIcon } from "@/lib/icons";
-
 import {
   Trace,
   TraceCollapsible,
@@ -12,6 +10,7 @@ import {
   TraceLine,
   TraceTitle,
 } from "@/components/ui/trace";
+import { CircleCheckIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface ChainOfThoughtProps extends React.ComponentProps<"div"> {
@@ -26,7 +25,6 @@ function ChainOfThought({
   children,
   ...props
 }: ChainOfThoughtProps) {
-
   const [open, setOpen] = React.useState(defaultOpen || !done);
 
   React.useEffect(() => {
@@ -36,12 +34,12 @@ function ChainOfThought({
   }, [done]);
   return (
     <div
-      data-slot="chain-of-thought"
       className={cn("w-full", className)}
+      data-slot="chain-of-thought"
       {...props}
     >
       <Trace>
-        <TraceCollapsible open={open} onOpenChange={setOpen}>
+        <TraceCollapsible onOpenChange={setOpen} open={open}>
           {children}
         </TraceCollapsible>
       </Trace>
@@ -97,7 +95,7 @@ function ChainOfThoughtStep({
 
 export {
   ChainOfThought,
-  ChainOfThoughtHeader,
   ChainOfThoughtContent,
+  ChainOfThoughtHeader,
   ChainOfThoughtStep,
 };

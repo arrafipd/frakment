@@ -14,10 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/components/ui/toggle-group";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 const spacingOptions = [
   {
@@ -44,19 +41,23 @@ const spacingOptions = [
 
 export function CardSpacing() {
   const [spacing, setSpacing] = React.useState("4");
-  const selectedSpacing = spacingOptions.find((option) => option.value === spacing);
+  const selectedSpacing = spacingOptions.find(
+    (option) => option.value === spacing
+  );
 
   return (
     <div className="mx-auto grid w-full max-w-sm gap-4">
       <ToggleGroup
+        className="justify-center"
+        onValueChange={(value) => {
+          if (value) {
+            setSpacing(value);
+          }
+        }}
+        size="sm"
         type="single"
         value={spacing}
-        onValueChange={(value) => {
-          if (value) setSpacing(value);
-        }}
         variant="outline"
-        size="sm"
-        className="justify-center"
       >
         {spacingOptions.map((option) => (
           <ToggleGroupItem key={option.value} value={option.value}>
@@ -81,31 +82,31 @@ export function CardSpacing() {
                 <Label htmlFor="email-spacing">Email</Label>
                 <Input
                   id="email-spacing"
-                  type="email"
                   placeholder="m@example.com"
                   required
+                  type="email"
                 />
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password-spacing">Password</Label>
                   <a
-                    href="#"
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                    href="#"
                   >
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password-spacing" type="password" required />
+                <Input id="password-spacing" required type="password" />
               </div>
             </div>
           </form>
         </CardContent>
         <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full">
+          <Button className="w-full" type="submit">
             Login
           </Button>
-          <Button variant="outline" className="w-full">
+          <Button className="w-full" variant="outline">
             Login with Google
           </Button>
         </CardFooter>

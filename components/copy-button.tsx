@@ -30,14 +30,12 @@ export const motionIconProps: HTMLMotionProps<"span"> = {
   variants: motionIconVariants,
 };
 
-export interface CopyButtonProps extends Omit<
-  React.ComponentProps<typeof Button>,
-  "value"
-> {
-  value: string | (() => Promise<string> | string);
-  src?: string;
+export interface CopyButtonProps
+  extends Omit<React.ComponentProps<typeof Button>, "value"> {
   event?: Event["name"];
   showTooltip?: boolean;
+  src?: string;
+  value: string | (() => Promise<string> | string);
 }
 
 export const CopyButton = ({
@@ -77,20 +75,20 @@ export const CopyButton = ({
 
   const copyButton = (
     <Button
-      data-slot="copy-button"
-      size={children ? "sm" : "icon"}
-      variant={variant}
       className={cn(
         children
           ? ""
           : "bg-code absolute top-3 right-2 z-10 size-7 hover:opacity-100 focus-visible:opacity-100",
         className
       )}
+      data-slot="copy-button"
       onClick={handleCopy}
+      size={children ? "sm" : "icon"}
+      variant={variant}
       {...props}
     >
       <span className="sr-only">Copy</span>
-      <AnimatePresence mode="popLayout" initial={false}>
+      <AnimatePresence initial={false} mode="popLayout">
         {isCopied ? (
           <motion.span key="done" {...motionIconProps}>
             <CheckIcon weight="bold" />

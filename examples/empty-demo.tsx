@@ -1,6 +1,5 @@
 "use client";
 
-import { Folder, PlusIcon } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import {
   Empty,
@@ -10,6 +9,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
+import { Folder, PlusIcon } from "@/lib/icons";
 
 export function EmptyDemo() {
   return (

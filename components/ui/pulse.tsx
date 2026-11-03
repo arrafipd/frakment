@@ -1,12 +1,11 @@
 "use client";
 
-import { X } from "@/lib/icons";
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { KeyboardEvent, PointerEvent } from 'react';
-
+import type { KeyboardEvent, PointerEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { PulseStatus } from "@/components/ui/pulse-status";
-import { Trace, TraceLine, TraceIcon } from "@/components/ui/trace";
+import { Trace, TraceIcon, TraceLine } from "@/components/ui/trace";
+import { X } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 const MAGNIFY = 5;
@@ -17,30 +16,30 @@ const DAY = 86_400_000;
 export type DayStatus = "up" | "degraded" | "down" | "none";
 
 export interface IncidentUpdate {
-  time: string;
   label: string;
   note?: string;
+  time: string;
 }
 
 export interface Incident {
-  title: string;
-  status: "degraded" | "down";
   minutes: number;
+  status: "degraded" | "down";
+  title: string;
   updates: IncidentUpdate[];
 }
 
 export interface PulseService {
-  name: string;
   incidents?: Record<number, Incident>;
   missing?: number;
+  name: string;
 }
 
 export interface PulseProps {
-  title?: string;
-  services?: PulseService[];
+  className?: string;
   days?: number;
   endDate?: string;
-  className?: string;
+  services?: PulseService[];
+  title?: string;
 }
 
 const DEFAULT_SERVICES: PulseService[] = [
@@ -52,19 +51,19 @@ const DEFAULT_SERVICES: PulseService[] = [
         title: "Elevated error rates on install",
         updates: [
           {
-            time: "14:02",
             label: "Investigating",
             note: "5xx on POST /r/* rose to 2%.",
+            time: "14:02",
           },
           {
-            time: "14:11",
             label: "Identified",
             note: "A bad cache invalidation push.",
+            time: "14:11",
           },
           {
-            time: "14:20",
             label: "Resolved",
             note: "Rolled back; error rates normal.",
+            time: "14:20",
           },
         ],
       },
@@ -74,16 +73,16 @@ const DEFAULT_SERVICES: PulseService[] = [
         title: "Slow responses in eu-west",
         updates: [
           {
-            time: "09:41",
             label: "Investigating",
             note: "p95 latency up 3x in eu-west.",
+            time: "09:41",
           },
           {
-            time: "09:52",
             label: "Monitoring",
             note: "Added capacity to the pool.",
+            time: "09:52",
           },
-          { time: "10:04", label: "Resolved" },
+          { label: "Resolved", time: "10:04" },
         ],
       },
     },
@@ -96,11 +95,11 @@ const DEFAULT_SERVICES: PulseService[] = [
         status: "degraded",
         title: "Search results failing to load",
         updates: [
-          { time: "18:30", label: "Investigating" },
+          { label: "Investigating", time: "18:30" },
           {
-            time: "18:42",
             label: "Resolved",
             note: "A CDN cache rule was reverted.",
+            time: "18:42",
           },
         ],
       },
@@ -115,19 +114,19 @@ const DEFAULT_SERVICES: PulseService[] = [
         title: "Downloads delayed",
         updates: [
           {
-            time: "02:15",
             label: "Investigating",
             note: "The npm mirror stopped syncing.",
+            time: "02:15",
           },
           {
-            time: "02:38",
             label: "Identified",
             note: "A worker deploy failed health checks.",
+            time: "02:38",
           },
           {
-            time: "03:03",
             label: "Resolved",
             note: "Backlog synced in order.",
+            time: "03:03",
           },
         ],
       },
@@ -142,14 +141,14 @@ const DEFAULT_SERVICES: PulseService[] = [
         title: "Preview builds stalled",
         updates: [
           {
-            time: "22:07",
             label: "Investigating",
             note: "Build workers stopped accepting jobs.",
+            time: "22:07",
           },
           {
-            time: "22:16",
             label: "Resolved",
             note: "Promoted a backup worker pool.",
+            time: "22:16",
           },
         ],
       },
@@ -428,21 +427,21 @@ export default function Pulse({
   return (
     <div
       className={cn(
-        "w-full max-w-xl select-none rounded-3xl border border-border bg-card p-5 text-foreground",
+        "border-border bg-card text-foreground w-full max-w-xl rounded-3xl border p-5 select-none",
         className
       )}
     >
       <div className="flex items-center justify-between gap-4">
-        <p className="font-medium text-sm">{title}</p>
+        <p className="text-sm font-medium">{title}</p>
         {openIssues.length ? (
-          <PulseStatus status="degraded" count={openIssues.length} />
+          <PulseStatus count={openIssues.length} status="degraded" />
         ) : (
           <PulseStatus status="up" />
         )}
       </div>
       <p
         aria-live="polite"
-        className="mt-1 truncate text-sm text-muted-foreground tabular-nums"
+        className="text-muted-foreground mt-1 truncate text-sm tabular-nums"
       >
         {summary}
       </p>
@@ -453,7 +452,7 @@ export default function Pulse({
         aria-valuemin={1}
         aria-valuenow={(shownDay ?? days - 1) + 1}
         aria-valuetext={summary}
-        className="mt-4 cursor-pointer touch-pan-y rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+        className="focus-visible:ring-ring focus-visible:ring-offset-background mt-4 cursor-pointer touch-pan-y rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-offset-4"
         onBlur={() => {
           if (active !== null) {
             leave();
@@ -504,7 +503,7 @@ export default function Pulse({
             </div>
           </div>
         ))}
-        <div className="mt-2 flex justify-between text-xs text-muted-foreground">
+        <div className="text-muted-foreground mt-2 flex justify-between text-xs">
           <span>{days} days ago</span>
           <span>Today</span>
         </div>
@@ -521,14 +520,14 @@ export default function Pulse({
       >
         <div className="overflow-hidden">
           {logDay !== null && (
-            <div className="mt-4 rounded-2xl bg-muted/50 p-4">
+            <div className="bg-muted/50 mt-4 rounded-2xl p-4">
               <div className="flex items-center justify-between">
-                <p className="font-medium text-sm">
+                <p className="text-sm font-medium">
                   {formatDay(dateOf(logDay))}
                 </p>
                 <button
                   aria-label="Close day"
-                  className="rounded-full p-1 text-muted-foreground outline-none transition-colors duration-150 ease-out hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+                  className="text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:ring-ring rounded-full p-1 transition-colors duration-150 ease-out outline-none focus-visible:ring-2"
                   onClick={() => {
                     setPinned(null);
                     focusOn(null);
@@ -539,12 +538,12 @@ export default function Pulse({
                 </button>
               </div>
               {pinnedIncidents.length === 0 && (
-                <p className="mt-1 text-sm text-muted-foreground">
+                <p className="text-muted-foreground mt-1 text-sm">
                   No incidents recorded. Every service was operational.
                 </p>
               )}
               {pinnedIncidents.map(({ service, incident }) => (
-                <div key={service} className="mt-3 first:mt-0">
+                <div className="mt-3 first:mt-0" key={service}>
                   <p className="text-sm font-medium">{service}</p>
                   <p className="mt-1 flex flex-wrap items-center gap-2 text-sm">
                     <Badge
@@ -561,11 +560,11 @@ export default function Pulse({
                   <Trace className="mt-2.5">
                     {incident.updates.map((update) => (
                       <TraceLine
-                        key={`${update.time}-${update.label}`}
                         className="w-full items-start"
+                        key={`${update.time}-${update.label}`}
                       >
                         <TraceIcon className="mt-1.5">
-                          <span className="size-1.5 rounded-full bg-muted-foreground" />
+                          <span className="bg-muted-foreground size-1.5 rounded-full" />
                         </TraceIcon>
                         <span className="min-w-0 flex-1">
                           <span className="text-muted-foreground tabular-nums">

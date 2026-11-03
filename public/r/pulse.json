@@ -4,15 +4,8 @@
   "deprecated": false,
   "title": "Pulse",
   "description": "A daily status timeline for service uptime, with inline incident logs.",
-  "dependencies": [
-    "@phosphor-icons/react"
-  ],
-  "registryDependencies": [
-    "badge",
-    "icons",
-    "pulse-status",
-    "trace"
-  ],
+  "dependencies": ["@phosphor-icons/react"],
+  "registryDependencies": ["badge", "icons", "pulse-status", "trace"],
   "files": [
     {
       "path": "components/ui/pulse.tsx",

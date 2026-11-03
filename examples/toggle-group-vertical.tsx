@@ -1,25 +1,21 @@
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { BoldIcon, ItalicIcon, UnderlineIcon } from "@/lib/icons";
-
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/components/ui/toggle-group";
 
 export function ToggleGroupVertical() {
   return (
     <ToggleGroup
-      type="multiple"
+      defaultValue={["bold", "italic"]}
       orientation="vertical"
       spacing={1}
-      defaultValue={["bold", "italic"]}
+      type="multiple"
     >
-      <ToggleGroupItem value="bold" aria-label="Toggle bold">
+      <ToggleGroupItem aria-label="Toggle bold" value="bold">
         <BoldIcon />
       </ToggleGroupItem>
-      <ToggleGroupItem value="italic" aria-label="Toggle italic">
+      <ToggleGroupItem aria-label="Toggle italic" value="italic">
         <ItalicIcon />
       </ToggleGroupItem>
-      <ToggleGroupItem value="underline" aria-label="Toggle underline">
+      <ToggleGroupItem aria-label="Toggle underline" value="underline">
         <UnderlineIcon />
       </ToggleGroupItem>
     </ToggleGroup>

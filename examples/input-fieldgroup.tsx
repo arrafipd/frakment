@@ -20,12 +20,10 @@ export function InputFieldgroup() {
         <FieldLabel htmlFor="fieldgroup-email">Email</FieldLabel>
         <Input
           id="fieldgroup-email"
-          type="email"
           placeholder="name@example.com"
+          type="email"
         />
-        <FieldDescription>
-          We'll send updates to this address.
-        </FieldDescription>
+        <FieldDescription>We'll send updates to this address.</FieldDescription>
       </Field>
       <Field orientation="horizontal">
         <Button type="reset" variant="outline">

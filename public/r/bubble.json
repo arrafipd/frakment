@@ -4,10 +4,7 @@
   "deprecated": false,
   "title": "Bubble",
   "description": "Chat bubble surface with variants, alignment, and optional reactions.",
-  "dependencies": [
-    "class-variance-authority",
-    "radix-ui"
-  ],
+  "dependencies": ["class-variance-authority", "radix-ui"],
   "registryDependencies": [],
   "files": [
     {

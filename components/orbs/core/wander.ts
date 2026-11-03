@@ -25,16 +25,16 @@ export const WANDER_LAG = 80;
 export interface WanderFace {
   /** the face's transform box (the element that carries the rotate) */
   box: HTMLElement;
-  /** per-face random seed for wanderAt */
-  seed: number;
-  /** the compositor animation, when one is running */
-  wanderAnim: Animation | null;
   /** last look x (from wanderAt when the compositor took over) */
   gx: number;
   /** last look y (from wanderAt when the compositor took over) */
   gy: number;
   /** last rotate string written, to skip identical writes */
   rotateWritten: string;
+  /** per-face random seed for wanderAt */
+  seed: number;
+  /** the compositor animation, when one is running */
+  wanderAnim: Animation | null;
 }
 
 export type WakeCallback = () => void;

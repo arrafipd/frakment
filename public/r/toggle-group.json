@@ -4,13 +4,8 @@
   "deprecated": false,
   "title": "Toggle Group",
   "description": "A set of grouped toggle buttons.",
-  "dependencies": [
-    "class-variance-authority",
-    "radix-ui"
-  ],
-  "registryDependencies": [
-    "toggle"
-  ],
+  "dependencies": ["class-variance-authority", "radix-ui"],
+  "registryDependencies": ["toggle"],
   "files": [
     {
       "path": "components/ui/toggle-group.tsx",

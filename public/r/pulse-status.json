@@ -4,12 +4,8 @@
   "deprecated": false,
   "title": "Pulse Status",
   "description": "A status badge for service health, used inside Pulse.",
-  "dependencies": [
-    "@phosphor-icons/react"
-  ],
-  "registryDependencies": [
-    "icons"
-  ],
+  "dependencies": ["@phosphor-icons/react"],
+  "registryDependencies": ["icons"],
   "files": [
     {
       "path": "components/ui/pulse-status.tsx",

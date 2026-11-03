@@ -8,7 +8,7 @@ import { useConfig } from "@/hooks/use-config";
 const INSTALLATION_VALUES = new Set(["cli", "manual"]);
 
 const extractValue = (tab: HTMLElement): string | null =>
-  tab.id.match(/trigger-(.+)$/)?.[1] ?? null;
+  tab.id.match(/trigger-(.+)$/u)?.[1] ?? null;
 
 export function CodeTabs({
   children,
@@ -44,7 +44,7 @@ export function CodeTabs({
   }, [activeValue, configValue]);
 
   React.useEffect(() => {
-    if (!configValue || !INSTALLATION_VALUES.has(configValue)) {
+    if (!(configValue && INSTALLATION_VALUES.has(configValue))) {
       return;
     }
     if (activeValue === configValue) {
@@ -76,7 +76,7 @@ export function CodeTabs({
       <Tabs
         {...(activeValue === undefined
           ? {}
-          : { value: activeValue, onValueChange: handleValueChange })}
+          : { onValueChange: handleValueChange, value: activeValue })}
         className="relative mt-6 w-full"
         {...props}
       >

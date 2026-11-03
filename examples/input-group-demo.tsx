@@ -1,6 +1,5 @@
 "use client";
 
-import { ArrowRightIcon, Search } from "@/lib/icons";
 import {
   InputGroup,
   InputGroupAddon,
@@ -8,6 +7,7 @@ import {
   InputGroupInput,
   InputGroupText,
 } from "@/components/ui/input-group";
+import { ArrowRightIcon, Search } from "@/lib/icons";
 
 export function InputGroupDemo() {
   return (
@@ -27,7 +27,7 @@ export function InputGroupDemo() {
       <InputGroup>
         <InputGroupInput placeholder="Enter email" />
         <InputGroupAddon align="inline-end">
-          <InputGroupButton variant="default" size="icon-xs">
+          <InputGroupButton size="icon-xs" variant="default">
             <ArrowRightIcon />
           </InputGroupButton>
         </InputGroupAddon>

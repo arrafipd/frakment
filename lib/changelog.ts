@@ -5,8 +5,8 @@ import { DOCS_DIR } from "@/lib/docs";
 import { source } from "@/lib/source";
 
 export interface ChangelogPageData {
-  title: string;
   description?: string;
+  title: string;
 }
 
 export type ChangelogPage = ReturnType<typeof source.getPages>[number] & {
@@ -23,7 +23,7 @@ export const getDateFromFile = (slugs: string[]) => {
 
   try {
     const content = fs.readFileSync(filePath, "utf-8");
-    const match = content.match(/^date:\s*(.+)$/m);
+    const match = content.match(/^date:\s*(.+)$/mu);
     if (match?.[1]) {
       return new Date(match[1].trim());
     }

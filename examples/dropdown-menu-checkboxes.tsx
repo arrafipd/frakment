@@ -1,8 +1,6 @@
 "use client";
 
 import * as React from "react";
-
-import { BellIcon, CreditCardIcon, MailIcon } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,12 +10,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { BellIcon, CreditCardIcon, MailIcon } from "@/lib/icons";
 
 export function DropdownMenuCheckboxes() {
   const [notifications, setNotifications] = React.useState({
     email: true,
-    sms: false,
     push: true,
+    sms: false,
   });
 
   return (

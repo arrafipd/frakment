@@ -24,7 +24,6 @@ import {
 import { Kbd } from "@/components/ui/kbd";
 import { Separator } from "@/components/ui/separator";
 import { ROUTES } from "@/constants/routes";
-import { SITE } from "@/constants/site";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { useFeedback } from "@/hooks/use-feedback";
 import { useIsMac } from "@/hooks/use-is-mac";
@@ -38,8 +37,8 @@ import {
 import { trackEvent } from "@/lib/events";
 import {
   ArrowRightIcon,
-  CornerDownLeftIcon,
   CircleDashedIcon,
+  CornerDownLeftIcon,
   SearchIcon,
   SquareDashedIcon,
 } from "@/lib/icons";
@@ -135,11 +134,11 @@ const CommandMenuItem = ({
 
   return (
     <CommandItem
-      ref={ref}
       className={cn(
         "data-[selected=true]:border-input data-[selected=true]:bg-input/50 h-9 rounded-md border border-transparent px-3! font-medium",
         className
       )}
+      ref={ref}
       {...props}
     >
       {children}
@@ -303,9 +302,9 @@ export const CommandMenu = ({
       <CommandMenuItem
         key={url}
         keywords={buildDocPageKeywords(parsed, url, breadcrumb)}
-        value={[...breadcrumb, title].filter(Boolean).join(" ")}
         onHighlight={() => handleDocPageHighlight({ name: title, url })}
         onSelect={() => runCommand(() => router.push(url))}
+        value={[...breadcrumb, title].filter(Boolean).join(" ")}
       >
         <DocPageLeadingIcon parsed={parsed} />
         {title}
@@ -358,31 +357,31 @@ export const CommandMenu = ({
   }, [copyPayload, runCommand, copyToClipboard, copyFeedback]);
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
         <Button
-          variant="ghost"
           className={cn(
-            "text-surface-foreground/60 relative size-8 justify-center p-0 font-normal shadow-none hover:bg-accent md:h-8 md:w-40 md:justify-start md:gap-2 md:bg-surface md:pl-2.5 dark:md:bg-card lg:w-56 xl:w-64"
+            "text-surface-foreground/60 hover:bg-accent md:bg-surface dark:md:bg-card relative size-8 justify-center p-0 font-normal shadow-none md:h-8 md:w-40 md:justify-start md:gap-2 md:pl-2.5 lg:w-56 xl:w-64"
           )}
           onClick={handleOpenClick}
+          variant="ghost"
           {...props}
         >
-          <SearchIcon className="size-4.5 shrink-0 text-foreground md:size-3.5" />
+          <SearchIcon className="text-foreground size-4.5 shrink-0 md:size-3.5" />
           <span className="hidden lg:inline-flex">Search documentation...</span>
           <span className="hidden md:inline-flex lg:hidden">Search...</span>
         </Button>
       </DialogTrigger>
       <DialogContent
-        showCloseButton={false}
         className="rounded-xl border border-neutral-200 bg-white p-2 pb-11 shadow-2xl ring-4 ring-neutral-200/80 dark:border-neutral-700 dark:bg-neutral-900 dark:ring-neutral-800"
+        showCloseButton={false}
       >
         <DialogHeader className="sr-only">
           <DialogTitle>Search documentation...</DialogTitle>
           <DialogDescription>Search for a command to run...</DialogDescription>
         </DialogHeader>
         <Command
-          className="**:data-[slot=command-input-wrapper]:bg-sidebar/80 **:data-[slot=command-input-wrapper]:border-border **:data-[slot=command-input-wrapper]:ring-0 rounded-none bg-transparent **:data-[slot=command-input]:h-9! **:data-[slot=command-input]:py-0 **:data-[slot=command-input-wrapper]:mb-0 **:data-[slot=command-input-wrapper]:h-9! **:data-[slot=command-input-wrapper]:rounded-md **:data-[slot=command-input-wrapper]:border"
+          className="**:data-[slot=command-input-wrapper]:bg-sidebar/80 **:data-[slot=command-input-wrapper]:border-border rounded-none bg-transparent **:data-[slot=command-input]:h-9! **:data-[slot=command-input]:py-0 **:data-[slot=command-input-wrapper]:mb-0 **:data-[slot=command-input-wrapper]:h-9! **:data-[slot=command-input-wrapper]:rounded-md **:data-[slot=command-input-wrapper]:border **:data-[slot=command-input-wrapper]:ring-0"
           filter={handleFilter}
         >
           <CommandInput placeholder="Search documentation..." />
@@ -390,16 +389,16 @@ export const CommandMenu = ({
             <CommandEmpty className="text-muted-foreground py-12 text-center text-sm">
               No results found.
             </CommandEmpty>
-            <CommandGroup heading="Pages" className={GROUP_HEADING_CLS}>
+            <CommandGroup className={GROUP_HEADING_CLS} heading="Pages">
               {sections.map((section) =>
                 renderDocPageItem(section.name, section.href, ["Pages"])
               )}
             </CommandGroup>
             {treeGroups.map((group) => (
               <CommandGroup
-                key={group.label}
                 className={GROUP_HEADING_CLS}
                 heading={group.label}
+                key={group.label}
               >
                 {group.pages.map((page) =>
                   renderDocPageItem(page.name, page.url, [group.label])
@@ -408,20 +407,19 @@ export const CommandMenu = ({
             ))}
             {blocks?.length ? (
               <CommandGroup
-                heading="Blocks"
                 className="p-0! **:[[cmdk-group-heading]]:p-3!"
+                heading="Blocks"
               >
                 {blocks.map((block) => (
                   <CommandMenuItem
                     key={block.name}
-                    value={block.name}
-                    onHighlight={() => handleBlockHighlight(block)}
                     keywords={[
                       "block",
                       block.name,
                       block.description,
                       ...block.categories,
                     ]}
+                    onHighlight={() => handleBlockHighlight(block)}
                     onSelect={() =>
                       runCommand(() =>
                         router.push(
@@ -429,6 +427,7 @@ export const CommandMenu = ({
                         )
                       )
                     }
+                    value={block.name}
                   >
                     <SquareDashedIcon />
                     {block.description}
@@ -442,7 +441,7 @@ export const CommandMenu = ({
           </CommandList>
         </Command>
         <div className="text-muted-foreground absolute inset-x-0 bottom-0 z-20 flex h-10 items-center gap-2 overflow-hidden rounded-b-xl border-t border-t-neutral-100 bg-neutral-50 px-4 text-xs font-medium dark:border-t-neutral-700 dark:bg-neutral-800">
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex shrink-0 items-center gap-2">
             <Kbd className="shrink-0">
               <CornerDownLeftIcon />
             </Kbd>{" "}
@@ -452,7 +451,7 @@ export const CommandMenu = ({
           </div>
           {copyPayload && (
             <>
-              <Separator orientation="vertical" className="h-4!" />
+              <Separator className="h-4!" orientation="vertical" />
               <div className="flex min-w-0 items-center gap-1">
                 <Kbd className="shrink-0">{isMac ? "⌘" : "Ctrl"}</Kbd>
                 <Kbd className="shrink-0">C</Kbd>

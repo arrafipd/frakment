@@ -1,6 +1,6 @@
-import * as React from "react";
-import { createHighlighterCore } from "shiki/core";
+import type * as React from "react";
 import type { GrammarState, HighlighterCore } from "shiki/core";
+import { createHighlighterCore } from "shiki/core";
 import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
 
 // Add the languages you need. Each one loads the first time it is used.
@@ -99,9 +99,9 @@ export async function loadHighlighter(language: string) {
         lines: tokens.map((line) =>
           line.map((token, index) => (
             <span
+              className="text-(--shiki-light) dark:text-(--shiki-dark)"
               key={index}
               style={token.htmlStyle as React.CSSProperties}
-              className="text-(--shiki-light) dark:text-(--shiki-dark)"
             >
               {token.content}
             </span>

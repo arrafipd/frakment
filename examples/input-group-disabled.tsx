@@ -1,11 +1,11 @@
 "use client";
 
-import { Search } from "@/lib/icons";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
+import { Search } from "@/lib/icons";
 
 export function InputGroupDisabled() {
   return (
@@ -14,7 +14,7 @@ export function InputGroupDisabled() {
         <InputGroupAddon>
           <Search />
         </InputGroupAddon>
-        <InputGroupInput placeholder="Disabled" disabled />
+        <InputGroupInput disabled placeholder="Disabled" />
       </InputGroup>
     </div>
   );

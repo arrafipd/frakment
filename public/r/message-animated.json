@@ -4,14 +4,8 @@
   "deprecated": false,
   "title": "Message Animated",
   "description": "An animated chat message that fades in and pins to the message scroller.",
-  "dependencies": [
-    "ai",
-    "motion"
-  ],
-  "registryDependencies": [
-    "bubble",
-    "message-scroller"
-  ],
+  "dependencies": ["ai", "motion"],
+  "registryDependencies": ["bubble", "message-scroller"],
   "files": [
     {
       "path": "components/ui/message-animated.tsx",

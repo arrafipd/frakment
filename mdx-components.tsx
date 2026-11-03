@@ -13,7 +13,7 @@ import { ComponentPreview } from "@/components/component-preview";
 import { ComponentSource } from "@/components/component-source";
 import { ComponentsList } from "@/components/components-list";
 import { CopyButton } from "@/components/copy-button";
-import { FileTree, FileTreeFolder, FileTreeFile } from "@/components/file-tree";
+import { FileTree, FileTreeFile, FileTreeFolder } from "@/components/file-tree";
 import { getIconForLanguageExtension } from "@/components/icons";
 import { IntroFeatureCard } from "@/components/intro-feature-card";
 import { PropsTable } from "@/components/props-table";
@@ -33,30 +33,28 @@ import type { IconComponent } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 const LANGUAGE_TITLES: Record<string, string> = {
-  tsx: "tsx",
-  ts: "ts",
-  jsx: "jsx",
-  js: "js",
-  typescript: "typescript",
+  astro: "astro",
+  css: "css",
+  diff: "diff",
+  html: "html",
   javascript: "javascript",
+  js: "js",
   json: "json",
   jsonc: "json",
-  css: "css",
-  scss: "scss",
-  sass: "sass",
-  yaml: "yaml",
-  yml: "yaml",
-  astro: "astro",
+  jsx: "jsx",
   md: "md",
   mdx: "mdx",
-  html: "html",
-  xml: "xml",
+  sass: "sass",
+  scss: "scss",
   svg: "svg",
-  diff: "diff",
+  ts: "ts",
+  tsx: "tsx",
+  typescript: "typescript",
+  xml: "xml",
+  yaml: "yaml",
+  yml: "yaml",
 };
 export const mdxComponents = {
-  FrakmentMark,
-  BrandColorSwatch,
   Accordion,
   AccordionContent,
   AccordionItem,
@@ -67,131 +65,6 @@ export const mdxComponents = {
   AlertDescription,
   AlertTitle,
   AspectRatio,
-  Button,
-  Callout,
-  ChangelogList,
-  CodeCollapsibleWrapper,
-  CodeTabs,
-  ComponentPreview,
-  ComponentSource,
-  FileTree,
-  FileTreeFolder,
-  FileTreeFile,
-  ComponentsList,
-  IntroFeatureCard,
-  FeatureCard: ({
-    icon: Icon,
-    title,
-    description,
-    className,
-  }: React.ComponentProps<typeof Card> & {
-    icon: IconComponent;
-    title: string;
-    description: string;
-  }) => (
-    <Card
-      className={cn(
-        "flex flex-col gap-2 rounded-xl py-4 shadow-none",
-        className
-      )}
-    >
-      <CardHeader className="flex items-center gap-2 px-4">
-        <div className="bg-primary/10 flex size-8 shrink-0 items-center justify-center rounded-md text-primary">
-          <Icon className="size-4" />
-        </div>
-        <CardTitle className="text-base font-medium">{title}</CardTitle>
-      </CardHeader>
-      <CardContent className="px-4 text-sm text-muted-foreground">
-        {description}
-      </CardContent>
-    </Card>
-  ),
-  Image: ({
-    src,
-    className,
-    width,
-    height,
-    alt,
-    ...props
-  }: React.ComponentProps<"img">) => (
-    <Image
-      className={cn("mt-6 rounded-md border", className)}
-      src={src?.toString() || ""}
-      width={Number(width)}
-      height={Number(height)}
-      alt={alt || ""}
-      {...props}
-    />
-  ),
-  Link: ({ className, ...props }: React.ComponentProps<typeof Link>) => (
-    <Link
-      className={cn("font-medium underline underline-offset-4", className)}
-      {...props}
-    />
-  ),
-  Kbd,
-  LinkedCard: ({ className, ...props }: React.ComponentProps<typeof Link>) => (
-    <Link
-      className={cn(
-        "bg-surface text-surface-foreground hover:bg-surface/80 flex w-full flex-col items-center rounded-xl p-6 transition-colors sm:p-10",
-        className
-      )}
-      {...props}
-    />
-  ),
-  PropsTable,
-  Step: (props: React.ComponentProps<"h3">) => <h3 {...props} />,
-  Steps: ({ className, ...props }: React.ComponentProps<"div">) => (
-    <div
-      className={cn(
-        "steps mb-12 [counter-reset:step] md:ml-4 md:border-l md:pl-8 [&>h3]:step",
-        className
-      )}
-      {...props}
-    />
-  ),
-  Tab: ({ className, ...props }: React.ComponentProps<"div">) => (
-    <div className={cn(className)} {...props} />
-  ),
-  Tabs: ({ className, ...props }: React.ComponentProps<typeof Tabs>) => (
-    <Tabs className={cn("relative mt-6 w-full", className)} {...props} />
-  ),
-  TabsContent: ({
-    className,
-    ...props
-  }: React.ComponentProps<typeof TabsContent>) => (
-    <TabsContent
-      className={cn(
-        "relative [&_h3.font-heading]:text-base [&_h3.font-heading]:font-medium *:[figure]:first:mt-0 [&>.steps]:mt-6",
-        className
-      )}
-      {...props}
-    />
-  ),
-  TabsList: ({
-    className,
-    ...props
-  }: React.ComponentProps<typeof TabsList>) => (
-    <TabsList
-      className={cn(
-        "justify-start gap-4 rounded-none bg-transparent px-0",
-        className
-      )}
-      {...props}
-    />
-  ),
-  TabsTrigger: ({
-    className,
-    ...props
-  }: React.ComponentProps<typeof TabsTrigger>) => (
-    <TabsTrigger
-      className={cn(
-        "text-muted-foreground data-[state=active]:text-foreground data-[state=active]:border-primary dark:data-[state=active]:border-primary hover:text-primary rounded-none border-0 border-b-2 border-transparent bg-transparent px-0 pb-3 text-base data-[state=active]:bg-transparent data-[state=active]:shadow-none dark:data-[state=active]:bg-transparent",
-        className
-      )}
-      {...props}
-    />
-  ),
   a: ({ className, children, ...props }: React.ComponentProps<"a">) => (
     <a
       className={cn("font-medium underline underline-offset-4", className)}
@@ -200,12 +73,21 @@ export const mdxComponents = {
       {children}
     </a>
   ),
+  BrandColorSwatch,
+  Button,
   blockquote: ({ className, ...props }: React.ComponentProps<"blockquote">) => (
     <blockquote
-      className={cn("mt-6 border-l-4 border-border pl-6 italic", className)}
+      className={cn("border-border mt-6 border-l-4 pl-6 italic", className)}
       {...props}
     />
   ),
+  Callout,
+  ChangelogList,
+  CodeCollapsibleWrapper,
+  CodeTabs,
+  ComponentPreview,
+  ComponentSource,
+  ComponentsList,
   code: ({
     className,
     __raw__,
@@ -241,10 +123,10 @@ export const mdxComponents = {
     if (isNpmCommand) {
       return (
         <CodeBlockCommand
-          __npm__={__npm__}
-          __yarn__={__yarn__}
-          __pnpm__={__pnpm__}
           __bun__={__bun__}
+          __npm__={__npm__}
+          __pnpm__={__pnpm__}
+          __yarn__={__yarn__}
         />
       );
     }
@@ -253,12 +135,43 @@ export const mdxComponents = {
     return (
       <>
         {__raw__ && (
-          <CopyButton value={__raw__} src={__src__} event="copy_usage_code" />
+          <CopyButton event="copy_usage_code" src={__src__} value={__raw__} />
         )}
         <code {...props} />
       </>
     );
   },
+  FeatureCard: ({
+    icon: Icon,
+    title,
+    description,
+    className,
+  }: React.ComponentProps<typeof Card> & {
+    icon: IconComponent;
+    title: string;
+    description: string;
+  }) => (
+    <Card
+      className={cn(
+        "flex flex-col gap-2 rounded-xl py-4 shadow-none",
+        className
+      )}
+    >
+      <CardHeader className="flex items-center gap-2 px-4">
+        <div className="bg-primary/10 text-primary flex size-8 shrink-0 items-center justify-center rounded-md">
+          <Icon className="size-4" />
+        </div>
+        <CardTitle className="text-base font-medium">{title}</CardTitle>
+      </CardHeader>
+      <CardContent className="text-muted-foreground px-4 text-sm">
+        {description}
+      </CardContent>
+    </Card>
+  ),
+  FileTree,
+  FileTreeFile,
+  FileTreeFolder,
+  FrakmentMark,
   figcaption: ({
     className,
     children,
@@ -324,7 +237,7 @@ export const mdxComponents = {
     }
 
     const title = lang ? LANGUAGE_TITLES[lang] : undefined;
-    if (!lang || !title) {
+    if (!(lang && title)) {
       return (
         <figure className={cn(className)} {...props}>
           {children}
@@ -335,9 +248,9 @@ export const mdxComponents = {
     return (
       <figure className={cn(className)} {...props}>
         <figcaption
-          data-rehype-pretty-code-title
-          data-language={lang}
           className="text-code-foreground [&_svg]:text-code-foreground flex items-center gap-2 [&_svg]:size-4 [&_svg]:opacity-70"
+          data-language={lang}
+          data-rehype-pretty-code-title
         >
           {getIconForLanguageExtension(lang)}
           {title}
@@ -359,16 +272,16 @@ export const mdxComponents = {
   ),
   h2: ({ className, children, ...props }: React.ComponentProps<"h2">) => (
     <h2
+      className={cn(
+        "[&+]*:[code]:text-xl mt-10 scroll-m-28 font-heading text-xl font-medium tracking-tight first:mt-0 lg:mt-12 [&+.steps]:mt-0! [&+.steps>h3]:mt-4! [&+h3]:mt-6![&+p]:mt-4!",
+        className
+      )}
       id={children
         ?.toString()
         .replaceAll(" ", "-")
         .replaceAll("'", "")
         .replaceAll("?", "")
         .toLowerCase()}
-      className={cn(
-        "[&+]*:[code]:text-xl mt-10 scroll-m-28 font-heading text-xl font-medium tracking-tight first:mt-0 lg:mt-12 [&+.steps]:mt-0! [&+.steps>h3]:mt-4! [&+h3]:mt-6![&+p]:mt-4!",
-        className
-      )}
       {...props}
     >
       {children}
@@ -377,7 +290,7 @@ export const mdxComponents = {
   h3: ({ className, children, ...props }: React.ComponentProps<"h3">) => (
     <h3
       className={cn(
-        "mt-12 scroll-m-28 font-heading text-lg font-medium tracking-tight [&+p]:mt-4! *:[code]:text-xl",
+        "font-heading mt-12 scroll-m-28 text-lg font-medium tracking-tight [&+p]:mt-4! *:[code]:text-xl",
         className
       )}
       {...props}
@@ -421,9 +334,43 @@ export const mdxComponents = {
   hr: ({ ...props }: React.ComponentProps<"hr">) => (
     <hr className="my-4 md:my-8" {...props} />
   ),
+  Image: ({
+    src,
+    className,
+    width,
+    height,
+    alt,
+    ...props
+  }: React.ComponentProps<"img">) => (
+    <Image
+      alt={alt || ""}
+      className={cn("mt-6 rounded-md border", className)}
+      height={Number(height)}
+      src={src?.toString() || ""}
+      width={Number(width)}
+      {...props}
+    />
+  ),
+  IntroFeatureCard,
   img: ({ className, alt, ...props }: React.ComponentProps<"img">) => (
     // eslint-disable-next-line @next/next/no-img-element
-    <img className={cn("rounded-md", className)} alt={alt} {...props} />
+    <img alt={alt} className={cn("rounded-md", className)} {...props} />
+  ),
+  Kbd,
+  Link: ({ className, ...props }: React.ComponentProps<typeof Link>) => (
+    <Link
+      className={cn("font-medium underline underline-offset-4", className)}
+      {...props}
+    />
+  ),
+  LinkedCard: ({ className, ...props }: React.ComponentProps<typeof Link>) => (
+    <Link
+      className={cn(
+        "bg-surface text-surface-foreground hover:bg-surface/80 flex w-full flex-col items-center rounded-xl p-6 transition-colors sm:p-10",
+        className
+      )}
+      {...props}
+    />
   ),
   li: ({ className, ...props }: React.ComponentProps<"li">) => (
     <li className={cn("mt-2", className)} {...props} />
@@ -431,6 +378,7 @@ export const mdxComponents = {
   ol: ({ className, ...props }: React.ComponentProps<"ol">) => (
     <ol className={cn("my-6 ml-6 list-decimal", className)} {...props} />
   ),
+  PropsTable,
   p: ({ className, ...props }: React.ComponentProps<"p">) => (
     <p
       className={cn(
@@ -451,8 +399,60 @@ export const mdxComponents = {
       {children}
     </pre>
   ),
+  Step: (props: React.ComponentProps<"h3">) => <h3 {...props} />,
+  Steps: ({ className, ...props }: React.ComponentProps<"div">) => (
+    <div
+      className={cn(
+        "steps [&>h3]:step mb-12 [counter-reset:step] md:ml-4 md:border-l md:pl-8",
+        className
+      )}
+      {...props}
+    />
+  ),
   strong: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
     <strong className={cn("font-medium", className)} {...props} />
+  ),
+  Tab: ({ className, ...props }: React.ComponentProps<"div">) => (
+    <div className={cn(className)} {...props} />
+  ),
+  Tabs: ({ className, ...props }: React.ComponentProps<typeof Tabs>) => (
+    <Tabs className={cn("relative mt-6 w-full", className)} {...props} />
+  ),
+  TabsContent: ({
+    className,
+    ...props
+  }: React.ComponentProps<typeof TabsContent>) => (
+    <TabsContent
+      className={cn(
+        "relative [&_h3.font-heading]:text-base [&_h3.font-heading]:font-medium [&>.steps]:mt-6 *:[figure]:first:mt-0",
+        className
+      )}
+      {...props}
+    />
+  ),
+  TabsList: ({
+    className,
+    ...props
+  }: React.ComponentProps<typeof TabsList>) => (
+    <TabsList
+      className={cn(
+        "justify-start gap-4 rounded-none bg-transparent px-0",
+        className
+      )}
+      {...props}
+    />
+  ),
+  TabsTrigger: ({
+    className,
+    ...props
+  }: React.ComponentProps<typeof TabsTrigger>) => (
+    <TabsTrigger
+      className={cn(
+        "text-muted-foreground data-[state=active]:text-foreground data-[state=active]:border-primary dark:data-[state=active]:border-primary hover:text-primary rounded-none border-0 border-b-2 border-transparent bg-transparent px-0 pb-3 text-base data-[state=active]:bg-transparent data-[state=active]:shadow-none dark:data-[state=active]:bg-transparent",
+        className
+      )}
+      {...props}
+    />
   ),
   table: ({ className, ...props }: React.ComponentProps<"table">) => (
     <div className="my-6 w-full overflow-x-auto rounded-lg border">
@@ -477,18 +477,18 @@ export const mdxComponents = {
   th: ({ className, ...props }: React.ComponentProps<"th">) => (
     <th
       className={cn(
-        "h-10 px-4 text-left align-middle text-xs font-semibold uppercase tracking-wide text-muted-foreground [[align=center]]:text-center [[align=right]]:text-right",
+        "text-muted-foreground h-10 px-4 text-left align-middle text-xs font-semibold tracking-wide uppercase [[align=center]]:text-center [[align=right]]:text-right",
         className
       )}
       {...props}
     />
   ),
   thead: ({ className, ...props }: React.ComponentProps<"thead">) => (
-    <thead className={cn("border-b bg-muted/50", className)} {...props} />
+    <thead className={cn("bg-muted/50 border-b", className)} {...props} />
   ),
   tr: ({ className, ...props }: React.ComponentProps<"tr">) => (
     <tr
-      className={cn("border-b transition-colors hover:bg-muted/30", className)}
+      className={cn("hover:bg-muted/30 border-b transition-colors", className)}
       {...props}
     />
   ),

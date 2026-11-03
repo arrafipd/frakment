@@ -1,12 +1,12 @@
 "use client";
 
-import { Switch } from "@/components/ui/switch";
 import {
   Field,
   FieldContent,
   FieldDescription,
   FieldTitle,
 } from "@/components/ui/field";
+import { Switch } from "@/components/ui/switch";
 
 export function FieldSwitch() {
   return (
@@ -14,7 +14,9 @@ export function FieldSwitch() {
       <Field orientation="horizontal">
         <FieldContent>
           <FieldTitle>Share across devices</FieldTitle>
-          <FieldDescription>Focused settings sync between devices.</FieldDescription>
+          <FieldDescription>
+            Focused settings sync between devices.
+          </FieldDescription>
         </FieldContent>
         <Switch id="sync" />
       </Field>

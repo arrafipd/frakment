@@ -9,18 +9,18 @@ import {
 export function ButtonDemo() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-4">
-      <div className="rounded-lg border border-border p-4">
+      <div className="border-border rounded-lg border p-4">
         <div className="flex flex-col gap-1">
           <span className="text-sm font-medium">Delete project</span>
-          <span className="text-sm text-muted-foreground">
+          <span className="text-muted-foreground text-sm">
             This action cannot be undone.
           </span>
         </div>
         <div className="mt-3 flex justify-end gap-2">
-          <Button variant="outline" size="sm">
+          <Button size="sm" variant="outline">
             Cancel
           </Button>
-          <Button variant="destructive" size="sm">
+          <Button size="sm" variant="destructive">
             <TrashIcon />
             Delete
           </Button>

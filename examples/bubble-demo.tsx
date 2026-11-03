@@ -21,7 +21,7 @@ export function BubbleDemo() {
               "I can group messages, switch sides, and keep the whole thread easy to scan."
             }
           </BubbleContent>
-          <BubbleReactions role="img" aria-label="Reaction: thumbs up">
+          <BubbleReactions aria-label="Reaction: thumbs up" role="img">
             <span>{"👍"}</span>
           </BubbleReactions>
         </Bubble>
@@ -36,8 +36,8 @@ export function BubbleDemo() {
           }
         </BubbleContent>
         <BubbleReactions
-          role="img"
           aria-label="Reactions: thumbs up, fire, eyes, and 2 more"
+          role="img"
         >
           <span>{"👍"}</span>
           <span>{"🔥"}</span>

@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "motion/react";
 import type { UIMessage } from "ai";
+import { motion } from "motion/react";
 
 import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import { MessageScrollerItem } from "@/components/ui/message-scroller";
@@ -20,15 +20,16 @@ export function MessageAnimated({
   return (
     <MessageScrollerItem scrollAnchor={scrollAnchor}>
       <motion.div
+        animate={{ opacity: 1, y: 0 }}
         className="flex flex-col"
         initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.2, ease: "easeOut" }}
       >
-        <Bubble align={isUser ? "end" : "start"} variant={isUser ? "default" : "ghost"}>
-          <BubbleContent className="whitespace-pre-wrap">
-            {text}
-          </BubbleContent>
+        <Bubble
+          align={isUser ? "end" : "start"}
+          variant={isUser ? "default" : "ghost"}
+        >
+          <BubbleContent className="whitespace-pre-wrap">{text}</BubbleContent>
         </Bubble>
       </motion.div>
     </MessageScrollerItem>

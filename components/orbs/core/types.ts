@@ -13,51 +13,51 @@ export type MarkPlacement = "nose" | "eyes" | "smile" | "hide";
 export type EyeShape = "pill" | "dot";
 
 export interface FaceSettings {
-  mark: MarkPlacement;
-  eyeShape: EyeShape;
-  eye: number;
-  eyeTall: number;
-  eyeMark: number;
-  eyeX: number;
-  eyeY: number;
-  mouthR: number;
-  mouthY: number;
-  minSpan: number;
-  maxSpan: number;
-  noseY: number;
+  blink: boolean;
+  body: BodyKind;
   expression: ExpressionName;
   expressMs: number;
+  eye: number;
+  eyeMark: number;
+  eyeShape: EyeShape;
+  eyeTall: number;
+  eyeX: number;
+  eyeY: number;
+  inMs: number;
+  mark: MarkPlacement;
+  maxSpan: number;
+  minSpan: number;
+  mouthR: number;
+  mouthY: number;
+  noseY: number;
+  outMs: number;
+  reduceMotion: boolean;
+  shapeClose: number;
+  shapeMix: number;
+  shapeRound: number;
+  shapeSize: number;
+  shapeSoft: number;
+  shapes: Record<string, string> | null;
   turn: number;
   turnUp: number;
-  blink: boolean;
   wander: boolean;
-  inMs: number;
-  outMs: number;
-  body: BodyKind;
-  shapes: Record<string, string> | null;
-  shapeClose: number;
-  shapeRound: number;
-  shapeSoft: number;
-  shapeSize: number;
-  shapeMix: number;
-  reduceMotion: boolean;
 }
 
 export interface Expression {
-  mouth: MouthShape;
   lids: [number, number];
+  mouth: MouthShape;
   tilt: number;
 }
 
 export interface SpherePoint {
-  lon: number;
   lat: number;
+  lon: number;
 }
 
 export interface Letter extends SpherePoint {
+  a: number;
   el: HTMLElement;
   glyph: HTMLElement | null;
-  a: number;
   roll: number;
   scale: number;
 }
@@ -70,22 +70,22 @@ export interface ShapePoint {
 }
 
 export interface ShapeSeries {
-  re: Float64Array;
   im: Float64Array;
   n: number;
+  re: Float64Array;
   waves: number;
 }
 
 export interface Eye {
-  side: -1 | 1;
+  bar: HTMLElement;
+  blink: Animation | null;
+  capA: HTMLElement;
+  capB: HTMLElement;
   el: HTMLElement;
   lid: HTMLElement;
-  pupil: HTMLElement;
-  capA: HTMLElement;
-  bar: HTMLElement;
-  capB: HTMLElement;
   markEl: HTMLElement | null;
-  blink: Animation | null;
+  pupil: HTMLElement;
+  side: -1 | 1;
 }
 
 export interface FaceStand {
@@ -95,64 +95,63 @@ export interface FaceStand {
 }
 
 export interface Face {
-  orb: HTMLElement;
-  ring: HTMLElement;
-  box: HTMLElement;
-  eyes: Eye[];
-
-  rect: DOMRect | null;
-  rectAt: number;
-
   arc: Letter[];
-  nose: SpherePoint;
-  marks: boolean;
-
-  series: ShapeSeries[] | null;
-  seriesClose: string | null;
-  poly: ShapePoint[] | null;
-  polyKey: string | null;
-  shapeTask: number;
-  shaped: boolean;
-
-  expression: ExpressionName;
-  goal: FaceStand | null;
-  prior: FaceStand | null;
-  x: number;
-  xStart: number;
-  lids: [number, number];
-  tilt: number;
-
-  e: number;
-  to: number;
-  from: number;
-  start: number;
-  dur: number;
-  rest: boolean;
-
-  written: number;
-  blinkWritten: number;
-  xWritten: number;
-  dirty: boolean;
-
-  gx: number;
-  gy: number;
-  seed: number;
-  nextBlink: number;
   blinkAt: number;
   blinkTimer: number;
+  blinkWritten: number;
+  box: HTMLElement;
+  detach?: () => void;
+  dirty: boolean;
+  dur: number;
 
-  visible: boolean;
+  e: number;
+
+  expression: ExpressionName;
+  eyes: Eye[];
   far: boolean;
-
-  wanderAnim: Animation | null;
-  wanderFrom: number | null;
-  rotateWritten: string;
-  tiltWritten: string;
 
   // Methods attached by createFace
   frame?: (now: number, dt: number) => boolean;
+  from: number;
+  goal: FaceStand | null;
+
+  gx: number;
+  gy: number;
+  lids: [number, number];
+  marks: boolean;
+  nextBlink: number;
+  nose: SpherePoint;
+  orb: HTMLElement;
+  poly: ShapePoint[] | null;
+  polyKey: string | null;
+  prior: FaceStand | null;
+
+  rect: DOMRect | null;
+  rectAt: number;
+  rest: boolean;
+  ring: HTMLElement;
+  rotateWritten: string;
+  seed: number;
+
+  series: ShapeSeries[] | null;
+  seriesClose: string | null;
   set?: (on: boolean) => void;
-  detach?: () => void;
+  shaped: boolean;
+  shapeTask: number;
+  start: number;
+  tilt: number;
+  tiltWritten: string;
+  to: number;
+
+  visible: boolean;
+
+  wanderAnim: Animation | null;
+  wanderFrom: number | null;
+
+  written: number;
+  x: number;
+  xStart: number;
+  xWritten: number;
 }
 
 export interface OrbsOptions {

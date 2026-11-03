@@ -8,14 +8,13 @@ const { ROUTES } = await jiti.import("./constants/routes");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  devIndicators: false,
   experimental: {
     optimizePackageImports: [
       "@phosphor-icons/react",
       "@icons-pack/react-simple-icons",
     ],
   },
-  devIndicators: false,
-  typescript: { ignoreBuildErrors: true },
   headers() {
     const link = [
       `<${ROUTES.API_CATALOG}>; rel="api-catalog"`,
@@ -56,6 +55,8 @@ const nextConfig = {
       },
     ];
   },
+  transpilePackages: ["@frakment/ai", "@frakment/react"],
+  typescript: { ignoreBuildErrors: true },
 };
 
 const withMDX = createMDX({});

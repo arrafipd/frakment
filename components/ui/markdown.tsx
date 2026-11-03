@@ -11,9 +11,9 @@ import { CodeBlock, CodeBlockContent } from "./code-block";
 
 export interface MarkdownProps {
   children: string;
-  id?: string;
   className?: string;
   components?: Partial<Components>;
+  id?: string;
 }
 
 function parseMarkdownIntoBlocks(markdown: string): string[] {
@@ -25,7 +25,7 @@ function extractLanguage(className?: string): string {
   if (!className) {
     return "plaintext";
   }
-  const match = className.match(/language-(\w+)/);
+  const match = className.match(/language-(\w+)/u);
   return match ? match[1] : "plaintext";
 }
 
@@ -72,8 +72,8 @@ const MemoizedMarkdownBlock = memo(
   }) {
     return (
       <ReactMarkdown
-        remarkPlugins={[remarkGfm, remarkBreaks]}
         components={components}
+        remarkPlugins={[remarkGfm, remarkBreaks]}
       >
         {content}
       </ReactMarkdown>
@@ -100,9 +100,9 @@ function MarkdownComponent({
     <div className={className}>
       {blocks.map((block, index) => (
         <MemoizedMarkdownBlock
-          key={`${blockId}-block-${index}`}
-          content={block}
           components={components}
+          content={block}
+          key={`${blockId}-block-${index}`}
         />
       ))}
     </div>

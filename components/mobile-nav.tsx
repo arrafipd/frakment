@@ -49,9 +49,9 @@ const MobileLink = ({
 
   return (
     <Link
+      className={cn("text-2xl font-medium", className)}
       href={href}
       onClick={handleClick}
-      className={cn("text-2xl font-medium", className)}
       {...props}
     >
       {children}
@@ -76,7 +76,7 @@ const MobileNavGroup = ({
       <div className="text-muted-foreground text-sm font-medium">{label}</div>
       <div className="flex flex-col gap-3">
         {pages.map((page) => (
-          <MobileLink key={page.url} href={page.url} onOpenChange={setOpen}>
+          <MobileLink href={page.url} key={page.url} onOpenChange={setOpen}>
             {page.name}
           </MobileLink>
         ))}
@@ -112,43 +112,43 @@ export const MobileNav = ({
   }, [open]);
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover onOpenChange={setOpen} open={open}>
       <PopoverTrigger asChild>
         <Button
-          variant="ghost"
-          size="icon"
           className={cn(
             "size-8 touch-manipulation hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 active:bg-transparent dark:hover:bg-transparent",
             className
           )}
+          size="icon"
+          variant="ghost"
         >
           <div className="relative size-4">
             <motion.span
+              animate={{ rotate: open ? -45 : 0, y: open ? 3 : 0 }}
               className="bg-foreground absolute left-0 block h-px w-4"
-              style={{ top: 4 }}
               initial={false}
-              animate={{ y: open ? 3 : 0, rotate: open ? -45 : 0 }}
+              style={{ top: 4 }}
               transition={{
-                y: { duration: 0.12, ease: "easeOut", delay: open ? 0 : 0.15 },
                 rotate: {
+                  delay: open ? 0.12 : 0,
                   duration: 0.15,
                   ease: "easeOut",
-                  delay: open ? 0.12 : 0,
                 },
+                y: { delay: open ? 0 : 0.15, duration: 0.12, ease: "easeOut" },
               }}
             />
             <motion.span
+              animate={{ rotate: open ? 45 : 0, y: open ? -5 : 0 }}
               className="bg-foreground absolute left-0 block h-px w-4"
-              style={{ top: 12 }}
               initial={false}
-              animate={{ y: open ? -5 : 0, rotate: open ? 45 : 0 }}
+              style={{ top: 12 }}
               transition={{
-                y: { duration: 0.12, ease: "easeOut", delay: open ? 0 : 0.15 },
                 rotate: {
+                  delay: open ? 0.12 : 0,
                   duration: 0.15,
                   ease: "easeOut",
-                  delay: open ? 0.12 : 0,
                 },
+                y: { delay: open ? 0 : 0.15, duration: 0.12, ease: "easeOut" },
               }}
             />
           </div>
@@ -156,10 +156,10 @@ export const MobileNav = ({
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="bg-background/90 no-scrollbar h-(--radix-popper-available-height) w-(--radix-popper-available-width) overflow-y-auto overscroll-contain rounded-none border-none p-0 shadow-none backdrop-blur"
         align="start"
-        side="bottom"
         alignOffset={-16}
+        className="bg-background/90 no-scrollbar h-(--radix-popper-available-height) w-(--radix-popper-available-width) overflow-y-auto overscroll-contain rounded-none border-none p-0 shadow-none backdrop-blur"
+        side="bottom"
         sideOffset={0}
       >
         <div className="flex flex-col gap-12 overflow-auto px-6 py-6">
@@ -173,8 +173,8 @@ export const MobileNav = ({
               </MobileLink>
               {TOP_LEVEL_SECTIONS.map((item) => (
                 <MobileLink
-                  key={item.href}
                   href={item.href}
+                  key={item.href}
                   onOpenChange={setOpen}
                 >
                   {item.name}

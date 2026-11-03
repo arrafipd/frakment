@@ -4,13 +4,8 @@
   "deprecated": false,
   "title": "Field",
   "description": "A layout primitive for form fields — label, description, and inputs.",
-  "dependencies": [
-    "class-variance-authority"
-  ],
-  "registryDependencies": [
-    "label",
-    "separator"
-  ],
+  "dependencies": ["class-variance-authority"],
+  "registryDependencies": ["label", "separator"],
   "files": [
     {
       "path": "components/ui/field.tsx",

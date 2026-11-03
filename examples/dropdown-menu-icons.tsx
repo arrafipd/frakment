@@ -1,12 +1,5 @@
 "use client";
 
-import {
-  ArrowRightIcon,
-  BellIcon,
-  CreditCardIcon,
-  XIcon,
-} from "@/lib/icons";
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,6 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ArrowRightIcon, BellIcon, CreditCardIcon, XIcon } from "@/lib/icons";
 
 export function DropdownMenuIcons() {
   return (

@@ -8,7 +8,6 @@ import { DocsKeyboardShortcuts } from "@/components/docs-keyboard-shortcuts";
 import { DocsNavLink } from "@/components/docs-nav-link";
 import { DocsShareMenu } from "@/components/docs-share-menu";
 import { DocsTableOfContents } from "@/components/docs-toc";
-import { DocsTocFooter } from "@/components/docs-toc-footer";
 import { PageTransition } from "@/components/page-transition";
 import { Badge } from "@/components/ui/badge";
 import { ROUTES } from "@/constants/routes";
@@ -30,25 +29,25 @@ const getChangelogNeighbours = (url: string) => {
     }));
   const idx = pages.findIndex((p) => p.url === url);
   if (idx === -1) {
-    return { previous: null, next: null };
+    return { next: null, previous: null };
   }
   return {
-    previous: pages[idx + 1] ?? null,
     next: pages[idx - 1] ?? null,
+    previous: pages[idx + 1] ?? null,
   };
 };
 
 const getTopLevelNeighbours = (pageUrl: string) => {
   const idx = TOP_LEVEL_SECTIONS.findIndex((s) => s.href === pageUrl);
   if (idx === -1) {
-    return { previous: null, next: null };
+    return { next: null, previous: null };
   }
   const prev = idx > 0 ? TOP_LEVEL_SECTIONS[idx - 1] : null;
   const next =
     idx < TOP_LEVEL_SECTIONS.length - 1 ? TOP_LEVEL_SECTIONS[idx + 1] : null;
   return {
-    previous: prev ? { name: prev.name, url: prev.href } : null,
     next: next ? { name: next.name, url: next.href } : null,
+    previous: prev ? { name: prev.name, url: prev.href } : null,
   };
 };
 
@@ -141,14 +140,14 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
       <BreadcrumbJsonLd items={breadcrumbs} />
 
       <DocsKeyboardShortcuts
-        previous={neighbours.previous ? neighbours.previous.url : null}
         next={neighbours.next ? neighbours.next.url : null}
+        previous={neighbours.previous ? neighbours.previous.url : null}
       />
 
       <PageTransition>
         <div
-          data-slot="docs"
           className="flex items-stretch text-[1.05rem] sm:text-[15px] xl:w-full"
+          data-slot="docs"
         >
           <div className="flex min-w-0 flex-1 flex-col">
             <div className="h-(--top-spacing) shrink-0" />
@@ -173,26 +172,26 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
                         />
                         {neighbours.previous && (
                           <DocsNavLink
-                            href={neighbours.previous.url}
-                            transitionTypes={["nav-back"]}
                             className="extend-touch-target size-8 md:size-7"
+                            href={neighbours.previous.url}
                             tooltip={{
                               icon: <ArrowLeftIcon />,
                               title: "Previous Page",
                             }}
+                            transitionTypes={["nav-back"]}
                           >
                             <span className="sr-only">Previous</span>
                           </DocsNavLink>
                         )}
                         {neighbours.next && (
                           <DocsNavLink
-                            href={neighbours.next.url}
-                            transitionTypes={["nav-forward"]}
                             className="extend-touch-target size-8 md:size-7"
+                            href={neighbours.next.url}
                             tooltip={{
                               icon: <ArrowRightIcon />,
                               title: "Next Page",
                             }}
+                            transitionTypes={["nav-forward"]}
                           >
                             <span className="sr-only">Next</span>
                           </DocsNavLink>
@@ -210,14 +209,14 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
                   <div className="flex items-center space-x-2 pt-4">
                     {links?.doc && (
                       <Badge asChild variant="secondary">
-                        <Link href={links.doc} target="_blank" rel="noreferrer">
+                        <Link href={links.doc} rel="noreferrer" target="_blank">
                           Docs <ArrowUpRightIcon />
                         </Link>
                       </Badge>
                     )}
                     {links?.api && (
                       <Badge asChild variant="secondary">
-                        <Link href={links.api} target="_blank" rel="noreferrer">
+                        <Link href={links.api} rel="noreferrer" target="_blank">
                           API Reference <ArrowUpRightIcon />
                         </Link>
                       </Badge>
@@ -243,18 +242,18 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
               {neighbours.previous && (
                 <DocsNavLink
                   href={neighbours.previous.url}
-                  transitionTypes={["nav-back"]}
                   size="sm"
+                  transitionTypes={["nav-back"]}
                 >
                   {neighbours.previous.name}
                 </DocsNavLink>
               )}
               {neighbours.next && (
                 <DocsNavLink
-                  href={neighbours.next.url}
-                  transitionTypes={["nav-forward"]}
                   className="ml-auto"
+                  href={neighbours.next.url}
                   size="sm"
+                  transitionTypes={["nav-forward"]}
                 >
                   {neighbours.next.name}
                 </DocsNavLink>

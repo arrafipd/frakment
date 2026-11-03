@@ -21,13 +21,13 @@ export const UserAvatar = ({
 
   return (
     <Image
-      src={finalSrc}
       alt={name}
-      width={size}
-      height={size}
       className={className}
-      unoptimized
+      height={size}
       onError={() => setErrored(true)}
+      src={finalSrc}
+      unoptimized
+      width={size}
     />
   );
 };

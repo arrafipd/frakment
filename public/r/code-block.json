@@ -4,14 +4,8 @@
   "deprecated": false,
   "title": "Code Block",
   "description": "A scrollable code container with header, copy button, line numbers, and diff highlighting.",
-  "dependencies": [
-    "@phosphor-icons/react",
-    "class-variance-authority"
-  ],
-  "registryDependencies": [
-    "button",
-    "icons"
-  ],
+  "dependencies": ["@phosphor-icons/react", "class-variance-authority"],
+  "registryDependencies": ["button", "icons"],
   "files": [
     {
       "path": "components/ui/code-block.tsx",

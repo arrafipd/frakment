@@ -4,8 +4,8 @@
 .orb-cosmos {
   --lp-grain-ball: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.25' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0.805 0.0975 0 0 0 0.805 0.0975 0 0 0 0.805 0.0975 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   position: relative;
-  min-height: 260px;
   height: auto;
+  min-height: 260px;
   overflow: visible;
 }
 
@@ -19,8 +19,8 @@
   --tint: #f8f8f8;
   --type: calc(var(--s) * 0.135);
   position: relative;
-  left: auto;
   top: auto;
+  left: auto;
   z-index: 0;
   flex: 0 0 var(--s);
   width: var(--s);
@@ -122,8 +122,8 @@
 .orb-cosmos .lp-orb-skin {
   position: absolute;
   inset: calc(var(--s) * 0.25);
-  border-radius: 50%;
   background: var(--lp-ball-light), var(--lp-ball-paint);
+  border-radius: 50%;
   box-shadow: var(--lp-ball-shade);
 }
 
@@ -132,11 +132,11 @@
 }
 
 .orb-cosmos .lp-orb .lp-orb-skin::after {
-  content: "";
   position: absolute;
   inset: 0;
-  border-radius: inherit;
+  content: "";
   background: var(--lp-grain-ball) 0 0 / 160px 160px;
+  border-radius: inherit;
   mix-blend-mode: overlay;
   animation: lp-grain-roll var(--lp-grain-turn, 1300ms) linear infinite;
 }
@@ -238,8 +238,8 @@
 
 .orb-cosmos .lp-orb-item {
   position: absolute;
-  left: 50%;
   top: 50%;
+  left: 50%;
   width: 0;
   height: 0;
   transform: rotateY(var(--a)) translateZ(calc(var(--s) / 2));
@@ -249,16 +249,16 @@
 
 .orb-cosmos .lp-orb-glyph {
   position: absolute;
-  left: 0;
   top: 0;
-  transform: translate(-50%, -50%);
-  white-space: pre;
+  left: 0;
   font-family: inherit;
   font-size: var(--type);
   font-weight: 600;
-  letter-spacing: -0.01em;
   line-height: 1;
   color: var(--ink);
+  letter-spacing: -0.01em;
+  white-space: pre;
+  transform: translate(-50%, -50%);
   backface-visibility: hidden;
 }
 
@@ -282,13 +282,13 @@
 
 .orb-cosmos .lp-eye {
   position: absolute;
-  left: 50%;
   top: 50%;
+  left: 50%;
+  visibility: hidden;
   width: 0;
   height: 0;
-  visibility: hidden;
-  backface-visibility: hidden;
   pointer-events: none;
+  backface-visibility: hidden;
 }
 
 .orb-cosmos .lp-face.is-on .lp-eye {
@@ -298,8 +298,8 @@
 .orb-cosmos .lp-eye-lid,
 .orb-cosmos .lp-eye-pupil {
   position: absolute;
-  left: 0;
   top: 0;
+  left: 0;
   width: 0;
   height: 0;
 }
@@ -307,8 +307,8 @@
 .orb-cosmos .lp-eye-cap,
 .orb-cosmos .lp-eye-bar {
   position: absolute;
-  left: calc(var(--lp-eye-d) / -2);
   top: calc(var(--lp-eye-d) / -2);
+  left: calc(var(--lp-eye-d) / -2);
   width: var(--lp-eye-d);
   height: var(--lp-eye-d);
   background: var(--ink);
@@ -319,10 +319,10 @@
 }
 
 .orb-cosmos .lp-eye-mark {
-  display: none;
   position: absolute;
-  left: calc(var(--lp-eye-mark) / -2);
   top: calc(var(--lp-eye-mark) / -2);
+  left: calc(var(--lp-eye-mark) / -2);
+  display: none;
   width: var(--lp-eye-mark);
   height: var(--lp-eye-mark);
   color: var(--ink);
@@ -371,10 +371,10 @@
 }
 /* stable text rendering across hover / morph */
 .orb-cosmos .lp-orb-glyph {
-  font-synthesis: none;
-  font-synthesis-weight: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+  font-synthesis-weight: none;
 }
 
 .orb-cosmos .lp-face {

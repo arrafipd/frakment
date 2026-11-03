@@ -4,13 +4,8 @@
   "deprecated": false,
   "title": "Checkbox",
   "description": "A control that lets the user toggle between checked and not checked.",
-  "dependencies": [
-    "@phosphor-icons/react",
-    "radix-ui"
-  ],
-  "registryDependencies": [
-    "icons"
-  ],
+  "dependencies": ["@phosphor-icons/react", "radix-ui"],
+  "registryDependencies": ["icons"],
   "files": [
     {
       "path": "components/ui/checkbox.tsx",

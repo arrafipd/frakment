@@ -2,19 +2,8 @@
 
 import { useChat } from "@ai-sdk/react";
 import type { UIDataTypes, UIMessage } from "ai";
-import {
-  ArrowUpRightIcon,
-  CircleAlertIcon,
-  CircleCheckIcon,
-  FileCode2Icon,
-  GaugeIcon,
-  LoaderCircleIcon,
-  NetworkIcon,
-  PackageIcon,
-} from "@/lib/icons";
 import { motion } from "motion/react";
 import * as React from "react";
-
 import { Badge } from "@/components/ui/badge";
 import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import { Button } from "@/components/ui/button";
@@ -30,6 +19,13 @@ import {
   TraceTitle,
 } from "@/components/ui/trace";
 import { createChat, getMessageText } from "@/lib/ai";
+import {
+  CircleAlertIcon,
+  CircleCheckIcon,
+  FileCode2Icon,
+  LoaderCircleIcon,
+  NetworkIcon,
+} from "@/lib/icons";
 
 type ChatMessage = UIMessage<
   unknown,
@@ -144,7 +140,7 @@ function Step({
   }
 
   return (
-    <TraceCollapsible open={open} onOpenChange={setOpen}>
+    <TraceCollapsible onOpenChange={setOpen} open={open}>
       <TraceCollapsibleTrigger>{line}</TraceCollapsibleTrigger>
       <TraceCollapsibleContent>{children}</TraceCollapsibleContent>
     </TraceCollapsible>
@@ -163,12 +159,12 @@ function StepRow({
   const status =
     part.state === "output-available"
       ? undefined
-      : (part.state === "output-error" || !streaming
+      : part.state === "output-error" || !streaming
         ? "error"
-        : "running");
+        : "running";
   const error = part.state === "output-error" && (
     <CodeBlock size="sm" variant="destructive">
-      <CodeBlockContent wrap className="max-h-64">
+      <CodeBlockContent className="max-h-64" wrap>
         {part.errorText}
       </CodeBlockContent>
     </CodeBlock>
@@ -178,11 +174,11 @@ function StepRow({
     const title =
       status === "running"
         ? `Analyzing bundle for ${part.input?.entry}`
-        : (status === "error"
+        : status === "error"
           ? "Failed to analyze bundle"
-          : `Analyzed bundle for ${part.input?.entry}`);
+          : `Analyzed bundle for ${part.input?.entry}`;
     return (
-      <Step status={status} delay={delay} title={title}>
+      <Step delay={delay} status={status} title={title}>
         {error ||
           (part.state === "output-available" && (
             <CodeBlock size="sm">
@@ -201,21 +197,21 @@ function StepRow({
     const title =
       status === "running"
         ? `Profiling requests on ${part.input?.route}`
-        : (status === "error"
+        : status === "error"
           ? "Failed to profile network"
-          : `Profiled requests on ${part.input?.route}`);
+          : `Profiled requests on ${part.input?.route}`;
     return (
-      <Step status={status} delay={delay} title={title}>
+      <Step delay={delay} status={status} title={title}>
         {error ||
           (part.state === "output-available" && (
             <div className="flex flex-col gap-1.5 py-1">
               {part.output.requests.map((req) => (
-                <div key={req.path} className="flex items-center gap-2 text-xs">
-                  <NetworkIcon className="size-3.5 shrink-0 text-muted-foreground" />
-                  <code className="font-mono text-muted-foreground">
+                <div className="flex items-center gap-2 text-xs" key={req.path}>
+                  <NetworkIcon className="text-muted-foreground size-3.5 shrink-0" />
+                  <code className="text-muted-foreground font-mono">
                     {req.path}
                   </code>
-                  <span className="ml-auto font-mono tabular-nums text-foreground">
+                  <span className="text-foreground ml-auto font-mono tabular-nums">
                     {req.ms}ms
                   </span>
                 </div>
@@ -229,16 +225,16 @@ function StepRow({
   const title =
     status === "running"
       ? `Scanning render tree for ${part.input?.component}`
-      : (status === "error"
+      : status === "error"
         ? "Failed to scan render tree"
-        : `Scanned render tree for ${part.input?.component}`);
+        : `Scanned render tree for ${part.input?.component}`;
   return (
-    <Step status={status} delay={delay} title={title}>
+    <Step delay={delay} status={status} title={title}>
       {error ||
         (part.state === "output-available" && (
           <div className="flex flex-wrap gap-1.5 py-1">
             {part.output.files.map((file) => (
-              <Badge key={file} variant="secondary" className="font-mono">
+              <Badge className="font-mono" key={file} variant="secondary">
                 <FileCode2Icon />
                 {file}
               </Badge>
@@ -275,11 +271,11 @@ function ChainOfThought({
 
   const effectiveOpen = open ?? (forceCollapsed ? false : true);
   const failed = steps.filter((p) => p.state === "output-error").length;
-  const status = running ? "running" : (failed > 0 ? "error" : undefined);
+  const status = running ? "running" : failed > 0 ? "error" : undefined;
 
   return (
     <Trace>
-      <TraceCollapsible open={effectiveOpen} onOpenChange={setOpen}>
+      <TraceCollapsible onOpenChange={setOpen} open={effectiveOpen}>
         <TraceCollapsibleTrigger>
           <TraceLine status={status}>
             <TraceIcon>
@@ -296,12 +292,12 @@ function ChainOfThought({
           <Trace>
             {steps.map((part, i) => (
               <motion.div
-                key={part.toolCallId}
-                initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 8 }}
+                key={part.toolCallId}
                 transition={{ delay: i * 0.05, duration: 0.4, ease: EASE }}
               >
-                <StepRow part={part} streaming={streaming} delay={300} />
+                <StepRow delay={300} part={part} streaming={streaming} />
               </motion.div>
             ))}
           </Trace>
@@ -330,9 +326,9 @@ export function ChainOfThoughtDemo() {
         if (message.role === "user") {
           return (
             <motion.div
-              key={message.id}
-              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 6 }}
+              key={message.id}
               transition={{ duration: 0.35, ease: EASE }}
             >
               <Message align="end">
@@ -360,15 +356,15 @@ export function ChainOfThoughtDemo() {
             <MessageContent className="gap-4">
               {steps.length > 0 && (
                 <ChainOfThought
+                  answering={text.length > 0}
                   steps={steps}
                   streaming={streaming}
-                  answering={text.length > 0}
                 />
               )}
               {text && (
                 <motion.p
-                  initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, y: 6 }}
                   transition={{ duration: 0.5, ease: EASE }}
                 >
                   {text}
@@ -380,18 +376,18 @@ export function ChainOfThoughtDemo() {
       })}
       {!busy && messages.length > 0 && (
         <motion.div
-          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
+          initial={{ opacity: 0 }}
           transition={{ duration: 0.4, ease: EASE }}
         >
           <Button
-            variant="outline"
-            size="sm"
             className="mt-auto self-start"
             onClick={() => {
               setMessages([]);
               sendMessage({ text: QUESTION_TEXT });
             }}
+            size="sm"
+            variant="outline"
           >
             Replay
           </Button>

@@ -1,6 +1,6 @@
 import {
-  Inter_Tight as FontSans,
   JetBrains_Mono as FontMono,
+  Inter_Tight as FontSans,
 } from "next/font/google";
 
 import { cn } from "@/lib/utils";

@@ -4,14 +4,8 @@
   "deprecated": false,
   "title": "Input Group",
   "description": "A composable input wrapper with inline addons, buttons, and text groups.",
-  "dependencies": [
-    "class-variance-authority"
-  ],
-  "registryDependencies": [
-    "button",
-    "input",
-    "textarea"
-  ],
+  "dependencies": ["class-variance-authority"],
+  "registryDependencies": ["button", "input", "textarea"],
   "files": [
     {
       "path": "components/ui/input-group.tsx",

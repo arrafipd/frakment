@@ -16,12 +16,12 @@ type MotionElement = typeof motion.p | typeof motion.span | typeof motion.code;
 
 export interface TextFlipProps {
   as?: MotionElement;
-  className?: string;
   children: React.ReactNode[];
+  className?: string;
   interval?: number;
+  onIndexChange?: (index: number) => void;
   transition?: Transition;
   variants?: Variants;
-  onIndexChange?: (index: number) => void;
 }
 
 export const TextFlip = ({
@@ -50,13 +50,13 @@ export const TextFlip = ({
   }, [items.length, interval, onIndexChange]);
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
+    <AnimatePresence initial={false} mode="wait">
       <Component
-        key={currentIndex}
-        className={cn("inline-block", className)}
-        initial="initial"
         animate="animate"
+        className={cn("inline-block", className)}
         exit="exit"
+        initial="initial"
+        key={currentIndex}
         transition={transition}
         variants={variants}
       >

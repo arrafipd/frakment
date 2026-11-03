@@ -57,13 +57,13 @@ export type ExpressionName = "happy" | "straight" | "thinking";
 export type MouthShape = "smile" | "frown" | "flat" | "hmm";
 
 export interface Expression {
-  mouth: MouthShape;
   lids: [number, number];
+  mouth: MouthShape;
   tilt: number;
 }
 
 export const EXPRESSIONS: Record<ExpressionName, Expression> = {
-  happy: { mouth: "smile", lids: [1, 1], tilt: 0 },
-  straight: { mouth: "flat", lids: [1, 1], tilt: 0 },
-  thinking: { mouth: "hmm", lids: [0.5, 1], tilt: -6 },
+  happy: { lids: [1, 1], mouth: "smile", tilt: 0 },
+  straight: { lids: [1, 1], mouth: "flat", tilt: 0 },
+  thinking: { lids: [0.5, 1], mouth: "hmm", tilt: -6 },
 };

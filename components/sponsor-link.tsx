@@ -22,15 +22,15 @@ export const SponsorLink = () => {
   return (
     <Button
       asChild
-      size="sm"
-      variant="ghost"
       className="max-sm:size-8"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      size="sm"
+      variant="ghost"
     >
-      <Link href={ROUTES.SPONSOR} className="inline-flex items-center gap-1.5">
+      <Link className="inline-flex items-center gap-1.5" href={ROUTES.SPONSOR}>
         <HeartHandshakeIcon
-          className="size-5 sm:size-4.5 text-pink-500"
+          className="size-5 text-pink-500 sm:size-4.5"
           ref={heartRef}
         />
         <span className="max-sm:sr-only">Sponsor</span>

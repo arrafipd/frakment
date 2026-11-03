@@ -7,7 +7,7 @@ import { docs } from "@/.source/server";
 import { NewDot } from "@/components/new-dot";
 import { ROUTES } from "@/constants/routes";
 import { AGENT_DOCS_DIRECTIVE_MARKDOWN } from "@/lib/agent-discovery/directive";
-import { PAGES_NEW, docsContentRoute, docsImageRoute } from "@/lib/docs";
+import { docsContentRoute, docsImageRoute, PAGES_NEW } from "@/lib/docs";
 
 const baseSource = loader({
   baseUrl: ROUTES.DOCS,

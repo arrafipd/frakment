@@ -8,12 +8,12 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
 interface ComponentPreviewTabsProps {
-  component: React.ReactNode;
-  source: React.ReactNode;
-  className?: string;
-  previewClassName?: string;
-  hideCode?: boolean;
   align?: "center" | "start" | "end";
+  className?: string;
+  component: React.ReactNode;
+  hideCode?: boolean;
+  previewClassName?: string;
+  source: React.ReactNode;
 }
 
 const transition = {
@@ -46,35 +46,35 @@ export function ComponentPreviewTabs({
       data-slot="component-preview"
     >
       <Tabs
-        value={activeTab}
-        onValueChange={(v) => setActiveTab(v as "preview" | "code")}
         className="relative w-full gap-2"
+        onValueChange={(v) => setActiveTab(v as "preview" | "code")}
+        value={activeTab}
       >
-        <TabsList className="inline-flex h-9 items-center justify-center rounded-lg bg-muted p-[3px] text-muted-foreground">
+        <TabsList className="bg-muted text-muted-foreground inline-flex h-9 items-center justify-center rounded-lg p-[3px]">
           <TabsTrigger value="preview">Preview</TabsTrigger>
           {!hideCode && <TabsTrigger value="code">Code</TabsTrigger>}
         </TabsList>
       </Tabs>
 
       <div className="relative">
-        <AnimatePresence mode="wait" initial={false}>
+        <AnimatePresence initial={false} mode="wait">
           {activeTab === "preview" ? (
             <motion.div
-              key="preview"
-              variants={variants}
-              initial="initial"
               animate="animate"
-              exit="exit"
-              transition={transition}
               className="relative rounded-md border"
+              exit="exit"
+              initial="initial"
+              key="preview"
+              transition={transition}
+              variants={variants}
             >
               <div
-                data-align={align}
                 className={cn(
                   "preview flex w-full justify-center p-10",
                   "data-[align=center]:items-center data-[align=end]:items-end data-[align=start]:items-start",
                   previewClassName ? previewClassName : "min-h-[350px]"
                 )}
+                data-align={align}
               >
                 {component}
               </div>
@@ -82,13 +82,13 @@ export function ComponentPreviewTabs({
               {!hideCode && (
                 <div className="absolute top-3 right-3 flex items-center gap-2 opacity-0 transition-opacity group-hover:opacity-100 md:hidden">
                   <Button
-                    variant="secondary"
-                    size="sm"
                     className="h-7 rounded-md px-2 text-xs"
                     onClick={() => {
                       setActiveTab("code");
                       setIsMobileCodeVisible(true);
                     }}
+                    size="sm"
+                    variant="secondary"
                   >
                     View Code
                   </Button>
@@ -97,24 +97,24 @@ export function ComponentPreviewTabs({
             </motion.div>
           ) : (
             <motion.div
-              key="code"
-              variants={variants}
-              initial="initial"
               animate="animate"
-              exit="exit"
-              transition={transition}
               className="relative"
+              exit="exit"
+              initial="initial"
+              key="code"
+              transition={transition}
+              variants={variants}
             >
               {source}
               {isMobileCodeVisible && (
                 <Button
-                  variant="ghost"
-                  size="sm"
                   className="mb-2 h-7 rounded-md px-2 text-xs md:hidden"
                   onClick={() => {
                     setIsMobileCodeVisible(false);
                     setActiveTab("preview");
                   }}
+                  size="sm"
+                  variant="ghost"
                 >
                   Hide Code
                 </Button>

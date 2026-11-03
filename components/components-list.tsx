@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { ROUTES } from "@/constants/routes";
-import { PAGES_NEW, isComponentsFolder } from "@/lib/docs";
+import { isComponentsFolder, PAGES_NEW } from "@/lib/docs";
 import type { PageTreeFolder, PageTreePage } from "@/lib/page-tree";
 import { getAllPagesFromFolder, getPagesFromFolder } from "@/lib/page-tree";
 import { source } from "@/lib/source";

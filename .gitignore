@@ -77,3 +77,5 @@ _snapshot_*/
 build.log
 
 *.bak[0-9]*
+packages/*/dist
+packages/*/.turbo

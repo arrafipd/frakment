@@ -4,9 +4,7 @@
   "deprecated": false,
   "title": "Empty",
   "description": "A centered placeholder for empty states.",
-  "dependencies": [
-    "class-variance-authority"
-  ],
+  "dependencies": ["class-variance-authority"],
   "registryDependencies": [],
   "files": [
     {

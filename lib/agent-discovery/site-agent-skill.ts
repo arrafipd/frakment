@@ -46,7 +46,7 @@ Browse:
 A frakment MCP server ships with this project. Run it with:
 
 \`\`\`
-npx -y frakment-mcp
+npx -y @frakment/mcp
 \`\`\`
 
 Exposed tools: \`list_components\`, \`view_component\`, \`search_components\`, \`get_install_command\`.

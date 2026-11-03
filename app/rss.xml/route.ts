@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 
 import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
-import { getChangelogPages } from "@/lib/changelog";
 import type { ChangelogPageData } from "@/lib/changelog";
+import { getChangelogPages } from "@/lib/changelog";
 
 export const revalidate = false;
 

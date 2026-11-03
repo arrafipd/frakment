@@ -8,11 +8,11 @@ import {
 import { cn } from "@/lib/utils";
 
 const CALLOUT_TYPES = {
-  info: { variant: "info" as const, Icon: InfoIcon },
-  success: { variant: "success" as const, Icon: CircleCheckIcon },
-  warning: { variant: "warning" as const, Icon: TriangleAlertIcon },
-  danger: { variant: "destructive" as const, Icon: CircleAlertIcon },
-  neutral: { variant: "default" as const, Icon: InfoIcon },
+  danger: { Icon: CircleAlertIcon, variant: "destructive" as const },
+  info: { Icon: InfoIcon, variant: "info" as const },
+  neutral: { Icon: InfoIcon, variant: "default" as const },
+  success: { Icon: CircleCheckIcon, variant: "success" as const },
+  warning: { Icon: TriangleAlertIcon, variant: "warning" as const },
 };
 
 export type CalloutType = keyof typeof CALLOUT_TYPES;
@@ -34,12 +34,12 @@ export const Callout = ({
 
   return (
     <Alert
-      variant={config?.variant ?? "default"}
       className={cn(
         "mt-6 w-auto md:-mx-1",
         !type && "bg-surface text-surface-foreground border-none",
         className
       )}
+      variant={config?.variant ?? "default"}
       {...props}
     >
       {renderedIcon}

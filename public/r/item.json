@@ -4,10 +4,7 @@
   "deprecated": false,
   "title": "Item",
   "description": "A flexible row for grouping media, content, and actions.",
-  "dependencies": [
-    "class-variance-authority",
-    "radix-ui"
-  ],
+  "dependencies": ["class-variance-authority", "radix-ui"],
   "registryDependencies": [],
   "files": [
     {

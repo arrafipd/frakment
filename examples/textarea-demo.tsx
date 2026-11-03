@@ -7,8 +7,12 @@ export function TextareaDemo() {
     <div className="grid w-full max-w-sm gap-3">
       <Textarea placeholder="Write a message..." />
       <Textarea placeholder="Reply..." rows={3} />
-      <Textarea placeholder="Disabled" disabled defaultValue="Cannot edit" />
-      <Textarea placeholder="Invalid" aria-invalid defaultValue="Invalid value" />
+      <Textarea defaultValue="Cannot edit" disabled placeholder="Disabled" />
+      <Textarea
+        aria-invalid
+        defaultValue="Invalid value"
+        placeholder="Invalid"
+      />
     </div>
   );
 }

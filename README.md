@@ -45,7 +45,7 @@ npx frakment@latest add bubble
 Or use it as an MCP server for agents:
 
 ```bash
-npx -y frakment-mcp
+npx -y @frakment/mcp
 ```
 
 ## Contributing

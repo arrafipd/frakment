@@ -4,13 +4,8 @@
   "deprecated": false,
   "title": "chain-of-thought",
   "description": "",
-  "dependencies": [
-    "@phosphor-icons/react"
-  ],
-  "registryDependencies": [
-    "icons",
-    "trace"
-  ],
+  "dependencies": ["@phosphor-icons/react"],
+  "registryDependencies": ["icons", "trace"],
   "files": [
     {
       "path": "components/ui/chain-of-thought.tsx",

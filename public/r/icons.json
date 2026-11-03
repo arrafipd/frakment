@@ -4,9 +4,7 @@
   "deprecated": false,
   "title": "Icons",
   "description": "Phosphor icon shim with Icon-suffixed aliases.",
-  "dependencies": [
-    "@phosphor-icons/react"
-  ],
+  "dependencies": ["@phosphor-icons/react"],
   "registryDependencies": [],
   "files": [
     {

@@ -4,6 +4,7 @@ import { ViewTransition } from "react";
 
 export const PageTransition = ({ children }: { children: React.ReactNode }) => (
   <ViewTransition
+    default="none"
     enter={{
       default: "none",
       "nav-back": "slide-from-left",
@@ -14,7 +15,6 @@ export const PageTransition = ({ children }: { children: React.ReactNode }) => (
       "nav-back": "slide-to-right",
       "nav-forward": "slide-to-left",
     }}
-    default="none"
   >
     {children}
   </ViewTransition>

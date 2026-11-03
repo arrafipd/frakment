@@ -3,5 +3,5 @@
 import { Input } from "@/components/ui/input";
 
 export function InputBasic() {
-  return <Input placeholder="Enter text" className="max-w-xs" />;
+  return <Input className="max-w-xs" placeholder="Enter text" />;
 }

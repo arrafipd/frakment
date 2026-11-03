@@ -21,7 +21,7 @@ const HeartHandshakeIcon = forwardRef<
 >(({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
   const controls = useAnimation();
   const sizeClass = className
-    ?.match(/\b(?:(?:sm|md|lg|xl|2xl):)?size-[^\s]+/g)
+    ?.match(/\b(?:(?:sm|md|lg|xl|2xl):)?size-[^\s]+/gu)
     ?.join(" ");
   const isControlledRef = useRef(false);
 

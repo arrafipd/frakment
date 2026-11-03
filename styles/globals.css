@@ -64,16 +64,16 @@
   }
 
   [data-rehype-pretty-code-figure] {
-    background-color: var(--color-code);
-    color: var(--color-code-foreground);
-    border-radius: var(--radius-lg);
-    border-width: 0px;
-    border-color: var(--border);
+    position: relative;
     margin-top: calc(var(--spacing) * 6);
     overflow: hidden;
     font-size: var(--text-sm);
+    color: var(--color-code-foreground);
     outline: none;
-    position: relative;
+    background-color: var(--color-code);
+    border-color: var(--border);
+    border-width: 0px;
+    border-radius: var(--radius-lg);
     @apply -mx-1 md:-mx-1;
 
     &:has([data-rehype-pretty-code-title]) [data-slot="copy-button"] {
@@ -82,14 +82,14 @@
   }
 
   [data-rehype-pretty-code-title] {
-    border-bottom: color-mix(in oklab, var(--border) 30%, transparent);
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
     padding-block: calc(var(--spacing) * 2.5);
     padding-inline: calc(var(--spacing) * 4);
-    font-size: var(--text-sm);
     font-family: var(--font-mono);
+    font-size: var(--text-sm);
     color: var(--color-code-foreground);
+    border-bottom: color-mix(in oklab, var(--border) 30%, transparent);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
   }
 
   [data-line-numbers] {
@@ -104,17 +104,17 @@
   }
 
   [data-line-numbers] [data-line]::before {
-    font-size: var(--text-sm);
-    counter-increment: line;
-    content: counter(line);
+    position: sticky;
+    left: 0;
     display: inline-block;
     width: calc(var(--spacing) * 16);
     padding-right: calc(var(--spacing) * 6);
-    text-align: right;
+    font-size: var(--text-sm);
     color: var(--color-code-number);
+    text-align: right;
+    content: counter(line);
+    counter-increment: line;
     background-color: var(--color-code);
-    position: sticky;
-    left: 0;
   }
 
   [data-line-numbers] [data-highlighted-line][data-line]::before {
@@ -122,11 +122,11 @@
   }
 
   [data-line] {
+    display: inline-block;
+    width: 100%;
+    min-height: calc(var(--spacing) * 1);
     padding-top: calc(var(--spacing) * 0.5);
     padding-bottom: calc(var(--spacing) * 0.5);
-    min-height: calc(var(--spacing) * 1);
-    width: 100%;
-    display: inline-block;
   }
 
   [data-line] span {
@@ -160,11 +160,11 @@
   }
 
   [data-highlighted-chars] {
-    border-radius: var(--radius-sm);
-    padding-inline: 0.3rem;
     padding-block: 0.1rem;
+    padding-inline: 0.3rem;
     font-family: var(--font-mono);
     font-size: 0.8rem;
+    border-radius: var(--radius-sm);
   }
 }
 
@@ -176,12 +176,12 @@
 
 @keyframes fade {
   from {
-    filter: blur(3px);
     opacity: 0;
+    filter: blur(3px);
   }
   to {
-    filter: blur(0);
     opacity: 1;
+    filter: blur(0);
   }
 }
 
@@ -205,23 +205,23 @@
 
 @keyframes scale-down {
   from {
-    transform: scale(1);
     opacity: 1;
+    transform: scale(1);
   }
   to {
-    transform: scale(0.85);
     opacity: 0;
+    transform: scale(0.85);
   }
 }
 
 @keyframes scale-up {
   from {
-    transform: scale(0.85);
     opacity: 0;
+    transform: scale(0.85);
   }
   to {
-    transform: scale(1);
     opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -315,9 +315,9 @@
   display: none;
 }
 ::view-transition-new(.text-morph) {
-  animation: none;
   object-fit: none;
   object-position: left top;
+  animation: none;
 }
 
 ::view-transition-old(.scale-out) {
@@ -328,12 +328,12 @@
 }
 
 ::view-transition-group(site-header) {
-  animation: none;
   z-index: 100;
+  animation: none;
 }
 ::view-transition-group(site-footer) {
-  animation: none;
   z-index: 100;
+  animation: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -357,9 +357,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   .shimmer {
-    animation: none !important;
-    background: none !important;
     -webkit-text-fill-color: inherit !important;
+    background: none !important;
+    animation: none !important;
   }
 }
 /* === data-open / data-closed variants === */
@@ -430,8 +430,8 @@
 }
 [data-inline] > p {
   display: inline !important;
-  margin: 0 !important;
   padding: 0 !important;
+  margin: 0 !important;
   font: inherit !important;
   line-height: 1 !important;
   color: inherit !important;

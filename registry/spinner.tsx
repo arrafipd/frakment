@@ -12,13 +12,13 @@ function Spinner({
   const Icon = variant === "spoke" ? LoaderIcon : LoaderCircleIcon;
   return (
     <Icon
-      data-slot="spinner"
-      role="status"
       aria-label="Loading"
       className={cn(
-        "inline-block size-4 shrink-0 align-middle animate-spin",
+        "inline-block size-4 shrink-0 animate-spin align-middle",
         className
       )}
+      data-slot="spinner"
+      role="status"
       {...props}
     />
   );

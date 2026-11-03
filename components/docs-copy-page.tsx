@@ -169,9 +169,9 @@ export const DocsCopyPage = ({
 
   const trigger = (
     <Button
-      variant="secondary"
-      size="sm"
       className="peer -ml-0.5 size-8 md:size-7 md:text-[0.8rem]"
+      size="sm"
+      variant="secondary"
     >
       <ChevronDownIcon className="rotate-180 sm:rotate-0" />
     </Button>
@@ -179,13 +179,13 @@ export const DocsCopyPage = ({
 
   return (
     <Popover>
-      <div className="group/buttons relative flex rounded-lg bg-secondary *:data-[slot=button]:focus-visible:relative *:data-[slot=button]:focus-visible:z-10">
+      <div className="group/buttons bg-secondary relative flex rounded-lg *:data-[slot=button]:focus-visible:relative *:data-[slot=button]:focus-visible:z-10">
         <PopoverAnchor />
         <CopyButton
-          value={copyValue}
-          showTooltip={false}
-          variant="secondary"
           className="md:h-7 md:text-[0.8rem]"
+          showTooltip={false}
+          value={copyValue}
+          variant="secondary"
         >
           Copy Page
         </CopyButton>
@@ -198,30 +198,30 @@ export const DocsCopyPage = ({
             className="animate-none! rounded-lg shadow-none"
           >
             {MENU_ITEMS.map(([key, render]) => (
-              <DropdownMenuItem key={key} asChild>
+              <DropdownMenuItem asChild key={key}>
                 {render(url)}
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
         <Separator
+          className="bg-foreground/5! absolute top-1 right-8 z-0 h-6! peer-focus-visible:opacity-0 sm:right-7 sm:h-5!"
           orientation="vertical"
-          className="absolute top-1 right-8 z-0 h-6! bg-foreground/5! peer-focus-visible:opacity-0 sm:right-7 sm:h-5!"
         />
         <PopoverTrigger asChild className="flex sm:hidden">
           {trigger}
         </PopoverTrigger>
         <PopoverContent
-          className="w-52 origin-center! rounded-lg bg-background/70 p-1 shadow-none backdrop-blur-sm dark:bg-background/60"
           align="start"
+          className="bg-background/70 dark:bg-background/60 w-52 origin-center! rounded-lg p-1 shadow-none backdrop-blur-sm"
         >
           {MENU_ITEMS.map(([key, render]) => (
             <Button
-              variant="ghost"
-              size="lg"
               asChild
+              className="*:[svg]:text-muted-foreground w-full justify-start text-base font-normal"
               key={key}
-              className="w-full justify-start text-base font-normal *:[svg]:text-muted-foreground"
+              size="lg"
+              variant="ghost"
             >
               {render(url)}
             </Button>

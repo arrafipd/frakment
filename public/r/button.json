@@ -4,10 +4,7 @@
   "deprecated": false,
   "title": "Button",
   "description": "A monochrome button with six variants and six sizes.",
-  "dependencies": [
-    "class-variance-authority",
-    "radix-ui"
-  ],
+  "dependencies": ["class-variance-authority", "radix-ui"],
   "registryDependencies": [],
   "files": [
     {

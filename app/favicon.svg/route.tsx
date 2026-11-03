@@ -10,8 +10,8 @@ export const GET = (request: Request) => {
 
   return new Response(svg, {
     headers: {
-      "Content-Type": "image/svg+xml",
       "Cache-Control": "public, max-age=31536000, immutable",
+      "Content-Type": "image/svg+xml",
     },
   });
 };

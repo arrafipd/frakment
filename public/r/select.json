@@ -4,13 +4,8 @@
   "deprecated": false,
   "title": "Select",
   "description": "A dropdown for selecting a single value from a list.",
-  "dependencies": [
-    "@phosphor-icons/react",
-    "radix-ui"
-  ],
-  "registryDependencies": [
-    "icons"
-  ],
+  "dependencies": ["@phosphor-icons/react", "radix-ui"],
+  "registryDependencies": ["icons"],
   "files": [
     {
       "path": "components/ui/select.tsx",

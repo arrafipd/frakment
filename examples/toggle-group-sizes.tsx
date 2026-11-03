@@ -1,22 +1,35 @@
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/components/ui/toggle-group";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 export function ToggleGroupSizes() {
   return (
     <div className="flex flex-col gap-4">
-      <ToggleGroup type="single" size="sm" defaultValue="top" variant="outline">
-        <ToggleGroupItem value="top" aria-label="Toggle top">Top</ToggleGroupItem>
-        <ToggleGroupItem value="bottom" aria-label="Toggle bottom">Bottom</ToggleGroupItem>
-        <ToggleGroupItem value="left" aria-label="Toggle left">Left</ToggleGroupItem>
-        <ToggleGroupItem value="right" aria-label="Toggle right">Right</ToggleGroupItem>
+      <ToggleGroup defaultValue="top" size="sm" type="single" variant="outline">
+        <ToggleGroupItem aria-label="Toggle top" value="top">
+          Top
+        </ToggleGroupItem>
+        <ToggleGroupItem aria-label="Toggle bottom" value="bottom">
+          Bottom
+        </ToggleGroupItem>
+        <ToggleGroupItem aria-label="Toggle left" value="left">
+          Left
+        </ToggleGroupItem>
+        <ToggleGroupItem aria-label="Toggle right" value="right">
+          Right
+        </ToggleGroupItem>
       </ToggleGroup>
-      <ToggleGroup type="single" defaultValue="top" variant="outline">
-        <ToggleGroupItem value="top" aria-label="Toggle top">Top</ToggleGroupItem>
-        <ToggleGroupItem value="bottom" aria-label="Toggle bottom">Bottom</ToggleGroupItem>
-        <ToggleGroupItem value="left" aria-label="Toggle left">Left</ToggleGroupItem>
-        <ToggleGroupItem value="right" aria-label="Toggle right">Right</ToggleGroupItem>
+      <ToggleGroup defaultValue="top" type="single" variant="outline">
+        <ToggleGroupItem aria-label="Toggle top" value="top">
+          Top
+        </ToggleGroupItem>
+        <ToggleGroupItem aria-label="Toggle bottom" value="bottom">
+          Bottom
+        </ToggleGroupItem>
+        <ToggleGroupItem aria-label="Toggle left" value="left">
+          Left
+        </ToggleGroupItem>
+        <ToggleGroupItem aria-label="Toggle right" value="right">
+          Right
+        </ToggleGroupItem>
       </ToggleGroup>
     </div>
   );

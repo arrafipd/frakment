@@ -4,10 +4,7 @@
   "deprecated": false,
   "title": "Toggle",
   "description": "A two-state button that can be toggled on or off.",
-  "dependencies": [
-    "class-variance-authority",
-    "radix-ui"
-  ],
+  "dependencies": ["class-variance-authority", "radix-ui"],
   "registryDependencies": [],
   "files": [
     {

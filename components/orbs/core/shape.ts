@@ -31,9 +31,9 @@ const SHAPE_WAVES = 160;
 export const SHAPE_BOX = 1.5;
 
 export interface ShapeSeries {
-  re: Float64Array;
   im: Float64Array;
   n: number;
+  re: Float64Array;
   waves: number;
 }
 
@@ -62,7 +62,7 @@ const floodOutside = (mask: Uint8Array): void => {
   const seen = new Uint8Array(mask.length);
   const stack: number[] = [];
   const push = (i: number) => {
-    if (!seen[i] && !mask[i]) {
+    if (!(seen[i] || mask[i])) {
       seen[i] = 1;
       stack.push(i);
     }
@@ -135,14 +135,14 @@ const outline = (mask: Uint8Array): ShapeLoops => {
   const loops: ShapeLoops = [];
   next.forEach((_, start) => {
     let list = next.get(start);
-    if (!list || !list.length) {
+    if (!(list && list.length)) {
       return;
     }
     const loop: ShapeLoop = [];
     let v = start;
     while (true) {
       list = next.get(v);
-      if (!list || !list.length) {
+      if (!(list && list.length)) {
         break;
       }
       loop.push([v % V, Math.floor(v / V)]);
@@ -172,7 +172,7 @@ const area = (pts: ShapeLoop): number => {
    twentieth of it (a wordmark is more than one piece), biggest first */
 const loopsOf = (loops: ShapeLoops): ShapeLoops | null => {
   const sized = loops
-    .map((loop) => ({ loop, a: Math.abs(area(loop)) }))
+    .map((loop) => ({ a: Math.abs(area(loop)), loop }))
     .filter((l) => l.a > 0)
     .sort((p, q) => q.a - p.a);
   if (!sized.length) {
@@ -232,7 +232,7 @@ const series = (pts: ShapeLoop): ShapeSeries => {
     re[k + waves] = sr / n;
     im[k + waves] = si / n;
   }
-  return { re, im, n, waves };
+  return { im, n, re, waves };
 };
 
 export const traceMark = (
@@ -242,7 +242,7 @@ export const traceMark = (
 ): ShapeSeries[] | null => {
   const view = (svg.getAttribute("viewBox") || "")
     .trim()
-    .split(/[\s,]+/)
+    .split(/[\s,]+/u)
     .map(Number);
   const [vx, vy, vw, vh] =
     view.length === 4 && view.every((n) => Number.isFinite(n))
@@ -283,7 +283,7 @@ export const traceMark = (
     const stroke = own("stroke", "none");
     const width = Number.parseFloat(own("stroke-width", "1")) || 1;
     ctx.save();
-    const move = /translate\(\s*([-\d.]+)[\s,]+([-\d.]+)/.exec(
+    const move = /translate\(\s*([-\d.]+)[\s,]+([-\d.]+)/u.exec(
       el.getAttribute("transform") || ""
     );
     if (move) {
@@ -482,7 +482,7 @@ export const fromBaked = (text: string): ShapePoly | null => {
   const out: ShapePoly = [];
   text
     .trim()
-    .split(/\s+/)
+    .split(/\s+/u)
     .forEach((pair) => {
       const [a, b] = pair.split(",").map(Number);
       x += a;

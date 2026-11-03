@@ -17,7 +17,7 @@ const formatStars = (count: number): string => {
   if (count >= 1000) {
     const k = count / 1000;
     const formatted =
-      k >= 10 ? Math.round(k).toString() : k.toFixed(1).replace(/\.0$/, "");
+      k >= 10 ? Math.round(k).toString() : k.toFixed(1).replace(/\.0$/u, "");
     return `${formatted}K+`;
   }
   return count.toString();

@@ -1,18 +1,6 @@
 "use client";
 
 import { useChat } from "@ai-sdk/react";
-import {
-  ArrowClockwiseIcon,
-  ArrowUpIcon,
-  Globe,
-  Image,
-  MessageCircleDashedIcon,
-  Paperclip,
-  PlusIcon,
-  TelescopeIcon,
-} from "@/lib/icons";
-
-import { createChat, getMessageText } from "@/lib/ai";
 import { MessageAnimated } from "@/components/message-animated";
 import { Button } from "@/components/ui/button";
 import {
@@ -55,8 +43,20 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { createChat, getMessageText } from "@/lib/ai";
+import {
+  ArrowClockwiseIcon,
+  ArrowUpIcon,
+  Globe,
+  Image,
+  MessageCircleDashedIcon,
+  Paperclip,
+  PlusIcon,
+  TelescopeIcon,
+} from "@/lib/icons";
 
-const chat = createChat()  .user(
+const chat = createChat()
+  .user(
     "I'm building a chat for our app and the scroll behavior is driving me nuts. Every time the AI streams a reply, the whole thread jumps around."
   )
   .sleep(1000)
@@ -80,7 +80,7 @@ const chat = createChat()  .user(
   .user("Last one — does this work with assistive tech?")
   .sleep(1000)
   .assistant(
-    "`MessageScrollerContent` sets `role=\"log\"` and `aria-relevant=\"additions\"` by default, so screen readers announce new messages as they stream in.\n\nThe scroll button is a real `<button>` with an sr-only label, and it's removed from the tab order when you're already at the bottom."
+    '`MessageScrollerContent` sets `role="log"` and `aria-relevant="additions"` by default, so screen readers announce new messages as they stream in.\n\nThe scroll button is a real `<button>` with an sr-only label, and it\'s removed from the tab order when you\'re already at the bottom.'
   );
 
 const initialMessages = chat.get(0);
@@ -104,12 +104,12 @@ export function MessageScrollerDemo() {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
-                    variant="outline"
-                    size="icon-sm"
-                    className="rounded-full"
                     aria-label="Reset conversation"
-                    onClick={() => setMessages(initialMessages)}
+                    className="rounded-full"
                     disabled={isBusy}
+                    onClick={() => setMessages(initialMessages)}
+                    size="icon-sm"
+                    variant="outline"
                   >
                     <ArrowClockwiseIcon />
                   </Button>
@@ -119,7 +119,8 @@ export function MessageScrollerDemo() {
                 </TooltipContent>
               </Tooltip>
             </CardAction>
-          </CardHeader>          <CardContent className="flex-1 overflow-hidden p-0">
+          </CardHeader>{" "}
+          <CardContent className="flex-1 overflow-hidden p-0">
             {messages.length === 0 ? (
               <Empty className="h-full rounded-2xl">
                 <EmptyHeader>
@@ -152,8 +153,10 @@ export function MessageScrollerDemo() {
                 <MessageScrollerButton />
               </MessageScroller>
             )}
-          </CardContent>          <CardFooter className="flex-col gap-2 border-t-0 bg-transparent">
+          </CardContent>{" "}
+          <CardFooter className="flex-col gap-2 border-t-0 bg-transparent">
             <form
+              className="w-full"
               onSubmit={(e) => {
                 e.preventDefault();
                 if (!nextMessage || isBusy) {
@@ -161,7 +164,6 @@ export function MessageScrollerDemo() {
                 }
                 void sendMessage(nextMessage);
               }}
-              className="w-full"
             >
               <InputGroup className="rounded-2xl border-0 focus-within:border-0 focus-within:ring-0">
                 <div className="h-14 w-full px-3 py-2.5">
@@ -183,9 +185,9 @@ export function MessageScrollerDemo() {
                     <DropdownMenuTrigger asChild>
                       <InputGroupButton
                         aria-label="Add files"
-                        type="button"
-                        size="icon-sm"
                         className="rounded-full"
+                        size="icon-sm"
+                        type="button"
                         variant="outline"
                       >
                         <PlusIcon />
@@ -193,8 +195,8 @@ export function MessageScrollerDemo() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
                       align="start"
-                      side="top"
                       className="w-44"
+                      side="top"
                     >
                       <DropdownMenuItem>
                         <Paperclip />
@@ -216,11 +218,11 @@ export function MessageScrollerDemo() {
                     </DropdownMenuContent>
                   </DropdownMenu>
                   <InputGroupButton
+                    className="ml-auto rounded-full"
+                    disabled={!nextMessage || isBusy}
+                    size="icon-sm"
                     type="submit"
                     variant="default"
-                    size="icon-sm"
-                    disabled={!nextMessage || isBusy}
-                    className="ml-auto rounded-full"
                   >
                     <ArrowUpIcon />
                     <span className="sr-only">Send</span>
@@ -230,7 +232,7 @@ export function MessageScrollerDemo() {
             </form>
           </CardFooter>
         </Card>
-        <div className="px-0.5 text-center text-xs text-muted-foreground">
+        <div className="text-muted-foreground px-0.5 text-center text-xs">
           Demo is read only. Press send to send messages.
         </div>
       </div>

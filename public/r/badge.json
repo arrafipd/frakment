@@ -4,10 +4,7 @@
   "deprecated": false,
   "title": "Badge",
   "description": "A small label for statuses, categories, or counts.",
-  "dependencies": [
-    "class-variance-authority",
-    "radix-ui"
-  ],
+  "dependencies": ["class-variance-authority", "radix-ui"],
   "registryDependencies": [],
   "files": [
     {

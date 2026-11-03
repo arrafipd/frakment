@@ -1,11 +1,11 @@
 "use client";
 
-import { Search } from "@/lib/icons";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
+import { Search } from "@/lib/icons";
 
 export function InputGroupKbd() {
   return (

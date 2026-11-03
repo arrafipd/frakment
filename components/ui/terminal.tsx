@@ -1,8 +1,6 @@
 "use client";
 
-import { CheckIcon, LoaderCircleIcon, TerminalIcon } from "@/lib/icons";
 import { useEffect, useState } from "react";
-
 import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block";
 import {
   Trace,
@@ -13,6 +11,7 @@ import {
   TraceLine,
   TraceTitle,
 } from "@/components/ui/trace";
+import { CheckIcon, LoaderCircleIcon, TerminalIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 function Terminal({ className, ...props }: React.ComponentProps<"div">) {
@@ -35,7 +34,9 @@ function TerminalCommand({
   typeSpeed?: number;
 }) {
   const [open, setOpen] = useState(defaultOpen);
-  const [visibleChars, setVisibleChars] = useState(typewriter ? 0 : command.length);
+  const [visibleChars, setVisibleChars] = useState(
+    typewriter ? 0 : command.length
+  );
 
   useEffect(() => {
     if (!typewriter) {
@@ -47,7 +48,9 @@ function TerminalCommand({
     const id = setInterval(() => {
       c++;
       setVisibleChars(c);
-      if (c >= command.length) clearInterval(id);
+      if (c >= command.length) {
+        clearInterval(id);
+      }
     }, typeSpeed);
     return () => clearInterval(id);
   }, [command, typewriter, typeSpeed]);
@@ -56,7 +59,7 @@ function TerminalCommand({
   const failed = status === "error";
 
   return (
-    <TraceCollapsible open={open} onOpenChange={setOpen}>
+    <TraceCollapsible onOpenChange={setOpen} open={open}>
       <TraceCollapsibleTrigger>
         <TraceLine status={running ? "running" : failed ? "error" : undefined}>
           <TraceIcon>

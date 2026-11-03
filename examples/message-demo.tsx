@@ -19,7 +19,7 @@ export function MessageDemo() {
       <Message align="end">
         <MessageAvatar>
           <Avatar>
-            <AvatarImage src="/avatars/female-l-1.avif" alt="@me" />
+            <AvatarImage alt="@me" src="/avatars/female-l-1.avif" />
             <AvatarFallback>{"ME"}</AvatarFallback>
           </Avatar>
         </MessageAvatar>
@@ -32,7 +32,7 @@ export function MessageDemo() {
       <Message>
         <MessageAvatar>
           <Avatar>
-            <AvatarImage src="/avatars/male-r.avif" alt="@rabbit" />
+            <AvatarImage alt="@rabbit" src="/avatars/male-r.avif" />
             <AvatarFallback>{"R"}</AvatarFallback>
           </Avatar>
         </MessageAvatar>
@@ -45,7 +45,7 @@ export function MessageDemo() {
       <Message align="end">
         <MessageAvatar>
           <Avatar>
-            <AvatarImage src="/avatars/female-l-1.avif" alt="@me" />
+            <AvatarImage alt="@me" src="/avatars/female-l-1.avif" />
             <AvatarFallback>{"ME"}</AvatarFallback>
           </Avatar>
         </MessageAvatar>
@@ -59,7 +59,7 @@ export function MessageDemo() {
       <Message>
         <MessageAvatar>
           <Avatar>
-            <AvatarImage src="/avatars/male-r.avif" alt="@rabbit" />
+            <AvatarImage alt="@rabbit" src="/avatars/male-r.avif" />
             <AvatarFallback>{"R"}</AvatarFallback>
           </Avatar>
         </MessageAvatar>

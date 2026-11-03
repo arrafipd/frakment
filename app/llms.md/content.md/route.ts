@@ -7,7 +7,7 @@ import { markdownResponse } from "@/lib/api";
 export const revalidate = false;
 
 const homepageMarkdown = (origin: string): string => {
-  const base = origin.replace(/\/$/, "");
+  const base = origin.replace(/\/$/u, "");
 
   return `# ${SITE.NAME}
 

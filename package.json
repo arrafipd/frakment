@@ -1,22 +1,36 @@
 {
-  "name": "frakment",
+  "name": "@frakment/site",
   "version": "0.0.1",
   "private": true,
   "license": "SEE LICENSE IN LICENSE",
   "author": "hanshapd (https://github.com/hanshapd)",
   "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "next dev",
+    "prebuild": "npm run build --workspaces --if-present",
     "build": "next build",
-    "start": "next start",
-    "typecheck": "tsc --noEmit",
-    "registry:build": "node scripts/build-registry.mjs",
-    "postinstall": "fumadocs-mdx",
+    "changeset": "changeset",
+    "precheck": "npm run build --workspaces --if-present",
     "check": "ultracite check",
+    "predev": "npm run build --workspaces --if-present",
+    "dev": "next dev",
     "fix": "ultracite fix",
+    "postinstall": "fumadocs-mdx",
     "prepare": "lefthook install",
+    "registry:build": "node scripts/build-registry.mjs",
+    "release": "npm run build --workspaces --if-present && changeset publish",
+    "start": "next start",
+    "pretest": "npm run build --workspaces --if-present",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "pretypecheck": "npm run build --workspaces --if-present",
+    "typecheck": "tsc --noEmit",
+    "version:packages": "changeset version"
+  },
+  "overrides": {
+    "minimatch": "^11.0.1"
   },
   "dependencies": {
     "@ai-sdk/react": "^4.0.163",
@@ -59,6 +73,8 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.6.4",
+    "@changesets/cli": "^2.27.12",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/mdx": "^2.0.14",
     "@types/node": "^26.6.6",
@@ -72,9 +88,6 @@
     "typescript": "^7.0.2",
     "ultracite": "8.1.0",
     "vitest": "^5.0.5"
-  },
-  "overrides": {
-    "minimatch": "^11.0.1"
   },
   "engines": {
     "node": ">=22"

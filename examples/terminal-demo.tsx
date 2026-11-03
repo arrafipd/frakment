@@ -1,15 +1,12 @@
 "use client";
 
-import * as React from "react";
 import { useChat } from "@ai-sdk/react";
 import type { UIMessage } from "ai";
-import { CheckIcon, ChevronRightIcon, CircleCheckIcon, CircleIcon, LoaderCircleIcon, TerminalSquareIcon } from "@/lib/icons";
 import { AnimatePresence, motion } from "motion/react";
-
-import { createChat, getMessageText } from "@/lib/ai";
+import * as React from "react";
+import { CopyButton } from "@/components/copy-button";
 import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import { Button } from "@/components/ui/button";
-import { CopyButton } from "@/components/copy-button";
 import { Message, MessageContent } from "@/components/ui/message";
 import {
   Trace,
@@ -20,6 +17,15 @@ import {
   TraceLine,
   TraceTitle,
 } from "@/components/ui/trace";
+import { createChat, getMessageText } from "@/lib/ai";
+import {
+  CheckIcon,
+  ChevronRightIcon,
+  CircleCheckIcon,
+  CircleIcon,
+  LoaderCircleIcon,
+  TerminalSquareIcon,
+} from "@/lib/icons";
 
 const EASE = [0.32, 0.72, 0, 1] as const;
 
@@ -42,24 +48,24 @@ type OutputLine =
 
 const COMMANDS: { id: string; command: string; output: OutputLine[] }[] = [
   {
-    id: "build",
     command: "npm run registry:build",
+    id: "build",
     output: [
-      { type: "text", text: "Building fraktment registry..." },
-      { type: "success", text: "badge → components/ui/badge.tsx" },
-      { type: "success", text: "button → components/ui/button.tsx" },
-      { type: "success", text: "terminal → components/ui/terminal.tsx" },
-      { type: "done", text: "Built 15 components" },
+      { text: "Building fraktment registry...", type: "text" },
+      { text: "badge → components/ui/badge.tsx", type: "success" },
+      { text: "button → components/ui/button.tsx", type: "success" },
+      { text: "terminal → components/ui/terminal.tsx", type: "success" },
+      { text: "Built 15 components", type: "done" },
     ],
   },
   {
-    id: "add",
     command: "npx frakment@latest add bubble",
+    id: "add",
     output: [
-      { type: "info", text: "fetched bubble.json" },
-      { type: "info", text: "resolved: radix-ui" },
-      { type: "success", text: "components/ui/bubble.tsx" },
-      { type: "done", text: "bubble added" },
+      { text: "fetched bubble.json", type: "info" },
+      { text: "resolved: radix-ui", type: "info" },
+      { text: "components/ui/bubble.tsx", type: "success" },
+      { text: "bubble added", type: "done" },
     ],
   },
 ];
@@ -69,22 +75,22 @@ const chat = createChat<ChatMessage>()
   .assistant(({ writer }) => {
     for (const { id, command, output } of COMMANDS) {
       const tool = writer.tool("runCommand", {
-        toolCallId: id,
         input: { command },
+        toolCallId: id,
       });
       writer
         .data({
-          type: "data-terminal",
-          id,
           data: { output: "[]" },
+          id,
+          type: "data-terminal",
         })
         .sleep(300);
       output.forEach((_, index) => {
         writer
           .data({
-            type: "data-terminal",
-            id,
             data: { output: JSON.stringify(output.slice(0, index + 1)) },
+            id,
+            type: "data-terminal",
           })
           .sleep(350);
       });
@@ -106,13 +112,17 @@ function getOutput(message: ChatMessage, toolCallId: string) {
 
 function lineClass(line: string): string {
   const t = line.trimStart();
-  if (/^[✓✅]/.test(t)) {
+  if (/^[✓✅]/u.test(t)) {
     return "-mx-3 rounded bg-green-500/10 px-3 text-green-700 dark:text-green-400";
   }
-  if (/^[✗❌]/.test(t) || /exit code [1-9]/.test(t) || /\berror\b/i.test(t)) {
+  if (
+    /^[✗❌]/u.test(t) ||
+    /exit code [1-9]/u.test(t) ||
+    /\berror\b/iu.test(t)
+  ) {
     return "-mx-3 rounded bg-red-500/10 px-3 text-red-700 dark:text-red-400";
   }
-  if (/^[◇🔨>]/.test(t)) {
+  if (/^[◇🔨>]/u.test(t)) {
     return "text-muted-foreground";
   }
   return "";
@@ -124,27 +134,25 @@ const SmoothTypewriter = ({
 }: {
   text: string;
   speed?: number;
-}) => {
-  return (
-    <span className="whitespace-pre">
-      {text.split("").map((char, i) => (
-        <motion.span
-          key={i}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            delay: (i * speed) / 1000,
-            duration: 0.18,
-            ease: "easeOut",
-          }}
-          className="inline-block"
-        >
-          {char === " " ? "\u00A0" : char}
-        </motion.span>
-      ))}
-    </span>
-  );
-};
+}) => (
+  <span className="whitespace-pre">
+    {text.split("").map((char, i) => (
+      <motion.span
+        animate={{ opacity: 1 }}
+        className="inline-block"
+        initial={{ opacity: 0 }}
+        key={i}
+        transition={{
+          delay: (i * speed) / 1000,
+          duration: 0.18,
+          ease: "easeOut",
+        }}
+      >
+        {char === " " ? "\u00A0" : char}
+      </motion.span>
+    ))}
+  </span>
+);
 
 function OutputLineRow({ line }: { line: OutputLine }) {
   const hasSpinner = line.type !== "text";
@@ -152,48 +160,54 @@ function OutputLineRow({ line }: { line: OutputLine }) {
   const [ready, setReady] = React.useState(!hasSpinner);
 
   React.useEffect(() => {
-    if (!hasSpinner) return;
+    if (!hasSpinner) {
+      return;
+    }
     const t = setTimeout(() => setReady(true), typingDuration * 1000);
     return () => clearTimeout(t);
   }, [hasSpinner, typingDuration]);
 
-  const icon = !ready ? (
-    <LoaderCircleIcon className="size-3.5 shrink-0 animate-spin text-muted-foreground" />
-  ) : line.type === "success" ? (
-    <CheckIcon className="size-3.5 shrink-0 text-green-600 dark:text-green-400" />
-  ) : line.type === "done" ? (
-    <CircleCheckIcon className="size-3.5 shrink-0 text-green-600 dark:text-green-400" />
-  ) : line.type === "info" ? (
-    <CircleIcon className="size-3.5 shrink-0 text-muted-foreground" />
+  const icon = ready ? (
+    line.type === "success" ? (
+      <CheckIcon className="size-3.5 shrink-0 text-green-600 dark:text-green-400" />
+    ) : line.type === "done" ? (
+      <CircleCheckIcon className="size-3.5 shrink-0 text-green-600 dark:text-green-400" />
+    ) : line.type === "info" ? (
+      <CircleIcon className="text-muted-foreground size-3.5 shrink-0" />
+    ) : (
+      <ChevronRightIcon className="text-muted-foreground/60 size-3.5 shrink-0" />
+    )
   ) : (
-    <ChevronRightIcon className="size-3.5 shrink-0 text-muted-foreground/60" />
+    <LoaderCircleIcon className="text-muted-foreground size-3.5 shrink-0 animate-spin" />
   );
 
-  const textClass = !ready
-    ? "text-muted-foreground"
-    : line.type === "done"
+  const textClass = ready
+    ? line.type === "done"
       ? "font-medium text-green-700 dark:text-green-300"
       : line.type === "success"
         ? "text-foreground"
-        : "text-muted-foreground";
+        : "text-muted-foreground"
+    : "text-muted-foreground";
 
   return (
     <div className="flex items-center gap-2">
       <span className="relative size-3.5 shrink-0">
-        <AnimatePresence mode="wait" initial={false}>
+        <AnimatePresence initial={false} mode="wait">
           <motion.span
-            key={ready ? "done" : "loading"}
-            initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.2 }}
             className="absolute inset-0 flex items-center justify-center"
+            exit={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            key={ready ? "done" : "loading"}
+            transition={{ duration: 0.2 }}
           >
             {icon}
           </motion.span>
         </AnimatePresence>
       </span>
-      <span className={`text-sm ${textClass} leading-none transition-colors duration-300`}>
+      <span
+        className={`text-sm ${textClass} leading-none transition-colors duration-300`}
+      >
         <SmoothTypewriter text={line.text} />
       </span>
     </div>
@@ -212,7 +226,9 @@ function OutputLines({
   let activeCount = 0;
   try {
     const parsed = output.length ? JSON.parse(output) : [];
-    if (Array.isArray(parsed)) activeCount = parsed.length;
+    if (Array.isArray(parsed)) {
+      activeCount = parsed.length;
+    }
   } catch {
     activeCount = output ? 1 : 0;
   }
@@ -267,7 +283,7 @@ function CommandRow({
   const label = running ? `Running ${command}` : `Ran ${command}`;
 
   return (
-    <TraceCollapsible open={open} onOpenChange={setOpen}>
+    <TraceCollapsible onOpenChange={setOpen} open={open}>
       <TraceCollapsibleTrigger>
         <TraceLine status={running ? "running" : failed ? "error" : undefined}>
           <TraceIcon>
@@ -279,10 +295,10 @@ function CommandRow({
           </TraceIcon>
           <TraceTitle>
             <motion.span
-              initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.3, ease: EASE }}
               className="inline-block"
+              initial={{ opacity: 0 }}
+              transition={{ duration: 0.3, ease: EASE }}
             >
               {label}
             </motion.span>
@@ -292,15 +308,19 @@ function CommandRow({
       <TraceCollapsibleContent>
         <figure data-rehype-pretty-code-figure>
           <figcaption
-            data-rehype-pretty-code-title
             className="flex items-center gap-2 pr-12 [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:opacity-70"
+            data-rehype-pretty-code-title
           >
             <TerminalSquareIcon className="size-4 opacity-70" />
             <span className="min-w-0 truncate font-mono">{command}</span>
             <CopyButton value={command} />
           </figcaption>
           <pre className="no-scrollbar min-w-0 overflow-x-auto px-4 py-3.5">
-            <OutputLines output={output} totalLines={totalLines} allLines={allLines} />
+            <OutputLines
+              allLines={allLines}
+              output={output}
+              totalLines={totalLines}
+            />
           </pre>
         </figure>
       </TraceCollapsibleContent>
@@ -324,7 +344,7 @@ export function TerminalDemo() {
       {messages.map((message, msgIdx) => {
         if (message.role === "user") {
           return (
-            <Message key={`user-${msgIdx}`} align="end">
+            <Message align="end" key={`user-${msgIdx}`}>
               <MessageContent>
                 <Bubble align="end" variant="muted">
                   <BubbleContent>{getMessageText(message)}</BubbleContent>
@@ -346,22 +366,28 @@ export function TerminalDemo() {
               {tools.length > 0 && (
                 <Trace>
                   {tools.map((part, i) => (
-                      <CommandRow
-                        key={part.toolCallId}
-                        part={part}
-                        output={getOutput(message, part.toolCallId)}
-                        streaming={streaming}
-                        totalLines={COMMANDS.find((c) => c.id === part.toolCallId)?.output.length ?? 0}
-                        allLines={COMMANDS.find((c) => c.id === part.toolCallId)?.output ?? []}
-                        defaultOpen={busy ? undefined : part === tools.at(-1)}
-                      />
+                    <CommandRow
+                      allLines={
+                        COMMANDS.find((c) => c.id === part.toolCallId)
+                          ?.output ?? []
+                      }
+                      defaultOpen={busy ? undefined : part === tools.at(-1)}
+                      key={part.toolCallId}
+                      output={getOutput(message, part.toolCallId)}
+                      part={part}
+                      streaming={streaming}
+                      totalLines={
+                        COMMANDS.find((c) => c.id === part.toolCallId)?.output
+                          .length ?? 0
+                      }
+                    />
                   ))}
                 </Trace>
               )}
               {text && (
                 <motion.p
-                  initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1 }}
+                  initial={{ opacity: 0, y: 6 }}
                   transition={{ duration: 0.5, ease: EASE }}
                 >
                   {text}
@@ -373,18 +399,20 @@ export function TerminalDemo() {
       })}
       {!busy && (
         <motion.div
-          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
+          initial={{ opacity: 0 }}
           transition={{ duration: 0.4, ease: EASE }}
         >
           <Button
-            variant="outline"
-            size="sm"
             className="mt-auto self-start"
             onClick={() => {
               setMessages([]);
-              sendMessage({ text: "Build the registry and add the bubble component." });
+              sendMessage({
+                text: "Build the registry and add the bubble component.",
+              });
             }}
+            size="sm"
+            variant="outline"
           >
             Replay
           </Button>

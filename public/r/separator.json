@@ -4,9 +4,7 @@
   "deprecated": false,
   "title": "Separator",
   "description": "A visual divider between content sections.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "registryDependencies": [],
   "files": [
     {

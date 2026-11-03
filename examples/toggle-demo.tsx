@@ -1,6 +1,5 @@
-import { BookmarkIcon } from "@/lib/icons";
-
 import { Toggle } from "@/components/ui/toggle";
+import { BookmarkIcon } from "@/lib/icons";
 
 export function ToggleDemo() {
   return (

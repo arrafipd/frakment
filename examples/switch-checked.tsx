@@ -6,7 +6,7 @@ import { Switch } from "@/components/ui/switch";
 export function SwitchChecked() {
   return (
     <div className="flex items-center gap-2">
-      <Switch id="s-wifi" defaultChecked />
+      <Switch defaultChecked id="s-wifi" />
       <Label htmlFor="s-wifi">Wi-Fi</Label>
     </div>
   );
