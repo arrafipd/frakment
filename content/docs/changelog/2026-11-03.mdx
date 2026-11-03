@@ -15,6 +15,7 @@ import { ToggleDemo } from "@/examples/toggle-demo";
 import { ToggleGroupDemo } from "@/examples/toggle-group-demo";
 import { InputGroupDemo } from "@/examples/input-group-demo";
 import { EmptyDemo } from "@/examples/empty-demo";
+import { MessageScrollerDemo } from "@/examples/message-scroller-demo";
 
 This release adds **eleven form primitives** for building accessible forms, an **icon shim** for library-agnostic icon imports, and a **first-party AI engine** replacing the external helper library.
 
@@ -31,7 +32,16 @@ This release adds **eleven form primitives** for building accessible forms, an *
 
 ### Input & Textarea
 
+<ComponentPreview name="input" title="input.tsx">
+  <InputDemo />
+</ComponentPreview>
+
+<ComponentPreview name="textarea" title="textarea.tsx">
+  <TextareaDemo />
+</ComponentPreview>
+
 **Input** and **Textarea** are the base text controls. Both forward every native prop, carry `data-slot` markers for styling hooks, and support disabled and `aria-invalid` states out of the box. Textarea grows with content via `field-sizing-content` — no JavaScript required.
+
 
 #### Installation
 
@@ -51,18 +61,6 @@ import { Textarea } from "@/components/ui/textarea";
 
 </Steps>
 
-#### What it looks like
-
-A text input paired with a multi-line textarea, both styled with Frakment tokens.
-
-<ComponentPreview name="input" title="input.tsx">
-  <InputDemo />
-</ComponentPreview>
-
-<ComponentPreview name="textarea" title="textarea.tsx">
-  <TextareaDemo />
-</ComponentPreview>
-
 #### Minimal usage
 
 ```tsx
@@ -76,7 +74,16 @@ See the [Input docs](/docs/components/input) and [Textarea docs](/docs/component
 
 ### Field & Label
 
+<ComponentPreview name="field" title="field.tsx" previewClassName="h-auto py-8">
+  <FieldDemo />
+</ComponentPreview>
+
+<ComponentPreview name="label" title="label.tsx" previewClassName="h-auto py-8">
+  <LabelDemo />
+</ComponentPreview>
+
 **Field** wraps a form control with its label, description, and error message. It handles vertical and horizontal orientation, works with `FieldSet` and `FieldGroup` for multi-field forms, and surfaces validation state through `data-invalid`. **Label** is the accessible primitive Field composes with — it forwards clicks to its control via `htmlFor`.
+
 
 #### Installation
 
@@ -96,18 +103,6 @@ import { Input } from "@/components/ui/input";
 
 </Steps>
 
-#### What it looks like
-
-A labelled form field with a description, and a standalone label paired with an input.
-
-<ComponentPreview name="field" title="field.tsx" previewClassName="h-auto py-8">
-  <FieldDemo />
-</ComponentPreview>
-
-<ComponentPreview name="label" title="label.tsx" previewClassName="h-auto py-8">
-  <LabelDemo />
-</ComponentPreview>
-
 #### Minimal usage
 
 ```tsx
@@ -124,7 +119,20 @@ See the [Field docs](/docs/components/field) and [Label docs](/docs/components/l
 
 ### Selection controls
 
+<ComponentPreview name="checkbox" title="checkbox.tsx">
+  <CheckboxDemo />
+</ComponentPreview>
+
+<ComponentPreview name="switch" title="switch.tsx">
+  <SwitchDemo />
+</ComponentPreview>
+
+<ComponentPreview name="select" title="select.tsx">
+  <SelectDemo />
+</ComponentPreview>
+
 **Checkbox**, **Switch**, and **Select** cover boolean, toggle, and single-choice inputs. Each is built on Radix primitives, forwards native props, and supports `data-invalid`, `data-disabled`, and checked/unchecked/indeterminate states.
+
 
 #### Installation
 
@@ -151,22 +159,6 @@ import {
 
 </Steps>
 
-#### What it looks like
-
-Three selection controls, each with its own labelled row.
-
-<ComponentPreview name="checkbox" title="checkbox.tsx">
-  <CheckboxDemo />
-</ComponentPreview>
-
-<ComponentPreview name="switch" title="switch.tsx">
-  <SwitchDemo />
-</ComponentPreview>
-
-<ComponentPreview name="select" title="select.tsx">
-  <SelectDemo />
-</ComponentPreview>
-
 #### Minimal usage
 
 ```tsx
@@ -188,7 +180,16 @@ See the [Checkbox docs](/docs/components/checkbox), [Switch docs](/docs/componen
 
 ### Toggle & Toggle Group
 
+<ComponentPreview name="toggle" title="toggle.tsx">
+  <ToggleDemo />
+</ComponentPreview>
+
+<ComponentPreview name="toggle-group" title="toggle-group.tsx">
+  <ToggleGroupDemo />
+</ComponentPreview>
+
 **Toggle** is a two-state button with `default` and `outline` variants, three sizes, and a pressed state. **Toggle Group** extends it into a set — single or multiple selection, `spacing`, `orientation`, and per-item disabled. Both accept icons and text, and style the pressed state through `group-aria-pressed/toggle:`.
+
 
 #### Installation
 
@@ -207,18 +208,6 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 ```
 
 </Steps>
-
-#### What it looks like
-
-A single toggle with an icon and a grouped set with multi-selection.
-
-<ComponentPreview name="toggle" title="toggle.tsx">
-  <ToggleDemo />
-</ComponentPreview>
-
-<ComponentPreview name="toggle-group" title="toggle-group.tsx">
-  <ToggleGroupDemo />
-</ComponentPreview>
 
 #### Minimal usage
 
@@ -240,7 +229,16 @@ See the [Toggle docs](/docs/components/toggle) and [Toggle Group docs](/docs/com
 
 ### Input Group & Empty
 
+<ComponentPreview name="input-group" title="input-group.tsx">
+  <InputGroupDemo />
+</ComponentPreview>
+
+<ComponentPreview name="empty" title="empty.tsx" previewClassName="h-auto py-8">
+  <EmptyDemo />
+</ComponentPreview>
+
 **Input Group** wraps a single input or textarea and lets you compose inline addons — icons, text prefixes, buttons — in a single bordered surface. Addons align inline-start, inline-end, block-start, or block-end. **Empty** is a composable placeholder for zero-data screens: a dashed surface with a stacked icon, title, description, and optional call-to-action.
+
 
 #### Installation
 
@@ -269,18 +267,6 @@ import {
 ```
 
 </Steps>
-
-#### What it looks like
-
-An input with a leading search icon and trailing button, plus an empty state with a call-to-action.
-
-<ComponentPreview name="input-group" title="input-group.tsx">
-  <InputGroupDemo />
-</ComponentPreview>
-
-<ComponentPreview name="empty" title="empty.tsx" previewClassName="h-auto py-8">
-  <EmptyDemo />
-</ComponentPreview>
 
 #### Minimal usage
 
@@ -316,7 +302,13 @@ import { CheckIcon, PlusIcon, ArrowUpIcon } from "@/lib/icons";
 
 ### Changed
 
-- **Message Scroller** — the scroll-to-end button is now `rounded-full`, the empty state uses `ChatCircleDots`, and the viewport opts into the shared scrollbar theme. No API change.
+#### Message Scroller
+
+<ComponentPreview name="message-scroller" title="message-scroller.tsx">
+  <MessageScrollerDemo />
+</ComponentPreview>
+
+The scroll-to-end button is now `rounded-full`, the empty state uses `ChatCircleDots`, and the viewport opts into the shared scrollbar theme. No API change.
 
 <hr className="my-16 border-border/40" />
 

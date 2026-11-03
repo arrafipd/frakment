@@ -16,6 +16,10 @@ This release adds **Terminal** as the first composite component built on top of 
 
 ### Terminal
 
+<ComponentPreview name="terminal" title="terminal.tsx">
+  <TerminalDemo />
+</ComponentPreview>
+
 Terminal renders a list of shell commands as collapsible trace rows. Each command streams character by character, output appears line by line, and a spinner flips to a checkmark when the command finishes. It is the first component that ships with registry dependencies instead of being standalone.
 
 #### Installation
@@ -42,14 +46,6 @@ import { Terminal, TerminalCommand } from "@/components/ui/terminal";
 ```
 
 </Steps>
-
-#### What it looks like
-
-A user asks for a chat bubble, the agent runs commands, and the terminal streams the output live.
-
-<ComponentPreview name="terminal" title="terminal.tsx">
-  <TerminalDemo />
-</ComponentPreview>
 
 #### Minimal usage
 

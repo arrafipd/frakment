@@ -4,11 +4,141 @@ description: "Initial component release with 14 primitives."
 date: "2026-10-30"
 ---
 
-First public release of Frakment with 14 components, component-registry docs, and the CLI.
+import { AvatarDemo } from "@/examples/avatar-demo";
+import { BadgeDemo } from "@/examples/badge-demo";
+import { BubbleDemo } from "@/examples/bubble-demo";
+import { ButtonDemo } from "@/examples/button-demo";
+import { ChainOfThoughtDemo } from "@/examples/chain-of-thought-demo";
+import { CodeBlockDemo } from "@/examples/code-block-demo";
+import { ItemDemo } from "@/examples/item-demo";
+import { MarkerDemo } from "@/examples/marker-demo";
+import { MessageDemo } from "@/examples/message-demo";
+import { PulseDemo } from "@/examples/pulse-demo";
+import { PulseStatusDemo } from "@/examples/pulse-status-demo";
+import { SeparatorDemo } from "@/examples/separator-demo";
+import { SpinnerDemo } from "@/examples/spinner-demo";
+import { TraceDemo } from "@/examples/trace-demo";
+
+First public release of Frakment with 14 components, component-registry docs, and the CLI. Every component is standalone — copy a single file, no registry chain required.
+
+- [Components](#components): 14 primitives, each with a live preview.
+- [CLI](#cli): `init` and `add` commands.
+
+<hr className="my-16 border-border/40" />
 
 ### Components
 
-14 primitives dirilis bareng: Badge, Button, Bubble, Message, Trace, Chain of Thought, Pulse, Pulse Status, Marker, Spinner, Avatar, Separator, Item, Code Block.
+#### Badge
+
+<ComponentPreview name="badge" title="badge.tsx">
+  <BadgeDemo />
+</ComponentPreview>
+
+Compact status or category label.
+
+#### Button
+
+<ComponentPreview name="button" title="button.tsx">
+  <ButtonDemo />
+</ComponentPreview>
+
+Action trigger with variants and sizes.
+
+#### Bubble
+
+<ComponentPreview name="bubble" title="bubble.tsx">
+  <BubbleDemo />
+</ComponentPreview>
+
+Chat bubble surface with variants, alignment, and optional reactions.
+
+#### Message
+
+<ComponentPreview name="message" title="message.tsx">
+  <MessageDemo />
+</ComponentPreview>
+
+Message row with avatar, header, content, and actions.
+
+#### Trace
+
+<ComponentPreview name="trace" title="trace.tsx">
+  <TraceDemo />
+</ComponentPreview>
+
+Collapsible timeline for agent steps and tool calls.
+
+#### Chain of Thought
+
+<ComponentPreview name="chain-of-thought" title="chain-of-thought.tsx">
+  <ChainOfThoughtDemo />
+</ComponentPreview>
+
+Reasoning steps with collapsible body.
+
+#### Pulse
+
+<ComponentPreview name="pulse" title="pulse.tsx">
+  <PulseDemo />
+</ComponentPreview>
+
+Animated status indicator.
+
+#### Pulse Status
+
+<ComponentPreview name="pulse-status" title="pulse-status.tsx">
+  <PulseStatusDemo />
+</ComponentPreview>
+
+Status label with pulse indicator.
+
+#### Marker
+
+<ComponentPreview name="marker" title="marker.tsx">
+  <MarkerDemo />
+</ComponentPreview>
+
+Inline marker for annotations and anchors.
+
+#### Spinner
+
+<ComponentPreview name="spinner" title="spinner.tsx">
+  <SpinnerDemo />
+</ComponentPreview>
+
+Loading indicator.
+
+#### Avatar
+
+<ComponentPreview name="avatar" title="avatar.tsx">
+  <AvatarDemo />
+</ComponentPreview>
+
+User avatar with fallback.
+
+#### Separator
+
+<ComponentPreview name="separator" title="separator.tsx">
+  <SeparatorDemo />
+</ComponentPreview>
+
+Visual divider.
+
+#### Item
+
+<ComponentPreview name="item" title="item.tsx">
+  <ItemDemo />
+</ComponentPreview>
+
+List item with leading and trailing slots.
+
+#### Code Block
+
+<ComponentPreview name="code-block" title="code-block.tsx">
+  <CodeBlockDemo />
+</ComponentPreview>
+
+Syntax-highlighted code with copy action.
 
 ### CLI
 
@@ -16,3 +146,4 @@ First public release of Frakment with 14 components, component-registry docs, an
 npx frakment@latest init
 npx frakment@latest add button
 ```
+
