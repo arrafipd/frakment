@@ -169,3 +169,27 @@ Semua paket siap publish (build + test hijau, tarball verified):
 
 Langkah: `npm login` → `npm run changeset` (4 paket, `minor`) → `npm run version:packages` → commit → `npm run release`.
 
+## Dependabot / Audit
+
+Status: **1 alert tersisa (low), tidak ada fix**.
+
+### esbuild (fixed)
+
+CVE: path traversal di dev server Windows. Sebelumnya `tsup` punya nested `esbuild@0.27.7` (vulnerable). Fix via `overrides.esbuild = "^0.28.1"` di root `package.json` + clean install (`npm install` dengan npm 11, karena npm 10.9 crash `edgesOut` tanpa lockfile).
+
+Sekarang semua `esbuild@0.28.2` (hoisted), tidak ada nested. `npm audit` bersih dari esbuild.
+
+### deepmerge (no fix)
+
+CVE: prototype poisoning di `mergeObject()`. `deepmerge@4.3.1` adalah **versi terbaru**, belum ada patch. Datang dari `ultracite@8.1.0`.
+
+- Severity: low, dev-only (linter), tidak pernah masuk runtime production
+- `npm audit fix --force` akan downgrade `ultracite` 8.1.0 → 4.2.13 (**breaking, jangan**)
+- Dependabot alert akan tetap open sampai `ultracite` rilis versi baru dengan `deepmerge` patched
+- **Risiko aktual: nol.** `ultracite` hanya dipakai saat `npm run check`/`fix` di lokal/CI, tidak di-bundle ke user.
+
+### Aturan ke depan
+
+- Selama `package-lock.json` ada, **selalu `npm ci`** — bukan `npm install`. `npm ci` <60 detik kalau cache hangat.
+- `npm install` hanya kalau mengubah dependency.
+- Jangan `npm audit fix --force` tanpa review — sering downgrade major.

@@ -79,3 +79,5 @@ build.log
 *.bak[0-9]*
 packages/*/dist
 packages/*/.turbo
+
+_node_modules_old

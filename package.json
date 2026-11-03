@@ -30,6 +30,7 @@
     "version:packages": "changeset version"
   },
   "overrides": {
+    "esbuild": "^0.28.1",
     "minimatch": "^11.0.1"
   },
   "dependencies": {
