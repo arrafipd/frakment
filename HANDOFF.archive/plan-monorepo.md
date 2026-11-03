@@ -4,76 +4,108 @@
 
 Convert Frakment from polyrepo-lite (3 separate node_modules + 3 lockfiles) to a proper npm workspace monorepo with changesets.
 
-## Current state
+## Naming (final)
 
-| Package | Path   | Name                 | node_modules | Lockfile |
-| ------- | ------ | -------------------- | ------------ | -------- |
-| Site    | `/`    | `frakment` (private) | 671 MB       | 398 KB   |
-| CLI     | `/cli` | `frakment`           | 1.1 MB       | 14 KB    |
-| MCP     | `/mcp` | `frakment-mcp`       | 16.6 MB      | 43 KB    |
+| #   | Nama npm          | Type           | Publish        | Bin            |
+| --- | ----------------- | -------------- | -------------- | -------------- |
+| 1   | `frakment`        | CLI (unscoped) | ✅ public      | `frakment`     |
+| 2   | `@frakment/ai`    | AI engine      | ✅ public      | —              |
+| 3   | `@frakment/react` | React engine   | ✅ public      | —              |
+| 4   | `@frakment/mcp`   | MCP server     | ✅ public      | `frakment-mcp` |
+| 5   | `@frakment/site`  | Site Next.js   | ❌ **private** | —              |
 
-**Problems:** 3x npm install, 3x lockfile, root+CLI nama sama (`frakment` collision), no shared tooling, publish manual 30-45 menit.
+Pola: `frakment` brand command (seperti `next`, `vercel`, `tailwindcss`) + `@frakment/*` companions (seperti `@next/*`, `@vercel/*`, `@tailwindcss/*`). Tidak ada package `frakment-` hyphenated.
+
+## Current state (before)
+
+| Package | Path   | Name                   | node_modules | Lockfile |
+| ------- | ------ | ---------------------- | ------------ | -------- |
+| Site    | `/`    | `frakment` (collision) | 671 MB       | 398 KB   |
+| CLI     | `/cli` | `frakment` (collision) | 1.1 MB       | 14 KB    |
+| MCP     | `/mcp` | `frakment-mcp`         | 16.6 MB      | 43 KB    |
+
+**Problems:** 3x npm install, 3x lockfile, root+CLI nama sama, no shared tooling, publish manual 30-45 menit.
 
 ## Target state
 
 ```
 C:\Users\PC\Desktop\frakment\
-├── package.json          ← name: frakment-site, workspaces: [packages/*, cli, mcp]
+├── package.json          ← @frakment/site (private)
 ├── .changeset/
 ├── packages/
-│   ├── ai/               ← @frakment/ai (from lib/ai/)
-│   └── react/            ← @frakment/react (skeleton)
+│   ├── cli/              ← frakment (unscoped, bin frakment)
+│   ├── ai/               ← @frakment/ai
+│   ├── react/            ← @frakment/react
+│   └── mcp/              ← @frakment/mcp (bin frakment-mcp)
 ├── lib/ai.ts             ← shim re-export from @frakment/ai
-├── cli/                  ← frakment (workspace)
-├── mcp/                  ← frakment-mcp (workspace)
 ├── node_modules/         ← single hoisted
 └── package-lock.json     ← single lockfile
 ```
 
+Workspaces: `["packages/*"]`. Site files (app/, components/, content/, lib/, dll) tetap di root — bukan workspace.
+
 ## Phase 1 — Root package.json + changesets (10 mnt)
 
-1. Rename root `frakment` → `frakment-site` (hindari collision dengan CLI `frakment`)
-2. Tambah `workspaces: ["packages/*", "cli", "mcp"]`
+1. Rename root `name: "frakment"` → `"@frakment/site"` (hindari collision dengan CLI)
+2. Tambah `workspaces: ["packages/*"]`
 3. Tambah devDep `@changesets/cli`
 4. Scripts: `changeset`, `version:packages`, `release`
 5. `.changeset/config.json` — access public, baseBranch main
 6. `.changeset/README.md` — workflow doc
 
-## Phase 2 — Move lib/ai → packages/ai (30 mnt)
+## Phase 2 — Move cli + mcp + lib/ai → packages/* (45 mnt)
 
-1. Buat `packages/ai/` folder
-2. `packages/ai/package.json` — name `@frakment/ai` v0.0.1, exports dist/index.js + dist/index.d.ts, peerDeps `ai: >=7`
-3. `packages/ai/tsconfig.json` — extends root, outDir dist
-4. `packages/ai/tsup.config.ts` — entry src/index.ts, format ESM, dts, clean
-5. Copy `lib/ai/*.ts` → `packages/ai/src/*.ts` (10 files)
-6. `packages/ai/src/index.ts` — re-export `createChat`, `getMessageText`, semua types
-7. Update `lib/ai.ts` → `export { createChat, getMessageText } from "@frakment/ai"; export type { ... } from "@frakment/ai";`
-8. Verify 5 importers tetap resolve:
-   - `components/message-animated.tsx`
-   - `examples/chain-of-thought-demo.tsx`
-   - `examples/message-scroller-demo.tsx`
-   - `examples/terminal-demo.tsx`
-   - `registry/message-animated.tsx`
+1. Move `cli/` → `packages/cli/` — name tetap `"frakment"` (unscoped, bin `frakment`)
+2. Move `mcp/` → `packages/mcp/` — rename `name: "frakment-mcp"` → `"@frakment/mcp"` (bin tetap `frakment-mcp`)
+3. Buat `packages/ai/` folder
+4. `packages/ai/package.json` — name `"@frakment/ai"` v0.0.1, exports dist/index.js + dist/index.d.ts, peerDeps `ai: ">=7"`
+5. `packages/ai/tsconfig.json` — extends root, outDir dist
+6. `packages/ai/tsup.config.ts` — entry src/index.ts, format ESM, dts, clean
+7. Copy `lib/ai/*.ts` → `packages/ai/src/*.ts` (10 files)
+8. `packages/ai/src/index.ts` — re-export `createChat`, `getMessageText`, semua types
+9. Update `lib/ai.ts` → `export { createChat, getMessageText } from "@frakment/ai"; export type { ... } from "@frakment/ai";`
+10. Verify 5 importers tetap resolve: `components/message-animated.tsx`, `examples/chain-of-thought-demo.tsx`, `examples/message-scroller-demo.tsx`, `examples/terminal-demo.tsx`, `registry/message-animated.tsx`
 
 ## Phase 3 — Skeleton packages/react (15 mnt)
 
 1. Buat `packages/react/` folder
-2. `packages/react/package.json` — name `@frakment/react` v0.0.1, peerDeps `react: >=19`, `react-dom: >=19`
+2. `packages/react/package.json` — name `"@frakment/react"` v0.0.1, peerDeps `react: ">=19"`, `react-dom: ">=19"`, exports dist/index.js + dist/index.d.ts
 3. `packages/react/tsconfig.json` + `tsup.config.ts` (mirror ai)
 4. `packages/react/src/index.ts` — placeholder `export {};` (engine diisi sesi berikutnya)
 5. `packages/react/README.md` — roadmap link `/docs/libraries/react`
 
 ## Phase 4 — Cleanup + install + verify (30 mnt)
 
-1. Delete `cli/node_modules`, `mcp/node_modules` (hoist via workspace)
+1. Delete `cli/node_modules`, `mcp/node_modules`
 2. Delete `cli/package-lock.json`, `mcp/package-lock.json` (single root lockfile)
 3. Update `next.config.mjs` — `transpilePackages: ["@frakment/ai", "@frakment/react"]`
 4. `npm install` di root (single hoist)
-5. `npm run build --workspaces --if-present`
+5. `npm run build --workspaces --if-present` — build ai + react packages
 6. Verify: `npm run build` (163 pages), `npm run typecheck`, `npm run check`, `npm test` (39/39)
-7. `node cli/src/index.js --version` — CLI works
-8. `node mcp/index.js --help` — MCP works
+7. Verify CLI: `node packages/cli/src/index.js --version`
+8. Verify MCP: `node packages/mcp/index.js --help` (atau equivalent)
 9. Commit + push
+
+## Command syntax (breaking change)
+
+CLI tetap `frakment` (unscoped). Hanya MCP + import library yang berubah:
+
+| Sebelum                   | Sesudah                                        |
+| ------------------------- | ---------------------------------------------- |
+| `npx frakment init`       | `npx frakment init` ✅ **tidak berubah**       |
+| `npx frakment add button` | `npx frakment add button` ✅ **tidak berubah** |
+| `npx frakment list`       | `npx frakment list` ✅ **tidak berubah**       |
+| `npx -y frakment-mcp`     | `npx -y @frakment/mcp`                         |
+| (import dari `@/lib/ai`)  | `import { createChat } from "@frakment/ai"`    |
+
+**Doc updates (~17 refs saja — CLI docs tidak perlu diubah):**
+
+- **MCP refs (~17):** `content/docs/mcp/index.mdx`, `mcp/README.md`, `skills/frakment-usage/SKILL.md`, `README.md`, `components/agents-popover.tsx`, `components/home-ctas.tsx`, `constants/site.ts`, `lib/agent-discovery/site-agent-skill.ts`, `mcp/index.js`
+- **CLI refs (~116):** ❌ tidak diubah — `npx frakment init` tetap jalan
+
+## Phase 5 — Update MCP docs (~17 refs) (30 mnt)
+
+Bulk find-replace: `npx -y frakment-mcp` → `npx -y @frakment/mcp` + `frakment-mcp` (sebagai package name, bukan bin) → `@frakment/mcp`. Verify build + commit.
 
 ## Publish workflow
 
@@ -84,18 +116,19 @@ npm install                              # single root install
 npm run build --workspaces --if-present  # build ai + react
 ```
 
-### Publish cycle (setiap release)
+### Publish cycle
 
 ```bash
-npm run changeset         # pilih package + bump (patch/minor/major) + summary
+npm run changeset         # pilih package + bump + summary
 npm run version:packages  # bump version + CHANGELOG.md per package
 npm run release           # build all + changeset publish + git tag
 ```
 
-### Publish besok (3 packages)
+### Publish besok (4 packages)
 
 ```bash
-npm run changeset       # pilih 3: frakment, frakment-mcp, @frakment/ai
+npm run changeset       # pilih 4: frakment, @frakment/mcp, @frakment/ai
+                        # @frakment/react ditunda (engine belum)
 npm run version:packages
 npm run release
 ```
@@ -104,46 +137,49 @@ npm run release
 
 ## Publish targets
 
-| Package      | Npm name          | Path              | Publish besok?                  |
-| ------------ | ----------------- | ----------------- | ------------------------------- |
-| AI engine    | `@frakment/ai`    | `packages/ai/`    | ✅ siap (dari `lib/ai` kemarin) |
-| React engine | `@frakment/react` | `packages/react/` | ❌ engine belum diisi           |
-| CLI          | `frakment`        | `cli/`            | ✅ siap                         |
-| MCP server   | `frakment-mcp`    | `mcp/`            | ✅ siap                         |
-| Site         | `frakment-site`   | `/` (root)        | ❌ private                      |
+| Package      | Npm name              | Path              | Bin            | Publish besok?  |
+| ------------ | --------------------- | ----------------- | -------------- | --------------- |
+| CLI          | `frakment` (unscoped) | `packages/cli/`   | `frakment`     | ✅ siap         |
+| MCP server   | `@frakment/mcp`       | `packages/mcp/`   | `frakment-mcp` | ✅ siap         |
+| AI engine    | `@frakment/ai`        | `packages/ai/`    | —              | ✅ siap         |
+| React engine | `@frakment/react`     | `packages/react/` | —              | ❌ engine belum |
+| Site         | `@frakment/site`      | `/` (root)        | —              | ❌ private      |
 
 ## Rules
 
-- Root `package.json` `private: true` — tidak pernah publish
-- `packages/*`, `cli`, `mcp` — publishable
-- Scope `@frakment/*` untuk library packages; `frakment` + `frakment-mcp` untuk CLI/server
-- `changesets` handle: version bump, internal dep update (`workspace:*` → `^x.y.z` saat publish), CHANGELOG, git tag
+- Root `package.json` `name: "@frakment/site"`, `private: true` — tidak pernah publish
+- `packages/*` — semua publishable except react (belum siap)
+- `frakment` unscoped (brand command); companions `@frakment/*`
+- `changesets` handle: version bump, internal dep update (`workspace:*` → `^x.y.z`), CHANGELOG, git tag
 - Setiap package punya `README.md` sendiri sebelum publish
-- Test `npm pack` per package sebelum publish (verify isi tarball)
+- `npm pack` per package sebelum publish (verify tarball content)
+- Tidak ada package `frakment-` hyphenated, tidak ada alias
 
 ## Risks + mitigations
 
 | Risk                                   | Mitigation                                                          |
 | -------------------------------------- | ------------------------------------------------------------------- |
-| Root dan CLI sama-sama `frakment`      | Rename root → `frakment-site` (Phase 1)                             |
+| Root dan CLI sama-sama `frakment`      | Rename root → `@frakment/site` (Phase 1)                            |
 | CLI/MCP deps konflik dengan root       | `npm install --workspaces` resolve; kalau error, pin version manual |
 | Site break setelah `lib/ai` di-extract | Shim `lib/ai.ts` re-export — 5 importers tidak berubah              |
 | `transpilePackages` lupa               | Phase 4 step 3 wajib                                                |
 | Build order                            | `npm run build --workspaces --if-present` build semua dulu          |
-| Publish version mismatch antar package | `changesets` auto-handle `workspace:*` → `^x.y.z`                   |
+| Publish version mismatch               | `changesets` auto-handle `workspace:*` → `^x.y.z`                   |
+| MCP docs stale (~17 refs)              | Phase 5 bulk replace setelah Phase 4 hijau                          |
 
 ## Verification checklist (setelah conversion)
 
 - [ ] `npm install` di root hijau (single node_modules)
 - [ ] `npm run build` — 163 pages (site)
-- [ ] `npm run build --workspaces --if-present` — ai + react packages build
+- [ ] `npm run build --workspaces --if-present` — ai + react build
 - [ ] `npm run typecheck` — EXIT 0
 - [ ] `npm run check` — EXIT 0
 - [ ] `npm test` — 39/39
-- [ ] `node cli/src/index.js --version` — works
-- [ ] `node mcp/index.js --help` — works
+- [ ] `node packages/cli/src/index.js --version` — CLI works
+- [ ] `node packages/mcp/index.js --help` — MCP works
 - [ ] `git status` — single lockfile, no cli/mcp node_modules
-- [ ] `npx changeset status` — no pending changes (baseline)
+- [ ] `npx changeset status` — baseline clean
+- [ ] 5 importers `@/lib/ai` still resolve (shim works)
 
 ## References
 

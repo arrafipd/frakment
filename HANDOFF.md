@@ -26,14 +26,25 @@ Detail per sesi + reference lengkap ada di folder `HANDOFF.archive/`. Setiap fil
 
 Detail lengkap: [`HANDOFF.archive/plan-monorepo.md`](./HANDOFF.archive/plan-monorepo.md)
 
-Convert polyrepo-lite → npm workspace monorepo + changesets. 4 phase (~1.5 jam):
+**Naming final (5 packages, 4 published):**
 
-1. Root `package.json` — rename `frakment` → `frakment-site`, add `workspaces: ["packages/*", "cli", "mcp"]`, `.changeset/` config + scripts (`changeset`, `version:packages`, `release`)
-2. Move `lib/ai/*` (10 files) → `packages/ai/src/` — `@frakment/ai` package (tsup + tsconfig), `lib/ai.ts` jadi shim re-export. 5 importers tetap resolve.
-3. Skeleton `packages/react/` — `@frakment/react` package (engine diisi sesi berikutnya)
-4. Cleanup — delete `cli/node_modules` + `mcp/node_modules` + lockfile per package, `transpilePackages: ["@frakment/ai", "@frakment/react"]`, `npm install` root (single hoist), verify build + typecheck + check + test + CLI + MCP
+| #   | Nama npm          | Type                            | Publish    |
+| --- | ----------------- | ------------------------------- | ---------- |
+| 1   | `frakment`        | CLI (unscoped, brand command)   | ✅         |
+| 2   | `@frakment/ai`    | AI engine                       | ✅         |
+| 3   | `@frakment/react` | React engine                    | ✅         |
+| 4   | `@frakment/mcp`   | MCP server (bin `frakment-mcp`) | ✅         |
+| 5   | `@frakment/site`  | Site Next.js (root)             | ❌ private |
 
-**Publish besok (3 packages):** `frakment` (CLI), `frakment-mcp` (MCP server), `@frakment/ai` (engine). `@frakment/react` publish terpisah setelah engine selesai.
+**5 phase (~2.5 jam):**
+
+1. Root `package.json` — rename `frakment` → `@frakment/site`, `workspaces: ["packages/*"]`, `.changeset/` config + scripts
+2. Move `cli/` → `packages/cli/` (name tetap `frakment`) + `mcp/` → `packages/mcp/` (rename `@frakment/mcp`) + `lib/ai/` → `packages/ai/src/` + shim `lib/ai.ts`
+3. Skeleton `packages/react/` (`@frakment/react`, engine diisi sesi berikutnya)
+4. Cleanup + `transpilePackages` + `npm install` hoist + verify build/typecheck/check/test + CLI + MCP
+5. Update ~17 MCP doc refs (`frakment-mcp` → `@frakment/mcp`). CLI docs (~116 refs) **tidak diubah** — `npx frakment init` tetap valid.
+
+**Publish besok:** `frakment`, `@frakment/ai`, `@frakment/mcp` (3 packages). `@frakment/react` publish terpisah setelah engine selesai.
 
 **Publish cycle:** `npm run changeset` → `npm run version:packages` → `npm run release`.
 
