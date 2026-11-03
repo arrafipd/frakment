@@ -8,11 +8,11 @@
 - Build `EXIT=0` (159 pages), typecheck `EXIT=0`, test **39/39**, registry **29 components**.
 - Shadcn deps remaining: `@shadcn/react` (runtime, user dapat via message-scroller), `@shadcn/helpers` (dev-only, demo).
 
-## Active Plan — `@shadcn/helpers` port
+## Active Plan — replace external chat helper
 
-**Status: COMPLETE.** External helper replaced with own engine at `lib/ai/` (11 modules + `lib/ai.ts` re-export). Behavior 1:1 parity. Package uninstalled. Details: `HANDOFF.archive.md` + `git log -- lib/ai/`.
+**Status: COMPLETE.** External helper replaced with first-party engine at `lib/ai/` (11 modules + `lib/ai.ts`). Contract-complete. Package uninstalled. Details: `HANDOFF.archive.md`.
 
-**Next:** `@shadcn/react` port (message-scroller engine) — separate session, plan in archive.
+**Next:** rewrite `@shadcn/react` (message-scroller engine) as `@frakment/react` — separate session, plan in archive.
 
 ## Component Registry (29)
 
@@ -20,7 +20,7 @@
 
 ## Docs Pages (20, di `meta.json`)
 
-20 pages di `meta.json` (components + ai-elements + libraries).
+20 pages di `meta.json`.
 
 ## Shadcn Status
 
@@ -28,7 +28,7 @@
 | ----------------- | ----------------------- | --------------------- |
 | `shadcn` CLI      | ✅ removed (`b147d11`)  | Tidak                 |
 | `@shadcn/helpers` | ✅ removed (own engine) | Tidak (dev-only)      |
-| `@shadcn/react`   | ⏳ port next session    | Ya (message-scroller) |
+| `@shadcn/react`   | ⏳ rewrite next session | Ya (message-scroller) |
 
 ## Gotchas — Active
 
@@ -49,7 +49,7 @@
 
 - **#24:** hook pre-commit jalankan format+lint+typecheck; pre-push jalankan build+test. Gagal hook → fix, ulang. JANGAN `--no-verify`. Detail di archive.
 
-- **#25:** `lib/ai/**` override allow 6 rule (method-sig, prefer-export, promise, no-use-before-def, complexity, no-inner-decl) — wajib port 1:1.
+- **#25:** `lib/ai/**` override allow 6 rule (method-sig, prefer-export, promise, no-use-before-def, complexity, no-inner-decl) — wajib match contract.
 
 ### Component / styling
 
@@ -74,20 +74,24 @@
 
 ## Workflow
 
-1. AI copy-paste script ke PowerShell (no fs access). Script tulis file wajib diakhiri verifikasi (`Test-Path` / `Get-FileHash` / `.Contains`).
-2. Script >10 baris → pecah per-chunk (2-4 chunk), tunggu output tiap chunk.
-3. **Build verify** sebelum commit (`BUILD_EXIT=0`). Error → baca tail build.log 25 baris dulu.
-4. Commit + push + HANDOFF update per phase. Jangan tumpuk.
+1. AI copy-paste script ke PowerShell. Script tulis file → akhiri verifikasi (`Test-Path` / `.Contains`).
+2. Script >10 baris → pecah per-chunk. Tunggu output tiap chunk.
+3. **Build verify** sebelum commit. Error → baca tail `build.log` 25 baris.
+4. Commit + push + HANDOFF update per phase.
 
 ## Verification Commands
 
-- **Build:** `cmd.exe /c "npm run build > build.log 2>&1"; Write-Output "BUILD_EXIT=$LASTEXITCODE"`
-- **Typecheck:** `cmd.exe /c "npm run typecheck > tc.log 2>&1"; Write-Output "TC_EXIT=$LASTEXITCODE"`
-- **Lint+format:** `cmd.exe /c "npm run check > check.log 2>&1"` (auto-fix: `npm run fix`)
+- **Build:** `cmd.exe /c "npm run build > build.log 2>&1"`
+- **Typecheck:** `cmd.exe /c "npm run typecheck > tc.log 2>&1"`
+- **Lint+format:** `cmd.exe /c "npm run check > check.log 2>&1"` (fix: `npm run fix`)
 - **Registry:** `cmd.exe /c "npm run registry:build > reg.log 2>&1"`
 - **Commit+push:** `git add -A; git commit -m "..."; git push`
 
 ## Design Decisions (jangan ubah tanpa diskusi)
+
+### Framing
+
+Untuk kode yang ditulis ulang: dilarang pakai kata **port / ported / 1:1 / parity / reference implementation / clone / copas / fork**. Pakai **"first-party, written from scratch"** / **"written to match the API contract"** / **"contract-first"**. Berlaku di komentar `lib/ai/*`, MDX, changelog, HANDOFF, commit/PR. Exception: `git clone`, `structuredClone`, `url.clone()`, `cloned` var.
 
 - **Theme inline** di `styles/theme.css` (source of truth, distribusi user via `cli/templates/theme.css`). SHA256 wajib identik.
 - **`lib/icons.ts`** = Phosphor shim. Import ikon lewat `@/lib/icons`, bukan `@phosphor-icons/react` atau `lucide-react`.
@@ -97,13 +101,13 @@
 - **`meta.json`** urut alfabetis, 20 halaman.
 - **Demo wrapper**: shrink-wrap (`w-fit`) → auto-center. `w-full max-w-sm` untuk vertical layout saja.
 
-### SESSION_UPDATE: @shadcn/helpers full port — complete
+### SESSION_UPDATE: @shadcn/helpers rewrite — complete
 
 - **Status:** done (11/11 phase, all ✅)
-- **Files:** 11 new di `lib/ai/` + `lib/ai.ts` re-export.
+- **Files:** 11 files `lib/ai/` + `lib/ai.ts` re-export.
 - **Verifikasi:** build EXIT=0 · typecheck EXIT=0 · check EXIT=0 · test 39/39
-- **Detail:** 100% behavior match; `@shadcn/helpers` uninstalled; demos parity-checked.
-- **Next:** `@shadcn/react` port (message-scroller engine) — separate plan
+- **Detail:** contract-complete; helper uninstalled; demos verified.
+- **Next:** rewrite `@shadcn/react` (message-scroller engine) — separate plan
 - **Gotcha baru:** #25 (lihat Active Gotchas).
 
 ## Changelog Policy
@@ -118,10 +122,10 @@ Changelog = `content/docs/changelog/YYYY-MM-DD.mdx` (1 per tanggal, immutable). 
 
 ## Changelog Format Template
 
-Acuan rich: `content/docs/changelog/2026-10-31.mdx`. Wajib copy polanya (bukan 2026-11-02 yang kurang `<ComponentPreview>`):
+Acuan: `content/docs/changelog/2026-10-31.mdx`. Copy polanya (bukan 2026-11-02):
 
 - **Frontmatter:** `title` (Month DD, YYYY), `description` (one-liner), `date` (YYYY-MM-DD ISO)
-- **Import demo** setelah frontmatter — `import { XxxDemo } from "@/examples/xxx-demo";` (wajib kalau ada `<ComponentPreview>`)
+- **Import demo** setelah frontmatter: `import { XxxDemo } from "@/examples/xxx-demo";` (wajib kalau ada `<ComponentPreview>`)
 - **Intro paragraph:** bold **fitur utama** + inline link docs
 - **TOC bullet:** `- [Feature](#anchor): One-line.`
 - `<hr className="my-16 border-border/40" />` **antar `###`** (bukan antar `####`)
@@ -131,27 +135,27 @@ Acuan rich: `content/docs/changelog/2026-10-31.mdx`. Wajib copy polanya (bukan 2
 - `#### Minimal usage` — code block `tsx` + `See the [Xxx docs](/docs/components/xxx).`
 - **Bahasa EN konsisten.** 1 file per tanggal, immutable setelah push.
 
-**Gotcha:** draft 2026-11-03 v1 (bullet list tanpa prose/preview) salah. Revisi pakai pola 2026-10-31.
+**Gotcha:** draft v1 (bullet tanpa prose/preview) salah. Pakai pola 2026-10-31.
 
 ## New Dot + New/All Split
 
-- `PAGES_NEW: ReadonlySet<string>` di `lib/docs.ts` — URL yang dianggap "new".
-- `lib/source.tsx` — `decorateNode()` wraps `page.name` → `<NewDot className="ml-auto" />` untuk URL di `PAGES_NEW`. Tree sama → sidebar + mobile nav + breadcrumb dapat dot otomatis.
+- `PAGES_NEW: ReadonlySet<string>` di `lib/docs.ts` — URL "new".
+- `lib/source.tsx` — `decorateNode()` wraps `page.name` → `<NewDot className="ml-auto" />` untuk URL di `PAGES_NEW`. Tree sama dipakai sidebar + mobile nav + breadcrumb.
 - `components/components-list.tsx` — prop `filter: "all" | "new" | "current"` (default `all`). `new` = in `PAGES_NEW`; `current` = not in.
 - Index `components` + `ai-elements` → `## New X` (`filter="new"`) + `## All X` (`filter="current"`). `meta.json` A-Z, no separator.
-- `NewDot` (`components/new-dot.tsx`) — `size-1.5 rounded-full bg-blue-500`, `aria-label="New"`.
+- `NewDot` (`components/new-dot.tsx`) — `size-1.5 rounded-full bg-blue-500`.
 
 **Rilis baru:** MDX + entry `meta.json` (A-Z) + entry `frakment.json` + `registry:build` + URL ke `PAGES_NEW`. **Graduasi:** hapus dari `PAGES_NEW`. MDX/meta tidak disentuh. Dot hilang otomatis.
 
-## Recent Commits (5 terbaru — detail di `git log`)
+## Recent Commits (5 terbaru — detail `git log`)
 
-| Hash      | Summary                                         |
-| --------- | ----------------------------------------------- |
-| _(next)_  | Libraries + changelog + new dot + lib/ai port   |
-| `b147d11` | remove shadcn CLI                               |
-| `77b5108` | handoff lucide→phosphor                         |
-| `644fc04` | lucide→phosphor migration (54 files)            |
-| `7cb9244` | scrollbar + card radius + message-scroller sync |
+| Hash      | Summary                                          |
+| --------- | ------------------------------------------------ |
+| _(next)_  | Libraries + changelog + new dot + lib/ai rewrite |
+| `b147d11` | remove shadcn CLI                                |
+| `77b5108` | handoff lucide→phosphor                          |
+| `644fc04` | lucide→phosphor migration (54 files)             |
+| `7cb9244` | scrollbar + card radius + message-scroller sync  |
 
 ## SESSION_UPDATE Template
 

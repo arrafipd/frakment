@@ -1,6 +1,5 @@
-// Port of the reference utility helpers.
-// Functions: assertNever, abortableSleep, deepClone, splitWords,
-// stripDataPrefix, devWarn.
+// Frakment chat engine — internal utility helpers.
+// assertNever, abortableSleep, deepClone, splitWords, stripDataPrefix, devWarn.
 
 export function assertNever(value: never): never {
   throw new Error(`Unhandled variant: ${JSON.stringify(value)}`);

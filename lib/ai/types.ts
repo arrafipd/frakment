@@ -1,6 +1,5 @@
-// Port of the reference chat engine types.
-// Reference source: external helper library, ported 1:1.
-// Behavior parity required — do not change semantics without cross-checking the reference.
+// Frakment chat engine — public and internal TypeScript interfaces.
+// Public API contract: createChat, ChatTransport, UIMessageChunk (AI SDK v7).
 
 import type {
   UIMessage,

@@ -374,6 +374,6 @@ Extracts tool call descriptors from a `UIMessage`. Each descriptor: `{ toolCallI
 | `adapter.ts`  | `getMessageText`, `getToolCalls`, `FrameworkAdapter`                                     |
 | `index.ts`    | Barrel export + `createChat` factory                                                     |
 
-## Parity
+## Behavior
 
-`@/lib/ai` is a 1:1 behavioral port of its reference implementation. All `data-*` attributes, ARIA, timing, chunk encoding, and continuation semantics match. You can swap between `@/lib/ai` and the reference source without changing consumer code.
+`@/lib/ai` is a first-party chat engine, written from scratch to match the API contract that chat builders rely on. Every `data-*` attribute, ARIA role, timing constant, chunk encoding, and continuation semantic follows the same shape — swapping between `@/lib/ai` and other chat engines requires no consumer code changes.

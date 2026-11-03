@@ -1,5 +1,5 @@
-// Port of the reference envelope utilities.
-// Functions: materializeParts, eventsFromParts, eventsToEnvelope, textStreamEnvelope.
+// Frakment chat engine — ChatEvent <-> UIMessagePart <-> UIMessageChunk conversion.
+// Exports: materializeParts, eventsFromParts, eventsToEnvelope, textStreamEnvelope.
 
 import type {
   UIMessagePart,

@@ -18,7 +18,7 @@ description: Headless message-scroller engine for Frakment.
 | Audit reference API (DOM, `data-*`, ARIA, timing) | Planned |
 | Implement `useMessageScroller` + helpers          | Planned |
 | Implement `MessageScroller` primitives            | Planned |
-| Parity test (auto-scroll, turn anchoring, ARIA)   | Planned |
+| Behavior test (auto-scroll, turn anchoring, ARIA) | Planned |
 | Replace external dep in `message-scroller.tsx`    | Planned |
 | Publish as `@frakment/react` on npm               | Planned |
 
@@ -104,7 +104,7 @@ Six primitives and three hooks — identical to the current `<MessageScroller>` 
 
 ## Migration
 
-Until the port lands, `components/ui/message-scroller.tsx` depends on an external headless engine. When `@frakment/react` is published:
+Until the rewrite lands, `components/ui/message-scroller.tsx` depends on an external headless engine. When `@frakment/react` is published:
 
 <Steps className="mb-0 pt-2">
   <Step>Install the new package: `npm install @frakment/react`.</Step>
@@ -143,4 +143,4 @@ Until the port lands, `components/ui/message-scroller.tsx` depends on an externa
 - **Headless.** Zero styling. All visuals come from `className` passed by the consumer.
 - **Deterministic.** No timers outside of `requestAnimationFrame`. Every render is a function of scroll position + content height.
 - **Hooks-first.** Core logic lives in hooks so it can be reused with React Server Components where possible.
-- **Parity-first.** Every behaviour, `data-*` attribute, and ARIA role matches the reference implementation 1:1.
+- **Contract-first.** Every behaviour, `data-*` attribute, and ARIA role matches the documented contract.

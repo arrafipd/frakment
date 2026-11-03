@@ -1,5 +1,4 @@
-// Port of the reference ChatBuilder core (`ce()` function).
-// Phase 4: user/assistant/error/sleep/get/next. Phase 5 extends continuation, Phase 6 transport.
+// Frakment chat engine — ChatBuilder: turn scripting, continuation, transport.
 
 import {
   materializeParts,
@@ -98,7 +97,7 @@ function getTextOf(message: UIMessage): string {
 }
 
 // ============================================================
-// Continuation helpers (port V, O, X, J, D, x, L, R)
+// Continuation helpers — pending tools, fallback, resolve turn, continuation materialization.
 // ============================================================
 
 interface PendingToolRaw {

@@ -322,7 +322,7 @@ import { CheckIcon, PlusIcon, ArrowUpIcon } from "@/lib/icons";
 
 ### First-party AI engine
 
-`@/lib/ai` is now a full 1:1 behavioral port of the external helper library. Same `createChat()` API, same `ChatTransport` contract, same chunk encoding, same continuation semantics, same tools/approvals/files/sources support.
+`@/lib/ai` is now a first-party chat engine, written from scratch to match the API contract that chat builders rely on — `createChat()`, `ChatTransport`, chunk encoding, continuation semantics, and tools/approvals/files/sources support.
 
 No consumer code changes — `import { createChat, getMessageText } from "@/lib/ai"` still works, and `lib/ai/` is bundled with any component that depends on it. Publishing as `@frakment/ai` is planned.
 

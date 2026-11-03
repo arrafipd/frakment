@@ -1,5 +1,4 @@
-// Port of the reference payload factory (`$()` function).
-// Reference: file, reasoningFile, sourceUrl, sourceDocument, custom with defaults.
+// Frakment chat engine — payload factory for files, sources, and custom parts.
 
 import type { IdGenerator } from "./ids";
 import type {

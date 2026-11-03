@@ -1,5 +1,4 @@
-// Port of the reference id generator (`_()` function).
-// Reference source: external helper library, ported 1:1.
+// Frakment chat engine — deterministic ID generator (reserve/next semantics).
 
 import type { ChatIdsOptions } from "./types";
 

@@ -1,9 +1,5 @@
-// Port of the reference AI SDK adapter (index.js `S()` factory).
-// Reference source: external helper library, ported 1:1.
-//
-// FrameworkAdapter is the dependency-injection layer for ChatBuilder. It exposes
-// the framework-specific helpers the builder needs: materialize/encode/transport.
-// For AI SDK v7, createAiSdkAdapter() returns the concrete implementation.
+// Frakment chat engine — AI SDK v7 adapter helpers.
+// Exports: getMessageText, getToolCalls, FrameworkAdapter, createAiSdkAdapter.
 
 import { defaultCreateMessage } from "./builder";
 import { materializeParts, eventsFromParts } from "./envelope";

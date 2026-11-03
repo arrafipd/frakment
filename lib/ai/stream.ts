@@ -1,5 +1,4 @@
-// Port of the reference stream factory (`K()` function).
-// Turns ChatEventEnvelope[] into a ReadableStream<UIMessageChunk>.
+// Frakment chat engine — ReadableStream<UIMessageChunk> from ChatEventEnvelope[].
 
 import type { UIMessageChunk, ChatEventEnvelope } from "./types";
 import { abortableSleep } from "./utils";

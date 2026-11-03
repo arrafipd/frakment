@@ -1,5 +1,4 @@
-// Port of the reference EventWriter DSL (`P()` function).
-// Fluent writer handed to assistant(callback).
+// Frakment chat engine — fluent EventWriter + ToolHandle DSL for assistant(callback).
 
 import type { IdGenerator } from "./ids";
 import type { PayloadFactory } from "./payloads";
