@@ -199,3 +199,41 @@ Setelah package.json overrides berubah, jalankan
 pm install (bukan 
 pm ci) sekali untuk regenerate lockfile. Setelah itu kembali ke 
 pm ci untuk install cepat.
+
+## Internal: BOM handling (CLI)
+
+`packages/cli/src/commands/init.js` strips UTF-8 BOM from `globals.css`, `package.json`, and `components.json` before parsing. Handle file yang ditulis PowerShell 5.1 `Set-Content -Encoding utf8` (yang prepend BOM).
+
+**Bukan docs user-facing.** Jika ada laporan "CLI error di Windows", cek BOM dulu.
+
+## Parked: message-scroller engine (SKIPPED 2026-11-04)
+
+**Status:** skipped by user. Re-ask in a future session if idle — do not start unilaterally.
+
+### Problem
+
+`registry/message-scroller.tsx` imports from `@frakment/react/message-scroller` (npm package, not published yet). `public/r/message-scroller.json` therefore has `@frakment/react` in `dependencies`, and any user running `npx frakment add message-scroller` fails at `npm install` — the package does not exist on npm.
+
+`@shadcn/react` is also still listed in `frakment.json` deps for `message-scroller` (stale, must be removed regardless).
+
+### Options (user did not choose yet)
+
+1. **Ship engine as `registry:lib`** — same pattern as `ai`. Create entry `message-scroller-engine` in `frakment.json` with `sourceDir: packages/react/src/message-scroller`, `targetDir: lib/message-scroller`. Change `registry/message-scroller.tsx` import to `@/lib/message-scroller`. User installs → source lands in `lib/message-scroller/`, no npm dep needed. **No publish required.**
+2. **Publish `@frakment/react` to npm first** — then `npm install` succeeds. Requires completing publish workflow (changeset, version, release).
+3. **Remove `message-scroller` + `message-animated` from registry** until either above is done. Docs then only show components that actually work.
+4. **Leave as-is** — docs must say "requires `@frakment/react`" which violates the docs-accuracy rule.
+
+Recommendation was option 1 (consistent with `ai`, self-contained registry). User skipped.
+
+### What was already done
+
+- `ai` is now a proper registry item (`registry:lib`, 10 files, `sourceDir: packages/ai/src`, `targetDir: lib/ai`) — shipped with `message-animated` automatically. This part works.
+- `scripts/build-registry.mjs` patched: `@/lib/ai` → registry dep `ai` (before generic `@/` skip).
+- End-to-end install tested in `%TEMP%\frakment-install-test` with local HTTP server on `:8765`: `message-animated` fetch + write succeeded (10 files in `lib/ai/`, `lib/icons.ts`, `bubble`, `message-scroller`, `button`). Only `npm install` step failed on `@frakment/react`.
+
+### When resuming
+
+1. Ask user which option (1–4).
+2. If option 1: create `message-scroller-engine` entry, swap import, rebuild, retest install, then update `docs/libraries/react.mdx` (create it only if engine is now shipped).
+3. If option 2: finish publish workflow first, then retest.
+4. Either way: remove `@shadcn/react` from `frakment.json` message-scroller deps — it is stale.

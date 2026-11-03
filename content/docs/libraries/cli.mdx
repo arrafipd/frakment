@@ -70,11 +70,6 @@ Each component lives at `<registry-url>/r/<name>.json`:
 
 `init` is safe to re-run. Existing `components.json` is preserved unless overwritten. The theme marker block (`/* ==== FRAKMENT THEME START/END ==== */`) is replaced in place — no duplicates. Legacy inline theme blocks are auto-migrated.
 
-<Callout type="success" title="Windows BOM compatibility">
-  Files written by PowerShell 5.1 `Set-Content -Encoding utf8` (which prepends a
-  UTF-8 BOM) are handled. The CLI strips BOM from `globals.css`, `package.json`,
-  and `components.json` before parsing.
-</Callout>
 
 ## Troubleshooting
 

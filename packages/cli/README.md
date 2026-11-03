@@ -28,7 +28,6 @@ What it does:
 - Existing `components.json` is preserved unless you choose to overwrite
 - Marker block is replaced in place (no duplicates)
 - Legacy inline theme blocks (from older `init` versions) are auto-migrated
-- UTF-8 BOM in `globals.css` / `package.json` is stripped before parsing (Windows compatibility)
 
 ### `frakment add <component>`
 
@@ -79,10 +78,6 @@ If none exist, create one with at minimum:
 ```css
 @import "tailwindcss";
 ```
-
-### Windows / BOM issues
-
-Files written by PowerShell 5.1's `Set-Content -Encoding utf8` (which prepends a UTF-8 BOM) are handled. The CLI strips BOM from `globals.css`, `package.json`, and `components.json` before parsing.
 
 ### `src/` directory projects
 

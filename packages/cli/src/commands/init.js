@@ -82,7 +82,6 @@ export async function init() {
   }
 
   let css = await readFile(cssFullPath, "utf-8");
-  // Strip UTF-8 BOM if present (Windows editors and some tools add it)
   css = css.replace(/^\uFEFF/u, "");
 
   if (!/^@import\s+["']tailwindcss(\/|["'])/mu.test(css)) {
