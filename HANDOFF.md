@@ -288,20 +288,7 @@ User-facing guidelines live in `CONTRIBUTING.md`. The rules below are the AI-sid
 - Never write BOM, PowerShell, `_old`, `node_modules`, tooling workarounds, or local-server notes in docs. Those belong here, in HANDOFF, only.
 - Never document a component that is not shipped and working. If it is parked, note it in the "Parked" section here, not in docs.
 
-## Security Posture: Accepted Trade-offs
-
-Security scanning alerts from Scorecard that are **accepted by design**, not fixed. Do not dismiss without changing this note.
-
-| Check | Count | Reason |
-|---|---|---|
-| `TokenPermissions` | 7 | `security-events: write` is required to upload SARIF. Cannot be removed without breaking code scanning. |
-| `Fuzzing` | 1 | No fuzzing harness. Add ClusterFuzzLite if fuzzing becomes a requirement. |
-| `CIIBestPractices` | 1 | Requires manual registration at bestpractices.dev (external, optional). |
-| `Maintained` | 1 | Auto-resolves when repo is >90 days old. |
-| `CodeReview` | 1 | Solo dev. Admin bypass is intentional (see Ruleset Setup section). |
-| `BranchProtection` | 1 | Admin bypass by design. Non-admin path is fully protected. |
-
-### Auto-resolving
+## Auto-resolving
 
 - `CITests` — resolves after the first PR is merged (Scorecard scans merged PRs for CI coverage).
 
@@ -316,3 +303,50 @@ Security scanning alerts from Scorecard that are **accepted by design**, not fix
 ### Dismissed (false positive)
 
 - `PinnedDependenciesID` (6 alerts) — dismissed. `$/.github/actions/setup` is a **local composite action** shipped in this repo. Scorecard flags any `uses:` without `@SHA` as unpinned, but local actions cannot be pinned (no remote tag). This is a Scorecard limitation, not a real issue. Dismissed with reason `won't fix` + comment. Traceable to alerts #73, #87, #88, #89, #90, #91.
+
+## Security Posture
+
+**Open alerts: 0** (zizmor, Scorecard, Secret Scanning, Dependabot, CodeQL). Do not re-open dismissals without reading this section.
+
+### Fixed (was alerting)
+
+| Rule | Count | Fix | Commit |
+|---|---|---|---|
+| zizmor/unpinned-uses | 19 | every `uses:` pinned to full SHA | `76c0183` |
+| zizmor/artipacked | 10 | `persist-credentials: false` on every `actions/checkout` | `76c0183` |
+| zizmor/self-repository | 5 | `./.github/actions/setup` → `$/.github/actions/setup` | `76c0183` |
+| zizmor/unpinned-images | 1 | `semgrep/semgrep:1.99.0@sha256:...` | `76c0183` |
+| Scorecard/PinnedDependencies | 20 | remote actions pinned to SHA | `76c0183` |
+| Scorecard/TokenPermissions | 7 | write perms moved to job-level | `87a6ef5` |
+| CI: EMISSINGSIGNATUREKEY | 1 | upgraded npm to 11.7.0 in composite setup (keyless attestation fix) | `41738892587` |
+
+### Dismissed — accepted trade-offs
+
+All dismissed with `won't fix` + comment. Re-open only if the stated condition changes.
+
+| Rule | Reason | Re-open when |
+|---|---|---|
+| CodeReviewID | Solo dev, no required reviewer | A second maintainer joins |
+| BranchProtectionID | Admin bypass by design (non-admin path protected) | Repo policy changes to no-bypass |
+| MaintainedID | Repo <90 days old | Repo >90 days |
+| CITestsID | All changes via direct push (admin bypass) | First PR merges |
+| FuzzingID | No fuzzing harness yet | ClusterFuzzLite added |
+| CIIBestPracticesID | External OpenSSF badge not registered | bestpractices.dev badge added |
+| PinnedDependenciesID (false positive) | `$/.github/actions/setup` is a local composite action — no SHA applies | Never (Scorecard limitation) |
+
+### Re-opening a dismissal
+
+```powershell
+gh api 'repos/hanshapd/frakment/code-scanning/alerts?state=dismissed&per_page=100' --jq '.[] | {number, rule: .rule.id}'
+gh api -X PATCH 'repos/hanshapd/frakment/code-scanning/alerts/<number>' -f state=open
+```
+
+### Rules (do not break)
+
+- Top-level `permissions:` stays minimal (`contents: read`; `pull-requests: write` only in dependency-review).
+- Write perms (`security-events: write`, `id-token: write`, `actions: read`) go **job-level** on the job that uploads SARIF. Violating re-triggers TokenPermissions.
+- Every `uses:` must be pinned to a full 40-char SHA. Do not use `@vN` tags.
+- Every `actions/checkout` must set `persist-credentials: false`.
+- Local actions use `$/.github/...`, not `./.github/...`.
+- Docker images pinned to `tag@sha256:...`.
+- CI runs `npm install -g npm@11.7.0` before `npm ci` — required for `npm audit signatures` with keyless attestations (EMISSINGSIGNATUREKEY fix). Do not remove.
