@@ -99,3 +99,6 @@ jobs:
 
       - name: Test
         run: npm test
+
+      - name: Audit package signatures
+        run: npm audit signatures
