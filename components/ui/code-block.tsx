@@ -157,7 +157,6 @@ function CodeBlockContent({
       data-wrap={wrap || undefined}
       dir="ltr"
       style={{ counterReset: `line ${startLine - 1}`, ...style }}
-      tabIndex={0}
       {...props}
     >
       <code

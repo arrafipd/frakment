@@ -135,14 +135,14 @@ const outline = (mask: Uint8Array): ShapeLoops => {
   const loops: ShapeLoops = [];
   next.forEach((_, start) => {
     let list = next.get(start);
-    if (!(list && list.length)) {
+    if (!list?.length) {
       return;
     }
     const loop: ShapeLoop = [];
     let v = start;
     while (true) {
       list = next.get(v);
-      if (!(list && list.length)) {
+      if (!list?.length) {
         break;
       }
       loop.push([v % V, Math.floor(v / V)]);

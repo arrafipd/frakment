@@ -128,7 +128,7 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
 
   const doc = page.data;
   const MdxContent = doc.body;
-  const isChangelog = params.slug?.[0] === "changelog";
+  const _isChangelog = params.slug?.[0] === "changelog";
   const neighbours = getNeighbours(params.slug, page.url);
   const markdownUrl = getPageMarkdownUrl(page).url;
 

@@ -49,7 +49,7 @@ const INITIAL_COMPONENTS: Partial<Components> = {
       );
     }
 
-    const language = extractLanguage(className);
+    const _language = extractLanguage(className);
 
     return (
       <CodeBlock className={className}>
