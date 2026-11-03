@@ -409,8 +409,6 @@ export function createChatBuilder(options: CreateChatOptions = {}): AiSdkChat {
       });
     }
   }
-
-  // biome-ignore lint: forward reference ke tipe `AiSdkChat` yang dideklarasikan setelahnya - false positive noUseBeforeDefine
   const builder: AiSdkChat = {
     assistant(
       input:

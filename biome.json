@@ -19,20 +19,28 @@
       "style": {
         "noIncrementDecrement": "off",
         "useConsistentMethodSignatures": "off",
-        "noNestedTernary": "off"
+        "noNestedTernary": "off",
+        "noExportedImports": "off",
+        "useNamedCaptureGroup": "off",
+        "useUnicodeRegex": "off"
       },
       "performance": {
         "useTopLevelRegex": "off",
         "noJsxPropsBind": "off",
         "noNamespaceImport": "off",
-        "noBarrelFile": "off"
+        "noBarrelFile": "off",
+        "noAwaitInLoops": "off"
       },
       "complexity": {
         "noForEach": "off",
-        "noExcessiveCognitiveComplexity": "off"
+        "noExcessiveCognitiveComplexity": "off",
+        "noVoid": "off"
       },
       "suspicious": {
-        "useBaseline": "off"
+        "useBaseline": "off",
+        "useAwait": "off",
+        "noShadow": "off",
+        "noEmptySource": "off"
       },
       "security": {
         "noDangerouslySetInnerHtml": "off"
