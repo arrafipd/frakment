@@ -287,3 +287,27 @@ User-facing guidelines live in `CONTRIBUTING.md`. The rules below are the AI-sid
 - Never write roadmap, milestone, or forward-looking content in docs or changelog.
 - Never write BOM, PowerShell, `_old`, `node_modules`, tooling workarounds, or local-server notes in docs. Those belong here, in HANDOFF, only.
 - Never document a component that is not shipped and working. If it is parked, note it in the "Parked" section here, not in docs.
+
+## Security Posture: Accepted Trade-offs
+
+Security scanning alerts from Scorecard that are **accepted by design**, not fixed. Do not dismiss without changing this note.
+
+| Check | Count | Reason |
+|---|---|---|
+| `TokenPermissions` | 7 | `security-events: write` is required to upload SARIF. Cannot be removed without breaking code scanning. |
+| `Fuzzing` | 1 | No fuzzing harness. Add ClusterFuzzLite if fuzzing becomes a requirement. |
+| `CIIBestPractices` | 1 | Requires manual registration at bestpractices.dev (external, optional). |
+| `Maintained` | 1 | Auto-resolves when repo is >90 days old. |
+| `CodeReview` | 1 | Solo dev. Admin bypass is intentional (see Ruleset Setup section). |
+| `BranchProtection` | 1 | Admin bypass by design. Non-admin path is fully protected. |
+
+### Auto-resolving
+
+- `CITests` — resolves after the first PR is merged (Scorecard scans merged PRs for CI coverage).
+
+### Fixed (was alerting)
+
+- zizmor/unpinned-uses (19) — pinned all `uses:` to full SHA.
+- zizmor/artipacked (10) — added `persist-credentials: false` to every `actions/checkout`.
+- zizmor/self-repository (5) — `./.github/actions/setup` → `$/.github/actions/setup`.
+- zizmor/unpinned-images (1) — semgrep image pinned to `semgrep/semgrep:1.99.0@sha256:...`.
