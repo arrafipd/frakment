@@ -1,4 +1,4 @@
-﻿# @frakment/react
+# @frakment/react
 
 React primitives for Frakment AI and chat interfaces.
 

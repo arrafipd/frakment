@@ -1,4 +1,4 @@
-﻿# @frakment/ai
+# @frakment/ai
 
 First-party deterministic chat engine for Frakment AI interfaces.
 
