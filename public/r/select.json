@@ -1,5 +1,8 @@
 {
-  "dependencies": ["@phosphor-icons/react", "radix-ui"],
+  "dependencies": [
+    "@phosphor-icons/react",
+    "radix-ui"
+  ],
   "deprecated": false,
   "description": "A dropdown for selecting a single value from a list.",
   "files": [
@@ -9,7 +12,9 @@
     }
   ],
   "name": "select",
-  "registryDependencies": ["icons"],
+  "registryDependencies": [
+    "icons"
+  ],
   "title": "Select",
   "version": "0.1.0"
 }

@@ -1,5 +1,7 @@
 {
-  "dependencies": ["radix-ui"],
+  "dependencies": [
+    "radix-ui"
+  ],
   "deprecated": false,
   "description": "A visual divider between content sections.",
   "files": [

@@ -1,5 +1,8 @@
 {
-  "dependencies": ["class-variance-authority", "radix-ui"],
+  "dependencies": [
+    "class-variance-authority",
+    "radix-ui"
+  ],
   "deprecated": false,
   "description": "A set of grouped toggle buttons.",
   "files": [
@@ -9,7 +12,9 @@
     }
   ],
   "name": "toggle-group",
-  "registryDependencies": ["toggle"],
+  "registryDependencies": [
+    "toggle"
+  ],
   "title": "Toggle Group",
   "version": "0.1.0"
 }

@@ -1,5 +1,8 @@
 {
-  "dependencies": ["@phosphor-icons/react", "radix-ui"],
+  "dependencies": [
+    "@phosphor-icons/react",
+    "radix-ui"
+  ],
   "deprecated": false,
   "description": "A control that lets the user toggle between checked and not checked.",
   "files": [
@@ -9,7 +12,9 @@
     }
   ],
   "name": "checkbox",
-  "registryDependencies": ["icons"],
+  "registryDependencies": [
+    "icons"
+  ],
   "title": "Checkbox",
   "version": "0.1.0"
 }

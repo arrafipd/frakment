@@ -1,5 +1,7 @@
 {
-  "dependencies": ["class-variance-authority"],
+  "dependencies": [
+    "class-variance-authority"
+  ],
   "deprecated": false,
   "description": "A composable input wrapper with inline addons, buttons, and text groups.",
   "files": [
@@ -9,7 +11,11 @@
     }
   ],
   "name": "input-group",
-  "registryDependencies": ["button", "input", "textarea"],
+  "registryDependencies": [
+    "button",
+    "input",
+    "textarea"
+  ],
   "title": "Input Group",
   "version": "0.1.0"
 }

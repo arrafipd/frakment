@@ -1,5 +1,7 @@
 {
-  "dependencies": ["@phosphor-icons/react"],
+  "dependencies": [
+    "@phosphor-icons/react"
+  ],
   "deprecated": false,
   "description": "Phosphor icon shim with Icon-suffixed aliases.",
   "files": [

@@ -1,5 +1,8 @@
 {
-  "dependencies": ["@phosphor-icons/react", "motion"],
+  "dependencies": [
+    "@phosphor-icons/react",
+    "motion"
+  ],
   "deprecated": false,
   "description": "A live terminal that streams commands and output with a typewriter effect.",
   "files": [
@@ -9,7 +12,11 @@
     }
   ],
   "name": "terminal",
-  "registryDependencies": ["code-block", "icons", "trace"],
+  "registryDependencies": [
+    "code-block",
+    "icons",
+    "trace"
+  ],
   "title": "Terminal",
   "version": "0.1.0"
 }

@@ -1,5 +1,8 @@
 {
-  "dependencies": ["class-variance-authority", "radix-ui"],
+  "dependencies": [
+    "class-variance-authority",
+    "radix-ui"
+  ],
   "deprecated": false,
   "description": "A monochrome button with six variants and six sizes.",
   "files": [

@@ -1,5 +1,8 @@
 {
-  "dependencies": ["ai", "motion"],
+  "dependencies": [
+    "ai",
+    "motion"
+  ],
   "deprecated": false,
   "description": "An animated chat message that fades in and pins to the message scroller.",
   "files": [
@@ -9,7 +12,10 @@
     }
   ],
   "name": "message-animated",
-  "registryDependencies": ["bubble", "message-scroller"],
+  "registryDependencies": [
+    "bubble",
+    "message-scroller"
+  ],
   "title": "Message Animated",
   "version": "0.1.0"
 }

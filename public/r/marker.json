@@ -1,5 +1,8 @@
 {
-  "dependencies": ["class-variance-authority", "radix-ui"],
+  "dependencies": [
+    "class-variance-authority",
+    "radix-ui"
+  ],
   "deprecated": false,
   "description": "A small inline status row with icon, content, and separator variants.",
   "files": [

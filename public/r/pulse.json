@@ -1,5 +1,7 @@
 {
-  "dependencies": ["@phosphor-icons/react"],
+  "dependencies": [
+    "@phosphor-icons/react"
+  ],
   "deprecated": false,
   "description": "A daily status timeline for service uptime, with inline incident logs.",
   "files": [
@@ -9,7 +11,12 @@
     }
   ],
   "name": "pulse",
-  "registryDependencies": ["badge", "icons", "pulse-status", "trace"],
+  "registryDependencies": [
+    "badge",
+    "icons",
+    "pulse-status",
+    "trace"
+  ],
   "title": "Pulse",
   "version": "0.1.0"
 }

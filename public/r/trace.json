@@ -1,5 +1,9 @@
 {
-  "dependencies": ["@phosphor-icons/react", "motion", "radix-ui"],
+  "dependencies": [
+    "@phosphor-icons/react",
+    "motion",
+    "radix-ui"
+  ],
   "deprecated": false,
   "description": "A list of lines for the steps an agent takes.",
   "files": [
@@ -9,7 +13,9 @@
     }
   ],
   "name": "trace",
-  "registryDependencies": ["icons"],
+  "registryDependencies": [
+    "icons"
+  ],
   "title": "Trace",
   "version": "0.1.0"
 }

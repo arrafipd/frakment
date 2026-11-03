@@ -1,5 +1,8 @@
 {
-  "dependencies": ["@phosphor-icons/react", "@shadcn/react"],
+  "dependencies": [
+    "@phosphor-icons/react",
+    "@shadcn/react"
+  ],
   "deprecated": false,
   "description": "Scroll container for chat transcripts. Anchors turns, follows streamed replies, restores position, and tracks visibility.",
   "files": [
@@ -9,7 +12,10 @@
     }
   ],
   "name": "message-scroller",
-  "registryDependencies": ["button", "icons"],
+  "registryDependencies": [
+    "button",
+    "icons"
+  ],
   "title": "Message Scroller",
   "version": "0.1.0"
 }

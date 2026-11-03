@@ -1,5 +1,8 @@
 {
-  "dependencies": ["class-variance-authority", "radix-ui"],
+  "dependencies": [
+    "class-variance-authority",
+    "radix-ui"
+  ],
   "deprecated": false,
   "description": "A flexible row for grouping media, content, and actions.",
   "files": [

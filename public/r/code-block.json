@@ -1,5 +1,8 @@
 {
-  "dependencies": ["@phosphor-icons/react", "class-variance-authority"],
+  "dependencies": [
+    "@phosphor-icons/react",
+    "class-variance-authority"
+  ],
   "deprecated": false,
   "description": "A scrollable code container with header, copy button, line numbers, and diff highlighting.",
   "files": [
@@ -9,7 +12,10 @@
     }
   ],
   "name": "code-block",
-  "registryDependencies": ["button", "icons"],
+  "registryDependencies": [
+    "button",
+    "icons"
+  ],
   "title": "Code Block",
   "version": "0.1.0"
 }
