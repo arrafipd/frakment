@@ -311,3 +311,8 @@ Security scanning alerts from Scorecard that are **accepted by design**, not fix
 - zizmor/artipacked (10) — added `persist-credentials: false` to every `actions/checkout`.
 - zizmor/self-repository (5) — `./.github/actions/setup` → `$/.github/actions/setup`.
 - zizmor/unpinned-images (1) — semgrep image pinned to `semgrep/semgrep:1.99.0@sha256:...`.
+
+
+### Dismissed (false positive)
+
+- `PinnedDependenciesID` (6 alerts) — dismissed. `$/.github/actions/setup` is a **local composite action** shipped in this repo. Scorecard flags any `uses:` without `@SHA` as unpinned, but local actions cannot be pinned (no remote tag). This is a Scorecard limitation, not a real issue. Dismissed with reason `won't fix` + comment. Traceable to alerts #73, #87, #88, #89, #90, #91.
