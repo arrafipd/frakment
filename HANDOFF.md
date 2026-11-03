@@ -35,14 +35,11 @@
 ### PowerShell (critical)
 
 - **#18:** single-quote tidak interpret backtick. Untuk newline multi-line pakai array literal + `WriteAllLines`. Detail di archive.
-- **#9:** jangan `Get-Content`/`Set-Content` untuk baca/tulis source — pakai `[IO.File]::ReadAllText/WriteAllText` dengan `UTF8Encoding($false)`.
-- **#2:** `$file:` = parse error. Pakai `${file}:`.
-- **#3:** `-ForegroundColor` hanya untuk `Write-Host`.
 
 ### Build & registry
 
-- **#15 (nvm4w):** `npm run build` dari PowerShell bisa `Unknown command: "pm"`. **Selalu** `cmd.exe /c "npm run build > build.log 2>&1"`.
-- **#19 (PS 5.1):** `[IO.File]::AppendAllLines` tidak ada. Pakai `ReadAllText + join + WriteAllText`.
+- **#15 (nvm4w):** `npm run build` via `cmd.exe /c "npm run build > build.log 2>&1"` (bukan `& npm` langsung).
+- **#19 (PS 5.1):** `[IO.File]::AppendAllLines` tidak ada — pakai `ReadAllText + join + WriteAllText`.
 - **#23 (registry):** `detectImports` regex catch `from "X"` di komentar. Hindari pattern `from "literal"` di komentar `registry/*.tsx` atau `lib/icons.ts`.
 - **#21 (regdeps):** `registry/*.tsx` yang import `@/lib/icons` wajib punya regdep `icons`.
 - **#22 (Phosphor):** nama ekspor beda dari Lucide (`TextBolder`→`TextB`). Alias `as XIcon` wajib.
@@ -77,26 +74,18 @@
 
 ## Workflow
 
-1. **Selalu** copy-paste script, AI tidak punya akses filesystem.
-2. Script yang menulis file **wajib diakhiri verifikasi** (`Test-Path`, `Get-FileHash`, `[IO.File]::ReadAllText().Contains(...)`).
-3. Script panjang (>10 baris / multi-line) **pecah per-chunk** (2–4 chunk), tunggu output tiap chunk.
-4. **Build verifikasi** sebelum commit: `BUILD_EXIT=0`.
-5. **1 commit per phase**: tulis code → update HANDOFF (mark phase ✅) → commit code + HANDOFF **bareng**. Hash tercatat di `git log`, tidak perlu di HANDOFF.
-6. Kalau error build: **baca tail build.log 25 baris** dulu, jangan fix buta.
+1. AI copy-paste script ke PowerShell (no fs access). Script tulis file wajib diakhiri verifikasi (`Test-Path` / `Get-FileHash` / `.Contains`).
+2. Script >10 baris → pecah per-chunk (2-4 chunk), tunggu output tiap chunk.
+3. **Build verify** sebelum commit (`BUILD_EXIT=0`). Error → baca tail build.log 25 baris dulu.
+4. Commit + push + HANDOFF update per phase. Jangan tumpuk.
 
-## Verification Commands (copy-paste)
+## Verification Commands
 
-**Build:** `Set-Location "C:\Users\PC\Desktop\frakment"; cmd.exe /c "npm run build > build.log 2>&1"; Write-Output "BUILD_EXIT=$LASTEXITCODE"`
-
-**Typecheck:** `cmd.exe /c "npm run typecheck > tc.log 2>&1"; Write-Output "TC_EXIT=$LASTEXITCODE"`
-
-**Lint + format check:** `cmd.exe /c "npm run check > check.log 2>&1"; Write-Output "CHECK_EXIT=$LASTEXITCODE"`
-
-**Lint + format auto-fix:** `cmd.exe /c "npm run fix > fix.log 2>&1"; Write-Output "FIX_EXIT=$LASTEXITCODE"`
-
-**Registry rebuild:** `cmd.exe /c "npm run registry:build > reg.log 2>&1"; Write-Output "REG_EXIT=$LASTEXITCODE"`
-
-**Commit + push:** `git add -A; git commit -m "..."; git push 2>&1 | Write-Output; Write-Output "PUSH_EXIT=$LASTEXITCODE"`
+- **Build:** `cmd.exe /c "npm run build > build.log 2>&1"; Write-Output "BUILD_EXIT=$LASTEXITCODE"`
+- **Typecheck:** `cmd.exe /c "npm run typecheck > tc.log 2>&1"; Write-Output "TC_EXIT=$LASTEXITCODE"`
+- **Lint+format:** `cmd.exe /c "npm run check > check.log 2>&1"` (auto-fix: `npm run fix`)
+- **Registry:** `cmd.exe /c "npm run registry:build > reg.log 2>&1"`
+- **Commit+push:** `git add -A; git commit -m "..."; git push`
 
 ## Design Decisions (jangan ubah tanpa diskusi)
 
@@ -111,9 +100,9 @@
 ### SESSION_UPDATE: @shadcn/helpers full port — complete
 
 - **Status:** done (11/11 phase, all ✅)
-- **Files:** 11 new under `lib/ai/` (types, ids, utils, payloads, envelope, stream, writer, builder, transport, adapter, index) + `lib/ai.ts` re-export
+- **Files:** 11 new di `lib/ai/` + `lib/ai.ts` re-export.
 - **Verifikasi:** build EXIT=0 · typecheck EXIT=0 · check EXIT=0 · test 39/39
-- **Detail:** behavior 100% match original; @shadcn/helpers uninstalled; demos + 3 demo parity-checked
+- **Detail:** 100% behavior match; `@shadcn/helpers` uninstalled; demos parity-checked.
 - **Next:** `@shadcn/react` port (message-scroller engine) — separate plan
 - **Gotcha baru:** #25 (lihat Active Gotchas).
 
@@ -127,32 +116,42 @@ Changelog = `content/docs/changelog/YYYY-MM-DD.mdx` (1 per tanggal, immutable). 
 
 **Format:** frontmatter `title` (human), `description`, `date` (ISO). Body: intro + TOC + `<hr>` + `### Section` + prose/`<Steps>`/code diff + cross-link.
 
+## Changelog Format Template
+
+Acuan rich: `content/docs/changelog/2026-10-31.mdx`. Wajib copy polanya (bukan 2026-11-02 yang kurang `<ComponentPreview>`):
+
+- **Frontmatter:** `title` (Month DD, YYYY), `description` (one-liner), `date` (YYYY-MM-DD ISO)
+- **Import demo** setelah frontmatter — `import { XxxDemo } from "@/examples/xxx-demo";` (wajib kalau ada `<ComponentPreview>`)
+- **Intro paragraph:** bold **fitur utama** + inline link docs
+- **TOC bullet:** `- [Feature](#anchor): One-line.`
+- `<hr className="my-16 border-border/40" />` **antar `###`** (bukan antar `####`)
+- `### Feature` — prose 2-3 kalimat (masalah → solusi), bukan bullet list
+- `#### Installation` — `<Steps>` + `npx frakment add xxx` + `import` snippet
+- `#### What it looks like` — `<ComponentPreview name="xxx" title="xxx.tsx"><XxxDemo /></ComponentPreview>` (wajib kalau ada demo file)
+- `#### Minimal usage` — code block `tsx` + `See the [Xxx docs](/docs/components/xxx).`
+- **Bahasa EN konsisten.** 1 file per tanggal, immutable setelah push.
+
+**Gotcha:** draft 2026-11-03 v1 (bullet list tanpa prose/preview) salah. Revisi pakai pola 2026-10-31.
+
 ## New Dot + New/All Split
 
-- `PAGES_NEW: ReadonlySet<string>` di `lib/docs.ts` — URL halaman yang dianggap "new".
-- `lib/source.tsx` — `decorateNode()` wrap `page.name` dengan `<NewDot className="ml-auto" />` untuk URL di `PAGES_NEW`. Tree yang sama dipakai sidebar + mobile nav + breadcrumb → dot otomatis di semua.
-- `components/components-list.tsx` — prop `filter: "all" | "new" | "current"` (default `"all"`). `new` = URL ∈ `PAGES_NEW`; `current` = URL ∉ `PAGES_NEW`.
-- `content/docs/components/index.mdx` + `ai-elements/index.mdx` — `## New X` pakai `filter="new"`, `## All X` pakai `filter="current"`.
-- `meta.json` di `components` + `ai-elements` — **A-Z saja, no separator**. Sidebar dan mobile nav tidak split; hanya index page yang split.
-- `NewDot` (`components/new-dot.tsx`) — `size-1.5 rounded-full bg-blue-500`, `aria-label="New"`, accept `className`.
+- `PAGES_NEW: ReadonlySet<string>` di `lib/docs.ts` — URL yang dianggap "new".
+- `lib/source.tsx` — `decorateNode()` wraps `page.name` → `<NewDot className="ml-auto" />` untuk URL di `PAGES_NEW`. Tree sama → sidebar + mobile nav + breadcrumb dapat dot otomatis.
+- `components/components-list.tsx` — prop `filter: "all" | "new" | "current"` (default `all`). `new` = in `PAGES_NEW`; `current` = not in.
+- Index `components` + `ai-elements` → `## New X` (`filter="new"`) + `## All X` (`filter="current"`). `meta.json` A-Z, no separator.
+- `NewDot` (`components/new-dot.tsx`) — `size-1.5 rounded-full bg-blue-500`, `aria-label="New"`.
 
-**Rilis komponen baru — 3 edit:**
-
-1. Buat MDX (`content/docs/components/<name>.mdx`) + entry `meta.json` (A-Z).
-2. Tambah entry di `frakment.json` + `npm run registry:build`.
-3. Tambah `"/docs/components/<name>"` di `PAGES_NEW`.
-
-**Graduasi** (turun dari New ke All): hapus URL dari `PAGES_NEW`. MDX + `meta.json` tidak disentuh. Dot hilang dari sidebar + index otomatis.
+**Rilis baru:** MDX + entry `meta.json` (A-Z) + entry `frakment.json` + `registry:build` + URL ke `PAGES_NEW`. **Graduasi:** hapus dari `PAGES_NEW`. MDX/meta tidak disentuh. Dot hilang otomatis.
 
 ## Recent Commits (5 terbaru — detail di `git log`)
 
-| Hash      | Type     | Summary                                         |
-| --------- | -------- | ----------------------------------------------- |
-| _(next)_  | docs     | Libraries + changelog + new dot + lib/ai port   |
-| `b147d11` | chore    | remove shadcn CLI                               |
-| `77b5108` | docs     | handoff lucide→phosphor                         |
-| `644fc04` | refactor | lucide→phosphor migration (54 files)            |
-| `7cb9244` | polish   | scrollbar + card radius + message-scroller sync |
+| Hash      | Summary                                         |
+| --------- | ----------------------------------------------- |
+| _(next)_  | Libraries + changelog + new dot + lib/ai port   |
+| `b147d11` | remove shadcn CLI                               |
+| `77b5108` | handoff lucide→phosphor                         |
+| `644fc04` | lucide→phosphor migration (54 files)            |
+| `7cb9244` | scrollbar + card radius + message-scroller sync |
 
 ## SESSION_UPDATE Template
 
