@@ -18,7 +18,6 @@
 
 1. **Publish npm** — `npm run changeset` -> `version:packages` -> `release`. Skip `@frakment/react`.
 2. **Engine `@frakment/react`** — placeholder `export {};`, ganti `@shadcn/react`.
-3. **Lint 539 error** — 0 di `packages/`. Branch `chore/lint-cleanup`. Selama aktif: commit `--no-verify`.
 4. **`public/r/` osilasi** — `registry:build` vs `ultracite fix` format beda. Fix sementara biome ignore (`0fc269e`).
 5. **Dependabot low** — `security/dependabot/3`.
 6. **Branch protection** — push bypass sekarang, ke depan PR.
@@ -52,3 +51,25 @@ Gotchas lama (#1-25): `HANDOFF.archive/gotchas.md`.
 - Gotcha baru -> 1 baris di atas + detail di `gotchas.md`.
 - HANDOFF <= 15KB. Lewat -> extract ke archive.
 - Perubahan user-facing -> changelog `content/docs/changelog/YYYY-MM-DD.mdx`.
+## Commit/PR Policy (WAJIB)
+
+**Semua harus hijau sebelum commit dan push. TIDAK ADA `--no-verify`.**
+
+| Check | Command | Wajib |
+|---|---|---|
+| Format | `npm run fix` (idempotent) | ✅ |
+| Lint | `npm run check` | ✅ |
+| Typecheck | `npm run typecheck` | ✅ |
+| Build site | `npm run build` | ✅ (pre-push) |
+| Test | `npm test` | ✅ (pre-push) |
+| Build workspaces | `npm run build --workspaces --if-present` | ✅ (otomatis pre*) |
+
+Lefthook pre-commit jalankan format+lint+typecheck; pre-push jalankan build+test. **Kalau gagal, fix — jangan bypass.**
+
+Hotfix darurat: branch terpisah + PR, jangan push langsung ke `main`.
+
+Enforcement server-side: **branch protection** di GitHub → require status checks + require PR. Setup: Settings → Branches → main.
+
+## Status Lint
+
+Lint **0 errors** (cleanup selesai di `f74f909`, 541 → 0). `npm run check` = `Checked N files. No fixes applied.` (exit 0).
