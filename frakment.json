@@ -180,7 +180,7 @@
       "source": "registry/message-animated.tsx",
       "target": "components/ui/message-animated.tsx",
       "dependencies": ["motion"],
-      "registryDependencies": ["bubble", "message-scroller"]
+      "registryDependencies": ["bubble", "message-scroller", "ai"]
     },
     {
       "name": "bubble",
@@ -306,6 +306,16 @@
       "target": "lib/icons.ts",
       "dependencies": ["@phosphor-icons/react"],
       "registryDependencies": []
+    },
+    {
+      "name": "ai",
+      "title": "AI Engine",
+      "description": "Deterministic chat engine. Included automatically by message-animated.",
+      "sourceDir": "packages/ai/src",
+      "targetDir": "lib/ai",
+      "dependencies": ["ai"],
+      "registryDependencies": [],
+      "version": "0.0.1"
     }
   ],
   "skills": [
