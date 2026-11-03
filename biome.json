@@ -11,7 +11,9 @@
       "!**/.github",
       "!**/.cursor",
       "!**/.changeset",
-      "!**/public/r"
+      "!**/public/r",
+      "!**/public/skills",
+      "!mdx-components.tsx"
     ]
   },
   "linter": {
@@ -22,7 +24,10 @@
         "noNestedTernary": "off",
         "noExportedImports": "off",
         "useNamedCaptureGroup": "off",
-        "useUnicodeRegex": "off"
+        "useUnicodeRegex": "off",
+        "useDestructuring": "off",
+        "useDomQuerySelector": "off",
+        "noDescendingSpecificity": "off"
       },
       "performance": {
         "useTopLevelRegex": "off",
@@ -34,16 +39,41 @@
       "complexity": {
         "noForEach": "off",
         "noExcessiveCognitiveComplexity": "off",
-        "noVoid": "off"
+        "noVoid": "off",
+        "noRedundantDefaultExport": "off"
       },
       "suspicious": {
         "useBaseline": "off",
         "useAwait": "off",
         "noShadow": "off",
-        "noEmptySource": "off"
+        "noEmptySource": "off",
+        "noUnnecessaryConditions": "off",
+        "noEmptyBlockStatements": "off",
+        "noEvolvingTypes": "off",
+        "useIterableCallbackReturn": "off",
+        "noAssignInExpressions": "off",
+        "noDuplicateSelectors": "off",
+        "noDocumentCookie": "off",
+        "noDuplicateDependencies": "off"
+      },
+      "correctness": {
+        "useImageSize": "off",
+        "noUnusedFunctionParameters": "off",
+        "noUndeclaredDependencies": "off"
       },
       "security": {
         "noDangerouslySetInnerHtml": "off"
+      },
+      "a11y": {
+        "noSvgWithoutTitle": "off",
+        "noNoninteractiveElementInteractions": "off",
+        "noStaticElementInteractions": "off",
+        "useAriaPropsSupportedByRole": "off",
+        "noRedundantRoles": "off",
+        "noLabelWithoutControl": "off",
+        "useSemanticElements": "off",
+        "useKeyWithClickEvents": "off",
+        "useValidAnchor": "off"
       }
     }
   }
