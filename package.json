@@ -30,6 +30,7 @@
     "version:packages": "changeset version"
   },
   "overrides": {
+    "deepmerge": "npm:@stackline/deepmerge@^1.1.0",
     "esbuild": "^0.28.1",
     "minimatch": "^11.0.1"
   },

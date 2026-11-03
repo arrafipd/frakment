@@ -179,17 +179,23 @@ CVE: path traversal di dev server Windows. Sebelumnya `tsup` punya nested `esbui
 
 Sekarang semua `esbuild@0.28.2` (hoisted), tidak ada nested. `npm audit` bersih dari esbuild.
 
-### deepmerge (no fix)
+### deepmerge (FIXED via fork override)
 
-CVE: prototype poisoning di `mergeObject()`. `deepmerge@4.3.1` adalah **versi terbaru**, belum ada patch. Datang dari `ultracite@8.1.0`.
+CVE: prototype poisoning di `mergeObject()`. `deepmerge@4.3.1` tidak akan di-patch (maintainer menolak). Fix: override ke fork `@stackline/deepmerge@1.1.0` (drop-in replacement, CVE fixed, zero deps).
 
-- Severity: low, dev-only (linter), tidak pernah masuk runtime production
-- `npm audit fix --force` akan downgrade `ultracite` 8.1.0 → 4.2.13 (**breaking, jangan**)
-- Dependabot alert akan tetap open sampai `ultracite` rilis versi baru dengan `deepmerge` patched
-- **Risiko aktual: nol.** `ultracite` hanya dipakai saat `npm run check`/`fix` di lokal/CI, tidak di-bundle ke user.
+Override di `package.json`: `"deepmerge": "npm:@stackline/deepmerge@^1.1.0"`.
+
+Diverifikasi: `npm audit` = 0 vulnerabilities, `ultracite` tetap jalan, build+test 39/39.
 
 ### Aturan ke depan
 
 - Selama `package-lock.json` ada, **selalu `npm ci`** — bukan `npm install`. `npm ci` <60 detik kalau cache hangat.
 - `npm install` hanya kalau mengubah dependency.
 - Jangan `npm audit fix --force` tanpa review — sering downgrade major.
+
+## Catatan dependency
+
+Setelah package.json overrides berubah, jalankan 
+pm install (bukan 
+pm ci) sekali untuk regenerate lockfile. Setelah itu kembali ke 
+pm ci untuk install cepat.
