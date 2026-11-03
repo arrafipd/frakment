@@ -10,7 +10,8 @@
       "!**/*.tsbuildinfo",
       "!**/.github",
       "!**/.cursor",
-      "!**/.changeset"
+      "!**/.changeset",
+      "!**/public/r"
     ]
   }
 }
