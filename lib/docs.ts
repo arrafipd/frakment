@@ -47,3 +47,21 @@ export const formatTitleFromSlug = (slug: string): string =>
 export const homeContentRoute = `${ROUTES.LLMS_MD}/content.md`;
 export const docsContentRoute = `${ROUTES.LLMS_MD}${ROUTES.DOCS}`;
 export const docsImageRoute = `${ROUTES.OG}${ROUTES.DOCS}`;
+
+// Pages marked "new" — get a blue dot in sidebar + mobile nav.
+// Add the URL here when releasing a new component or page; remove once it
+// graduates from "new". Single source of truth for the "new" indicator.
+export const PAGES_NEW: ReadonlySet<string> = new Set([
+  "/docs/components/card",
+  "/docs/components/tooltip",
+  "/docs/components/dropdown-menu",
+  "/docs/components/toggle",
+  "/docs/components/toggle-group",
+  "/docs/components/checkbox",
+  "/docs/components/label",
+  "/docs/components/switch",
+  "/docs/components/select",
+  "/docs/ai-elements/message-scroller",
+  "/docs/ai-elements/message",
+  "/docs/ai-elements/bubble",
+]);

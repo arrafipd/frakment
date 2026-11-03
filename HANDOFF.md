@@ -8,40 +8,19 @@
 - Build `EXIT=0` (159 pages), typecheck `EXIT=0`, test **39/39**, registry **29 components**.
 - Shadcn deps remaining: `@shadcn/react` (runtime, user dapat via message-scroller), `@shadcn/helpers` (dev-only, demo).
 
-## Active Plan — `@shadcn/helpers` port (zero shadcn engine)
+## Active Plan — `@shadcn/helpers` port
 
-**Goal:** own engine, 100% behavior match (all features).
+**Status: COMPLETE.** External helper replaced with own engine at `lib/ai/` (11 modules + `lib/ai.ts` re-export). Behavior 1:1 parity. Package uninstalled. Details: `HANDOFF.archive.md` + `git log -- lib/ai/`.
 
-**Architecture:** 11 files di `lib/ai/` (types, ids, utils, payloads, envelope, stream, writer, builder, adapter, index) + `lib/ai.ts` re-export.
-
-**Phase tracker (per-phase: commit + push + this table update):**
-
-| Phase | File                                                    | Status |
-| ----- | ------------------------------------------------------- | ------ |
-| -1    | HANDOFF compact + plan                                  | ✅     |
-| 0     | `lib/ai/types.ts`                                       | ✅     |
-| 1     | `ids.ts` + `utils.ts` + `payloads.ts`                   | ✅     |
-| 2     | `envelope.ts` + `stream.ts`                             | ✅     |
-| 3     | `writer.ts`                                             | ✅     |
-| 4     | `builder.ts` core (user/assistant/error/sleep/get/next) | ✅     |
-| 5     | `builder.ts` continuation (callback, tools, approvals)  | ✅     |
-| 6     | `transport.ts`                                          | ✅     |
-| 7     | `adapter.ts`                                            | ✅     |
-| 8     | `index.ts` + `lib/ai.ts` re-export + build verify       | ✅     |
-| 9     | Parity test 3 demo + uninstall `@shadcn/helpers`        | ✅     |
-| 10    | HANDOFF final                                           | ✅     |
-
-**Reference:** `node_modules/@shadcn/helpers/dist/*` (baca sebelum ubah).
-
-**Resume:** baca tabel, lanjut dari phase pertama yang ⏳. Setiap phase selesai → commit + push + update tabel.
+**Next:** `@shadcn/react` port (message-scroller engine) — separate session, plan in archive.
 
 ## Component Registry (29)
 
-**29 components** (lihat `frakment.json` untuk list lengkap).
+29 components — lihat `frakment.json`.
 
 ## Docs Pages (20, di `meta.json`)
 
-`avatar, badge, button, card, checkbox, code-block, dropdown-menu, empty, field, input, input-group, item, label, select, separator, switch, textarea, toggle, toggle-group, tooltip`
+20 pages di `meta.json` (components + ai-elements + libraries).
 
 ## Shadcn Status
 
@@ -138,20 +117,42 @@
 - **Next:** `@shadcn/react` port (message-scroller engine) — separate plan
 - **Gotcha baru:** #25 (lihat Active Gotchas).
 
-## Recent Commits (10 terbaru — detail di `git log`)
+## Changelog Policy
+
+Changelog = `content/docs/changelog/YYYY-MM-DD.mdx` (1 per tanggal, immutable). Wajib **hanya untuk perubahan library/package user-facing**.
+
+**Wajib:** komponen registry baru, API publik berubah, style/behavior user-visible, CLI command/flag baru, publish/rename package, breaking change di `lib/ai`/`theme.css`/registry schema.
+
+**Skip:** komponen site-only (card/tooltip/dropdown-menu = demo only), docs typo, demo polish, refactor internal, dev tooling, docs pages non-komponen, site UI (sidebar/header/new dot).
+
+**Format:** frontmatter `title` (human), `description`, `date` (ISO). Body: intro + TOC + `<hr>` + `### Section` + prose/`<Steps>`/code diff + cross-link.
+
+## New Dot + New/All Split
+
+- `PAGES_NEW: ReadonlySet<string>` di `lib/docs.ts` — URL halaman yang dianggap "new".
+- `lib/source.tsx` — `decorateNode()` wrap `page.name` dengan `<NewDot className="ml-auto" />` untuk URL di `PAGES_NEW`. Tree yang sama dipakai sidebar + mobile nav + breadcrumb → dot otomatis di semua.
+- `components/components-list.tsx` — prop `filter: "all" | "new" | "current"` (default `"all"`). `new` = URL ∈ `PAGES_NEW`; `current` = URL ∉ `PAGES_NEW`.
+- `content/docs/components/index.mdx` + `ai-elements/index.mdx` — `## New X` pakai `filter="new"`, `## All X` pakai `filter="current"`.
+- `meta.json` di `components` + `ai-elements` — **A-Z saja, no separator**. Sidebar dan mobile nav tidak split; hanya index page yang split.
+- `NewDot` (`components/new-dot.tsx`) — `size-1.5 rounded-full bg-blue-500`, `aria-label="New"`, accept `className`.
+
+**Rilis komponen baru — 3 edit:**
+
+1. Buat MDX (`content/docs/components/<name>.mdx`) + entry `meta.json` (A-Z).
+2. Tambah entry di `frakment.json` + `npm run registry:build`.
+3. Tambah `"/docs/components/<name>"` di `PAGES_NEW`.
+
+**Graduasi** (turun dari New ke All): hapus URL dari `PAGES_NEW`. MDX + `meta.json` tidak disentuh. Dot hilang dari sidebar + index otomatis.
+
+## Recent Commits (5 terbaru — detail di `git log`)
 
 | Hash      | Type     | Summary                                         |
 | --------- | -------- | ----------------------------------------------- |
+| _(next)_  | docs     | Libraries + changelog + new dot + lib/ai port   |
 | `b147d11` | chore    | remove shadcn CLI                               |
 | `77b5108` | docs     | handoff lucide→phosphor                         |
 | `644fc04` | refactor | lucide→phosphor migration (54 files)            |
 | `7cb9244` | polish   | scrollbar + card radius + message-scroller sync |
-| `263424d` | docs     | handoff toggle/card/tooltip/dropdown            |
-| `819b68b` | feat     | card, tooltip, dropdown-menu docs + 13 demos    |
-| `6b6f84d` | feat     | toggle + toggle-group + 12 demos                |
-| `65a3f9a` | feat     | message-scroller-demo 4 exchanges               |
-| `cd70a8f` | feat     | card upgrade + demo polish                      |
-| `fcedf0f` | docs     | handoff preview off-center fix                  |
 
 ## SESSION_UPDATE Template
 
@@ -175,6 +176,7 @@ Setiap **phase** selesai → append 1 entry ringkas (≤10 baris). Jangan tulis 
 - **Setiap phase selesai** → update phase tracker (⏳ → ✅) → commit code + HANDOFF bareng. Hash di `git log`.
 - **Setiap batch fitur selesai** → append 1 SESSION_UPDATE ringkas (template di atas).
 - **Setiap gotcha baru** → tambahkan 1 baris di section Gotchas Active. Kalau >20, pindahkan yang jarang ke archive.
+- **Setiap perubahan library user-facing** → update changelog (`content/docs/changelog/YYYY-MM-DD.mdx`). Lihat Changelog Policy. Site-only/dev-only = skip.
 - **HANDOFF.md ≤ 10 KB.** Lewat → kompres atau pindah ke archive.
 - **Sebelum commit:** build EXIT=0 + typecheck EXIT=0 + check EXIT=0 + git status clean + HANDOFF ≤10 KB.
 - **Sebelum push:** hook pre-push akan jalankan build + test; pastikan keduanya hijau.
