@@ -51,40 +51,11 @@ Gotchas lama (#1-25): `HANDOFF.archive/gotchas.md`.
 - Gotcha baru -> 1 baris di atas + detail di `gotchas.md`.
 - HANDOFF <= 15KB. Lewat -> extract ke archive.
 - Perubahan user-facing -> changelog `content/docs/changelog/YYYY-MM-DD.mdx`.
-## Commit/PR Policy (WAJIB)
-
-**Semua harus hijau sebelum commit dan push. TIDAK ADA `--no-verify`.**
-
-| Check | Command | Wajib |
-|---|---|---|
-| Format | `npm run fix` (idempotent) | ✅ |
-| Lint | `npm run check` | ✅ |
-| Typecheck | `npm run typecheck` | ✅ |
-| Build site | `npm run build` | ✅ (pre-push) |
-| Test | `npm test` | ✅ (pre-push) |
-| Build workspaces | `npm run build --workspaces --if-present` | ✅ (otomatis pre*) |
-
-Lefthook pre-commit jalankan format+lint+typecheck; pre-push jalankan build+test. **Kalau gagal, fix — jangan bypass.**
-
-Hotfix darurat: branch terpisah + PR, jangan push langsung ke `main`.
-
-Enforcement server-side: **branch protection** di GitHub → require status checks + require PR. Setup: Settings → Branches → main.
-
 ## Status Lint
 
 Lint **0 errors** (cleanup selesai di `f74f909`, 541 → 0). `npm run check` = `Checked N files. No fixes applied.` (exit 0).
 
-## GitHub Ruleset Setup
-
-Branch `main` dilindungi **3 ruleset terpisah** (Settings → Rules → Rulesets). Tidak ada branch protection klasik.
-
-| Ruleset | ID | Rules | Admin bypass | Non-admin |
-|---|---|---|---|---|
-| `main-pr-bypass` | 26273226 | `pull_request` | `always` | Wajib PR |
-| `main-ci-bypass` | 26446591 | `required_status_checks` | `always` | Wajib CI hijau |
-| `main-strict` | 26471084 | `non_fast_forward`, `deletion` | `always` | Diblok |
-
-### Efek per aktor
+## Efek per aktor
 
 **Admin (solo dev):**
 - Direct push ke `main` → bisa (bypass Ruleset B)
@@ -105,6 +76,54 @@ Branch `main` dilindungi **3 ruleset terpisah** (Settings → Rules → Rulesets
 - Disiplin lokal tetap penting: lefthook pre-push jalankan build+test.
 
 ### Perintah inspeksi
+
+`gh api repos/hanshapd/frakment/rulesets --jq ".[] | {id, name, enforcement}"`
+`gh api repos/hanshapd/frakment/rulesets/<id> --jq "{name, bypass: .bypass_actors, rules: [.rules[].type]}"`
+
+Update: tulis body JSON + `gh api -X PUT repos/hanshapd/frakment/rulesets/<id> --input body.json`.
+
+## Commit/PR Policy
+
+### Admin (solo dev)
+
+**Commit + push langsung ke `main`. Tanpa PR.**
+
+Alur:
+1. `npm run fix && npm run check && npm run typecheck && npm test` (verify lokal)
+2. `git add -A && git commit -m "..."` — pre-commit hook jalankan format+lint+typecheck otomatis
+3. `git push origin main` — pre-push hook jalankan build+test otomatis
+
+Admin bypass semua ruleset. Kalau ada kesalahan yang perlu dibersihkan: `git reset --hard <sha>` + `git push --force`.
+
+### Non-admin (future contributors)
+
+Wajib PR + CI hijau. Direct push diblok. Lihat section Ruleset di bawah.
+
+## GitHub Ruleset Setup
+
+Branch `main` dilindungi **3 ruleset** (Settings → Rules → Rulesets). Tidak ada branch protection klasik.
+
+| Ruleset | ID | Rules | Admin | Non-admin |
+|---|---|---|---|---|
+| `main-pr-bypass` | 26273226 | `pull_request` | bypass `always` | Wajib PR |
+| `main-ci-bypass` | 26446591 | `required_status_checks` | bypass `always` | Wajib CI hijau |
+| `main-strict` | 26471084 | `non_fast_forward`, `deletion` | bypass `always` | Diblok |
+
+### Admin — full bypass
+
+- Direct push ke `main` ✅
+- Force-push `main` ✅
+- Delete `main` ✅
+- Merge PR saat CI merah ✅
+- **Tidak perlu toggle ruleset** untuk cleanup — cukup `git push --force`
+
+### Non-admin — terlindungi penuh
+
+- Direct push ❌ (Ruleset A)
+- Merge PR saat CI merah ❌ (Ruleset B)
+- Force-push / delete `main` ❌ (Ruleset C)
+
+### Inspeksi
 
 `gh api repos/hanshapd/frakment/rulesets --jq ".[] | {id, name, enforcement}"`
 `gh api repos/hanshapd/frakment/rulesets/<id> --jq "{name, bypass: .bypass_actors, rules: [.rules[].type]}"`
