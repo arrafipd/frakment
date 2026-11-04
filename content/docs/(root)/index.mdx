@@ -1,6 +1,6 @@
 ---
 title: Introduction
-description: Accessible, composable primitives for AI and chat interfaces.
+description: Composable, accessible components for React interfaces, with AI and motion built in.
 ---
 
 import {
@@ -12,13 +12,11 @@ import {
   GaugeIcon,
 } from "@/lib/icons";
 
-**frakment** is a set of accessible, composable primitives for AI and chat interfaces. Every component is written from scratch, depends only on a small set of well-known libraries, and ships as open source you can read, copy, and modify.
+**Frakment** is a component registry for React interfaces. Every component is standalone, written from scratch, depends only on a small set of well-known libraries, and ships as open source you can read, copy, and modify.
 
-_Primitives for AI and chat — built to be read, copied, and extended._
+<Callout type="info" title="AI and motion, built in">
 
-<Callout type="info" title="Built for AI interfaces">
-
-AI applications have specific UI needs — agent traces, streaming status, chat bubbles, code output — that generic component libraries don't address well. frakment is built around those primitives.
+Components designed for agent surfaces ship with AI support and motion already resolved per file. Baseline primitives stay motion-ready without extra setup.
 
 </Callout>
 
@@ -126,13 +124,13 @@ All components follow the same shape: a root (`Bubble`), a content slot (`Bubble
 
 A flat-file registry (`public/r/*.json`) and a CLI (`npx frakment add`) make it easy to distribute components across projects. Each component is a JSON manifest with its source, npm dependencies, and registry dependencies.
 
-### Beautiful defaults for AI
+### Considered defaults
 
-The defaults are opinionated so you don't have to design from scratch. Every component is designed for the AI use case first.
+The defaults are opinionated so you don't have to design from scratch. Components are designed for real product use — chat surfaces, agent traces, forms, and code output alike.
 
-### AI-ready
+### AI and motion, built in
 
-An `llms.txt` file, agent catalog endpoint, and open source make it easy for AI tools to read, understand, and extend.
+Components that need agent surfaces or animated states ship with AI support and motion resolved per file. The registry also publishes \ llms.txt, `an agent catalog endpoint, and an MCP server so AI tools can read and extend the source directly.`
 
 ## Component catalog
 
@@ -148,6 +146,6 @@ An `llms.txt` file, agent catalog endpoint, and open source make it easy for AI 
 
 ## Next steps
 
-- [Installation](/docs/installation) — set up frakment in your project
+- [Installation](/docs/installation) — set up Frakment in your project
 - [Theming](/docs/theming) — customize CSS variables and dark mode
 - [Components](/docs/components/avatar) — start with a primitive

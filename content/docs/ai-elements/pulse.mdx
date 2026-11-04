@@ -147,7 +147,15 @@ A shorter range for a focused view of one service.
 </ComponentPreview>
 
 ```tsx title="pulse.tsx"
-<Pulse title="API status" days={14} services={[/* ... */]} />
+<Pulse
+  title="API status"
+  days={14}
+  services={
+    [
+      /* ... */
+    ]
+  }
+/>
 ```
 
 ### Compact range
@@ -199,7 +207,7 @@ Pulse responds to hover, click, and keyboard.
 
 ## Status colors
 
-Pulse uses color to convey status — a deliberate exception to frakment's monochrome system, because status is a safety signal that must be readable at a glance.
+Pulse uses color to convey status — a deliberate exception to Frakment's monochrome system, because status is a safety signal that must be readable at a glance.
 
 | Status     | Color   | Meaning                              |
 | :--------- | :------ | :----------------------------------- |

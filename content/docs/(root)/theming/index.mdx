@@ -3,13 +3,13 @@ title: Theming
 description: Customize Frakment with CSS variables and theme tokens.
 ---
 
-frakment uses **CSS variables** for theming. Every component references semantic tokens like `bg-background`, `text-foreground`, `border-border` — never hardcoded colors. Change the tokens, change the entire look of your app.
+Frakment uses **CSS variables** for theming. Every component references semantic tokens like `bg-background`, `text-foreground`, `border-border` — never hardcoded colors. Change the tokens, change the entire look of your app.
 
 Theme tokens live directly in your `globals.css`, wrapped between `/* ==== FRAKMENT THEME START ==== */` and `/* ==== FRAKMENT THEME END ==== */`. `npx frakment init` injects the block automatically. Manual setup is one copy-paste.
 
 ## Where the tokens live
 
-frakment injects its theme tokens directly into `globals.css`, wrapped between two markers. `npx frakment init` sets up:
+Frakment injects its theme tokens directly into `globals.css`, wrapped between two markers. `npx frakment init` sets up:
 
 - **Theme block in `globals.css`** — tokens, dark mode, component utilities
 - **`components.json`** — CLI config (registry URL, aliases, globals.css path)
@@ -104,7 +104,7 @@ Now you can use `bg-warning` and `text-warning-foreground` in your components.
 
 ## Base colors
 
-frakment works with any OKLCH palette. These base colors all work with the default theme without changes:
+Frakment works with any OKLCH palette. These base colors all work with the default theme without changes:
 
 | Base    | Character          |
 | :------ | :----------------- |
@@ -116,11 +116,11 @@ frakment works with any OKLCH palette. These base colors all work with the defau
 | Mist    | Blue-tinted gray   |
 | Taupe   | Brown-tinted gray  |
 
-Swap the OKLCH values in `:root` and `.dark` for any of these — frakment components don't care which base you choose, they only read tokens.
+Swap the OKLCH values in `:root` and `.dark` for any of these — Frakment components don't care which base you choose, they only read tokens.
 
 ## Dark mode
 
-frakment's dark mode is wired through two pieces in the theme block:
+Frakment's dark mode is wired through two pieces in the theme block:
 
 1. **`@custom-variant dark (&:is(.dark *))`** — registers the `dark:` Tailwind variant
 2. **A `.dark { ... }` block** — dark token values
@@ -215,7 +215,7 @@ Because `@custom-variant dark` is registered in the theme block, all `dark:` uti
 <div className="bg-background text-foreground dark:bg-card dark:text-card-foreground" />
 ```
 
-You don't need to configure Tailwind's `darkMode` option — frakment uses a custom variant instead of the built-in `class` strategy.
+You don't need to configure Tailwind's `darkMode` option — Frakment uses a custom variant instead of the built-in `class` strategy.
 
 ### Per-section theming (advanced)
 
@@ -462,7 +462,7 @@ Yes. Set `--primary` and `--primary-foreground` to your brand colors. Keep the c
 <AccordionTrigger>Can I disable CSS variables?</AccordionTrigger>
 <AccordionContent>
 
-Not out of the box. frakment components reference semantic tokens (`bg-background`, `text-foreground`). You would need to rewrite each component to use inline utilities instead — not recommended.
+Not out of the box. Frakment components reference semantic tokens (`bg-background`, `text-foreground`). You would need to rewrite each component to use inline utilities instead — not recommended.
 
 </AccordionContent>
 </AccordionItem>
@@ -473,4 +473,4 @@ Not out of the box. frakment components reference semantic tokens (`bg-backgroun
 
 - [Components](/docs/components) — base primitives
 - [AI Elements](/docs/ai-elements) — chat and agent primitives
-- [Installation](/docs/installation) — set up frakment in your project
+- [Installation](/docs/installation) — set up Frakment in your project
