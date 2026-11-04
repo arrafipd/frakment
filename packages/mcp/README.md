@@ -1,6 +1,6 @@
 # frakment-mcp
 
-Model Context Protocol server for the [Frakment](https://github.com/hanshapd/frakment) component registry.
+Model Context Protocol server for the [Frakment](https://github.com/arrafipd/frakment) component registry.
 
 Exposes the registry as MCP tools so any MCP-capable agent can browse, search, and install Frakment components without scraping HTML or writing HTTP glue.
 

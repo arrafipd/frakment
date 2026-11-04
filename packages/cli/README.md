@@ -85,4 +85,4 @@ If your `globals.css` lives at `src/app/globals.css`, component files are writte
 
 ## License
 
-Source-available. See [LICENSE](./LICENSE). Commercial use requires at least one merged pull request to [hanshapd/frakment](https://github.com/hanshapd/frakment).
+Source-available. See [LICENSE](./LICENSE). Commercial use requires at least one merged pull request to [arrafipd/frakment](https://github.com/arrafipd/frakment).

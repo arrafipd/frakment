@@ -62,7 +62,7 @@ export const SiteHeader = () => (
         <MainNav className="hidden lg:flex" items={navItems} />
         <div className="ml-auto flex items-center gap-2 md:flex-1 md:justify-end">
           <NavItemGithub />
-          <div className="w-auto flex-none md:order-first md:w-full md:flex-1">
+          <div className="w-auto flex-none md:order-first">
             <CommandMenu tree={source.pageTree} />
           </div>
           <div className="hidden md:flex md:items-center md:gap-2">

@@ -10,7 +10,7 @@
     "tailwindcss"
   ],
   "license": "SEE LICENSE IN LICENSE",
-  "author": "hanshapd (https://github.com/hanshapd)",
+  "author": "arrafipd (https://github.com/arrafipd)",
   "type": "module",
   "bin": {
     "frakment": "./bin/index.js"

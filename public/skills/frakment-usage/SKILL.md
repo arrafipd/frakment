@@ -36,7 +36,7 @@ Response shape:
 ```json
 {
   "name": "frakment",
-  "homepage": "https://github.com/hanshapd/frakment",
+  "homepage": "https://github.com/arrafipd/frakment",
   "components": [{ "name": "button", "title": "Button", "description": "..." }]
 }
 ```

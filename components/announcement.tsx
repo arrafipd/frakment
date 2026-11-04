@@ -6,7 +6,7 @@ import { ArrowRightIcon } from "@/lib/icons";
 export const Announcement = () => (
   <Badge asChild className="bg-transparent" variant="secondary">
     <Link
-      href="https://github.com/hanshapd/frakment"
+      href="https://github.com/arrafipd/frakment"
       rel="noreferrer"
       target="_blank"
     >

@@ -1,8 +1,8 @@
 export const GITHUB = {
   branch: "main",
-  org: "hanshapd",
+  org: "arrafipd",
   repo: "frakment",
-  user: "hanshapd",
+  user: "arrafipd",
 } as const;
 
 const githubUrl = `https://github.com/${GITHUB.org}/${GITHUB.repo}`;

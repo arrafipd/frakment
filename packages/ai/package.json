@@ -4,11 +4,11 @@
   "description": "First-party deterministic chat engine for Frakment AI interfaces",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hanshapd/frakment.git",
+    "url": "git+https://github.com/arrafipd/frakment.git",
     "directory": "packages/ai"
   },
   "license": "SEE LICENSE IN LICENSE",
-  "author": "hanshapd (https://github.com/hanshapd)",
+  "author": "arrafipd (https://github.com/arrafipd)",
   "type": "module",
   "exports": {
     ".": {

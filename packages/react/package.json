@@ -4,11 +4,11 @@
   "description": "React primitives for Frakment AI and chat interfaces",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hanshapd/frakment.git",
+    "url": "git+https://github.com/arrafipd/frakment.git",
     "directory": "packages/react"
   },
   "license": "SEE LICENSE IN LICENSE",
-  "author": "hanshapd (https://github.com/hanshapd)",
+  "author": "arrafipd (https://github.com/arrafipd)",
   "sideEffects": false,
   "type": "module",
   "exports": {

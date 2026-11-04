@@ -77,10 +77,10 @@ Lint **0 errors** (cleanup selesai di `f74f909`, 541 → 0). `npm run check` = `
 
 ### Perintah inspeksi
 
-`gh api repos/hanshapd/frakment/rulesets --jq ".[] | {id, name, enforcement}"`
-`gh api repos/hanshapd/frakment/rulesets/<id> --jq "{name, bypass: .bypass_actors, rules: [.rules[].type]}"`
+`gh api repos/arrafipd/frakment/rulesets --jq ".[] | {id, name, enforcement}"`
+`gh api repos/arrafipd/frakment/rulesets/<id> --jq "{name, bypass: .bypass_actors, rules: [.rules[].type]}"`
 
-Update: tulis body JSON + `gh api -X PUT repos/hanshapd/frakment/rulesets/<id> --input body.json`.
+Update: tulis body JSON + `gh api -X PUT repos/arrafipd/frakment/rulesets/<id> --input body.json`.
 
 ## Commit/PR Policy
 
@@ -125,10 +125,10 @@ Branch `main` dilindungi **3 ruleset** (Settings → Rules → Rulesets). Tidak 
 
 ### Inspeksi
 
-`gh api repos/hanshapd/frakment/rulesets --jq ".[] | {id, name, enforcement}"`
-`gh api repos/hanshapd/frakment/rulesets/<id> --jq "{name, bypass: .bypass_actors, rules: [.rules[].type]}"`
+`gh api repos/arrafipd/frakment/rulesets --jq ".[] | {id, name, enforcement}"`
+`gh api repos/arrafipd/frakment/rulesets/<id> --jq "{name, bypass: .bypass_actors, rules: [.rules[].type]}"`
 
-Update: tulis body JSON + `gh api -X PUT repos/hanshapd/frakment/rulesets/<id> --input body.json`.
+Update: tulis body JSON + `gh api -X PUT repos/arrafipd/frakment/rulesets/<id> --input body.json`.
 
 ## React Engine (@frakment/react/message-scroller)
 
@@ -337,8 +337,8 @@ All dismissed with `won't fix` + comment. Re-open only if the stated condition c
 ### Re-opening a dismissal
 
 ```powershell
-gh api 'repos/hanshapd/frakment/code-scanning/alerts?state=dismissed&per_page=100' --jq '.[] | {number, rule: .rule.id}'
-gh api -X PATCH 'repos/hanshapd/frakment/code-scanning/alerts/<number>' -f state=open
+gh api 'repos/arrafipd/frakment/code-scanning/alerts?state=dismissed&per_page=100' --jq '.[] | {number, rule: .rule.id}'
+gh api -X PATCH 'repos/arrafipd/frakment/code-scanning/alerts/<number>' -f state=open
 ```
 
 ### Rules (do not break)

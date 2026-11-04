@@ -16,8 +16,8 @@ const baseUrl = getBaseUrl();
 
 export const SITE = {
   AUTHOR: {
-    NAME: "hanshapd",
-    TWITTER: "@hanshapd",
+    NAME: "arrafipd",
+    TWITTER: "@arrafipd",
   },
   DESCRIPTION: {
     LONG: "Composable, accessible, customizable components with AI and motion built in — nothing to assemble, no wiring, no configuration.",

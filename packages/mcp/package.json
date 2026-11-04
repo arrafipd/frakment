@@ -9,17 +9,17 @@
     "model-context-protocol",
     "registry"
   ],
-  "homepage": "https://github.com/hanshapd/frakment/tree/main/packages/mcp#readme",
+  "homepage": "https://github.com/arrafipd/frakment/tree/main/packages/mcp#readme",
   "bugs": {
-    "url": "https://github.com/hanshapd/frakment/issues"
+    "url": "https://github.com/arrafipd/frakment/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hanshapd/frakment.git",
+    "url": "git+https://github.com/arrafipd/frakment.git",
     "directory": "packages/mcp"
   },
   "license": "SEE LICENSE IN LICENSE",
-  "author": "hanshapd (https://github.com/hanshapd)",
+  "author": "arrafipd (https://github.com/arrafipd)",
   "type": "module",
   "bin": {
     "frakment-mcp": "./index.js"

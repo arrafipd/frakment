@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "license": "SEE LICENSE IN LICENSE",
-  "author": "hanshapd (https://github.com/hanshapd)",
+  "author": "arrafipd (https://github.com/arrafipd)",
   "type": "module",
   "workspaces": [
     "packages/*"
