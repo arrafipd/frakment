@@ -66,6 +66,18 @@ frakment-mcp
   description="The exact CLI command to install a component."
 />
 
+<FeatureCard
+  icon={ListIcon}
+  title="list_scenarios"
+  description="Ready-made compositions for common UI scenarios."
+/>
+
+<FeatureCard
+  icon={TerminalIcon}
+  title="compose"
+  description="Components, resolved dependencies, and install command for a scenario."
+/>
+
 </div>
 
 ## Tools
@@ -128,6 +140,31 @@ Returns the exact CLI command.
 />
 
 **Output**: `npx frakment@latest add <name>`
+
+### list_scenarios
+
+Returns the built-in compositions available for common UI scenarios. No parameters.
+
+**Output**: a list of scenario names with one-line descriptions.
+
+### compose
+
+Returns the components, resolved dependencies, and install command for a scenario.
+
+<PropsTable
+  rows={[
+    {
+      name: "scenario",
+      type: "string",
+      description: "Scenario key from `list_scenarios`.",
+      required: true,
+    },
+  ]}
+/>
+
+**Output**: scenario name, description, components, install command, and a note about transitive dependencies.
+
+Supported scenarios: `chat`, `agent-timeline`, `code-output`, `login-form`, `settings-panel`, `empty-state`, `search-input`, `status-dashboard`.
 
 ## Client configuration
 

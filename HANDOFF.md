@@ -350,3 +350,30 @@ gh api -X PATCH 'repos/arrafipd/frakment/code-scanning/alerts/<number>' -f state
 - Local actions use `$/.github/...`, not `./.github/...`.
 - Docker images pinned to `tag@sha256:...`.
 - CI runs `npm install -g npm@11.7.0` before `npm ci` — required for `npm audit signatures` with keyless attestations (EMISSINGSIGNATUREKEY fix). Do not remove.
+
+## MCP compose + list_scenarios
+
+`packages/mcp/index.js` has a `SCENARIOS` constant with 8 built-in compositions. Two tools added: `list_scenarios` (no input) and `compose({ scenario })`.
+
+| Scenario | Components | Install entry |
+|---|---|---|
+| chat | bubble, message, message-scroller, avatar, message-animated | message-animated |
+| agent-timeline | trace, chain-of-thought, pulse, terminal | terminal |
+| code-output | code-block, terminal | code-block |
+| login-form | field, label, input, button, checkbox | field |
+| settings-panel | field, switch, toggle-group, separator | toggle-group |
+| empty-state | empty, button | empty |
+| search-input | input-group, input, button, spinner | input-group |
+| status-dashboard | pulse, pulse-status, badge | pulse |
+
+### Extending
+
+Add an entry to `SCENARIOS` in `packages/mcp/index.js`. Shape: `{ components: [], description: "", install: "<component>", note: "" }`.
+
+`install` is the component whose `npx frakment add` pulls the rest via `registryDependencies`. For scenarios without a single entry that pulls everything, pick the largest parent — user adds the rest manually.
+
+After adding, update the supported-scenarios list in `content/docs/mcp/index.mdx` and rebuild the site.
+
+### Not per-scenario in user docs
+
+Scenario list is discovered via `list_scenarios` tool, not enumerated in docs. User docs only list the 2 new tools (`list_scenarios`, `compose`) in `content/docs/mcp/index.mdx`.
