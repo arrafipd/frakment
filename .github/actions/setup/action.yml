@@ -11,6 +11,6 @@ runs:
         cache-dependency-path: package-lock.json
     - name: Upgrade npm (fix EMISSINGSIGNATUREKEY for keyless attestations)
       shell: bash
-      run: npm install -g npm@11.7.0
+      run: npm install -g npm@11.11.0
     - shell: bash
       run: npm ci
