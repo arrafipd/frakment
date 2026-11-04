@@ -41,6 +41,8 @@ For Cursor, add the same block to `~/.cursor/mcp.json`.
 | `view_component`      | `{ "name": "button" }` | Full source, npm dependencies, registry dependencies. |
 | `search_components`   | `{ "query": "chat" }`  | Components matching name or description substring.    |
 | `get_install_command` | `{ "name": "button" }` | The exact `npx frakment@latest add <name>` command.   |
+| `list_scenarios`      | none                   | Ready-made compositions for common UI scenarios.      |
+| `compose`             | `{ "scenario": "chat" }` | Components, resolved deps, and install command.     |
 
 ## Environment
 

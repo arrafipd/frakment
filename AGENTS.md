@@ -62,7 +62,7 @@ Do not edit files under `content/docs/` with PowerShell 5.1 string replacement. 
 
 - Skill: `skills/frakment-usage/SKILL.md` for discovering, fetching, and installing components
 - Registry index: `https://frakment.vercel.app/r/index.json`
-- MCP server: `npx -y @frakment/mcp` with tools `list_components`, `view_component`, `search_components`, `get_install_command`
+- MCP server: `npx -y @frakment/mcp` with tools `list_components`, `view_component`, `search_components`, `get_install_command`, `list_scenarios`, `compose`
 - Full agent docs: `https://frakment.vercel.app/llms.txt`
 
 ## Never

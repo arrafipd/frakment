@@ -7,7 +7,7 @@ version: 0.1.0
 
 # Frakment Usage
 
-Frakment is a monochrome component registry for AI and chat interfaces. This skill teaches an agent how to discover, fetch, and install its components without guessing slugs.
+Frakment is a component registry for React interfaces. This skill teaches an agent how to discover, fetch, and install its components without guessing slugs.
 
 ## When to load this skill
 
@@ -52,6 +52,25 @@ Response has `files[]` (each with `path`, `content`, and optionally `encoding: "
 ## Steps
 
 **First time setup.** If `components.json` does not exist yet, run `npx frakment@latest init` before adding components. This injects the theme block into `globals.css`, creates `lib/utils.ts`, and installs the base dependencies (`clsx`, `tailwind-merge`, `class-variance-authority`, `radix-ui`, `@phosphor-icons/react`, `motion`). Safe to skip when `components.json` is already present.
+
+## MCP compose
+
+If the agent runs through MCP (`npx -y @frakment/mcp`), two tools avoid manual discovery:
+
+- `list_scenarios` — no input. Returns the built-in compositions: `chat`, `agent-timeline`, `code-output`, `login-form`, `settings-panel`, `empty-state`, `search-input`, `status-dashboard`.
+- `compose({ scenario })` — returns components, resolved dependencies, and the install command for one scenario. Prefer this over guessing component sets from the registry index.
+
+Example:
+
+```json
+{ "tool": "compose", "arguments": { "scenario": "chat" } }
+```
+
+Returns `bubble, message, message-scroller, avatar, message-animated` plus `npx frakment@latest add message-animated` — that single add pulls the rest via `registryDependencies`.
+
+## Steps
+
+When not using MCP tools, follow these steps directly against the registry HTTP surface.
 
 1. **Discover** - fetch `/r/index.json` and pick a component name from `components[].name`. Never invent a slug.
 2. **Inspect** (optional) - fetch `/r/<name>.json` to read the source before using it.
