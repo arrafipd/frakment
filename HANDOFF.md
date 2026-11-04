@@ -377,3 +377,19 @@ After adding, update the supported-scenarios list in `content/docs/mcp/index.mdx
 ### Not per-scenario in user docs
 
 Scenario list is discovered via `list_scenarios` tool, not enumerated in docs. User docs only list the 2 new tools (`list_scenarios`, `compose`) in `content/docs/mcp/index.mdx`.
+
+### Adding a new docs section
+
+Edit `TOP_LEVEL_SECTIONS` in `lib/docs.ts` plus `content/docs/meta.json`. Both list the section in order. Consumers (`docs-sidebar`, `mobile-nav`, `command-menu`, prev/next in `app/(app)/docs/[[...slug]]/page.tsx`) all read `TOP_LEVEL_SECTIONS`, so one edit propagates everywhere. Do not hardcode sections in the consumer files.
+
+Five steps:
+
+1. `content/docs/<slug>/index.mdx` with frontmatter (`title`, `description`).
+2. `content/docs/<slug>/meta.json` with `{ "title": "<Display Name>" }`.
+3. Add `"<slug>"` to `content/docs/meta.json` `pages` at the desired position.
+4. Add `DOCS_<SLUG>: "/docs/<slug>"` to `constants/routes.ts`.
+5. Add `{ href: ROUTES.DOCS_<SLUG>, name: "<Display Name>" }` to `TOP_LEVEL_SECTIONS` in `lib/docs.ts`.
+
+Run `npm run build` to verify.
+
+Example (`agents`, 2026-11-05): inserted between `mcp` and `changelog` in both `meta.json` and `TOP_LEVEL_SECTIONS`.

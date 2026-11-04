@@ -174,3 +174,18 @@ Run this whenever the homepage layout, hero copy, or theme changes. Commit both 
 - [ ] No internal detail (paths, tooling, roadmap, temporary files).
 - [ ] No mentions of internal AI tooling, admin notes, or scratch files.
 - [ ] All checks pass.
+
+## Adding a new docs section
+
+Add the section in two places, in the same order: `TOP_LEVEL_SECTIONS` in `lib/docs.ts` and `pages` in `content/docs/meta.json`. Also add the route in `constants/routes.ts`.
+
+The sidebar, mobile nav, command menu, and prev/next navigation all read `TOP_LEVEL_SECTIONS`, so one entry covers all consumers. Do not hardcode sections in the consumer files.
+
+Steps:
+
+1. Create `content/docs/<slug>/index.mdx` with frontmatter (`title`, `description`).
+2. Create `content/docs/<slug>/meta.json` with `{ "title": "<Display Name>" }`.
+3. Add `"<slug>"` to `content/docs/meta.json` `pages` at the desired position.
+4. Add `DOCS_<SLUG>: "/docs/<slug>"` to `constants/routes.ts`.
+5. Add `{ href: ROUTES.DOCS_<SLUG>, name: "<Display Name>" }` to `TOP_LEVEL_SECTIONS` in `lib/docs.ts`.
+6. Run `npm run build` to verify.
