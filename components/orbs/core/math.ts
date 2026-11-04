@@ -2,7 +2,7 @@
  * Pure math functions extracted from components/orbs.tsx.
  *
  * Every function here is a byte-for-byte copy of the original closure
- * body with one exception: `clamp` was rewritten from a nested ternary
+ * body with one exception: `clamp` was simplified from a nested ternary
  * to Math.min/Math.max to satisfy the project's no-nested-ternary lint
  * rule. The two forms are mathematically identical for all call sites
  * in orbs.tsx (which never pass lo > hi). `lookAngles` now takes turn

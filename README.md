@@ -22,44 +22,17 @@ With AI and motion. No wiring. No configuration.
 
 ---
 
-**Frakment** is a component registry for React interfaces. Every component is standalone — written from scratch, depends only on a small set of well-known libraries, and ships as open source you can read, copy, and modify.
+**Frakment** is a component registry for React interfaces. Every component is standalone — depends only on a small set of well-known libraries, and ships as open source you can read, copy, and modify.
 
 ## Highlights
 
-<table>
-<tr>
-<td width="50%" valign="top">
+**Standalone by default** — one file per component. No wrapper, no chain, no hidden dependency tree.
 
-### Standalone by default
+**AI and motion, built in** — agent surfaces ship with AI support and motion resolved per file. Baseline primitives stay motion-ready without extra setup.
 
-One file per component. No wrapper, no chain, no hidden dependency tree.
+**Built for agents** — MCP server and Agent Skills let tools discover, fetch, and install components autonomously.
 
-</td>
-<td width="50%" valign="top">
-
-### AI and motion, built in
-
-Agent surfaces ship with AI support and motion resolved per file. Baseline primitives stay motion-ready without extra setup.
-
-</td>
-</tr>
-<tr>
-<td valign="top">
-
-### Built for agents
-
-MCP server and Agent Skills let tools discover, fetch, and install components autonomously.
-
-</td>
-<td valign="top">
-
-### Copy-paste first
-
-One command installs a component plus its registry dependencies.
-
-</td>
-</tr>
-</table>
+**Copy-paste first** — one command installs a component plus its registry dependencies.
 
 ## Components
 
