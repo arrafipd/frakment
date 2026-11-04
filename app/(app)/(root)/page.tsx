@@ -16,13 +16,13 @@ export default function IndexPage() {
         <section className="container-wrapper relative">
           <div className="container flex max-w-170 flex-col items-center gap-4 py-16 text-center md:py-20 lg:py-24">
             <h1 className="text-foreground max-w-72.5 text-2xl font-semibold sm:max-w-full">
-              Fabric for interfaces in the age of agents.
+              The Fragments behind your Design System.
             </h1>
 
             <p className="text-muted-foreground max-w-md text-sm leading-tight text-pretty">
-              From an agent&apos;s first chat message to its millionth
-              production render, Frakment is the thread in between: neutral by
-              nature, precise by design, and copy-pasted from one registry.
+              Composable, accessible, customizable — nothing to assemble.
+              <br />
+              With AI and motion. No wiring. No configuration.
             </p>
 
             <CommandBox className="mt-4 w-full max-w-xl" />

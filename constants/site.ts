@@ -20,8 +20,12 @@ export const SITE = {
     TWITTER: "@hanshapd",
   },
   DESCRIPTION: {
-    LONG: "A monochrome component registry. Neutral by nature, precise by design.",
-    SHORT: "A monochrome component registry",
+    LONG: "Composable, accessible, customizable components with AI and motion built in — nothing to assemble, no wiring, no configuration.",
+    SHORT: "The Fragments behind your Design System",
+  },
+  HERO: {
+    BODY: "Composable, accessible, customizable — nothing to assemble. With AI and motion. No wiring. No configuration.",
+    TITLE: "The Fragments behind your Design System.",
   },
   KEYWORDS: [
     "Frakment",
