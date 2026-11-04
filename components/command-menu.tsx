@@ -31,6 +31,7 @@ import { useMutationObserver } from "@/hooks/use-mutation-observer";
 import { usePackageManager } from "@/hooks/use-package-manager";
 import {
   EXCLUDED_SECTIONS,
+  formatTitleFromSlug,
   isComponentsFolder,
   TOP_LEVEL_SECTIONS,
 } from "@/lib/docs";
@@ -194,7 +195,10 @@ export const CommandMenu = ({
           : getPagesFromFolder(item)
       )
         .map((p) => ({
-          name: typeof p.name === "string" ? p.name : String(p.name),
+          name:
+            typeof p.name === "string"
+              ? p.name
+              : formatTitleFromSlug(p.url.split("/").pop() ?? ""),
           url: p.url,
         }))
         .filter((page) => {
@@ -207,7 +211,12 @@ export const CommandMenu = ({
 
       if (pages.length > 0) {
         groups.push({
-          label: typeof item.name === "string" ? item.name : String(item.name),
+          label:
+            typeof item.name === "string"
+              ? item.name
+              : formatTitleFromSlug(
+                  (item.index?.url ?? "").split("/").pop() ?? ""
+                ),
           pages,
         });
       }
@@ -239,7 +248,12 @@ export const CommandMenu = ({
       if (realChildren.length === 0) {
         base.push({
           href: item.index.url,
-          name: typeof item.name === "string" ? item.name : String(item.name),
+          name:
+            typeof item.name === "string"
+              ? item.name
+              : formatTitleFromSlug(
+                  (item.index?.url ?? "").split("/").pop() ?? ""
+                ),
         });
       }
     }

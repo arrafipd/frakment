@@ -4,6 +4,7 @@ export const ROUTES = {
   API_CATALOG: "/.well-known/api-catalog",
   API_STATUS: "/api/status",
   DOCS: "/docs",
+  DOCS_AGENTS: "/docs/agents",
   DOCS_AI_ELEMENTS: "/docs/ai-elements",
   DOCS_BRAND: "/docs/brand",
   DOCS_CHANGELOG: "/docs/changelog",
