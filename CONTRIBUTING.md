@@ -145,6 +145,27 @@ npx frakment@latest add x
 4. Run `npm run fix`, `npm run check`, `npm run typecheck`, `npm test`.
 5. Open a pull request. Required checks must pass before merge.
 
+## Regenerate README assets
+
+The README hero image and OG preview are generated from the live site, not uploaded manually.
+
+```bash
+npm run assets:generate
+```
+
+Requires Playwright Chromium. Install once:
+
+```bash
+npx playwright install chromium
+```
+
+What it generates:
+
+- `assets/hero-dark.webp` — homepage screenshot, 8K (7680×4320), dark mode
+- `assets/og.png` — social preview, 1200×630, dark mode
+
+Run this whenever the homepage layout, hero copy, or theme changes. Commit both files together with the change.
+
 ## Review checklist
 
 - [ ] Docs page follows the template above.

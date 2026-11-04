@@ -81,14 +81,6 @@ npx -y @frakment/mcp
 | [**MCP Server**](https://frakment.vercel.app/docs/mcp) | Registry discovery for AI tools |
 | [**Changelog**](https://frakment.vercel.app/docs/changelog) | What shipped, when |
 
-## Regenerate assets
-
-```bash
-npm run assets:generate
-```
-
-Requires Playwright Chromium — run `npx playwright install chromium` once.
-
 ## Contributing
 
 Contributions are welcome — typo fixes, docs, tests, translations, or new components. See [CONTRIBUTING.md](./CONTRIBUTING.md).
