@@ -367,9 +367,13 @@ export const CommandMenu = ({
           variant="ghost"
           {...props}
         >
-          <SearchIcon className="text-foreground size-4.5 shrink-0 md:size-3.5" />
-          <span className="hidden lg:inline-flex">Search documentation...</span>
-          <span className="hidden md:inline-flex lg:hidden">Search...</span>
+          <SearchIcon className="text-surface-foreground/40 size-4.5 shrink-0 md:size-3.5" />
+          <span className="text-surface-foreground/40 hidden lg:inline-flex">
+            Search documentation...
+          </span>
+          <span className="text-surface-foreground/40 hidden md:inline-flex lg:hidden">
+            Search...
+          </span>
         </Button>
       </DialogTrigger>
       <DialogContent
