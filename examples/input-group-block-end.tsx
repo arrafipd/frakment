@@ -10,7 +10,7 @@ import { ArrowUpIcon } from "@/lib/icons";
 
 export function InputGroupBlockEnd() {
   return (
-    <div className="w-full max-w-sm">
+    <div className="max-w-sm">
       <InputGroup>
         <InputGroupTextarea placeholder="Type a message" rows={2} />
         <InputGroupAddon align="block-end" className="justify-end">

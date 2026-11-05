@@ -1,0 +1,148 @@
+---
+title: Radio Group
+description: A set of checkable buttons where only one can be selected at a time.
+---
+
+import { RadioGroupDemo } from "@/examples/radio-group-demo";
+import { RadioGroupDescription } from "@/examples/radio-group-description";
+import { RadioGroupChoiceCard } from "@/examples/radio-group-choice-card";
+import { RadioGroupFieldset } from "@/examples/radio-group-fieldset";
+import { RadioGroupDisabled } from "@/examples/radio-group-disabled";
+import { RadioGroupInvalid } from "@/examples/radio-group-invalid";
+
+<ComponentPreview name="radio-group" title="radio-group.tsx">
+  <RadioGroupDemo />
+</ComponentPreview>
+
+Radio Group is a set of mutually exclusive options. Only one item can be selected at a time, and the group manages focus with arrow keys.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add radio-group
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependency:</Step>
+
+      ~~~bash
+      npm install radix-ui
+      ~~~
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="radio-group" title="components/ui/radio-group.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="radio-group.tsx"
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+~~~
+
+~~~tsx
+<RadioGroup defaultValue="comfortable">
+  <div className="flex items-center gap-3">
+    <RadioGroupItem value="default" id="r1" />
+    <Label htmlFor="r1">Default</Label>
+  </div>
+  <div className="flex items-center gap-3">
+    <RadioGroupItem value="comfortable" id="r2" />
+    <Label htmlFor="r2">Comfortable</Label>
+  </div>
+</RadioGroup>
+~~~
+
+## Anatomy
+
+- **RadioGroup** - root wrapper; holds `value` or `defaultValue`
+- **RadioGroupItem** - one checkable option; requires a unique `value` and matching `id`
+
+Pair `RadioGroupItem` with `Field` for descriptions, fieldset semantics, and disabled or invalid state.
+
+## Examples
+
+### With description
+
+Compose `Field`, `FieldContent`, and `FieldDescription` for helper text under each option.
+
+<ComponentPreview name="radio-group" title="radio-group.tsx" previewClassName="h-auto py-8">
+  <RadioGroupDescription />
+</ComponentPreview>
+
+### Choice card
+
+Wrap each option in `FieldLabel` to make the entire card clickable.
+
+<ComponentPreview name="radio-group" title="radio-group.tsx" previewClassName="h-auto py-8">
+  <RadioGroupChoiceCard />
+</ComponentPreview>
+
+### Fieldset
+
+Use `FieldSet` and `FieldLegend` for a labelled group.
+
+<ComponentPreview name="radio-group" title="radio-group.tsx" previewClassName="h-auto py-8">
+  <RadioGroupFieldset />
+</ComponentPreview>
+
+### Disabled
+
+<ComponentPreview name="radio-group" title="radio-group.tsx" previewClassName="h-auto py-8">
+  <RadioGroupDisabled />
+</ComponentPreview>
+
+### Invalid
+
+Mark each item with `aria-invalid` and its `Field` wrapper with `data-invalid`.
+
+<ComponentPreview name="radio-group" title="radio-group.tsx" previewClassName="h-auto py-8">
+  <RadioGroupInvalid />
+</ComponentPreview>
+
+## API Reference
+
+### RadioGroup
+
+<PropsTable
+  rows={[
+    { name: "value", type: "string", description: "Controlled selected value." },
+    { name: "defaultValue", type: "string", description: "Initial selected value when uncontrolled." },
+    { name: "onValueChange", type: "function", description: "Called when the selection changes." },
+    { name: "disabled", type: "boolean", default: "false", description: "Disable the entire group." },
+    { name: "orientation", type: "horizontal | vertical", default: "vertical", description: "Arrow key navigation axis." },
+  ]}
+/>
+
+### RadioGroupItem
+
+<PropsTable
+  rows={[
+    { name: "value", type: "string", description: "Unique value returned when this item is selected." },
+    { name: "disabled", type: "boolean", default: "false", description: "Prevent selection." },
+  ]}
+/>
+
+## Accessibility
+
+- Built on Radix RadioGroup, following the WAI-ARIA radio group pattern.
+- Arrow keys move the selection within the group.
+- Each item must have a matching `Label` with `htmlFor`.
+- Invalid state is conveyed via `aria-invalid` on the item and `data-invalid` on the wrapper.

@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 
 export function InputFieldgroup() {
   return (
-    <FieldGroup className="w-full max-w-xs">
+    <FieldGroup className="max-w-xs">
       <Field>
         <FieldLabel htmlFor="fieldgroup-name">Name</FieldLabel>
         <Input id="fieldgroup-name" placeholder="Jordan Lee" />

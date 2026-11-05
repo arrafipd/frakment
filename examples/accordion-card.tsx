@@ -37,7 +37,7 @@ const items = [
 
 export function AccordionCard() {
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="max-w-sm">
       <CardHeader>
         <CardTitle>Subscription & Billing</CardTitle>
         <CardDescription>

@@ -31,7 +31,7 @@ const items = [
 export function AccordionBorders() {
   return (
     <Accordion
-      className="w-full max-w-lg rounded-lg border"
+      className="max-w-lg rounded-lg border"
       collapsible
       defaultValue="billing"
       type="single"

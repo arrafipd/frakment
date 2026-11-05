@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 export function TextareaField() {
   return (
-    <div className="w-full max-w-sm">
+    <div className="max-w-sm">
       <Field>
         <FieldLabel htmlFor="feedback">Feedback</FieldLabel>
         <Textarea id="feedback" placeholder="Share your thoughts..." rows={4} />

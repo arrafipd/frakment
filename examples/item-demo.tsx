@@ -14,7 +14,7 @@ import { ChevronRightIcon, StarIcon } from "@/lib/icons";
 
 export function ItemDemo() {
   return (
-    <div className="w-full max-w-sm">
+    <div className="max-w-sm">
       <ItemGroup>
         <Item variant="muted">
           <ItemMedia>

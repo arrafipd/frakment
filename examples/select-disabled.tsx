@@ -10,7 +10,7 @@ import {
 
 export function SelectDisabled() {
   return (
-    <div className="w-full max-w-sm">
+    <div className="max-w-sm">
       <Select disabled>
         <SelectTrigger>
           <SelectValue placeholder="Disabled select" />

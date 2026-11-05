@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 
 export function InputField() {
   return (
-    <Field className="w-full max-w-xs">
+    <Field className="max-w-xs">
       <FieldLabel htmlFor="input-field-username">Username</FieldLabel>
       <Input
         id="input-field-username"

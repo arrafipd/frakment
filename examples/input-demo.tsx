@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 
 export function InputDemo() {
   return (
-    <Field className="w-full max-w-xs">
+    <Field className="max-w-xs">
       <FieldLabel htmlFor="input-demo-api-key">API Key</FieldLabel>
       <Input id="input-demo-api-key" placeholder="sk-..." type="password" />
       <FieldDescription>

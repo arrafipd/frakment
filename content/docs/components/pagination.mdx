@@ -1,0 +1,116 @@
+---
+title: Pagination
+description: Navigation for splitting content across multiple pages.
+---
+
+import { PaginationDemo } from "@/examples/pagination-demo";
+import { PaginationSimple } from "@/examples/pagination-simple";
+import { PaginationIconsOnly } from "@/examples/pagination-icons-only";
+
+<ComponentPreview name="pagination" title="pagination.tsx">
+  <PaginationDemo />
+</ComponentPreview>
+
+Pagination splits long content into pages. It composes standard links so navigation works with keyboard, screen readers, and browser history.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add pagination
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the base button</Step>
+
+      ~~~bash
+      npx frakment add button
+      ~~~
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="pagination" title="components/ui/pagination.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="pagination.tsx"
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationPrevious,
+  PaginationNext,
+} from "@/components/ui/pagination";
+~~~
+
+~~~tsx
+<Pagination>
+  <PaginationContent>
+    <PaginationItem><PaginationPrevious href="#" /></PaginationItem>
+    <PaginationItem><PaginationLink href="#">1</PaginationLink></PaginationItem>
+    <PaginationItem><PaginationNext href="#" /></PaginationItem>
+  </PaginationContent>
+</Pagination>
+~~~
+
+## Examples
+
+### Simple
+
+Show every page number without an ellipsis.
+
+<ComponentPreview name="pagination" title="pagination.tsx">
+  <PaginationSimple />
+</ComponentPreview>
+
+### Icons only
+
+Pair with a `Select` for page size, keeping the controls minimal.
+
+<ComponentPreview name="pagination" title="pagination.tsx" previewClassName="h-auto py-8">
+  <PaginationIconsOnly />
+</ComponentPreview>
+
+## Anatomy
+
+- **Pagination** - `<nav>` wrapper with `aria-label`
+- **PaginationContent** - list container
+- **PaginationItem** - one entry; usually wraps a link or ellipsis
+- **PaginationLink** - `<a>` styled as a button; `isActive` marks the current page
+- **PaginationPrevious** / **PaginationNext** - labeled arrow links
+- **PaginationEllipsis** - visual skip indicator
+
+## API Reference
+
+### PaginationLink
+
+<PropsTable
+  rows={[
+    { name: "href", type: "string", description: "Destination URL." },
+    { name: "isActive", type: "boolean", default: "false", description: "Mark the link as the current page; sets aria-current." },
+    { name: "size", type: "sm | default | lg | icon", default: "icon", description: "Button size." },
+  ]}
+/>
+
+## Accessibility
+
+- Uses `<nav>` with `aria-label="pagination"` for landmark navigation.
+- Active page sets `aria-current="page"`.
+- Previous and Next set `aria-label="Go to previous page"` and `aria-label="Go to next page"`.

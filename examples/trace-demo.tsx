@@ -12,7 +12,7 @@ import { CheckIcon, ClockIcon, LoaderCircleIcon } from "@/lib/icons";
 
 export function TraceDemo() {
   return (
-    <div className="w-full max-w-md">
+    <div className="max-w-md">
       <Trace>
         <TraceCollapsible defaultOpen>
           <TraceCollapsibleTrigger>

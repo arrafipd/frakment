@@ -26,7 +26,7 @@ const SOURCES = [
 
 export function TraceSources() {
   return (
-    <div className="w-full max-w-sm">
+    <div className="max-w-sm">
       <TraceCollapsible defaultOpen>
         <TraceCollapsibleTrigger>
           <TraceLine>

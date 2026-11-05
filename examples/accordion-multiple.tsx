@@ -31,7 +31,7 @@ const items = [
 export function AccordionMultiple() {
   return (
     <Accordion
-      className="w-full max-w-lg"
+      className="max-w-lg"
       defaultValue={["notifications"]}
       type="multiple"
     >

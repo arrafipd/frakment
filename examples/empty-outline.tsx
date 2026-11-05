@@ -11,7 +11,7 @@ import { Folder } from "@/lib/icons";
 
 export function EmptyOutline() {
   return (
-    <Empty className="w-full max-w-sm border">
+    <Empty className="max-w-sm border">
       <EmptyHeader>
         <EmptyMedia>
           <Folder />

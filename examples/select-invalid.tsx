@@ -10,7 +10,7 @@ import {
 
 export function SelectInvalid() {
   return (
-    <div className="w-full max-w-sm">
+    <div className="w-fit">
       <Select>
         <SelectTrigger aria-invalid>
           <SelectValue placeholder="Select a value" />

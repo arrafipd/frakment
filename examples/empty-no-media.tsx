@@ -9,7 +9,7 @@ import {
 
 export function EmptyNoMedia() {
   return (
-    <Empty className="w-full max-w-sm border">
+    <Empty className="max-w-sm border">
       <EmptyHeader>
         <EmptyTitle>No results found</EmptyTitle>
         <EmptyDescription>

@@ -1,0 +1,151 @@
+---
+title: Breadcrumb
+description: Displays the path to the current resource using a hierarchy of links.
+---
+
+import { BreadcrumbDemo } from "@/examples/breadcrumb-demo";
+import { BreadcrumbBasic } from "@/examples/breadcrumb-basic";
+import { BreadcrumbSeparatorDemo } from "@/examples/breadcrumb-separator";
+import { BreadcrumbDropdown } from "@/examples/breadcrumb-dropdown";
+import { BreadcrumbEllipsisDemo } from "@/examples/breadcrumb-ellipsis";
+import { BreadcrumbLinkDemo } from "@/examples/breadcrumb-link";
+
+<ComponentPreview name="breadcrumb" title="breadcrumb.tsx">
+  <BreadcrumbDemo />
+</ComponentPreview>
+
+Breadcrumb shows the path from the site root to the current page. It helps users understand where they are and jump back to any ancestor level.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add breadcrumb
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependency:</Step>
+
+      ~~~bash
+      npm install radix-ui
+      ~~~
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="breadcrumb" title="components/ui/breadcrumb.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="breadcrumb.tsx"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+~~~
+
+~~~tsx
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem><BreadcrumbLink href="/components">Components</BreadcrumbLink></BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>
+~~~
+
+## Anatomy
+
+- **Breadcrumb** - `<nav aria-label="breadcrumb">` wrapper
+- **BreadcrumbList** - `<ol>` container
+- **BreadcrumbItem** - one `<li>`; wraps a link, page, or ellipsis
+- **BreadcrumbLink** - anchor; accepts `asChild` to forward to a router Link
+- **BreadcrumbPage** - the current page; not a link
+- **BreadcrumbSeparator** - visual divider; children replace the default chevron
+- **BreadcrumbEllipsis** - truncated-path indicator
+
+## Examples
+
+### Basic
+
+<ComponentPreview name="breadcrumb" title="breadcrumb.tsx">
+  <BreadcrumbBasic />
+</ComponentPreview>
+
+### Custom separator
+
+Pass any node as children to replace the chevron.
+
+<ComponentPreview name="breadcrumb" title="breadcrumb.tsx">
+  <BreadcrumbSeparatorDemo />
+</ComponentPreview>
+
+### With router link
+
+Set `asChild` on `BreadcrumbLink` to render a router component.
+
+<ComponentPreview name="breadcrumb" title="breadcrumb.tsx">
+  <BreadcrumbLinkDemo />
+</ComponentPreview>
+
+### Ellipsis
+
+Collapse the middle of a long path with `BreadcrumbEllipsis`.
+
+<ComponentPreview name="breadcrumb" title="breadcrumb.tsx">
+  <BreadcrumbEllipsisDemo />
+</ComponentPreview>
+
+### With dropdown
+
+Open a `DropdownMenu` from an intermediate level to show siblings.
+
+<ComponentPreview name="breadcrumb" title="breadcrumb.tsx">
+  <BreadcrumbDropdown />
+</ComponentPreview>
+
+## API Reference
+
+### BreadcrumbLink
+
+<PropsTable
+  rows={[
+    { name: "href", type: "string", description: "Destination URL." },
+    { name: "asChild", type: "boolean", default: "false", description: "Merge into the child element, e.g. a router Link." },
+  ]}
+/>
+
+### BreadcrumbPage
+
+<PropsTable
+  rows={[
+    { name: "aria-current", type: "string", default: "page", description: "Marks the active page." },
+  ]}
+/>
+
+## Accessibility
+
+- Wrapper is `<nav aria-label="breadcrumb">`, giving a named landmark.
+- Current page uses `aria-current="page"` and is not focusable.
+- Separators are `role="presentation"` so they are skipped by screen readers.

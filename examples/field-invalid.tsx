@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 
 export function FieldInvalid() {
   return (
-    <Field className="w-full max-w-xs" data-invalid>
+    <Field className="max-w-xs" data-invalid>
       <FieldLabel htmlFor="invalid-input">Invalid Input</FieldLabel>
       <Input aria-invalid id="invalid-input" placeholder="Error" />
       <FieldDescription>

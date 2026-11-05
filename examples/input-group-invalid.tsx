@@ -9,7 +9,7 @@ import { Search } from "@/lib/icons";
 
 export function InputGroupInvalid() {
   return (
-    <div className="w-full max-w-sm">
+    <div className="max-w-sm">
       <InputGroup>
         <InputGroupAddon>
           <Search />

@@ -31,7 +31,7 @@ const RootLayout = ({
       <ThemeProvider>
         <TooltipProvider>
           {children}
-          <Toaster position="top-center" />
+          <Toaster />
           <Analytics />
         </TooltipProvider>
       </ThemeProvider>

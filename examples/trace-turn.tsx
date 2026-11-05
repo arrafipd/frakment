@@ -18,7 +18,7 @@ import {
 
 export function TraceTurn() {
   return (
-    <div className="w-full max-w-sm">
+    <div className="max-w-sm">
       <TraceCollapsible defaultOpen>
         <TraceCollapsibleTrigger>
           <TraceLine status="error">

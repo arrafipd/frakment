@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 export function FieldTextarea() {
   return (
-    <FieldSet className="w-full max-w-xs">
+    <FieldSet className="max-w-xs">
       <FieldGroup>
         <Field>
           <FieldLabel htmlFor="feedback">Feedback</FieldLabel>

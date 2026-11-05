@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 
 export function FieldInput() {
   return (
-    <FieldSet className="w-full max-w-xs">
+    <FieldSet className="max-w-xs">
       <FieldGroup>
         <Field>
           <FieldLabel htmlFor="username">Username</FieldLabel>

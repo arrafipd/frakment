@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 
 export function CardDemo() {
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="max-w-sm">
       <CardHeader>
         <CardTitle>Login to your account</CardTitle>
         <CardDescription>

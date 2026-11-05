@@ -11,7 +11,7 @@ import { TerminalIcon } from "@/lib/icons";
 
 export function TraceCollapsibleDemo() {
   return (
-    <div className="w-full max-w-sm">
+    <div className="max-w-sm">
       <TraceCollapsible>
         <TraceCollapsibleTrigger>
           <TraceLine>

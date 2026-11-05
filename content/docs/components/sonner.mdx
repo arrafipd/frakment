@@ -1,0 +1,126 @@
+---
+title: Toast
+description: An opinionated toast component for React, powered by Sonner.
+---
+
+import { ToastDemo } from "@/examples/toast-demo";
+import { ToastTypes } from "@/examples/toast-types";
+import { ToastPromise } from "@/examples/toast-promise";
+import { ToastPosition } from "@/examples/toast-position";
+
+<ComponentPreview name="sonner" title="sonner.tsx" previewClassName="h-auto py-16">
+  <ToastDemo />
+</ComponentPreview>
+
+Toasts display brief notifications at the edge of the screen. Frakment wraps Sonner with theme-aware icons and tokens, so the look matches the rest of the registry.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add sonner
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ~~~bash
+      npm install next-themes sonner
+      ~~~
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="sonner" title="components/ui/sonner.tsx" />
+
+      <Step>Render the Toaster once in your root layout.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="sonner.tsx"
+import { Toaster } from "@/components/ui/sonner";
+import { toast } from "sonner";
+~~~
+
+~~~tsx title="app/layout.tsx"
+<Toaster position="top-center" />
+~~~
+
+~~~tsx
+<Button onClick={() => toast("Event created")}>Show toast</Button>
+~~~
+
+## Types
+
+Sonner ships five message types. Each picks an icon from the theme automatically.
+
+<ComponentPreview name="sonner" title="sonner.tsx" previewClassName="h-auto py-16">
+  <ToastTypes />
+</ComponentPreview>
+
+~~~tsx
+toast.success("Saved");
+toast.error("Failed");
+toast.info("Heads up");
+toast.warning("Careful");
+~~~
+
+## Promise
+
+`toast.promise` switches the message as a promise resolves or rejects.
+
+<ComponentPreview name="sonner" title="sonner.tsx" previewClassName="h-auto py-16">
+  <ToastPromise />
+</ComponentPreview>
+
+~~~tsx
+toast.promise(createEvent(), {
+  loading: "Creating event…",
+  success: (d) => \`\${d.name} created\`,
+  error: "Could not create",
+});
+~~~
+
+## Custom position
+
+Default position is responsive: `top-center` on mobile and `bottom-right` on desktop. Override per toast with `position`, or set a fixed position on `<Toaster position="..." />` to disable responsive behavior.
+
+<ComponentPreview name="sonner" title="sonner.tsx" previewClassName="h-auto py-16">
+  <ToastPosition />
+</ComponentPreview>
+
+~~~tsx
+toast("Saved", { position: "top-left" })
+~~~
+
+## API Reference
+
+### Toaster
+
+<PropsTable
+  rows={[
+    { name: "position", type: "string", default: "bottom-right", description: "Screen corner where toasts stack." },
+    { name: "theme", type: "light | dark | system", default: "system", description: "Color scheme; follows next-themes by default." },
+    { name: "richColors", type: "boolean", default: "false", description: "Use stronger background colors per type." },
+    { name: "closeButton", type: "boolean", default: "false", description: "Show a close button on each toast." },
+  ]}
+/>
+
+## Accessibility
+
+- Each toast is announced via `aria-live="polite"`.
+- Errors use `aria-live="assertive"` automatically.
+- Dismiss with `toast.dismiss()` or the close button when enabled.

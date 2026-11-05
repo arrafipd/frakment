@@ -9,7 +9,7 @@ import {
 
 export function InputGroupTextareaDemo() {
   return (
-    <div className="w-full max-w-sm">
+    <div className="max-w-sm">
       <InputGroup>
         <InputGroupAddon align="block-start">
           <InputGroupText>Message</InputGroupText>

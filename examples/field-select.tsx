@@ -11,7 +11,7 @@ import {
 
 export function FieldSelect() {
   return (
-    <div className="w-full max-w-sm">
+    <div className="max-w-sm">
       <Field>
         <FieldLabel htmlFor="fruit">Favorite fruit</FieldLabel>
         <Select>
