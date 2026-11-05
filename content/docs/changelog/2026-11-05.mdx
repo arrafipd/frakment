@@ -1,15 +1,26 @@
 ---
 title: "November 5, 2026"
-description: "Accordion component for collapsible sections."
+description: "Seven new registry components and a ten-variant Text Flip."
 date: "2026-11-05"
 ---
 
 import { AccordionDemo } from "@/examples/accordion-demo";
+import { CardDemo } from "@/examples/card-demo";
+import { CollapsibleDemo } from "@/examples/collapsible-demo";
+import { DropdownMenuDemo } from "@/examples/dropdown-menu-demo";
+import { TabsDemo } from "@/examples/tabs-demo";
+import { TextFlipRoll } from "@/examples/text-flip-roll";
+import { TooltipDemo } from "@/examples/tooltip-demo";
 
-This release adds **Accordion**, a vertically stacked set of interactive headings built on Radix UI.
+This release adds **seven registry components** and expands **Text Flip** with ten transition variants.
 
 - [Accordion](#accordion): Collapsible sections with single or multiple expansion.
-
+- [Card](#card): Now installable via `npx frakment add card`.
+- [Collapsible](#collapsible): Single-panel expand and collapse with animated height.
+- [Dropdown Menu](#dropdown-menu): Menu with items, checkboxes, submenus, and three alignment values.
+- [Tabs](#tabs): Layered content panels with vertical and disabled support.
+- [Text Flip](#text-flip): Ten variants for animating text and numbers.
+- [Tooltip](#tooltip): Hover and focus popup with three side placements.
 <hr className="my-16 border-border/40" />
 
 ### Accordion
@@ -56,75 +67,160 @@ import {
 ~~~
 
 See the [Accordion docs](/docs/components/accordion) for the full API reference.
-
 <hr className="my-16 border-border/40" />
 
-### Dropdown Menu
+### Card
 
-`dropdown-menu` is now an installable registry component. Previously the docs existed but `npx frakment add dropdown-menu` returned 404 because the registry mirror and `frakment.json` entry were missing.
+<ComponentPreview name="card" title="card.tsx">
+  <CardDemo />
+</ComponentPreview>
 
-The component page now documents all three `align` values: `start`, `center` (default), and `end`.
+`card` is now installable via `npx frakment add card`. The component and docs already existed, but the `frakment.json` entry and `registry/card.tsx` mirror were missing, so the install command returned 404 until today.
 
-<hr className="my-16 border-border/40" />
+#### Installation
 
-### Tooltip
+<Steps>
+  <Step>Install</Step>
 
-`tooltip` is now an installable registry component. Previously the docs existed but `npx frakment add tooltip` returned 404 because the registry mirror and `frakment.json` entry were missing.
+~~~bash
+npx frakment add card
+~~~
 
-<hr className="my-16 border-border/40" />
+</Steps>
 
-### Tabs
-
-`tabs` ships as a registry component with a docs page covering `Tabs`, `TabsList`, `TabsTrigger`, and `TabsContent`.
-
-<hr className="my-16 border-border/40" />
-
-### Text Flip
-
-`text-flip` ships as a registry component with a docs page and props for `interval`, `as`, and `onIndexChange`.
-
-<hr className="my-16 border-border/40" />
-
-### Terminal
-
-`terminal` now has a dedicated docs page covering `Terminal` and `TerminalCommand`.
-
-<hr className="my-16 border-border/40" />
-
-### Trace
-
-`trace` now has a dedicated docs page covering all eight primitives from `Trace` down to `TraceCollapsibleContent`.
+See the [Card docs](/docs/components/card) for the full API reference.
 
 <hr className="my-16 border-border/40" />
 
 ### Collapsible
 
-`collapsible` ships as a registry component with basic and file-tree demos.
+<ComponentPreview name="collapsible" title="collapsible.tsx">
+  <CollapsibleDemo />
+</ComponentPreview>
+
+**Collapsible** expands and collapses a single panel with an animated height transition. It composes into nested structures like file trees and accepts the standard Radix Collapsible props plus `asChild` on the trigger.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive</Step>
+
+~~~bash
+npx frakment add collapsible
+~~~
+
+<Step>Use it in your app</Step>
+
+~~~tsx
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+~~~
+
+</Steps>
+
+See the [Collapsible docs](/docs/components/collapsible) for the full API reference.
+<hr className="my-16 border-border/40" />
+
+### Dropdown Menu
+
+<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
+  <DropdownMenuDemo />
+</ComponentPreview>
+
+`dropdown-menu` is now installable via `npx frakment add dropdown-menu`. It supports items, checkbox items, submenus, and three `align` values on the content: `start`, `center` (default), and `end`.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive</Step>
+
+~~~bash
+npx frakment add dropdown-menu
+~~~
+
+</Steps>
+
+See the [Dropdown Menu docs](/docs/components/dropdown-menu) for the full API reference.
 
 <hr className="my-16 border-border/40" />
 
-### Changed: Text Flip
+### Tabs
 
-Text Flip now ships with two new variants: `count` interpolates numeric strings smoothly, and `shuffle` scrambles characters before settling. The default `flip` variant uses `mode="popLayout"` for overlapping exit and enter animations instead of a sequential gap.
+<ComponentPreview name="tabs" title="tabs.tsx">
+  <TabsDemo />
+</ComponentPreview>
 
-```tsx
-<TextFlip variant="count">{"12,000+", "48,000+"}</TextFlip>
-```
+**Tabs** ships as a registry component with `Tabs`, `TabsList`, `TabsTrigger`, and `TabsContent`. Supports horizontal and vertical orientation, disabled triggers, and icon triggers.
 
-Roll variant for Text Flip locks digits left to right like a slot machine. Use `variant="roll"` for dashboards and stat blocks.
+#### Installation
 
-### Changed: Shuffle variant
+<Steps>
+  <Step>Install the primitive</Step>
 
-Text Flip shuffle now cycles each character through symbols and capitals before settling to the target letter. Spaces stay visible so word boundaries remain readable throughout the animation.
+~~~bash
+npx frakment add tabs
+~~~
+
+</Steps>
+
+See the [Tabs docs](/docs/components/tabs) for the full API reference.
+<hr className="my-16 border-border/40" />
+
+### Text Flip
+
+<ComponentPreview name="text-flip" title="text-flip.tsx">
+  <TextFlipRoll />
+</ComponentPreview>
+
+**Text Flip** ships with ten variants: `flip`, `fade`, `blur`, `slide`, `scale`, `count`, `roll`, `shuffle`, `typewriter`, and `wave`. Numeric variants (`count`, `roll`) interpolate numbers via `@number-flow/react`. The `as` prop chooses the rendered element. `typewriter` and `wave` accept a `speed` prop in milliseconds.
+
+#### Installation
+
+<Steps>
+  <Step>Install</Step>
+
+~~~bash
+npx frakment add text-flip
+~~~
+
+<Step>Use it in your app</Step>
+
+~~~tsx
+import { TextFlip } from "@/components/ui/text-flip";
+~~~
+
+</Steps>
+
+#### Minimal usage
+
+~~~tsx
+<TextFlip>{"Build", "Ship", "Iterate"}</TextFlip>
+~~~
+
+See the [Text Flip docs](/docs/components/text-flip) for the full API reference.
 
 <hr className="my-16 border-border/40" />
 
-### Added: Text Flip variants
+### Tooltip
 
-Text Flip now ships ten variants: `flip`, `fade`, `blur`, `slide`, `scale`, `count`, `roll`, `shuffle`, `typewriter`, and `wave`. Both `typewriter` and `wave` accept a `speed` prop in milliseconds.
+<ComponentPreview name="tooltip" title="tooltip.tsx">
+  <TooltipDemo />
+</ComponentPreview>
 
-<hr className="my-16 border-border/40" />
+`tooltip` is now installable via `npx frakment add tooltip`. Wraps Radix Tooltip with three side placements and a disabled state.
 
-### Card
+#### Installation
 
-Added `card` registry component.
+<Steps>
+  <Step>Install the primitive</Step>
+
+~~~bash
+npx frakment add tooltip
+~~~
+
+</Steps>
+
+See the [Tooltip docs](/docs/components/tooltip) for the full API reference.
