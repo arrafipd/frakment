@@ -66,6 +66,8 @@ export {
   BookOpen as BookOpenText,
   CaretDown as ChevronDownIcon,
   CaretDown as ChevronDown,
+  CaretLeft,
+  CaretLeft as ChevronLeftIcon,
   CaretRight as ChevronRightIcon,
   CaretRight as ChevronRight,
   CaretUp as ChevronUpIcon,
@@ -88,6 +90,7 @@ export {
   CircleNotch as LoaderCircle,
   CircleNotch as LoaderIcon,
   CircleNotch as Loader,
+  CircleNotch as Loader2Icon,
   // misc icons
 
   Clock,
@@ -104,6 +107,7 @@ export {
   CreditCard as CreditCardIcon,
   DotsThree as EllipsisIcon,
   DotsThree as Ellipsis,
+  DotsThree as MoreHorizontalIcon,
   Download,
   Download as DownloadIcon,
   Envelope,
@@ -189,4 +193,5 @@ export {
   WarningCircle as CircleAlert,
   X,
   X as XIcon,
+  XCircle as OctagonXIcon,
 } from "@phosphor-icons/react";

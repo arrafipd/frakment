@@ -386,6 +386,66 @@
       "target": "components/ui/collapsible.tsx",
       "dependencies": ["radix-ui"],
       "registryDependencies": []
+    },
+    {
+      "name": "breadcrumb",
+      "version": "0.1.0",
+      "title": "Breadcrumb",
+      "description": "Displays the path to the current resource using a hierarchy of links.",
+      "source": "registry/breadcrumb.tsx",
+      "target": "components/ui/breadcrumb.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "button-group",
+      "version": "0.1.0",
+      "title": "Button Group",
+      "description": "Groups related buttons into a single visual unit.",
+      "source": "registry/button-group.tsx",
+      "target": "components/ui/button-group.tsx",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["separator"]
+    },
+    {
+      "name": "input-otp",
+      "version": "0.1.0",
+      "title": "Input OTP",
+      "description": "Accessible one-time password input with configurable length and pattern.",
+      "source": "registry/input-otp.tsx",
+      "target": "components/ui/input-otp.tsx",
+      "dependencies": ["input-otp"],
+      "registryDependencies": []
+    },
+    {
+      "name": "pagination",
+      "version": "0.1.0",
+      "title": "Pagination",
+      "description": "Navigation for splitting content across multiple pages.",
+      "source": "registry/pagination.tsx",
+      "target": "components/ui/pagination.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["button"]
+    },
+    {
+      "name": "radio-group",
+      "version": "0.1.0",
+      "title": "Radio Group",
+      "description": "A set of checkable buttons where only one can be selected at a time.",
+      "source": "registry/radio-group.tsx",
+      "target": "components/ui/radio-group.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "sonner",
+      "version": "0.1.0",
+      "title": "Toast",
+      "description": "An opinionated toast component for React, powered by Sonner.",
+      "source": "registry/sonner.tsx",
+      "target": "components/ui/sonner.tsx",
+      "dependencies": ["next-themes", "sonner"],
+      "registryDependencies": []
     }
   ],
   "skills": [

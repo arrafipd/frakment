@@ -258,6 +258,48 @@
       "name": "collapsible",
       "title": "Collapsible",
       "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Displays the path to the current resource using a hierarchy of links.",
+      "name": "breadcrumb",
+      "title": "Breadcrumb",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Groups related buttons into a single visual unit.",
+      "name": "button-group",
+      "title": "Button Group",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Accessible one-time password input with configurable length and pattern.",
+      "name": "input-otp",
+      "title": "Input OTP",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Navigation for splitting content across multiple pages.",
+      "name": "pagination",
+      "title": "Pagination",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A set of checkable buttons where only one can be selected at a time.",
+      "name": "radio-group",
+      "title": "Radio Group",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "An opinionated toast component for React, powered by Sonner.",
+      "name": "sonner",
+      "title": "Toast",
+      "version": "0.1.0"
     }
   ],
   "homepage": "https://github.com/arrafipd/frakment",
