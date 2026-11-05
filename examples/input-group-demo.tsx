@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowRightIcon, Search } from "lucide-react";
 import {
   InputGroup,
   InputGroupAddon,
@@ -7,7 +8,6 @@ import {
   InputGroupInput,
   InputGroupText,
 } from "@/components/ui/input-group";
-import { ArrowRightIcon, Search } from "@/lib/icons";
 
 export function InputGroupDemo() {
   return (

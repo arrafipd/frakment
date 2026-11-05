@@ -1,5 +1,16 @@
 "use client";
 
+import {
+  ArchiveIcon,
+  ArrowLeftIcon,
+  CalendarPlusIcon,
+  ClockIcon,
+  ListFilterIcon,
+  MailCheckIcon,
+  MoreHorizontalIcon,
+  TagIcon,
+  Trash2Icon,
+} from "lucide-react";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
@@ -16,17 +27,6 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  ArchiveIcon,
-  ArrowLeftIcon,
-  CalendarPlusIcon,
-  ClockIcon,
-  ListFilterIcon,
-  MailCheckIcon,
-  MoreHorizontalIcon,
-  TagIcon,
-  Trash2Icon,
-} from "@/lib/icons";
 
 export function ButtonGroupDemo() {
   const [label, setLabel] = React.useState("personal");

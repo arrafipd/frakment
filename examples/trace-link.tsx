@@ -1,10 +1,10 @@
-import { Trace, TraceIcon, TraceLine, TraceTitle } from "@/components/ui/trace";
 import {
   ArrowUpRightIcon,
   ChevronRightIcon,
   FileTextIcon,
   Globe,
-} from "@/lib/icons";
+} from "lucide-react";
+import { Trace, TraceIcon, TraceLine, TraceTitle } from "@/components/ui/trace";
 
 export function TraceLink() {
   return (

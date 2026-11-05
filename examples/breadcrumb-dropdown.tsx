@@ -1,3 +1,4 @@
+import { ChevronDownIcon, DotIcon } from "lucide-react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,7 +14,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDownIcon, DotIcon } from "@/lib/icons";
 
 export function BreadcrumbDropdown() {
   return (

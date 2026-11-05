@@ -375,3 +375,16 @@ npx frakment add sonner
 
 See the [Toast docs](/docs/components/sonner) for the full API reference.
 
+<hr className="my-16 border-border/40" />
+
+### Changed: Icons use lucide-react
+
+Components installed via `npx frakment add` now import from `lucide-react` instead of a bundled Phosphor shim. Running any `npx frakment add <component>` installs `lucide-react` automatically and no longer pulls `icons`.
+
+~~~bash
+npx frakment add button
+# installs: class-variance-authority radix-ui lucide-react
+~~~
+
+The `icons` registry entry is removed. Projects that previously installed it can keep using it, but new installs should import from `lucide-react` directly.
+

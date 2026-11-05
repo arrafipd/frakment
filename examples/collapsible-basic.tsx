@@ -1,3 +1,4 @@
+import { ChevronDownIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -5,7 +6,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { ChevronDownIcon } from "@/lib/icons";
 
 export function CollapsibleBasic() {
   return (

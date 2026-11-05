@@ -1,7 +1,7 @@
 "use client";
 
+import { ChevronDownIcon } from "lucide-react";
 import { useFeedback } from "@/hooks/use-feedback";
-import { ChevronDownIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 const NativeSelect = ({

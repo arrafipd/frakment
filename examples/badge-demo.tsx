@@ -1,11 +1,11 @@
-import { Badge } from "@/components/ui/badge";
 import {
   CircleCheckIcon,
   ClockIcon,
   GitPullRequestIcon,
   RocketIcon,
   TriangleAlertIcon,
-} from "@/lib/icons";
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 export function BadgeDemo() {
   return (

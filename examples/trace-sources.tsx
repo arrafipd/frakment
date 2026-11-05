@@ -1,3 +1,4 @@
+import { ArrowUpRightIcon, Globe } from "lucide-react";
 import {
   Trace,
   TraceCollapsible,
@@ -7,7 +8,6 @@ import {
   TraceLine,
   TraceTitle,
 } from "@/components/ui/trace";
-import { ArrowUpRightIcon, Globe } from "@/lib/icons";
 
 const SOURCES = [
   {

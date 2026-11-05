@@ -1,3 +1,4 @@
+import { ChevronRightIcon, StarIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -10,7 +11,6 @@ import {
   ItemMedia,
   ItemTitle,
 } from "@/components/ui/item";
-import { ChevronRightIcon, StarIcon } from "@/lib/icons";
 
 export function ItemDemo() {
   return (

@@ -1,10 +1,13 @@
 "use client";
 
 import NumberFlow from "@number-flow/react";
+import {
+  RotateCwIcon as ArrowClockwiseIcon,
+  PauseIcon,
+  PlayIcon,
+} from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
-
-import { ArrowClockwiseIcon, PauseIcon, PlayIcon } from "@/lib/icons";
 
 export function TextFlipRoll() {
   const [count, setCount] = useState(60);

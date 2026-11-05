@@ -1,3 +1,4 @@
+import { TerminalIcon } from "lucide-react";
 import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block";
 import {
   TraceCollapsible,
@@ -7,7 +8,6 @@ import {
   TraceLine,
   TraceTitle,
 } from "@/components/ui/trace";
-import { TerminalIcon } from "@/lib/icons";
 
 export function TraceCollapsibleDemo() {
   return (

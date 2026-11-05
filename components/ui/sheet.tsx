@@ -1,8 +1,8 @@
 "use client";
 
+import { XIcon } from "lucide-react";
 import { Dialog as SheetPrimitive } from "radix-ui";
 import { useCallback, useEffect, useRef } from "react";
-import { XIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 const Sheet = ({

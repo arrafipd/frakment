@@ -40,6 +40,7 @@ Gotchas lama (#1-25): `HANDOFF.archive/gotchas.md`.
 - #37: crossfade text = stacked grid (`col-start-1 row-start-1`) + CSS opacity. Do NOT use `AnimatePresence mode="popLayout"` — layout shifts because exiting element becomes `position: absolute`.
 - #38: numeric roll/count = `@number-flow/react` bare. No wrapper, no `motion.span`, no custom timing props; wrapping disables its animation.
 - #39: theme.css = cli/templates/theme.css (SHA256); @keyframes must be in theme.css not globals.css.
+- #40: preview must equal user-facing output. `components/ui/*` and `examples/*` import `lucide-react`; only site chrome (`site-header`, `command-menu`, nav) uses `@/lib/icons` Phosphor shim. `lib/icons.ts` is internal-only; `icons` entry removed from registry.
 
 ## Pointers
 
@@ -249,8 +250,8 @@ Example (`agents`, 2026-11-05): inserted between `mcp` and `changelog` in both `
 
 ## Archived sections
 
-See HANDOFF.archive/security.md.
+See archive.
 
-Topics: Auto-resolving, Security, Dependabot, Ruleset, Commits, Lint, Publish, Dependencies, BOM, React Engine.
+Topics: see archive.
 
-See Efek per aktor for ruleset behavior, #31 for BOM.
+See Efek per aktor, #31.

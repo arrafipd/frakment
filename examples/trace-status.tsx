@@ -1,10 +1,10 @@
-import { Trace, TraceIcon, TraceLine, TraceTitle } from "@/components/ui/trace";
 import {
   CircleAlertIcon,
   CircleCheckIcon,
   CircleIcon,
   LoaderCircleIcon,
-} from "@/lib/icons";
+} from "lucide-react";
+import { Trace, TraceIcon, TraceLine, TraceTitle } from "@/components/ui/trace";
 
 export function TraceStatus() {
   return (

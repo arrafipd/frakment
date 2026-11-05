@@ -6,9 +6,9 @@ import {
   useMessageScrollerScrollable,
   useMessageScrollerVisibility,
 } from "@frakment/react/message-scroller";
+import { ArrowDownIcon } from "lucide-react";
 import type * as React from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowDownIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 function MessageScrollerProvider(

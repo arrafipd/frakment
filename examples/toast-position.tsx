@@ -1,7 +1,5 @@
 "use client";
 
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
 import {
   ArrowDownLeftIcon,
   ArrowDownRightIcon,
@@ -9,7 +7,9 @@ import {
   ArrowUpRightIcon,
   ChevronDownIcon,
   ChevronUpIcon,
-} from "@/lib/icons";
+} from "lucide-react";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 export function ToastPosition() {
   return (

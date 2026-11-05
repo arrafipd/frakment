@@ -1,5 +1,6 @@
 "use client";
 
+import { BellIcon, CreditCardIcon, MailIcon } from "lucide-react";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,7 +11,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { BellIcon, CreditCardIcon, MailIcon } from "@/lib/icons";
 
 export function DropdownMenuCheckboxes() {
   const [notifications, setNotifications] = React.useState({

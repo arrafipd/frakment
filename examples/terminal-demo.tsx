@@ -2,6 +2,14 @@
 
 import { useChat } from "@ai-sdk/react";
 import type { UIMessage } from "ai";
+import {
+  CheckIcon,
+  ChevronRightIcon,
+  CircleCheckIcon,
+  CircleIcon,
+  LoaderCircleIcon,
+  TerminalSquareIcon,
+} from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import * as React from "react";
 import { CopyButton } from "@/components/copy-button";
@@ -18,14 +26,6 @@ import {
   TraceTitle,
 } from "@/components/ui/trace";
 import { createChat, getMessageText } from "@/lib/ai";
-import {
-  CheckIcon,
-  ChevronRightIcon,
-  CircleCheckIcon,
-  CircleIcon,
-  LoaderCircleIcon,
-  TerminalSquareIcon,
-} from "@/lib/icons";
 
 const EASE = [0.32, 0.72, 0, 1] as const;
 

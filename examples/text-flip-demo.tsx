@@ -1,9 +1,9 @@
 "use client";
 
+import { ChevronRightIcon, SparklesIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { TextFlip } from "@/components/ui/text-flip";
-import { ChevronRightIcon, SparklesIcon } from "@/lib/icons";
 
 const PHRASES = ["ship faster", "build smarter", "iterate daily"];
 

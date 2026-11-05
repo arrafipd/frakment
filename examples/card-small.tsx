@@ -1,3 +1,4 @@
+import { ChevronRightIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ChevronRightIcon } from "@/lib/icons";
 
 export function CardSmall() {
   const featureName = "Scheduled reports";

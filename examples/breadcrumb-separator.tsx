@@ -1,3 +1,4 @@
+import { DotIcon } from "lucide-react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,7 +7,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { DotIcon } from "@/lib/icons";
 
 export function BreadcrumbSeparatorDemo() {
   return (

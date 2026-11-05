@@ -1,10 +1,10 @@
-import { Button } from "@/components/ui/button";
 import {
   ArrowRightIcon,
   LoaderCircleIcon,
   PlusIcon,
   TrashIcon,
-} from "@/lib/icons";
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function ButtonDemo() {
   return (

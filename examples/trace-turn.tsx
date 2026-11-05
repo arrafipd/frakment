@@ -1,3 +1,9 @@
+import {
+  ChevronRightIcon,
+  FileTextIcon,
+  SparklesIcon,
+  TerminalIcon,
+} from "lucide-react";
 import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block";
 import {
   Trace,
@@ -9,12 +15,6 @@ import {
   TraceLine,
   TraceTitle,
 } from "@/components/ui/trace";
-import {
-  ChevronRightIcon,
-  FileTextIcon,
-  SparklesIcon,
-  TerminalIcon,
-} from "@/lib/icons";
 
 export function TraceTurn() {
   return (

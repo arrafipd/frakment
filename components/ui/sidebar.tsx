@@ -2,6 +2,7 @@
 
 import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
+import { PanelLeftIcon } from "lucide-react";
 import { Slot } from "radix-ui";
 import {
   createContext,
@@ -31,7 +32,6 @@ import {
 import type { FeedbackType } from "@/hooks/use-feedback";
 import { useFeedback } from "@/hooks/use-feedback";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { PanelLeftIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";

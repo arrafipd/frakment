@@ -1,7 +1,7 @@
 "use client";
 
+import { CodeIcon, FileCodeIcon } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CodeIcon, FileCodeIcon } from "@/lib/icons";
 
 export function TabsIcons() {
   return (

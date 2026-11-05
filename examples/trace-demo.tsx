@@ -1,3 +1,4 @@
+import { CheckIcon, ClockIcon, LoaderCircleIcon } from "lucide-react";
 import {
   Trace,
   TraceCollapsible,
@@ -8,7 +9,6 @@ import {
   TraceLine,
   TraceTitle,
 } from "@/components/ui/trace";
-import { CheckIcon, ClockIcon, LoaderCircleIcon } from "@/lib/icons";
 
 export function TraceDemo() {
   return (

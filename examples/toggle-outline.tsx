@@ -1,5 +1,5 @@
+import { BoldIcon, ItalicIcon } from "lucide-react";
 import { Toggle } from "@/components/ui/toggle";
-import { BoldIcon, ItalicIcon } from "@/lib/icons";
 
 export function ToggleOutline() {
   return (

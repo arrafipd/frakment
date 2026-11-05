@@ -1,3 +1,4 @@
+import { AudioLinesIcon, PlusIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import {
@@ -10,7 +11,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { AudioLinesIcon, PlusIcon } from "@/lib/icons";
 
 export function ButtonGroupNested() {
   return (

@@ -2,9 +2,9 @@
 
 import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
+import { CheckIcon, CopyIcon } from "lucide-react";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
-import { CheckIcon, CopyIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 const codeBlockVariants = cva(

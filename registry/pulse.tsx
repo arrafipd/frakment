@@ -1,11 +1,11 @@
 "use client";
 
+import { X } from "lucide-react";
 import type { KeyboardEvent, PointerEvent } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { PulseStatus } from "@/components/ui/pulse-status";
 import { Trace, TraceIcon, TraceLine } from "@/components/ui/trace";
-import { X } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 const MAGNIFY = 5;

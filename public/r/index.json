@@ -198,13 +198,6 @@
     },
     {
       "deprecated": false,
-      "description": "Phosphor icon shim with Icon-suffixed aliases.",
-      "name": "icons",
-      "title": "Icons",
-      "version": "0.1.0"
-    },
-    {
-      "deprecated": false,
       "description": "Deterministic chat engine. Included automatically by message-animated.",
       "name": "ai",
       "title": "AI Engine",

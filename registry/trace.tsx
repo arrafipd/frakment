@@ -1,9 +1,9 @@
 "use client";
 
+import { ChevronRightIcon } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { Collapsible as CollapsiblePrimitive } from "radix-ui";
 import * as React from "react";
-import { ChevronRightIcon } from "@/lib/icons";
 
 import { cn } from "@/lib/utils";
 

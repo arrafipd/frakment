@@ -1,6 +1,6 @@
+import { GitBranchIcon, SearchIcon } from "lucide-react";
 import { Marker, MarkerContent, MarkerIcon } from "@/components/ui/marker";
 import { Spinner } from "@/components/ui/spinner";
-import { GitBranchIcon, SearchIcon } from "@/lib/icons";
 
 export function MarkerDemo() {
   return (

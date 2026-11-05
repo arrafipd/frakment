@@ -1,5 +1,5 @@
+import { FileTextIcon, SearchIcon, TerminalIcon } from "lucide-react";
 import { Trace, TraceIcon, TraceLine, TraceTitle } from "@/components/ui/trace";
-import { FileTextIcon, SearchIcon, TerminalIcon } from "@/lib/icons";
 
 export function TraceGroup() {
   return (

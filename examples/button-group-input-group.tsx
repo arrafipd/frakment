@@ -1,5 +1,6 @@
 "use client";
 
+import { AudioLinesIcon, PlusIcon } from "lucide-react";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
@@ -14,7 +15,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { AudioLinesIcon, PlusIcon } from "@/lib/icons";
 
 export function ButtonGroupInputGroup() {
   const [voiceEnabled, setVoiceEnabled] = React.useState(false);

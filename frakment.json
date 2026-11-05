@@ -29,8 +29,8 @@
       "description": "",
       "source": "registry/chain-of-thought.tsx",
       "target": "components/ui/chain-of-thought.tsx",
-      "dependencies": ["@phosphor-icons/react"],
-      "registryDependencies": ["icons", "trace"]
+      "dependencies": [],
+      "registryDependencies": ["trace"]
     },
     {
       "name": "pulse-status",
@@ -39,8 +39,8 @@
       "description": "A status badge for service health, used inside Pulse.",
       "source": "registry/pulse-status.tsx",
       "target": "components/ui/pulse-status.tsx",
-      "dependencies": ["@phosphor-icons/react"],
-      "registryDependencies": ["icons"]
+      "dependencies": [],
+      "registryDependencies": []
     },
     {
       "name": "pulse",
@@ -49,8 +49,8 @@
       "description": "A daily status timeline for service uptime, with inline incident logs.",
       "source": "registry/pulse.tsx",
       "target": "components/ui/pulse.tsx",
-      "dependencies": ["@phosphor-icons/react"],
-      "registryDependencies": ["badge", "pulse-status", "trace", "icons"]
+      "dependencies": [],
+      "registryDependencies": ["badge", "pulse-status", "trace"]
     },
     {
       "name": "trace",
@@ -59,8 +59,8 @@
       "description": "A list of lines for the steps an agent takes.",
       "source": "registry/trace.tsx",
       "target": "components/ui/trace.tsx",
-      "dependencies": ["@phosphor-icons/react", "motion", "radix-ui"],
-      "registryDependencies": ["icons"]
+      "dependencies": ["motion", "radix-ui"],
+      "registryDependencies": []
     },
     {
       "name": "terminal",
@@ -69,8 +69,8 @@
       "description": "A live terminal that streams commands and output with a typewriter effect.",
       "source": "registry/terminal.tsx",
       "target": "components/ui/terminal.tsx",
-      "dependencies": ["@phosphor-icons/react", "motion", "radix-ui"],
-      "registryDependencies": ["code-block", "icons"]
+      "dependencies": ["motion", "radix-ui"],
+      "registryDependencies": ["code-block"]
     },
     {
       "name": "message-scroller",
@@ -79,8 +79,8 @@
       "description": "Scroll container for chat transcripts. Anchors turns, follows streamed replies, restores position, and tracks visibility.",
       "source": "registry/message-scroller.tsx",
       "target": "components/ui/message-scroller.tsx",
-      "dependencies": ["@phosphor-icons/react", "@shadcn/react"],
-      "registryDependencies": ["button", "icons"]
+      "dependencies": ["@shadcn/react"],
+      "registryDependencies": ["button"]
     },
     {
       "name": "input",
@@ -149,8 +149,8 @@
       "description": "A control that lets the user toggle between checked and not checked.",
       "source": "registry/checkbox.tsx",
       "target": "components/ui/checkbox.tsx",
-      "dependencies": ["radix-ui", "@phosphor-icons/react"],
-      "registryDependencies": ["icons"]
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
     },
     {
       "name": "select",
@@ -159,8 +159,8 @@
       "description": "A dropdown for selecting a single value from a list.",
       "source": "registry/select.tsx",
       "target": "components/ui/select.tsx",
-      "dependencies": ["radix-ui", "@phosphor-icons/react"],
-      "registryDependencies": ["icons"]
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
     },
     {
       "name": "field",
@@ -197,8 +197,8 @@
       "description": "A scrollable code container with header, copy button, line numbers, and diff highlighting.",
       "source": "registry/code-block.tsx",
       "target": "components/ui/code-block.tsx",
-      "dependencies": ["class-variance-authority", "@phosphor-icons/react"],
-      "registryDependencies": ["button", "icons"]
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["button"]
     },
     {
       "name": "message",
@@ -258,8 +258,8 @@
       "description": "A small animated loading indicator.",
       "source": "registry/spinner.tsx",
       "target": "components/ui/spinner.tsx",
-      "dependencies": ["@phosphor-icons/react"],
-      "registryDependencies": ["icons"]
+      "dependencies": [],
+      "registryDependencies": []
     },
     {
       "name": "separator",
@@ -298,16 +298,6 @@
       "registryDependencies": ["toggle"]
     },
     {
-      "name": "icons",
-      "version": "0.1.0",
-      "title": "Icons",
-      "description": "Phosphor icon shim with Icon-suffixed aliases.",
-      "source": "registry/icons.tsx",
-      "target": "lib/icons.ts",
-      "dependencies": ["@phosphor-icons/react"],
-      "registryDependencies": []
-    },
-    {
       "name": "ai",
       "title": "AI Engine",
       "description": "Deterministic chat engine. Included automatically by message-animated.",
@@ -335,7 +325,7 @@
       "source": "registry/accordion.tsx",
       "target": "components/ui/accordion.tsx",
       "dependencies": ["radix-ui"],
-      "registryDependencies": ["icons"]
+      "registryDependencies": []
     },
     {
       "name": "dropdown-menu",
@@ -345,7 +335,7 @@
       "source": "registry/dropdown-menu.tsx",
       "target": "components/ui/dropdown-menu.tsx",
       "dependencies": ["radix-ui"],
-      "registryDependencies": ["icons"]
+      "registryDependencies": []
     },
     {
       "name": "tooltip",

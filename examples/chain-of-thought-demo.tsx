@@ -2,6 +2,13 @@
 
 import { useChat } from "@ai-sdk/react";
 import type { UIDataTypes, UIMessage } from "ai";
+import {
+  CircleAlertIcon,
+  CircleCheckIcon,
+  FileCode2Icon,
+  LoaderCircleIcon,
+  NetworkIcon,
+} from "lucide-react";
 import { motion } from "motion/react";
 import * as React from "react";
 import { Badge } from "@/components/ui/badge";
@@ -19,13 +26,6 @@ import {
   TraceTitle,
 } from "@/components/ui/trace";
 import { createChat, getMessageText } from "@/lib/ai";
-import {
-  CircleAlertIcon,
-  CircleCheckIcon,
-  FileCode2Icon,
-  LoaderCircleIcon,
-  NetworkIcon,
-} from "@/lib/icons";
 
 type ChatMessage = UIMessage<
   unknown,

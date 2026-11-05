@@ -1,7 +1,7 @@
 "use client";
 
+import { ChevronRightIcon } from "lucide-react";
 import { TextFlip } from "@/components/ui/text-flip";
-import { ChevronRightIcon } from "@/lib/icons";
 
 export function TextFlipAs() {
   return (

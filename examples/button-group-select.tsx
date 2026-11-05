@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowRightIcon } from "lucide-react";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
@@ -11,7 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowRightIcon } from "@/lib/icons";
 
 const CURRENCIES = [
   { label: "US Dollar", value: "$" },

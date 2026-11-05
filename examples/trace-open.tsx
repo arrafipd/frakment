@@ -1,5 +1,6 @@
 "use client";
 
+import { TerminalIcon } from "lucide-react";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block";
@@ -11,7 +12,6 @@ import {
   TraceLine,
   TraceTitle,
 } from "@/components/ui/trace";
-import { TerminalIcon } from "@/lib/icons";
 
 export function TraceOpen() {
   const [open, setOpen] = React.useState(false);

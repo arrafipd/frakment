@@ -1,3 +1,4 @@
+import { ChevronRightIcon, FileIcon, FolderIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
@@ -5,7 +6,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { ChevronRightIcon, FileIcon, FolderIcon } from "@/lib/icons";
 
 type FileTreeItem = { name: string } | { name: string; items: FileTreeItem[] };
 

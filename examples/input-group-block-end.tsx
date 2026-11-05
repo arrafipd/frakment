@@ -1,12 +1,12 @@
 "use client";
 
+import { ArrowUpIcon } from "lucide-react";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupTextarea,
 } from "@/components/ui/input-group";
-import { ArrowUpIcon } from "@/lib/icons";
 
 export function InputGroupBlockEnd() {
   return (

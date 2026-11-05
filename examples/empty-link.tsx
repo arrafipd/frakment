@@ -1,5 +1,6 @@
 "use client";
 
+import { Folder } from "lucide-react";
 import {
   Empty,
   EmptyDescription,
@@ -7,7 +8,6 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { Folder } from "@/lib/icons";
 
 export function EmptyLink() {
   return (

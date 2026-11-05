@@ -1,5 +1,6 @@
 "use client";
 
+import { CircleCheckIcon } from "lucide-react";
 import * as React from "react";
 import {
   Trace,
@@ -10,7 +11,6 @@ import {
   TraceLine,
   TraceTitle,
 } from "@/components/ui/trace";
-import { CircleCheckIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface ChainOfThoughtProps extends React.ComponentProps<"div"> {

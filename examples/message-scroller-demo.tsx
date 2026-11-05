@@ -1,6 +1,16 @@
 "use client";
 
 import { useChat } from "@ai-sdk/react";
+import {
+  RotateCwIcon as ArrowClockwiseIcon,
+  ArrowUpIcon,
+  Globe,
+  Image,
+  MessageCircleDashedIcon,
+  Paperclip,
+  PlusIcon,
+  TelescopeIcon,
+} from "lucide-react";
 import { MessageAnimated } from "@/components/message-animated";
 import { Button } from "@/components/ui/button";
 import {
@@ -44,16 +54,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { createChat, getMessageText } from "@/lib/ai";
-import {
-  ArrowClockwiseIcon,
-  ArrowUpIcon,
-  Globe,
-  Image,
-  MessageCircleDashedIcon,
-  Paperclip,
-  PlusIcon,
-  TelescopeIcon,
-} from "@/lib/icons";
 
 const chat = createChat()
   .user(

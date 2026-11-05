@@ -6,16 +6,7 @@ description: Displays a badge or a component that looks like a badge.
 import { BadgeDemo } from "@/examples/badge-demo";
 
 import { Badge } from "@/components/ui/badge";
-import {
-  CheckIcon,
-  ClockIcon,
-  CircleAlertIcon,
-  LoaderCircleIcon,
-  PackageIcon,
-  SparklesIcon,
-  StarIcon,
-  XIcon,
-} from "@/lib/icons";
+import { CheckIcon, ClockIcon, CircleAlertIcon, LoaderCircleIcon, PackageIcon, SparklesIcon, StarIcon, XIcon } from "lucide-react";
 
 <ComponentPreview name="badge" title="badge.tsx">
   <BadgeDemo />
@@ -167,7 +158,7 @@ The most common pattern. Icon on the left, label on the right.
 </ComponentPreview>
 
 ```tsx title="example.tsx"
-import { CheckIcon } from "@/lib/icons";
+import { CheckIcon } from "lucide-react";
 
 <Badge>
   <CheckIcon />
@@ -217,7 +208,7 @@ Render a spinner beside the label to indicate an in-progress state.
 </ComponentPreview>
 
 ```tsx title="example.tsx"
-import { LoaderCircleIcon } from "@/lib/icons";
+import { LoaderCircleIcon } from "lucide-react";
 
 <Badge variant="secondary">
   <LoaderCircleIcon className="animate-spin" />

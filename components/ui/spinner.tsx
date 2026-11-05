@@ -1,4 +1,4 @@
-import { LoaderCircleIcon, LoaderIcon } from "@/lib/icons";
+import { LoaderCircleIcon, LoaderIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 

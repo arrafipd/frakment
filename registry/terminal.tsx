@@ -1,5 +1,6 @@
 "use client";
 
+import { CheckIcon, LoaderCircleIcon, TerminalIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block";
 import {
@@ -11,7 +12,6 @@ import {
   TraceLine,
   TraceTitle,
 } from "@/components/ui/trace";
-import { CheckIcon, LoaderCircleIcon, TerminalIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 function Terminal({ className, ...props }: React.ComponentProps<"div">) {

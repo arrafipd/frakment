@@ -1,6 +1,7 @@
 "use client";
 
 import { Command as CommandPrimitive } from "cmdk";
+import { SearchIcon } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -8,7 +9,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { SearchIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 const Command = ({
