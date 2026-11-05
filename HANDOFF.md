@@ -39,6 +39,7 @@ Gotchas lama (#1-25): `HANDOFF.archive/gotchas.md`.
 - #36: Next.js build skips TS type validation. Run `npm run typecheck` explicitly; `npm run build` alone will not catch type errors.
 - #37: crossfade text = stacked grid (`col-start-1 row-start-1`) + CSS opacity. Do NOT use `AnimatePresence mode="popLayout"` — layout shifts because exiting element becomes `position: absolute`.
 - #38: numeric roll/count = `@number-flow/react` bare. No wrapper, no `motion.span`, no custom timing props; wrapping disables its animation.
+- #39: theme.css = cli/templates/theme.css (SHA256); @keyframes must be in theme.css not globals.css.
 
 ## Pointers
 
@@ -248,8 +249,8 @@ Example (`agents`, 2026-11-05): inserted between `mcp` and `changelog` in both `
 
 ## Archived sections
 
-10 sections live in HANDOFF.archive/security.md (moved 2026-11-05, verbatim, TOC at top).
+See HANDOFF.archive/security.md.
 
-Topics: Auto-resolving, Security Posture, Dependabot / Audit, GitHub Ruleset Setup, Recent Commits, Status Lint, Backlog Publish, Catatan dependency, Internal: BOM handling (CLI), React Engine.
+Topics: Auto-resolving, Security, Dependabot, Ruleset, Commits, Lint, Publish, Dependencies, BOM, React Engine.
 
-Runtime ruleset behavior is in Efek per aktor. CLI BOM handling is referenced by gotcha #31.
+See Efek per aktor for ruleset behavior, #31 for BOM.

@@ -31,14 +31,14 @@ const items = [
 export function AccordionBorders() {
   return (
     <Accordion
-      className="max-w-lg rounded-lg border"
+      className="w-full max-w-lg rounded-lg border"
       collapsible
       defaultValue="billing"
       type="single"
     >
       {items.map((item) => (
         <AccordionItem
-          className="border-b px-4 last:border-b-0"
+          className="w-full border-b px-4 last:border-b-0"
           key={item.value}
           value={item.value}
         >

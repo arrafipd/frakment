@@ -201,3 +201,18 @@ pm ci untuk install cepat.
 
 **Bukan docs user-facing.** Jika ada laporan "CLI error di Windows", cek BOM dulu.
 
+
+## Gotcha #39: theme keyframes not synced to users (2026-11-05)
+
+Discovered while fixing collapsible animation. `styles/theme.css` (site) and `packages/cli/templates/theme.css` (CLI inject) were byte-identical but both missing all `@keyframes`. Registry components using `animate-*` and `shimmer` (accordion, collapsible, trace) silently no-op'd for every user who ran `npx frakment init` + `npx frakment add <component>`.
+
+Root cause: `globals.css` had the keyframes; `theme.css` did not. The site imports both (`@import "./theme.css"`), so Frakment itself worked. Users only receive the theme block.
+
+Fix: added `@theme` vars + `@keyframes` for accordion-down/up, collapsible-down/up, shimmer to theme.css. Synced to templates. Verified end-to-end by simulating init.js injection on a fresh globals.css — all five keyframes present.
+
+Rules going forward:
+
+- Any `animate-<name>` used in `registry/*.tsx` or `components/ui/*.tsx` needs `--animate-<name>` AND `@keyframes <name>` in `theme.css`.
+- Any `@utility <name>` that references a keyframe (e.g. shimmer) needs its `@keyframes` in theme.css too.
+- After editing `theme.css`, copy to `packages/cli/templates/theme.css` and verify SHA256 match.
+- Audit: grep both dirs for `animate-([a-z-]+)` and `shimmer`, confirm each name exists in theme.css.

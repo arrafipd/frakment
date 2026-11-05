@@ -46,7 +46,12 @@ export function AccordionCard() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Accordion collapsible defaultValue="plans" type="single">
+        <Accordion
+          className="w-full"
+          collapsible
+          defaultValue="plans"
+          type="single"
+        >
           {items.map((item) => (
             <AccordionItem key={item.value} value={item.value}>
               <AccordionTrigger>{item.trigger}</AccordionTrigger>

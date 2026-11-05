@@ -15,7 +15,7 @@ export function CollapsibleBasic() {
           <CollapsibleTrigger asChild>
             <Button className="w-full justify-between" variant="ghost">
               Product details
-              <ChevronDownIcon className="transition-transform group-data-[state=open]:rotate-180" />
+              <ChevronDownIcon className="transition-transform duration-200 group-data-[state=open]:rotate-180" />
             </Button>
           </CollapsibleTrigger>
           <CollapsibleContent className="flex flex-col items-start gap-2 p-2.5 pt-0 text-sm">
