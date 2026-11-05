@@ -1,0 +1,134 @@
+---
+title: Tabs
+description: A set of layered sections of content displayed one at a time.
+---
+
+import { TabsDemo } from "@/examples/tabs-demo";
+import { TabsVertical } from "@/examples/tabs-vertical";
+import { TabsDisabled } from "@/examples/tabs-disabled";
+import { TabsIcons } from "@/examples/tabs-icons";
+
+<ComponentPreview name="tabs" title="tabs.tsx">
+  <TabsDemo />
+</ComponentPreview>
+
+Tabs organize related content into panels that switch in place. Only one panel is visible at a time, keeping dense interfaces compact.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add tabs
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependency:</Step>
+
+      ~~~bash
+      npm install radix-ui
+      ~~~
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="tabs" title="components/ui/tabs.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="tabs.tsx"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
+~~~
+
+~~~tsx title="tabs.tsx"
+<Tabs defaultValue="account">
+  <TabsList>
+    <TabsTrigger value="account">Account</TabsTrigger>
+    <TabsTrigger value="password">Password</TabsTrigger>
+  </TabsList>
+  <TabsContent value="account">Account settings.</TabsContent>
+  <TabsContent value="password">Password settings.</TabsContent>
+</Tabs>
+~~~
+
+## Anatomy
+
+Tabs is a root paired with a list of triggers and matching panels.
+
+- **Tabs** - root container; carries `defaultValue` or controlled `value`
+- **TabsList** - row of triggers
+- **TabsTrigger** - one button per panel; carries a unique `value`
+- **TabsContent** - panel revealed when its `value` matches the active tab
+
+## Examples
+
+### Vertical
+
+Set `orientation="vertical"` to stack triggers beside the panel.
+
+<ComponentPreview name="tabs" title="tabs.tsx">
+  <TabsVertical />
+</ComponentPreview>
+
+### Disabled
+
+Set `disabled` on a trigger to prevent selection.
+
+<ComponentPreview name="tabs" title="tabs.tsx">
+  <TabsDisabled />
+</ComponentPreview>
+
+### With icons
+
+Triggers accept icons before the label. Icons size themselves via `[&_svg]:size-4`.
+
+<ComponentPreview name="tabs" title="tabs.tsx">
+  <TabsIcons />
+</ComponentPreview>
+
+## API Reference
+
+### Tabs
+
+<PropsTable
+  rows={[
+    { name: "defaultValue", type: "string", description: "Value of the tab open on first render." },
+    { name: "value", type: "string", description: "Controlled value of the open tab." },
+    { name: "onValueChange", type: "function", description: "Called when the active tab changes." },
+    { name: "orientation", type: "horizontal | vertical", default: "horizontal", description: "Layout axis of the tab list." },
+  ]}
+/>
+
+### TabsTrigger
+
+<PropsTable
+  rows={[
+    { name: "value", type: "string", description: "Identifier matching the associated TabsContent." },
+    { name: "disabled", type: "boolean", default: "false", description: "Prevent the trigger from being selected." },
+  ]}
+/>
+
+## Accessibility
+
+- Built on Radix Tabs, following the WAI-ARIA tabs pattern.
+- Triggers expose `role="tab"` and `aria-selected`.
+- Keyboard: `ArrowLeft` and `ArrowRight` move between triggers.

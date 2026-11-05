@@ -1,7 +1,8 @@
 {
   "dependencies": [
     "@phosphor-icons/react",
-    "motion"
+    "motion",
+    "radix-ui"
   ],
   "deprecated": false,
   "description": "A live terminal that streams commands and output with a typewriter effect.",

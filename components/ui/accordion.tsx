@@ -1,8 +1,6 @@
 "use client";
 
 import { Accordion as AccordionPrimitive } from "radix-ui";
-import type { FeedbackType } from "@/hooks/use-feedback";
-import { useFeedback } from "@/hooks/use-feedback";
 import { ChevronDownIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
@@ -22,42 +20,25 @@ const AccordionItem = ({
     {...props}
   />
 );
-
 const AccordionTrigger = ({
   className,
   children,
-  onClick,
-  sound,
-  haptic,
   ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Trigger> & {
-  sound?: FeedbackType;
-  haptic?: boolean;
-}) => {
-  const play = useFeedback({ haptic, sound });
-
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    play();
-    onClick?.(e);
-  };
-
-  return (
-    <AccordionPrimitive.Header className="flex">
-      <AccordionPrimitive.Trigger
-        className={cn(
-          "focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180",
-          className
-        )}
-        data-slot="accordion-trigger"
-        onClick={handleClick}
-        {...props}
-      >
-        {children}
-        <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" />
-      </AccordionPrimitive.Trigger>
-    </AccordionPrimitive.Header>
-  );
-};
+}: React.ComponentProps<typeof AccordionPrimitive.Trigger>) => (
+  <AccordionPrimitive.Header className="flex">
+    <AccordionPrimitive.Trigger
+      className={cn(
+        "focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180",
+        className
+      )}
+      data-slot="accordion-trigger"
+      {...props}
+    >
+      {children}
+      <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" />
+    </AccordionPrimitive.Trigger>
+  </AccordionPrimitive.Header>
+);
 
 const AccordionContent = ({
   className,

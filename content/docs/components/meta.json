@@ -2,12 +2,14 @@
   "title": "Components",
   "root": true,
   "pages": [
+    "accordion",
     "avatar",
     "badge",
     "button",
     "card",
     "checkbox",
     "code-block",
+    "collapsible",
     "dropdown-menu",
     "empty",
     "field",
@@ -18,9 +20,13 @@
     "select",
     "separator",
     "switch",
+    "tabs",
+    "terminal",
+    "text-flip",
     "textarea",
     "toggle",
     "toggle-group",
-    "tooltip"
+    "tooltip",
+    "trace"
   ]
 }

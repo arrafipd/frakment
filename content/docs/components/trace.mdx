@@ -1,0 +1,196 @@
+---
+title: Trace
+description: A vertical timeline of collapsible rows for step-by-step output.
+---
+
+import { TraceDemo } from "@/examples/trace-demo";
+import { TraceStatic } from "@/examples/trace-static";
+import { TraceStatus } from "@/examples/trace-status";
+import { TraceGroup } from "@/examples/trace-group";
+import { TraceDescriptionDemo } from "@/examples/trace-description";
+import { TraceLink } from "@/examples/trace-link";
+import { TraceSources } from "@/examples/trace-sources";
+import { TraceCollapsibleDemo } from "@/examples/trace-collapsible";
+import { TraceOpen } from "@/examples/trace-open";
+import { TraceTurn } from "@/examples/trace-turn";
+
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto py-8">
+  <TraceDemo />
+</ComponentPreview>
+
+Trace stacks rows into a vertical timeline. Each row expands to reveal details and shares a live `open` state through context.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add trace
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ~~~bash
+      npm install radix-ui motion @phosphor-icons/react
+      ~~~
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="trace" title="components/ui/trace.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="trace.tsx"
+import {
+  Trace,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+~~~
+
+~~~tsx title="trace.tsx"
+<Trace>
+  <TraceLine>
+    <TraceIcon />
+    <TraceTitle>Ran pnpm install</TraceTitle>
+  </TraceLine>
+</Trace>
+~~~
+
+## Anatomy
+
+Trace is a set of composable parts that share a Collapsible context.
+
+- **Trace** - vertical container
+- **TraceCollapsible** - one row; provides `open` state to its children
+- **TraceLine** - header row for icon and trigger
+- **TraceIcon** - leading or trailing icon slot
+- **TraceTitle** - primary label
+- **TraceDescription** - secondary label or metric
+- **TraceCollapsibleTrigger** - header button that toggles the row
+- **TraceCollapsibleContent** - body revealed when the row is open
+
+## Examples
+
+### Static line
+
+The minimal trace is one line with an icon and a title.
+
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto py-8">
+  <TraceStatic />
+</ComponentPreview>
+
+### Status
+
+Set `status` on `TraceLine` to `running`, `error`, or `pending` for colored state.
+
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto py-8">
+  <TraceStatus />
+</ComponentPreview>
+
+### Group
+
+Stack multiple lines to form a group.
+
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto py-8">
+  <TraceGroup />
+</ComponentPreview>
+
+### Description
+
+Add a `TraceDescription` for a secondary metric or hint.
+
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto py-8">
+  <TraceDescriptionDemo />
+</ComponentPreview>
+
+### Links
+
+Wrap a `TraceLine` in an anchor to make it navigable.
+
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto py-8">
+  <TraceLink />
+</ComponentPreview>
+
+### Collapsible
+
+Wrap `TraceCollapsible` around a trigger and content to reveal code output.
+
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto py-8">
+  <TraceCollapsibleDemo />
+</ComponentPreview>
+
+### Controlled open
+
+Pass `open` and `onOpenChange` to control expansion externally.
+
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto py-8">
+  <TraceOpen />
+</ComponentPreview>
+
+### Sources
+
+Group source links inside a collapsible trace.
+
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto py-8">
+  <TraceSources />
+</ComponentPreview>
+
+### Full turn
+
+Nest traces to model a full agent turn with reasoning, tool calls, and output.
+
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto py-8">
+  <TraceTurn />
+</ComponentPreview>
+
+## API Reference
+
+### TraceLine
+
+<PropsTable
+  rows={[
+    { name: "status", type: "running | error | pending", description: "Colored state applied via data-status." },
+  ]}
+/>
+
+### TraceCollapsible
+
+<PropsTable
+  rows={[
+    { name: "defaultOpen", type: "boolean", default: "false", description: "Whether the row starts expanded." },
+    { name: "open", type: "boolean", description: "Controlled open state." },
+    { name: "onOpenChange", type: "function", description: "Called when the row toggles." },
+  ]}
+/>
+
+### TraceCollapsibleContent
+
+<PropsTable
+  rows={[
+    { name: "keepMounted", type: "boolean", default: "false", description: "Keep the content in the DOM when collapsed." },
+  ]}
+/>
+
+## Accessibility
+
+- Built on Radix Collapsible, exposing `aria-expanded` on the trigger.
+- Keyboard: `Enter` and `Space` toggle a row.
+- Motion respects `prefers-reduced-motion`.

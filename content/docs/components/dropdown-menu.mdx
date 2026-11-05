@@ -8,6 +8,9 @@ import { DropdownMenuBasic } from "@/examples/dropdown-menu-basic";
 import { DropdownMenuIcons } from "@/examples/dropdown-menu-icons";
 import { DropdownMenuSubmenu } from "@/examples/dropdown-menu-submenu";
 import { DropdownMenuCheckboxes } from "@/examples/dropdown-menu-checkboxes";
+import { DropdownMenuAlignStart } from "@/examples/dropdown-menu-align-start";
+import { DropdownMenuAlignCenter } from "@/examples/dropdown-menu-align-center";
+import { DropdownMenuAlignEnd } from "@/examples/dropdown-menu-align-end";
 
 <ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
   <DropdownMenuBasic />
@@ -128,6 +131,46 @@ Combine groups, labels, submenus, and shortcuts in a single menu.
 <ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
   <DropdownMenuDemo />
 </ComponentPreview>
+
+## Alignment
+
+Use `align` on `DropdownMenuContent` to control horizontal placement relative to the trigger.
+
+### Align start
+
+Content aligns to the left edge of the trigger.
+
+<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
+  <DropdownMenuAlignStart />
+</ComponentPreview>
+
+~~~tsx
+<DropdownMenuContent align="start">...</DropdownMenuContent>
+~~~
+
+### Align center
+
+Content centers on the trigger. This is the default.
+
+<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
+  <DropdownMenuAlignCenter />
+</ComponentPreview>
+
+~~~tsx
+<DropdownMenuContent align="center">...</DropdownMenuContent>
+~~~
+
+### Align end
+
+Content aligns to the right edge of the trigger.
+
+<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
+  <DropdownMenuAlignEnd />
+</ComponentPreview>
+
+~~~tsx
+<DropdownMenuContent align="end">...</DropdownMenuContent>
+~~~
 
 ## API Reference
 

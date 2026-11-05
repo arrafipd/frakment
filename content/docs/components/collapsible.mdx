@@ -1,0 +1,118 @@
+---
+title: Collapsible
+description: An interactive component which expands and collapses a panel.
+---
+
+import { CollapsibleDemo } from "@/examples/collapsible-demo";
+import { CollapsibleBasic } from "@/examples/collapsible-basic";
+import { CollapsibleFileTree } from "@/examples/collapsible-file-tree";
+
+<ComponentPreview name="collapsible" title="collapsible.tsx" previewClassName="h-auto py-8">
+  <CollapsibleDemo />
+</ComponentPreview>
+
+Collapsible reveals or hides a single panel triggered by a button. It is the primitive behind Accordion rows and nested file trees.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add collapsible
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependency:</Step>
+
+      ~~~bash
+      npm install radix-ui
+      ~~~
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="collapsible" title="components/ui/collapsible.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="collapsible.tsx"
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+~~~
+
+~~~tsx title="collapsible.tsx"
+<Collapsible>
+  <CollapsibleTrigger>Toggle</CollapsibleTrigger>
+  <CollapsibleContent>Hidden content.</CollapsibleContent>
+</Collapsible>
+~~~
+
+## Anatomy
+
+Collapsible pairs a trigger with content in a single container.
+
+- **Collapsible** - root; holds `open` or `defaultOpen`
+- **CollapsibleTrigger** - button that toggles the panel; use `asChild` to wrap a custom button
+- **CollapsibleContent** - panel that animates height
+
+## Examples
+
+### Basic
+
+Use `asChild` on the trigger to render a custom button.
+
+<ComponentPreview name="collapsible" title="collapsible.tsx" previewClassName="h-auto py-8">
+  <CollapsibleBasic />
+</ComponentPreview>
+
+### File tree
+
+Compose nested collapsibles to build a tree.
+
+<ComponentPreview name="collapsible" title="collapsible.tsx" previewClassName="h-auto py-8">
+  <CollapsibleFileTree />
+</ComponentPreview>
+
+## API Reference
+
+### Collapsible
+
+<PropsTable
+  rows={[
+    { name: "defaultOpen", type: "boolean", default: "false", description: "Whether the panel starts expanded." },
+    { name: "open", type: "boolean", description: "Controlled open state." },
+    { name: "onOpenChange", type: "function", description: "Called when the panel toggles." },
+    { name: "disabled", type: "boolean", default: "false", description: "Prevent toggling." },
+  ]}
+/>
+
+### CollapsibleTrigger
+
+<PropsTable
+  rows={[
+    { name: "asChild", type: "boolean", default: "false", description: "Merge props into a child element." },
+  ]}
+/>
+
+## Accessibility
+
+- Built on Radix Collapsible; exposes `aria-expanded` and `aria-controls`.
+- Keyboard: `Enter` and `Space` toggle the panel.
+- Provide a descriptive trigger label or `aria-label`.

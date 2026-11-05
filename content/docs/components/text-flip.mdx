@@ -1,0 +1,243 @@
+---
+title: Text Flip
+description: An animated text component that cycles through strings with a flip, count, or shuffle transition.
+---
+
+import { TextFlipDemo } from "@/examples/text-flip-demo";
+import { TextFlipAs } from "@/examples/text-flip-as";
+import { TextFlipInterval } from "@/examples/text-flip-interval";
+import { TextFlipFade } from "@/examples/text-flip-fade";
+import { TextFlipBlur } from "@/examples/text-flip-blur";
+import { TextFlipSlide } from "@/examples/text-flip-slide";
+import { TextFlipScale } from "@/examples/text-flip-scale";
+import { TextFlipTypewriter } from "@/examples/text-flip-typewriter";
+import { TextFlipWave } from "@/examples/text-flip-wave";
+import { TextFlipCount } from "@/examples/text-flip-count";
+import { TextFlipRoll } from "@/examples/text-flip-roll";
+import { TextFlipRollBasic } from "@/examples/text-flip-roll-basic";
+import { TextFlipShuffle } from "@/examples/text-flip-shuffle";
+
+<ComponentPreview name="text-flip" title="text-flip.tsx" previewClassName="h-auto">
+  <TextFlipRoll />
+</ComponentPreview>
+
+Text Flip cycles through an array of strings with a smooth transition. Three variants cover flip, numeric count, and character shuffle.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add text-flip
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependency:</Step>
+
+      ~~~bash
+      npm install motion @number-flow/react
+      ~~~
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="text-flip" title="components/ui/text-flip.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="text-flip.tsx"
+import { TextFlip } from "@/components/ui/text-flip";
+~~~
+
+~~~tsx title="text-flip.tsx"
+<TextFlip>
+  {["Build", "Ship", "Iterate"]}
+</TextFlip>
+~~~
+
+## Anatomy
+
+Text Flip renders a single element that swaps its content on an interval.
+
+- **TextFlip** - root element; accepts `as` to choose between `p`, `span`, or `code`
+
+## Examples
+
+### Custom element
+
+<ComponentPreview name="text-flip" title="text-flip.tsx" previewClassName="h-auto py-8">
+  <TextFlipAs />
+</ComponentPreview>
+
+### Custom interval
+
+`interval` sets the seconds between flips. The demo lets you toggle 1s, 3s, and 6s to feel the change. Remounting via `key` resets the cycle to the first item.
+
+<ComponentPreview name="text-flip" title="text-flip.tsx" previewClassName="h-auto py-8">
+  <TextFlipInterval />
+</ComponentPreview>
+
+## Variants
+
+### Flip
+
+The default variant. Old text exits downward while the new text enters from above, both animated simultaneously via `mode="popLayout"`.
+
+~~~tsx
+<TextFlip>{"Build", "Ship", "Iterate"}</TextFlip>
+~~~
+
+### Fade
+
+Crossfade where the outgoing text fades out while the incoming text fades in, both visible at the same time. The transition runs on native CSS at 0.6s ease-in-out, so it stays smooth regardless of JS frame budget.
+
+<ComponentPreview name="text-flip" title="text-flip.tsx" previewClassName="h-auto">
+  <TextFlipFade />
+</ComponentPreview>
+
+~~~tsx
+<TextFlip variant="fade" interval={2.2}>
+  {"Crafted with care", "Designed for clarity"}
+</TextFlip>
+~~~
+
+### Blur
+
+Adds a blur ramp on top of the crossfade. Use it for hero headings where you want a cinematic reveal.
+
+<ComponentPreview name="text-flip" title="text-flip.tsx" previewClassName="h-auto">
+  <TextFlipBlur />
+</ComponentPreview>
+
+~~~tsx
+<TextFlip variant="blur">{"Focus", "Clarity", "Momentum"}</TextFlip>
+~~~
+
+### Slide
+
+Horizontal slide instead of vertical. Suits headlines, notification banners, and tab labels.
+
+<ComponentPreview name="text-flip" title="text-flip.tsx" previewClassName="h-auto">
+  <TextFlipSlide />
+</ComponentPreview>
+
+~~~tsx
+<TextFlip variant="slide">{"Introducing Frakment 2.0", "The new way"}</TextFlip>
+~~~
+
+### Scale
+
+Scales from 0.85 to 1 while fading. Compact footprint, good for inline counters and badges.
+
+<ComponentPreview name="text-flip" title="text-flip.tsx" previewClassName="h-auto">
+  <TextFlipScale />
+</ComponentPreview>
+
+~~~tsx
+<TextFlip variant="scale">{"+128", "+384", "+1024"}</TextFlip>
+~~~
+
+### Count
+
+Interpolates numeric strings smoothly. Preserves prefix, suffix, decimals, and thousands separators.
+
+<ComponentPreview name="text-flip" title="text-flip.tsx" previewClassName="h-auto">
+  <TextFlipCount />
+</ComponentPreview>
+
+~~~tsx
+<TextFlip variant="count">{"12,000+", "48,000+", "120,000+"}</TextFlip>
+~~~
+
+### Roll
+
+Slot-machine roll powered by `@number-flow/react`. Digits spin into place with a smooth vertical mask and eased settle. Control `index` and `paused` to expose Pause and Reset like the hero demo above.
+
+<ComponentPreview name="text-flip" title="text-flip.tsx" previewClassName="h-auto">
+  <TextFlipRollBasic />
+</ComponentPreview>
+
+~~~tsx
+<TextFlip variant="roll">{"$48,210", "$92,405", "$163,890"}</TextFlip>
+~~~
+
+### Shuffle
+
+Scrambles each character through symbols and capitals before settling to the target letter, left to right across the full duration. Spaces remain visible so word boundaries stay readable.
+
+<ComponentPreview name="text-flip" title="text-flip.tsx" previewClassName="h-auto py-8">
+  <TextFlipShuffle />
+</ComponentPreview>
+
+~~~tsx
+<TextFlip variant="shuffle">{"Build", "Ship", "Iterate"}</TextFlip>
+~~~
+
+### Typewriter
+
+Characters appear one at a time from left to right. Set `speed` in milliseconds to control the typing pace.
+
+<ComponentPreview name="text-flip" title="text-flip.tsx" previewClassName="h-auto">
+  <TextFlipTypewriter />
+</ComponentPreview>
+
+~~~tsx
+<TextFlip variant="typewriter" speed={70} interval={3.5}>
+  {"npm install frakment", "npx frakment add button"}
+</TextFlip>
+~~~
+
+### Wave
+
+Each character fades in instead of snapping. Softer than plain typewriter, still left-to-right.
+
+<ComponentPreview name="text-flip" title="text-flip.tsx" previewClassName="h-auto">
+  <TextFlipWave />
+</ComponentPreview>
+
+~~~tsx
+<TextFlip variant="wave" speed={35} interval={3.5}>
+  {"Build something people love", "Ship without the boilerplate"}
+</TextFlip>
+~~~
+
+## API Reference
+
+### TextFlip
+
+<PropsTable
+  rows={[
+    { name: "children", type: "ReactNode[]", description: "Array of strings or nodes cycled in order." },
+    { name: "variant", type: "flip | fade | blur | slide | scale | count | roll | shuffle | typewriter | wave", default: "flip", description: "Transition style. See Variants section for a comparison." },
+    { name: "as", type: "p | span | code", default: "p", description: "Underlying motion element used to render the text." },
+    { name: "interval", type: "number", default: "2", description: "Seconds between each flip." },
+    { name: "index", type: "number", description: "Controlled index. When set, interval is ignored." },
+    { name: "defaultIndex", type: "number", default: "0", description: "Initial index in uncontrolled mode." },
+    { name: "paused", type: "boolean", default: "false", description: "Stop the auto-advance interval." },
+    { name: "onIndexChange", type: "function", description: "Called with the new index after each flip." },
+    { name: "transition", type: "Transition", description: "Motion transition override (flip variant only)." },
+    { name: "variants", type: "Variants", description: "Motion variants override (flip variant only)." },
+    { name: "speed", type: "number", default: "60", description: "Milliseconds per character for typewriter and wave variants." },
+    { name: "className", type: "string", description: "Applied to the rendered element." },
+  ]}
+/>
+
+## Accessibility
+
+- Wraps the text in a semantic element chosen via `as`.
+- Motion respects `prefers-reduced-motion`.
+- Keep each phrase short so screen readers announce quickly.

@@ -209,6 +209,55 @@
       "name": "ai",
       "title": "AI Engine",
       "version": "0.0.1"
+    },
+    {
+      "deprecated": false,
+      "description": "A container for grouping related content and actions.",
+      "name": "card",
+      "title": "Card",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
+      "name": "accordion",
+      "title": "Accordion",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A menu triggered by a button, with items, checkboxes, and submenus.",
+      "name": "dropdown-menu",
+      "title": "Dropdown Menu",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A popup that displays information related to an element on hover or focus.",
+      "name": "tooltip",
+      "title": "Tooltip",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A set of layered sections of content, known as tab panels, displayed one at a time.",
+      "name": "tabs",
+      "title": "Tabs",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "An animated text component that cycles through strings with a vertical flip.",
+      "name": "text-flip",
+      "title": "Text Flip",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "An interactive component which expands and collapses a panel.",
+      "name": "collapsible",
+      "title": "Collapsible",
+      "version": "0.1.0"
     }
   ],
   "homepage": "https://github.com/arrafipd/frakment",

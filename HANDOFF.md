@@ -34,9 +34,11 @@
 
 Gotchas lama (#1-25): `HANDOFF.archive/gotchas.md`.
 
-## Recent Commits
-
-`0fc269e` biome public/r · `13b3065` registry format · `485021f` tarball fix · `c87b29b` monorepo · `c806ff6` naming · `f3d1d18` archive split
+- #34: components live at `components/ui/<name>.tsx`, not `components/<name>.tsx`. Wrong path silently passes typecheck (nothing imports it). Verify with `Test-Path` before writing.
+- #35: `lib/icons.ts` shim mixed naming: `Globe` exists, `GlobeIcon` does not; `X` and `XIcon` both exist. Verify with `Select-String -Path lib/icons.ts -Pattern 'Globe'` before using in demos.
+- #36: Next.js build skips TS type validation. Run `npm run typecheck` explicitly; `npm run build` alone will not catch type errors.
+- #37: crossfade text = stacked grid (`col-start-1 row-start-1`) + CSS opacity. Do NOT use `AnimatePresence mode="popLayout"` — layout shifts because exiting element becomes `position: absolute`.
+- #38: numeric roll/count = `@number-flow/react` bare. No wrapper, no `motion.span`, no custom timing props; wrapping disables its animation.
 
 ## Pointers
 
@@ -51,10 +53,6 @@ Gotchas lama (#1-25): `HANDOFF.archive/gotchas.md`.
 - Gotcha baru -> 1 baris di atas + detail di `gotchas.md`.
 - HANDOFF <= 15KB. Lewat -> extract ke archive.
 - Perubahan user-facing -> changelog `content/docs/changelog/YYYY-MM-DD.mdx`.
-## Status Lint
-
-Lint **0 errors** (cleanup selesai di `f74f909`, 541 → 0). `npm run check` = `Checked N files. No fixes applied.` (exit 0).
-
 ## Efek per aktor
 
 **Admin (solo dev):**
@@ -98,113 +96,6 @@ Admin bypass semua ruleset. Kalau ada kesalahan yang perlu dibersihkan: `git res
 ### Non-admin (future contributors)
 
 Wajib PR + CI hijau. Direct push diblok. Lihat section Ruleset di bawah.
-
-## GitHub Ruleset Setup
-
-Branch `main` dilindungi **3 ruleset** (Settings → Rules → Rulesets). Tidak ada branch protection klasik.
-
-| Ruleset | ID | Rules | Admin | Non-admin |
-|---|---|---|---|---|
-| `main-pr-bypass` | 26273226 | `pull_request` | bypass `always` | Wajib PR |
-| `main-ci-bypass` | 26446591 | `required_status_checks` | bypass `always` | Wajib CI hijau |
-| `main-strict` | 26471084 | `non_fast_forward`, `deletion` | bypass `always` | Diblok |
-
-### Admin — full bypass
-
-- Direct push ke `main` ✅
-- Force-push `main` ✅
-- Delete `main` ✅
-- Merge PR saat CI merah ✅
-- **Tidak perlu toggle ruleset** untuk cleanup — cukup `git push --force`
-
-### Non-admin — terlindungi penuh
-
-- Direct push ❌ (Ruleset A)
-- Merge PR saat CI merah ❌ (Ruleset B)
-- Force-push / delete `main` ❌ (Ruleset C)
-
-### Inspeksi
-
-`gh api repos/arrafipd/frakment/rulesets --jq ".[] | {id, name, enforcement}"`
-`gh api repos/arrafipd/frakment/rulesets/<id> --jq "{name, bypass: .bypass_actors, rules: [.rules[].type]}"`
-
-Update: tulis body JSON + `gh api -X PUT repos/arrafipd/frakment/rulesets/<id> --input body.json`.
-
-## React Engine (@frakment/react/message-scroller)
-
-Selesai di `2075e37`. Menggantikan `@shadcn/react` — sudah dihapus dari deps.
-
-### Files
-
-- `packages/react/src/message-scroller/` — 10 file: `context.tsx`, `provider.tsx`, `root.tsx`, `viewport.tsx`, `content.tsx`, `item.tsx`, `button.tsx`, `hooks.ts`, `use-merged-ref.ts`, `types.ts`, `index.ts`
-- Export: `MessageScroller` (Provider/Root/Viewport/Content/Item/Button) + 3 hook (`useMessageScroller`, `useMessageScrollerScrollable`, `useMessageScrollerVisibility`)
-
-### API surface (contract-first, matching @shadcn/react)
-
-- 13 tipe publik di `types.ts`
-- `useMessageScroller()`: `scrollToEnd`, `scrollToStart`, `scrollToMessage`
-- `useMessageScrollerScrollable()`: `{ start, end }`
-- `useMessageScrollerVisibility()`: `{ currentAnchorId, visibleMessageIds }`
-
-### Migrasi
-
-- `components/ui/message-scroller.tsx:8` — import diganti ke `@frakment/react/message-scroller`
-- `registry/message-scroller.tsx:8` — sama
-- Root `package.json`: `@shadcn/react` dihapus, `@frakment/react: 0.0.1` ditambah
-
-### Catatan build lokal Windows
-
-Turbopack crash (`0xC0000409` stack overrun) dengan multi-worker. Fix: `cross-env NEXT_WORKER_THREADS=1 next build` di `package.json` scripts. Tidak affect CI Linux.
-
-## Backlog Publish
-
-Semua paket siap publish (build + test hijau, tarball verified):
-
-| Paket | Versi | Ready |
-|---|---|---|
-| `frakment` | 0.0.1 | ✅ |
-| `@frakment/ai` | 0.0.1 | ✅ |
-| `@frakment/mcp` | 0.0.1 | ✅ |
-| `@frakment/react` | 0.0.1 | ✅ (engine selesai di `2075e37`) |
-
-Langkah: `npm login` → `npm run changeset` (4 paket, `minor`) → `npm run version:packages` → commit → `npm run release`.
-
-## Dependabot / Audit
-
-Status: **1 alert tersisa (low), tidak ada fix**.
-
-### esbuild (fixed)
-
-CVE: path traversal di dev server Windows. Sebelumnya `tsup` punya nested `esbuild@0.27.7` (vulnerable). Fix via `overrides.esbuild = "^0.28.1"` di root `package.json` + clean install (`npm install` dengan npm 11, karena npm 10.9 crash `edgesOut` tanpa lockfile).
-
-Sekarang semua `esbuild@0.28.2` (hoisted), tidak ada nested. `npm audit` bersih dari esbuild.
-
-### deepmerge (FIXED via fork override)
-
-CVE: prototype poisoning di `mergeObject()`. `deepmerge@4.3.1` tidak akan di-patch (maintainer menolak). Fix: override ke fork `@stackline/deepmerge@1.1.0` (drop-in replacement, CVE fixed, zero deps).
-
-Override di `package.json`: `"deepmerge": "npm:@stackline/deepmerge@^1.1.0"`.
-
-Diverifikasi: `npm audit` = 0 vulnerabilities, `ultracite` tetap jalan, build+test 39/39.
-
-### Aturan ke depan
-
-- Selama `package-lock.json` ada, **selalu `npm ci`** — bukan `npm install`. `npm ci` <60 detik kalau cache hangat.
-- `npm install` hanya kalau mengubah dependency.
-- Jangan `npm audit fix --force` tanpa review — sering downgrade major.
-
-## Catatan dependency
-
-Setelah package.json overrides berubah, jalankan 
-pm install (bukan 
-pm ci) sekali untuk regenerate lockfile. Setelah itu kembali ke 
-pm ci untuk install cepat.
-
-## Internal: BOM handling (CLI)
-
-`packages/cli/src/commands/init.js` strips UTF-8 BOM from `globals.css`, `package.json`, and `components.json` before parsing. Handle file yang ditulis PowerShell 5.1 `Set-Content -Encoding utf8` (yang prepend BOM).
-
-**Bukan docs user-facing.** Jika ada laporan "CLI error di Windows", cek BOM dulu.
 
 ## Parked: message-scroller engine (SKIPPED 2026-11-04)
 
@@ -260,14 +151,38 @@ User-facing guidelines live in `CONTRIBUTING.md`. The rules below are the AI-sid
 - **Preview-first pattern:** for visual changes, `<ComponentPreview>` goes **above** the prose. Non-visual sections (CLI, config, dependency) use a fenced code diff only.
 - **Template reference:** `content/docs/changelog/2026-11-03.mdx`.
 
-### When adding or changing a registry component
+### When adding a new registry component
 
-1. Update `registry/<name>.tsx` and `components/ui/<name>.tsx` (SHA256 identical).
-2. Update `content/docs/<section>/<name>.mdx` using the docs template.
-3. If the change is user-facing in a package, add a changelog entry.
-4. If the component is `registry:lib` and ships internal files, verify `public/r/<name>.json` lists them with the correct `targetDir`.
-5. Run `npm run registry:build`, `npm run fix`, `npm run check`, `npm run typecheck`, `npm test`, `npm run build`.
-6. Commit + push (admin bypass, or PR for non-admin).
+Eight steps. Skipping steps 4 or 5 causes a silent navigation failure: the component becomes installable via `npx frakment add` but does not appear in the sidebar, mobile nav, or command menu.
+
+1. Copy `components/ui/<name>.tsx` to `registry/<name>.tsx` (SHA256 identical).
+2. Add an entry to `frakment.json` with `name`, `version`, `title`, `description`, `source`, `target`, `dependencies`, `registryDependencies`.
+3. Add `content/docs/components/<name>.mdx` using the docs template (reference: `button.mdx`).
+4. Add `"<name>"` to `content/docs/components/meta.json` pages array, alphabetically. Without this the page does not appear in sidebar or command menu.
+5. Add `"/docs/components/<name>"` to `PAGES_NEW` in `lib/docs.ts`. Without this the new badge is missing. See PAGES_NEW semantics below.
+6. Add `content/docs/changelog/YYYY-MM-DD.mdx` (preview-first, template `2026-11-03.mdx`).
+7. If `registry:lib` and ships internal files, verify `public/r/<name>.json` lists them with the correct `targetDir`.
+8. Run `npm run registry:build`, `npm run fix`, `npm run check`, `npm run typecheck`, `npm test`, `npm run build`. Commit and push.
+
+### PAGES_NEW semantics
+
+`PAGES_NEW` in `lib/docs.ts` controls the blue new badge in sidebar and mobile nav.
+
+It is a rotating set of the latest release batch, not a cumulative list. When a new batch ships, replace the entire set with only the components from that batch. Entries from the previous batch graduate and their badges disappear.
+
+Example: yesterday batch was `{card, tooltip, toggle}`. Today batch is `{accordion}`. Today `PAGES_NEW = {"/docs/components/accordion"}`. Card, tooltip, and toggle lose their badge.
+
+Exception: a component whose docs page shipped in an earlier batch but whose registry entry only became installable today (e.g. `card` on 2026-11-05) does not get re-added. `PAGES_NEW` tracks page release, not registry availability.
+
+### Silent navigation failures
+
+Three updates are easy to forget and fail silently. The component installs via CLI and compiles, but does not appear in navigation:
+
+- Missing `frakment.json` entry: `npx frakment add <name>` returns 404.
+- Missing `content/docs/components/meta.json` entry: page exists at its URL but is not linked from sidebar, mobile nav, or command menu.
+- Missing `lib/docs.ts` `PAGES_NEW` entry: page appears everywhere but without the new badge.
+
+Always verify all three after adding a component.
 
 ### When only changing site UI (header, sidebar, demo page)
 
@@ -287,69 +202,6 @@ User-facing guidelines live in `CONTRIBUTING.md`. The rules below are the AI-sid
 - Never write roadmap, milestone, or forward-looking content in docs or changelog.
 - Never write BOM, PowerShell, `_old`, `node_modules`, tooling workarounds, or local-server notes in docs. Those belong here, in HANDOFF, only.
 - Never document a component that is not shipped and working. If it is parked, note it in the "Parked" section here, not in docs.
-
-## Auto-resolving
-
-- `CITests` — resolves after the first PR is merged (Scorecard scans merged PRs for CI coverage).
-
-### Fixed (was alerting)
-
-- zizmor/unpinned-uses (19) — pinned all `uses:` to full SHA.
-- zizmor/artipacked (10) — added `persist-credentials: false` to every `actions/checkout`.
-- zizmor/self-repository (5) — `./.github/actions/setup` → `$/.github/actions/setup`.
-- zizmor/unpinned-images (1) — semgrep image pinned to `semgrep/semgrep:1.99.0@sha256:...`.
-
-
-### Dismissed (false positive)
-
-- `PinnedDependenciesID` (6 alerts) — dismissed. `$/.github/actions/setup` is a **local composite action** shipped in this repo. Scorecard flags any `uses:` without `@SHA` as unpinned, but local actions cannot be pinned (no remote tag). This is a Scorecard limitation, not a real issue. Dismissed with reason `won't fix` + comment. Traceable to alerts #73, #87, #88, #89, #90, #91.
-
-## Security Posture
-
-**Open alerts: 0** (zizmor, Scorecard, Secret Scanning, Dependabot, CodeQL). Do not re-open dismissals without reading this section.
-
-### Fixed (was alerting)
-
-| Rule | Count | Fix | Commit |
-|---|---|---|---|
-| zizmor/unpinned-uses | 19 | every `uses:` pinned to full SHA | `76c0183` |
-| zizmor/artipacked | 10 | `persist-credentials: false` on every `actions/checkout` | `76c0183` |
-| zizmor/self-repository | 5 | `./.github/actions/setup` → `$/.github/actions/setup` | `76c0183` |
-| zizmor/unpinned-images | 1 | `semgrep/semgrep:1.99.0@sha256:...` | `76c0183` |
-| Scorecard/PinnedDependencies | 20 | remote actions pinned to SHA | `76c0183` |
-| Scorecard/TokenPermissions | 7 | write perms moved to job-level | `87a6ef5` |
-| CI: EMISSINGSIGNATUREKEY | 1 | upgraded npm to 11.7.0 in composite setup (keyless attestation fix) | `41738892587` |
-
-### Dismissed — accepted trade-offs
-
-All dismissed with `won't fix` + comment. Re-open only if the stated condition changes.
-
-| Rule | Reason | Re-open when |
-|---|---|---|
-| CodeReviewID | Solo dev, no required reviewer | A second maintainer joins |
-| BranchProtectionID | Admin bypass by design (non-admin path protected) | Repo policy changes to no-bypass |
-| MaintainedID | Repo <90 days old | Repo >90 days |
-| CITestsID | All changes via direct push (admin bypass) | First PR merges |
-| FuzzingID | No fuzzing harness yet | ClusterFuzzLite added |
-| CIIBestPracticesID | External OpenSSF badge not registered | bestpractices.dev badge added |
-| PinnedDependenciesID (false positive) | `$/.github/actions/setup` is a local composite action — no SHA applies | Never (Scorecard limitation) |
-
-### Re-opening a dismissal
-
-```powershell
-gh api 'repos/arrafipd/frakment/code-scanning/alerts?state=dismissed&per_page=100' --jq '.[] | {number, rule: .rule.id}'
-gh api -X PATCH 'repos/arrafipd/frakment/code-scanning/alerts/<number>' -f state=open
-```
-
-### Rules (do not break)
-
-- Top-level `permissions:` stays minimal (`contents: read`; `pull-requests: write` only in dependency-review).
-- Write perms (`security-events: write`, `id-token: write`, `actions: read`) go **job-level** on the job that uploads SARIF. Violating re-triggers TokenPermissions.
-- Every `uses:` must be pinned to a full 40-char SHA. Do not use `@vN` tags.
-- Every `actions/checkout` must set `persist-credentials: false`.
-- Local actions use `$/.github/...`, not `./.github/...`.
-- Docker images pinned to `tag@sha256:...`.
-- CI runs `npm install -g npm@11.7.0` before `npm ci` — required for `npm audit signatures` with keyless attestations (EMISSINGSIGNATUREKEY fix). Do not remove.
 
 ## MCP compose + list_scenarios
 
@@ -393,3 +245,11 @@ Five steps:
 Run `npm run build` to verify.
 
 Example (`agents`, 2026-11-05): inserted between `mcp` and `changelog` in both `meta.json` and `TOP_LEVEL_SECTIONS`.
+
+## Archived sections
+
+10 sections live in HANDOFF.archive/security.md (moved 2026-11-05, verbatim, TOC at top).
+
+Topics: Auto-resolving, Security Posture, Dependabot / Audit, GitHub Ruleset Setup, Recent Commits, Status Lint, Backlog Publish, Catatan dependency, Internal: BOM handling (CLI), React Engine.
+
+Runtime ruleset behavior is in Efek per aktor. CLI BOM handling is referenced by gotcha #31.

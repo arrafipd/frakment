@@ -69,8 +69,8 @@
       "description": "A live terminal that streams commands and output with a typewriter effect.",
       "source": "registry/terminal.tsx",
       "target": "components/ui/terminal.tsx",
-      "dependencies": ["@phosphor-icons/react", "motion"],
-      "registryDependencies": ["code-block", "icons", "trace"]
+      "dependencies": ["@phosphor-icons/react", "motion", "radix-ui"],
+      "registryDependencies": ["code-block", "icons"]
     },
     {
       "name": "message-scroller",
@@ -316,6 +316,76 @@
       "dependencies": ["ai"],
       "registryDependencies": [],
       "version": "0.0.1"
+    },
+    {
+      "name": "card",
+      "version": "0.1.0",
+      "title": "Card",
+      "description": "A container for grouping related content and actions.",
+      "source": "registry/card.tsx",
+      "target": "components/ui/card.tsx",
+      "dependencies": [],
+      "registryDependencies": []
+    },
+    {
+      "name": "accordion",
+      "version": "0.1.0",
+      "title": "Accordion",
+      "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
+      "source": "registry/accordion.tsx",
+      "target": "components/ui/accordion.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["icons"]
+    },
+    {
+      "name": "dropdown-menu",
+      "version": "0.1.0",
+      "title": "Dropdown Menu",
+      "description": "A menu triggered by a button, with items, checkboxes, and submenus.",
+      "source": "registry/dropdown-menu.tsx",
+      "target": "components/ui/dropdown-menu.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["icons"]
+    },
+    {
+      "name": "tooltip",
+      "version": "0.1.0",
+      "title": "Tooltip",
+      "description": "A popup that displays information related to an element on hover or focus.",
+      "source": "registry/tooltip.tsx",
+      "target": "components/ui/tooltip.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "tabs",
+      "version": "0.1.0",
+      "title": "Tabs",
+      "description": "A set of layered sections of content, known as tab panels, displayed one at a time.",
+      "source": "registry/tabs.tsx",
+      "target": "components/ui/tabs.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "text-flip",
+      "version": "0.1.0",
+      "title": "Text Flip",
+      "description": "An animated text component that cycles through strings with a vertical flip.",
+      "source": "registry/text-flip.tsx",
+      "target": "components/ui/text-flip.tsx",
+      "dependencies": ["@number-flow/react", "motion"],
+      "registryDependencies": []
+    },
+    {
+      "name": "collapsible",
+      "version": "0.1.0",
+      "title": "Collapsible",
+      "description": "An interactive component which expands and collapses a panel.",
+      "source": "registry/collapsible.tsx",
+      "target": "components/ui/collapsible.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
     }
   ],
   "skills": [

@@ -1,0 +1,130 @@
+---
+title: "November 5, 2026"
+description: "Accordion component for collapsible sections."
+date: "2026-11-05"
+---
+
+import { AccordionDemo } from "@/examples/accordion-demo";
+
+This release adds **Accordion**, a vertically stacked set of interactive headings built on Radix UI.
+
+- [Accordion](#accordion): Collapsible sections with single or multiple expansion.
+
+<hr className="my-16 border-border/40" />
+
+### Accordion
+
+<ComponentPreview name="accordion" title="accordion.tsx">
+  <AccordionDemo />
+</ComponentPreview>
+
+**Accordion** stacks headings that each reveal a section of content. It supports `type="single"` and `type="multiple"`, item-level `disabled`, and animated height transitions. Trigger and content use `data-slot` markers for styling hooks.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive</Step>
+
+~~~bash
+npx frakment add accordion
+~~~
+
+<Step>Use it in your app</Step>
+
+~~~tsx
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+~~~
+
+</Steps>
+
+#### Minimal usage
+
+~~~tsx
+<Accordion collapsible defaultValue="item-1" type="single">
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Is it accessible?</AccordionTrigger>
+    <AccordionContent>
+      Yes. It adheres to the WAI-ARIA design pattern.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+~~~
+
+See the [Accordion docs](/docs/components/accordion) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Dropdown Menu
+
+`dropdown-menu` is now an installable registry component. Previously the docs existed but `npx frakment add dropdown-menu` returned 404 because the registry mirror and `frakment.json` entry were missing.
+
+The component page now documents all three `align` values: `start`, `center` (default), and `end`.
+
+<hr className="my-16 border-border/40" />
+
+### Tooltip
+
+`tooltip` is now an installable registry component. Previously the docs existed but `npx frakment add tooltip` returned 404 because the registry mirror and `frakment.json` entry were missing.
+
+<hr className="my-16 border-border/40" />
+
+### Tabs
+
+`tabs` ships as a registry component with a docs page covering `Tabs`, `TabsList`, `TabsTrigger`, and `TabsContent`.
+
+<hr className="my-16 border-border/40" />
+
+### Text Flip
+
+`text-flip` ships as a registry component with a docs page and props for `interval`, `as`, and `onIndexChange`.
+
+<hr className="my-16 border-border/40" />
+
+### Terminal
+
+`terminal` now has a dedicated docs page covering `Terminal` and `TerminalCommand`.
+
+<hr className="my-16 border-border/40" />
+
+### Trace
+
+`trace` now has a dedicated docs page covering all eight primitives from `Trace` down to `TraceCollapsibleContent`.
+
+<hr className="my-16 border-border/40" />
+
+### Collapsible
+
+`collapsible` ships as a registry component with basic and file-tree demos.
+
+<hr className="my-16 border-border/40" />
+
+### Changed: Text Flip
+
+Text Flip now ships with two new variants: `count` interpolates numeric strings smoothly, and `shuffle` scrambles characters before settling. The default `flip` variant uses `mode="popLayout"` for overlapping exit and enter animations instead of a sequential gap.
+
+```tsx
+<TextFlip variant="count">{"12,000+", "48,000+"}</TextFlip>
+```
+
+Roll variant for Text Flip locks digits left to right like a slot machine. Use `variant="roll"` for dashboards and stat blocks.
+
+### Changed: Shuffle variant
+
+Text Flip shuffle now cycles each character through symbols and capitals before settling to the target letter. Spaces stay visible so word boundaries remain readable throughout the animation.
+
+<hr className="my-16 border-border/40" />
+
+### Added: Text Flip variants
+
+Text Flip now ships ten variants: `flip`, `fade`, `blur`, `slide`, `scale`, `count`, `roll`, `shuffle`, `typewriter`, and `wave`. Both `typewriter` and `wave` accept a `speed` prop in milliseconds.
+
+<hr className="my-16 border-border/40" />
+
+### Card
+
+Added `card` registry component.

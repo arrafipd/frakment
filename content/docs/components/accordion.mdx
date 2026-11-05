@@ -1,0 +1,191 @@
+---
+title: Accordion
+description: A vertically stacked set of interactive headings that each reveal a section of content.
+---
+
+import { AccordionDemo } from "@/examples/accordion-demo";
+import { AccordionBasic } from "@/examples/accordion-basic";
+import { AccordionMultiple } from "@/examples/accordion-multiple";
+import { AccordionDisabled } from "@/examples/accordion-disabled";
+import { AccordionBorders } from "@/examples/accordion-borders";
+import { AccordionCard } from "@/examples/accordion-card";
+
+<ComponentPreview name="accordion" title="accordion.tsx">
+  <AccordionDemo />
+</ComponentPreview>
+
+Accordion reveals related content in place, one section at a time. It keeps long surfaces compact without requiring a new page or modal.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add accordion
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ~~~bash
+      npm install radix-ui @phosphor-icons/react
+      ~~~
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="accordion" title="components/ui/accordion.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="accordion.tsx"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+~~~
+
+~~~tsx title="accordion.tsx"
+<Accordion collapsible defaultValue="shipping" type="single">
+  <AccordionItem value="shipping">
+    <AccordionTrigger>What are your shipping options?</AccordionTrigger>
+    <AccordionContent>
+      Standard, express, and overnight options available.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+~~~
+
+## Anatomy
+
+Accordion is a stack of items, each with a trigger and a panel.
+
+<ComponentPreview name="accordion" title="accordion.tsx" previewClassName="h-auto py-8">
+  <AccordionDemo />
+</ComponentPreview>
+
+- **Accordion** - root container; controls single or multiple expansion
+- **AccordionItem** - one collapsible section; carries a unique `value`
+- **AccordionTrigger** - header button; rotates the chevron on open
+- **AccordionContent** - panel that animates height between states
+
+## Examples
+
+### Basic
+
+A minimal accordion with three items.
+
+<ComponentPreview name="accordion" title="accordion.tsx" previewClassName="h-auto py-8">
+  <AccordionBasic />
+</ComponentPreview>
+
+### Multiple
+
+Use `type="multiple"` to allow several items open at the same time.
+
+<ComponentPreview name="accordion" title="accordion.tsx" previewClassName="h-auto py-8">
+  <AccordionMultiple />
+</ComponentPreview>
+
+### Disabled
+
+Set `disabled` on an `AccordionItem` to lock it.
+
+<ComponentPreview name="accordion" title="accordion.tsx" previewClassName="h-auto py-8">
+  <AccordionDisabled />
+</ComponentPreview>
+
+### Borders
+
+Add borders around the container and between items for a boxed look.
+
+<ComponentPreview name="accordion" title="accordion.tsx" previewClassName="h-auto py-8">
+  <AccordionBorders />
+</ComponentPreview>
+
+### Card
+
+Nest an accordion inside a card for grouped, framed content.
+
+<ComponentPreview name="accordion" title="accordion.tsx" previewClassName="h-auto py-8">
+  <AccordionCard />
+</ComponentPreview>
+
+## API Reference
+
+### Accordion
+
+<PropsTable
+  rows={[
+    {
+      name: "type",
+      type: "single | multiple",
+      description: "Whether one or several items can be open at once.",
+    },
+    {
+      name: "defaultValue",
+      type: "string | string[]",
+      description: "Item value(s) open on first render.",
+    },
+    {
+      name: "collapsible",
+      type: "boolean",
+      default: "false",
+      description: "When single, allow closing the open item.",
+    },
+    {
+      name: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "Prevent all interaction.",
+    },
+  ]}
+/>
+
+### AccordionItem
+
+<PropsTable
+  rows={[
+    {
+      name: "value",
+      type: "string",
+      description: "Unique identifier for the item.",
+    },
+    {
+      name: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "Prevent the item from opening.",
+    },
+  ]}
+/>
+
+## Accessibility
+
+- Built on Radix Accordion, which follows the WAI-ARIA disclosure pattern.
+- Triggers expose `aria-expanded` and `aria-controls` automatically.
+- Keyboard: `Enter` and `Space` toggle an item; `ArrowUp` and `ArrowDown` move focus.
+- Use descriptive trigger text, not icon-only headers.
+
+## Best Practices
+
+- **Keep content short per section.**
+- **Use `type="single"` for FAQ-style lists.**
+- **Use `type="multiple"` for settings panels.**
+- **Reserve `defaultValue` for one item.**

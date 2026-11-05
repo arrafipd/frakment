@@ -150,6 +150,10 @@ export {
   Paperclip,
   Paragraph,
   Paragraph as WrapTextIcon,
+  Pause,
+  Pause as PauseIcon,
+  Play,
+  Play as PlayIcon,
   Plus,
   Plus as PlusIcon,
   // mdx docs icons
