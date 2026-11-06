@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import type { Root as PageTreeRoot } from "fumadocs-core/page-tree";
 import { useRouter } from "next/navigation";
@@ -381,7 +381,7 @@ export const CommandMenu = ({
           variant="ghost"
           {...props}
         >
-          <SearchIcon className="text-surface-foreground/40 size-4.5 shrink-0 md:size-3.5" />
+          <SearchIcon className="text-foreground md:text-surface-foreground/40 size-4.5 shrink-0 md:size-3.5" />
           <span className="text-surface-foreground/40 hidden lg:inline-flex">
             Search documentation...
           </span>
@@ -471,7 +471,7 @@ export const CommandMenu = ({
             <>
               <Separator className="h-4!" orientation="vertical" />
               <div className="flex min-w-0 items-center gap-1">
-                <Kbd className="shrink-0">{isMac ? "⌘" : "Ctrl"}</Kbd>
+                <Kbd className="shrink-0">{isMac ? "âŒ˜" : "Ctrl"}</Kbd>
                 <Kbd className="shrink-0">C</Kbd>
                 <span className="min-w-0 truncate">{copyPayload}</span>
               </div>

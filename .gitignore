@@ -1,4 +1,4 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+﻿# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
 /node_modules
@@ -51,8 +51,7 @@ next-env.d.ts
 .backup-*/
 
 # Backup files
-*.bak
-
+*.bak*
 # Raw PNG avatars (compressed to .avif, see public/r/avatar.json)
 public/avatars/*.png
 # Backup files (root level, e.g. .backup-1234.mdx)
