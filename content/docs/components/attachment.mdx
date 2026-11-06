@@ -1,0 +1,281 @@
+---
+title: Attachment
+description: Displays file attachments with state, size, media, and overlay actions.
+---
+
+import { AttachmentDemo } from "@/examples/attachment-demo";
+import { AttachmentGroupDemo } from "@/examples/attachment-group";
+import { AttachmentImage } from "@/examples/attachment-image";
+import { AttachmentStates } from "@/examples/attachment-states";
+import { AttachmentSizes } from "@/examples/attachment-sizes";
+import { AttachmentTriggerDemo } from "@/examples/attachment-trigger";
+
+<ComponentPreview name="attachment" title="attachment.tsx">
+  <AttachmentDemo />
+</ComponentPreview>
+
+Attachment renders a compact file card with media, title, description, and actions. It supports upload states, size variants, image thumbnails, and an overlay trigger that makes the entire card interactive.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add attachment
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install class-variance-authority motion radix-ui
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="attachment" title="components/ui/attachment.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="attachment.tsx"
+import {
+  Attachment,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentMedia,
+  AttachmentTitle,
+} from "@/components/ui/attachment";
+```
+
+```tsx title="attachment.tsx"
+<Attachment>
+  <AttachmentMedia>
+    <FileTextIcon />
+  </AttachmentMedia>
+  <AttachmentContent>
+    <AttachmentTitle>report.pdf</AttachmentTitle>
+    <AttachmentDescription>PDF · 2.4 MB</AttachmentDescription>
+  </AttachmentContent>
+</Attachment>
+```
+
+## Anatomy
+
+```tsx title="attachment.tsx"
+<Attachment>
+  <AttachmentMedia />
+  <AttachmentContent>
+    <AttachmentTitle />
+    <AttachmentDescription />
+  </AttachmentContent>
+  <AttachmentActions>
+    <AttachmentAction />
+  </AttachmentActions>
+  <AttachmentTrigger />
+</Attachment>
+```
+
+- **Attachment** — flex row, 3px radius, accepts `state`, `size`, and `orientation`
+- **AttachmentMedia** — 16px icon slot; pass `variant="image"` to render a 40px thumbnail
+- **AttachmentContent** — vertical stack for title and description
+- **AttachmentTitle** — truncated file name, medium weight
+- **AttachmentDescription** — small muted metadata line
+- **AttachmentActions** — cluster of actions aligned to the end
+- **AttachmentAction** — 24px ghost button, requires `aria-label`
+- **AttachmentTrigger** — absolute overlay that fills the card; accepts `asChild`
+
+## States
+
+Control the visual state with the `state` prop. States affect color, shimmer, and action visibility.
+
+<ComponentPreview name="attachment" title="attachment.tsx">
+  <AttachmentStates />
+</ComponentPreview>
+
+```tsx title="attachment.tsx"
+<Attachment state="uploading">
+  <AttachmentMedia>
+    <Spinner />
+  </AttachmentMedia>
+  <AttachmentContent>
+    <AttachmentTitle>design-system.zip</AttachmentTitle>
+    <AttachmentDescription>Uploading · 64%</AttachmentDescription>
+  </AttachmentContent>
+  <AttachmentActions>
+    <AttachmentAction aria-label="Cancel upload">
+      <XIcon />
+    </AttachmentAction>
+  </AttachmentActions>
+</Attachment>
+```
+
+## Images
+
+Pass `variant="image"` to **AttachmentMedia** to render a thumbnail instead of an icon. Combine with `orientation="vertical"` for a taller card.
+
+<ComponentPreview name="attachment" title="attachment.tsx">
+  <AttachmentImage />
+</ComponentPreview>
+
+## Group
+
+Wrap multiple attachments in **AttachmentGroup** to enable horizontal snap scrolling. Cards keep their intrinsic width and snap into place on touch devices.
+
+<ComponentPreview name="attachment" title="attachment.tsx">
+  <AttachmentGroupDemo />
+</ComponentPreview>
+
+```tsx title="attachment.tsx"
+<AttachmentGroup>
+  <Attachment className="w-64">
+    <AttachmentMedia>
+      <FileTextIcon />
+    </AttachmentMedia>
+    <AttachmentContent>
+      <AttachmentTitle>briefing-notes.pdf</AttachmentTitle>
+      <AttachmentDescription>PDF · 1.4 MB</AttachmentDescription>
+    </AttachmentContent>
+  </Attachment>
+  <Attachment className="w-64">
+    <AttachmentMedia variant="image">
+      <img src="/workspace.avif" alt="workspace" />
+    </AttachmentMedia>
+    <AttachmentContent>
+      <AttachmentTitle>workspace.avif</AttachmentTitle>
+      <AttachmentDescription>AVIF · 39 KB</AttachmentDescription>
+    </AttachmentContent>
+  </Attachment>
+</AttachmentGroup>
+```
+
+## Sizes
+
+Use the `size` prop to change density. `sm` and `xs` reduce the media slot, padding, and description.
+
+<ComponentPreview name="attachment" title="attachment.tsx">
+  <AttachmentSizes />
+</ComponentPreview>
+
+## Trigger
+
+Wrap the card with **AttachmentTrigger** and use `asChild` to render a link or a dialog trigger behind the actions. The trigger fills the card so the entire surface is clickable while actions stay independently interactive.
+
+<ComponentPreview name="attachment" title="attachment.tsx">
+  <AttachmentTriggerDemo />
+</ComponentPreview>
+
+```tsx title="attachment.tsx"
+<Attachment>
+  <AttachmentMedia>
+    <FileSearchIcon />
+  </AttachmentMedia>
+  <AttachmentContent>
+    <AttachmentTitle>research-summary.pdf</AttachmentTitle>
+    <AttachmentDescription>Open preview dialog</AttachmentDescription>
+  </AttachmentContent>
+  <AttachmentActions>
+    <AttachmentAction aria-label="Remove">
+      <XIcon />
+    </AttachmentAction>
+  </AttachmentActions>
+  <DialogTrigger asChild>
+    <AttachmentTrigger aria-label="Preview research-summary.pdf" />
+  </DialogTrigger>
+</Attachment>
+```
+
+## API Reference
+
+### Attachment
+
+<PropsTable
+  rows={[
+    {
+      name: "state",
+      type: "idle | uploading | processing | error | done",
+      default: "idle",
+      description: "Visual state of the attachment.",
+    },
+    {
+      name: "size",
+      type: "default | sm | xs",
+      default: "default",
+      description: "Density of the card.",
+    },
+    {
+      name: "orientation",
+      type: "horizontal | vertical",
+      default: "horizontal",
+      description: "Layout direction of media and content.",
+    },
+  ]}
+/>
+
+### AttachmentGroup
+
+Extends `React.ComponentProps<"div">`. Stacks multiple attachments with consistent spacing.
+
+### AttachmentMedia
+
+<PropsTable
+  rows={[
+    {
+      name: "variant",
+      type: "default | image",
+      default: "default",
+      description: "Renders a thumbnail instead of an icon when set to image.",
+    },
+  ]}
+/>
+
+### AttachmentContent / AttachmentTitle / AttachmentDescription
+
+Extend `React.ComponentProps<"div">` / `"span"`. **AttachmentTitle** truncates overflow. **AttachmentDescription** renders in a muted color.
+
+### AttachmentAction
+
+Extends `React.ComponentProps<"button">`. Requires `aria-label` since it renders as an icon-only button.
+
+### AttachmentTrigger
+
+<PropsTable
+  rows={[
+    {
+      name: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "When true, renders the child element instead of a button. Useful for wrapping anchors or DialogTrigger.",
+    },
+  ]}
+/>
+
+## Accessibility
+
+- **AttachmentTrigger** is an absolute overlay. Give it an `aria-label` describing the target action, such as "Preview report.pdf".
+- **AttachmentAction** buttons are icon-only. Every action must have an `aria-label` so screen readers can announce its intent.
+- Do not attach click handlers to the card itself. Use **AttachmentTrigger** with `asChild` so the click target is a real anchor or button.
+- Pair color with icon or text. The error state uses `file-warning` and a description — never rely on color alone.
+- When `state="uploading"`, render **Spinner** inside **AttachmentMedia** and include the progress in **AttachmentDescription** so the state is announced.
+
+## Best Practices
+
+- **Use `state` for lifecycle, not decoration.** Every state maps to a real upload phase — idle, uploading, processing, error, done.
+- **Keep file names visible.** **AttachmentTitle** truncates with ellipsis; do not replace it with an icon-only card.
+- **Use `orientation="vertical"` for image attachments.** Horizontal orientation reserves less vertical space but hides the image.
+- **Prefer `AttachmentGroup` for lists.** It normalizes spacing and snap behavior between cards.
+- **Wrap with `asChild` for links.** A plain overlay without `asChild` is a button with no semantic role; wrap it in `<a>` or `<DialogTrigger>`.

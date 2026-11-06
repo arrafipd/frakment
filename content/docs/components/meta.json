@@ -1,8 +1,9 @@
-{
+﻿{
   "title": "Components",
   "root": true,
   "pages": [
     "accordion",
+    "attachment",
     "avatar",
     "badge",
     "breadcrumb",
@@ -33,8 +34,8 @@
     "switch",
     "tabs",
     "terminal",
-    "text-flip",
     "textarea",
+    "text-flip",
     "toggle",
     "toggle-group",
     "tooltip",
