@@ -1,9 +1,60 @@
-﻿---
-title: Attachment documentation
-description: Added documentation and five examples for the Attachment component.
+---
+title: "November 7, 2026"
+description: "Attachment component for displaying file attachments with lifecycle states."
+date: "2026-11-07"
 ---
 
-### Added
+import { AttachmentDemo } from "@/examples/attachment-demo";
 
-- `Attachment` documentation with installation, usage, and API reference.
-- Five examples: default, images, states, sizes, and trigger.
+This release adds the **Attachment** component for displaying file attachments with lifecycle states, size variants, image thumbnails, and overlay triggers.
+
+- [Attachment](#attachment): File card with states, sizes, media, and actions.
+
+<hr className="my-16 border-border/40" />
+
+### Attachment
+
+<ComponentPreview name="attachment" title="attachment.tsx" previewClassName="h-auto py-8">
+  <AttachmentDemo />
+</ComponentPreview>
+
+**Attachment** renders a compact file card with media, title, description, and actions. It supports idle, uploading, processing, error, and done states with size variants for dense layouts. Pass `variant="image"` to render a thumbnail, or wrap with `AttachmentTrigger` to make the whole card interactive.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive</Step>
+
+```bash
+npx frakment add attachment
+```
+
+<Step>Use it in your app</Step>
+
+```tsx
+import {
+  Attachment,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentMedia,
+  AttachmentTitle,
+} from "@/components/ui/attachment";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<Attachment>
+  <AttachmentMedia>
+    <FileTextIcon />
+  </AttachmentMedia>
+  <AttachmentContent>
+    <AttachmentTitle>report.pdf</AttachmentTitle>
+    <AttachmentDescription>PDF · 2.4 MB</AttachmentDescription>
+  </AttachmentContent>
+</Attachment>
+```
+
+See the [Attachment docs](/docs/components/attachment) for the full API reference.
