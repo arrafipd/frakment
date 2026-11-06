@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import { ROUTES } from "@/constants/routes";
 import { isComponentsFolder, PAGES_NEW } from "@/lib/docs";
 import type { PageTreeFolder, PageTreePage } from "@/lib/page-tree";
 import { getAllPagesFromFolder, getPagesFromFolder } from "@/lib/page-tree";
@@ -44,25 +43,37 @@ const applyFilter = (pages: PageTreePage[], filter: Filter): PageTreePage[] => {
 export const ComponentsList = ({
   folderName = "Components",
   filter = "all",
+  header,
 }: {
   folderName?: string;
   filter?: Filter;
+  header?: string;
 }) => {
   const folder = getFolder(folderName);
   if (!folder) {
     return null;
   }
 
-  const allPages = isComponentsFolder(folder)
-    ? getAllPagesFromFolder(folder).filter(
-        (page) => page.url !== ROUTES.DOCS_COMPONENTS
-      )
-    : getPagesFromFolder(folder);
+  const indexUrl = folder.index?.url;
+  const allPages = (
+    isComponentsFolder(folder)
+      ? getAllPagesFromFolder(folder)
+      : getPagesFromFolder(folder)
+  ).filter((page) => page.url !== indexUrl);
 
   const pages = applyFilter(allPages, filter);
   if (pages.length === 0) {
     return null;
   }
 
-  return <ComponentGrid pages={pages} />;
+  return (
+    <>
+      {header && (
+        <h2 className="font-heading mt-8 text-xl font-medium tracking-tight">
+          {header}
+        </h2>
+      )}
+      <ComponentGrid pages={pages} />
+    </>
+  );
 };

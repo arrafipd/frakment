@@ -10,30 +10,14 @@ import { SponsorLink } from "@/components/sponsor-link";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
-import { getPagesFromFolder } from "@/lib/page-tree";
 import { source } from "@/lib/source";
 
 const navItems = [
   { href: ROUTES.DOCS, label: "Docs" },
-  ...source.pageTree.children
-    .filter((item) => item.type === "folder")
-    .flatMap((item) => {
-      const [firstPage] = getPagesFromFolder(item);
-      if (!firstPage) {
-        return [];
-      }
-
-      return [
-        {
-          href: firstPage.url,
-          label: typeof item.name === "string" ? item.name : String(item.name),
-        },
-      ];
-    }),
-].filter(
-  (item, index, items) =>
-    items.findIndex((candidate) => candidate.href === item.href) === index
-);
+  { href: ROUTES.DOCS_COMPONENTS, label: "Components" },
+  { href: ROUTES.DOCS_AI_ELEMENTS, label: "AI Elements" },
+  { href: ROUTES.DOCS_MODULES, label: "Modules" },
+];
 
 export const SiteHeader = () => (
   <header
