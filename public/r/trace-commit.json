@@ -1,0 +1,21 @@
+{
+  "dependencies": [
+    "lucide-react"
+  ],
+  "deprecated": false,
+  "description": "Show a commit with per-file diffs inside a sheet.",
+  "files": [
+    {
+      "content": "import {\n  ChevronRightIcon,\n  FilePenIcon,\n  FilePlusIcon,\n  GitCommitHorizontalIcon,\n} from \"lucide-react\";\n\nimport {\n  CodeBlock,\n  CodeBlockContent,\n  CodeBlockLine,\n} from \"@/components/ui/code-block\";\nimport {\n  Sheet,\n  SheetContent,\n  SheetDescription,\n  SheetHeader,\n  SheetTitle,\n  SheetTrigger,\n} from \"@/components/ui/sheet\";\nimport {\n  Trace,\n  TraceCollapsible,\n  TraceCollapsibleContent,\n  TraceCollapsibleTrigger,\n  TraceDescription,\n  TraceIcon,\n  TraceLine,\n  TraceTitle,\n} from \"@/components/ui/trace\";\n\nconst files = [\n  {\n    added: false,\n    additions: 2,\n    deletions: 2,\n    diff: `@@ -14,7 +14,7 @@ export async function LoginPage({\n   searchParams,\n }) {\n   const { next } = await searchParams\n-  const redirectTo =\n-    next && next.startsWith(\"/\") ? next : \"/\"\n+  const redirectTo = safeRedirect(next)\n+\n   return <LoginForm redirectTo={redirectTo} />\n }`,\n    path: \"app/login/page.tsx\",\n  },\n  {\n    added: true,\n    additions: 7,\n    deletions: 0,\n    diff: `@@ -0,0 +1,7 @@\n+export function safeRedirect(next: string | undefined) {\n+  if (!next || !next.startsWith(\"/\") || next.startsWith(\"//\")) {\n+    return \"/\"\n+  }\n+\n+  return next\n+}`,\n    path: \"lib/auth/redirect.ts\",\n  },\n];\n\nfunction DiffLines({ diff }: { diff: string }) {\n  return diff.split(\"\\n\").map((line, index) => {\n    if (line.startsWith(\"@@\")) {\n      return (\n        <CodeBlockLine className=\"text-muted-foreground\" key={index}>\n          {line}\n        </CodeBlockLine>\n      );\n    }\n    return (\n      <CodeBlockLine\n        key={index}\n        variant={\n          line.startsWith(\"+\")\n            ? \"added\"\n            : line.startsWith(\"-\")\n              ? \"removed\"\n              : \"default\"\n        }\n      >\n        {line.slice(1)}\n      </CodeBlockLine>\n    );\n  });\n}\n\nexport function TraceCommit() {\n  return (\n    <Trace className=\"max-w-sm\">\n      <TraceCollapsible defaultOpen>\n        <TraceCollapsibleTrigger>\n          <TraceLine>\n            <TraceIcon>\n              <GitCommitHorizontalIcon />\n            </TraceIcon>\n            <TraceTitle>Committed a1b2c3: Fix the login redirect</TraceTitle>\n          </TraceLine>\n        </TraceCollapsibleTrigger>\n        <TraceCollapsibleContent>\n          <Trace>\n            {files.map((file) => (\n              <Sheet key={file.path}>\n                <SheetTrigger>\n                  <TraceLine>\n                    <TraceIcon>\n                      {file.added ? <FilePlusIcon /> : <FilePenIcon />}\n                    </TraceIcon>\n                    <TraceTitle>\n                      {file.added ? \"Added\" : \"Edited\"} {file.path}\n                    </TraceTitle>\n                    <TraceDescription className=\"font-mono\">\n                      +{file.additions} −{file.deletions}\n                    </TraceDescription>\n                    <TraceIcon>\n                      <ChevronRightIcon />\n                    </TraceIcon>\n                  </TraceLine>\n                </SheetTrigger>\n                <SheetContent>\n                  <SheetHeader>\n                    <SheetTitle className=\"font-mono\">{file.path}</SheetTitle>\n                    <SheetDescription>\n                      {file.additions} additions, {file.deletions} deletions\n                    </SheetDescription>\n                  </SheetHeader>\n                  <CodeBlock className=\"mx-6 mb-6 w-auto\">\n                    <CodeBlockContent>\n                      <DiffLines diff={file.diff} />\n                    </CodeBlockContent>\n                  </CodeBlock>\n                </SheetContent>\n              </Sheet>\n            ))}\n          </Trace>\n        </TraceCollapsibleContent>\n      </TraceCollapsible>\n    </Trace>\n  );\n}\n",
+      "path": "components/trace-commit.tsx"
+    }
+  ],
+  "name": "trace-commit",
+  "registryDependencies": [
+    "code-block",
+    "sheet",
+    "trace"
+  ],
+  "title": "Trace Commit",
+  "version": "0.1.0"
+}

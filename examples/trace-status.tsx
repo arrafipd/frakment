@@ -1,9 +1,6 @@
-import {
-  CircleAlertIcon,
-  CircleCheckIcon,
-  CircleIcon,
-  LoaderCircleIcon,
-} from "lucide-react";
+import { CircleAlertIcon, CircleCheckIcon, CircleIcon } from "lucide-react";
+
+import { Spinner } from "@/components/ui/spinner";
 import { Trace, TraceIcon, TraceLine, TraceTitle } from "@/components/ui/trace";
 
 export function TraceStatus() {
@@ -23,7 +20,7 @@ export function TraceStatus() {
       </TraceLine>
       <TraceLine status="running">
         <TraceIcon>
-          <LoaderCircleIcon className="animate-spin" />
+          <Spinner />
         </TraceIcon>
         <TraceTitle>Running pnpm build</TraceTitle>
       </TraceLine>

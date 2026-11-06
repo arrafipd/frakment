@@ -1,0 +1,20 @@
+{
+  "dependencies": [
+    "lucide-react"
+  ],
+  "deprecated": false,
+  "description": "Open a full result set from a trace line using a dialog.",
+  "files": [
+    {
+      "content": "import { ArrowUpRightIcon, ChevronRightIcon, GlobeIcon } from \"lucide-react\";\n\nimport {\n  Dialog,\n  DialogContent,\n  DialogDescription,\n  DialogHeader,\n  DialogTitle,\n  DialogTrigger,\n} from \"@/components/ui/dialog\";\nimport { Trace, TraceIcon, TraceLine, TraceTitle } from \"@/components/ui/trace\";\n\nconst results = [\n  {\n    title: \"Caching build outputs\",\n    url: \"https://nextjs.org/docs/app/guides/caching\",\n  },\n  {\n    title: \"Image optimization reference\",\n    url: \"https://nextjs.org/docs/app/api-reference/components/image\",\n  },\n  {\n    title: \"Deploy hooks and cache keys\",\n    url: \"https://vercel.com/docs/deploy-hooks\",\n  },\n];\n\nexport function TraceDialog() {\n  return (\n    <Trace className=\"max-w-sm\">\n      <Dialog>\n        <DialogTrigger>\n          <TraceLine>\n            <TraceIcon>\n              <GlobeIcon />\n            </TraceIcon>\n            <TraceTitle>Searched the web for cache keys</TraceTitle>\n            <TraceIcon>\n              <ChevronRightIcon />\n            </TraceIcon>\n          </TraceLine>\n        </DialogTrigger>\n        <DialogContent>\n          <DialogHeader>\n            <DialogTitle>Searched the web for cache keys</DialogTitle>\n            <DialogDescription>\n              Three results were used in the response.\n            </DialogDescription>\n          </DialogHeader>\n          <Trace>\n            {results.map((result) => (\n              <a\n                href={result.url}\n                key={result.url}\n                rel=\"noreferrer\"\n                target=\"_blank\"\n              >\n                <TraceLine>\n                  <TraceIcon>\n                    <GlobeIcon />\n                  </TraceIcon>\n                  <TraceTitle>\n                    {result.title}\n                    <span className=\"sr-only\"> (opens in a new tab)</span>\n                  </TraceTitle>\n                  <TraceIcon>\n                    <ArrowUpRightIcon />\n                  </TraceIcon>\n                </TraceLine>\n              </a>\n            ))}\n          </Trace>\n        </DialogContent>\n      </Dialog>\n    </Trace>\n  );\n}\n",
+      "path": "components/trace-dialog.tsx"
+    }
+  ],
+  "name": "trace-dialog",
+  "registryDependencies": [
+    "dialog",
+    "trace"
+  ],
+  "title": "Trace Dialog",
+  "version": "0.1.0"
+}

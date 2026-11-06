@@ -1,8 +1,9 @@
 "use client";
 
-import { CheckIcon, LoaderCircleIcon, TerminalIcon } from "lucide-react";
+import { CheckIcon, TerminalIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block";
+import { Spinner } from "@/components/ui/spinner";
 import {
   Trace,
   TraceCollapsible,
@@ -63,13 +64,7 @@ function TerminalCommand({
       <TraceCollapsibleTrigger>
         <TraceLine status={running ? "running" : failed ? "error" : undefined}>
           <TraceIcon>
-            {running ? (
-              <LoaderCircleIcon className="animate-spin" />
-            ) : failed ? (
-              <TerminalIcon />
-            ) : (
-              <CheckIcon />
-            )}
+            {running ? <Spinner /> : failed ? <TerminalIcon /> : <CheckIcon />}
           </TraceIcon>
           <TraceTitle>
             <span className="text-muted-foreground">$</span>{" "}

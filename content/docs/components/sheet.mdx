@@ -1,0 +1,119 @@
+---
+title: Sheet
+description: A modal panel that slides in from the edge of the screen.
+---
+
+import { SheetDemo } from "@/examples/sheet-demo";
+import { SheetSide } from "@/examples/sheet-side";
+import { SheetNoCloseButton } from "@/examples/sheet-no-close-button";
+
+<ComponentPreview name="sheet" title="sheet.tsx">
+  <SheetDemo />
+</ComponentPreview>
+
+Sheet renders a modal panel that slides in from a screen edge. Built on Radix Dialog, so focus is trapped and Escape dismisses.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add sheet
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ~~~bash
+      npm install lucide-react radix-ui
+      ~~~
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="sheet" title="components/ui/sheet.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="sheet.tsx"
+import {
+  Sheet, SheetClose, SheetContent, SheetDescription,
+  SheetFooter, SheetHeader, SheetTitle, SheetTrigger,
+} from "@/components/ui/sheet";
+~~~
+
+~~~tsx
+<Sheet>
+  <SheetTrigger asChild>
+    <Button>Open</Button>
+  </SheetTrigger>
+  <SheetContent>
+    <SheetHeader>
+      <SheetTitle>Title</SheetTitle>
+      <SheetDescription>Description</SheetDescription>
+    </SheetHeader>
+    <SheetFooter>
+      <SheetClose asChild>
+        <Button variant="outline">Close</Button>
+      </SheetClose>
+    </SheetFooter>
+  </SheetContent>
+</Sheet>
+~~~
+## Anatomy
+
+- **Sheet** — root; accepts `open` / `onOpenChange`
+- **SheetTrigger** — button; use `asChild`
+- **SheetContent** — the panel; `side` = `top | right | bottom | left`, `showCloseButton` toggles the X
+- **SheetHeader** / **SheetFooter** — layout slots
+- **SheetTitle** / **SheetDescription** — required for accessibility
+- **SheetClose** — dismiss button; use `asChild`
+
+## Sides
+
+Four sides are available: `top`, `right`, `bottom`, `left`.
+
+<ComponentPreview name="sheet" title="sheet.tsx">
+  <SheetSide />
+</ComponentPreview>
+
+## Without close button
+
+Pass `showCloseButton={false}` and dismiss via backdrop or Escape.
+
+<ComponentPreview name="sheet" title="sheet.tsx">
+  <SheetNoCloseButton />
+</ComponentPreview>
+
+## API Reference
+
+### SheetContent
+
+<PropsTable
+  rows={[
+    { name: "side", type: "top | right | bottom | left", default: "right", description: "Edge the panel slides from." },
+    { name: "showCloseButton", type: "boolean", default: "true", description: "Show the top-right close button." },
+    { name: "className", type: "string", description: "Extra classes on the panel." },
+  ]}
+/>
+
+## Accessibility
+
+- Focus is trapped inside the sheet while open.
+- `SheetTitle` and `SheetDescription` are announced to screen readers.
+- `Escape` closes the sheet unless prevented.
+- Clicking the backdrop closes the sheet.

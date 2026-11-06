@@ -6,7 +6,8 @@ description: Displays a button or a component that behaves like a button.
 import { ButtonDemo } from "@/examples/button-demo";
 
 import { Button } from "@/components/ui/button";
-import { ArrowRightIcon, CheckIcon, ClockIcon, GitBranchIcon, LoaderCircleIcon, PackageIcon, PlusIcon, SparklesIcon, TrashIcon, XIcon } from "lucide-react";
+import { ArrowRightIcon, CheckIcon, ClockIcon, GitBranchIcon, PackageIcon, PlusIcon, SparklesIcon, TrashIcon, XIcon } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner";
 
 <ComponentPreview name="button" title="button.tsx">
   <ButtonDemo />
@@ -225,11 +226,11 @@ Render a spinner beside the label and set `disabled` to indicate an in-progress 
 <ComponentPreview name="button" title="button.tsx">
   <div className="flex flex-wrap items-center justify-center gap-3">
     <Button disabled>
-      <LoaderCircleIcon className="animate-spin" />
+      <Spinner />
       Processing
     </Button>
     <Button variant="outline" disabled>
-      <LoaderCircleIcon className="animate-spin" />
+      <Spinner />
       Loading
     </Button>
   </div>

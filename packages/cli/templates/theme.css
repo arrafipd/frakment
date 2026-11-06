@@ -224,3 +224,16 @@
 /* === Registry animations === */
 /* Injected to end users via the FRAKMENT THEME block.
    Required by registry components that use animate-* utilities. */
+
+@theme {
+  --animate-shimmer: shimmer 1.6s linear infinite;
+
+  @keyframes shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
+}

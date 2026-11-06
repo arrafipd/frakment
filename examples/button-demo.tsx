@@ -1,10 +1,6 @@
-import {
-  ArrowRightIcon,
-  LoaderCircleIcon,
-  PlusIcon,
-  TrashIcon,
-} from "lucide-react";
+import { ArrowRightIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 
 export function ButtonDemo() {
   return (
@@ -38,7 +34,7 @@ export function ButtonDemo() {
       </div>
       <div className="flex flex-wrap items-center gap-2">
         <Button disabled>
-          <LoaderCircleIcon className="animate-spin" />
+          <Spinner />
           Processing
         </Button>
         <Button variant="secondary">Save changes</Button>

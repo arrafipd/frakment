@@ -5,7 +5,8 @@ description: A small inline status row with icon, content, and separator variant
 
 import { MarkerDemo } from "@/examples/marker-demo";
 import { Marker, MarkerContent, MarkerIcon } from "@/components/ui/marker";
-import { CheckIcon, ChevronRightIcon, ClockIcon, GitBranchIcon, LoaderCircleIcon, SearchIcon } from "lucide-react";
+import { CheckIcon, ChevronRightIcon, ClockIcon, GitBranchIcon, SearchIcon } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner";
 
 <ComponentPreview
   name="marker"
@@ -127,19 +128,19 @@ Set `role="status"` when the marker announces a live change. Pair with a spinner
   <div className="flex w-full max-w-sm flex-col gap-4">
     <Marker role="status">
       <MarkerIcon>
-        <LoaderCircleIcon className="animate-spin" />
+        <Spinner />
       </MarkerIcon>
       <MarkerContent className="shimmer">{"Thinking..."}</MarkerContent>
     </Marker>
     <Marker role="status">
       <MarkerIcon>
-        <LoaderCircleIcon className="animate-spin" />
+        <Spinner />
       </MarkerIcon>
       <MarkerContent className="shimmer">{"Reading 4 files..."}</MarkerContent>
     </Marker>
     <Marker role="status">
       <MarkerIcon>
-        <LoaderCircleIcon className="animate-spin" />
+        <Spinner />
       </MarkerIcon>
       <MarkerContent className="shimmer">{"Running tests..."}</MarkerContent>
     </Marker>

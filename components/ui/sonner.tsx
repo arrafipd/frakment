@@ -3,13 +3,13 @@
 import {
   CircleCheckIcon,
   InfoIcon,
-  Loader2Icon,
   OctagonXIcon,
   TriangleAlertIcon,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import * as React from "react";
 import { Toaster as Sonner, type ToasterProps } from "sonner";
+import { Spinner } from "@/components/ui/spinner";
 
 const Toaster = ({ position, ...props }: ToasterProps) => {
   const { theme = "system" } = useTheme();
@@ -44,7 +44,7 @@ const Toaster = ({ position, ...props }: ToasterProps) => {
         ),
         loading: (
           <div className="bg-muted flex size-7 items-center justify-center rounded-lg">
-            <Loader2Icon className="size-4 animate-spin" />
+            <Spinner />
           </div>
         ),
         success: (

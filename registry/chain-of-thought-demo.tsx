@@ -7,7 +7,6 @@ import {
   CircleAlertIcon,
   CircleCheckIcon,
   GlobeIcon,
-  LoaderCircleIcon,
 } from "lucide-react";
 import * as React from "react";
 import { Badge } from "@/components/ui/badge";
@@ -15,6 +14,7 @@ import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import { Button } from "@/components/ui/button";
 import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block";
 import { Message, MessageContent } from "@/components/ui/message";
+import { Spinner } from "@/components/ui/spinner";
 import {
   Trace,
   TraceCollapsible,
@@ -97,7 +97,7 @@ const transport = chat.transport({ delayMs: 20 });
 
 function StatusIcon({ status }: { status?: "running" | "error" }) {
   if (status === "running") {
-    return <LoaderCircleIcon className="animate-spin" />;
+    return <Spinner />;
   }
   return status === "error" ? <CircleAlertIcon /> : <CircleCheckIcon />;
 }

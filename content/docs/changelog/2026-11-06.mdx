@@ -1,0 +1,92 @@
+---
+title: "November 6, 2026"
+description: "Dialog and Sheet primitives, full-demo registry blocks, and a unified Motion animation system."
+date: "2026-11-06"
+---
+
+import { DialogDemo } from "@/examples/dialog-demo";
+import { SheetDemo } from "@/examples/sheet-demo";
+import { TraceDemo } from "@/examples/trace-demo";
+
+This release adds two modal primitives, ships full-demo registry blocks for AI-heavy examples, and moves every state transition onto Motion.
+
+- [Dialog](#dialog): Modal window built on Radix with a close button toggle.
+- [Sheet](#sheet): Modal panel that slides in from any edge.
+- [Trace demos](#trace-demos): Six full-demo blocks for trace and AI examples.
+- [Animation system](#animation-system): Accordion, collapsible, and shimmer now run on Motion.
+<hr className="my-16 border-border/40" />
+
+### Dialog
+
+<ComponentPreview name="dialog" title="dialog.tsx">
+  <DialogDemo />
+</ComponentPreview>
+
+**Dialog** renders a modal window that traps focus and dismisses on Escape or backdrop click. Built on Radix Dialog.
+
+`DialogContent` accepts `showCloseButton` (default `true`) to toggle the top-right close button. Use `asChild` on `DialogTrigger` and `DialogClose` to render your own Button.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive</Step>
+
+~~~bash
+npx frakment add dialog
+~~~
+
+</Steps>
+
+See the [Dialog docs](/docs/components/dialog) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Sheet
+
+<ComponentPreview name="sheet" title="sheet.tsx">
+  <SheetDemo />
+</ComponentPreview>
+
+**Sheet** is a modal panel that slides in from the edge of the screen. It shares the Radix Dialog foundation, so focus is trapped and Escape dismisses.
+
+`SheetContent` accepts `side` (`top | right | bottom | left`) and `showCloseButton` (default `true`).
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive</Step>
+
+~~~bash
+npx frakment add sheet
+~~~
+
+</Steps>
+
+See the [Sheet docs](/docs/components/sheet) for the full API reference.
+<hr className="my-16 border-border/40" />
+
+### Trace demos
+
+<ComponentPreview name="trace" title="trace.tsx">
+  <TraceDemo />
+</ComponentPreview>
+
+Six full-demo blocks ship as registry items: `trace-demo`, `trace-commit`, `trace-dialog`, `trace-sheet`, `trace-thinking`, and `trace-tool-calls`. Each pulls its own `@ai-sdk/react`, `ai`, and UI dependencies so the source is copy-pasteable.
+
+~~~bash
+npx frakment add trace-demo
+~~~
+
+The preview above is the exact code you get from the install command.
+
+### Animation system
+
+Accordion and Collapsible now animate height through Motion instead of CSS keyframes. Shimmer is a Motion component. `TraceCollapsibleContent` uses `ResizeObserver` so streaming content updates the spring target instead of stalling on `auto`.
+
+`lib/animation.ts` ships with `npx frakment init` and exports `SPRING_SMOOTH`, `EASE_OUT`, `EASE_SMOOTH`, `EASE_IN_OUT`, `DURATION_FAST`, `DURATION_SMOOTH`. Import from it when you build animated components so timing matches the library.
+
+~~~ts
+import { SPRING_SMOOTH } from "@/lib/animation";
+~~~
+
+See the [Animations guide](/docs/animations) for the two-engine model.

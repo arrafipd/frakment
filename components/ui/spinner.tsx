@@ -1,4 +1,4 @@
-import { LoaderCircleIcon, LoaderIcon } from "lucide-react";
+import { LoaderIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -6,15 +6,33 @@ function Spinner({
   className,
   variant = "default",
   ...props
-}: React.ComponentProps<"svg"> & {
+}: React.ComponentProps<"span"> & {
   variant?: "default" | "spoke";
 }) {
-  const Icon = variant === "spoke" ? LoaderIcon : LoaderCircleIcon;
+  if (variant === "spoke") {
+    return (
+      <span
+        aria-label="Loading"
+        className={cn(
+          "inline-flex size-4 shrink-0 items-center justify-center",
+          className
+        )}
+        data-slot="spinner"
+        role="status"
+        {...props}
+      >
+        <span className="block size-full [transform-origin:center] animate-spin [transform-box:view-box]">
+          <LoaderIcon className="block size-full [shape-rendering:geometricPrecision]" />
+        </span>
+      </span>
+    );
+  }
+
   return (
-    <Icon
+    <span
       aria-label="Loading"
       className={cn(
-        "inline-block size-4 shrink-0 animate-spin align-middle",
+        "inline-block size-4 shrink-0 animate-spin rounded-full border-2 border-current border-t-transparent",
         className
       )}
       data-slot="spinner"

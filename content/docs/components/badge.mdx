@@ -6,7 +6,8 @@ description: Displays a badge or a component that looks like a badge.
 import { BadgeDemo } from "@/examples/badge-demo";
 
 import { Badge } from "@/components/ui/badge";
-import { CheckIcon, ClockIcon, CircleAlertIcon, LoaderCircleIcon, PackageIcon, SparklesIcon, StarIcon, XIcon } from "lucide-react";
+import { CheckIcon, ClockIcon, CircleAlertIcon, PackageIcon, SparklesIcon, StarIcon, XIcon } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner";
 
 <ComponentPreview name="badge" title="badge.tsx">
   <BadgeDemo />
@@ -197,21 +198,21 @@ Render a spinner beside the label to indicate an in-progress state.
 <ComponentPreview name="badge" title="badge.tsx">
   <div className="flex flex-wrap items-center justify-center gap-3">
     <Badge variant="secondary">
-      <LoaderCircleIcon className="animate-spin" />
+      <Spinner />
       Generating
     </Badge>
     <Badge variant="outline">
-      <LoaderCircleIcon className="animate-spin" />
+      <Spinner />
       Loading
     </Badge>
   </div>
 </ComponentPreview>
 
 ```tsx title="example.tsx"
-import { LoaderCircleIcon } from "lucide-react";
+
 
 <Badge variant="secondary">
-  <LoaderCircleIcon className="animate-spin" />
+  <Spinner />
   Generating
 </Badge>;
 ```
@@ -313,7 +314,7 @@ Badges are designed to be composed. They sit inside headings, table cells, list 
     <div className="flex items-center justify-between rounded-lg border border-border p-3">
       <span className="text-sm font-medium">Deploy v1.2.1</span>
       <Badge variant="secondary">
-        <LoaderCircleIcon className="animate-spin" />
+        <Spinner />
         Building
       </Badge>
     </div>
