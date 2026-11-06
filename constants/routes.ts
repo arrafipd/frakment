@@ -6,6 +6,7 @@ export const ROUTES = {
   DOCS: "/docs",
   DOCS_AGENTS: "/docs/agents",
   DOCS_AI_ELEMENTS: "/docs/ai-elements",
+  DOCS_ANIMATIONS: "/docs/animations",
   DOCS_BRAND: "/docs/brand",
   DOCS_CHANGELOG: "/docs/changelog",
   DOCS_COMPONENTS: "/docs/components",

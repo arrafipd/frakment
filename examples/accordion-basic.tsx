@@ -31,7 +31,7 @@ const items = [
 export function AccordionBasic() {
   return (
     <Accordion
-      className="max-w-lg"
+      className="w-full max-w-lg"
       collapsible
       defaultValue="item-1"
       type="single"

@@ -4,6 +4,7 @@ description: A chat message layout with alignment, avatar, header, and footer.
 ---
 
 import { MessageDemo } from "@/examples/message-demo";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import {
   Message,
@@ -133,7 +134,12 @@ Add `MessageAvatar` as the first child of `Message`. It sits at the bottom of th
 >
   <div className="w-full max-w-md space-y-3 p-6">
     <Message>
-      <MessageAvatar>{"AI"}</MessageAvatar>
+      <MessageAvatar>
+              <Avatar>
+                <AvatarImage alt="@ai" src="/avatars/male-r.avif" />
+                <AvatarFallback>{"R"}</AvatarFallback>
+              </Avatar>
+            </MessageAvatar>
       <MessageContent>
         <MessageHeader>{"Assistant"}</MessageHeader>
         <Bubble>
@@ -142,7 +148,12 @@ Add `MessageAvatar` as the first child of `Message`. It sits at the bottom of th
       </MessageContent>
     </Message>
     <Message align="end">
-      <MessageAvatar>{"You"}</MessageAvatar>
+      <MessageAvatar>
+              <Avatar>
+                <AvatarImage alt="@me" src="/avatars/female-l-1.avif" />
+                <AvatarFallback>{"ME"}</AvatarFallback>
+              </Avatar>
+            </MessageAvatar>
       <MessageContent>
         <Bubble variant="muted" align="end">
           <BubbleContent>{"Thanks!"}</BubbleContent>
@@ -164,7 +175,12 @@ Header above the bubble, footer below — useful for names, timestamps, and inli
 >
   <div className="w-full max-w-md p-6">
     <Message>
-      <MessageAvatar>{"AI"}</MessageAvatar>
+      <MessageAvatar>
+              <Avatar>
+                <AvatarImage alt="@ai" src="/avatars/male-r.avif" />
+                <AvatarFallback>{"R"}</AvatarFallback>
+              </Avatar>
+            </MessageAvatar>
       <MessageContent>
         <MessageHeader>{"Assistant · 2:14 PM"}</MessageHeader>
         <Bubble>
@@ -191,7 +207,12 @@ The realistic pattern: a group of messages using **Message**, **Bubble**, and op
   <div className="w-full max-w-md p-6">
     <MessageGroup>
       <Message>
-        <MessageAvatar>{"AI"}</MessageAvatar>
+        <MessageAvatar>
+              <Avatar>
+                <AvatarImage alt="@ai" src="/avatars/male-r.avif" />
+                <AvatarFallback>{"R"}</AvatarFallback>
+              </Avatar>
+            </MessageAvatar>
         <MessageContent>
           <MessageHeader>{"Assistant"}</MessageHeader>
           <Bubble>
@@ -200,7 +221,12 @@ The realistic pattern: a group of messages using **Message**, **Bubble**, and op
         </MessageContent>
       </Message>
       <Message align="end">
-        <MessageAvatar>{"You"}</MessageAvatar>
+        <MessageAvatar>
+              <Avatar>
+                <AvatarImage alt="@me" src="/avatars/female-l-1.avif" />
+                <AvatarFallback>{"ME"}</AvatarFallback>
+              </Avatar>
+            </MessageAvatar>
         <MessageContent>
           <MessageHeader>{"You"}</MessageHeader>
           <Bubble variant="muted" align="end">
@@ -211,7 +237,12 @@ The realistic pattern: a group of messages using **Message**, **Bubble**, and op
         </MessageContent>
       </Message>
       <Message>
-        <MessageAvatar>{"AI"}</MessageAvatar>
+        <MessageAvatar>
+              <Avatar>
+                <AvatarImage alt="@ai" src="/avatars/male-r.avif" />
+                <AvatarFallback>{"R"}</AvatarFallback>
+              </Avatar>
+            </MessageAvatar>
         <MessageContent>
           <MessageHeader>{"Assistant"}</MessageHeader>
           <Bubble>

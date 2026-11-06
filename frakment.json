@@ -26,7 +26,7 @@
       "name": "chain-of-thought",
       "version": "0.1.0",
       "title": "chain-of-thought",
-      "description": "",
+      "description": "Reasoning steps rendered as nested traces.",
       "source": "registry/chain-of-thought.tsx",
       "target": "components/ui/chain-of-thought.tsx",
       "dependencies": [],
@@ -60,7 +60,7 @@
       "source": "registry/trace.tsx",
       "target": "components/ui/trace.tsx",
       "dependencies": ["motion", "radix-ui"],
-      "registryDependencies": []
+      "registryDependencies": ["shimmer"]
     },
     {
       "name": "terminal",
@@ -324,7 +324,7 @@
       "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
       "source": "registry/accordion.tsx",
       "target": "components/ui/accordion.tsx",
-      "dependencies": ["radix-ui"],
+      "dependencies": ["motion", "radix-ui"],
       "registryDependencies": []
     },
     {
@@ -374,7 +374,7 @@
       "description": "An interactive component which expands and collapses a panel.",
       "source": "registry/collapsible.tsx",
       "target": "components/ui/collapsible.tsx",
-      "dependencies": ["radix-ui"],
+      "dependencies": ["motion", "radix-ui"],
       "registryDependencies": []
     },
     {
@@ -436,6 +436,61 @@
       "target": "components/ui/sonner.tsx",
       "dependencies": ["next-themes", "sonner"],
       "registryDependencies": []
+    },
+    {
+      "name": "shimmer",
+      "version": "0.1.0",
+      "title": "Shimmer",
+      "description": "Motion-driven text shimmer for streaming states.",
+      "source": "registry/shimmer.tsx",
+      "target": "components/ui/shimmer.tsx",
+      "dependencies": ["motion"],
+      "registryDependencies": []
+    },
+    {
+      "name": "attachment",
+      "version": "0.1.0",
+      "title": "Attachment",
+      "description": "Displays file attachments with state indicators and shimmer for upload/processing.",
+      "source": "registry/attachment.tsx",
+      "target": "components/ui/attachment.tsx",
+      "dependencies": ["class-variance-authority", "motion", "radix-ui"],
+      "registryDependencies": ["button", "shimmer"]
+    },
+    {
+      "name": "terminal-demo",
+      "version": "0.1.0",
+      "title": "Terminal Demo",
+      "description": "Full streaming terminal example with useChat and createChat. Matches the preview on the docs page.",
+      "source": "registry/terminal-demo.tsx",
+      "target": "components/terminal-demo.tsx",
+      "dependencies": ["@ai-sdk/react", "ai", "lucide-react"],
+      "registryDependencies": [
+        "ai",
+        "bubble",
+        "button",
+        "code-block",
+        "message",
+        "trace"
+      ]
+    },
+    {
+      "name": "chain-of-thought-demo",
+      "version": "0.1.0",
+      "title": "Chain of Thought Demo",
+      "description": "Full streaming chain-of-thought example with multi-step tool calls, streaming build log, and auto-expand. Matches the preview on the docs page.",
+      "source": "registry/chain-of-thought-demo.tsx",
+      "target": "components/chain-of-thought-demo.tsx",
+      "dependencies": ["@ai-sdk/react", "ai", "lucide-react"],
+      "registryDependencies": [
+        "ai",
+        "badge",
+        "bubble",
+        "button",
+        "code-block",
+        "message",
+        "trace"
+      ]
     }
   ],
   "skills": [

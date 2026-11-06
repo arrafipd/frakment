@@ -4,6 +4,7 @@ description: A live command runner that streams shell commands and output with t
 ---
 
 import { TerminalDemo } from "@/examples/terminal-demo";
+import { TerminalError } from "@/examples/terminal-error";
 import { Terminal, TerminalCommand } from "@/components/ui/terminal";
 
 <ComponentPreview name="terminal" title="terminal.tsx">
@@ -76,96 +77,23 @@ A terminal has three visible parts.
 
 ## Examples
 
-### Running
+### Error output
+
+Mark a `TraceLine` with `status="error"` to turn the title red. The collapsible body still uses `CodeBlock` — anything that fits inside a `TraceCollapsibleContent` works.
 
 <ComponentPreview name="terminal" title="terminal.tsx">
-  <Terminal>
-    <TerminalCommand
-      command="npm run registry:build"
-      output="Building fraktment registry..."
-      status="running"
-    />
-  </Terminal>
+  <TerminalError />
 </ComponentPreview>
 
-```tsx title="terminal.tsx"
-<Terminal>
-  <TerminalCommand
-    command="npm run registry:build"
-    output="Building fraktment registry..."
-    status="running"
-  />
-</Terminal>
-```
+### Full demo
 
-### Error
+The preview on this page is the same code you get from `npx frakment add terminal-demo`. It wires `useChat`, `createChat`, and `transport` from `@frakment/ai`, streams three commands, and uses `TraceCollapsible` for auto-expand during streaming and manual toggle afterwards.
 
-<ComponentPreview name="terminal" title="terminal.tsx">
-  <Terminal>
-    <TerminalCommand
-      command="npm run build"
-      output="error: Cannot find module @/lib/utils"
-      status="error"
-    />
-  </Terminal>
-</ComponentPreview>
+~~~bash
+npx frakment add terminal-demo
+~~~
 
-```tsx title="terminal.tsx"
-<Terminal>
-  <TerminalCommand
-    command="npm run build"
-    output="error: Cannot find module @/lib/utils"
-    status="error"
-  />
-</Terminal>
-```
-
-### Multiple commands
-
-<ComponentPreview name="terminal" title="terminal.tsx">
-  <Terminal>
-    <TerminalCommand
-      command="npm run registry:build"
-      output="✓ Built 15 components"
-    />
-    <TerminalCommand
-      command="npx frakment add bubble"
-      output="✓ bubble added"
-    />
-    <TerminalCommand command="npm run dev" output="▲ Next.js ready on :3000" />
-  </Terminal>
-</ComponentPreview>
-
-```tsx title="terminal.tsx"
-<Terminal>
-  <TerminalCommand
-    command="npm run registry:build"
-    output="✓ Built 15 components"
-  />
-  <TerminalCommand command="npx frakment add bubble" output="✓ bubble added" />
-  <TerminalCommand command="npm run dev" output="▲ Next.js ready on :3000" />
-</Terminal>
-```
-
-### Collapsed
-
-<ComponentPreview name="terminal" title="terminal.tsx">
-  <Terminal>
-    <TerminalCommand
-      command="npx frakment add button"
-      output="✓ button added"
-      defaultOpen={false}
-    />
-  </Terminal>
-</ComponentPreview>
-
-```tsx title="terminal.tsx"
-<TerminalCommand
-  command="npx frakment add button"
-  output="✓ button added"
-  defaultOpen={false}
-/>
-```
+The demo installs `@ai-sdk/react`, `ai`, and every UI primitive it uses. Run it as-is, or replace `createChat` with your own backend that streams `data-terminal` parts.
 
 ## API Reference
 

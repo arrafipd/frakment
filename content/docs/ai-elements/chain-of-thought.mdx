@@ -100,77 +100,15 @@ import {
 </ChainOfThought>
 ```
 
-## Steps
+### Full demo
 
-Each step is a **ChainOfThoughtStep** — a single row with a status icon and a title. Use the `status` prop on the parent TraceLine to control color and shimmer.
+The preview on this page is the same code you get from `npx frakment add chain-of-thought-demo`. It wires `useChat`, `createChat`, and `transport` from `@frakment/ai`, streams three tool calls with a line-by-line build log, and uses nested `TraceCollapsible` for auto-expand and manual toggle.
 
-<ComponentPreview
-  name="chain-of-thought"
-  title="chain-of-thought.tsx"
-  align="start"
-  previewClassName="h-auto"
->
-  <div className="w-full max-w-md p-6">
-    <ChainOfThought defaultOpen>
-      <ChainOfThoughtHeader>Researched in 3 steps</ChainOfThoughtHeader>
-      <ChainOfThoughtContent>
-        <ChainOfThoughtStep>
-          <CheckIcon className="text-emerald-600 dark:text-emerald-400" />
-          <span>Read the build log for dpl_8Kx2</span>
-        </ChainOfThoughtStep>
-        <ChainOfThoughtStep>
-          <LoaderCircleIcon className="animate-spin" />
-          <span className="shimmer">Checking bundle size for dashboard.js</span>
-        </ChainOfThoughtStep>
-        <ChainOfThoughtStep>
-          <CircleAlertIcon className="text-destructive" />
-          <span>Profiled 3 API endpoints</span>
-        </ChainOfThoughtStep>
-      </ChainOfThoughtContent>
-    </ChainOfThought>
-  </div>
-</ComponentPreview>
+~~~bash
+npx frakment add chain-of-thought-demo
+~~~
 
-## In context
-
-Pair **ChainOfThought** with Message and Bubble for a full agent conversation.
-
-<ComponentPreview
-  name="chain-of-thought"
-  title="chain-of-thought.tsx"
-  align="start"
-  previewClassName="h-auto"
->
-  <div className="flex w-full max-w-md flex-col gap-3 p-6">
-    <div className="flex justify-end">
-      <div className="rounded-lg bg-muted px-3 py-2 text-sm">
-        Why is the dashboard taking 4 seconds to load?
-      </div>
-    </div>
-    <ChainOfThought defaultOpen>
-      <ChainOfThoughtHeader>Profiled 3 signals</ChainOfThoughtHeader>
-      <ChainOfThoughtContent>
-        <ChainOfThoughtStep>
-          <CheckIcon className="text-emerald-600 dark:text-emerald-400" />
-          <span>Analyzed bundle for dashboard</span>
-        </ChainOfThoughtStep>
-        <ChainOfThoughtStep>
-          <CheckIcon className="text-emerald-600 dark:text-emerald-400" />
-          <span>Profiled 3 network requests</span>
-        </ChainOfThoughtStep>
-        <ChainOfThoughtStep>
-          <CheckIcon className="text-emerald-600 dark:text-emerald-400" />
-          <span>Scanned render tree</span>
-        </ChainOfThoughtStep>
-      </ChainOfThoughtContent>
-    </ChainOfThought>
-    <p className="text-sm">
-      {
-        "Two problems compound. Chart library (812 KB) loads on first paint, blocking interactivity. Then three API calls run sequentially instead of in parallel."
-      }
-    </p>
-  </div>
-</ComponentPreview>
+The demo installs `@ai-sdk/react`, `ai`, `badge`, `bubble`, `button`, `code-block`, `message`, and `trace`. Run it as-is, or replace `createChat` with your own backend that streams `data-buildLog` and tool parts.
 
 ## API Reference
 

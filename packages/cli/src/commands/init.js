@@ -144,6 +144,25 @@ export function cn(...inputs: ClassValue[]) {
     s.stop(`${pc.green("✓")} lib/utils.ts`);
   }
 
+  // 3b. lib/animation.ts
+  if (!existsSync(path.join(cwd, "lib/animation.ts"))) {
+    s.start("creating lib/animation.ts");
+    await mkdir(path.join(cwd, "lib"), { recursive: true });
+    await writeFile(
+      path.join(cwd, "lib/animation.ts"),
+      `export const SPRING_SMOOTH = { type: "spring", stiffness: 200, damping: 30 } as const
+
+export const EASE_OUT = [0.16, 1, 0.3, 1] as const
+export const EASE_SMOOTH = [0.32, 0.72, 0, 1] as const
+export const EASE_IN_OUT = [0.4, 0, 0.2, 1] as const
+
+export const DURATION_FAST = 0.2
+export const DURATION_SMOOTH = 0.45
+`
+    );
+    s.stop(`${pc.green("✓")} lib/animation.ts`);
+  }
+
   // 4. dependencies
   const pkgPath = path.join(cwd, "package.json");
   const pkgRaw = await readFile(pkgPath, "utf-8");

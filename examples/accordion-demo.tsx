@@ -10,7 +10,7 @@ import {
 export function AccordionDemo() {
   return (
     <Accordion
-      className="max-w-lg"
+      className="w-full max-w-lg"
       collapsible
       defaultValue="shipping"
       type="single"

@@ -216,3 +216,47 @@ Rules going forward:
 - Any `@utility <name>` that references a keyframe (e.g. shimmer) needs its `@keyframes` in theme.css too.
 - After editing `theme.css`, copy to `packages/cli/templates/theme.css` and verify SHA256 match.
 - Audit: grep both dirs for `animate-([a-z-]+)` and `shimmer`, confirm each name exists in theme.css.
+
+## MCP compose + list_scenarios
+
+`packages/mcp/index.js` has a `SCENARIOS` constant with 8 built-in compositions. Two tools added: `list_scenarios` (no input) and `compose({ scenario })`.
+
+| Scenario | Components | Install entry |
+|---|---|---|
+| chat | bubble, message, message-scroller, avatar, message-animated | message-animated |
+| agent-timeline | trace, chain-of-thought, pulse, terminal | terminal |
+| code-output | code-block, terminal | code-block |
+| login-form | field, label, input, button, checkbox | field |
+| settings-panel | field, switch, toggle-group, separator | toggle-group |
+| empty-state | empty, button | empty |
+| search-input | input-group, input, button, spinner | input-group |
+| status-dashboard | pulse, pulse-status, badge | pulse |
+
+### Extending
+
+Add an entry to `SCENARIOS` in `packages/mcp/index.js`. Shape: `{ components: [], description: "", install: "<component>", note: "" }`.
+
+`install` is the component whose `npx frakment add` pulls the rest via `registryDependencies`. For scenarios without a single entry that pulls everything, pick the largest parent — user adds the rest manually.
+
+After adding, update the supported-scenarios list in `content/docs/mcp/index.mdx` and rebuild the site.
+
+### Not per-scenario in user docs
+
+Scenario list is discovered via `list_scenarios` tool, not enumerated in docs. User docs only list the 2 new tools (`list_scenarios`, `compose`) in `content/docs/mcp/index.mdx`.
+
+### Adding a new docs section
+
+Edit `TOP_LEVEL_SECTIONS` in `lib/docs.ts` plus `content/docs/meta.json`. Both list the section in order. Consumers (`docs-sidebar`, `mobile-nav`, `command-menu`, prev/next in `app/(app)/docs/[[...slug]]/page.tsx`) all read `TOP_LEVEL_SECTIONS`, so one edit propagates everywhere. Do not hardcode sections in the consumer files.
+
+Five steps:
+
+1. `content/docs/<slug>/index.mdx` with frontmatter (`title`, `description`).
+2. `content/docs/<slug>/meta.json` with `{ "title": "<Display Name>" }`.
+3. Add `"<slug>"` to `content/docs/meta.json` `pages` at the desired position.
+4. Add `DOCS_<SLUG>: "/docs/<slug>"` to `constants/routes.ts`.
+5. Add `{ href: ROUTES.DOCS_<SLUG>, name: "<Display Name>" }` to `TOP_LEVEL_SECTIONS` in `lib/docs.ts`.
+
+Run `npm run build` to verify.
+
+Example (`agents`, 2026-11-05): inserted between `mcp` and `changelog` in both `meta.json` and `TOP_LEVEL_SECTIONS`.
+

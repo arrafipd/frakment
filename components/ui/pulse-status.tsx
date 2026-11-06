@@ -1,4 +1,4 @@
-import { CircleCheck, TriangleAlert, X } from "lucide-react";
+import { CircleCheck, TriangleAlertIcon, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -7,7 +7,7 @@ export type PulseStatusType = "up" | "degraded" | "down";
 const STATUS_CONFIG = {
   degraded: {
     color: "text-amber-600 dark:text-amber-400",
-    icon: TriangleAlert,
+    icon: TriangleAlertIcon,
     label: "Degraded",
   },
   down: {

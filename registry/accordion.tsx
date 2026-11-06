@@ -1,7 +1,10 @@
 "use client";
 
 import { ChevronDownIcon } from "lucide-react";
+import { motion } from "motion/react";
 import { Accordion as AccordionPrimitive } from "radix-ui";
+import * as React from "react";
+import { DURATION_SMOOTH, EASE_SMOOTH } from "@/lib/animation";
 import { cn } from "@/lib/utils";
 
 const Accordion = ({
@@ -20,6 +23,7 @@ const AccordionItem = ({
     {...props}
   />
 );
+
 const AccordionTrigger = ({
   className,
   children,
@@ -44,14 +48,40 @@ const AccordionContent = ({
   className,
   children,
   ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Content>) => (
-  <AccordionPrimitive.Content
-    className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm"
-    data-slot="accordion-content"
-    {...props}
-  >
-    <div className={cn("pt-0 pb-4", className)}>{children}</div>
-  </AccordionPrimitive.Content>
-);
+}: React.ComponentProps<typeof AccordionPrimitive.Content>) => {
+  const ref = React.useRef<HTMLDivElement>(null);
+  const [open, setOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) {
+      return;
+    }
+    const update = () => setOpen(el.getAttribute("data-state") === "open");
+    update();
+    const observer = new MutationObserver(update);
+    observer.observe(el, { attributeFilter: ["data-state"], attributes: true });
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <AccordionPrimitive.Content asChild forceMount {...props}>
+      <div className="w-full" ref={ref}>
+        <motion.div
+          animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
+          className="w-full overflow-hidden text-sm"
+          data-slot="accordion-content"
+          initial={false}
+          transition={{
+            height: { duration: DURATION_SMOOTH, ease: EASE_SMOOTH },
+            opacity: { duration: 0.2 },
+          }}
+        >
+          <div className={cn("pt-0 pb-4", className)}>{children}</div>
+        </motion.div>
+      </div>
+    </AccordionPrimitive.Content>
+  );
+};
 
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger };

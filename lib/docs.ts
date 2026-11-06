@@ -24,6 +24,7 @@ export const TOP_LEVEL_SECTIONS: TopLevelSection[] = [
   { href: ROUTES.DOCS, name: "Introduction" },
   { href: ROUTES.DOCS_INSTALLATION, name: "Installation" },
   { href: ROUTES.DOCS_THEMING, name: "Theming" },
+  { href: ROUTES.DOCS_ANIMATIONS, name: "Animations" },
   { href: ROUTES.DOCS_COMPONENTS, name: "Components" },
   { href: ROUTES.DOCS_AI_ELEMENTS, name: "AI Elements" },
   { href: ROUTES.DOCS_SKILLS, name: "Skills" },

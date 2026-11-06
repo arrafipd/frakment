@@ -16,7 +16,7 @@
     },
     {
       "deprecated": false,
-      "description": "",
+      "description": "Reasoning steps rendered as nested traces.",
       "name": "chain-of-thought",
       "title": "chain-of-thought",
       "version": "0.1.0"
@@ -292,6 +292,34 @@
       "description": "An opinionated toast component for React, powered by Sonner.",
       "name": "sonner",
       "title": "Toast",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Motion-driven text shimmer for streaming states.",
+      "name": "shimmer",
+      "title": "Shimmer",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Displays file attachments with state indicators and shimmer for upload/processing.",
+      "name": "attachment",
+      "title": "Attachment",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Full streaming terminal example with useChat and createChat. Matches the preview on the docs page.",
+      "name": "terminal-demo",
+      "title": "Terminal Demo",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Full streaming chain-of-thought example with multi-step tool calls, streaming build log, and auto-expand. Matches the preview on the docs page.",
+      "name": "chain-of-thought-demo",
+      "title": "Chain of Thought Demo",
       "version": "0.1.0"
     }
   ],

@@ -1,9 +1,10 @@
 import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
 import { Slot } from "radix-ui";
-import type * as React from "react";
+import * as React from "react";
 
 import { Button } from "@/components/ui/button";
+import { Shimmer } from "@/components/ui/shimmer";
 import { cn } from "@/lib/utils";
 
 const attachmentVariants = cva(
@@ -24,6 +25,10 @@ const attachmentVariants = cva(
   }
 );
 
+const AttachmentContext = React.createContext<{
+  state?: "idle" | "uploading" | "processing" | "error" | "done";
+}>({});
+
 function Attachment({
   className,
   state = "done",
@@ -35,14 +40,16 @@ function Attachment({
     state?: "idle" | "uploading" | "processing" | "error" | "done";
   }) {
   return (
-    <div
-      className={cn(attachmentVariants({ orientation, size }), className)}
-      data-orientation={orientation}
-      data-size={size}
-      data-slot="attachment"
-      data-state={state}
-      {...props}
-    />
+    <AttachmentContext.Provider value={{ state }}>
+      <div
+        className={cn(attachmentVariants({ orientation, size }), className)}
+        data-orientation={orientation}
+        data-size={size}
+        data-slot="attachment"
+        data-state={state}
+        {...props}
+      />
+    </AttachmentContext.Provider>
   );
 }
 
@@ -95,17 +102,20 @@ function AttachmentContent({
 
 function AttachmentTitle({
   className,
+  children,
   ...props
 }: React.ComponentProps<"span">) {
+  const { state } = React.useContext(AttachmentContext);
+  const shimmering = state === "processing" || state === "uploading";
+  const content = shimmering ? <Shimmer>{children}</Shimmer> : children;
   return (
     <span
-      className={cn(
-        "group-data-[state=processing]/attachment:shimmer group-data-[state=uploading]/attachment:shimmer block max-w-full min-w-0 truncate font-medium",
-        className
-      )}
+      className={cn("block max-w-full min-w-0 truncate font-medium", className)}
       data-slot="attachment-title"
       {...props}
-    />
+    >
+      {content}
+    </span>
   );
 }
 

@@ -1,15 +1,14 @@
 "use client";
 
 import { useChat } from "@ai-sdk/react";
-import type { UIDataTypes, UIMessage } from "ai";
+import type { UIMessage } from "ai";
 import {
+  ArrowUpRightIcon,
   CircleAlertIcon,
   CircleCheckIcon,
-  FileCode2Icon,
+  GlobeIcon,
   LoaderCircleIcon,
-  NetworkIcon,
 } from "lucide-react";
-import { motion } from "motion/react";
 import * as React from "react";
 import { Badge } from "@/components/ui/badge";
 import { Bubble, BubbleContent } from "@/components/ui/bubble";
@@ -29,72 +28,72 @@ import { createChat, getMessageText } from "@/lib/ai";
 
 type ChatMessage = UIMessage<
   unknown,
-  UIDataTypes,
+  { buildLog: { output: string } },
   {
-    analyzeBundle: {
-      input: { entry: string };
-      output: { breakdown: { name: string; kb: number }[] };
+    searchWeb: {
+      input: { query: string };
+      output: { results: { title: string; url: string }[] };
     };
-    profileNetwork: {
-      input: { route: string };
-      output: { requests: { path: string; ms: number }[] };
-    };
-    scanRenderTree: {
-      input: { component: string };
-      output: { files: string[] };
-    };
+    readBuildLog: { input: { deployment: string }; output: { log: string } };
+    searchCode: { input: { query: string }; output: { files: string[] } };
   }
 >;
 
 type StepPart = Extract<
   ChatMessage["parts"][number],
-  { type: "tool-analyzeBundle" | "tool-profileNetwork" | "tool-scanRenderTree" }
+  { type: "tool-searchWeb" | "tool-readBuildLog" | "tool-searchCode" }
 >;
 
+const BUILD_LOG_LINES = ["install    41s", "compile    38s", "images   3m 52s"];
+
 const chat = createChat<ChatMessage>()
-  .user("Why is the dashboard taking 4 seconds to load?")
+  .user("Why is the checkout deploy so slow?")
   .assistant(({ writer }) => {
+    const logId = "readBuildLog";
+    const readLog = writer.tool("readBuildLog", {
+      input: { deployment: "dpl_8Kx2" },
+      toolCallId: logId,
+    });
+    BUILD_LOG_LINES.forEach((_, i) => {
+      writer
+        .data({
+          data: { output: BUILD_LOG_LINES.slice(0, i + 1).join("\n") },
+          id: logId,
+          type: "data-buildLog",
+        })
+        .sleep(200);
+    });
+    readLog.output({ log: BUILD_LOG_LINES.join("\n") });
+
     writer
-      .tool("analyzeBundle", { input: { entry: "dashboard" } })
-      .sleep(900)
+      .tool("searchWeb", { input: { query: "next.js image cache key" } })
+      .sleep(200)
       .output({
-        breakdown: [
-          { kb: 1240, name: "vendor.js" },
-          { kb: 812, name: "chart-lib.js" },
-          { kb: 340, name: "dashboard.js" },
-          { kb: 180, name: "icons.js" },
+        results: [
+          {
+            title: "Image component | nextjs.org",
+            url: "https://nextjs.org/docs/app/api-reference/components/image",
+          },
+          {
+            title: "Build cache | vercel.com",
+            url: "https://vercel.com/docs/deployments/troubleshoot-a-build",
+          },
         ],
       });
+
     writer
-      .tool("profileNetwork", { input: { route: "/dashboard" } })
-      .sleep(900)
-      .output({
-        requests: [
-          { ms: 620, path: "GET /api/stats" },
-          { ms: 410, path: "GET /api/charts" },
-          { ms: 210, path: "GET /api/user" },
-        ],
-      });
-    writer
-      .tool("scanRenderTree", { input: { component: "Dashboard" } })
-      .sleep(900)
-      .output({
-        files: [
-          "app/dashboard/page.tsx",
-          "components/chart-provider.tsx",
-          "hooks/use-dashboard.ts",
-          "components/kpi-grid.tsx",
-        ],
-      });
+      .tool("searchCode", { input: { query: "cacheKey" } })
+      .sleep(200)
+      .output({ files: ["next.config.ts", "scripts/optimize-images.ts"] });
+
     writer.text(
-      "Two problems compound. Chart library (812 KB) loads on first paint, blocking interactivity. Then the three API calls run sequentially instead of in parallel. Fix: lazy-load the chart and wrap the calls in Promise.all. Expect ~1.4s load time after this change."
+      "Image optimization takes almost four minutes because its cache key includes the commit hash. Key it on the image directory instead."
     );
   });
 
+const transcript = chat.get();
+const [question] = chat.get(1);
 const transport = chat.transport({ delayMs: 20 });
-
-const EASE = [0.32, 0.72, 0, 1] as const;
-const QUESTION_TEXT = "Why is the dashboard taking 4 seconds to load?";
 
 function StatusIcon({ status }: { status?: "running" | "error" }) {
   if (status === "running") {
@@ -106,26 +105,18 @@ function StatusIcon({ status }: { status?: "running" | "error" }) {
 function Step({
   title,
   status,
+  defaultOpen,
+  open,
+  onOpenChange,
   children,
-  delay = 0,
 }: {
   title: string;
   status?: "running" | "error";
+  defaultOpen?: boolean;
+  open?: boolean;
+  onOpenChange?: (next: boolean) => void;
   children?: React.ReactNode;
-  delay?: number;
 }) {
-  const [open, setOpen] = React.useState(false);
-  const shouldShow =
-    children !== undefined && children !== null && children !== false;
-
-  React.useEffect(() => {
-    if (!shouldShow) {
-      return;
-    }
-    const t = setTimeout(() => setOpen(true), delay);
-    return () => clearTimeout(t);
-  }, [shouldShow, delay]);
-
   const line = (
     <TraceLine status={status}>
       <TraceIcon>
@@ -134,27 +125,41 @@ function Step({
       <TraceTitle>{title}</TraceTitle>
     </TraceLine>
   );
-
-  if (!shouldShow) {
+  if (!children) {
     return line;
   }
 
+  const collapsibleProps =
+    open === undefined ? { defaultOpen } : { onOpenChange, open };
+
   return (
-    <TraceCollapsible onOpenChange={setOpen} open={open}>
+    <TraceCollapsible {...collapsibleProps}>
       <TraceCollapsibleTrigger>{line}</TraceCollapsibleTrigger>
       <TraceCollapsibleContent>{children}</TraceCollapsibleContent>
     </TraceCollapsible>
   );
 }
 
+function describeStep(part: StepPart, status?: "running" | "error"): string {
+  const verb = (running: string, done: string, failed: string) =>
+    status === "running" ? running : status === "error" ? failed : done;
+  if (part.type === "tool-searchWeb") {
+    return `${verb("Searching", "Searched", "Failed to search")} the web for ${part.input?.query}`;
+  }
+  if (part.type === "tool-readBuildLog") {
+    return `${verb("Reading", "Read", "Failed to read")} the build log for ${part.input?.deployment}`;
+  }
+  return `${verb("Searching", "Searched", "Failed to search")} the code for ${part.input?.query}`;
+}
+
 function StepRow({
   part,
+  streamedLog,
   streaming,
-  delay,
 }: {
   part: StepPart;
+  streamedLog?: string;
   streaming: boolean;
-  delay: number;
 }) {
   const status =
     part.state === "output-available"
@@ -170,22 +175,71 @@ function StepRow({
     </CodeBlock>
   );
 
-  if (part.type === "tool-analyzeBundle") {
-    const title =
-      status === "running"
-        ? `Analyzing bundle for ${part.input?.entry}`
-        : status === "error"
-          ? "Failed to analyze bundle"
-          : `Analyzed bundle for ${part.input?.entry}`;
+  const [userToggled, setUserToggled] = React.useState(false);
+  const [logOpen, setLogOpen] = React.useState(false);
+  const logText =
+    streamedLog ??
+    (part.type === "tool-readBuildLog" && part.state === "output-available"
+      ? part.output.log
+      : "");
+
+  React.useEffect(() => {
+    if (!userToggled && logText.length > 0) {
+      setLogOpen(true);
+    }
+  }, [logText, userToggled]);
+
+  const handleLogToggle = (next: boolean) => {
+    setUserToggled(true);
+    setLogOpen(next);
+  };
+
+  if (part.type === "tool-searchWeb") {
     return (
-      <Step delay={delay} status={status} title={title}>
+      <Step status={status} title={describeStep(part, status)}>
         {error ||
           (part.state === "output-available" && (
+            <Trace>
+              {part.output.results.map((result) => (
+                <a
+                  href={result.url}
+                  key={result.url}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  <TraceLine>
+                    <TraceIcon>
+                      <GlobeIcon />
+                    </TraceIcon>
+                    <TraceTitle>
+                      {result.title}
+                      <span className="sr-only"> (opens in a new tab)</span>
+                    </TraceTitle>
+                    <TraceIcon>
+                      <ArrowUpRightIcon />
+                    </TraceIcon>
+                  </TraceLine>
+                </a>
+              ))}
+            </Trace>
+          ))}
+      </Step>
+    );
+  }
+
+  if (part.type === "tool-readBuildLog") {
+    return (
+      <Step
+        onOpenChange={handleLogToggle}
+        open={logOpen}
+        status={status}
+        title={describeStep(part, status)}
+      >
+        {error ||
+          (logText.length > 0 && (
             <CodeBlock size="sm">
-              <CodeBlockContent wrap>
-                {part.output.breakdown
-                  .map((item) => `${item.name.padEnd(20)} ${item.kb} KB`)
-                  .join("\n")}
+              <CodeBlockContent className="max-h-64" wrap>
+                {logText}
               </CodeBlockContent>
             </CodeBlock>
           ))}
@@ -193,49 +247,13 @@ function StepRow({
     );
   }
 
-  if (part.type === "tool-profileNetwork") {
-    const title =
-      status === "running"
-        ? `Profiling requests on ${part.input?.route}`
-        : status === "error"
-          ? "Failed to profile network"
-          : `Profiled requests on ${part.input?.route}`;
-    return (
-      <Step delay={delay} status={status} title={title}>
-        {error ||
-          (part.state === "output-available" && (
-            <div className="flex flex-col gap-1.5 py-1">
-              {part.output.requests.map((req) => (
-                <div className="flex items-center gap-2 text-xs" key={req.path}>
-                  <NetworkIcon className="text-muted-foreground size-3.5 shrink-0" />
-                  <code className="text-muted-foreground font-mono">
-                    {req.path}
-                  </code>
-                  <span className="text-foreground ml-auto font-mono tabular-nums">
-                    {req.ms}ms
-                  </span>
-                </div>
-              ))}
-            </div>
-          ))}
-      </Step>
-    );
-  }
-
-  const title =
-    status === "running"
-      ? `Scanning render tree for ${part.input?.component}`
-      : status === "error"
-        ? "Failed to scan render tree"
-        : `Scanned render tree for ${part.input?.component}`;
   return (
-    <Step delay={delay} status={status} title={title}>
+    <Step status={status} title={describeStep(part, status)}>
       {error ||
         (part.state === "output-available" && (
-          <div className="flex flex-wrap gap-1.5 py-1">
+          <div className="flex flex-wrap gap-1.5">
             {part.output.files.map((file) => (
               <Badge className="font-mono" key={file} variant="secondary">
-                <FileCode2Icon />
                 {file}
               </Badge>
             ))}
@@ -249,56 +267,45 @@ function ChainOfThought({
   steps,
   streaming,
   answering,
+  logByToolId,
 }: {
   steps: StepPart[];
   streaming: boolean;
   answering: boolean;
+  logByToolId: Map<string, string>;
 }) {
-  const [open, setOpen] = React.useState<boolean | undefined>();
-  const [forceCollapsed, setForceCollapsed] = React.useState(false);
-
+  const [open, setOpen] = React.useState<boolean>();
   const running = streaming && !answering;
-  const allDone = !streaming && answering && steps.length > 0;
-
-  React.useEffect(() => {
-    if (!allDone) {
-      setForceCollapsed(false);
-      return;
-    }
-    const t = setTimeout(() => setForceCollapsed(true), 400);
-    return () => clearTimeout(t);
-  }, [allDone]);
-
-  const effectiveOpen = open ?? !forceCollapsed;
-  const failed = steps.filter((p) => p.state === "output-error").length;
+  const failed = steps.filter((part) => part.state === "output-error").length;
   const status = running ? "running" : failed > 0 ? "error" : undefined;
-
+  const active = steps.find(
+    (p) => p.state !== "output-available" && p.state !== "output-error"
+  );
+  const title = running
+    ? active
+      ? describeStep(active, "running")
+      : "Researching"
+    : `Researched in ${steps.length} steps${failed > 0 ? `, ${failed} failed` : ""}`;
   return (
     <Trace>
-      <TraceCollapsible onOpenChange={setOpen} open={effectiveOpen}>
+      <TraceCollapsible onOpenChange={setOpen} open={open ?? running}>
         <TraceCollapsibleTrigger>
           <TraceLine status={status}>
             <TraceIcon>
               <StatusIcon status={status} />
             </TraceIcon>
-            <TraceTitle>
-              {running
-                ? "Profiling"
-                : `Profiled ${steps.length} signals${failed > 0 ? `, ${failed} failed` : ""}`}
-            </TraceTitle>
+            <TraceTitle>{title}</TraceTitle>
           </TraceLine>
         </TraceCollapsibleTrigger>
-        <TraceCollapsibleContent>
+        <TraceCollapsibleContent keepMounted>
           <Trace>
-            {steps.map((part, i) => (
-              <motion.div
-                animate={{ opacity: 1, y: 0 }}
-                initial={{ opacity: 0, y: 8 }}
+            {steps.map((part) => (
+              <StepRow
                 key={part.toolCallId}
-                transition={{ delay: i * 0.05, duration: 0.4, ease: EASE }}
-              >
-                <StepRow delay={300} part={part} streaming={streaming} />
-              </motion.div>
+                part={part}
+                streamedLog={logByToolId.get(part.toolCallId)}
+                streaming={streaming}
+              />
             ))}
           </Trace>
         </TraceCollapsibleContent>
@@ -309,89 +316,66 @@ function ChainOfThought({
 
 export function ChainOfThoughtDemo() {
   const { messages, sendMessage, setMessages, status } = useChat({
-    messages: [],
+    messages: transcript,
     transport,
   });
-
-  React.useEffect(() => {
-    sendMessage({ text: QUESTION_TEXT });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const busy = status === "submitted" || status === "streaming";
-
   return (
     <div className="flex min-h-72 w-full max-w-sm flex-col gap-4 py-6 text-sm">
       {messages.map((message) => {
         if (message.role === "user") {
           return (
-            <motion.div
-              animate={{ opacity: 1, y: 0 }}
-              initial={{ opacity: 0, y: 6 }}
-              key={message.id}
-              transition={{ duration: 0.35, ease: EASE }}
-            >
-              <Message align="end">
-                <MessageContent>
-                  <Bubble align="end" variant="muted">
-                    <BubbleContent>{getMessageText(message)}</BubbleContent>
-                  </Bubble>
-                </MessageContent>
-              </Message>
-            </motion.div>
+            <Message align="end" key={message.id}>
+              <MessageContent>
+                <Bubble align="end" variant="muted">
+                  <BubbleContent>{getMessageText(message)}</BubbleContent>
+                </Bubble>
+              </MessageContent>
+            </Message>
           );
         }
-
         const streaming = busy && message === messages.at(-1);
         const steps = message.parts.filter(
-          (p) =>
-            p.type === "tool-analyzeBundle" ||
-            p.type === "tool-profileNetwork" ||
-            p.type === "tool-scanRenderTree"
+          (part) =>
+            part.type === "tool-searchWeb" ||
+            part.type === "tool-readBuildLog" ||
+            part.type === "tool-searchCode"
         );
+        const logByToolId = new Map<string, string>();
+        for (const part of message.parts) {
+          if (part.type === "data-buildLog" && part.id) {
+            logByToolId.set(part.id, part.data.output);
+          }
+        }
         const text = getMessageText(message);
-
         return (
           <Message key={message.id}>
             <MessageContent className="gap-4">
               {steps.length > 0 && (
                 <ChainOfThought
                   answering={text.length > 0}
+                  logByToolId={logByToolId}
                   steps={steps}
                   streaming={streaming}
                 />
               )}
-              {text && (
-                <motion.p
-                  animate={{ opacity: 1, y: 0 }}
-                  initial={{ opacity: 0, y: 6 }}
-                  transition={{ duration: 0.5, ease: EASE }}
-                >
-                  {text}
-                </motion.p>
-              )}
+              {text && <p>{text}</p>}
             </MessageContent>
           </Message>
         );
       })}
-      {!busy && messages.length > 0 && (
-        <motion.div
-          animate={{ opacity: 1 }}
-          initial={{ opacity: 0 }}
-          transition={{ duration: 0.4, ease: EASE }}
+      {!busy && (
+        <Button
+          className="mt-auto self-start"
+          onClick={() => {
+            setMessages([]);
+            sendMessage(question);
+          }}
+          size="sm"
+          variant="outline"
         >
-          <Button
-            className="mt-auto self-start"
-            onClick={() => {
-              setMessages([]);
-              sendMessage({ text: QUESTION_TEXT });
-            }}
-            size="sm"
-            variant="outline"
-          >
-            Replay
-          </Button>
-        </motion.div>
+          Replay
+        </Button>
       )}
     </div>
   );
