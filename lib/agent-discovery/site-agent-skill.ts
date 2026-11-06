@@ -34,7 +34,7 @@ The CLI resolves registry dependencies automatically. For example, chain-of-thou
 Two groups:
 
 1. Components: badge, button, code-block, item, avatar, separator
-2. AI Elements: bubble, message, trace, chain-of-thought, marker, spinner, pulse, pulse-status
+2. AI Elements: bubble, message, trace, chain-of-thought, marker, spinner, pulse
 
 Browse:
 

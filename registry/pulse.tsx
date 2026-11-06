@@ -1,10 +1,9 @@
 "use client";
 
-import { X } from "lucide-react";
+import { CircleCheck, TriangleAlertIcon, X } from "lucide-react";
 import type { KeyboardEvent, PointerEvent } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { PulseStatus } from "@/components/ui/pulse-status";
 import { Trace, TraceIcon, TraceLine } from "@/components/ui/trace";
 import { cn } from "@/lib/utils";
 
@@ -234,7 +233,67 @@ const BAR_COLOR: Record<DayStatus, string> = {
   up: "bg-emerald-500 dark:bg-emerald-400",
 };
 
-export default function Pulse({
+type PulseStatusType = "up" | "degraded" | "down";
+
+const PULSE_STATUS_CONFIG = {
+  degraded: {
+    color: "text-amber-600 dark:text-amber-400",
+    icon: TriangleAlertIcon,
+    label: "Degraded",
+  },
+  down: {
+    color: "text-rose-600 dark:text-rose-400",
+    icon: X,
+    label: "Outage",
+  },
+  up: {
+    color: "text-emerald-600 dark:text-emerald-400",
+    icon: CircleCheck,
+    label: "All systems operational",
+  },
+} as const;
+
+interface PulseStatusProps extends React.ComponentProps<"p"> {
+  count?: number;
+  label?: string;
+  status: PulseStatusType;
+}
+
+function PulseStatus({
+  status,
+  label,
+  count,
+  className,
+  ...props
+}: PulseStatusProps) {
+  const config = PULSE_STATUS_CONFIG[status];
+  const Icon = config.icon;
+  const text =
+    label ??
+    (count === undefined
+      ? config.label
+      : count === 1
+        ? "1 service affected"
+        : `${count} services affected`);
+
+  return (
+    <p
+      className={cn(
+        "flex items-center gap-1.5 text-sm",
+        config.color,
+        className
+      )}
+      data-slot="pulse-status"
+      data-status={status}
+      {...props}
+    >
+      <Icon aria-hidden className="size-4" />
+      {text}
+    </p>
+  );
+}
+
+function Pulse({
   title = "System status",
   services = DEFAULT_SERVICES,
   days = 90,
@@ -590,3 +649,5 @@ export default function Pulse({
     </div>
   );
 }
+
+export default Pulse;

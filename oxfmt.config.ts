@@ -28,7 +28,6 @@ export default defineConfig({
     "components/ui/**",
     "examples/**",
     "content/docs/components/code-block.mdx",
-    "components/ui/pulse-status.tsx",
     "examples/chain-of-thought-demo.tsx",
     "oxfmt.config.ts",
     "oxlint.config.ts",

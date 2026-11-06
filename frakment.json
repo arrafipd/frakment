@@ -33,16 +33,6 @@
       "registryDependencies": ["trace"]
     },
     {
-      "name": "pulse-status",
-      "version": "0.1.0",
-      "title": "Pulse Status",
-      "description": "A status badge for service health, used inside Pulse.",
-      "source": "registry/pulse-status.tsx",
-      "target": "components/ui/pulse-status.tsx",
-      "dependencies": [],
-      "registryDependencies": []
-    },
-    {
       "name": "pulse",
       "version": "0.1.0",
       "title": "Pulse",
@@ -50,7 +40,7 @@
       "source": "registry/pulse.tsx",
       "target": "components/ui/pulse.tsx",
       "dependencies": [],
-      "registryDependencies": ["badge", "pulse-status", "trace"]
+      "registryDependencies": ["badge", "trace"]
     },
     {
       "name": "trace",
