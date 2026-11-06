@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { SITE } from "@/constants/site";
 
 /**
- * Guards the brand naming rules from content/docs/brand/index.mdx:16:
+ * Guards the brand naming rules from content/docs/resources/brand/index.mdx:16:
  *   "Always write Frakment as one word, capital F, lowercase for the rest."
  *
  * User-facing strings must be Frakment; CLI command references stay

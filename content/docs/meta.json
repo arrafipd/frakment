@@ -2,16 +2,12 @@
   "root": true,
   "pages": [
     "(root)",
-    "skills",
-    "mcp",
-    "agents",
-    "animations",
     "components",
     "ai-elements",
     "modules",
     "libraries",
-    "changelog",
-    "brand",
-    "llms"
+    "utilities",
+    "resources",
+    "changelog"
   ]
 }
