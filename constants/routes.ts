@@ -13,6 +13,7 @@ export const ROUTES = {
   DOCS_INSTALLATION: "/docs/installation",
   DOCS_LLMS: "/docs/llms",
   DOCS_MCP: "/docs/mcp",
+  DOCS_MODULES: "/docs/modules",
   DOCS_SKILLS: "/docs/skills",
   DOCS_THEMING: "/docs/theming",
   HOME: "/",

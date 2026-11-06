@@ -4,6 +4,13 @@ import { CircleCheck, TriangleAlertIcon, X } from "lucide-react";
 import type { KeyboardEvent, PointerEvent } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Trace, TraceIcon, TraceLine } from "@/components/ui/trace";
 import { cn } from "@/lib/utils";
 
@@ -484,169 +491,171 @@ function Pulse({
   const pinnedIncidents = logDay === null ? [] : incidentsOn(services, logDay);
 
   return (
-    <div
+    <Card
       className={cn(
-        "border-border bg-card text-foreground w-full max-w-xl rounded-3xl border p-5 select-none",
+        "w-full max-w-xl rounded-3xl select-none [--card-spacing:--spacing(5)]",
         className
       )}
     >
-      <div className="flex items-center justify-between gap-4">
-        <p className="text-sm font-medium">{title}</p>
-        {openIssues.length ? (
-          <PulseStatus count={openIssues.length} status="degraded" />
-        ) : (
-          <PulseStatus status="up" />
-        )}
-      </div>
-      <p
-        aria-live="polite"
-        className="text-muted-foreground mt-1 truncate text-sm tabular-nums"
-      >
-        {summary}
-      </p>
-
-      <div
-        aria-label={`Daily status for the last ${days} days. Use the arrow keys to move between days and Enter to open one.`}
-        aria-valuemax={days}
-        aria-valuemin={1}
-        aria-valuenow={(shownDay ?? days - 1) + 1}
-        aria-valuetext={summary}
-        className="focus-visible:ring-ring focus-visible:ring-offset-background mt-4 cursor-pointer touch-pan-y rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-offset-4"
-        onBlur={() => {
-          if (active !== null) {
-            leave();
-          }
-        }}
-        onClick={handleClick}
-        onKeyDown={handleKeyDown}
-        onLostPointerCapture={(event) => {
-          if (event.target === event.currentTarget) {
-            leave();
-          }
-        }}
-        onPointerDown={handlePointerDown}
-        onPointerLeave={(event) => {
-          if (event.pointerType === "mouse") {
-            leave();
-          }
-        }}
-        onPointerMove={handlePointerMove}
-        ref={barsRef}
-        role="slider"
-        tabIndex={0}
-      >
-        {services.map((service, row) => (
-          <div className={cn(row > 0 && "mt-3")} key={service.name}>
-            <div className="mb-1.5 flex justify-between text-xs">
-              <span className="font-medium">{service.name}</span>
-              <span className="text-muted-foreground tabular-nums">
-                {uptimes[row].toFixed(2)}%
-              </span>
-            </div>
-            <div className="flex h-7 gap-px sm:gap-[2px]" data-row>
-              {Array.from({ length: days }, (_, day) => {
-                const status = statusOf(service, day);
-                const lit = day === shownDay;
-                return (
-                  <div
-                    className={cn(
-                      "min-w-0 basis-0 rounded-[2px] transition-opacity duration-150 ease-out",
-                      BAR_COLOR[status],
-                      shownDay !== null && !lit && "opacity-60"
-                    )}
-                    key={day}
-                    style={{ flexGrow: 1 }}
-                  />
-                );
-              })}
-            </div>
-          </div>
-        ))}
-        <div className="text-muted-foreground mt-2 flex justify-between text-xs">
-          <span>{days} days ago</span>
-          <span>Today</span>
-        </div>
-      </div>
-
-      <div
-        className={cn(
-          "grid transition-[grid-template-rows,opacity] duration-[260ms] ease-[cubic-bezier(0.23,1,0.32,1)]",
-          pinned === null
-            ? "grid-rows-[0fr] opacity-0"
-            : "grid-rows-[1fr] opacity-100"
-        )}
-        inert={pinned === null}
-      >
-        <div className="overflow-hidden">
-          {logDay !== null && (
-            <div className="bg-muted/50 mt-4 rounded-2xl p-4">
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-medium">
-                  {formatDay(dateOf(logDay))}
-                </p>
-                <button
-                  aria-label="Close day"
-                  className="text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:ring-ring rounded-full p-1 transition-colors duration-150 ease-out outline-none focus-visible:ring-2"
-                  onClick={() => {
-                    setPinned(null);
-                    focusOn(null);
-                  }}
-                  type="button"
-                >
-                  <X aria-hidden className="size-3.5" />
-                </button>
-              </div>
-              {pinnedIncidents.length === 0 && (
-                <p className="text-muted-foreground mt-1 text-sm">
-                  No incidents recorded. Every service was operational.
-                </p>
-              )}
-              {pinnedIncidents.map(({ service, incident }) => (
-                <div className="mt-3 first:mt-0" key={service}>
-                  <p className="text-sm font-medium">{service}</p>
-                  <p className="mt-1 flex flex-wrap items-center gap-2 text-sm">
-                    <Badge
-                      variant={
-                        incident.status === "down" ? "destructive" : "secondary"
-                      }
-                    >
-                      {incident.status === "down" ? "Outage" : "Degraded"}
-                    </Badge>
-                    <span className="text-muted-foreground">
-                      {incident.title} · {incident.minutes} min
-                    </span>
-                  </p>
-                  <Trace className="mt-2.5">
-                    {incident.updates.map((update) => (
-                      <TraceLine
-                        className="w-full items-start"
-                        key={`${update.time}-${update.label}`}
-                      >
-                        <TraceIcon className="mt-1.5">
-                          <span className="bg-muted-foreground size-1.5 rounded-full" />
-                        </TraceIcon>
-                        <span className="min-w-0 flex-1">
-                          <span className="text-muted-foreground tabular-nums">
-                            {update.time}
-                          </span>{" "}
-                          <span className="font-medium">{update.label}</span>
-                          {update.note && (
-                            <span className="text-muted-foreground">
-                              {" "}
-                              {update.note}
-                            </span>
-                          )}
-                        </span>
-                      </TraceLine>
-                    ))}
-                  </Trace>
-                </div>
-              ))}
-            </div>
+      <CardHeader>
+        <div className="flex items-center justify-between gap-4">
+          <CardTitle className="text-sm font-medium">{title}</CardTitle>
+          {openIssues.length ? (
+            <PulseStatus count={openIssues.length} status="degraded" />
+          ) : (
+            <PulseStatus status="up" />
           )}
         </div>
-      </div>
-    </div>
+        <CardDescription aria-live="polite" className="truncate tabular-nums">
+          {summary}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div
+          aria-label={`Daily status for the last ${days} days. Use the arrow keys to move between days and Enter to open one.`}
+          aria-valuemax={days}
+          aria-valuemin={1}
+          aria-valuenow={(shownDay ?? days - 1) + 1}
+          aria-valuetext={summary}
+          className="focus-visible:ring-ring focus-visible:ring-offset-background cursor-pointer touch-pan-y rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-offset-4"
+          onBlur={() => {
+            if (active !== null) {
+              leave();
+            }
+          }}
+          onClick={handleClick}
+          onKeyDown={handleKeyDown}
+          onLostPointerCapture={(event) => {
+            if (event.target === event.currentTarget) {
+              leave();
+            }
+          }}
+          onPointerDown={handlePointerDown}
+          onPointerLeave={(event) => {
+            if (event.pointerType === "mouse") {
+              leave();
+            }
+          }}
+          onPointerMove={handlePointerMove}
+          ref={barsRef}
+          role="slider"
+          tabIndex={0}
+        >
+          {services.map((service, row) => (
+            <div className={cn(row > 0 && "mt-3")} key={service.name}>
+              <div className="mb-1.5 flex justify-between text-xs">
+                <span className="font-medium">{service.name}</span>
+                <span className="text-muted-foreground tabular-nums">
+                  {uptimes[row].toFixed(2)}%
+                </span>
+              </div>
+              <div className="flex h-7 gap-px sm:gap-[2px]" data-row>
+                {Array.from({ length: days }, (_, day) => {
+                  const status = statusOf(service, day);
+                  const lit = day === shownDay;
+                  return (
+                    <div
+                      className={cn(
+                        "min-w-0 basis-0 rounded-[2px] transition-opacity duration-150 ease-out",
+                        BAR_COLOR[status],
+                        shownDay !== null && !lit && "opacity-60"
+                      )}
+                      key={day}
+                      style={{ flexGrow: 1 }}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+          <div className="text-muted-foreground mt-2 flex justify-between text-xs">
+            <span>{days} days ago</span>
+            <span>Today</span>
+          </div>
+        </div>
+
+        <div
+          className={cn(
+            "grid transition-[grid-template-rows,opacity] duration-[260ms] ease-[cubic-bezier(0.23,1,0.32,1)]",
+            pinned === null
+              ? "grid-rows-[0fr] opacity-0"
+              : "grid-rows-[1fr] opacity-100"
+          )}
+          inert={pinned === null}
+        >
+          <div className="overflow-hidden">
+            {logDay !== null && (
+              <div className="bg-muted/50 mt-4 rounded-2xl p-4">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-medium">
+                    {formatDay(dateOf(logDay))}
+                  </p>
+                  <button
+                    aria-label="Close day"
+                    className="text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:ring-ring rounded-full p-1 transition-colors duration-150 ease-out outline-none focus-visible:ring-2"
+                    onClick={() => {
+                      setPinned(null);
+                      focusOn(null);
+                    }}
+                    type="button"
+                  >
+                    <X aria-hidden className="size-3.5" />
+                  </button>
+                </div>
+                {pinnedIncidents.length === 0 && (
+                  <p className="text-muted-foreground mt-1 text-sm">
+                    No incidents recorded. Every service was operational.
+                  </p>
+                )}
+                {pinnedIncidents.map(({ service, incident }) => (
+                  <div className="mt-3 first:mt-0" key={service}>
+                    <p className="text-sm font-medium">{service}</p>
+                    <p className="mt-1 flex flex-wrap items-center gap-2 text-sm">
+                      <Badge
+                        variant={
+                          incident.status === "down"
+                            ? "destructive"
+                            : "secondary"
+                        }
+                      >
+                        {incident.status === "down" ? "Outage" : "Degraded"}
+                      </Badge>
+                      <span className="text-muted-foreground">
+                        {incident.title} · {incident.minutes} min
+                      </span>
+                    </p>
+                    <Trace className="mt-2.5">
+                      {incident.updates.map((update) => (
+                        <TraceLine
+                          className="w-full items-start"
+                          key={`${update.time}-${update.label}`}
+                        >
+                          <TraceIcon className="mt-1.5">
+                            <span className="bg-muted-foreground size-1.5 rounded-full" />
+                          </TraceIcon>
+                          <span className="min-w-0 flex-1">
+                            <span className="text-muted-foreground tabular-nums">
+                              {update.time}
+                            </span>{" "}
+                            <span className="font-medium">{update.label}</span>
+                            {update.note && (
+                              <span className="text-muted-foreground">
+                                {" "}
+                                {update.note}
+                              </span>
+                            )}
+                          </span>
+                        </TraceLine>
+                      ))}
+                    </Trace>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 

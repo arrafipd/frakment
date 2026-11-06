@@ -40,7 +40,7 @@
       "source": "registry/pulse.tsx",
       "target": "components/ui/pulse.tsx",
       "dependencies": [],
-      "registryDependencies": ["badge", "trace"]
+      "registryDependencies": ["badge", "card", "trace"]
     },
     {
       "name": "trace",
