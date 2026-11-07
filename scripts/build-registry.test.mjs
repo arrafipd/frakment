@@ -47,15 +47,15 @@ describe("build-registry", () => {
     expect(button.files[0]).toHaveProperty("content");
   });
 
-  it("terminal has registry dependencies on trace and code-block", async () => {
+  it("attachment has registry dependencies on button and shimmer", async () => {
     const raw = await fs.readFile(
-      path.join(outputDir, "terminal.json"),
+      path.join(outputDir, "attachment.json"),
       "utf8"
     );
-    const terminal = JSON.parse(raw);
+    const attachment = JSON.parse(raw);
 
-    expect(terminal.registryDependencies).toContain("trace");
-    expect(terminal.registryDependencies).toContain("code-block");
+    expect(attachment.registryDependencies).toContain("button");
+    expect(attachment.registryDependencies).toContain("shimmer");
   });
 
   it("generates skill files under public/skills", async () => {
