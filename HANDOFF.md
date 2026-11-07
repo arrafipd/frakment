@@ -49,7 +49,7 @@ Gotchas lama (#1-25): `HANDOFF.archive/gotchas.md`.
 - #46: Components using `React.createContext`, `useState`, or `useEffect` require `"use client"` on line 1. Sync to `registry/<name>.tsx` (SHA256 identical). Without it, Next.js throws `createContext only works in Client Components` when imported from an MDX/Server Component.
 - #47: Write `.mdx` files via Node `fs.writeFileSync`, not PowerShell here-string. MDX backticks and special characters can leave PowerShell stuck in continuation mode.
 - #48: `ComponentPreview` uses `children` for live render. `name` resolves source via `getRegistryComponent("x")` to `components/ui/x.tsx`. Never use `name="x-demo"` — demos live in `examples/` and are passed as children.
-- #49: After `npm run fix`, check `git diff` on non-glob files (e.g. `styles/theme.css`) — UTF-8 mojibake can appear (em-dash becomes garbled). `git checkout` encoding-only diffs.
+- #49: After `npm run fix`, check `git diff` on non-glob files (e.g. `styles/theme.css`) — real UTF-8 mojibake can appear (em-dash → garbled bytes). Verify with `node -e "console.log(fs.readFileSync(p,'utf8'))"`, NOT `Select-String`/`Get-Content`: PowerShell 5.1 renders UTF-8 as Windows-1252 and shows clean `·`/`—` as `Â·`/`â€"` — that is a display artifact, not file corruption. `git checkout` only files confirmed corrupted by Node.
 - #50: `lefthook` pre-commit (format, lint) may modify files and abort the commit. Re-stage with `git add -A` and commit again. Don't use `--no-verify` unless absolutely necessary.
 
 ## Pointers
