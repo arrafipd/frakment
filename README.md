@@ -38,7 +38,7 @@ With AI and motion. No wiring. No configuration.
 
 | Category | Components |
 | :--- | :--- |
-| **Chat** | Bubble · Message |
+| **Chat** | Bubble · Message · Attachment |
 | **Agent** | Trace · Chain of Thought |
 | **Code** | Code Block |
 | **Status** | Marker · Spinner · Pulse · Pulse Status |
