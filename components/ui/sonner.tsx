@@ -38,7 +38,7 @@ const Toaster = ({ position, ...props }: ToasterProps) => {
           </div>
         ),
         info: (
-          <div className="flex size-7 items-center justify-center rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400">
+          <div className="bg-muted text-muted-foreground flex size-7 items-center justify-center rounded-lg">
             <InfoIcon className="size-4" />
           </div>
         ),

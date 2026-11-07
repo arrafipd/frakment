@@ -1,0 +1,29 @@
+---
+title: "2026-11-08"
+description: "Monochrome token consistency and clearer disabled states"
+---
+
+## Disabled state
+
+Disabled buttons now use a solid muted background instead of reduced opacity.
+Icons and labels stay readable while the control clearly reads as inactive.
+
+`InputGroup`, `InputOTP`, and `NativeSelect` no longer fade their entire
+container when a single child is disabled.
+
+## Tokens
+
+`--sidebar-primary` is monochrome in both light and dark mode.
+
+`--subtle-foreground` is available for interactive values inside muted
+surfaces, sitting between `--foreground` and `--muted-foreground`.
+
+## Fixes
+
+`<body>` now applies `bg-background` by default, so dark mode pages no longer
+render text against a transparent canvas.
+
+`Command` selected items use `bg-foreground text-background` and adapt to
+both themes.
+
+`Alert` and `Sonner` info states use muted tokens instead of hardcoded blue.
