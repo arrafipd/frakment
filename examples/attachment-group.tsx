@@ -38,15 +38,7 @@ const items: Item[] = [
 export function AttachmentGroupDemo() {
   return (
     <div className="mx-auto w-full max-w-sm py-12">
-      <AttachmentGroup
-        className="w-full"
-        style={{
-          maskImage:
-            "linear-gradient(to right, black 0, black calc(100% - 16px), transparent 100%)",
-          WebkitMaskImage:
-            "linear-gradient(to right, black 0, black calc(100% - 16px), transparent 100%)",
-        }}
-      >
+      <AttachmentGroup className="scroll-fade-e w-full">
         {items.map((item) => {
           const Icon = item.icon;
 

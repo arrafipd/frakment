@@ -92,3 +92,14 @@ A merged pull request satisfies the commercial-use requirement in the license.
 Source-available. Free for personal and educational use. Commercial use requires one qualifying contribution — see [LICENSE](./LICENSE) Section 4.
 
 Attribution required — see [ATTRIBUTION.md](./ATTRIBUTION.md).
+
+## Utilities
+
+| Utility | Description |
+| :--- | :--- |
+| [Scroll fade](https://frakment.vercel.app/docs/utilities/scroll-fade) | Scroll-aware mask gradients for overflow containers |
+| [Shimmer](https://frakment.vercel.app/docs/utilities/shimmer) | Animated gradient over text for loading states |
+| [MCP Server](https://frakment.vercel.app/docs/utilities/mcp) | Registry discovery for AI tools |
+| [Skills](https://frakment.vercel.app/docs/utilities/skills) | Agent skill definitions |
+| [Agents](https://frakment.vercel.app/docs/utilities/agents) | AI agent patterns |
+
