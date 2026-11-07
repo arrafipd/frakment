@@ -19,7 +19,7 @@ function Progress({
   const bar = (
     <ProgressPrimitive.Root
       className={cn(
-        "bg-muted relative flex h-1 w-full items-center overflow-x-hidden rounded-full",
+        "bg-primary/20 relative flex h-1 w-full items-center overflow-x-hidden rounded-full",
         !children && className
       )}
       data-slot="progress"
@@ -44,7 +44,7 @@ function Progress({
           {children}
         </div>
         <ProgressPrimitive.Root
-          className="bg-muted relative flex h-1 w-full items-center overflow-x-hidden rounded-full"
+          className="bg-primary/20 relative flex h-1 w-full items-center overflow-x-hidden rounded-full"
           data-slot="progress"
           {...props}
         >

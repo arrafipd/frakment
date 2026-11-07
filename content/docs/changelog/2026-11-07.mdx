@@ -5,6 +5,7 @@ date: "2026-11-07"
 ---
 
 import { AttachmentDemo } from "@/examples/attachment-demo";
+import { ContextDemo } from "@/examples/context-demo";
 import { ScrollFadeOverflow } from "@/examples/scroll-fade-overflow";
 import { ShimmerDemo } from "@/examples/shimmer-demo";
 import { HoverCardDemo } from "@/examples/hover-card-demo";
@@ -292,3 +293,34 @@ import {
 ```
 
 See the [Questionnaire docs](/docs/modules/questionnaire) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Context
+
+<ComponentPreview name="context-demo" title="context-demo.tsx" src="examples/context-demo.tsx">
+  <ContextDemo />
+</ComponentPreview>
+
+**Context** is a compact context-window indicator. Hovering the badge reveals a token breakdown and a progress bar showing how much of the model's limit is in use.
+
+#### Installation
+
+```bash
+npx frakment add hover-card progress button
+```
+
+#### Minimal usage
+
+```tsx
+<HoverCard>
+  <HoverCardTrigger asChild>
+    <Button size="sm" variant="outline">{percent}% context</Button>
+  </HoverCardTrigger>
+  <HoverCardContent>
+    <Progress value={percent} />
+  </HoverCardContent>
+</HoverCard>
+```
+
+See the [Context docs](/docs/ai-elements/context) for the full composition.
