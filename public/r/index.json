@@ -16,13 +16,6 @@
     },
     {
       "deprecated": false,
-      "description": "Reasoning steps rendered as nested traces.",
-      "name": "chain-of-thought",
-      "title": "chain-of-thought",
-      "version": "0.1.0"
-    },
-    {
-      "deprecated": false,
       "description": "A daily status timeline for service uptime, with inline incident logs.",
       "name": "pulse",
       "title": "Pulse",
@@ -33,13 +26,6 @@
       "description": "A list of lines for the steps an agent takes.",
       "name": "trace",
       "title": "Trace",
-      "version": "0.1.0"
-    },
-    {
-      "deprecated": false,
-      "description": "A live terminal that streams commands and output with a typewriter effect.",
-      "name": "terminal",
-      "title": "Terminal",
       "version": "0.1.0"
     },
     {
@@ -303,20 +289,6 @@
     },
     {
       "deprecated": false,
-      "description": "Full streaming terminal example with useChat and createChat. Matches the preview on the docs page.",
-      "name": "terminal-demo",
-      "title": "Terminal Demo",
-      "version": "0.1.0"
-    },
-    {
-      "deprecated": false,
-      "description": "Full streaming chain-of-thought example with multi-step tool calls, streaming build log, and auto-expand. Matches the preview on the docs page.",
-      "name": "chain-of-thought-demo",
-      "title": "Chain of Thought Demo",
-      "version": "0.1.0"
-    },
-    {
-      "deprecated": false,
       "description": "A modal dialog built on Radix.",
       "name": "dialog",
       "title": "Dialog",
@@ -327,48 +299,6 @@
       "description": "A modal sheet that slides in from a side.",
       "name": "sheet",
       "title": "Sheet",
-      "version": "0.1.0"
-    },
-    {
-      "deprecated": false,
-      "description": "Show a commit with per-file diffs inside a sheet.",
-      "name": "trace-commit",
-      "title": "Trace Commit",
-      "version": "0.1.0"
-    },
-    {
-      "deprecated": false,
-      "description": "Full streaming trace example with useChat and createChat.",
-      "name": "trace-demo",
-      "title": "Trace Demo",
-      "version": "0.1.0"
-    },
-    {
-      "deprecated": false,
-      "description": "Open a full result set from a trace line using a dialog.",
-      "name": "trace-dialog",
-      "title": "Trace Dialog",
-      "version": "0.1.0"
-    },
-    {
-      "deprecated": false,
-      "description": "Open a list of files from a trace line using a sheet.",
-      "name": "trace-sheet",
-      "title": "Trace Sheet",
-      "version": "0.1.0"
-    },
-    {
-      "deprecated": false,
-      "description": "Stream a reasoning block as it is generated.",
-      "name": "trace-thinking",
-      "title": "Trace Thinking",
-      "version": "0.1.0"
-    },
-    {
-      "deprecated": false,
-      "description": "Track tool invocations with running, done, and failed states.",
-      "name": "trace-tool-calls",
-      "title": "Trace Tool Calls",
       "version": "0.1.0"
     }
   ],

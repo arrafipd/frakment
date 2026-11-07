@@ -30,6 +30,26 @@ function extractLanguage(className?: string): string {
 }
 
 const INITIAL_COMPONENTS: Partial<Components> = {
+  a: function Anchor({ children, ...props }) {
+    return (
+      <a
+        className="text-primary underline underline-offset-4 hover:opacity-80"
+        {...props}
+      >
+        {children}
+      </a>
+    );
+  },
+  blockquote: function Blockquote({ children, ...props }) {
+    return (
+      <blockquote
+        className="border-border text-muted-foreground mb-3 border-l-2 pl-4 italic last:mb-0"
+        {...props}
+      >
+        {children}
+      </blockquote>
+    );
+  },
   code: function CodeComponent({ className, children, ...props }) {
     const isInline =
       !props.node?.position?.start.line ||
@@ -39,7 +59,7 @@ const INITIAL_COMPONENTS: Partial<Components> = {
       return (
         <span
           className={cn(
-            "bg-primary-foreground rounded-sm px-1 font-mono text-sm",
+            "bg-muted text-foreground rounded-sm px-1.5 py-0.5 font-mono text-[0.875em]",
             className
           )}
           {...props}
@@ -57,8 +77,64 @@ const INITIAL_COMPONENTS: Partial<Components> = {
       </CodeBlock>
     );
   },
+  h1: function H1({ children, ...props }) {
+    return (
+      <h1 className="mt-4 mb-2 text-lg font-semibold first:mt-0" {...props}>
+        {children}
+      </h1>
+    );
+  },
+  h2: function H2({ children, ...props }) {
+    return (
+      <h2 className="mt-4 mb-2 text-base font-semibold first:mt-0" {...props}>
+        {children}
+      </h2>
+    );
+  },
+  h3: function H3({ children, ...props }) {
+    return (
+      <h3 className="mt-3 mb-1.5 text-sm font-semibold first:mt-0" {...props}>
+        {children}
+      </h3>
+    );
+  },
+  li: function ListItem({ children, ...props }) {
+    return (
+      <li className="leading-relaxed" {...props}>
+        {children}
+      </li>
+    );
+  },
+  ol: function OrderedList({ children, ...props }) {
+    return (
+      <ol className="mb-3 list-decimal space-y-1 pl-5 last:mb-0" {...props}>
+        {children}
+      </ol>
+    );
+  },
+  p: function ParagraphComponent({ children, ...props }) {
+    return (
+      <p className="mb-3 leading-relaxed last:mb-0" {...props}>
+        {children}
+      </p>
+    );
+  },
   pre: function PreComponent({ children }) {
     return <>{children}</>;
+  },
+  strong: function Strong({ children, ...props }) {
+    return (
+      <strong className="font-semibold" {...props}>
+        {children}
+      </strong>
+    );
+  },
+  ul: function UnorderedList({ children, ...props }) {
+    return (
+      <ul className="mb-3 list-disc space-y-1 pl-5 last:mb-0" {...props}>
+        {children}
+      </ul>
+    );
   },
 };
 

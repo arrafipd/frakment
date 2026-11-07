@@ -2,7 +2,7 @@
   "skills": [
     {
       "description": "Instructions for AI agents to discover, browse, and install Frakment components.",
-      "digest": "sha256:09dab3b972a1479dd0330c392f8ba64bdf085e24286a439901c5a5dc82094d98",
+      "digest": "sha256:13ec524bee418b8bf00ebf21a6fb71fe98ce057520101084fe6523ba01a13733",
       "name": "frakment-usage",
       "title": "Frakment Usage",
       "url": "/skills/frakment-usage/SKILL.md",

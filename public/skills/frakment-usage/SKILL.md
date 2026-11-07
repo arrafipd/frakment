@@ -51,7 +51,7 @@ Response has `files[]` (each with `path`, `content`, and optionally `encoding: "
 
 ## Steps
 
-**First time setup.** If `components.json` does not exist yet, run `npx frakment@latest init` before adding components. This injects the theme block into `globals.css`, creates `lib/utils.ts`, and installs the base dependencies (`clsx`, `tailwind-merge`, `class-variance-authority`, `radix-ui`, `@phosphor-icons/react`, `motion`). Safe to skip when `components.json` is already present.
+**First time setup.** If `components.json` does not exist yet, run `npx frakment@latest init` before adding components. This injects the theme block into `globals.css`, creates `lib/utils.ts`, and installs the base dependencies (`clsx`, `tailwind-merge`, `class-variance-authority`, `radix-ui`, `lucide-react`, `motion`). Safe to skip when `components.json` is already present.
 
 ## MCP compose
 

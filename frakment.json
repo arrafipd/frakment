@@ -23,16 +23,6 @@
       "registryDependencies": []
     },
     {
-      "name": "chain-of-thought",
-      "version": "0.1.0",
-      "title": "chain-of-thought",
-      "description": "Reasoning steps rendered as nested traces.",
-      "source": "registry/chain-of-thought.tsx",
-      "target": "components/ui/chain-of-thought.tsx",
-      "dependencies": [],
-      "registryDependencies": ["trace"]
-    },
-    {
       "name": "pulse",
       "version": "0.1.0",
       "title": "Pulse",
@@ -51,16 +41,6 @@
       "target": "components/ui/trace.tsx",
       "dependencies": ["motion", "radix-ui"],
       "registryDependencies": ["shimmer"]
-    },
-    {
-      "name": "terminal",
-      "version": "0.1.0",
-      "title": "Terminal",
-      "description": "A live terminal that streams commands and output with a typewriter effect.",
-      "source": "registry/terminal.tsx",
-      "target": "components/ui/terminal.tsx",
-      "dependencies": ["motion", "radix-ui"],
-      "registryDependencies": ["code-block", "spinner"]
     },
     {
       "name": "message-scroller",
@@ -448,42 +428,6 @@
       "registryDependencies": ["button", "shimmer"]
     },
     {
-      "name": "terminal-demo",
-      "version": "0.1.0",
-      "title": "Terminal Demo",
-      "description": "Full streaming terminal example with useChat and createChat. Matches the preview on the docs page.",
-      "source": "registry/terminal-demo.tsx",
-      "target": "components/terminal-demo.tsx",
-      "dependencies": ["@ai-sdk/react", "ai", "lucide-react"],
-      "registryDependencies": [
-        "ai",
-        "bubble",
-        "button",
-        "code-block",
-        "message",
-        "trace"
-      ]
-    },
-    {
-      "name": "chain-of-thought-demo",
-      "version": "0.1.0",
-      "title": "Chain of Thought Demo",
-      "description": "Full streaming chain-of-thought example with multi-step tool calls, streaming build log, and auto-expand. Matches the preview on the docs page.",
-      "source": "registry/chain-of-thought-demo.tsx",
-      "target": "components/chain-of-thought-demo.tsx",
-      "dependencies": ["@ai-sdk/react", "ai", "lucide-react"],
-      "registryDependencies": [
-        "ai",
-        "badge",
-        "bubble",
-        "button",
-        "code-block",
-        "message",
-        "spinner",
-        "trace"
-      ]
-    },
-    {
       "name": "dialog",
       "version": "0.1.0",
       "title": "Dialog",
@@ -502,81 +446,6 @@
       "target": "components/ui/sheet.tsx",
       "dependencies": ["lucide-react", "radix-ui"],
       "registryDependencies": []
-    },
-    {
-      "name": "trace-commit",
-      "version": "0.1.0",
-      "title": "Trace Commit",
-      "description": "Show a commit with per-file diffs inside a sheet.",
-      "source": "registry/trace-commit.tsx",
-      "target": "components/trace-commit.tsx",
-      "dependencies": ["lucide-react"],
-      "registryDependencies": ["code-block", "sheet", "trace"]
-    },
-    {
-      "name": "trace-demo",
-      "version": "0.1.0",
-      "title": "Trace Demo",
-      "description": "Full streaming trace example with useChat and createChat.",
-      "source": "registry/trace-demo.tsx",
-      "target": "components/trace-demo.tsx",
-      "dependencies": ["@ai-sdk/react", "ai", "lucide-react"],
-      "registryDependencies": [
-        "ai",
-        "bubble",
-        "button",
-        "code-block",
-        "message",
-        "spinner",
-        "trace"
-      ]
-    },
-    {
-      "name": "trace-dialog",
-      "version": "0.1.0",
-      "title": "Trace Dialog",
-      "description": "Open a full result set from a trace line using a dialog.",
-      "source": "registry/trace-dialog.tsx",
-      "target": "components/trace-dialog.tsx",
-      "dependencies": ["lucide-react"],
-      "registryDependencies": ["dialog", "trace"]
-    },
-    {
-      "name": "trace-sheet",
-      "version": "0.1.0",
-      "title": "Trace Sheet",
-      "description": "Open a list of files from a trace line using a sheet.",
-      "source": "registry/trace-sheet.tsx",
-      "target": "components/trace-sheet.tsx",
-      "dependencies": ["lucide-react"],
-      "registryDependencies": ["sheet", "trace"]
-    },
-    {
-      "name": "trace-thinking",
-      "version": "0.1.0",
-      "title": "Trace Thinking",
-      "description": "Stream a reasoning block as it is generated.",
-      "source": "registry/trace-thinking.tsx",
-      "target": "components/trace-thinking.tsx",
-      "dependencies": ["@ai-sdk/react", "ai", "lucide-react"],
-      "registryDependencies": ["ai", "bubble", "button", "message", "trace"]
-    },
-    {
-      "name": "trace-tool-calls",
-      "version": "0.1.0",
-      "title": "Trace Tool Calls",
-      "description": "Track tool invocations with running, done, and failed states.",
-      "source": "registry/trace-tool-calls.tsx",
-      "target": "components/trace-tool-calls.tsx",
-      "dependencies": ["@ai-sdk/react", "ai", "lucide-react"],
-      "registryDependencies": [
-        "ai",
-        "bubble",
-        "button",
-        "code-block",
-        "message",
-        "trace"
-      ]
     }
   ],
   "skills": [

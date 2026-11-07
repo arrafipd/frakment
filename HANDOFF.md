@@ -40,6 +40,9 @@ Gotchas lama (#1-45): `HANDOFF.archive/gotchas.md`.
 - #49: After `npm run fix`, check `git diff` on non-glob files (e.g. `styles/theme.css`) — real UTF-8 mojibake can appear (em-dash → garbled bytes). Verify with `node -e "console.log(fs.readFileSync(p,'utf8'))"`, NOT `Select-String`/`Get-Content`: PowerShell 5.1 renders UTF-8 as Windows-1252 and shows clean `·`/`—` as `Â·`/`â€"` — that is a display artifact, not file corruption. `git checkout` only files confirmed corrupted by Node.
 - #50: `lefthook` pre-commit (format, lint) may modify files and abort the commit. Re-stage with `git add -A` and commit again. Don't use `--no-verify` unless absolutely necessary.
 - #51: `content/docs/*/meta.json` may carry a UTF-8 BOM; Node `JSON.parse` throws `Unexpected token`. Strip with `c.replace(/^\uFEFF/,'')` or use PowerShell `ConvertFrom-Json`.
+- #52: Primitives (`trace`, `code-block`, `badge`, `bubble`, `message`, `input-group`, dll.) installable via `npx frakment add <name>`. Compositions (`chat`, `terminal`, `chain-of-thought`) **not** installable — remove from `frakment.json` and `public/r/`. Docs must teach `npx frakment add <primitive1> <primitive2> ...`, never `<composition>`. Pattern matches shadcn `ai-elements/chat`.
+- #53: Docs manual install command must **exactly match** `registryDependencies` in `frakment.json`. Before adding an install line, verify imports in the component source. Missing dep = broken install for users; extra dep = unnecessary install. `npx frakment add <name>` CLI auto-resolves regdeps, so the CLI tab needs only the top-level primitive(s).
+- #54: Icons migrated from `@phosphor-icons/react` to `lucide-react`. `registry/icons.ts` remains as a legacy shim re-exporting Phosphor under Lucide-compatible names for backward compat. New components must import from `lucide-react` directly, not the shim. Docs must never teach `@phosphor-icons/react` install.
 
 ## Pointers
 

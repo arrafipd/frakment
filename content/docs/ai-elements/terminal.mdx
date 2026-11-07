@@ -26,7 +26,7 @@ Built on top of [Trace](/docs/components/trace) and [Code Block](/docs/component
 <TabsContent value="cli">
 
 ```bash
-npx frakment add terminal
+npx frakment add trace code-block spinner
 ```
 
 </TabsContent>
@@ -42,7 +42,7 @@ npx frakment add terminal
       <Step>Install the required registry components first:</Step>
 
       ```bash
-      npx frakment add trace code-block
+      npx frakment add trace code-block spinner
       ```
 
       <Step>Copy and paste the following code into your project.</Step>
@@ -87,13 +87,9 @@ Mark a `TraceLine` with `status="error"` to turn the title red. The collapsible 
 
 ### Full demo
 
-The preview on this page is the same code you get from `npx frakment add terminal-demo`. It wires `useChat`, `createChat`, and `transport` from `@frakment/ai`, streams three commands, and uses `TraceCollapsible` for auto-expand during streaming and manual toggle afterwards.
+The preview on this page shows the terminal primitive composing with `useChat`, `createChat`, and `transport` from `@frakment/ai`. It streams three commands and uses `TraceCollapsible` for auto-expand during streaming and manual toggle afterwards.
 
-~~~bash
-npx frakment add terminal-demo
-~~~
-
-The demo installs `@ai-sdk/react`, `ai`, and every UI primitive it uses. Run it as-is, or replace `createChat` with your own backend that streams `data-terminal` parts.
+The composition pulls `@ai-sdk/react`, `ai`, and every UI primitive it uses. Follow the [Chat tutorial](/docs/ai-elements/chat) for the wiring pattern, or replace `createChat` with your own backend that streams `data-terminal` parts.
 
 ## API Reference
 

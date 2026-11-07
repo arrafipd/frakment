@@ -34,7 +34,7 @@ Chain of Thought is a summary line that expands into the steps an agent took. Th
 <TabsContent value="cli">
 
 ```bash
-npx frakment add chain-of-thought
+npx frakment add trace code-block badge
 ```
 
 </TabsContent>
@@ -44,7 +44,7 @@ npx frakment add chain-of-thought
       <Step>Install the following dependencies:</Step>
 
       ```bash
-      npm install @phosphor-icons/react
+      npm install lucide-react
       ```
 
       <Step>Install the required registry component:</Step>
@@ -102,13 +102,9 @@ import {
 
 ### Full demo
 
-The preview on this page is the same code you get from `npx frakment add chain-of-thought-demo`. It wires `useChat`, `createChat`, and `transport` from `@frakment/ai`, streams three tool calls with a line-by-line build log, and uses nested `TraceCollapsible` for auto-expand and manual toggle.
+The preview on this page shows the chain-of-thought primitive composing with `useChat`, `createChat`, and `transport` from `@frakment/ai`. It streams three tool calls with a line-by-line build log and uses nested `TraceCollapsible` for auto-expand and manual toggle.
 
-~~~bash
-npx frakment add chain-of-thought-demo
-~~~
-
-The demo installs `@ai-sdk/react`, `ai`, `badge`, `bubble`, `button`, `code-block`, `message`, and `trace`. Run it as-is, or replace `createChat` with your own backend that streams `data-buildLog` and tool parts.
+The composition pulls `@ai-sdk/react`, `ai`, `badge`, `bubble`, `button`, `code-block`, `message`, and `trace`. Follow the [Chat tutorial](/docs/ai-elements/chat) for the wiring pattern, or replace `createChat` with your own backend that streams `data-buildLog` and tool parts.
 
 ## API Reference
 

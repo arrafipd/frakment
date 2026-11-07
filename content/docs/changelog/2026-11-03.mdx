@@ -290,7 +290,7 @@ See the [Input Group docs](/docs/components/input-group) and [Empty docs](/docs/
 
 ### Icon shim
 
-`lib/icons.ts` is now a first-class registry component (`npx frakment add icons`). It re-exports Phosphor icons under Lucide-compatible names — `Check as CheckIcon`, `TextB as BoldIcon`, `Globe` — so components can swap icon libraries with a single import change.
+`lib/icons.ts` is now a first-class registry component (`npx frakment add icons`). It re-exports Lucide icons under Lucide-compatible names — `Check as CheckIcon`, `TextB as BoldIcon`, `Globe` — so components can swap icon libraries with a single import change.
 
 Every Frakment component that imports `@/lib/icons` now declares `icons` as a `registryDependency`. Running `npx frakment add <component>` installs the shim automatically. The `IconComponent` type replaces the previous `LucideIcon` alias.
 
