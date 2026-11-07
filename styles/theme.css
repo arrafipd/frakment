@@ -226,7 +226,7 @@
    Required by registry components that use animate-* utilities. */
 
 @theme {
-  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-shimmer: shimmer 3.2s linear infinite;
 
   @keyframes shimmer {
     from {
@@ -235,5 +235,355 @@
     to {
       background-position: -200% 0;
     }
+  }
+}
+
+/* ---- shimmer utility (CSS class) ---- */
+
+@property --shimmer-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 90deg;
+}
+
+@property --shimmer-duration {
+  syntax: "<time>";
+  inherits: false;
+  initial-value: 3200ms;
+}
+
+@property --shimmer-spread {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 15%;
+}
+
+@utility shimmer {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(
+    var(--shimmer-angle),
+    var(--muted-foreground) 0%,
+    var(--muted-foreground) calc(50% - var(--shimmer-spread)),
+    var(--shimmer-color, var(--foreground)) 50%,
+    var(--muted-foreground) calc(50% + var(--shimmer-spread)),
+    var(--muted-foreground) 100%
+  );
+  background-position: 0% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-size: 200% 100%;
+  animation: shimmer var(--shimmer-duration) linear infinite;
+}
+
+@utility shimmer-color-* {
+  --shimmer-color: --value(--color-*, [color]);
+}
+
+@utility shimmer-duration-* {
+  --shimmer-duration: calc(--value(integer) * 1ms);
+}
+
+@utility shimmer-spread-* {
+  --shimmer-spread: calc(--value(integer) * 1%);
+}
+
+@utility shimmer-angle-* {
+  --shimmer-angle: calc(--value(integer) * 1deg);
+}
+
+@utility shimmer-once {
+  animation-iteration-count: 1;
+}
+
+@utility shimmer-none {
+  color: inherit;
+  -webkit-text-fill-color: currentColor;
+  background-image: none;
+  animation: none;
+}
+
+/* ---- scroll-fade utility ---- */
+
+@property --scroll-fade-size {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 24px;
+}
+
+@property --scroll-fade-t {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --scroll-fade-b {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --scroll-fade-l {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --scroll-fade-r {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@keyframes scroll-fade-y {
+  0% {
+    --scroll-fade-t: 0px;
+    --scroll-fade-b: var(--scroll-fade-size);
+  }
+  100% {
+    --scroll-fade-t: var(--scroll-fade-size);
+    --scroll-fade-b: 0px;
+  }
+}
+
+@keyframes scroll-fade-x {
+  0% {
+    --scroll-fade-l: 0px;
+    --scroll-fade-r: var(--scroll-fade-size);
+  }
+  100% {
+    --scroll-fade-l: var(--scroll-fade-size);
+    --scroll-fade-r: 0px;
+  }
+}
+
+@keyframes scroll-fade-t-only {
+  0% {
+    --scroll-fade-t: 0px;
+  }
+  100% {
+    --scroll-fade-t: var(--scroll-fade-size);
+  }
+}
+
+@keyframes scroll-fade-b-only {
+  0% {
+    --scroll-fade-b: var(--scroll-fade-size);
+  }
+  100% {
+    --scroll-fade-b: 0px;
+  }
+}
+
+@keyframes scroll-fade-l-only {
+  0% {
+    --scroll-fade-l: 0px;
+  }
+  100% {
+    --scroll-fade-l: var(--scroll-fade-size);
+  }
+}
+
+@keyframes scroll-fade-r-only {
+  0% {
+    --scroll-fade-r: var(--scroll-fade-size);
+  }
+  100% {
+    --scroll-fade-r: 0px;
+  }
+}
+
+@utility scroll-fade {
+  --scroll-fade-t: var(--scroll-fade-size);
+  --scroll-fade-b: var(--scroll-fade-size);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    black var(--scroll-fade-t),
+    black calc(100% - var(--scroll-fade-b)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    black var(--scroll-fade-t),
+    black calc(100% - var(--scroll-fade-b)),
+    transparent 100%
+  );
+}
+
+@utility scroll-fade-y {
+  --scroll-fade-t: var(--scroll-fade-size);
+  --scroll-fade-b: var(--scroll-fade-size);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    black var(--scroll-fade-t),
+    black calc(100% - var(--scroll-fade-b)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    black var(--scroll-fade-t),
+    black calc(100% - var(--scroll-fade-b)),
+    transparent 100%
+  );
+}
+
+@utility scroll-fade-x {
+  --scroll-fade-l: var(--scroll-fade-size);
+  --scroll-fade-r: var(--scroll-fade-size);
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black var(--scroll-fade-l),
+    black calc(100% - var(--scroll-fade-r)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black var(--scroll-fade-l),
+    black calc(100% - var(--scroll-fade-r)),
+    transparent 100%
+  );
+}
+
+@utility scroll-fade-t {
+  --scroll-fade-t: var(--scroll-fade-size);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    black var(--scroll-fade-t),
+    black 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    black var(--scroll-fade-t),
+    black 100%
+  );
+}
+
+@utility scroll-fade-b {
+  --scroll-fade-b: var(--scroll-fade-size);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black 0,
+    black calc(100% - var(--scroll-fade-b)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    black 0,
+    black calc(100% - var(--scroll-fade-b)),
+    transparent 100%
+  );
+}
+
+@utility scroll-fade-l {
+  --scroll-fade-l: var(--scroll-fade-size);
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black var(--scroll-fade-l),
+    black 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black var(--scroll-fade-l),
+    black 100%
+  );
+}
+
+@utility scroll-fade-r {
+  --scroll-fade-r: var(--scroll-fade-size);
+  -webkit-mask-image: linear-gradient(
+    to right,
+    black 0,
+    black calc(100% - var(--scroll-fade-r)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    black 0,
+    black calc(100% - var(--scroll-fade-r)),
+    transparent 100%
+  );
+}
+
+@utility scroll-fade-s {
+  --scroll-fade-l: var(--scroll-fade-size);
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black var(--scroll-fade-l),
+    black 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black var(--scroll-fade-l),
+    black 100%
+  );
+}
+
+@utility scroll-fade-e {
+  --scroll-fade-r: var(--scroll-fade-size);
+  -webkit-mask-image: linear-gradient(
+    to right,
+    black 0,
+    black calc(100% - var(--scroll-fade-r)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    black 0,
+    black calc(100% - var(--scroll-fade-r)),
+    transparent 100%
+  );
+}
+
+@utility scroll-fade-none {
+  --scroll-fade-t: 0px;
+  --scroll-fade-b: 0px;
+  --scroll-fade-l: 0px;
+  --scroll-fade-r: 0px;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  .scroll-fade,
+  .scroll-fade-y {
+    animation: scroll-fade-y linear both;
+    animation-timeline: scroll(self y);
+  }
+  .scroll-fade-x {
+    animation: scroll-fade-x linear both;
+    animation-timeline: scroll(self inline);
+  }
+  .scroll-fade-t {
+    animation: scroll-fade-t-only linear both;
+    animation-timeline: scroll(self y);
+  }
+  .scroll-fade-b {
+    animation: scroll-fade-b-only linear both;
+    animation-timeline: scroll(self y);
+  }
+  .scroll-fade-l,
+  .scroll-fade-s {
+    animation: scroll-fade-l-only linear both;
+    animation-timeline: scroll(self inline);
+  }
+  .scroll-fade-r,
+  .scroll-fade-e {
+    animation: scroll-fade-r-only linear both;
+    animation-timeline: scroll(self inline);
+  }
+  .scroll-fade-none {
+    animation: none;
   }
 }

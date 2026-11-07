@@ -1,14 +1,18 @@
 ---
 title: "November 7, 2026"
-description: "Attachment component for displaying file attachments with lifecycle states."
+description: "Attachment docs, per-variant trace installs, scroll-fade and shimmer utilities."
 date: "2026-11-07"
 ---
 
 import { AttachmentDemo } from "@/examples/attachment-demo";
+import { ScrollFadeOverflow } from "@/examples/scroll-fade-overflow";
+import { ShimmerDemo } from "@/examples/shimmer-demo";
 
-This release adds the **Attachment** component for displaying file attachments with lifecycle states, size variants, image thumbnails, and overlay triggers.
+This release adds the **Attachment** docs page with six examples, per-variant install commands for **Trace**, and two CSS utilities: **scroll-fade** for edge-aware scroll containers and **shimmer** for animated loading text.
 
-- [Attachment](#attachment): File card with states, sizes, media, and actions.
+- [Attachment](#attachment): Docs page with six examples.
+- [Scroll fade](#scroll-fade): Mask gradient utilities for scroll containers.
+- [Shimmer](#shimmer): Animated gradient text utility.
 
 <hr className="my-16 border-border/40" />
 
@@ -58,3 +62,51 @@ import {
 ```
 
 See the [Attachment docs](/docs/components/attachment) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Scroll fade
+
+<ComponentPreview name="scroll-fade-overflow" title="scroll-fade-overflow.tsx">
+  <ScrollFadeOverflow />
+</ComponentPreview>
+
+**scroll-fade** applies a scroll-aware mask to the edges of a scroll container. The fade tracks the scroll position, only appearing when there is content beyond the visible area. Variants: `scroll-fade-x` for horizontal, `scroll-fade-{t,b,l,r,s,e}` for single edges, and `scroll-fade-none` to disable.
+
+#### Installation
+
+```bash
+npx frakment add scroll-fade
+```
+
+#### Minimal usage
+
+```tsx
+<div className="scroll-fade overflow-y-auto">{/* ... */}</div>
+```
+
+See the [Scroll Fade docs](/docs/utilities/scroll-fade) for the full reference.
+
+<hr className="my-16 border-border/40" />
+
+### Shimmer
+
+<ComponentPreview name="shimmer-demo" title="shimmer-demo.tsx">
+  <ShimmerDemo />
+</ComponentPreview>
+
+**shimmer** is a CSS utility that animates a gradient over text. Replaces the previous inline-style `<Shimmer>` component with a class that supports color, duration, spread, and angle modifiers.
+
+#### Installation
+
+```bash
+npx frakment add shimmer
+```
+
+#### Minimal usage
+
+```tsx
+<p className="shimmer">Generating response&hellip;</p>
+```
+
+See the [Shimmer docs](/docs/utilities/shimmer) for the full reference.

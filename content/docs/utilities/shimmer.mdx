@@ -1,0 +1,31 @@
+---
+title: "Shimmer"
+description: "Animated gradient utility for loading text."
+---
+
+import { ShimmerDemo } from "@/examples/shimmer-demo";
+
+<ComponentPreview name="shimmer-demo" title="shimmer-demo.tsx">
+  <ShimmerDemo />
+</ComponentPreview>
+
+The `shimmer` utility animates a gradient over text to signal a loading or streaming state. It is applied as a class on any text element.
+
+## Usage
+
+```tsx
+<p className="shimmer">Generating response&hellip;</p>
+```
+
+## Modifiers
+
+- `shimmer-color-[color]` — change the highlight color.
+- `shimmer-duration-[ms]` — change the animation duration.
+- `shimmer-angle-[deg]` — change the gradient angle.
+- `shimmer-spread-[percent]` — change the highlight spread.
+- `shimmer-once` — run the animation once.
+- `shimmer-none` — disable the animation.
+
+## Accessibility
+
+Shimmer is decorative. Pair it with a visible text label so the loading state is conveyed to screen readers.

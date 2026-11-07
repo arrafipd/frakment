@@ -6,7 +6,7 @@
   "description": "Motion-driven text shimmer for streaming states.",
   "files": [
     {
-      "content": "import type * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nexport function Shimmer({\n  children,\n  className,\n}: {\n  children: React.ReactNode;\n  className?: string;\n}) {\n  return (\n    <span\n      className={cn(\"inline-block\", className)}\n      style={{\n        animation: \"shimmer 1.6s linear infinite\",\n        backgroundClip: \"text\",\n        backgroundImage:\n          \"linear-gradient(90deg, var(--muted-foreground) 0%, var(--muted-foreground) 35%, var(--foreground) 50%, var(--muted-foreground) 65%, var(--muted-foreground) 100%)\",\n        backgroundPosition: \"0% 0\",\n        backgroundSize: \"200% 100%\",\n        color: \"transparent\",\n        WebkitBackgroundClip: \"text\",\n        WebkitTextFillColor: \"transparent\",\n      }}\n    >\n      {children}\n    </span>\n  );\n}\n",
+      "content": "import type * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nexport function Shimmer({\n  children,\n  className,\n}: {\n  children: React.ReactNode;\n  className?: string;\n}) {\n  return <span className={cn(\"shimmer\", className)}>{children}</span>;\n}\n",
       "path": "components/ui/shimmer.tsx"
     }
   ],
