@@ -1,0 +1,118 @@
+---
+title: "Progress"
+description: "Displays an indicator showing the completion progress of a task."
+---
+
+import { ProgressDemo } from "@/examples/progress-demo";
+import { ProgressWithLabel } from "@/examples/progress-with-label";
+import { ProgressControlled } from "@/examples/progress-controlled";
+
+<ComponentPreview name="progress" title="progress-demo.tsx">
+  <ProgressDemo />
+</ComponentPreview>
+
+Progress shows how much of a task has completed. The indicator animates smoothly on every value change with a 500ms ease-out transform.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add progress
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install radix-ui
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="progress" title="components/ui/progress.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="progress.tsx"
+import { Progress } from "@/components/ui/progress";
+
+<Progress value={60} />
+```
+
+The bar animates from 0 to the new value. Drop `transition-transform duration-500 ease-out` on the indicator to make it instant.
+
+## With label and value
+
+Pass `ProgressLabel` and `ProgressValue` as children to render a header row above the bar. `ProgressValue` reads the current value from context and renders `{value}%`.
+
+<ComponentPreview name="progress" title="progress-with-label.tsx">
+  <ProgressWithLabel />
+</ComponentPreview>
+
+```tsx
+<Progress value={56}>
+  <ProgressLabel>Upload progress</ProgressLabel>
+  <ProgressValue />
+</Progress>
+```
+
+## Controlled
+
+<ComponentPreview name="progress" title="progress-controlled.tsx">
+  <ProgressControlled />
+</ComponentPreview>
+
+```tsx
+const [value, setValue] = React.useState(50);
+
+<Progress value={value} />
+<input
+  type="range"
+  min={0}
+  max={100}
+  value={value}
+  onChange={(event) => setValue(Number(event.target.value))}
+/>
+```
+
+## API Reference
+
+### Progress
+
+<PropsTable
+  rows={[
+    { name: "value", type: "number", description: "Current progress, 0 to 100. Values outside the range are clamped by Radix." },
+    { name: "children", type: "React.ReactNode", description: "Optional label and value row rendered above the bar." },
+    { name: "className", type: "string", description: "Applied to the wrapper when children are present, otherwise to the bar." },
+  ]}
+/>
+
+### ProgressLabel
+
+Extends `React.ComponentProps<"span">`. Renders the label on the left of the header row.
+
+### ProgressValue
+
+Extends `React.ComponentProps<"span">`. Reads `value` from `ProgressContext` and renders `{value}%`.
+
+## Accessibility
+
+- Radix `Progress.Root` exposes `role="progressbar"`, `aria-valuenow`, and `aria-valuemax` automatically.
+- Pair the bar with `ProgressLabel` when the progress is not self-describing.
+- Do not rely on color alone. Use `ProgressValue` to show the numeric value.

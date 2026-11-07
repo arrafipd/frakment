@@ -1,0 +1,17 @@
+{
+  "dependencies": [
+    "radix-ui"
+  ],
+  "deprecated": false,
+  "description": "Displays an indicator showing the completion progress of a task.",
+  "files": [
+    {
+      "content": "\"use client\";\n\nimport { Progress as ProgressPrimitive } from \"radix-ui\";\nimport * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\nconst ProgressContext = React.createContext<{ value?: number }>({});\n\nfunction Progress({\n  className,\n  value,\n  children,\n  ...props\n}: React.ComponentProps<typeof ProgressPrimitive.Root> & {\n  children?: React.ReactNode;\n}) {\n  const normalizedValue = value || 0;\n\n  const bar = (\n    <ProgressPrimitive.Root\n      className={cn(\n        \"bg-muted relative flex h-1 w-full items-center overflow-x-hidden rounded-full\",\n        !children && className\n      )}\n      data-slot=\"progress\"\n      {...props}\n    >\n      <ProgressPrimitive.Indicator\n        className=\"bg-primary size-full flex-1 transition-transform duration-500 ease-out\"\n        data-slot=\"progress-indicator\"\n        style={{ transform: `translateX(-${100 - normalizedValue}%)` }}\n      />\n    </ProgressPrimitive.Root>\n  );\n\n  if (!children) {\n    return bar;\n  }\n\n  return (\n    <ProgressContext.Provider value={{ value: normalizedValue }}>\n      <div className={cn(\"flex flex-col gap-2\", className)}>\n        <div className=\"flex items-center justify-between gap-2\">\n          {children}\n        </div>\n        <ProgressPrimitive.Root\n          className=\"bg-muted relative flex h-1 w-full items-center overflow-x-hidden rounded-full\"\n          data-slot=\"progress\"\n          {...props}\n        >\n          <ProgressPrimitive.Indicator\n            className=\"bg-primary size-full flex-1 transition-transform duration-500 ease-out\"\n            data-slot=\"progress-indicator\"\n            style={{ transform: `translateX(-${100 - normalizedValue}%)` }}\n          />\n        </ProgressPrimitive.Root>\n      </div>\n    </ProgressContext.Provider>\n  );\n}\n\nfunction ProgressLabel({ className, ...props }: React.ComponentProps<\"span\">) {\n  return (\n    <span\n      className={cn(\"text-sm font-medium\", className)}\n      data-slot=\"progress-label\"\n      {...props}\n    />\n  );\n}\n\nfunction ProgressValue({ className, ...props }: React.ComponentProps<\"span\">) {\n  const { value } = React.useContext(ProgressContext);\n  return (\n    <span\n      className={cn(\"text-muted-foreground text-sm tabular-nums\", className)}\n      data-slot=\"progress-value\"\n      {...props}\n    >\n      {value ?? 0}%\n    </span>\n  );\n}\n\nexport { Progress, ProgressLabel, ProgressValue };\n",
+      "path": "components/ui/progress.tsx"
+    }
+  ],
+  "name": "progress",
+  "registryDependencies": [],
+  "title": "Progress",
+  "version": "0.1.0"
+}

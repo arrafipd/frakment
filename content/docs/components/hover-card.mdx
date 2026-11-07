@@ -1,0 +1,107 @@
+---
+title: "Hover Card"
+description: "Displays rich content in a portal when hovering over a trigger."
+---
+
+import { HoverCardDemo } from "@/examples/hover-card-demo";
+import { HoverCardSides } from "@/examples/hover-card-sides";
+
+<ComponentPreview name="hover-card" title="hover-card-demo.tsx">
+  <HoverCardDemo />
+</ComponentPreview>
+
+Hover Card shows rich content when the user hovers over a trigger. It opens after a short delay, stays open while the pointer is over the card, and closes on mouse leave. Hovering also works on keyboard focus.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add hover-card
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install radix-ui
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="hover-card" title="components/ui/hover-card.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="hover-card.tsx"
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+
+<HoverCard>
+  <HoverCardTrigger asChild>
+    <Button variant="link">Hover Here</Button>
+  </HoverCardTrigger>
+  <HoverCardContent>
+    Rich content goes here.
+  </HoverCardContent>
+</HoverCard>
+```
+
+## Sides
+
+Set `side` on `HoverCardContent` to control placement.
+
+<ComponentPreview name="hover-card" title="hover-card-sides.tsx">
+  <HoverCardSides />
+</ComponentPreview>
+
+## Delay
+
+Pass `openDelay` and `closeDelay` to `HoverCard` to tune the timing. Defaults come from Radix (700ms open, 300ms close).
+
+```tsx
+<HoverCard openDelay={100} closeDelay={100}>
+  <HoverCardTrigger asChild>
+    <Button>Trigger</Button>
+  </HoverCardTrigger>
+  <HoverCardContent>...</HoverCardContent>
+</HoverCard>
+```
+
+## API Reference
+
+### HoverCard
+
+Extends Radix `HoverCard.Root`. Accepts `openDelay`, `closeDelay`, `open`, `defaultOpen`, and `onOpenChange`.
+
+### HoverCardTrigger
+
+Extends Radix `HoverCard.Trigger`. Use `asChild` to compose with a Button, Link, or any focusable element.
+
+### HoverCardContent
+
+Extends Radix `HoverCard.Content`. Accepts `side`, `align`, and `sideOffset`. Renders inside a portal.
+
+## Accessibility
+
+- Hover Card is pointer-driven. Do not put interactive content inside it, use Dialog, Popover, or Dropdown Menu for that.
+- Hover Card also opens on keyboard focus. Make sure the trigger is a focusable element such as `<button>` or `<a>`.
+- Provide a visible text label on the trigger so keyboard and screen reader users understand what it does.

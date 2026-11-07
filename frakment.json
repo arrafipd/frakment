@@ -23,6 +23,26 @@
       "registryDependencies": []
     },
     {
+      "name": "hover-card",
+      "version": "0.1.0",
+      "title": "Hover Card",
+      "description": "Displays rich content in a portal when hovering over a trigger.",
+      "source": "registry/hover-card.tsx",
+      "target": "components/ui/hover-card.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "progress",
+      "version": "0.1.0",
+      "title": "Progress",
+      "description": "Displays an indicator showing the completion progress of a task.",
+      "source": "registry/progress.tsx",
+      "target": "components/ui/progress.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
       "name": "pulse",
       "version": "0.1.0",
       "title": "Pulse",

@@ -16,6 +16,20 @@
     },
     {
       "deprecated": false,
+      "description": "Displays rich content in a portal when hovering over a trigger.",
+      "name": "hover-card",
+      "title": "Hover Card",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Displays an indicator showing the completion progress of a task.",
+      "name": "progress",
+      "title": "Progress",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
       "description": "A daily status timeline for service uptime, with inline incident logs.",
       "name": "pulse",
       "title": "Pulse",
