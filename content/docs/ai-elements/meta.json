@@ -7,6 +7,9 @@
     "checkpoint",
     "confirmation",
     "context",
+    "inline-citation",
+    "message",
+    "model-selector",
     "terminal"
   ]
 }

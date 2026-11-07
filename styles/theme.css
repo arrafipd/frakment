@@ -588,3 +588,63 @@
     animation: none;
   }
 }
+
+/* highlight.js — syntax highlight for Markdown code blocks */
+.hljs {
+  color: var(--foreground);
+  background: transparent;
+}
+.hljs-comment,
+.hljs-quote {
+  font-style: italic;
+  color: var(--muted-foreground);
+}
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-section,
+.hljs-link {
+  color: oklch(0.65 0.2 300);
+}
+.hljs-string,
+.hljs-attr,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+  color: oklch(0.7 0.15 140);
+}
+.hljs-number,
+.hljs-meta,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-attribute {
+  color: oklch(0.75 0.14 60);
+}
+.hljs-title,
+.hljs-name,
+.hljs-type {
+  color: oklch(0.72 0.15 250);
+}
+.hljs-function,
+.hljs-title.function_ {
+  color: oklch(0.75 0.14 200);
+}
+.hljs-variable,
+.hljs-template-variable,
+.hljs-params {
+  color: var(--foreground);
+}
+.hljs-tag,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: oklch(0.68 0.18 20);
+}
+.hljs-deletion {
+  color: oklch(0.6 0.22 25);
+}
+.hljs-emphasis {
+  font-style: italic;
+}
+.hljs-strong {
+  font-weight: 600;
+}

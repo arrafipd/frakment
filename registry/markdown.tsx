@@ -1,13 +1,21 @@
 import { marked } from "marked";
+import * as React from "react";
 import { memo, useId, useMemo } from "react";
 import type { Components } from "react-markdown";
 import ReactMarkdown from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
 import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";
-
 import { cn } from "@/lib/utils";
 
-import { CodeBlock, CodeBlockContent } from "./code-block";
+import {
+  CodeBlock,
+  CodeBlockActions,
+  CodeBlockContent,
+  CodeBlockCopyButton,
+  CodeBlockHeader,
+  CodeBlockTitle,
+} from "./code-block";
 
 export interface MarkdownProps {
   children: string;
@@ -27,6 +35,24 @@ function extractLanguage(className?: string): string {
   }
   const match = className.match(/language-(\w+)/u);
   return match ? match[1] : "plaintext";
+}
+
+function extractTextContent(node: React.ReactNode): string {
+  if (typeof node === "string") {
+    return node;
+  }
+  if (typeof node === "number") {
+    return String(node);
+  }
+  if (Array.isArray(node)) {
+    return node.map(extractTextContent).join("");
+  }
+  if (React.isValidElement(node)) {
+    return extractTextContent(
+      (node.props as { children?: React.ReactNode }).children
+    );
+  }
+  return "";
 }
 
 const INITIAL_COMPONENTS: Partial<Components> = {
@@ -69,12 +95,12 @@ const INITIAL_COMPONENTS: Partial<Components> = {
       );
     }
 
-    const _language = extractLanguage(className);
-
+    // Block code: rehype-pretty-code already highlighted.
+    // Let pre handler wrap it in CodeBlock with header + copy.
     return (
-      <CodeBlock className={className}>
-        <CodeBlockContent>{children as string}</CodeBlockContent>
-      </CodeBlock>
+      <code className={className} {...props}>
+        {children}
+      </code>
     );
   },
   h1: function H1({ children, ...props }) {
@@ -120,7 +146,41 @@ const INITIAL_COMPONENTS: Partial<Components> = {
     );
   },
   pre: function PreComponent({ children }) {
-    return <>{children}</>;
+    const first = React.Children.toArray(children)[0];
+
+    if (!React.isValidElement(first)) {
+      return (
+        <pre className="border-border bg-code my-3 overflow-x-auto rounded-xl border p-4 text-sm">
+          {children}
+        </pre>
+      );
+    }
+
+    const codeProps = first.props as {
+      className?: string;
+      children?: React.ReactNode;
+      "data-language"?: string;
+    };
+
+    const language =
+      codeProps["data-language"] ||
+      extractLanguage(codeProps.className) ||
+      "plaintext";
+    const rawText = extractTextContent(codeProps.children);
+
+    return (
+      <CodeBlock className="my-3">
+        <CodeBlockHeader>
+          <CodeBlockTitle>{language}</CodeBlockTitle>
+          <CodeBlockActions className="opacity-100!">
+            <CodeBlockCopyButton value={rawText} />
+          </CodeBlockActions>
+        </CodeBlockHeader>
+        <CodeBlockContent>
+          <code className={codeProps.className}>{codeProps.children}</code>
+        </CodeBlockContent>
+      </CodeBlock>
+    );
   },
   strong: function Strong({ children, ...props }) {
     return (
@@ -149,6 +209,7 @@ const MemoizedMarkdownBlock = memo(
     return (
       <ReactMarkdown
         components={components}
+        rehypePlugins={[rehypeHighlight]}
         remarkPlugins={[remarkGfm, remarkBreaks]}
       >
         {content}
