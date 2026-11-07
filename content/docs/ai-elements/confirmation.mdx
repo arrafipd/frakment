@@ -1,0 +1,183 @@
+---
+title: "Confirmation"
+description: "Ask the user to approve a tool call before the agent runs it."
+---
+
+import { ConfirmationDemo } from "@/examples/confirmation-demo";
+
+<ComponentPreview name="confirmation-demo" title="confirmation-demo.tsx" src="examples/confirmation-demo.tsx">
+  <ConfirmationDemo />
+</ComponentPreview>
+
+Confirmation pauses a tool call and asks the user to approve or deny it before it runs. The pending tool renders as an `Item` card with Approve and Deny actions. Once the user responds, the card is replaced by a `Trace` line showing the outcome.
+
+Confirmation is a composition — install the primitives, then wire the approval flow the same way the demo does.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add ai bubble button item message trace
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install @ai-sdk/react ai motion lucide-react
+      ```
+
+      <Step>Install the required registry components:</Step>
+
+      <ComponentSource name="ai" title="lib/ai.ts" />
+      <ComponentSource name="bubble" title="components/ui/bubble.tsx" />
+      <ComponentSource name="button" title="components/ui/button.tsx" />
+      <ComponentSource name="item" title="components/ui/item.tsx" />
+      <ComponentSource name="message" title="components/ui/message.tsx" />
+      <ComponentSource name="trace" title="components/ui/trace.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+Mark the tool call with `needsApproval: true`. The writer emits an `approval-requested` state instead of running the tool immediately.
+
+```tsx title="chat.tsx"
+import { createChat } from "@/lib/ai";
+import type { UIDataTypes, UIMessage } from "ai";
+
+type ChatMessage = UIMessage<
+  unknown,
+  UIDataTypes,
+  { runCommand: { input: { command: string }; output: { stdout: string } } }
+>;
+
+const chat = createChat<ChatMessage>()
+  .user("Clean up the build folder.")
+  .assistant(({ writer }) => {
+    writer.tool("runCommand", {
+      input: { command: "rm -rf dist" },
+      needsApproval: true,
+      output: { stdout: "" },
+    });
+  });
+```
+
+Wire the approval handler into `useChat` and let the SDK auto-send the follow-up turn.
+
+```tsx title="chat.tsx"
+import { useChat } from "@ai-sdk/react";
+import { lastAssistantMessageIsCompleteWithApprovalResponses } from "ai";
+
+const { messages, addToolApprovalResponse } = useChat({
+  messages: initialMessages,
+  transport,
+  sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithApprovalResponses,
+});
+```
+
+## Anatomy
+
+A pending tool call renders as an `Item` card. Once approved or denied, it becomes a `Trace` line.
+
+```tsx title="confirmation.tsx"
+{part.state === "approval-requested" ? (
+  <Item variant="outline" size="sm">
+    <ItemMedia variant="icon">
+      <TerminalIcon />
+    </ItemMedia>
+    <ItemContent>
+      <ItemTitle>Run {part.input.command}?</ItemTitle>
+      <ItemDescription>The command runs in this project.</ItemDescription>
+    </ItemContent>
+    <ItemActions>
+      <Button
+        size="sm"
+        variant="outline"
+        onClick={() =>
+          addToolApprovalResponse({ id: part.approval.id, approved: false })
+        }
+      >
+        Deny
+      </Button>
+      <Button
+        size="sm"
+        onClick={() =>
+          addToolApprovalResponse({ id: part.approval.id, approved: true })
+        }
+      >
+        Approve
+      </Button>
+    </ItemActions>
+  </Item>
+) : (
+  <Trace>
+    <TraceLine status={!denied && part.state !== "output-available" ? "running" : undefined}>
+      <TraceIcon><TerminalIcon /></TraceIcon>
+      <TraceTitle>
+        {denied ? "Denied" : part.state === "output-available" ? "Ran" : "Running"}{" "}
+        {part.input?.command}
+      </TraceTitle>
+    </TraceLine>
+  </Trace>
+)}
+```
+
+- **Item** — the pending approval card with media, content, and actions.
+- **Button** — Approve (default) and Deny (outline).
+- **Trace** — the outcome row, shown after the user responds.
+- **Message**, **Bubble** — surrounding turn.
+
+## Approval states
+
+The tool call moves through states:
+
+| State | Render |
+| :-- | :-- |
+| `input-streaming` | hidden (input not yet available) |
+| `approval-requested` | `Item` card with Approve / Deny |
+| `approval-responded` | `Trace` line, running if approved |
+| `output-available` | `Trace` line showing "Ran [command]" |
+| `output-denied` | `Trace` line showing "Denied [command]" |
+
+## Animation
+
+User turns animate with the `slide-up` variant, assistant turns fade in, and the approval card slides up when it appears.
+
+```tsx title="confirmation.tsx"
+import { MESSAGE_ANIMATIONS } from "@/lib/message-animations";
+import { motion, useReducedMotion } from "motion/react";
+
+const shouldReduceMotion = useReducedMotion();
+
+<motion.div
+  animate={shouldReduceMotion ? undefined : "animate"}
+  initial={shouldReduceMotion ? undefined : "initial"}
+  variants={MESSAGE_ANIMATIONS["slide-up"].variants}
+>
+  <Item variant="outline" size="sm">...</Item>
+</motion.div>
+```
+
+Motion is skipped when the user prefers reduced motion.
+
+## Next
+
+- [Chat](/docs/ai-elements/chat) — full streaming chat surface.
+- [Checkpoint](/docs/ai-elements/checkpoint) — restore points in a conversation.
+- [Trace](/docs/components/trace) — collapsible reasoning and tool-call lines.
+- [Item](/docs/components/item) — card with media, content, and actions.

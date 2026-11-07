@@ -1,5 +1,11 @@
 {
   "title": "AI Elements",
   "root": true,
-  "pages": ["chain-of-thought", "chat", "terminal"]
+  "pages": [
+    "chain-of-thought",
+    "chat",
+    "checkpoint",
+    "confirmation",
+    "terminal"
+  ]
 }

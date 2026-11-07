@@ -1,4 +1,4 @@
-// Frakment chat engine â€” ChatBuilder: turn scripting, continuation, transport.
+﻿// Frakment chat engine Ã¢â‚¬â€ ChatBuilder: turn scripting, continuation, transport.
 
 import {
   eventsFromParts,
@@ -12,6 +12,7 @@ import type {
   AiSdkChat,
   ChatAssistantOptions,
   ChatEvent,
+  ChatEventEnvelope,
   ChatTransport,
   ChatTransportOptions,
   ChatUserOptions,
@@ -20,6 +21,7 @@ import type {
   ToolSet,
   UIDataTypes,
   UIMessage,
+  UIMessageChunk,
   UIMessagePart,
   UITools,
 } from "./types";
@@ -83,7 +85,7 @@ export function createMetadataFactory(
 }
 
 // ============================================================
-// createChatBuilder â€” core methods (Phase 4)
+// createChatBuilder Ã¢â‚¬â€ core methods (Phase 4)
 // Transport + continuation will be added in Phase 5/6.
 // ============================================================
 
@@ -95,7 +97,7 @@ function getTextOf(message: UIMessage): string {
 }
 
 // ============================================================
-// Continuation helpers â€” pending tools, fallback, resolve turn, continuation materialization.
+// Continuation helpers Ã¢â‚¬â€ pending tools, fallback, resolve turn, continuation materialization.
 // ============================================================
 
 interface PendingToolRaw {
@@ -515,7 +517,7 @@ export function createChatBuilder(options: CreateChatOptions = {}): AiSdkChat {
         !lastTurn.resolve &&
         getPendingToolsRaw(lastTurn.events).some((p) => p.approval)
       ) {
-        // Dev warning only â€” no continuation turn follows, decision will be lost.
+        // Dev warning only Ã¢â‚¬â€ no continuation turn follows, decision will be lost.
         // See reference behavior: silently ignore in production.
       }
       const streamOpts = { delayMs: 50, ...transportOpts };
@@ -529,6 +531,126 @@ export function createChatBuilder(options: CreateChatOptions = {}): AiSdkChat {
             messageId !== undefined && messageId !== null
               ? messageId
               : undefined;
+          // Handle tool approval continuation — invoke deferred callback, stream text
+          const lastAssistantMsg = [...messages]
+            .reverse()
+            .find((m) => m.role === "assistant");
+          const respondedPart = lastAssistantMsg?.parts.find(
+            (p) =>
+              typeof p.type === "string" &&
+              p.type.startsWith("tool-") &&
+              "state" in p &&
+              (p as { state: string }).state === "approval-responded"
+          ) as
+            | {
+                toolCallId: string;
+                approval?: { id: string; approved?: boolean };
+              }
+            | undefined;
+
+          if (respondedPart && lastAssistantMsg) {
+            const continuationIdx = turns.findIndex(
+              (t) => t.continuation === true
+            );
+            if (continuationIdx !== -1 && turns[continuationIdx]) {
+              const continuationTurn = turns[continuationIdx];
+              const approved = respondedPart.approval?.approved === true;
+
+              // Invoke deferred callback with mock writer to materialize events
+              if (
+                typeof continuationTurn.resolve === "function" &&
+                continuationTurn.events.length === 0
+              ) {
+                const events = continuationTurn.events;
+                const pendingSleeps: { delayMs: number }[] = [];
+                const writer = {
+                  data() {
+                    return writer;
+                  },
+                  reasoning(t: string) {
+                    for (const s of pendingSleeps) {
+                      events.push({
+                        delayMs: s.delayMs,
+                        kind: "sleep",
+                      } as unknown as (typeof events)[number]);
+                    }
+                    pendingSleeps.length = 0;
+                    events.push({
+                      id: `reasoning-${events.length + 1}`,
+                      kind: "reasoning",
+                      options: {},
+                      text: t,
+                    } as unknown as (typeof events)[number]);
+                    return writer;
+                  },
+                  sleep(ms: number) {
+                    pendingSleeps.push({ delayMs: ms });
+                    return writer;
+                  },
+                  text(t: string) {
+                    for (const s of pendingSleeps) {
+                      events.push({
+                        delayMs: s.delayMs,
+                        kind: "sleep",
+                      } as unknown as (typeof events)[number]);
+                    }
+                    pendingSleeps.length = 0;
+                    events.push({
+                      id: `text-${events.length + 1}`,
+                      kind: "text",
+                      options: { mode: "stream" },
+                      text: t,
+                    } as unknown as (typeof events)[number]);
+                    return writer;
+                  },
+                  tool() {
+                    return writer;
+                  },
+                };
+                try {
+                  continuationTurn.resolve({
+                    toolCall: { approved },
+                    writer,
+                  });
+                } catch (err) {
+                  console.error("Continuation callback failed:", err);
+                }
+              }
+
+              const toolChunk: ChatEventEnvelope = approved
+                ? {
+                    chunk: {
+                      messageId: lastAssistantMsg.id,
+                      output: { stdout: "" },
+                      toolCallId: respondedPart.toolCallId,
+                      type: "tool-output-available",
+                    } as UIMessageChunk,
+                    kind: "chunk",
+                  }
+                : {
+                    chunk: {
+                      messageId: lastAssistantMsg.id,
+                      toolCallId: respondedPart.toolCallId,
+                      type: "tool-output-denied",
+                    } as UIMessageChunk,
+                    kind: "chunk",
+                  };
+
+              const continuationEnvelope = eventsToEnvelope(
+                continuationTurn.events,
+                {
+                  delayMs: streamOpts.delayMs,
+                  messageId: undefined,
+                  messageMetadata: continuationTurn.metadata,
+                }
+              );
+              return streamFromEnvelope(
+                [toolChunk, ...continuationEnvelope],
+                (chunk) => chunk,
+                abortSignal ?? undefined
+              );
+            }
+          }
           const idx = resolveTurnIndex(
             turns,
             messages,
@@ -575,7 +697,7 @@ export function createChatBuilder(options: CreateChatOptions = {}): AiSdkChat {
     user(text = DEFAULT_USER_TEXT, opts: ChatUserOptions<unknown> = {}) {
       const events = flushPendingSleeps();
       const localEvents: ChatEvent[] = [
-        { id: "text-1", kind: "text", options: { mode: "instant" }, text },
+        { id: "text-1", kind: "text", options: { mode: "stream" }, text },
       ];
       for (const file of opts.files ?? []) {
         const cloned = deepClone(file);
