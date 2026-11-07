@@ -195,3 +195,19 @@ The rendered components do not assume the scripted transport. Any `UIMessage[]` 
 - [Trace](/docs/components/trace) — collapsible reasoning and tool-call lines.
 - [Code Block](/docs/components/code-block) — syntax-highlighted code.
 - [Input Group](/docs/components/input-group) — inline composer with addons.
+
+## Accessibility
+
+- Every assistant turn is a `Message` with role semantics. Screen readers announce the transcript in order.
+- `MessageScroller` sets `aria-busy` while streaming so assistive tech pauses politely.
+- Reasoning and tool-call steps render as `TraceCollapsible` with a visible trigger label ("Thinking", "Ran …").
+- The composer is a labelled `InputGroupTextarea`. Enter sends, Shift+Enter inserts a newline.
+- Animations respect `prefers-reduced-motion`; motion is skipped when the user disables it.
+
+## Best Practices
+
+- **Anchor the transcript to the latest user turn.** Pass `scrollAnchor` so new messages follow.
+- **Stream text, do not swap.** Replacing the whole message per chunk breaks the typewriter effect.
+- **Collapse reasoning automatically.** Open while running, close when resolved.
+- **Fail gracefully.** Append a system message on transport error instead of clearing the transcript.
+- **Replace the scripted transport in production.** `createChat` is for demos, not real backends.

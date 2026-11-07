@@ -17,6 +17,8 @@ import { TraceSheet } from "@/examples/trace-sheet";
 import { TraceTurn } from "@/examples/trace-turn";
 import { TraceThinking } from "@/examples/trace-thinking";
 import { TraceToolCalls } from "@/examples/trace-tool-calls";
+import { Trace, TraceLine, TraceIcon, TraceTitle } from "@/components/ui/trace";
+import { CircleCheckIcon, LoaderCircleIcon } from "lucide-react";
 
 <ComponentPreview name="trace" title="trace.tsx" align="start" previewClassName="h-auto">
   <TraceDemo />
@@ -210,6 +212,29 @@ Track tool invocations with running, done, and failed states.
 <ComponentPreview name="trace" title="trace.tsx" align="start" previewClassName="h-auto">
   <TraceToolCalls />
 </ComponentPreview>
+## In Context
+
+### Agent step list
+
+<ComponentPreview name="trace" title="trace.tsx">
+  <div className="mx-auto w-full max-w-sm">
+    <Trace>
+      <TraceLine>
+        <TraceIcon><CircleCheckIcon /></TraceIcon>
+        <TraceTitle>Read 4 files</TraceTitle>
+      </TraceLine>
+      <TraceLine>
+        <TraceIcon><CircleCheckIcon /></TraceIcon>
+        <TraceTitle>Ran pnpm test</TraceTitle>
+      </TraceLine>
+      <TraceLine status="running">
+        <TraceIcon><LoaderCircleIcon className="animate-spin" /></TraceIcon>
+        <TraceTitle>Writing patch</TraceTitle>
+      </TraceLine>
+    </Trace>
+  </div>
+</ComponentPreview>
+
 ## API Reference
 
 ### Trace / TraceIcon / TraceTitle / TraceDescription
@@ -240,3 +265,10 @@ Extends Radix `Collapsible.Content`. Animates height via `motion/react` with `SP
 - `TraceIcon` is `aria-hidden`. Use `TraceTitle` as the accessible name — write it as a sentence.
 - Status is conveyed by icon shape and color, not color alone.
 - `prefers-reduced-motion` disables shimmer and collapse animation.
+
+## Best Practices
+
+- **One line per step.** Do not merge unrelated actions into one line.
+- **Wrap trace in a collapsible for long runs.** Ten lines collapse the transcript.
+- **Mark running steps.** `status="running"` triggers the shimmer and spinner.
+- **Keep titles verb-first.** "Ran pnpm test", not "pnpm test status".

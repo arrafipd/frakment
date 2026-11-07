@@ -4,6 +4,8 @@ description: A flexible row for grouping media, content, and actions.
 ---
 
 import { ItemDemo } from "@/examples/item-demo";
+import { Avatar } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 
 import {
   Item,
@@ -288,6 +290,29 @@ Combine with [Spinner](/docs/components/spinner) for a live processing row.
   </div>
 </ComponentPreview>
 
+## In Context
+
+### Settings row
+
+<ComponentPreview name="item" title="item.tsx">
+  <div className="mx-auto w-full max-w-sm">
+    <Item variant="outline">
+      <ItemMedia>
+        <span className="flex size-8 items-center justify-center rounded-full bg-muted text-xs font-medium">
+          AR
+        </span>
+      </ItemMedia>
+      <ItemContent>
+        <ItemTitle>Arrafi</ItemTitle>
+        <ItemDescription>arrafi@frakment.dev</ItemDescription>
+      </ItemContent>
+      <ItemActions>
+        <Button size="sm" variant="outline">Edit</Button>
+      </ItemActions>
+    </Item>
+  </div>
+</ComponentPreview>
+
 ## API Reference
 
 ### Item
@@ -318,3 +343,10 @@ Extend `React.ComponentProps<"div">`. Each maps to a `data-slot` attribute for C
 - `Item` renders a `<div>` — for interactive rows, use `asChild` with `<a>` or `<button>` so keyboard and screen readers work.
 - `ItemMedia` should be `aria-hidden` when the visual is decorative (e.g., a status dot).
 - `ItemTitle` acts as the accessible name — write it as a short label.
+
+## Best Practices
+
+- **Use for list rows with mixed content.** Media + content + actions fits in one Item.
+- **Keep the media square.** A 32px to 40px square reads as an avatar or icon.
+- **Actions belong in `ItemActions`.** Do not float buttons inside content.
+- **One action cluster.** More than three actions belong in a dropdown.

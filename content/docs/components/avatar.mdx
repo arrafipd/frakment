@@ -394,6 +394,33 @@ Pair **Avatar** with [Message](/docs/components/message) and [Bubble](/docs/comp
   </div>
 </ComponentPreview>
 
+## In Context
+
+### Comment author
+
+<ComponentPreview name="avatar" title="avatar.tsx">
+  <div className="mx-auto flex w-full max-w-sm items-start gap-3">
+    <Avatar>
+      <AvatarFallback>AR</AvatarFallback>
+    </Avatar>
+    <div>
+      <p className="text-sm font-medium">Arrafi</p>
+      <p className="text-muted-foreground text-sm">Nice work on the registry.</p>
+    </div>
+  </div>
+</ComponentPreview>
+
+### Avatar group
+
+<ComponentPreview name="avatar" title="avatar.tsx">
+  <div className="mx-auto flex items-center -space-x-2">
+    <Avatar><AvatarFallback>AR</AvatarFallback></Avatar>
+    <Avatar><AvatarFallback>JD</AvatarFallback></Avatar>
+    <Avatar><AvatarFallback>MK</AvatarFallback></Avatar>
+    <Avatar><AvatarFallback>+9</AvatarFallback></Avatar>
+  </div>
+</ComponentPreview>
+
 ## API Reference
 
 ### Avatar
@@ -431,3 +458,10 @@ Extend `React.ComponentProps<"div">`. Group applies `-space-x-2` and a 2px backg
 - **AvatarFallback** initials act as a visual label but are not read as a name. If the avatar has semantic meaning, wrap the group in a container with `aria-label`.
 - **AvatarBadge** is decorative. Convey the status in text when it matters (e.g., "Online").
 - **AvatarGroup** should have an accessible label like `aria-label="3 participants"` when it summarizes a list.
+
+## Best Practices
+
+- **Always include a fallback.** `AvatarFallback` renders when the image fails or is missing.
+- **Size by context.** 24px in lists, 40px in headers, 64px in profiles.
+- **Add an accessible name.** Wrap in a button with `aria-label` when clickable.
+- **Do not rely on the image alone.** Pair with the user's name or a tooltip.

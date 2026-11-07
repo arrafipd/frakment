@@ -7,6 +7,7 @@ import { CheckboxDemo } from "@/examples/checkbox-demo";
 import { CheckboxStates } from "@/examples/checkbox-states";
 import { CheckboxDisabled } from "@/examples/checkbox-disabled";
 import { CheckboxWithLabel } from "@/examples/checkbox-with-label";
+import { Checkbox } from "@/components/ui/checkbox";
 
 <ComponentPreview name="checkbox" title="checkbox.tsx">
   <CheckboxDemo />
@@ -100,8 +101,76 @@ Pair with `Label` and matching `id` / `htmlFor` for a click-through row.
 </div>
 ```
 
+## In Context
+
+### Terms acceptance
+
+<ComponentPreview name="checkbox" title="checkbox.tsx">
+  <div className="mx-auto flex max-w-sm items-start gap-2">
+    <Checkbox className="mt-0.5" id="terms" />
+    <label className="text-sm" htmlFor="terms">
+      I agree to the Terms of Service and Privacy Policy.
+    </label>
+  </div>
+</ComponentPreview>
+
+### Notification preferences
+
+<ComponentPreview name="checkbox" title="checkbox.tsx">
+  <div className="mx-auto max-w-sm space-y-3">
+    <div className="flex items-center gap-2">
+      <Checkbox defaultChecked id="email" />
+      <label className="text-sm" htmlFor="email">Email notifications</label>
+    </div>
+    <div className="flex items-center gap-2">
+      <Checkbox id="push" />
+      <label className="text-sm" htmlFor="push">Push notifications</label>
+    </div>
+  </div>
+</ComponentPreview>
+
 ## API Reference
 
-Extends `React.ComponentProps<typeof CheckboxPrimitive.Root>` from `radix-ui`.
+### Checkbox
 
-Adds `data-slot="checkbox"` for styling hooks.
+Extends Radix `Checkbox.Root`.
+
+<PropsTable
+  rows={[
+    { name: "checked", type: "boolean | \"indeterminate\"", description: "Controlled state. Use \"indeterminate\" for partial selection." },
+    { name: "defaultChecked", type: "boolean", default: "false", description: "Uncontrolled initial state." },
+    { name: "onCheckedChange", type: "(checked: boolean) => void", description: "Fires when the checkbox toggles." },
+    { name: "disabled", type: "boolean", default: "false", description: "Removes the checkbox from the tab order." },
+    { name: "required", type: "boolean", default: "false", description: "Native form requirement." },
+  ]}
+/>
+
+## Accessibility
+
+- `Checkbox` renders a button with `role="checkbox"` and manages `aria-checked`. Do not add `role` manually.
+- Always pair with a `label` or `FieldLabel` using `htmlFor`. Clicking the label toggles the checkbox.
+- The indeterminate state is set via `checked="indeterminate"`. It has no user-triggered equivalent; set it when some but not all children are selected.
+- `disabled` removes the checkbox from the tab order. If the value is informational, use `readOnly` instead of `disabled`.
+
+## Best Practices
+
+- **One checkbox per independent option.** Do not use it for exclusive choices — use `RadioGroup`.
+- **Labels go to the right.** `Checkbox` then `label` is the standard pattern.
+- **Instant toggle.** Checkboxes toggle immediately; there is no separate save step.
+- **Indeterminate is a display state.** Set it programmatically when a parent has mixed child states.
+- **Use `Switch` for immediate settings.** Checkbox reads as "queued until save" to many users.
+
+## Anatomy
+
+<ComponentPreview name="checkbox" title="checkbox.tsx">
+  <div className="flex items-center gap-2">
+    <Checkbox defaultChecked id="a" />
+    <label className="text-sm" htmlFor="a">Checked</label>
+    <Checkbox id="b" />
+    <label className="text-sm" htmlFor="b">Unchecked</label>
+  </div>
+</ComponentPreview>
+
+- **Box** — 16px square with a 1px border, `bg-primary` when checked
+- **Indicator** — checkmark icon, rendered only when checked
+- **Label** — separate element, linked with `htmlFor`

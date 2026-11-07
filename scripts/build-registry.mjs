@@ -137,6 +137,22 @@ async function main() {
       );
     }
 
+    if (component.additionalFiles && Array.isArray(component.additionalFiles)) {
+      for (const additional of component.additionalFiles) {
+        const srcPath = path.resolve(
+          path.dirname(manifestPath),
+          additional.source
+        );
+        const content = (await fs.readFile(srcPath, "utf8")).replace(
+          /\r\n/gu,
+          "\n"
+        );
+        files.push({ content, path: additional.target });
+        const detected = detectImports(content);
+        detected.external.forEach((x) => autoExternal.add(x));
+      }
+    }
+
     // buang self-reference
     autoRegistry.delete(component.name);
 

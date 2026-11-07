@@ -10,6 +10,8 @@ import { InputGroupTextareaDemo } from "@/examples/input-group-textarea";
 import { InputGroupKbd } from "@/examples/input-group-kbd";
 import { InputGroupDisabled } from "@/examples/input-group-disabled";
 import { InputGroupInvalid } from "@/examples/input-group-invalid";
+import { SearchIcon } from "lucide-react";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 
 <ComponentPreview name="input-group" title="input-group.tsx">
   <InputGroupDemo />
@@ -220,6 +222,17 @@ Set `aria-invalid` on the control to trigger the destructive border and ring on 
 </InputGroup>
 ```
 
+## In Context
+
+### Search with icon
+
+<ComponentPreview name="input-group" title="input-group.tsx">
+  <InputGroup className="mx-auto w-full max-w-sm">
+    <InputGroupAddon><SearchIcon /></InputGroupAddon>
+    <InputGroupInput placeholder="Search…" />
+  </InputGroup>
+</ComponentPreview>
+
 ## API Reference
 
 ### InputGroupAddon
@@ -265,3 +278,16 @@ Extends Frakment `Button`. Accepts all button props (`variant`, `size`, `disable
 ### InputGroupInput / InputGroupTextarea
 
 Extend native `input` / `textarea` props. Borders, ring, and background are stripped so the group provides the visual shell.
+
+## Accessibility
+
+- `InputGroup` wraps a single input or textarea. Do not nest multiple controls.
+- Addons are decorative; use `aria-label` on icon-only addons.
+- The focus ring applies to the group, not the inner input.
+
+## Best Practices
+
+- **One input per group.** Multiple inputs need multiple groups.
+- **Addons align end or start.** Never both around the input.
+- **Label the input inside.** Addons are not labels.
+- **Keep addons visual.** A button inside an addon is a full Button.

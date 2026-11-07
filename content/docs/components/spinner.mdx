@@ -154,6 +154,14 @@ Combine with [Marker](/docs/components/marker) for a live streaming line.
   </div>
 </ComponentPreview>
 
+## In Context
+
+### Loading button
+
+<ComponentPreview name="spinner" title="spinner.tsx">
+  <Button disabled><Spinner />Processing</Button>
+</ComponentPreview>
+
 ## API Reference
 
 ### Spinner
@@ -177,3 +185,19 @@ Extends `React.ComponentProps<"svg">`. Defaults: `size-4`, `animate-spin`, `role
 - Pair with visible text for clarity when the loading state has semantic meaning.
 - `animate-spin` respects `prefers-reduced-motion`.
 - When placed inside `Button` or `Badge`, keep `data-icon="inline-start"` or `"inline-end"` so the gap matches the surrounding component.
+
+## Anatomy
+
+<ComponentPreview name="spinner" title="spinner.tsx">
+  <Spinner />
+</ComponentPreview>
+
+- **Icon** — a rotating SVG, 16px by default
+- **Animation** — CSS `animate-spin`, disabled by `prefers-reduced-motion`
+
+## Best Practices
+
+- **Pair with text.** A spinner alone is ambiguous.
+- **Do not block the whole page.** Use a skeleton for content areas.
+- **Respect reduced-motion.** Fall back to a static icon.
+- **Hide after success.** A lingering spinner reads as "still loading".

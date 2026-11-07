@@ -106,6 +106,14 @@ The preview on this page shows the chain-of-thought primitive composing with `us
 
 The composition pulls `@ai-sdk/react`, `ai`, `badge`, `bubble`, `button`, `code-block`, `message`, and `trace`. Follow the [Chat tutorial](/docs/ai-elements/chat) for the wiring pattern, or replace `createChat` with your own backend that streams `data-buildLog` and tool parts.
 
+## In Context
+
+### Research summary
+
+<ComponentPreview name="chain-of-thought" title="chain-of-thought.tsx">
+  <ChainOfThoughtDemo />
+</ComponentPreview>
+
 ## API Reference
 
 <PropsTable
@@ -136,3 +144,26 @@ The composition pulls `@ai-sdk/react`, `ai`, `badge`, `bubble`, `button`, `code-
 - Status is conveyed by icon shape and color, not color alone.
 - `prefers-reduced-motion`: shimmer stops automatically.
 - Use `open={open ?? running}` so a reader's manual toggle wins over the auto state.
+
+## Anatomy
+
+```tsx title="chain-of-thought.tsx"
+<ChainOfThought>
+  <ChainOfThoughtHeader />
+  <ChainOfThoughtContent>
+    <ChainOfThoughtStep />
+  </ChainOfThoughtContent>
+</ChainOfThought>
+```
+
+- **ChainOfThought** — collapsible root
+- **ChainOfThoughtHeader** — summary line ("Researched in 3 steps")
+- **ChainOfThoughtContent** — step list
+- **ChainOfThoughtStep** — one step with a Trace line
+
+## Best Practices
+
+- **One summary per turn.** The header is a single line, not a tree.
+- **Keep steps atomic.** One action per step.
+- **Collapse by default.** Steps expand on demand.
+- **Keep nesting shallow.** Two levels is enough.

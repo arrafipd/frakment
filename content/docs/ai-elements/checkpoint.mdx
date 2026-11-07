@@ -149,3 +149,18 @@ The restore button hides when the checkpoint is already the last message. Send t
 - [Bubble](/docs/components/bubble) — chat bubble surface.
 - [Marker](/docs/components/marker) — separator and status line.
 - [Button](/docs/components/button) — restore action.
+
+## Accessibility
+
+- The checkpoint marker is a separator with a visible label. Provide `aria-label` on the restore button, e.g. "Restore to Button renamed".
+- Restore buttons are focusable and respond to Enter and Space.
+- When the checkpoint is the last message, restore is hidden to avoid a no-op for keyboard users.
+- Announce transcript length with `role="status"` if you track it elsewhere.
+
+## Best Practices
+
+- **One checkpoint per logical step.** Emit when the state is worth returning to.
+- **Label with what changed.** "Button renamed" beats "Checkpoint 3".
+- **Hide restore on the last checkpoint.** Nothing to trim means no button.
+- **Combine with confirmation for destructive restores.** Restoring over unsaved work should ask first.
+- **Do not persist checkpoints across sessions.** They belong to the current transcript.

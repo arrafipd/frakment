@@ -3,10 +3,13 @@ title: Toast
 description: An opinionated toast component for React, powered by Sonner.
 ---
 
+
 import { ToastDemo } from "@/examples/toast-demo";
 import { ToastTypes } from "@/examples/toast-types";
 import { ToastPromise } from "@/examples/toast-promise";
 import { ToastPosition } from "@/examples/toast-position";
+import { Toaster } from "@/components/ui/sonner";
+import { Button } from "@/components/ui/button";
 
 <ComponentPreview name="sonner" title="sonner.tsx" previewClassName="h-auto py-16">
   <ToastDemo />
@@ -106,6 +109,28 @@ Default position is responsive: `top-center` on mobile and `bottom-right` on des
 toast("Saved", { position: "top-left" })
 ~~~
 
+## In Context
+
+### Toast demo
+
+The demo on this page fires `toast` calls from a client component. Each call renders a stacked notification with a title, optional description, and auto-dismiss.
+
+<ComponentPreview name="sonner" title="toast-demo.tsx">
+  <ToastDemo />
+</ComponentPreview>
+
+### Toast types
+
+```tsx title="client.tsx"
+"use client";
+import { toast } from "sonner";
+
+toast.success("Saved");
+toast.error("Something went wrong");
+toast.info("New version available");
+toast.loading("Generating…");
+```
+
 ## API Reference
 
 ### Toaster
@@ -124,3 +149,23 @@ toast("Saved", { position: "top-left" })
 - Each toast is announced via `aria-live="polite"`.
 - Errors use `aria-live="assertive"` automatically.
 - Dismiss with `toast.dismiss()` or the close button when enabled.
+
+## Anatomy
+
+```tsx title="sonner.tsx"
+import { Toaster } from "@/components/ui/sonner";
+import { toast } from "sonner";
+
+<Toaster />
+toast("Saved");
+```
+
+- **Toaster** — fixed viewport stack, rendered once near the root
+- **Toast** — a single notification with title, description, and optional action
+
+## Best Practices
+
+- **One Toaster per app.** Nesting causes duplicate stacks.
+- **Keep messages short.** Title fits in one line.
+- **Use `toast.error` for failures.** Do not use `toast` with custom styles.
+- **Auto-dismiss after 4 seconds.** Persistent toasts need an explicit close.

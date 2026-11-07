@@ -1,5 +1,5 @@
 {
   "title": "Modules",
   "root": true,
-  "pages": ["pulse"]
+  "pages": ["pulse", "questionnaire"]
 }

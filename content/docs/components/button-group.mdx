@@ -13,6 +13,8 @@ import { ButtonGroupNested } from "@/examples/button-group-nested";
 import { ButtonGroupInputGroup } from "@/examples/button-group-input-group";
 import { ButtonGroupSelect } from "@/examples/button-group-select";
 import { ButtonGroupDropdown } from "@/examples/button-group-dropdown";
+import { ButtonGroup } from "@/components/ui/button-group";
+import { Button } from "@/components/ui/button";
 
 <ComponentPreview name="button-group" title="button-group.tsx" previewClassName="h-auto py-8">
   <ButtonGroupDemo />
@@ -156,6 +158,29 @@ Attach a `DropdownMenu` as the trailing icon button.
   <ButtonGroupDropdown />
 </ComponentPreview>
 
+## In Context
+
+### Editor toolbar
+
+<ComponentPreview name="button-group" title="button-group.tsx">
+  <ButtonGroup>
+    <Button variant="outline" size="sm">Bold</Button>
+    <Button variant="outline" size="sm">Italic</Button>
+    <Button variant="outline" size="sm">Underline</Button>
+  </ButtonGroup>
+</ComponentPreview>
+
+### Pagination controls
+
+<ComponentPreview name="button-group" title="button-group.tsx">
+  <ButtonGroup>
+    <Button variant="outline" size="sm">Previous</Button>
+    <Button variant="outline" size="sm">1</Button>
+    <Button variant="outline" size="sm">2</Button>
+    <Button variant="outline" size="sm">Next</Button>
+  </ButtonGroup>
+</ComponentPreview>
+
 ## API Reference
 
 ### ButtonGroup
@@ -179,3 +204,10 @@ Attach a `DropdownMenu` as the trailing icon button.
 - Renders `role="group"` on the wrapper.
 - Every icon-only button must have `aria-label`.
 - Groups read as a single control to screen readers when the role is set.
+
+## Best Practices
+
+- **Group related actions.** A Button Group is for actions that share context, not unrelated buttons.
+- **Keep sizes consistent.** Mixing `sm` and `default` breaks the shared border.
+- **Use `separator` between unrelated pairs.** A vertical divider clarifies intent.
+- **Do not nest Button Groups.** Split into two groups instead.

@@ -181,3 +181,18 @@ Motion is skipped when the user prefers reduced motion.
 - [Checkpoint](/docs/ai-elements/checkpoint) — restore points in a conversation.
 - [Trace](/docs/components/trace) — collapsible reasoning and tool-call lines.
 - [Item](/docs/components/item) — card with media, content, and actions.
+
+## Accessibility
+
+- The approval card is an `Item` with `role="group"`. Both buttons are focusable and labelled ("Approve", "Deny").
+- `addToolApprovalResponse` resolves on click and keyboard. The card unmounts and focus returns to the transcript.
+- The pending state is announced with `aria-live="polite"`. Do not use `assertive`.
+- The resulting Trace line reports "Ran command" or "Denied command".
+
+## Best Practices
+
+- **Ask only when needed.** Set `needsApproval: true` for destructive or outbound actions.
+- **Show the exact command.** The user needs to see what will run.
+- **Use clear verbs.** "Approve" and "Deny" beat "Yes" and "No".
+- **Resolve the tool immediately after approval.** Emit `output-available` or `output-denied`.
+- **Do not double-prompt.** Once responded, hide the card and stream the outcome.

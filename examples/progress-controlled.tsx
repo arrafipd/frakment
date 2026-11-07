@@ -3,6 +3,7 @@
 import * as React from "react";
 
 import { Progress } from "@/components/ui/progress";
+import { Slider } from "@/components/ui/slider";
 
 export function ProgressControlled() {
   const [value, setValue] = React.useState(50);
@@ -10,15 +11,14 @@ export function ProgressControlled() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-4">
       <Progress className="w-full" value={value} />
-      <input
+      <Slider
         aria-label="Progress value"
-        className="accent-primary h-2 w-full cursor-pointer"
+        className="w-full"
         max={100}
         min={0}
-        onChange={(event) => setValue(Number(event.target.value))}
+        onValueChange={(value) => setValue(value[0])}
         step={1}
-        type="range"
-        value={value}
+        value={[value]}
       />
     </div>
   );

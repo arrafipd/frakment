@@ -10,6 +10,8 @@ import { FieldInvalid } from "@/examples/field-invalid";
 import { FieldCheckbox } from "@/examples/field-checkbox";
 import { FieldSwitch } from "@/examples/field-switch";
 import { FieldSelect } from "@/examples/field-select";
+import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 
 <ComponentPreview name="field" title="field.tsx" previewClassName="h-auto py-8">
   <FieldDemo />
@@ -247,6 +249,26 @@ Compose `Field` with `Select` for a labelled dropdown with a description.
 </Field>
 ```
 
+## In Context
+
+### Login form
+
+<ComponentPreview name="field" title="field.tsx">
+  <div className="mx-auto w-full max-w-sm">
+    <FieldGroup>
+      <Field>
+        <FieldLabel htmlFor="email">Email</FieldLabel>
+        <Input id="email" type="email" />
+      </Field>
+      <Field>
+        <FieldLabel htmlFor="password">Password</FieldLabel>
+        <Input id="password" type="password" />
+        <FieldDescription>At least 8 characters.</FieldDescription>
+      </Field>
+    </FieldGroup>
+  </div>
+</ComponentPreview>
+
 ## API Reference
 
 ### Field
@@ -303,3 +325,16 @@ Extend native `<fieldset>`, `<legend>`, `<div>`, `<label>`, and `<p>`.
 ### FieldSeparator
 
 Renders Frakment `Separator`. Accepts an optional `children` that renders as a centered label between two divider lines.
+
+## Accessibility
+
+- `Field` does not add roles. It is a layout primitive that groups `FieldLabel` with its control.
+- Use `htmlFor` on `FieldLabel` and `id` on the control.
+- `FieldError` is linked automatically when the parent `Field` has `data-invalid`.
+
+## Best Practices
+
+- **One Field per control.** Do not nest fields.
+- **Use `FieldGroup` for multiple fields.** It normalizes vertical spacing.
+- **Horizontal orientation works for Checkbox and Switch.** Not for inputs.
+- **Pair label with description, not placeholder.** Placeholders disappear.

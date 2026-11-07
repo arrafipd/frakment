@@ -7,6 +7,8 @@ import { EmptyDemo } from "@/examples/empty-demo";
 import { EmptyNoMedia } from "@/examples/empty-no-media";
 import { EmptyLink } from "@/examples/empty-link";
 import { EmptyOutline } from "@/examples/empty-outline";
+import { MessageCircleDashedIcon } from "lucide-react";
+import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
 
 <ComponentPreview name="empty" title="empty.tsx" previewClassName="h-auto py-8">
   <EmptyDemo />
@@ -130,6 +132,20 @@ Use `variant="default"` on `EmptyMedia` to render media without a muted backgrou
 </Empty>
 ```
 
+## In Context
+
+### Zero-data state
+
+<ComponentPreview name="empty" title="empty.tsx">
+  <Empty className="mx-auto h-64 w-full max-w-sm">
+    <EmptyHeader>
+      <EmptyMedia><MessageCircleDashedIcon /></EmptyMedia>
+      <EmptyTitle>No messages</EmptyTitle>
+      <EmptyDescription>Start a new conversation to see it here.</EmptyDescription>
+    </EmptyHeader>
+  </Empty>
+</ComponentPreview>
+
 ## API Reference
 
 All parts extend `React.ComponentProps<"div">` (except **EmptyDescription** which renders a `<div>` too for layout consistency).
@@ -147,3 +163,32 @@ All parts extend `React.ComponentProps<"div">` (except **EmptyDescription** whic
     },
   ]}
 />
+
+## Usage
+
+```tsx title="empty.tsx"
+import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
+```
+
+```tsx title="empty.tsx"
+<Empty>
+  <EmptyHeader>
+    <EmptyMedia><MessageCircleDashedIcon /></EmptyMedia>
+    <EmptyTitle>No messages yet</EmptyTitle>
+    <EmptyDescription>Send the first one.</EmptyDescription>
+  </EmptyHeader>
+</Empty>
+```
+
+## Accessibility
+
+- The `EmptyTitle` renders as a heading; document outline stays flat.
+- Pair the icon with the title; icon-only empty states are invisible to screen readers.
+- Provide a primary action inside the empty state when possible.
+
+## Best Practices
+
+- **Explain the empty state.** "No messages" beats "Empty".
+- **Offer the first action.** A button or link beats a dead end.
+- **Keep it small.** Empty states should not fill the whole page unless the page is empty.
+- **Do not hide the empty state during loading.** Use a Skeleton instead.

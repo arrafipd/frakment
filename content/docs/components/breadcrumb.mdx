@@ -9,6 +9,7 @@ import { BreadcrumbSeparatorDemo } from "@/examples/breadcrumb-separator";
 import { BreadcrumbDropdown } from "@/examples/breadcrumb-dropdown";
 import { BreadcrumbEllipsisDemo } from "@/examples/breadcrumb-ellipsis";
 import { BreadcrumbLinkDemo } from "@/examples/breadcrumb-link";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 
 <ComponentPreview name="breadcrumb" title="breadcrumb.tsx">
   <BreadcrumbDemo />
@@ -125,6 +126,38 @@ Open a `DropdownMenu` from an intermediate level to show siblings.
   <BreadcrumbDropdown />
 </ComponentPreview>
 
+## In Context
+
+### Docs path
+
+<ComponentPreview name="breadcrumb" title="breadcrumb.tsx">
+  <Breadcrumb>
+    <BreadcrumbList>
+      <BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem><BreadcrumbLink href="/docs">Docs</BreadcrumbLink></BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem><BreadcrumbPage>Button</BreadcrumbPage></BreadcrumbItem>
+    </BreadcrumbList>
+  </Breadcrumb>
+</ComponentPreview>
+
+### In a page header
+
+<ComponentPreview name="breadcrumb" title="breadcrumb.tsx">
+  <div className="mx-auto w-full max-w-sm rounded-lg border border-border p-4">
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem><BreadcrumbLink href="/projects">Projects</BreadcrumbLink></BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem><BreadcrumbLink href="/projects/ai">AI</BreadcrumbLink></BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem><BreadcrumbPage>Chat</BreadcrumbPage></BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  </div>
+</ComponentPreview>
+
 ## API Reference
 
 ### BreadcrumbLink
@@ -149,3 +182,10 @@ Open a `DropdownMenu` from an intermediate level to show siblings.
 - Wrapper is `<nav aria-label="breadcrumb">`, giving a named landmark.
 - Current page uses `aria-current="page"` and is not focusable.
 - Separators are `role="presentation"` so they are skipped by screen readers.
+
+## Best Practices
+
+- **Last item is a page, not a link.** Use `BreadcrumbPage`, not `BreadcrumbLink`.
+- **Skip the root if obvious.** If the logo links to home, do not repeat "Home".
+- **Keep segments short.** "Docs / Button", not "Documentation / Button component".
+- **Do not use breadcrumbs for wizard steps.** Use a Stepper instead.

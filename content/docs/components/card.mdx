@@ -8,6 +8,8 @@ import { CardSmall } from "@/examples/card-small";
 import { CardSpacing } from "@/examples/card-spacing";
 import { CardEdgeToEdge } from "@/examples/card-edge-to-edge";
 import { CardImage } from "@/examples/card-image";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 <ComponentPreview name="card" title="card.tsx" previewClassName="h-auto py-8">
   <CardDemo />
@@ -152,3 +154,79 @@ Extends `React.ComponentProps<"div">`.
 All other parts extend `React.ComponentProps<"div">`.
 
 Adds `data-slot="card-*"` for styling hooks.
+
+## Usage
+
+```tsx title="card.tsx"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+```
+
+```tsx title="card.tsx"
+<Card>
+  <CardHeader>
+    <CardTitle>Frakment</CardTitle>
+    <CardDescription>Registry primitives for React.</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <p>Copy-paste, not install.</p>
+  </CardContent>
+  <CardFooter>
+    <Button>Open</Button>
+  </CardFooter>
+</Card>
+```
+
+## In Context
+
+### Project list
+
+<ComponentPreview name="card" title="card.tsx">
+  <div className="mx-auto w-full max-w-sm space-y-3">
+    <Card>
+      <CardHeader>
+        <CardTitle>frakment/ui</CardTitle>
+        <CardDescription>Primitives for product surfaces.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm">42 components. Radix-based. Copy-paste first.</p>
+      </CardContent>
+      <CardFooter>
+        <Button size="sm" variant="outline">View</Button>
+      </CardFooter>
+    </Card>
+    <Card>
+      <CardHeader>
+        <CardTitle>frakment/ai</CardTitle>
+        <CardDescription>Chat, agent, and reasoning primitives.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm">Message, Bubble, Trace, Attachment.</p>
+      </CardContent>
+      <CardFooter>
+        <Button size="sm" variant="outline">View</Button>
+      </CardFooter>
+    </Card>
+  </div>
+</ComponentPreview>
+
+## Accessibility
+
+- `Card` renders a plain `<div>` with `data-slot="card"`. It has no role by default; add one when the card represents a distinct region (e.g. `role="region"` with `aria-labelledby`).
+- `CardTitle` renders an `h3`. Use one `CardTitle` per card so document outline stays flat.
+- Do not attach `onClick` to the card surface. If the whole card is clickable, wrap it in a link and keep the actions as separate focusable elements.
+- Interactive content inside `CardFooter` receives focus in DOM order; keep destructive actions last.
+
+## Best Practices
+
+- **One idea per card.** Split content into multiple cards rather than stacking everything inside one.
+- **Do not nest cards.** Use `Separator` to divide sections inside a card.
+- **Keep actions in the footer.** `CardFooter` aligns buttons and metadata to the end.
+- **Use `CardTitle` as a heading, not a label.** For labels, use `text-sm font-medium` on a span.
+- **Avoid full-surface hover unless the whole card is clickable.** Mixed hover states confuse users.

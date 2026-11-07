@@ -11,6 +11,8 @@ import { InputOTPInvalid } from "@/examples/input-otp-invalid";
 import { InputOTPAlphanumeric } from "@/examples/input-otp-alphanumeric";
 import { InputOTPDisabled } from "@/examples/input-otp-disabled";
 import { InputOTPFourDigits } from "@/examples/input-otp-four-digits";
+import { Label } from "@/components/ui/label";
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp";
 
 <ComponentPreview name="input-otp" title="input-otp.tsx">
   <InputOTPDemo />
@@ -138,6 +140,29 @@ Set `aria-invalid` on slots to mark them invalid.
   <InputOTPFourDigits />
 </ComponentPreview>
 
+## In Context
+
+### Verification code
+
+<ComponentPreview name="input-otp" title="input-otp.tsx">
+  <div className="mx-auto flex w-full max-w-sm flex-col gap-2">
+    <Label>Verification code</Label>
+    <InputOTP maxLength={6}>
+      <InputOTPGroup>
+        <InputOTPSlot index={0} />
+        <InputOTPSlot index={1} />
+        <InputOTPSlot index={2} />
+      </InputOTPGroup>
+      <InputOTPSeparator />
+      <InputOTPGroup>
+        <InputOTPSlot index={3} />
+        <InputOTPSlot index={4} />
+        <InputOTPSlot index={5} />
+      </InputOTPGroup>
+    </InputOTP>
+  </div>
+</ComponentPreview>
+
 ## API Reference
 
 ### InputOTP
@@ -167,3 +192,10 @@ Set `aria-invalid` on slots to mark them invalid.
 - Slots expose `data-active` and `data-invalid` for styling, but the input itself carries `aria-invalid`.
 - Paste, backspace, and arrow navigation are handled automatically.
 - Pair with `FieldLabel htmlFor` and `id` for labelled forms.
+
+## Best Practices
+
+- **Use `maxLength` matching the code length.** Do not let the input grow arbitrarily.
+- **Group visually, not semantically.** 3 + 3 reads better than 6 in one row.
+- **Auto-focus the first slot on mount.** Reduces taps on mobile.
+- **Paste support is required.** Users copy codes from messages; paste should fill every slot.

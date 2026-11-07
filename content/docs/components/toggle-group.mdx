@@ -10,6 +10,8 @@ import { ToggleGroupSpacing } from "@/examples/toggle-group-spacing";
 import { ToggleGroupVertical } from "@/examples/toggle-group-vertical";
 import { ToggleGroupDisabled } from "@/examples/toggle-group-disabled";
 import { ToggleGroupFontWeightSelector } from "@/examples/toggle-group-font-weight";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { BoldIcon, ItalicIcon, UnderlineIcon } from "lucide-react";
 
 <ComponentPreview name="toggle-group" title="toggle-group.tsx">
   <ToggleGroupDemo />
@@ -173,6 +175,18 @@ Compose `ToggleGroup` with `Field` for a labeled, controlled selector — `value
 </Field>
 ```
 
+## In Context
+
+### Text formatting
+
+<ComponentPreview name="toggle-group" title="toggle-group.tsx">
+  <ToggleGroup type="multiple">
+    <ToggleGroupItem aria-label="Bold" value="bold"><BoldIcon /></ToggleGroupItem>
+    <ToggleGroupItem aria-label="Italic" value="italic"><ItalicIcon /></ToggleGroupItem>
+    <ToggleGroupItem aria-label="Underline" value="underline"><UnderlineIcon /></ToggleGroupItem>
+  </ToggleGroup>
+</ComponentPreview>
+
 ## API Reference
 
 All parts extend their Radix `ToggleGroup` primitives.
@@ -217,3 +231,16 @@ All parts extend their Radix `ToggleGroup` primitives.
 ### ToggleGroupItem
 
 Extends Radix `ToggleGroup.Item`. Requires `value` and an accessible `aria-label`.
+
+## Accessibility
+
+- Each item renders a button with `aria-pressed`.
+- `type="single"` allows one active item, `multiple` allows many.
+- Provide `aria-label` when icon-only.
+
+## Best Practices
+
+- **Group related toggles only.** Bold/Italic/Underline belong together; Save does not.
+- **Use single type for exclusive choices.** Font family, alignment.
+- **Use multiple type for independent toggles.** Formatting.
+- **Cap at five items.** More become a toolbar with labels.

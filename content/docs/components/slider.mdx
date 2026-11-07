@@ -1,0 +1,190 @@
+---
+title: "Slider"
+description: "An input where the user selects a value from within a given range."
+---
+
+import { SliderDemo } from "@/examples/slider-demo";
+import { SliderRange } from "@/examples/slider-range";
+import { SliderMultiple } from "@/examples/slider-multiple";
+import { SliderVertical } from "@/examples/slider-vertical";
+import { SliderControlled } from "@/examples/slider-controlled";
+import { SliderDisabled } from "@/examples/slider-disabled";
+import { Slider } from "@/components/ui/slider";
+
+<ComponentPreview name="slider" title="slider-demo.tsx">
+  <SliderDemo />
+</ComponentPreview>
+
+Slider lets the user pick a value or range from a track. It supports single values, ranges, multiple thumbs, and vertical orientation.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add slider
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install radix-ui
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="slider" title="components/ui/slider.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="slider.tsx"
+import { Slider } from "@/components/ui/slider";
+
+<Slider defaultValue={[75]} max={100} step={1} />
+```
+
+## Anatomy
+
+```tsx title="slider.tsx"
+<Slider>
+  <SliderTrack>
+    <SliderRange />
+  </SliderTrack>
+  <SliderThumb />
+</Slider>
+```
+
+- **Root** — flex container, horizontal or vertical
+- **Track** — muted background rail
+- **Range** — filled portion between min and current value
+- **Thumb** — draggable handle, one per value
+
+## Range
+
+Pass two values to select a range.
+
+<ComponentPreview name="slider" title="slider-range.tsx">
+  <SliderRange />
+</ComponentPreview>
+
+## Multiple thumbs
+
+<ComponentPreview name="slider" title="slider-multiple.tsx">
+  <SliderMultiple />
+</ComponentPreview>
+
+## Vertical
+
+<ComponentPreview name="slider" title="slider-vertical.tsx">
+  <SliderVertical />
+</ComponentPreview>
+
+## Controlled
+
+<ComponentPreview name="slider" title="slider-controlled.tsx">
+  <SliderControlled />
+</ComponentPreview>
+
+## Disabled
+
+<ComponentPreview name="slider" title="slider-disabled.tsx">
+  <SliderDisabled />
+</ComponentPreview>
+
+## In Context
+
+### Settings panel
+
+<ComponentPreview name="slider" title="slider.tsx">
+  <div className="mx-auto w-full max-w-sm space-y-6 rounded-lg border border-border p-4">
+    <div className="grid gap-2">
+      <div className="flex items-center justify-between text-sm">
+        <span className="font-medium">Volume</span>
+        <span className="text-muted-foreground tabular-nums">75</span>
+      </div>
+      <Slider defaultValue={[75]} max={100} step={1} />
+    </div>
+    <div className="grid gap-2">
+      <div className="flex items-center justify-between text-sm">
+        <span className="font-medium">Brightness</span>
+        <span className="text-muted-foreground tabular-nums">60</span>
+      </div>
+      <Slider defaultValue={[60]} max={100} step={1} />
+    </div>
+  </div>
+</ComponentPreview>
+
+### Price filter
+
+<ComponentPreview name="slider" title="slider.tsx">
+  <div className="mx-auto w-full max-w-sm rounded-lg border border-border p-4">
+    <div className="mb-3 flex items-center justify-between text-sm">
+      <span className="font-medium">Price range</span>
+      <span className="text-muted-foreground tabular-nums">$25 – $75</span>
+    </div>
+    <Slider defaultValue={[25, 75]} max={100} step={5} />
+  </div>
+</ComponentPreview>
+
+## API Reference
+
+### Slider
+
+Extends Radix `Slider.Root`.
+
+<PropsTable
+  rows={[
+    { name: "value", type: "number[]", description: "Controlled values, one per thumb." },
+    { name: "defaultValue", type: "number[]", default: "[min, max]", description: "Uncontrolled initial values." },
+    { name: "onValueChange", type: "(value: number[]) => void", description: "Fires on every drag." },
+    { name: "min", type: "number", default: "0", description: "Lower bound of the range." },
+    { name: "max", type: "number", default: "100", description: "Upper bound of the range." },
+    { name: "step", type: "number", default: "1", description: "Increment between selectable values." },
+    { name: "orientation", type: '"horizontal" | "vertical"', default: '"horizontal"', description: "Layout direction." },
+    { name: "disabled", type: "boolean", default: "false", description: "Disables the slider and every thumb." },
+  ]}
+/>
+
+### SliderTrack
+
+Extends Radix `Slider.Track`. Muted rail behind the fill. Height `1` horizontal, width `1` vertical.
+
+### SliderRange
+
+Extends Radix `Slider.Range`. Filled portion between `min` and the current value.
+
+### SliderThumb
+
+Extends Radix `Slider.Thumb`. One per value. Focusable with arrow keys, Home, and End.
+
+## Accessibility
+
+## Accessibility
+
+- Radix Slider exposes `role="slider"` with `aria-valuemin`, `aria-valuemax`, and `aria-valuenow` per thumb.
+- Each thumb is keyboard focusable and responds to arrow keys, Home, and End.
+- Pair the slider with a `Label` when the slider is not self-describing.
+
+## Best Practices
+
+- **Use `onValueChange` for live preview, `onValueCommit` for persistence.** Live updates keep the UI responsive; commit on release avoids a flood of writes.
+- **Show the current value.** A slider without a visible number or label is hard to read. Pair it with `ProgressValue` or a custom span.
+- **Prefer ranges when both ends matter.** Use two thumbs for temperature, price, or scale intervals.
+- **Add a label.** Link a `Label` with `htmlFor` to the slider `id` so screen readers announce it.
+- **Do not replace a numeric input.** Sliders are imprecise for exact values. Pair with a number input when precision matters.

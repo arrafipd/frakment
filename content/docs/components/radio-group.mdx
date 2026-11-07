@@ -9,6 +9,8 @@ import { RadioGroupChoiceCard } from "@/examples/radio-group-choice-card";
 import { RadioGroupFieldset } from "@/examples/radio-group-fieldset";
 import { RadioGroupDisabled } from "@/examples/radio-group-disabled";
 import { RadioGroupInvalid } from "@/examples/radio-group-invalid";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
 <ComponentPreview name="radio-group" title="radio-group.tsx">
   <RadioGroupDemo />
@@ -117,6 +119,27 @@ Mark each item with `aria-invalid` and its `Field` wrapper with `data-invalid`.
   <RadioGroupInvalid />
 </ComponentPreview>
 
+## In Context
+
+### Plan selector
+
+<ComponentPreview name="radio-group" title="radio-group.tsx">
+  <RadioGroup className="mx-auto w-full max-w-sm" defaultValue="pro">
+    <div className="flex items-center gap-2">
+      <RadioGroupItem id="free" value="free" />
+      <Label htmlFor="free">Free</Label>
+    </div>
+    <div className="flex items-center gap-2">
+      <RadioGroupItem id="pro" value="pro" />
+      <Label htmlFor="pro">Pro</Label>
+    </div>
+    <div className="flex items-center gap-2">
+      <RadioGroupItem id="team" value="team" />
+      <Label htmlFor="team">Team</Label>
+    </div>
+  </RadioGroup>
+</ComponentPreview>
+
 ## API Reference
 
 ### RadioGroup
@@ -146,3 +169,10 @@ Mark each item with `aria-invalid` and its `Field` wrapper with `data-invalid`.
 - Arrow keys move the selection within the group.
 - Each item must have a matching `Label` with `htmlFor`.
 - Invalid state is conveyed via `aria-invalid` on the item and `data-invalid` on the wrapper.
+
+## Best Practices
+
+- **Use for exclusive choices.** Independent toggles belong in Checkbox.
+- **Always set a default.** An empty radio group leaves the user unsure of the starting state.
+- **Stack vertically for forms.** Horizontal layouts are hard to read past three options.
+- **Pair with a visible label.** Every option needs a matching `Label htmlFor`.

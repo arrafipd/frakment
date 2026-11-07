@@ -14,6 +14,9 @@ export const readOptionalFromRoot = async (
 
 export const getRegistryUiSourceCandidates = ({ name }: { name: string }) => [
   path.join("registry", `${name}.tsx`),
+  path.join("registry", `${name}.ts`),
+  path.join("registry", `${name}.js`),
+  path.join("registry", `${name}.d.ts`),
 ];
 
 export const getDemoSource = (name: string): Promise<string | null> =>

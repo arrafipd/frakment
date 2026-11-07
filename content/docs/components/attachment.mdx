@@ -9,6 +9,17 @@ import { AttachmentImage } from "@/examples/attachment-image";
 import { AttachmentStates } from "@/examples/attachment-states";
 import { AttachmentSizes } from "@/examples/attachment-sizes";
 import { AttachmentTriggerDemo } from "@/examples/attachment-trigger";
+import { DialogTrigger } from "@/components/ui/dialog";
+import {
+  Attachment,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentGroup,
+  AttachmentMedia,
+  AttachmentTitle,
+} from "@/components/ui/attachment";
+import { Spinner } from "@/components/ui/spinner";
+import { FileCodeIcon, FileTextIcon } from "lucide-react";
 
 <ComponentPreview name="attachment" title="attachment.tsx">
   <AttachmentDemo />
@@ -198,6 +209,67 @@ Wrap the card with **AttachmentTrigger** and use `asChild` to render a link or a
   </DialogTrigger>
 </Attachment>
 ```
+
+## In Context
+
+### Upload queue
+
+<ComponentPreview name="attachment" title="attachment.tsx">
+  <div className="mx-auto flex w-full max-w-sm flex-col gap-2 rounded-lg border border-border p-3">
+    <Attachment className="w-full" state="uploading">
+      <AttachmentMedia>
+        <Spinner />
+      </AttachmentMedia>
+      <AttachmentContent>
+        <AttachmentTitle>brief.pdf</AttachmentTitle>
+        <AttachmentDescription>Uploading · 42%</AttachmentDescription>
+      </AttachmentContent>
+    </Attachment>
+    <Attachment className="w-full">
+      <AttachmentMedia>
+        <FileTextIcon />
+      </AttachmentMedia>
+      <AttachmentContent>
+        <AttachmentTitle>notes.md</AttachmentTitle>
+        <AttachmentDescription>Markdown · 4 KB</AttachmentDescription>
+      </AttachmentContent>
+    </Attachment>
+    <Attachment className="w-full">
+      <AttachmentMedia>
+        <FileCodeIcon />
+      </AttachmentMedia>
+      <AttachmentContent>
+        <AttachmentTitle>renderer.tsx</AttachmentTitle>
+        <AttachmentDescription>TypeScript · 12 KB</AttachmentDescription>
+      </AttachmentContent>
+    </Attachment>
+  </div>
+</ComponentPreview>
+
+### Attachment group
+
+<ComponentPreview name="attachment" title="attachment.tsx">
+  <AttachmentGroup className="mx-auto w-full max-w-sm">
+    <Attachment className="w-64">
+      <AttachmentMedia>
+        <FileTextIcon />
+      </AttachmentMedia>
+      <AttachmentContent>
+        <AttachmentTitle>report.pdf</AttachmentTitle>
+        <AttachmentDescription>PDF · 2.4 MB</AttachmentDescription>
+      </AttachmentContent>
+    </Attachment>
+    <Attachment className="w-64">
+      <AttachmentMedia>
+        <FileCodeIcon />
+      </AttachmentMedia>
+      <AttachmentContent>
+        <AttachmentTitle>script.ts</AttachmentTitle>
+        <AttachmentDescription>TypeScript · 8 KB</AttachmentDescription>
+      </AttachmentContent>
+    </Attachment>
+  </AttachmentGroup>
+</ComponentPreview>
 
 ## API Reference
 

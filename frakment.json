@@ -53,6 +53,33 @@
       "registryDependencies": ["badge", "card", "trace"]
     },
     {
+      "name": "questionnaire",
+      "version": "0.1.0",
+      "title": "Questionnaire",
+      "description": "Multi-step form component. Bundles the headless engine and composes checkbox, radio-group, button, and card.",
+      "type": "registry:component",
+      "source": "registry/questionnaire.tsx",
+      "target": "components/ui/questionnaire.tsx",
+      "additionalFiles": [
+        {
+          "source": "lib/questionnaire.ts",
+          "target": "lib/questionnaire.ts"
+        }
+      ],
+      "dependencies": ["radix-ui", "lucide-react"],
+      "registryDependencies": ["checkbox", "radio-group", "button", "card"]
+    },
+    {
+      "name": "slider",
+      "version": "0.1.0",
+      "title": "Slider",
+      "description": "An input where the user selects a value from within a given range.",
+      "source": "registry/slider.tsx",
+      "target": "components/ui/slider.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
       "name": "trace",
       "version": "0.1.0",
       "title": "Trace",

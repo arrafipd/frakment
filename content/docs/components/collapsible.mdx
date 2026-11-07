@@ -6,6 +6,7 @@ description: An interactive component which expands and collapses a panel.
 import { CollapsibleDemo } from "@/examples/collapsible-demo";
 import { CollapsibleBasic } from "@/examples/collapsible-basic";
 import { CollapsibleFileTree } from "@/examples/collapsible-file-tree";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 <ComponentPreview name="collapsible" title="collapsible.tsx" previewClassName="h-auto py-8">
   <CollapsibleDemo />
@@ -90,6 +91,19 @@ Compose nested collapsibles to build a tree.
   <CollapsibleFileTree />
 </ComponentPreview>
 
+## In Context
+
+### Details panel
+
+<ComponentPreview name="collapsible" title="collapsible.tsx">
+  <Collapsible className="mx-auto w-full max-w-sm">
+    <CollapsibleTrigger className="text-sm font-medium">Show details</CollapsibleTrigger>
+    <CollapsibleContent className="pt-2 text-sm text-muted-foreground">
+      Frakment ships every component as a local file. Update by re-running the CLI and diffing.
+    </CollapsibleContent>
+  </Collapsible>
+</ComponentPreview>
+
 ## API Reference
 
 ### Collapsible
@@ -116,3 +130,10 @@ Compose nested collapsibles to build a tree.
 - Built on Radix Collapsible; exposes `aria-expanded` and `aria-controls`.
 - Keyboard: `Enter` and `Space` toggle the panel.
 - Provide a descriptive trigger label or `aria-label`.
+
+## Best Practices
+
+- **Use for optional detail.** Content that must be visible on load belongs on the page.
+- **Keep the trigger visible.** Never hide the trigger inside the content.
+- **Default closed for long content.** Default open for short, always-relevant blocks.
+- **Do not nest collapsibles.** Two levels is hard to track; use Accordion for nested groups.

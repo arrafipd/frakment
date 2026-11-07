@@ -6,6 +6,7 @@ description: "Displays an indicator showing the completion progress of a task."
 import { ProgressDemo } from "@/examples/progress-demo";
 import { ProgressWithLabel } from "@/examples/progress-with-label";
 import { ProgressControlled } from "@/examples/progress-controlled";
+import { Progress, ProgressLabel, ProgressValue } from "@/components/ui/progress";
 
 <ComponentPreview name="progress" title="progress-demo.tsx">
   <ProgressDemo />
@@ -91,6 +92,23 @@ const [value, setValue] = React.useState(50);
 />
 ```
 
+## In Context
+
+### File upload list
+
+<ComponentPreview name="progress" title="progress.tsx">
+  <div className="mx-auto w-full max-w-sm space-y-4">
+    <Progress value={82}>
+      <ProgressLabel>design-system.zip</ProgressLabel>
+      <ProgressValue />
+    </Progress>
+    <Progress value={34}>
+      <ProgressLabel>annual-report.pdf</ProgressLabel>
+      <ProgressValue />
+    </Progress>
+  </div>
+</ComponentPreview>
+
 ## API Reference
 
 ### Progress
@@ -116,3 +134,24 @@ Extends `React.ComponentProps<"span">`. Reads `value` from `ProgressContext` and
 - Radix `Progress.Root` exposes `role="progressbar"`, `aria-valuenow`, and `aria-valuemax` automatically.
 - Pair the bar with `ProgressLabel` when the progress is not self-describing.
 - Do not rely on color alone. Use `ProgressValue` to show the numeric value.
+
+## Anatomy
+
+```tsx title="progress.tsx"
+<Progress value={60}>
+  <ProgressLabel />
+  <ProgressValue />
+</Progress>
+```
+
+- **Root** — track background
+- **Indicator** — filled portion driven by `value`
+- **Label** — left-aligned heading, optional
+- **Value** — right-aligned percentage
+
+## Best Practices
+
+- **Always show the value.** A bar alone is ambiguous.
+- **Use determinate for known tasks.** Spinners for unknown.
+- **Keep animation under 1s.** 500ms ease-out default.
+- **Cap at 100.** Radix clamps values above `max`.

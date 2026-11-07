@@ -179,6 +179,31 @@ Use `Separator` to break groups in a list, or to delineate a header from content
 - Set `decorative={false}` when the separator has semantic meaning — it will render with `role="separator"` and be announced.
 - For vertical separators, ensure the parent container has a defined height.
 
+## In Context
+
+### Menu divider
+
+<ComponentPreview name="separator" title="separator.tsx">
+  <div className="mx-auto w-full max-w-sm">
+    <div className="py-2 text-sm">Edit</div>
+    <div className="py-2 text-sm">Duplicate</div>
+    <Separator className="my-2" />
+    <div className="py-2 text-sm text-destructive">Delete</div>
+  </div>
+</ComponentPreview>
+
+### Vertical divider
+
+<ComponentPreview name="separator" title="separator.tsx">
+  <div className="mx-auto flex h-8 items-center gap-3 text-sm">
+    <span>Docs</span>
+    <Separator className="h-full" orientation="vertical" />
+    <span>Changelog</span>
+    <Separator className="h-full" orientation="vertical" />
+    <span>GitHub</span>
+  </div>
+</ComponentPreview>
+
 ## API Reference
 
 ### Separator
@@ -202,3 +227,10 @@ Extends Radix `Separator.Root`.
     },
   ]}
 />
+
+## Best Practices
+
+- **Use `orientation="vertical"` inside a row.** A horizontal separator in a flex row breaks rhythm.
+- **Keep spacing consistent.** `my-2` for inline dividers, `my-6` for sections.
+- **Do not use a separator for every field.** Whitespace often reads better than a line.
+- **Do not nest sections with separators.** Use a Card or a heading instead.

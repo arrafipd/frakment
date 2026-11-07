@@ -4,6 +4,7 @@ description: A scrollable code container with header, copy button, line numbers,
 ---
 
 import { CodeBlockDemo } from "@/examples/code-block-demo";
+import { Button } from "@/components/ui/button";
 import {
   CodeBlock,
   CodeBlockHeader,
@@ -320,6 +321,16 @@ Use `variant="destructive"` for error output. Background and text shift to destr
   </div>
 </ComponentPreview>
 
+## In Context
+
+### Documentation snippet
+
+<ComponentPreview name="code-block" title="code-block.tsx">
+  <CodeBlock className="mx-auto w-full max-w-md">
+    <CodeBlockContent wrap>{`npx frakment add button`}</CodeBlockContent>
+  </CodeBlock>
+</ComponentPreview>
+
 ## API Reference
 
 ### CodeBlock
@@ -384,3 +395,25 @@ Use `variant="destructive"` for error output. Background and text shift to destr
 - **CodeBlockContent** has `tabIndex={0}` for keyboard scroll.
 - **CodeBlockCopyButton** has `aria-label` and a `aria-live` region announcing "Copied".
 - Use **CodeBlockTitle** as the accessible name of the block.
+
+## Anatomy
+
+```tsx title="code-block.tsx"
+<CodeBlock>
+  <CodeBlockHeader />
+  <CodeBlockContent>{code}</CodeBlockContent>
+  <CodeBlockFooter />
+</CodeBlock>
+```
+
+- **CodeBlock** — rounded container with overflow control
+- **Header** — file name, language, copy button
+- **Content** — syntax-highlighted body, scrollable
+- **Footer** — line count or actions
+
+## Best Practices
+
+- **Set a max-height.** Long files push the layout.
+- **Show the file name.** Users need to know where the code goes.
+- **Copy action on hover, not always.** Reduces visual noise.
+- **Do not highlight unknown languages.** Fall back to plain text.

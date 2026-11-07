@@ -7,10 +7,18 @@ date: "2026-11-07"
 import { AttachmentDemo } from "@/examples/attachment-demo";
 import { ScrollFadeOverflow } from "@/examples/scroll-fade-overflow";
 import { ShimmerDemo } from "@/examples/shimmer-demo";
+import { HoverCardDemo } from "@/examples/hover-card-demo";
+import { ProgressDemo } from "@/examples/progress-demo";
+import { SliderDemo } from "@/examples/slider-demo";
+import { QuestionnaireDemo } from "@/examples/questionnaire-demo";
 
 This release adds the **Attachment** docs page with six examples, per-variant install commands for **Trace**, and two CSS utilities: **scroll-fade** for edge-aware scroll containers and **shimmer** for animated loading text.
 
 - [Attachment](#attachment): Docs page with six examples.
+- [Hover Card](#hover-card): Rich content on hover, portal-based.
+- [Progress](#progress): Task completion indicator with smooth transitions.
+- [Slider](#slider): Range input with single, range, and vertical modes.
+- [Questionnaire](#questionnaire): Multi-step form primitive with headless engine.
 - [Scroll fade](#scroll-fade): Mask gradient utilities for scroll containers.
 - [Shimmer](#shimmer): Animated gradient text utility.
 
@@ -110,3 +118,177 @@ npx frakment add shimmer
 ```
 
 See the [Shimmer docs](/docs/utilities/shimmer) for the full reference.
+
+<hr className="my-16 border-border/40" />
+
+### Hover Card
+
+<ComponentPreview name="hover-card" title="hover-card-demo.tsx">
+  <HoverCardDemo />
+</ComponentPreview>
+
+**Hover Card** displays rich content in a portal when the user hovers over a trigger. It opens after a short delay, stays open while the pointer is over the card, and closes on mouse leave. Built on Radix `HoverCard`, it supports `side`, `align`, `openDelay`, and `closeDelay`.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive</Step>
+
+```bash
+npx frakment add hover-card
+```
+
+<Step>Use it in your app</Step>
+
+```tsx
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<HoverCard>
+  <HoverCardTrigger asChild>
+    <Button variant="link">@fraktment</Button>
+  </HoverCardTrigger>
+  <HoverCardContent>
+    Registry primitives for React.
+  </HoverCardContent>
+</HoverCard>
+```
+
+See the [Hover Card docs](/docs/components/hover-card) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Progress
+
+<ComponentPreview name="progress" title="progress-demo.tsx">
+  <ProgressDemo />
+</ComponentPreview>
+
+**Progress** shows how much of a task has completed. The indicator animates smoothly on every value change with a 500ms ease-out transform. Optional `ProgressLabel` and `ProgressValue` render a header row with the current percentage.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive</Step>
+
+```bash
+npx frakment add progress
+```
+
+<Step>Use it in your app</Step>
+
+```tsx
+import { Progress } from "@/components/ui/progress";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<Progress value={60} />
+```
+
+See the [Progress docs](/docs/components/progress) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Slider
+
+<ComponentPreview name="slider" title="slider-demo.tsx">
+  <SliderDemo />
+</ComponentPreview>
+
+**Slider** lets the user pick a value or range from a track. It supports single values, ranges with two thumbs, multiple thumbs, and vertical orientation. Built on Radix `Slider`, it handles keyboard navigation, focus rings, and disabled state out of the box.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive</Step>
+
+```bash
+npx frakment add slider
+```
+
+<Step>Use it in your app</Step>
+
+```tsx
+import { Slider } from "@/components/ui/slider";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<Slider defaultValue={[50]} max={100} step={1} />
+```
+
+See the [Slider docs](/docs/components/slider) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Questionnaire
+
+<ComponentPreview name="questionnaire" title="questionnaire-demo.tsx">
+  <QuestionnaireDemo />
+</ComponentPreview>
+
+**Questionnaire** is a multi-step form **component** that bundles a headless engine. Each step renders one question with a title, optional description, a set of choices, optional freeform input, and inline error. Navigation between steps and the final submit are handled by the headless engine in `lib/questionnaire`, which ships as a registry dependency.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive (pulls the engine automatically)</Step>
+
+```bash
+npx frakment add questionnaire checkbox radio-group button card
+```
+
+<Step>Use it in your app</Step>
+
+```tsx
+import {
+  Questionnaire,
+  QuestionnaireActions,
+  QuestionnaireChoice,
+  QuestionnaireChoices,
+  QuestionnaireItem,
+  QuestionnaireNext,
+  QuestionnairePrevious,
+  QuestionnaireSubmit,
+  QuestionnaireTitle,
+} from "@/components/ui/questionnaire";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<Questionnaire items={items} onSubmit={handleSubmit}>
+  <QuestionnaireItem name="scope" required>
+    <QuestionnaireTitle>What should the agent change?</QuestionnaireTitle>
+    <QuestionnaireChoices>
+      <QuestionnaireChoice value="component">Component only</QuestionnaireChoice>
+      <QuestionnaireChoice value="feature">Complete feature</QuestionnaireChoice>
+    </QuestionnaireChoices>
+  </QuestionnaireItem>
+  <QuestionnaireActions>
+    <QuestionnairePrevious />
+    <QuestionnaireNext>Next</QuestionnaireNext>
+    <QuestionnaireSubmit>Save</QuestionnaireSubmit>
+  </QuestionnaireActions>
+</Questionnaire>
+```
+
+See the [Questionnaire docs](/docs/modules/questionnaire) for the full API reference.

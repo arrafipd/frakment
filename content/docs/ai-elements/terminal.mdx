@@ -5,6 +5,7 @@ description: A live command runner that streams shell commands and output with t
 
 import { TerminalDemo } from "@/examples/terminal-demo";
 import { TerminalError } from "@/examples/terminal-error";
+import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block";
 import { Terminal, TerminalCommand } from "@/components/ui/terminal";
 
 <ComponentPreview name="terminal" title="terminal.tsx">
@@ -91,6 +92,20 @@ The preview on this page shows the terminal primitive composing with `useChat`, 
 
 The composition pulls `@ai-sdk/react`, `ai`, and every UI primitive it uses. Follow the [Chat tutorial](/docs/ai-elements/chat) for the wiring pattern, or replace `createChat` with your own backend that streams `data-terminal` parts.
 
+## In Context
+
+### Build output
+
+<ComponentPreview name="terminal" title="terminal-demo.tsx">
+  <TerminalDemo />
+</ComponentPreview>
+
+### Failed command
+
+<ComponentPreview name="terminal" title="terminal-error.tsx">
+  <TerminalError />
+</ComponentPreview>
+
 ## API Reference
 
 ### TerminalCommand
@@ -147,3 +162,10 @@ Extends `React.ComponentProps<"div">`. Renders as a `Trace` container. No custom
 - The trigger row exposes the command text as its accessible label.
 - Icons are decorative and inherit `aria-hidden` from lucide defaults.
 - Output renders inside a focusable `<pre>` — screen readers can select and copy stdout.
+
+## Best Practices
+
+- **Collapse by default.** Open the terminal only while a command is streaming.
+- **Cap the output height.** `max-h-64` on `CodeBlockContent` scrolls long logs.
+- **Label the command, not the exit.** "Ran pnpm build", not "Command complete".
+- **Do not embed a live terminal.** This primitive renders scripted output; for interactive shells, link out.

@@ -6,6 +6,8 @@ description: A modal panel that slides in from the edge of the screen.
 import { SheetDemo } from "@/examples/sheet-demo";
 import { SheetSide } from "@/examples/sheet-side";
 import { SheetNoCloseButton } from "@/examples/sheet-no-close-button";
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
 <ComponentPreview name="sheet" title="sheet.tsx">
   <SheetDemo />
@@ -99,6 +101,28 @@ Pass `showCloseButton={false}` and dismiss via backdrop or Escape.
   <SheetNoCloseButton />
 </ComponentPreview>
 
+## In Context
+
+### Mobile navigation
+
+<ComponentPreview name="sheet" title="sheet.tsx">
+  <Sheet>
+    <SheetTrigger asChild>
+      <Button variant="outline">Open menu</Button>
+    </SheetTrigger>
+    <SheetContent>
+      <SheetHeader>
+        <SheetTitle>Navigation</SheetTitle>
+      </SheetHeader>
+      <nav className="flex flex-col gap-2 pt-4">
+        <a className="text-sm" href="/docs">Docs</a>
+        <a className="text-sm" href="/changelog">Changelog</a>
+        <a className="text-sm" href="/github">GitHub</a>
+      </nav>
+    </SheetContent>
+  </Sheet>
+</ComponentPreview>
+
 ## API Reference
 
 ### SheetContent
@@ -117,3 +141,10 @@ Pass `showCloseButton={false}` and dismiss via backdrop or Escape.
 - `SheetTitle` and `SheetDescription` are announced to screen readers.
 - `Escape` closes the sheet unless prevented.
 - Clicking the backdrop closes the sheet.
+
+## Best Practices
+
+- **Use for navigation, not for data entry.** Long forms belong on a page.
+- **Keep the side consistent.** `right` for navigation, `bottom` for mobile menus.
+- **Close on link click.** Otherwise the sheet sits between the user and the destination.
+- **Do not stack sheets.** One at a time.

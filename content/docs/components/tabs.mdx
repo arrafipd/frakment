@@ -7,6 +7,7 @@ import { TabsDemo } from "@/examples/tabs-demo";
 import { TabsVertical } from "@/examples/tabs-vertical";
 import { TabsDisabled } from "@/examples/tabs-disabled";
 import { TabsIcons } from "@/examples/tabs-icons";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 <ComponentPreview name="tabs" title="tabs.tsx">
   <TabsDemo />
@@ -105,6 +106,25 @@ Triggers accept icons before the label. Icons size themselves via `[&_svg]:size-
   <TabsIcons />
 </ComponentPreview>
 
+## In Context
+
+### Docs tabs
+
+<ComponentPreview name="tabs" title="tabs.tsx">
+  <Tabs className="mx-auto w-full max-w-sm" defaultValue="preview">
+    <TabsList>
+      <TabsTrigger value="preview">Preview</TabsTrigger>
+      <TabsTrigger value="code">Code</TabsTrigger>
+    </TabsList>
+    <TabsContent className="text-sm text-muted-foreground pt-3" value="preview">
+      The component renders here.
+    </TabsContent>
+    <TabsContent className="text-sm text-muted-foreground pt-3" value="code">
+      Source code for this example.
+    </TabsContent>
+  </Tabs>
+</ComponentPreview>
+
 ## API Reference
 
 ### Tabs
@@ -132,3 +152,10 @@ Triggers accept icons before the label. Icons size themselves via `[&_svg]:size-
 - Built on Radix Tabs, following the WAI-ARIA tabs pattern.
 - Triggers expose `role="tab"` and `aria-selected`.
 - Keyboard: `ArrowLeft` and `ArrowRight` move between triggers.
+
+## Best Practices
+
+- **Keep tabs to three or four.** More tabs become a nav, not a tab list.
+- **Pick a default.** Empty tab groups confuse users about the current state.
+- **Do not nest tabs.** Nested tabs lose context; use a segmented control instead.
+- **Do not lazy-load the first tab.** The default tab should not flash.

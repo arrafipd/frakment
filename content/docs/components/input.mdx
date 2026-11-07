@@ -8,6 +8,9 @@ import { InputBasic } from "@/examples/input-basic";
 import { InputField } from "@/examples/input-field";
 import { InputFieldgroup } from "@/examples/input-fieldgroup";
 import { InputInvalid } from "@/examples/input-invalid";
+import { SearchIcon } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 <ComponentPreview name="input" title="input.tsx" previewClassName="h-auto py-8">
   <InputDemo />
@@ -132,8 +135,70 @@ Set `aria-invalid` on the input, or `data-invalid` on the **Field** wrapper, to 
 <Input type="file" />
 ```
 
+## In Context
+
+### Email field
+
+<ComponentPreview name="input" title="input.tsx">
+  <div className="mx-auto flex w-full max-w-sm flex-col gap-2">
+    <Label htmlFor="email">Email</Label>
+    <Input id="email" placeholder="you@example.com" type="email" />
+  </div>
+</ComponentPreview>
+
+### Search bar
+
+<ComponentPreview name="input" title="input.tsx">
+  <div className="mx-auto flex w-full max-w-sm items-center gap-2">
+    <SearchIcon className="size-4 text-muted-foreground" />
+    <Input placeholder="Search components…" />
+  </div>
+</ComponentPreview>
+
 ## API Reference
 
-Extends `React.ComponentProps<"input">`. Every native attribute (`type`, `placeholder`, `value`, `onChange`, `disabled`, `required`, `aria-*`) is forwarded to the underlying `<input>`.
+### Input
 
-Adds `data-slot="input"` for styling hooks.
+Extends `React.ComponentProps<"input">`.
+
+<PropsTable
+  rows={[
+    { name: "type", type: "string", default: '"text"', description: "Native input type." },
+    { name: "placeholder", type: "string", description: "Shown when the input is empty." },
+    { name: "value", type: "string", description: "Controlled value." },
+    { name: "defaultValue", type: "string", description: "Uncontrolled initial value." },
+    { name: "onChange", type: "React.ChangeEventHandler<HTMLInputElement>", description: "Fires on every keystroke." },
+    { name: "disabled", type: "boolean", default: "false", description: "Removes the input from the tab order." },
+    { name: "aria-invalid", type: "boolean", description: "Marks the input as invalid; pair with aria-describedby." },
+  ]}
+/>
+
+## Accessibility
+
+- `Input` renders a native `<input>`. It has no label by default; always pair with a `Label` or `FieldLabel`.
+- Use the native `type` attribute (`email`, `url`, `tel`, `number`) so mobile keyboards adapt.
+- Set `aria-invalid` and `aria-describedby` on error. Do not rely on a red border alone.
+- `disabled` removes the input from the tab order. For informational values, use `readOnly`.
+
+## Best Practices
+
+- **Always label the input.** Placeholders disappear after typing; labels stay.
+- **Use the native type.** `email`, `url`, `tel`, and `number` trigger the right keyboard on mobile.
+- **Show errors inline.** Use `aria-invalid` and a description below the input, not a toast.
+- **Do not disable without reason.** Disabled inputs are invisible to screen readers.
+- **Cap length with `maxLength`.** Do not rely on server-side validation alone.
+
+## Anatomy
+
+<ComponentPreview name="input" title="input.tsx">
+  <div className="flex flex-col gap-2">
+    <Input placeholder="Empty" />
+    <Input defaultValue="Filled" />
+    <Input aria-invalid placeholder="Invalid" />
+  </div>
+</ComponentPreview>
+
+- **Field** — 36px height, 1px border, 6px radius
+- **Text** — 14px, inherits `foreground`
+- **Placeholder** — `muted-foreground`, disappears on input
+- **Focus ring** — `ring-3` in `ring` color on focus

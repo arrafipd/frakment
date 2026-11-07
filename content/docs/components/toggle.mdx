@@ -8,6 +8,8 @@ import { ToggleOutline } from "@/examples/toggle-outline";
 import { ToggleText } from "@/examples/toggle-text";
 import { ToggleSizes } from "@/examples/toggle-sizes";
 import { ToggleDisabled } from "@/examples/toggle-disabled";
+import { Toggle } from "@/components/ui/toggle";
+import { BoldIcon } from "lucide-react";
 
 <ComponentPreview name="toggle" title="toggle.tsx">
   <ToggleDemo />
@@ -133,6 +135,14 @@ Set `disabled` on the toggle to lock interaction.
 <Toggle variant="outline" disabled>Disabled</Toggle>
 ```
 
+## In Context
+
+### Toolbar toggle
+
+<ComponentPreview name="toggle" title="toggle.tsx">
+  <Toggle aria-label="Bold" variant="outline"><BoldIcon /></Toggle>
+</ComponentPreview>
+
 ## API Reference
 
 Extends `React.ComponentProps<typeof TogglePrimitive.Root>` from `radix-ui`.
@@ -171,3 +181,15 @@ Extends `React.ComponentProps<typeof TogglePrimitive.Root>` from `radix-ui`.
     },
   ]}
 />
+
+## Accessibility
+
+- `Toggle` renders a button with `aria-pressed`.
+- Provide `aria-label` when the toggle is icon-only.
+- Keyboard: Space toggles.
+
+## Best Practices
+
+- **Icon-only toggles need a label.** `aria-label` is not optional.
+- **Use `ToggleGroup` for multiple toggles.** Standalone toggles read as buttons.
+- **Persist the state.** Toggles are stateful, not one-shot.

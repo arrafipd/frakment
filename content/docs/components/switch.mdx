@@ -7,6 +7,7 @@ import { SwitchDemo } from "@/examples/switch-demo";
 import { SwitchChecked } from "@/examples/switch-checked";
 import { SwitchDisabled } from "@/examples/switch-disabled";
 import { SwitchWithDescription } from "@/examples/switch-with-description";
+import { Switch } from "@/components/ui/switch";
 
 <ComponentPreview name="switch" title="switch.tsx">
   <SwitchDemo />
@@ -108,8 +109,74 @@ For settings rows with a title and helper text, compose with `Field` and `FieldC
 </div>
 ```
 
+## In Context
+
+### Settings row
+
+<ComponentPreview name="switch" title="switch.tsx">
+  <div className="mx-auto flex w-full max-w-sm items-center justify-between">
+    <div>
+      <p className="text-sm font-medium">Notifications</p>
+      <p className="text-muted-foreground text-xs">Get an email on replies.</p>
+    </div>
+    <Switch defaultChecked />
+  </div>
+</ComponentPreview>
+
+### Feature flag
+
+<ComponentPreview name="switch" title="switch.tsx">
+  <div className="mx-auto flex w-full max-w-sm items-center justify-between">
+    <div>
+      <p className="text-sm font-medium">New editor</p>
+      <p className="text-muted-foreground text-xs">Try the beta experience.</p>
+    </div>
+    <Switch />
+  </div>
+</ComponentPreview>
+
 ## API Reference
 
-Extends `React.ComponentProps<typeof SwitchPrimitive.Root>` from `radix-ui`.
+### Switch
 
-Adds `data-slot="switch"` on the root and `data-slot="switch-thumb"` on the thumb.
+Extends Radix `Switch.Root`.
+
+<PropsTable
+  rows={[
+    { name: "checked", type: "boolean", description: "Controlled state." },
+    { name: "defaultChecked", type: "boolean", default: "false", description: "Uncontrolled initial state." },
+    { name: "onCheckedChange", type: "(checked: boolean) => void", description: "Fires on toggle." },
+    { name: "disabled", type: "boolean", default: "false", description: "Removes the switch from the tab order." },
+    { name: "required", type: "boolean", default: "false", description: "Native form requirement." },
+  ]}
+/>
+
+## Accessibility
+
+- `Switch` renders a button with `role="switch"` and manages `aria-checked`. Do not add `role` manually.
+- Pair with a `label` or `FieldLabel` using `htmlFor`.
+- The visual state (on/off) is conveyed by position and color. The accessible state is conveyed by `aria-checked`.
+- `disabled` removes the switch from the tab order.
+
+## Best Practices
+
+- **Use Switch for instant toggles.** If the change requires a Save button, use Checkbox.
+- **Do not use "On" / "Off" labels.** The state is visible in the track.
+- **Keep the label short.** A phrase, not a sentence.
+- **Group related switches** under a heading rather than scattering them.
+- **Do not use Switch for a destructive action.** Use a Dialog confirmation.
+
+## Anatomy
+
+<ComponentPreview name="switch" title="switch.tsx">
+  <div className="flex items-center gap-3">
+    <Switch defaultChecked id="a" />
+    <label className="text-sm" htmlFor="a">On</label>
+    <Switch id="b" />
+    <label className="text-sm" htmlFor="b">Off</label>
+  </div>
+</ComponentPreview>
+
+- **Track** — 32×18 pill, `bg-input` off, `bg-primary` on
+- **Thumb** — 16px circle that slides 14px between ends
+- **Label** — separate element, linked with `htmlFor`

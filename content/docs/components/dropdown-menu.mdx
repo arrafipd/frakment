@@ -11,6 +11,9 @@ import { DropdownMenuCheckboxes } from "@/examples/dropdown-menu-checkboxes";
 import { DropdownMenuAlignStart } from "@/examples/dropdown-menu-align-start";
 import { DropdownMenuAlignCenter } from "@/examples/dropdown-menu-align-center";
 import { DropdownMenuAlignEnd } from "@/examples/dropdown-menu-align-end";
+import { MoreHorizontalIcon } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 
 <ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
   <DropdownMenuBasic />
@@ -172,6 +175,24 @@ Content aligns to the right edge of the trigger.
 <DropdownMenuContent align="end">...</DropdownMenuContent>
 ~~~
 
+## In Context
+
+### Row actions
+
+<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
+  <DropdownMenu>
+    <DropdownMenuTrigger asChild>
+      <Button size="icon" variant="ghost" aria-label="Row actions"><MoreHorizontalIcon /></Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent align="end">
+      <DropdownMenuItem>Edit</DropdownMenuItem>
+      <DropdownMenuItem>Duplicate</DropdownMenuItem>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+</ComponentPreview>
+
 ## API Reference
 
 All parts extend their corresponding Radix `DropdownMenu` primitives.
@@ -219,3 +240,17 @@ All parts extend their corresponding Radix `DropdownMenu` primitives.
 `DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuGroup`, `DropdownMenuLabel`, `DropdownMenuSeparator`, `DropdownMenuShortcut`, `DropdownMenuSub`, `DropdownMenuSubTrigger`, `DropdownMenuSubContent`, `DropdownMenuPortal`, `DropdownMenuCheckboxItem`, `DropdownMenuRadioGroup`, `DropdownMenuRadioItem` — all extend their Radix counterparts.
 
 Adds `data-slot="dropdown-menu-*"` markers for styling hooks.
+
+## Accessibility
+
+- The trigger must have `aria-label` when icon-only.
+- Items are focusable; arrow keys move focus.
+- Escape closes the menu and returns focus to the trigger.
+- Destructive items are visually distinct but still focusable.
+
+## Best Practices
+
+- **Do not put more than 10 items.** Use a command palette for long lists.
+- **Group related items.** `DropdownMenuSeparator` between clusters.
+- **Destructive items last.** And always separated.
+- **Keep labels verb-based.** "Delete", not "Deletion".

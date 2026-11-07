@@ -13,7 +13,8 @@
       "!**/.changeset",
       "!**/public/r",
       "!**/public/skills",
-      "!mdx-components.tsx"
+      "!mdx-components.tsx",
+      "!**/lib/questionnaire"
     ]
   },
   "linter": {

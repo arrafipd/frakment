@@ -127,6 +127,29 @@ Nest an accordion inside a card for grouped, framed content.
   <AccordionCard />
 </ComponentPreview>
 
+## In Context
+
+### FAQ section
+
+<ComponentPreview name="accordion" title="accordion.tsx">
+  <Accordion className="w-full max-w-md" collapsible type="single">
+    <AccordionItem value="ship">
+      <AccordionTrigger>How do I ship Frakment in my app?</AccordionTrigger>
+      <AccordionContent>
+        Copy each primitive into your project with the CLI, then import from
+        your local `components/ui` directory.
+      </AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="update">
+      <AccordionTrigger>How do updates work?</AccordionTrigger>
+      <AccordionContent>
+        Because every component is local, run `npx frakment add <name>` again
+        and diff the result.
+      </AccordionContent>
+    </AccordionItem>
+  </Accordion>
+</ComponentPreview>
+
 ## API Reference
 
 ### Accordion

@@ -16,6 +16,7 @@ import { TextFlipCount } from "@/examples/text-flip-count";
 import { TextFlipRoll } from "@/examples/text-flip-roll";
 import { TextFlipRollBasic } from "@/examples/text-flip-roll-basic";
 import { TextFlipShuffle } from "@/examples/text-flip-shuffle";
+import { TextFlip } from "@/components/ui/text-flip";
 
 <ComponentPreview name="text-flip" title="text-flip.tsx" previewClassName="h-auto">
   <TextFlipRoll />
@@ -215,6 +216,19 @@ Each character fades in instead of snapping. Softer than plain typewriter, still
 </TextFlip>
 ~~~
 
+## In Context
+
+### Hero headline
+
+<ComponentPreview name="text-flip" title="text-flip.tsx">
+  <div className="mx-auto flex flex-col items-center gap-2 text-center">
+    <span className="text-muted-foreground text-sm">Ship faster with</span>
+    <span className="text-2xl font-semibold">
+      <TextFlip words={["Frakment", "primitives", "copy-paste"]} />
+    </span>
+  </div>
+</ComponentPreview>
+
 ## API Reference
 
 ### TextFlip
@@ -241,3 +255,10 @@ Each character fades in instead of snapping. Softer than plain typewriter, still
 - Wraps the text in a semantic element chosen via `as`.
 - Motion respects `prefers-reduced-motion`.
 - Keep each phrase short so screen readers announce quickly.
+
+## Best Practices
+
+- **Keep phrases short.** Two to four words per flip; longer clips mid-animation.
+- **Pause on hover.** Let users finish reading before the next phrase.
+- **Do not use for critical text.** If users might miss it, use static copy.
+- **Respect reduced-motion.** Fall back to a static phrase.

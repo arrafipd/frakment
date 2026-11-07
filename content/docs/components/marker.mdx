@@ -251,6 +251,22 @@ Use `asChild` to render the marker as a link or button. The whole row becomes cl
   </div>
 </ComponentPreview>
 
+## In Context
+
+### Thinking marker
+
+<ComponentPreview name="marker" title="marker.tsx">
+  <div className="mx-auto flex w-full max-w-sm flex-col gap-3">
+    <Marker role="status">
+      <MarkerIcon><Spinner /></MarkerIcon>
+      <MarkerContent>Thinking…</MarkerContent>
+    </Marker>
+    <Marker variant="separator" role="status">
+      <MarkerContent>Read 4 files</MarkerContent>
+    </Marker>
+  </div>
+</ComponentPreview>
+
 ## API Reference
 
 ### Marker
@@ -287,3 +303,10 @@ Extends `React.ComponentProps<"span">`. Wraps inline links with underline and ho
 - `MarkerIcon` is `aria-hidden` — the meaning lives in `MarkerContent`.
 - For `asChild` markers, use `<a href>` for navigation and `<button type="button">` for actions so keyboard and screen readers behave correctly.
 - With `prefers-reduced-motion`, the shimmer animation stops automatically.
+
+## Best Practices
+
+- **Use `variant="separator"` for inline status.** A horizontal rule with centered text reads as a divider.
+- **Pair with an icon.** A spinner or check clarifies the state.
+- **Keep text short.** "Thinking" beats "The model is currently thinking".
+- **Announce with `role="status"`.** Screen readers announce updates politely.

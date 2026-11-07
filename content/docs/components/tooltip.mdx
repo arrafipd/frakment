@@ -6,6 +6,9 @@ description: A popup that displays information related to an element on hover or
 import { TooltipDemo } from "@/examples/tooltip-demo";
 import { TooltipSides } from "@/examples/tooltip-sides";
 import { TooltipDisabled } from "@/examples/tooltip-disabled";
+import { CopyIcon } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
 
 <ComponentPreview name="tooltip" title="tooltip.tsx">
   <TooltipDemo />
@@ -120,6 +123,19 @@ Wrap a disabled button in a `<span>` — Radix needs a focusable/hoverable host 
 </Tooltip>
 ```
 
+## In Context
+
+### Icon button hint
+
+<ComponentPreview name="tooltip" title="tooltip.tsx">
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <Button size="icon" variant="ghost" aria-label="Copy"><CopyIcon /></Button>
+    </TooltipTrigger>
+    <TooltipContent>Copy to clipboard</TooltipContent>
+  </Tooltip>
+</ComponentPreview>
+
 ## API Reference
 
 ### TooltipProvider
@@ -140,3 +156,16 @@ Wrap a disabled button in a `<span>` — Radix needs a focusable/hoverable host 
 Extends Radix `Tooltip.Content`. Supports `side` (`top` / `right` / `bottom` / `left`), `sideOffset`, `align` (`start` / `center` / `end`), and `avoidCollisions`.
 
 Adds `data-slot="tooltip-content"` for styling hooks.
+
+## Accessibility
+
+- `TooltipTrigger` composes with a focusable element via `asChild`.
+- Icons need `aria-label` on the trigger; the tooltip is supplementary text.
+- `TooltipContent` is announced when the trigger receives focus.
+
+## Best Practices
+
+- **Never put essential text in a tooltip.** Use a visible label.
+- **Keep it short.** A phrase, not a sentence.
+- **Do not stack tooltips.** One open at a time.
+- **Wrap around a real element.** `asChild` with Button or Link.

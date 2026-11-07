@@ -203,6 +203,24 @@ Combine **Bubble** with [Message](/docs/components/message) for a full conversat
   </div>
 </ComponentPreview>
 
+## In Context
+
+### Chat thread
+
+<ComponentPreview name="bubble" title="bubble.tsx">
+  <div className="mx-auto flex w-full max-w-sm flex-col gap-3">
+    <Bubble align="start" variant="ghost">
+      <BubbleContent>How do I install Frakment?</BubbleContent>
+    </Bubble>
+    <Bubble align="end" variant="default">
+      <BubbleContent>Run `npx frakment init` first.</BubbleContent>
+    </Bubble>
+    <Bubble align="start" variant="ghost">
+      <BubbleContent>Got it, thanks!</BubbleContent>
+    </Bubble>
+  </div>
+</ComponentPreview>
+
 ## API Reference
 
 ### Bubble
@@ -252,3 +270,10 @@ Extends `React.ComponentProps<"div">` with `asChild` support. When true, renders
 - Use `asChild` to make a bubble a button or link when it should be clickable.
 - Reactions should have `aria-label` for screen readers — emoji alone is not descriptive.
 - Alignment is visual only; do not rely on it to convey sender role.
+
+## Best Practices
+
+- **Align by role.** `end` for the user, `start` for the assistant.
+- **Prefer `ghost` for long replies.** Full-surface bubbles feel heavy for paragraphs.
+- **Keep bubble content one idea.** Split into multiple bubbles for multi-paragraph answers.
+- **Do not put interactive content inside a bubble.** Use a Message row with actions instead.
