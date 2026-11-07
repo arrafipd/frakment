@@ -1,5 +1,5 @@
 {
   "title": "AI Elements",
   "root": true,
-  "pages": ["chain-of-thought", "message", "message-scroller", "terminal"]
+  "pages": ["chain-of-thought", "terminal"]
 }
