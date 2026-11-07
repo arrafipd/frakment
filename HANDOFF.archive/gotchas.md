@@ -123,3 +123,20 @@ Plus `motion.div` needs `className="flex flex-col"` for `Bubble align` to work. 
 ### Detail gotcha #18 (PowerShell quoting)
 
 - **#18:** single-quote tidak interpret backtick. Untuk newline/multi-line selalu pakai array literal + `[IO.File]::WriteAllLines` atau `-join [Environment]::NewLine`. Jangan `.Replace('...','...`r`n...')`.
+
+---
+
+## Gotchas #34–#45 (2026-11-07 session)
+
+- #34: components live at `components/ui/<name>.tsx`, not `components/<name>.tsx`. Wrong path silently passes typecheck (nothing imports it). Verify with `Test-Path` before writing.
+- #35: `lib/icons.ts` shim mixed naming: `Globe` exists, `GlobeIcon` does not; `X` and `XIcon` both exist. Verify with `Select-String -Path lib/icons.ts -Pattern 'Globe'` before using in demos.
+- #36: Next.js build skips TS type validation. Run `npm run typecheck` explicitly; `npm run build` alone will not catch type errors.
+- #37: crossfade text = stacked grid (`col-start-1 row-start-1`) + CSS opacity. Do NOT use `AnimatePresence mode="popLayout"` — layout shifts because exiting element becomes `position: absolute`.
+- #38: numeric roll/count = `@number-flow/react` bare. No wrapper, no `motion.span`, no custom timing props; wrapping disables its animation.
+- #39: theme.css = cli/templates/theme.css (SHA256); @keyframes must be in theme.css not globals.css.
+- #40: preview must equal user-facing output. `components/ui/*` and `examples/*` import `lucide-react`; only site chrome (`site-header`, `command-menu`, nav) uses `@/lib/icons` Phosphor shim. `lib/icons.ts` is internal-only; `icons` entry removed from registry.
+- #41: Duplicate import in MDX breaks OG image build; error shows /og/docs/... not the file. Dedupe imports before commit.
+- #42: Motion `animate={{ height: "auto" }}` does not re-target when content grows. Use ResizeObserver + numeric height.
+- #43: `data-[state=closed]:hidden` on wrapper kills AnimatePresence exit. Use MutationObserver on data-state instead.
+- #44: `className` with padding on motion.div leaks out during height:0; overflow:hidden clips content not padding. Move className to inner div.
+- #45: Preview must equal shipped. Large demos need a `-demo` registry block that pulls every dependency, not just the primitive.

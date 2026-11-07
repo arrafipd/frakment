@@ -32,25 +32,14 @@
 - **#31** PS 5.1 tidak dukung `utf8NoBOM` -> `[IO.File]::WriteAllText` + `UTF8Encoding($false)`.
 - **#32** heredoc >2KB cut saat paste -> pecah chunk atau base64.
 
-Gotchas lama (#1-25): `HANDOFF.archive/gotchas.md`.
+Gotchas lama (#1-45): `HANDOFF.archive/gotchas.md`.
 
-- #34: components live at `components/ui/<name>.tsx`, not `components/<name>.tsx`. Wrong path silently passes typecheck (nothing imports it). Verify with `Test-Path` before writing.
-- #35: `lib/icons.ts` shim mixed naming: `Globe` exists, `GlobeIcon` does not; `X` and `XIcon` both exist. Verify with `Select-String -Path lib/icons.ts -Pattern 'Globe'` before using in demos.
-- #36: Next.js build skips TS type validation. Run `npm run typecheck` explicitly; `npm run build` alone will not catch type errors.
-- #37: crossfade text = stacked grid (`col-start-1 row-start-1`) + CSS opacity. Do NOT use `AnimatePresence mode="popLayout"` — layout shifts because exiting element becomes `position: absolute`.
-- #38: numeric roll/count = `@number-flow/react` bare. No wrapper, no `motion.span`, no custom timing props; wrapping disables its animation.
-- #39: theme.css = cli/templates/theme.css (SHA256); @keyframes must be in theme.css not globals.css.
-- #40: preview must equal user-facing output. `components/ui/*` and `examples/*` import `lucide-react`; only site chrome (`site-header`, `command-menu`, nav) uses `@/lib/icons` Phosphor shim. `lib/icons.ts` is internal-only; `icons` entry removed from registry.
-- #41: Duplicate import in MDX breaks OG image build; error shows /og/docs/... not the file. Dedupe imports before commit.
-- #42: Motion `animate={{ height: "auto" }}` does not re-target when content grows. Use ResizeObserver + numeric height.
-- #43: `data-[state=closed]:hidden` on wrapper kills AnimatePresence exit. Use MutationObserver on data-state instead.
-- #44: `className` with padding on motion.div leaks out during height:0; overflow:hidden clips content not padding. Move className to inner div.
-- #45: Preview must equal shipped. Large demos need a `-demo` registry block that pulls every dependency, not just the primitive.
 - #46: Components using `React.createContext`, `useState`, or `useEffect` require `"use client"` on line 1. Sync to `registry/<name>.tsx` (SHA256 identical). Without it, Next.js throws `createContext only works in Client Components` when imported from an MDX/Server Component.
 - #47: Write `.mdx` files via Node `fs.writeFileSync`, not PowerShell here-string. MDX backticks and special characters can leave PowerShell stuck in continuation mode.
 - #48: `ComponentPreview` uses `children` for live render. `name` resolves source via `getRegistryComponent("x")` to `components/ui/x.tsx`. Never use `name="x-demo"` — demos live in `examples/` and are passed as children.
 - #49: After `npm run fix`, check `git diff` on non-glob files (e.g. `styles/theme.css`) — real UTF-8 mojibake can appear (em-dash → garbled bytes). Verify with `node -e "console.log(fs.readFileSync(p,'utf8'))"`, NOT `Select-String`/`Get-Content`: PowerShell 5.1 renders UTF-8 as Windows-1252 and shows clean `·`/`—` as `Â·`/`â€"` — that is a display artifact, not file corruption. `git checkout` only files confirmed corrupted by Node.
 - #50: `lefthook` pre-commit (format, lint) may modify files and abort the commit. Re-stage with `git add -A` and commit again. Don't use `--no-verify` unless absolutely necessary.
+- #51: `content/docs/*/meta.json` may carry a UTF-8 BOM; Node `JSON.parse` throws `Unexpected token`. Strip with `c.replace(/^\uFEFF/,'')` or use PowerShell `ConvertFrom-Json`.
 
 ## Pointers
 
