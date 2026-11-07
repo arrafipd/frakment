@@ -10,6 +10,10 @@
     "inline-citation",
     "message",
     "model-selector",
+    "plan",
+    "prompt-input",
+    "queue",
+    "reasoning",
     "terminal"
   ]
 }

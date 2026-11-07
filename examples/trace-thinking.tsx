@@ -50,7 +50,7 @@ function ThinkingTrace({ text, running }: { text: string; running: boolean }) {
   return (
     <TraceCollapsible onOpenChange={setOpen} open={open ?? running}>
       <TraceCollapsibleTrigger>{line}</TraceCollapsibleTrigger>
-      <TraceCollapsibleContent className="whitespace-pre-wrap">
+      <TraceCollapsibleContent className="text-muted-foreground whitespace-pre-wrap">
         {text}
       </TraceCollapsibleContent>
     </TraceCollapsible>

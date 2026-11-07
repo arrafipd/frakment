@@ -1,29 +1,253 @@
 ---
-title: "2026-11-08"
-description: "Monochrome token consistency and clearer disabled states"
+title: "November 8, 2026"
+description: "Plan and Prompt Input AI element tutorials, monochrome token consistency, and clearer disabled states."
+date: "2026-11-08"
 ---
 
-## Disabled state
+import { PlanDemo } from "@/examples/plan-demo";
+import { PromptInputDemo } from "@/examples/prompt-input-demo";
+import { QueueDemo } from "@/examples/queue-demo";
+import { ReasoningDemo } from "@/examples/reasoning-demo";
 
-Disabled buttons now use a solid muted background instead of reduced opacity.
-Icons and labels stay readable while the control clearly reads as inactive.
+This release adds four AI element tutorials — **Plan** and **Prompt Input** — plus a monochrome token pass that fixes disabled states across buttons, input groups, OTP inputs, and native selects.
 
-`InputGroup`, `InputOTP`, and `NativeSelect` no longer fade their entire
-container when a single child is disabled.
+- [Plan](#plan): Stream an agent plan with step status.
+- [Prompt Input](#prompt-input): Composer with attachments, model, and effort pickers.
+- [Queue](#queue): Grouped todo list with pending and completed sections.
+- [Reasoning](#reasoning): Streaming thinking block with collapsible trace.
+- [Disabled state](#disabled-state): Muted background replaces reduced opacity.
+- [Tokens](#tokens): `--subtle-foreground` and higher contrast for `--input` and `--border`.
 
-## Tokens
+<hr className="my-16 border-border/40" />
 
-`--sidebar-primary` is monochrome in both light and dark mode.
+### Plan
 
-`--subtle-foreground` is available for interactive values inside muted
-surfaces, sitting between `--foreground` and `--muted-foreground`.
+<ComponentPreview name="plan-demo" title="plan-demo.tsx" src="examples/plan-demo.tsx" previewClassName="h-auto py-8">
+  <PlanDemo />
+</ComponentPreview>
 
-## Fixes
+**Plan** renders an agent plan as a collapsible list of steps. Each step is `done`, `running`, or `pending`. The header shows progress and the whole block collapses. It is a composition over [Trace](/docs/components/trace).
 
-`<body>` now applies `bg-background` by default, so dark mode pages no longer
-render text against a transparent canvas.
+#### Installation
 
-`Command` selected items use `bg-foreground text-background` and adapt to
-both themes.
+<Steps>
+  <Step>Install the primitives</Step>
 
-`Alert` and `Sonner` info states use muted tokens instead of hardcoded blue.
+```bash
+npx frakment add trace message bubble button
+```
+
+<Step>Use it in your app</Step>
+
+```tsx
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceDescription,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<Trace>
+  <TraceCollapsible defaultOpen>
+    <TraceCollapsibleTrigger>
+      <TraceLine status="running">
+        <TraceIcon><RouteIcon /></TraceIcon>
+        <TraceTitle>{"Plan: migrate to Base UI"}</TraceTitle>
+        <TraceDescription>{"1 of 4 done"}</TraceDescription>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>
+      <Trace>{/* steps */}</Trace>
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+```
+
+See the [Plan docs](/docs/ai-elements/plan) for the full composition.
+
+<hr className="my-16 border-border/40" />
+
+### Prompt Input
+
+<ComponentPreview name="prompt-input-demo" title="prompt-input-demo.tsx" src="examples/prompt-input-demo.tsx" previewClassName="h-auto py-8">
+  <PromptInputDemo />
+</ComponentPreview>
+
+**Prompt Input** is a composer for chat and agent surfaces. Attachment chips sit above a textarea, and a bottom bar holds the attach action, two pickers, and the send button. It is a composition over InputGroup, Attachment, Dropdown Menu, and Button.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitives</Step>
+
+```bash
+npx frakment add input-group attachment dropdown-menu button
+```
+
+<Step>Use it in your app</Step>
+
+```tsx
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupTextarea,
+} from "@/components/ui/input-group";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<InputGroup>
+  <InputGroupAddon align="block-start">{/* attachments */}</InputGroupAddon>
+  <InputGroupTextarea placeholder="Ask the agent..." />
+  <InputGroupAddon align="block-end">
+    <InputGroupButton aria-label="Attach files" size="icon-sm" variant="outline">
+      <PlusIcon />
+    </InputGroupButton>
+    <InputGroupButton type="submit" size="icon-sm" variant="default" aria-label="Send">
+      <ArrowUpIcon />
+    </InputGroupButton>
+  </InputGroupAddon>
+</InputGroup>
+```
+
+See the [Prompt Input docs](/docs/ai-elements/prompt-input) for the full composition.
+
+<hr className="my-16 border-border/40" />
+
+### Queue
+
+<ComponentPreview name="queue-demo" title="queue-demo.tsx" src="examples/queue-demo.tsx" previewClassName="h-auto py-8">
+  <QueueDemo />
+</ComponentPreview>
+
+**Queue** renders an agent todo list as two grouped trace sections — pending and completed. Each row carries a status glyph and the group headers show counts. It is a composition over [Trace](/docs/components/trace).
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitives</Step>
+
+```bash
+npx frakment add trace message bubble button
+```
+
+<Step>Use it in your app</Step>
+
+```tsx
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<Trace>
+  <TraceCollapsible defaultOpen>
+    <TraceCollapsibleTrigger>
+      <TraceLine>
+        <TraceIcon><ListTodoIcon /></TraceIcon>
+        <TraceTitle>{"3 to do"}</TraceTitle>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>
+      <Trace>{/* pending todos */}</Trace>
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+```
+
+See the [Queue docs](/docs/ai-elements/queue) for the full composition.
+
+<hr className="my-16 border-border/40" />
+
+### Reasoning
+
+<ComponentPreview name="reasoning-demo" title="reasoning-demo.tsx" src="examples/reasoning-demo.tsx" previewClassName="h-auto py-8">
+  <ReasoningDemo />
+</ComponentPreview>
+
+**Reasoning** renders an agent thinking block as a collapsible trace. The line shimmers while streaming, stays open until the run finishes, then collapses. It is a composition over [Trace](/docs/components/trace).
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitives</Step>
+
+```bash
+npx frakment add trace message bubble button
+```
+
+<Step>Use it in your app</Step>
+
+```tsx
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<Trace>
+  <TraceCollapsible open={running} onOpenChange={setOpen}>
+    <TraceCollapsibleTrigger>
+      <TraceLine status={running ? "running" : undefined}>
+        <TraceTitle>{running ? "Thinking" : "Thought"}</TraceTitle>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent className="whitespace-pre-wrap">
+      {text}
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+```
+
+See the [Reasoning docs](/docs/ai-elements/reasoning) for the full composition.
+
+<hr className="my-16 border-border/40" />
+
+### Disabled state
+
+Disabled buttons now use a solid muted background instead of reduced opacity. Icons and labels stay readable while the control reads as inactive.
+
+`InputGroup`, `InputOTP`, and `NativeSelect` no longer fade their entire container when a single child is disabled.
+
+See the [Button docs](/docs/components/button) and [Input Group docs](/docs/components/input-group) for the updated variants.
+
+<hr className="my-16 border-border/40" />
+
+### Tokens
+
+`--subtle-foreground` is available for interactive values inside muted surfaces, sitting between `--foreground` and `--muted-foreground`. `--input` and `--border` are lifted in both light and dark mode so form borders read against the surface. `--sidebar-primary` is monochrome in both modes. `<body>` now applies `bg-background` by default.
+
+See the [Theming guide](/docs/theming) for the full token reference.

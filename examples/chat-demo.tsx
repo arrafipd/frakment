@@ -400,7 +400,7 @@ function ReasoningRow({ text, running }: { text: string; running: boolean }) {
           <TraceTitle>{running ? "Thinking" : "Thought"}</TraceTitle>
         </TraceLine>
       </TraceCollapsibleTrigger>
-      <TraceCollapsibleContent className="whitespace-pre-wrap">
+      <TraceCollapsibleContent className="text-muted-foreground whitespace-pre-wrap">
         {text}
       </TraceCollapsibleContent>
     </TraceCollapsible>
