@@ -8,6 +8,7 @@ export const ROUTES = {
   DOCS_ANIMATIONS: "/docs/animations",
   DOCS_CHANGELOG: "/docs/changelog",
   DOCS_COMPONENTS: "/docs/components",
+  DOCS_DARK_MODE: "/docs/dark-mode",
   DOCS_INSTALLATION: "/docs/installation",
   DOCS_LIBRARIES: "/docs/libraries",
   DOCS_MODULES: "/docs/modules",

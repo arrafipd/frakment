@@ -120,114 +120,15 @@ Swap the OKLCH values in `:root` and `.dark` for any of these — Frakment compo
 
 ## Dark mode
 
-Frakment's dark mode is wired through two pieces in the theme block:
+Frakment's dark mode is wired through two pieces in the theme block: a custom Tailwind variant and a token override block.
 
-1. **`@custom-variant dark (&:is(.dark *))`** — registers the `dark:` Tailwind variant
-2. **A `.dark { ... }` block** — dark token values
+- **`@custom-variant dark (&:is(.dark *))`** - registers the `dark:` Tailwind variant
+- **A `.dark { ... }` block** - dark token values
 
-When `<html class="dark">`, every `dark:*` utility and every token in `.dark` kicks in. When `.dark` is absent, `:root` tokens apply.
+When `<html class="dark">`, every `dark:*` utility and every token in `.dark` kicks in.
 
-```css title="app/globals.css"
-@custom-variant dark (&:is(.dark *));
+See [Dark mode](/docs/dark-mode) for the full setup with next-themes, manual toggle, and per-section theming.
 
-:root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-}
-
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-}
-```
-
-### Toggle dark mode
-
-Any method that toggles `.dark` on `<html>` works. The docs site uses [`next-themes`](https://github.com/pacocoursey/next-themes):
-
-<CodeCollapsibleWrapper>
-
-```tsx title="components/theme-provider.tsx"
-"use client";
-
-import { ThemeProvider as NextThemesProvider } from "next-themes";
-
-export function ThemeProvider({
-  children,
-  ...props
-}: React.ComponentProps<typeof NextThemesProvider>) {
-  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
-}
-```
-
-```tsx title="app/layout.tsx"
-import { ThemeProvider } from "@/components/theme-provider";
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
-      </body>
-    </html>
-  );
-}
-```
-
-</CodeCollapsibleWrapper>
-
-`suppressHydrationWarning` is required because `next-themes` sets `.dark` on the client after hydration. Without it, React warns about a server/client mismatch.
-
-### Manual toggle (no library)
-
-If you don't want a library, toggle the class yourself:
-
-```tsx
-"use client";
-
-export function ThemeToggle() {
-  return (
-    <button onClick={() => document.documentElement.classList.toggle("dark")}>
-      Toggle theme
-    </button>
-  );
-}
-```
-
-To persist the choice, store it in `localStorage` and apply on mount. Or use [`next-themes`](https://github.com/pacocoursey/next-themes) (recommended).
-
-### Using `dark:` utilities
-
-Because `@custom-variant dark` is registered in the theme block, all `dark:` utilities work out of the box:
-
-```tsx
-<div className="bg-background text-foreground dark:bg-card dark:text-card-foreground" />
-```
-
-You don't need to configure Tailwind's `darkMode` option — Frakment uses a custom variant instead of the built-in `class` strategy.
-
-### Per-section theming (advanced)
-
-If you want a section of your app to always render in one mode, apply `.dark` to a wrapper:
-
-```tsx
-<div className="dark">
-  <Card>Always dark, regardless of root theme.</Card>
-</div>
-```
-
-This works because the variant matches `.dark *` (any descendant of `.dark`), not just `<html>`.
 
 ## Default theme
 
@@ -471,6 +372,7 @@ Not out of the box. Frakment components reference semantic tokens (`bg-backgroun
 
 ## Next
 
-- [Components](/docs/components) — base primitives
-- [AI Elements](/docs/ai-elements) — chat and agent primitives
-- [Installation](/docs/installation) — set up Frakment in your project
+- [Dark mode](/docs/dark-mode) - toggle, persistence, and per-section theming
+- [Components](/docs/components) - base primitives
+- [AI Elements](/docs/ai-elements) - chat and agent primitives
+- [Installation](/docs/installation) - set up Frakment in your project

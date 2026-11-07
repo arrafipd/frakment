@@ -1,0 +1,162 @@
+---
+title: Dark mode
+description: Wire dark mode with next-themes, manual toggle, and per-section theming.
+---
+
+Frakment's dark mode is a `.dark` class on `<html>` combined with a `@custom-variant dark` registered in the theme block. Every `dark:*` Tailwind utility and every token under `.dark` activates when the class is present.
+
+## How it is wired
+
+Two pieces in the theme block make this work:
+
+1. **`@custom-variant dark (&:is(.dark *))`** - registers the `dark:` Tailwind variant
+2. **A `.dark { ... }` block** - dark token values
+
+```css title="app/globals.css"
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+}
+```
+
+When `<html class="dark">` is set, every `dark:*` utility and every token in `.dark` kicks in. When `.dark` is absent, `:root` tokens apply.
+
+## Toggle with next-themes
+
+The recommended approach uses [next-themes](https://github.com/pacocoursey/next-themes). It handles system preference, persistence in `localStorage`, and hydration-safe updates.
+
+```bash
+npm install next-themes
+```
+
+Create a `ThemeProvider` wrapper:
+
+```tsx title="components/theme-provider.tsx"
+"use client";
+
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+
+export function ThemeProvider({
+  children,
+  ...props
+}: React.ComponentProps<typeof NextThemesProvider>) {
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
+}
+```
+
+Wrap your root layout:
+
+```tsx title="app/layout.tsx"
+import { ThemeProvider } from "@/components/theme-provider";
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+`suppressHydrationWarning` is required because next-themes sets `.dark` on the client after hydration. Without it, React warns about a server/client mismatch.
+
+## Toggle button
+
+A minimal toggle using `useTheme` from next-themes:
+
+```tsx
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { useTheme } from "next-themes";
+
+export function ThemeToggle() {
+  const { theme, setTheme } = useTheme();
+
+  return (
+    <Button
+      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      size="icon"
+      variant="ghost"
+    >
+      Toggle theme
+    </Button>
+  );
+}
+```
+
+For a system-aware cycle (light, dark, system), keep the current theme in state and cycle through the three values in `setTheme`.
+
+## Manual toggle (no library)
+
+If you do not want a library, toggle the class yourself:
+
+```tsx
+"use client";
+
+export function ThemeToggle() {
+  return (
+    <button onClick={() => document.documentElement.classList.toggle("dark")}>
+      Toggle theme
+    </button>
+  );
+}
+```
+
+To persist the choice, store it in `localStorage` and apply on mount. Or use next-themes (recommended).
+
+## Using dark: utilities
+
+Because `@custom-variant dark` is registered in the theme block, all `dark:` utilities work out of the box:
+
+```tsx
+<div className="bg-background text-foreground dark:bg-card dark:text-card-foreground" />
+```
+
+You do not need to configure Tailwind's `darkMode` option. Frakment uses a custom variant instead of the built-in `class` strategy.
+
+## Per-section theming
+
+If you want a section of your app to always render in one mode, apply `.dark` to a wrapper:
+
+```tsx
+<div className="dark">
+  <Card>Always dark, regardless of root theme.</Card>
+</div>
+```
+
+This works because the variant matches `.dark *` (any descendant of `.dark`), not just `<html>`.
+
+## Preventing the flash
+
+Two things keep the theme from flashing on page load:
+
+1. **`suppressHydrationWarning`** on `<html>` - silences the React mismatch warning
+2. **`disableTransitionOnChange`** on `ThemeProvider` - prevents a color transition when the theme flips
+
+For the initial paint, next-themes injects a tiny inline script into `<head>` that reads `localStorage` and applies `.dark` before React hydrates.
+
+## Next
+
+- [Theming](/docs/theming) - design tokens and CSS variables
+- [Installation](/docs/installation) - set up Frakment in your project
