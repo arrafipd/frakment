@@ -4,7 +4,7 @@
 
 ## Current State
 
-`main` = `origin/main` @ `0fc269e` (clean). Monorepo aktif (5 paket). Build 174 pages EXIT=0, typecheck EXIT=0, test 39/39, registry 29 components. Shadcn deps: `@shadcn/react` (runtime), `@shadcn/helpers` (dev).
+`main` = `origin/main` @ `b385966` (clean). Monorepo aktif (5 paket). Build 267 pages EXIT=0, typecheck EXIT=0, test 39/39, registry 47 components. Shadcn deps: `@shadcn/react` (runtime), `@shadcn/helpers` (dev).
 
 | # | Nama | Path | Publish |
 |---|---|---|---|
@@ -31,8 +31,11 @@
 - **#30** biome `extends: ["ultracite/biome/core"]`, ignore `!**/node_modules`.
 - **#31** PS 5.1 tidak dukung `utf8NoBOM` -> `[IO.File]::WriteAllText` + `UTF8Encoding($false)`.
 - **#32** heredoc >2KB cut saat paste -> pecah chunk atau base64.
+- **#57** `has-disabled:opacity-50` di parent -> semua anak pudar 50%. Pakai `disabled:bg-muted` di kontrol.
+- **#58** Warna di base cva menimpa variant (`text-foreground` kalahkan `text-primary-foreground`).
+- **#59** `<body>` butuh `bg-background` eksplisit di Tailwind v4, jika tidak canvas transparan.
 
-Gotchas lama (#1-45): `HANDOFF.archive/gotchas.md`.
+Gotchas lama (#1-59): `HANDOFF.archive/gotchas.md`.
 
 - #46: Components using `React.createContext`, `useState`, or `useEffect` require `"use client"` on line 1. Sync to `registry/<name>.tsx` (SHA256 identical). Without it, Next.js throws `createContext only works in Client Components` when imported from an MDX/Server Component.
 - #47: Write `.mdx` files via Node `fs.writeFileSync`, not PowerShell here-string. MDX backticks and special characters can leave PowerShell stuck in continuation mode.

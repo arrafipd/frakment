@@ -140,3 +140,26 @@ Plus `motion.div` needs `className="flex flex-col"` for `Bubble align` to work. 
 - #43: `data-[state=closed]:hidden` on wrapper kills AnimatePresence exit. Use MutationObserver on data-state instead.
 - #44: `className` with padding on motion.div leaks out during height:0; overflow:hidden clips content not padding. Move className to inner div.
 - #45: Preview must equal shipped. Large demos need a `-demo` registry block that pulls every dependency, not just the primitive.
+
+### #57 — `has-disabled:opacity-50` on a parent group fades every child
+
+Putting `has-disabled:opacity-50` on a wrapper with a disabled child cascades
+50% opacity to text, icons, borders, and background. The composition looks
+broken even when tokens are correct. Fix: remove it from the wrapper and use
+`disabled:bg-muted disabled:text-muted-foreground disabled:opacity-100` on the
+disabled control itself. Applied to `input-group`, `input-otp`,
+`native-select`.
+
+### #58 — Colors in base cva override variant colors
+
+Adding a color class like `text-foreground` to a `cva()` base string
+overrides `text-primary-foreground` from `variant="default"`. Result: white
+text on a light primary background, invisible in dark mode. Base cva must
+stay color-neutral; variants own the color.
+
+### #59 — Tailwind v4 body needs explicit bg-background
+
+`<body>` with only `text-foreground` leaves the canvas transparent. In dark
+mode the browser renders white, making light foreground text invisible.
+Always include `bg-background` on `<body>` (or via
+`@layer base { body { @apply bg-background text-foreground } }`).
