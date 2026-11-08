@@ -23,18 +23,12 @@ import {
 } from "@/components/ui/dialog";
 import { Kbd } from "@/components/ui/kbd";
 import { Separator } from "@/components/ui/separator";
-import { ROUTES } from "@/constants/routes";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { useFeedback } from "@/hooks/use-feedback";
 import { useIsMac } from "@/hooks/use-is-mac";
 import { useMutationObserver } from "@/hooks/use-mutation-observer";
 import { usePackageManager } from "@/hooks/use-package-manager";
-import {
-  EXCLUDED_SECTIONS,
-  formatTitleFromSlug,
-  isComponentsFolder,
-  TOP_LEVEL_SECTIONS,
-} from "@/lib/docs";
+import { buildNavGroups } from "@/lib/docs";
 import { trackEvent } from "@/lib/events";
 import {
   ArrowRightIcon,
@@ -43,7 +37,6 @@ import {
   SearchIcon,
   SquareDashedIcon,
 } from "@/lib/icons";
-import { getAllPagesFromFolder, getPagesFromFolder } from "@/lib/page-tree";
 import { cn } from "@/lib/utils";
 
 type DocUrlKind =
@@ -174,92 +167,7 @@ export const CommandMenu = ({
     },
   });
 
-  const treeGroups = useMemo(() => {
-    const groups: { label: string; pages: { url: string; name: string }[] }[] =
-      [];
-    const seenUrls = new Set<string>();
-
-    for (const item of tree.children) {
-      if (item.type !== "folder") {
-        continue;
-      }
-      if (EXCLUDED_SECTIONS.has(item.$id ?? "")) {
-        continue;
-      }
-
-      const pages = (
-        isComponentsFolder(item)
-          ? getAllPagesFromFolder(item).filter(
-              (page) => page.url !== ROUTES.DOCS_COMPONENTS
-            )
-          : getPagesFromFolder(item)
-      )
-        .map((p) => ({
-          name:
-            typeof p.name === "string"
-              ? p.name
-              : formatTitleFromSlug(p.url.split("/").pop() ?? ""),
-          url: p.url,
-        }))
-        .filter((page) => {
-          if (seenUrls.has(page.url)) {
-            return false;
-          }
-          seenUrls.add(page.url);
-          return true;
-        });
-
-      if (pages.length > 0) {
-        groups.push({
-          label:
-            typeof item.name === "string"
-              ? item.name
-              : formatTitleFromSlug(
-                  (item.index?.url ?? "").split("/").pop() ?? ""
-                ),
-          pages,
-        });
-      }
-    }
-
-    return groups;
-  }, [tree]);
-
-  const sections = useMemo(() => {
-    const base = [...TOP_LEVEL_SECTIONS];
-    const shownHrefs = new Set(base.map((s) => s.href));
-
-    for (const item of tree.children) {
-      if (item.type !== "folder") {
-        continue;
-      }
-      if (EXCLUDED_SECTIONS.has(item.$id ?? "")) {
-        continue;
-      }
-      if (!item.index) {
-        continue;
-      }
-      if (shownHrefs.has(item.index.url)) {
-        continue;
-      }
-
-      const pages = getPagesFromFolder(item);
-      const realChildren = pages.filter((p) => p.url !== item.index?.url);
-      if (realChildren.length === 0) {
-        base.push({
-          href: item.index.url,
-          name:
-            typeof item.name === "string"
-              ? item.name
-              : formatTitleFromSlug(
-                  (item.index?.url ?? "").split("/").pop() ?? ""
-                ),
-        });
-      }
-    }
-
-    return base;
-  }, [tree]);
+  const navGroups = useMemo(() => buildNavGroups(tree), [tree]);
 
   const handleDocPageHighlight = useCallback(
     (item: { url: string; name?: string }) => {
@@ -407,19 +315,14 @@ export const CommandMenu = ({
             <CommandEmpty className="text-muted-foreground py-12 text-center text-sm">
               No results found.
             </CommandEmpty>
-            <CommandGroup className={GROUP_HEADING_CLS} heading="Pages">
-              {sections.map((section) =>
-                renderDocPageItem(section.name, section.href, ["Pages"])
-              )}
-            </CommandGroup>
-            {treeGroups.map((group) => (
+            {navGroups.map((group) => (
               <CommandGroup
                 className={GROUP_HEADING_CLS}
                 heading={group.label}
                 key={group.label}
               >
-                {group.pages.map((page) =>
-                  renderDocPageItem(page.name, page.url, [group.label])
+                {group.items.map((item) =>
+                  renderDocPageItem(item.name, item.href, [group.label])
                 )}
               </CommandGroup>
             ))}

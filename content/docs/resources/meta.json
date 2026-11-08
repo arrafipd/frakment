@@ -1,5 +1,4 @@
 {
   "title": "Resources",
-  "pages": ["brand", "llms"],
-  "root": true
+  "pages": ["brand", "llms", "about", "faq"]
 }

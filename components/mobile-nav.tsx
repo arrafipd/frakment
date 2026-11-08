@@ -19,12 +19,7 @@ import { useFeedback } from "@/hooks/use-feedback";
 // Both render TOP_LEVEL_SECTIONS (flat) + tree.children grouped, filtered by
 // EXCLUDED_SECTIONS. If you change one, change the other - or better, hoist
 // the shared logic into a helper.
-import {
-  EXCLUDED_SECTIONS,
-  isComponentsFolder,
-  TOP_LEVEL_SECTIONS,
-} from "@/lib/docs";
-import { getAllPagesFromFolder, getPagesFromFolder } from "@/lib/page-tree";
+import { buildNavGroups } from "@/lib/docs";
 import { cn } from "@/lib/utils";
 
 const MobileLink = ({
@@ -171,40 +166,16 @@ export const MobileNav = ({
               <MobileLink href={ROUTES.HOME} onOpenChange={setOpen}>
                 Home
               </MobileLink>
-              {TOP_LEVEL_SECTIONS.map((item) => (
-                <MobileLink
-                  href={item.href}
-                  key={item.href}
-                  onOpenChange={setOpen}
-                >
-                  {item.name}
-                </MobileLink>
-              ))}
             </div>
           </div>
-          {tree.children.map((item) => {
-            if (item.type !== "folder") {
-              return null;
-            }
-            if (EXCLUDED_SECTIONS.has(item.$id ?? "")) {
-              return null;
-            }
-
-            const pages = isComponentsFolder(item)
-              ? getAllPagesFromFolder(item).filter(
-                  (page) => page.url !== ROUTES.DOCS_COMPONENTS
-                )
-              : getPagesFromFolder(item);
-
-            return (
-              <MobileNavGroup
-                key={item.$id}
-                label={item.name}
-                pages={pages}
-                setOpen={setOpen}
-              />
-            );
-          })}
+          {buildNavGroups(tree).map((group) => (
+            <MobileNavGroup
+              key={group.label}
+              label={group.label}
+              pages={group.items.map((i) => ({ name: i.name, url: i.href }))}
+              setOpen={setOpen}
+            />
+          ))}
           <div className="flex flex-col gap-4">
             <div className="text-muted-foreground text-sm font-medium">
               Support

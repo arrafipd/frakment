@@ -1,7 +1,9 @@
 {
   "root": true,
   "pages": [
-    "(root)",
+    "getting-started",
+    "guides",
+    "advanced",
     "components",
     "ai-elements",
     "modules",

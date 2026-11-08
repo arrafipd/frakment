@@ -1,0 +1,113 @@
+---
+title: About
+description: The principles behind Frakment.
+---
+
+Frakment is a component registry for React interfaces. It ships standalone components you copy into your project, not a library you depend on. This page covers the design principles, how Frakment compares to component libraries, and the decisions behind its shape.
+
+## Principles
+
+### Monochrome by default
+
+Every UI token uses `oklch(L 0 0)` - pure grayscale. Hierarchy comes from lightness, not hue. Two exceptions ship as tokens you can override: `--destructive` for error states and `.hljs-*` for syntax highlighting.
+
+```css title="theme.css"
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --border: oklch(0.922 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+}
+```
+
+Change a token, the entire system follows. Light and dark mode both inherit from the same scale. See [Theming](/docs/theming).
+
+### Composition, not primitives
+
+Primitives are single elements installable via CLI (`button`, `input`, `card`). Compositions are tutorials that wire primitives together (`chat`, `terminal`, `plan`). Compositions are not registry items - you assemble them from primitives following the tutorial.
+
+```bash
+# A composition is installed as its primitives
+npx frakment add trace markdown
+npx frakment add terminal code-block trace
+```
+
+This keeps every installable file small and single-purpose. The trade-off: compositions need more work to wire, but you end up with exactly the UI you want.
+
+### Engine in packages, styling in registry
+
+State logic (chat engine, message scroller) lives in published npm packages: `@frakment/ai` and `@frakment/react`. Styling lives in registry components. Copy the styling, install the engine.
+
+```bash
+npm install @frakment/ai
+npx frakment add message-animated
+```
+
+This keeps scroll and stream behavior bug-fixed through `npm update`, without re-copying files. Your visual edits stay yours.
+
+### AI-native, motion-first
+
+Components for agent surfaces ship with AI support built in. Every component animates through Motion - no extra setup. Chat, trace, plan, and reasoning ship as first-class compositions.
+
+### Docs describe what ships
+
+Every page describes a component that installs today. No roadmaps, no "coming soon", no deprecated stubs. If it is not in the registry, it is not in the docs.
+
+## Comparison
+
+| Aspect | Frakment | Component library |
+| :-- | :-- | :-- |
+| Distribution | Copy into your project | `npm install` |
+| Updates | Re-run `npx frakment add` | `npm update` |
+| Theme | Monochrome by default | Any |
+| Motion | Built in | Add your own |
+| AI | First-party engine at `@frakment/ai` | Third-party |
+| Composition | Tutorials, not installable items | Pre-built |
+| Ownership | Source in your repo | Wrapped in `node_modules` |
+
+## Frequently asked
+
+### Why not just use a library?
+
+Libraries give you less code to maintain but less control. Frakment gives you the source - you own it, you edit it, you upgrade it on your schedule. If you do not need that level of control, a library is the better choice.
+
+### Is it Tailwind only?
+
+Yes. Tokens are Tailwind CSS variables. Components use Tailwind utilities. Tailwind v4 is required.
+
+### Can I add color?
+
+Yes. Override any token in `:root` and `.dark`. The default monochrome palette is a starting point, not a constraint.
+
+```css
+:root {
+  --primary: oklch(0.62 0.19 259);
+  --primary-foreground: oklch(0.98 0 0);
+}
+```
+
+### What about TypeScript?
+
+Every component ships as TypeScript. For JavaScript projects, strip type annotations after copying. See [Installation](/docs/installation/manual).
+
+## Versioning
+
+Frakment follows semantic versioning for its npm packages (`@frakment/ai`, `@frakment/react`, `@frakment/mcp`). Registry components ship with per-component versions tracked in `frakment.json`. Breaking changes are noted in the [Changelog](/docs/changelog).
+
+| Package | Version | Scope |
+| :-- | :-- | :-- |
+| `frakment` | CLI | `npx frakment add` |
+| `@frakment/ai` | npm | Chat engine, streams |
+| `@frakment/react` | npm | Message scroller, hooks |
+| `@frakment/mcp` | npm | MCP server for agents |
+
+## Credits
+
+Frakment is built and maintained by [@arrafipd](https://github.com/arrafipd). Component APIs follow patterns established by the broader React community. License: SEE LICENSE IN LICENSE.
+
+## Related
+
+- [FAQ](/docs/resources/faq) - common questions
+- [Installation](/docs/installation) - get started in one command
+- [Theming](/docs/theming) - tokens and dark mode
