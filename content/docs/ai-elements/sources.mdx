@@ -1,0 +1,169 @@
+---
+title: Sources
+description: Collect and render agent source citations as a collapsible trace list.
+---
+
+import { SourcesDemo } from "@/examples/sources-demo";
+import { SourcesStatic } from "@/examples/sources-static";
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+import { ArrowUpRightIcon, GlobeIcon } from "lucide-react";
+
+<ComponentPreview name="sources-demo" title="sources-demo.tsx" src="examples/sources-demo.tsx" align="start" previewClassName="h-auto">
+  <SourcesDemo />
+</ComponentPreview>
+
+Sources collects every `source-url` part from an assistant message and renders them as a collapsible trace list. The header shows the count, duplicates are removed, and each row links to the original page.
+
+Sources is a **composition**, not a primitive. It composes [Trace](/docs/components/trace) and streams sources through a chat transport.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add trace message bubble button
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the primitives:</Step>
+
+      ~~~bash
+      npx frakment add trace message bubble button
+      ~~~
+
+      <Step>Copy the demo into your project:</Step>
+
+      <ComponentSource name="sources-demo" title="examples/sources-demo.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="sources.tsx"
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+import { ArrowUpRightIcon, GlobeIcon } from "lucide-react";
+~~~
+
+~~~tsx title="sources.tsx"
+<Trace>
+  <TraceCollapsible defaultOpen>
+    <TraceCollapsibleTrigger>
+      <TraceLine>
+        <TraceIcon>
+          <GlobeIcon />
+        </TraceIcon>
+        <TraceTitle>{`Used ${sources.length} sources`}</TraceTitle>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>
+      <Trace>
+        {sources.map((source) => (
+          <a key={source.url} href={source.url} target="_blank" rel="noreferrer" className="block">
+            <TraceLine>
+              <TraceTitle>{source.title ?? source.url}</TraceTitle>
+              <TraceIcon>
+                <ArrowUpRightIcon />
+              </TraceIcon>
+            </TraceLine>
+          </a>
+        ))}
+      </Trace>
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+~~~
+
+## Anatomy
+
+~~~tsx title="sources.tsx"
+<Trace>
+  <TraceCollapsible>
+    <TraceCollapsibleTrigger>
+      <TraceLine>
+        <TraceIcon />
+        <TraceTitle />
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>
+      <Trace>
+        <a>
+          <TraceLine>
+            <TraceTitle />
+            <TraceIcon />
+          </TraceLine>
+        </a>
+      </Trace>
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+~~~
+
+- **Trace** — wrapper for the source list
+- **TraceCollapsible** — the header + body block
+- **TraceCollapsibleTrigger** — "Used N sources" row with a globe icon
+- **TraceCollapsibleContent** — the nested `Trace` with one anchor per source
+- **TraceLine** — a single source row, title on the left, external-link icon on the right
+
+## Deduplication
+
+Assistants often cite the same URL twice. Filter duplicate URLs before rendering so the list stays short:
+
+~~~tsx title="sources.tsx"
+const sources = message.parts
+  .filter((part) => part.type === "source-url")
+  .filter(
+    (part, index, all) =>
+      all.findIndex((other) => other.url === part.url) === index
+  );
+~~~
+
+The demo streams four sources, one of which is a duplicate. The header shows the deduplicated count.
+
+## Static list
+
+Render a fixed list without a chat transport for a read-only summary.
+
+<ComponentPreview name="sources-static" title="sources-static.tsx" src="examples/sources-static.tsx" align="start" previewClassName="h-auto">
+  <SourcesStatic />
+</ComponentPreview>
+
+## Accessibility
+
+- Each source is an `<a>` with `target="_blank"` and `rel="noreferrer"`. Add `sr-only` text to announce the new tab.
+- The external-link icon is decorative. The title carries the meaning.
+- The collapsible trigger is keyboard-focusable and toggles with Enter or Space.
+
+## Best Practices
+
+- **Place sources after the answer.** The text is the answer, the sources are the evidence.
+- **Deduplicate by URL.** Repeated citations waste space and confuse the count.
+- **Fall back to the hostname.** When the title is missing, show `new URL(source.url).hostname`.
+- **Collapse on long lists.** More than five sources crowds the transcript.

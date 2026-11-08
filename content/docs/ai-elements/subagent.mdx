@@ -1,0 +1,163 @@
+---
+title: Subagent
+description: Render a delegated task as a live trace of nested tool calls and a final report.
+---
+
+import { SubagentDemo } from "@/examples/subagent-demo";
+import { SubagentRunning } from "@/examples/subagent-running";
+import { SubagentDetails } from "@/examples/subagent-details";
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceDescription,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+import {
+  CircleAlertIcon,
+  CircleCheckIcon,
+  LoaderCircleIcon,
+} from "lucide-react";
+
+<ComponentPreview name="subagent-demo" title="subagent-demo.tsx" src="examples/subagent-demo.tsx" align="start" previewClassName="h-auto">
+  <SubagentDemo />
+</ComponentPreview>
+
+Subagent renders a delegated task as a live trace. The parent message holds a `researchAgent` tool call, the subagent streams its own tool calls as partial output, and the final report lands at the bottom. Every step updates in place.
+
+Subagent is a **composition**, not a primitive. It composes [Trace](/docs/components/trace) and [Code Block](/docs/components/code-block) and streams nested tool calls through a chat transport.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add trace code-block message bubble button
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the primitives:</Step>
+
+      ~~~bash
+      npx frakment add trace code-block message bubble button
+      ~~~
+
+      <Step>Copy the demo into your project:</Step>
+
+      <ComponentSource name="subagent-demo" title="examples/subagent-demo.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="subagent.tsx"
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceDescription,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+import {
+  CircleAlertIcon,
+  CircleCheckIcon,
+  LoaderCircleIcon,
+} from "lucide-react";
+~~~
+
+## Anatomy
+
+~~~tsx title="subagent.tsx"
+<TraceCollapsible>
+  <TraceCollapsibleTrigger>
+    <TraceLine>
+      <TraceIcon />
+      <TraceTitle />
+    </TraceLine>
+  </TraceCollapsibleTrigger>
+  <TraceCollapsibleContent>
+    <Trace>
+      <TraceCollapsible>
+        <TraceCollapsibleTrigger>
+          <TraceLine>
+            <TraceIcon />
+            <TraceTitle />
+          </TraceLine>
+        </TraceCollapsibleTrigger>
+        <TraceCollapsibleContent>
+          <CodeBlock />
+        </TraceCollapsibleContent>
+      </TraceCollapsible>
+    </Trace>
+    <p />
+  </TraceCollapsibleContent>
+</TraceCollapsible>
+~~~
+
+- **TraceCollapsible** — the subagent run, one per delegation
+- **TraceCollapsibleTrigger** — header row with a status icon and "Ran the research subagent"
+- **TraceCollapsibleContent** — nested `Trace` with one step row per tool call
+- **TraceLine** — a single step, marked `running` while the subagent is still working
+
+## Streaming partial output
+
+The parent calls `writer.tool("researchAgent", ...)` and then emits partial outputs with `{ preliminary: true }`. Each partial output is a full subagent message with one more step completed. The `preliminary` flag keeps the call open until the final output lands.
+
+~~~ts title="subagent.ts"
+const subagent = writer.tool("researchAgent", { input: { task } })
+
+steps.forEach((_, index) => {
+  subagent.output(getSubagentMessage(index), { preliminary: true })
+  writer.sleep(1000)
+})
+
+subagent.output(getSubagentMessage(steps.length, report))
+~~~
+
+## Running
+
+While the subagent is still working, the header shimmers and the active step spins. The parent message stays open so the user can follow along.
+
+<ComponentPreview name="subagent-running" title="subagent-running.tsx" src="examples/subagent-running.tsx" align="start" previewClassName="h-auto">
+  <SubagentRunning />
+</ComponentPreview>
+
+## Details
+
+A finished run can surface metadata: the model that ran the subagent, the tools it had access to, the task description, and the final report. Use `TraceDescription` for duration and `Badge` for the model and tool set.
+
+<ComponentPreview name="subagent-details" title="subagent-details.tsx" src="examples/subagent-details.tsx" align="start" previewClassName="h-auto">
+  <SubagentDetails />
+</ComponentPreview>
+
+## Accessibility
+
+- The status icon is decorative. The `TraceTitle` carries the state.
+- While running, `aria-live="polite"` on the content region announces step changes.
+- Each step row is text, not an icon. Color is a secondary signal.
+- `prefers-reduced-motion` disables the spinner and collapse animation.
+
+## Best Practices
+
+- **Stream partial output.** Users want to see the subagent think, not wait for the final message.
+- **Collapse the subagent after it finishes.** Long runs crowd the transcript.
+- **Surface the model and tools.** A badge row makes the subagent auditable.
+- **Keep the report short.** One paragraph, not a summary of every step.

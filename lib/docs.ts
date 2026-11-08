@@ -55,4 +55,7 @@ export const PAGES_NEW: ReadonlySet<string> = new Set([
   "/docs/ai-elements/prompt-input",
   "/docs/ai-elements/queue",
   "/docs/ai-elements/reasoning",
+  "/docs/ai-elements/sources",
+  "/docs/ai-elements/stack-trace",
+  "/docs/ai-elements/subagent",
 ]);
