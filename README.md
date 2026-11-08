@@ -47,7 +47,7 @@ With AI and motion. No wiring. No configuration.
 | **Controls** | Button · Badge · Toggle · Toggle Group |
 | **Identity** | Avatar |
 
-Browse the full catalog → **[frakment.vercel.app/docs/components](https://frakment.vercel.app/docs/components)**
+Browse the full catalog → **[www.arrafi.dev/frakment/docs/components](https://www.arrafi.dev/frakment/docs/components)**
 
 ## Quick start
 
@@ -66,20 +66,20 @@ Frakment ships with an MCP server and Agent Skills so AI tools can discover and 
 npx -y @frakment/mcp
 ```
 
-- **MCP server** → [frakment.vercel.app/docs/mcp](https://frakment.vercel.app/docs/mcp)
-- **Agent Skills** → [frakment.vercel.app/docs/skills](https://frakment.vercel.app/docs/skills)
-- **llms.txt** → [frakment.vercel.app/llms.txt](https://frakment.vercel.app/llms.txt)
+- **MCP server** → [www.arrafi.dev/frakment/docs/mcp](https://www.arrafi.dev/frakment/docs/mcp)
+- **Agent Skills** → [www.arrafi.dev/frakment/docs/skills](https://www.arrafi.dev/frakment/docs/skills)
+- **llms.txt** → [www.arrafi.dev/frakment/llms.txt](https://www.arrafi.dev/frakment/llms.txt)
 
 ## Documentation
 
 | | |
 | :--- | :--- |
-| [**Components**](https://frakment.vercel.app/docs/components) | Baseline primitives — Button, Input, Field, Card, and more |
-| [**AI Elements**](https://frakment.vercel.app/docs/ai-elements) | Chat, agent, and reasoning primitives |
-| [**Installation**](https://frakment.vercel.app/docs/installation) | Setup for Next.js, Vite, Astro, and manual |
-| [**Theming**](https://frakment.vercel.app/docs/theming) | CSS variables, dark mode, and tokens |
-| [**MCP Server**](https://frakment.vercel.app/docs/mcp) | Registry discovery for AI tools |
-| [**Changelog**](https://frakment.vercel.app/docs/changelog) | What shipped, when |
+| [**Components**](https://www.arrafi.dev/frakment/docs/components) | Baseline primitives — Button, Input, Field, Card, and more |
+| [**AI Elements**](https://www.arrafi.dev/frakment/docs/ai-elements) | Chat, agent, and reasoning primitives |
+| [**Installation**](https://www.arrafi.dev/frakment/docs/installation) | Setup for Next.js, Vite, Astro, and manual |
+| [**Theming**](https://www.arrafi.dev/frakment/docs/theming) | CSS variables, dark mode, and tokens |
+| [**MCP Server**](https://www.arrafi.dev/frakment/docs/mcp) | Registry discovery for AI tools |
+| [**Changelog**](https://www.arrafi.dev/frakment/docs/changelog) | What shipped, when |
 
 ## Contributing
 
@@ -97,9 +97,9 @@ Attribution required — see [ATTRIBUTION.md](./ATTRIBUTION.md).
 
 | Utility | Description |
 | :--- | :--- |
-| [Scroll fade](https://frakment.vercel.app/docs/utilities/scroll-fade) | Scroll-aware mask gradients for overflow containers |
-| [Shimmer](https://frakment.vercel.app/docs/utilities/shimmer) | Animated gradient over text for loading states |
-| [MCP Server](https://frakment.vercel.app/docs/utilities/mcp) | Registry discovery for AI tools |
-| [Skills](https://frakment.vercel.app/docs/utilities/skills) | Agent skill definitions |
-| [Agents](https://frakment.vercel.app/docs/utilities/agents) | AI agent patterns |
+| [Scroll fade](https://www.arrafi.dev/frakment/docs/utilities/scroll-fade) | Scroll-aware mask gradients for overflow containers |
+| [Shimmer](https://www.arrafi.dev/frakment/docs/utilities/shimmer) | Animated gradient over text for loading states |
+| [MCP Server](https://www.arrafi.dev/frakment/docs/utilities/mcp) | Registry discovery for AI tools |
+| [Skills](https://www.arrafi.dev/frakment/docs/utilities/skills) | Agent skill definitions |
+| [Agents](https://www.arrafi.dev/frakment/docs/utilities/agents) | AI agent patterns |
 

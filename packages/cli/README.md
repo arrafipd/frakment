@@ -1,11 +1,27 @@
 # frakment CLI
 
+[![npm](https://img.shields.io/npm/v/frakment?style=for-the-badge&color=000)](https://www.npmjs.com/package/frakment)
+[![License](https://img.shields.io/badge/license-source--available-blue?style=for-the-badge)](./LICENSE)
+
 Monochrome design system and component registry CLI.
 
 ## Requirements
 
 - Node.js >= 22.12.0
 - Tailwind CSS v4 (`@import "tailwindcss";` in your `globals.css`)
+
+## Package managers
+
+The commands below use `npx`. Every package manager works.
+
+| Package manager | Run |
+| :-- | :-- |
+| npm | `npx frakment@latest <command>` |
+| pnpm | `pnpm dlx frakment@latest <command>` |
+| yarn | `yarn dlx frakment@latest <command>` |
+| bun | `bunx frakment@latest <command>` |
+
+The CLI auto-detects your package manager from the project lockfile when installing dependencies.
 
 ## Usage
 
