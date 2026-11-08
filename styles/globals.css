@@ -462,3 +462,9 @@
   color: inherit !important;
   letter-spacing: inherit !important;
 }
+
+/* Safety: prevent horizontal scroll (sticky-safe via clip, not hidden). */
+html,
+body {
+  overflow-x: clip;
+}

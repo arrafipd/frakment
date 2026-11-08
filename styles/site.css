@@ -380,3 +380,9 @@
 .orb-cosmos .lp-face {
   will-change: transform, scale;
 }
+
+@media (max-width: 767px) {
+  .orb-cosmos {
+    overflow: clip;
+  }
+}
