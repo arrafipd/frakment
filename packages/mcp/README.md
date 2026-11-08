@@ -1,4 +1,4 @@
-# frakment-mcp
+# @frakment/mcp
 
 [![npm](https://img.shields.io/npm/v/@frakment/mcp?style=for-the-badge&color=000)](https://www.npmjs.com/package/@frakment/mcp)
 [![License](https://img.shields.io/badge/license-source--available-blue?style=for-the-badge)](./LICENSE)

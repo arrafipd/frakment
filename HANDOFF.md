@@ -8,10 +8,10 @@
 
 | # | Nama | Path | Publish |
 |---|---|---|---|
-| 1 | `frakment` | `packages/cli` | pending |
-| 2 | `@frakment/ai` | `packages/ai` | pending |
-| 3 | `@frakment/react` | `packages/react` | pending |
-| 4 | `@frakment/mcp` | `packages/mcp` | pending |
+| 1 | `frakment` | `packages/cli` | `0.0.4` |
+| 2 | `@frakment/ai` | `packages/ai` | `0.0.2` |
+| 3 | `@frakment/react` | `packages/react` | `0.0.2` |
+| 4 | `@frakment/mcp` | `packages/mcp` | `0.0.2` |
 | 5 | `@frakment/site` | root | private |
 
 ## Backlog
