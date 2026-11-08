@@ -39,10 +39,6 @@ function detectImports(src) {
         }
         continue;
       }
-      if (spec.startsWith("@/lib/ai")) {
-        registry.add("ai");
-        continue;
-      }
       if (spec.startsWith("@/")) {
         continue;
       }

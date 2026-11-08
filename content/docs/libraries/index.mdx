@@ -1,6 +1,6 @@
 ---
 title: Libraries
-description: CLI, AI helpers, and runtime engines shipped with Frakment.
+description: CLI, AI engine, and runtime engines shipped with Frakment.
 ---
 
 Frakment ships three runtime layers beyond the component registry. Each is source-available, fully in-repo, and independently installable.
@@ -10,13 +10,14 @@ Frakment ships three runtime layers beyond the component registry. Each is sourc
 | Layer            | Import                    | Purpose                                  | Status                 |
 | ---------------- | ------------------------- | ---------------------------------------- | ---------------------- |
 | **frakment CLI** | `npx frakment@latest ...` | Install components + theme               | Stable                 |
-| **AI helpers**   | `@/lib/ai`                | Deterministic chat engine (`createChat`) |Stable |
+| **AI engine**    | `@frakment/ai`            | Deterministic chat engine (`createChat`) | Stable |
+| **React engine** | `@frakment/react`         | Message scroller primitives              | Stable |
 
 ## Design principles
 
-- **Zero external engine dependencies.** Every runtime layer is source-available and fully in-repo.
+- **Zero external engine dependencies.** Every runtime layer is a first-party Frakment package, published on npm.
 - **Deterministic.** No network calls, no model invocations. Same input → same output.
-- **Composable.** CLI, AI helper, and React engine are independently installable.
+- **Composable.** CLI, AI engine, and React engine are independently installable.
 - **Contract-first.** When replacing an existing library, the public API and behaviour match the contract consumers already rely on — no surprises.
 
 ## Distribution
@@ -25,11 +26,11 @@ Frakment ships three runtime layers beyond the component registry. Each is sourc
 | -------------------------------- | -------------------------------- |
 | Components (`button`, `card`, …) | `npx frakment@latest add <name>` |
 | Theme (tokens + utilities)       | `npx frakment@latest init`       |
-| AI helpers (`@/lib/ai`)          | Bundled with this repo           |
-| React engine                     | Future npm package               |
+| AI engine (`@frakment/ai`)       | `npm install @frakment/ai`       |
+| React engine (`@frakment/react`) | `npm install @frakment/react`    |
 
 
 ## Quick links
 
 - **[CLI](/docs/libraries/cli)** — `init`, `add`, `list` commands and flags
-- **[AI helpers](/docs/libraries/ai)** — `createChat()` chainable API, transport, tools, approvals
+- **[AI engine](/docs/libraries/ai)** — `createChat()` chainable API, transport, tools, approvals

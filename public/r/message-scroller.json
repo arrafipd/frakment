@@ -1,7 +1,6 @@
 {
   "dependencies": [
     "@frakment/react",
-    "@shadcn/react",
     "lucide-react"
   ],
   "deprecated": false,

@@ -205,13 +205,6 @@
     },
     {
       "deprecated": false,
-      "description": "Deterministic chat engine. Included automatically by message-animated.",
-      "name": "ai",
-      "title": "AI Engine",
-      "version": "0.0.1"
-    },
-    {
-      "deprecated": false,
       "description": "A container for grouping related content and actions.",
       "name": "card",
       "title": "Card",

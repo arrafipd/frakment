@@ -1,5 +1,5 @@
 {
   "title": "Libraries",
-  "pages": ["cli", "ai"],
+  "pages": ["cli", "ai", "react"],
   "root": true
 }

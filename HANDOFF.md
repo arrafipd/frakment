@@ -4,7 +4,7 @@
 
 ## Current State
 
-`main` = `origin/main` @ `b385966` (clean). Monorepo aktif (5 paket). Build 267 pages EXIT=0, typecheck EXIT=0, test 39/39, registry 47 components. Shadcn deps: `@shadcn/react` (runtime), `@shadcn/helpers` (dev).
+`main` = `origin/main` @ `b385966` (clean). Monorepo aktif (5 paket). Build 303 pages EXIT=0, typecheck EXIT=0, test 39/39, registry 46 components. Engine packages on npm: `@frakment/ai@0.0.1`, `@frakment/react@0.0.1`.
 
 | # | Nama | Path | Publish |
 |---|---|---|---|
@@ -16,11 +16,9 @@
 
 ## Backlog
 
-1. **Publish npm** — `npm run changeset` -> `version:packages` -> `release`. Skip `@frakment/react`.
-2. **Engine `@frakment/react`** — placeholder `export {};`, ganti `@shadcn/react`.
-4. **`public/r/` osilasi** — `registry:build` vs `ultracite fix` format beda. Fix sementara biome ignore (`0fc269e`).
-5. **Dependabot low** — `security/dependabot/3`.
-6. **Branch protection** — push bypass sekarang, ke depan PR.
+1. **`public/r/` osilasi** — `registry:build` vs `ultracite fix` format beda. Fix sementara biome ignore (`0fc269e`).
+2. **Dependabot low** — `security/dependabot/3`.
+3. **Branch protection** — push bypass sekarang, ke depan PR.
 
 ## Gotchas — New
 
@@ -104,38 +102,6 @@ Admin bypass semua ruleset. Kalau ada kesalahan yang perlu dibersihkan: `git res
 
 Wajib PR + CI hijau. Direct push diblok. Lihat section Ruleset di bawah.
 
-## Parked: message-scroller engine (SKIPPED 2026-11-04)
-
-**Status:** skipped by user. Re-ask in a future session if idle — do not start unilaterally.
-
-### Problem
-
-`registry/message-scroller.tsx` imports from `@frakment/react/message-scroller` (npm package, not published yet). `public/r/message-scroller.json` therefore has `@frakment/react` in `dependencies`, and any user running `npx frakment add message-scroller` fails at `npm install` — the package does not exist on npm.
-
-`@shadcn/react` is also still listed in `frakment.json` deps for `message-scroller` (stale, must be removed regardless).
-
-### Options (user did not choose yet)
-
-1. **Ship engine as `registry:lib`** — same pattern as `ai`. Create entry `message-scroller-engine` in `frakment.json` with `sourceDir: packages/react/src/message-scroller`, `targetDir: lib/message-scroller`. Change `registry/message-scroller.tsx` import to `@/lib/message-scroller`. User installs → source lands in `lib/message-scroller/`, no npm dep needed. **No publish required.**
-2. **Publish `@frakment/react` to npm first** — then `npm install` succeeds. Requires completing publish workflow (changeset, version, release).
-3. **Remove `message-scroller` + `message-animated` from registry** until either above is done. Docs then only show components that actually work.
-4. **Leave as-is** — docs must say "requires `@frakment/react`" which violates the docs-accuracy rule.
-
-Recommendation was option 1 (consistent with `ai`, self-contained registry). User skipped.
-
-### What was already done
-
-- `ai` is now a proper registry item (`registry:lib`, 10 files, `sourceDir: packages/ai/src`, `targetDir: lib/ai`) — shipped with `message-animated` automatically. This part works.
-- `scripts/build-registry.mjs` patched: `@/lib/ai` → registry dep `ai` (before generic `@/` skip).
-- End-to-end install tested in `%TEMP%\frakment-install-test` with local HTTP server on `:8765`: `message-animated` fetch + write succeeded (10 files in `lib/ai/`, `lib/icons.ts`, `bubble`, `message-scroller`, `button`). Only `npm install` step failed on `@frakment/react`.
-
-### When resuming
-
-1. Ask user which option (1–4).
-2. If option 1: create `message-scroller-engine` entry, swap import, rebuild, retest install, then update `docs/libraries/react.mdx` (create it only if engine is now shipped).
-3. If option 2: finish publish workflow first, then retest.
-4. Either way: remove `@shadcn/react` from `frakment.json` message-scroller deps — it is stale.
-
 ## Docs & Changelog Rules (AI-facing)
 
 **HANDOFF is admin/AI only. Never mention it in `CONTRIBUTING.md`, `README.md`, user docs, changelog, commit messages, or code comments.** No contributor should ever know this file exists.
@@ -208,7 +174,7 @@ Always verify all three after adding a component.
 - Never mention `HANDOFF.md` in any user-facing file (docs, README, CONTRIBUTING, changelog, commit messages, code comments).
 - Never write roadmap, milestone, or forward-looking content in docs or changelog.
 - Never write BOM, PowerShell, `_old`, `node_modules`, tooling workarounds, or local-server notes in docs. Those belong here, in HANDOFF, only.
-- Never document a component that is not shipped and working. If it is parked, note it in the "Parked" section here, not in docs.
+- Never document a component that is not shipped and working. If it is parked, note it in `HANDOFF.archive/`, not in docs.
 
 ## MCP compose + list_scenarios
 

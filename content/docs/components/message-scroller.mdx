@@ -15,7 +15,7 @@ Message Scroller wraps a chat transcript in a scroll container that:
 - Stops following when you scroll up, resumes when you scroll back down
 - Tracks visibility per item (for impressions, lazy rendering, mark-as-read)
 
-It is a thin shell over `@shadcn/react/message-scroller` — the engine lives in that package. The wrapper adds `data-slot` attributes and the Tailwind classes Frakment components expect.
+It is a thin shell over `@frakment/react/message-scroller` — the engine lives in that package. The wrapper adds `data-slot` attributes and the Tailwind classes Frakment components expect.
 
 <ComponentPreview
   name="message-scroller"
@@ -46,6 +46,7 @@ It is a thin shell over `@shadcn/react/message-scroller` — the engine lives in
   <TabsContent value="cli">
 
 ```bash
+npm install @frakment/react
 npx frakment add message-scroller
 ```
 
@@ -56,7 +57,7 @@ npx frakment add message-scroller
       <Step>Install the following dependencies:</Step>
 
       ```bash
-      npm install @shadcn/react lucide-react radix-ui class-variance-authority clsx tailwind-merge
+      npm install @frakment/react lucide-react radix-ui class-variance-authority clsx tailwind-merge
       ```
 
       <Step>Copy and paste the following code into your project.</Step>
@@ -219,7 +220,7 @@ The button uses the Frakment [Button](/docs/components/button) component. Becaus
 
 ### MessageScrollerProvider
 
-Extends the primitive provider from `@shadcn/react/message-scroller`. Owns scroll state.
+Extends the primitive provider from `@frakment/react/message-scroller`. Owns scroll state.
 
 ### MessageScroller / MessageScrollerViewport / MessageScrollerContent
 
@@ -267,7 +268,7 @@ Also accepts `ref` forwarded to the underlying DOM node.
 
 ### useMessageScroller
 
-Low-level hook from `@shadcn/react/message-scroller`. Rarely needed directly.
+Low-level hook from `@frakment/react/message-scroller`. Rarely needed directly.
 
 ### useMessageScrollerScrollable
 

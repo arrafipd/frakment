@@ -31,7 +31,7 @@ export function DialogCloseButton() {
               Link
             </Label>
             <Input
-              defaultValue="https://ui.shadcn.com/docs/installation"
+              defaultValue="https://frakment.dev/docs/installation"
               id="link"
               readOnly
             />

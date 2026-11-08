@@ -24,7 +24,9 @@ Checkpoint is a composition — install the primitives, then wire them together 
 <TabsContent value="cli">
 
 ```bash
-npx frakment add ai bubble button marker message
+npm install @frakment/ai
+
+npx frakment add bubble button marker message
 ```
 
 </TabsContent>
@@ -34,7 +36,7 @@ npx frakment add ai bubble button marker message
       <Step>Install the following dependencies:</Step>
 
       ```bash
-      npm install @ai-sdk/react ai motion
+      npm install @frakment/ai @ai-sdk/react ai motion
       ```
 
       <Step>Install the required registry components:</Step>
@@ -56,7 +58,7 @@ npx frakment add ai bubble button marker message
 Emit a `data-checkpoint` part from the assistant turn. The part carries a label, which renders as a separator marker in the transcript.
 
 ```tsx title="chat.tsx"
-import { createChat } from "@/lib/ai";
+import { createChat } from "@frakment/ai";
 import type { UIMessage } from "ai";
 
 type ChatMessage = UIMessage<

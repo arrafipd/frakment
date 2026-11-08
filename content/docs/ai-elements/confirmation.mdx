@@ -24,7 +24,9 @@ Confirmation is a composition — install the primitives, then wire the approval
 <TabsContent value="cli">
 
 ```bash
-npx frakment add ai bubble button item message trace
+npm install @frakment/ai
+
+npx frakment add bubble button item message trace
 ```
 
 </TabsContent>
@@ -34,7 +36,7 @@ npx frakment add ai bubble button item message trace
       <Step>Install the following dependencies:</Step>
 
       ```bash
-      npm install @ai-sdk/react ai motion lucide-react
+      npm install @frakment/ai @ai-sdk/react ai motion lucide-react
       ```
 
       <Step>Install the required registry components:</Step>
@@ -57,7 +59,7 @@ npx frakment add ai bubble button item message trace
 Mark the tool call with `needsApproval: true`. The writer emits an `approval-requested` state instead of running the tool immediately.
 
 ```tsx title="chat.tsx"
-import { createChat } from "@/lib/ai";
+import { createChat } from "@frakment/ai";
 import type { UIDataTypes, UIMessage } from "ai";
 
 type ChatMessage = UIMessage<

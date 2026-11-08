@@ -3,19 +3,20 @@ title: AI Helpers
 description: Deterministic chat engine for building AI interfaces without a model.
 ---
 
-`@/lib/ai` is Frakment's deterministic chat engine — a `createChat()` builder that scripts transcripts, streams them as AI SDK v7 `UIMessageChunk`s, and lets you test chat UIs without calling a model.
+`@frakment/ai` is Frakment's deterministic chat engine — a `createChat()` builder that scripts transcripts, streams them as AI SDK v7 `UIMessageChunk`s, and lets you test chat UIs without calling a model.
 
 ## Installation
 
-<Callout type="info" title="Included with dependent components">
-  The engine ships as a registry item (`ai`). Install any component that depends on it
-  (`message-animated`) and `lib/ai/` lands in your project automatically.
-</Callout>
+```bash
+npm install @frakment/ai
+```
+
+The engine ships as an npm package. Components that use it list it as a dependency, so `npx frakment add message-animated` installs it for you automatically.
 
 ## Quick start
 
 ```tsx title="chat.ts"
-import { createChat, getMessageText } from "@/lib/ai";
+import { createChat, getMessageText } from "@frakment/ai";
 
 const chat = createChat()
   .user("Hello")
@@ -347,7 +348,7 @@ chat
 Extracts the concatenated text parts from a `UIMessage`. Returns `""` if no text parts exist.
 
 ```ts
-import { getMessageText } from "@/lib/ai";
+import { getMessageText } from "@frakment/ai";
 
 const text = getMessageText(messages[0]);
 ```
@@ -358,7 +359,7 @@ Extracts tool call descriptors from a `UIMessage`. Each descriptor: `{ toolCallI
 
 ## Architecture
 
-`lib/ai/` is split into focused modules:
+`@frakment/ai` is split into focused modules:
 
 | File          | Purpose                                                                                  |
 | ------------- | ---------------------------------------------------------------------------------------- |
@@ -375,4 +376,4 @@ Extracts tool call descriptors from a `UIMessage`. Each descriptor: `{ toolCallI
 
 ## Behavior
 
-`@/lib/ai` is a first-party chat engine, written to match the API contract that chat builders rely on. Every `data-*` attribute, ARIA role, timing constant, chunk encoding, and continuation semantic follows the same shape — swapping between `@/lib/ai` and other chat engines requires no consumer code changes.
+`@frakment/ai` is a first-party chat engine, written to match the API contract that chat builders rely on. Every `data-*` attribute, ARIA role, timing constant, chunk encoding, and continuation semantic follows the same shape — swapping between `@frakment/ai` and other chat engines requires no consumer code changes.

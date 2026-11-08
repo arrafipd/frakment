@@ -96,7 +96,7 @@
       "description": "Scroll container for chat transcripts. Anchors turns, follows streamed replies, restores position, and tracks visibility.",
       "source": "registry/message-scroller.tsx",
       "target": "components/ui/message-scroller.tsx",
-      "dependencies": ["@shadcn/react"],
+      "dependencies": ["@frakment/react", "lucide-react"],
       "registryDependencies": ["button"]
     },
     {
@@ -196,8 +196,8 @@
       "description": "An animated chat message that fades in and pins to the message scroller.",
       "source": "registry/message-animated.tsx",
       "target": "components/ui/message-animated.tsx",
-      "dependencies": ["motion"],
-      "registryDependencies": ["bubble", "message-scroller", "ai"]
+      "dependencies": ["@frakment/ai", "ai", "motion"],
+      "registryDependencies": ["bubble", "message-scroller"]
     },
     {
       "name": "bubble",
@@ -313,16 +313,6 @@
       "target": "components/ui/toggle-group.tsx",
       "dependencies": ["class-variance-authority", "radix-ui"],
       "registryDependencies": ["toggle"]
-    },
-    {
-      "name": "ai",
-      "title": "AI Engine",
-      "description": "Deterministic chat engine. Included automatically by message-animated.",
-      "sourceDir": "packages/ai/src",
-      "targetDir": "lib/ai",
-      "dependencies": ["ai"],
-      "registryDependencies": [],
-      "version": "0.0.1"
     },
     {
       "name": "card",

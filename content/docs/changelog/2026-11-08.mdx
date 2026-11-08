@@ -618,6 +618,29 @@ See the [Tool docs](/docs/ai-elements/tool) for the full composition.
 
 <hr className="my-16 border-border/40" />
 
+### Engine packages now on npm
+
+`@frakment/ai` and `@frakment/react` are now published npm packages. AI and message scroller engines install with `npm install`, matching the shadcn pattern where logic lives in a package and styling lives in the registry.
+
+```bash
+npm install @frakment/ai @frakment/react
+```
+
+`message-scroller` now depends on `@frakment/react`, and `message-animated` depends on `@frakment/ai`. Running `npx frakment add message-scroller` or `message-animated` installs the engine package automatically.
+
+#### Migration
+
+If you previously installed the `ai` registry item, delete the `lib/ai/` folder — it is no longer used. Import the engine from `@frakment/ai` instead:
+
+```tsx
+- import { createChat } from "@/lib/ai"
++ import { createChat } from "@frakment/ai"
+```
+
+See the [AI engine docs](/docs/libraries/ai) and [React engine docs](/docs/libraries/react) for the full API.
+
+<hr className="my-16 border-border/40" />
+
 ### Disabled state
 
 Disabled buttons now use a solid muted background instead of reduced opacity. Icons and labels stay readable while the control reads as inactive.
