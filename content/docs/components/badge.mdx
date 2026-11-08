@@ -1,0 +1,379 @@
+---
+title: Badge
+description: Displays a badge or a component that looks like a badge.
+---
+
+import { BadgeDemo } from "@/examples/badge-demo";
+import { BadgeVariants } from "@/examples/badge-variants";
+import { BadgeWithIconLeft } from "@/examples/badge-with-icon-left";
+import { BadgeWithSpinner } from "@/examples/badge-with-spinner";
+import { BadgeAsLink } from "@/examples/badge-as-link";
+import { Button } from "@/components/ui/button";
+
+import { Badge } from "@/components/ui/badge";
+import { CheckIcon, ClockIcon, CircleAlertIcon, PackageIcon, SparklesIcon, StarIcon, XIcon } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner";
+
+<ComponentPreview name="badge" title="badge.tsx">
+  <BadgeDemo />
+</ComponentPreview>
+
+Badge renders a compact label for statuses, categories, counts, or inline metadata. It sits inside headings, table cells, list items, and alongside other content without disrupting the flow.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add badge
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install class-variance-authority radix-ui
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="badge" title="components/ui/badge.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="badge.tsx"
+import { Badge } from "@/components/ui/badge";
+```
+
+```tsx title="badge.tsx"
+<Badge>New</Badge>
+```
+
+## Anatomy
+
+A badge is a single-part component. It has a bordered surface and a text label. Icons placed inside are automatically sized.
+
+<ComponentPreview name="badge" title="badge.tsx">
+  <div className="flex flex-wrap items-center justify-center gap-3">
+    <Badge>Text only</Badge>
+    <Badge>
+      <CheckIcon />
+      With icon
+    </Badge>
+    <Badge variant="outline">
+      <PackageIcon />
+      v1.2.0
+    </Badge>
+  </div>
+</ComponentPreview>
+
+- **Surface** — background and border, following the variant
+- **Text** — 12px, medium weight, nowrap
+- **Icon** — 12px, auto-sized by `[&>svg]:size-3`
+
+## Variants
+
+<ComponentPreview name="badge-variants" title="badge-variants.tsx" src="examples/badge-variants.tsx">
+  <BadgeVariants />
+</ComponentPreview>
+
+## With Icon
+
+Any icon placed inside a badge is automatically sized to 12px.
+
+### Icon before text
+
+The most common pattern. Icon on the left, label on the right.
+
+<ComponentPreview name="badge-with-icon-left" title="badge-with-icon-left.tsx" src="examples/badge-with-icon-left.tsx">
+  <BadgeWithIconLeft />
+</ComponentPreview>
+
+```tsx title="example.tsx"
+import { CheckIcon } from "lucide-react";
+
+<Badge>
+  <CheckIcon />
+  Verified
+</Badge>;
+```
+
+### Icon only
+
+A badge with just an icon. Provide an `aria-label` so screen readers can announce the intent.
+
+<ComponentPreview name="badge" title="badge.tsx">
+  <div className="flex flex-wrap items-center justify-center gap-3">
+    <Badge aria-label="Verified">
+      <CheckIcon />
+    </Badge>
+    <Badge variant="secondary" aria-label="Pending">
+      <ClockIcon />
+    </Badge>
+    <Badge variant="destructive" aria-label="Failed">
+      <XIcon />
+    </Badge>
+  </div>
+</ComponentPreview>
+
+```tsx title="badge.tsx"
+<Badge aria-label="Verified">
+  <CheckIcon />
+</Badge>
+```
+
+## With Spinner
+
+Render a spinner beside the label to indicate an in-progress state.
+
+<ComponentPreview name="badge-with-spinner" title="badge-with-spinner.tsx" src="examples/badge-with-spinner.tsx">
+  <BadgeWithSpinner />
+</ComponentPreview>
+
+```tsx title="example.tsx"
+
+
+<Badge variant="secondary">
+  <Spinner />
+  Generating
+</Badge>;
+```
+
+## Link
+
+Use `asChild` to render the badge as an anchor. Hover states (`[a&]:hover:*`) apply only when the badge renders as an interactive element.
+
+<ComponentPreview name="badge-as-link" title="badge-as-link.tsx" src="examples/badge-as-link.tsx">
+  <BadgeAsLink />
+</ComponentPreview>
+
+```tsx title="badge.tsx"
+<Badge asChild>
+  <a href="/changelog">View release</a>
+</Badge>
+```
+
+## Counts
+
+Badges are often used to display counts. Pair `secondary` with a number for compact lists, or use icons to indicate the count type.
+
+<ComponentPreview name="badge" title="badge.tsx">
+  <div className="flex flex-wrap items-center justify-center gap-3">
+    <Badge variant="secondary">12 issues</Badge>
+    <Badge variant="secondary">
+      <StarIcon />
+      2.4k
+    </Badge>
+    <Badge variant="outline">+8</Badge>
+  </div>
+</ComponentPreview>
+
+```tsx title="badge.tsx"
+<Badge variant="secondary">12 issues</Badge>
+<Badge variant="secondary">
+  <StarIcon />
+  2.4k
+</Badge>
+```
+
+## Custom Colors
+
+Override the surface colors with custom classes. Pass `bg-*` and `text-*` utilities to `className`.
+
+<ComponentPreview name="badge" title="badge.tsx">
+  <div className="flex flex-wrap items-center justify-center gap-3">
+    <Badge className="border-transparent bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-100">
+      Success
+    </Badge>
+    <Badge className="border-transparent bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-100">
+      Warning
+    </Badge>
+    <Badge className="border-transparent bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-100">
+      Danger
+    </Badge>
+    <Badge className="border-transparent bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100">
+      Info
+    </Badge>
+  </div>
+</ComponentPreview>
+
+```tsx title="badge.tsx"
+<Badge className="bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-100">
+  Success
+</Badge>
+```
+
+**Note**: Frakment's default theme is monochrome. Custom colors are opt-in and useful for status indicators that must be readable at a glance, such as deploy status or alerts.
+
+## In Context
+
+Badges are designed to be composed. They sit inside headings, table cells, list items, and inline text without disrupting the flow.
+
+### Deploy list
+
+<ComponentPreview name="badge" title="badge.tsx">
+  <div className="w-full max-w-md space-y-3">
+    <div className="flex items-center justify-between rounded-lg border border-border p-3">
+      <span className="text-sm font-medium">Deploy v1.2.0</span>
+      <Badge>
+        <CheckIcon />
+        Success
+      </Badge>
+    </div>
+    <div className="flex items-center justify-between rounded-lg border border-border p-3">
+      <span className="text-sm font-medium">Deploy v1.2.1</span>
+      <Badge variant="secondary">
+        <Spinner />
+        Building
+      </Badge>
+    </div>
+    <div className="flex items-center justify-between rounded-lg border border-border p-3">
+      <span className="text-sm font-medium">Deploy v1.2.2</span>
+      <Badge variant="destructive">
+        <XIcon />
+        Failed
+      </Badge>
+    </div>
+  </div>
+</ComponentPreview>
+
+```tsx title="div.tsx"
+<div className="flex items-center justify-between">
+  <span>Deploy v1.2.0</span>
+  <Badge>
+    <CheckIcon />
+    Success
+  </Badge>
+</div>
+```
+
+### Issue list
+
+<ComponentPreview name="badge" title="badge.tsx">
+  <div className="w-full max-w-md space-y-2">
+    <div className="flex items-start justify-between gap-3 rounded-lg border border-border p-3">
+      <div>
+        <p className="text-sm font-medium">Registry fails to install</p>
+        <p className="text-xs text-muted-foreground">
+          {"#142 · opened 2 days ago"}
+        </p>
+      </div>
+      <Badge variant="destructive">Bug</Badge>
+    </div>
+    <div className="flex items-start justify-between gap-3 rounded-lg border border-border p-3">
+      <div>
+        <p className="text-sm font-medium">Add dark mode toggle</p>
+        <p className="text-xs text-muted-foreground">
+          {"#141 · opened 3 days ago"}
+        </p>
+      </div>
+      <Badge variant="outline">Feature</Badge>
+    </div>
+    <div className="flex items-start justify-between gap-3 rounded-lg border border-border p-3">
+      <div>
+        <p className="text-sm font-medium">Update installation docs</p>
+        <p className="text-xs text-muted-foreground">
+          {"#140 · opened 5 days ago"}
+        </p>
+      </div>
+      <Badge variant="secondary">Docs</Badge>
+    </div>
+  </div>
+</ComponentPreview>
+
+### Inline with text
+
+Badges can sit next to headings or inline text to mark status without breaking flow.
+
+<ComponentPreview name="badge" title="badge.tsx">
+  <div className="flex flex-col items-center gap-4">
+    <h2 className="flex items-center gap-2 text-lg font-semibold">
+      Frakment
+      <Badge>
+        <SparklesIcon />
+        v1.0
+      </Badge>
+    </h2>
+    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+      {"Status"}
+      <Badge variant="outline">
+        <CircleAlertIcon />
+        {"Beta"}
+      </Badge>
+    </div>
+  </div>
+</ComponentPreview>
+
+## API Reference
+
+### Badge
+
+<PropsTable
+  rows={[
+    {
+      name: "variant",
+      type: "default | secondary | outline | destructive",
+      default: "default",
+      description: "The visual style of the badge.",
+    },
+    {
+      name: "asChild",
+      type: "boolean",
+      default: "false",
+      description:
+        "When true, the badge renders its child element instead of a span. Useful for composing with anchor or link elements.",
+    },
+    {
+      name: "className",
+      type: "string",
+      description:
+        "Additional class names applied to the badge. Use utility classes to override colors.",
+    },
+  ]}
+/>
+
+## Variants
+
+| Variant | Use case |
+| :-- | :-- |
+| `default` | Standard status |
+| `secondary` | Lower emphasis |
+| `outline` | Bordered, transparent |
+| `destructive` | Error label |
+
+## Accessibility
+
+- Badges are not interactive unless `asChild` wraps an interactive element such as `<a>` or `<button>`. Do not attach `onClick` handlers to a plain `<Badge>` — use `<Button>` instead.
+- When a badge conveys essential information, ensure that information is also present in the surrounding text so screen reader users are not forced to encounter it as a standalone fragment.
+- For icon-only badges, provide an `aria-label` so screen readers can announce the intent. Without it, the badge is read as "graphic" or skipped entirely.
+- Color alone must not convey state. The `destructive` variant pairs color with text or an icon. When adding custom colors, always include a text label or an icon with an accessible name.
+- For badges that indicate a loading state, pair the spinner with a text label such as "Generating" so screen readers can announce what is happening.
+- Do not use the `destructive` variant for emphasis. It communicates a failure or prohibition — using it for non-error cases dilutes its meaning.
+
+## Best Practices
+
+- **Use badges for metadata, not actions.** If a badge needs to be clickable, wrap it with `asChild` and an `<a>`, or use a `<Button>` instead.
+- **Keep labels short.** Badges are compact by design. Anything longer than 3 words should be a tag, not a badge.
+- **Prefer monochrome by default.** Reserve custom colors for status indicators that must be readable at a glance.
+- **Pair color with icon or text.** Never rely on color alone to convey state — this is a WCAG requirement and also helps users with color vision deficiencies.
+- **Compose with other components.** Badges work best inside `Button`, `Table`, `Card`, or alongside headings. They are not standalone UI elements.
+## Related Components
+
+- [Marker](/docs/components/marker) — inline status row
+- `Kbd` — keyboard hint
+

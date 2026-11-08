@@ -1,0 +1,309 @@
+---
+title: Pulse
+description: A daily status timeline for service uptime, with inline incident logs.
+---
+
+import Pulse from "@/components/ui/pulse";
+import { PulseDemo } from "@/examples/pulse-demo";
+
+<ComponentPreview name="pulse" title="pulse.tsx">
+  <PulseDemo />
+</ComponentPreview>
+
+Pulse is a compact status timeline for services. Each row is a service, each bar is a day. Hover a bar to swell its neighbors, click to pin the day and reveal its incident log.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add pulse
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install lucide-react
+      ```
+
+      <Step>Install the required registry components first:</Step>
+
+      ```bash
+      npx frakment add badge trace
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="pulse" title="components/ui/pulse.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="pulse.tsx"
+import Pulse from "@/components/ui/pulse";
+
+<Pulse />;
+```
+
+By default, Pulse shows 90 days across four sample services. Pass `services` to provide your own data.
+
+## Anatomy
+
+A Pulse instance has four visible parts.
+
+<ComponentPreview name="pulse" title="pulse.tsx">
+  <div className="flex w-full justify-center py-6">
+    <Pulse title="API" days={14} services={[{ name: "API", incidents: {} }]} />
+  </div>
+</ComponentPreview>
+
+- **Header** — title on the left, status badge on the right
+- **Summary** — one-line description of the focused day, updates on hover
+- **Bars** — one per day, oldest to newest, left to right
+- **Pin panel** — opens below the bars when a day is clicked
+
+## Data
+
+Pass a `services` array. Each service takes a `name`, an optional `incidents` map, and an optional `missing` count.
+
+```tsx title="pulse.tsx"
+<Pulse
+  services={[
+    {
+      name: "API",
+      incidents: {
+        12: {
+          title: "Elevated latency",
+          status: "degraded",
+          minutes: 18,
+          updates: [
+            { time: "14:02", label: "Investigating" },
+            { time: "14:20", label: "Resolved" },
+          ],
+        },
+      },
+    },
+    {
+      name: "Database",
+      missing: 6,
+    },
+  ]}
+/>
+```
+
+- **`incidents`** — keyed by day index. `0` is the oldest day shown, `days - 1` is today.
+- **`missing`** — number of days before the service existed. These render as `none` (muted).
+
+## Examples
+
+### Single service
+
+A shorter range for a focused view of one service.
+
+<ComponentPreview name="pulse" title="pulse.tsx">
+  <div className="flex w-full justify-center py-6">
+    <Pulse
+      title="API status"
+      days={14}
+      services={[
+        {
+          name: "API",
+          incidents: {
+            2: {
+              title: "Brief outage",
+              status: "down",
+              minutes: 12,
+              updates: [
+                { time: "14:00", label: "Investigating" },
+                { time: "14:12", label: "Resolved" },
+              ],
+            },
+            9: {
+              title: "Elevated errors",
+              status: "degraded",
+              minutes: 6,
+              updates: [{ time: "09:30", label: "Resolved" }],
+            },
+          },
+        },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+```tsx title="pulse.tsx"
+<Pulse
+  title="API status"
+  days={14}
+  services={
+    [
+      /* ... */
+    ]
+  }
+/>
+```
+
+### Compact range
+
+30 days fits more comfortably in tight layouts.
+
+<ComponentPreview name="pulse" title="pulse.tsx">
+  <div className="flex w-full justify-center py-6">
+    <Pulse title="Last 30 days" days={30} />
+  </div>
+</ComponentPreview>
+
+```tsx title="pulse.tsx"
+<Pulse title="Last 30 days" days={30} />
+```
+
+### All operational
+
+When no incidents are recorded, every bar renders in the `up` state and the header shows a green status.
+
+<ComponentPreview name="pulse" title="pulse.tsx">
+  <div className="flex w-full justify-center py-6">
+    <Pulse
+      title="All services"
+      services={[{ name: "Registry" }, { name: "Docs" }, { name: "CLI" }]}
+    />
+  </div>
+</ComponentPreview>
+
+```tsx title="pulse.tsx"
+<Pulse
+  title="All services"
+  services={[{ name: "Registry" }, { name: "Docs" }, { name: "CLI" }]}
+/>
+```
+
+## Interaction
+
+Pulse responds to hover, click, and keyboard.
+
+| Input                         | Action                                                               |
+| :---------------------------- | :------------------------------------------------------------------- |
+| **Hover**                     | The bar under the cursor swells; neighbors ease outward like a dock. |
+| **Click**                     | Pins the focused day. Its incident log opens below the bars.         |
+| **Click again** or **Escape** | Unpins the day and collapses the log.                                |
+| **Arrow keys**                | Move focus between days.                                             |
+| **Home / End**                | Jump to the first or last day.                                       |
+| **Enter / Space**             | Pin or unpin the focused day.                                        |
+
+## Status colors
+
+Pulse uses color to convey status — a deliberate exception to Frakment's monochrome system, because status is a safety signal that must be readable at a glance.
+
+| Status     | Color   | Meaning                              |
+| :--------- | :------ | :----------------------------------- |
+| `up`       | Emerald | Service operated normally            |
+| `degraded` | Amber   | Partial impact                       |
+| `down`     | Rose    | Full outage                          |
+| `none`     | Muted   | No data (before the service existed) |
+
+## API Reference
+
+### Pulse
+
+<PropsTable
+  rows={[
+    {
+      name: "title",
+      type: "string",
+      default: "System status",
+      description: "Header text above the timeline.",
+    },
+    {
+      name: "services",
+      type: "PulseService[]",
+      description:
+        "Array of services to display. Each service renders as one row.",
+    },
+    {
+      name: "days",
+      type: "number",
+      default: "90",
+      description: "Number of days to show. Each day renders as one bar.",
+    },
+    {
+      name: "endDate",
+      type: "string",
+      default: "2026-10-14",
+      description: "The last day shown, in YYYY-MM-DD format.",
+    },
+    {
+      name: "className",
+      type: "string",
+      description: "Additional class names on the card.",
+    },
+  ]}
+/>
+
+### PulseService
+
+<PropsTable
+  rows={[
+    {
+      name: "name",
+      type: "string",
+      description: "The service name, rendered on the left of the row.",
+    },
+    {
+      name: "incidents",
+      type: "Record<number, Incident>",
+      description: "Incidents keyed by day index. 0 is the oldest day.",
+    },
+    {
+      name: "missing",
+      type: "number",
+      description: "Days before the service existed. These render as none.",
+    },
+  ]}
+/>
+
+### Incident
+
+<PropsTable
+  rows={[
+    {
+      name: "title",
+      type: "string",
+      description: "Short incident title shown in the pin panel.",
+    },
+    {
+      name: "status",
+      type: "degraded | down",
+      description: "Severity of the incident.",
+    },
+    { name: "minutes", type: "number", description: "Minutes of impact." },
+    {
+      name: "updates",
+      type: "IncidentUpdate[]",
+      description:
+        "Ordered list of updates. Each has time, label, and optional note.",
+    },
+  ]}
+/>
+
+## Accessibility
+
+- The timeline renders with `role="slider"` and `aria-valuenow` set to the focused day, so screen readers announce which day is active as you navigate.
+- Full keyboard support: arrow keys, `Home`, `End`, `Enter`, `Space`, and `Escape`.
+- When `prefers-reduced-motion: reduce` is active, the swell animation is skipped and bar widths snap to their target.
+- The pin panel renders with `inert` when closed, so its content is excluded from the tab order and screen readers.
+- Color is not the only cue: status is announced through `aria-valuetext` and rendered as text in the pin panel (`Operational`, `Degraded`, `Outage`).

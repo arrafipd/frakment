@@ -1,0 +1,83 @@
+---
+title: "October 31, 2026"
+description: "Terminal component, MCP server fix, and agent skill polish."
+date: "2026-10-31"
+---
+
+import { TerminalDemo } from "@/examples/terminal-demo";
+
+This release adds **Terminal** as the first composite component built on top of [Trace](/docs/components/trace) and [Code Block](/docs/components/code-block). Also a small MCP server fix and cleaner agent skill metadata.
+
+- [Terminal](#terminal): A live command runner with typewriter animation.
+- [MCP fix](#mcp-fix): Better handling of missing registry entries.
+- [Agent skill](#agent-skill): Cleaner discovery payload.
+
+<hr className="my-16 border-border/40" />
+
+### Terminal
+
+<ComponentPreview name="terminal" title="terminal.tsx">
+  <TerminalDemo />
+</ComponentPreview>
+
+Terminal renders a list of shell commands as collapsible trace rows. Each command streams character by character, output appears line by line, and a spinner flips to a checkmark when the command finishes. It is the first component that ships with registry dependencies instead of being standalone.
+
+#### Installation
+
+<Steps>
+  <Step>Install the component</Step>
+
+```bash
+npx frakment add trace code-block spinner
+```
+
+<Step>
+  Install registry dependencies first (the CLI does this automatically)
+</Step>
+
+```bash
+npx frakment add trace code-block
+```
+
+<Step>Use it in your app</Step>
+
+```tsx
+import { Terminal, TerminalCommand } from "@/components/ui/terminal";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<Terminal>
+  <TerminalCommand
+    command="npm run registry:build"
+    output={"✓ Built 15 components"}
+  />
+</Terminal>
+```
+
+Pass `status="running"` while a command executes, then flip to `"done"` when it finishes. See the [Terminal docs](/docs/ai-elements/terminal) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### MCP fix
+
+`getSponsors()` no longer crashes when the GraphQL response is missing `user.sponsorshipsAsMaintainer`. Instead it returns an empty array so the page still renders.
+
+```ts
+const nodes = json.data?.user?.sponsorshipsAsMaintainer?.nodes ?? [];
+```
+
+This means sponsors without an active GitHub Sponsors account see the empty state instead of an error boundary.
+
+<hr className="my-16 border-border/40" />
+
+### Agent skill
+
+The site skill at `/.well-known/agent-skills/site-skill.md` now lists the real `npx -y frakment-mcp` command and links to `/skills/frakment-usage/SKILL.md`. Previously it listed the MCP server as unavailable.
+
+```bash
+curl https://frakment.vercel.app/.well-known/agent-skills/site-skill.md
+```

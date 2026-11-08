@@ -1,0 +1,142 @@
+---
+title: Reasoning
+description: Show an agent thinking block as a collapsible trace with streaming status.
+---
+
+import { ReasoningDemo } from "@/examples/reasoning-demo";
+import { ReasoningDuration } from "@/examples/reasoning-duration";
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceDescription,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+import { BrainIcon, CircleCheckIcon } from "lucide-react";
+
+<ComponentPreview name="reasoning-demo" title="reasoning-demo.tsx" src="examples/reasoning-demo.tsx" align="start" previewClassName="h-auto">
+  <ReasoningDemo />
+</ComponentPreview>
+
+Reasoning renders an agent thinking block as a collapsible trace line. While streaming, the line shimmers and stays open. Once done, it collapses to a single row and the body can be expanded on demand.
+
+Reasoning is a **composition**, not a primitive. It composes [Trace](/docs/components/trace) and drives its streaming state through a chat transport.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add trace message bubble button
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the primitives:</Step>
+
+      ~~~bash
+      npx frakment add trace message bubble button
+      ~~~
+
+      <Step>Copy the demo into your project:</Step>
+
+      <ComponentSource name="reasoning-demo" title="examples/reasoning-demo.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="reasoning.tsx"
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+~~~
+
+~~~tsx title="reasoning.tsx"
+<Trace>
+  <TraceCollapsible open={running} onOpenChange={setOpen}>
+    <TraceCollapsibleTrigger>
+      <TraceLine status={running ? "running" : undefined}>
+        <TraceTitle>{running ? "Thinking" : "Thought for 5s"}</TraceTitle>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent className="whitespace-pre-wrap">
+      {text}
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+~~~
+
+## Anatomy
+
+~~~tsx title="reasoning.tsx"
+<Trace>
+  <TraceCollapsible>
+    <TraceCollapsibleTrigger>
+      <TraceLine>
+        <TraceIcon />
+        <TraceTitle />
+        <TraceDescription />
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent />
+  </TraceCollapsible>
+</Trace>
+~~~
+
+- **Trace** — wrapper for one or more reasoning runs
+- **TraceCollapsible** — the thinking block, controlled via `open`
+- **TraceCollapsibleTrigger** — the header row, one line
+- **TraceLine** — accepts `status` so the running row shimmers
+- **TraceTitle** — "Thinking" while running, "Thought" once done
+- **TraceDescription** — optional duration on the right
+- **TraceCollapsibleContent** — the reasoning body, plain text in `text-muted-foreground`
+
+## Streaming
+
+While the model streams reasoning, the part carries `state === "streaming"`. Pass that to `TraceLine` as `status="running"` so the title shimmers, and keep the collapsible open until the run finishes.
+
+## With duration
+
+Add a `TraceDescription` after the title to show how long the model thought. Pair with a `CircleCheckIcon` to signal the run is complete.
+
+<ComponentPreview name="reasoning-duration" title="reasoning-duration.tsx" src="examples/reasoning-duration.tsx" align="start" previewClassName="h-auto">
+  <ReasoningDuration />
+</ComponentPreview>
+
+## Controlled open
+
+The demo keeps the block open while streaming and collapses once done. Pass `open` and `onOpenChange` when the parent wants to control visibility, or use `defaultOpen` for an uncontrolled block that starts expanded.
+
+## Accessibility
+
+- The reasoning body is plain text. Write it as a paragraph, not a bullet list.
+- Status is conveyed by shimmer and header text. Do not rely on color alone.
+- The collapsible trigger is keyboard-focusable and toggles with Enter or Space.
+- `prefers-reduced-motion` disables shimmer and collapse animation.
+
+## Best Practices
+
+- **Keep reasoning collapsed by default.** Users scan the answer, not the path.
+- **Open while streaming.** A live thinking block signals progress. Collapse it when the text arrives.
+- **Do not edit reasoning.** Render the raw text. Summaries belong in the message body.
+- **One Trace per turn.** Group multiple reasoning parts inside a single `Trace` so the spacing stays even.

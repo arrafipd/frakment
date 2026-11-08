@@ -1,0 +1,37 @@
+# Lefthook config - https://github.com/evilmartians/lefthook
+# Blocks bad commits locally so CI stays green.
+
+pre-commit:
+  parallel: false
+  jobs:
+    # 1. Auto-format staged files (formatter only, no linter)
+    - name: format
+      run: npx ultracite fix
+      stage_fixed: true
+
+    # 2. Full lint check (all files, includes format check + lint)
+    - name: lint
+      run: npm run check
+
+    # 3. TypeScript compile (all files)
+    - name: typecheck
+      run: npm run typecheck
+
+    # 4. Registry build (only when registry/manifest changes)
+    - name: registry
+      run: npm run registry:build
+      glob:
+        - "registry/**"
+        - "examples/**"
+        - "frakment.json"
+
+pre-push:
+  parallel: false
+  jobs:
+    # Full build before push (slower but safer)
+    - name: build
+      run: npm run build
+
+    # Run test suite before push (catch regressions before CI)
+    - name: test
+      run: npm test

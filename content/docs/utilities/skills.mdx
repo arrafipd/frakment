@@ -1,0 +1,195 @@
+---
+title: "Skills"
+description: "Portable, machine-readable instructions that teach AI agents how to work with the Frakment registry."
+---
+
+import { DownloadIcon, FileCodeIcon, SparklesIcon } from "lucide-react";
+
+<Callout type="info" title="What is a skill?">
+  A skill is a `SKILL.md` file that teaches an agent one focused capability.
+  Frakment ships skills that let any agent discover, fetch, and install
+  components without guessing.
+</Callout>
+
+Frakment publishes skills that follow the Agent Skills protocol. Each skill is self-contained, versioned in the repo, and served at a stable URL so agents can load it on demand.
+
+## Why skills?
+
+Agents that rely only on tools are blind to context. Skills fill the gap: they describe **when** to act, not just **what** to call.
+
+<div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+<FeatureCard
+  icon={SparklesIcon}
+  title="Portable"
+  description="Plain markdown plus YAML frontmatter. Any MCP or function-calling host can load it."
+/>
+
+<FeatureCard
+  icon={DownloadIcon}
+  title="Self-describing"
+  description="The description field tells the agent exactly when to load the skill."
+/>
+
+<FeatureCard
+  icon={FileCodeIcon}
+  title="Versioned"
+  description="Skills live in the repo, versioned alongside the registry they document."
+/>
+
+</div>
+
+## Available skills
+
+| Skill            | Purpose                                                  |
+| ---------------- | -------------------------------------------------------- |
+| `frakment-usage` | Discover, fetch, search, and install Frakment components |
+
+## How agents load skills
+
+<Steps>
+  <Step>Discover the available skills</Step>
+
+```bash
+curl https://frakment.vercel.app/.well-known/agent-skills/index.json
+```
+
+<Step>Fetch the skill markdown</Step>
+
+```bash
+curl https://frakment.vercel.app/.well-known/agent-skills/site-skill.md
+```
+
+<Step>Load into context</Step>
+
+Feed the markdown into the system prompt or tool context. The frontmatter description is what triggered the load; the body is what the agent follows.
+
+</Steps>
+
+## Where skills live
+
+<FileTree>
+  <FileTreeFolder name="frakment" defaultOpen>
+    <FileTreeFolder name="skills" defaultOpen>
+      <FileTreeFolder name="frakment-usage" defaultOpen>
+        <FileTreeFile name="SKILL.md" />
+      </FileTreeFolder>
+    </FileTreeFolder>
+    <FileTreeFolder name="public">
+      <FileTreeFolder name="skills" defaultOpen>
+        <FileTreeFolder name="frakment-usage" defaultOpen>
+          <FileTreeFile name="SKILL.md" />
+        </FileTreeFolder>
+      </FileTreeFolder>
+    </FileTreeFolder>
+  </FileTreeFolder>
+</FileTree>
+
+## Anatomy of a skill
+
+<Callout type="info" title="Two parts, one file">
+  Every skill is a single `SKILL.md` file: YAML frontmatter at the top, markdown
+  body below.
+</Callout>
+
+```yaml title="SKILL.md"
+name: frakment-usage
+description: Load when an agent needs to discover, fetch, or install Frakment components.
+allowed-tools: ["fetch", "bash"]
+version: 0.1.0
+```
+
+<PropsTable
+  rows={[
+    {
+      name: "name",
+      type: "string",
+      description: "Stable slug. Must match the folder name.",
+      required: true,
+    },
+    {
+      name: "description",
+      type: "string",
+      description: "One sentence telling the agent when to load this skill.",
+      required: true,
+    },
+    {
+      name: "allowed-tools",
+      type: "string[]",
+      description: "Optional hint about which tools the skill expects.",
+    },
+    {
+      name: "version",
+      type: "string",
+      description: "Semver for the skill body.",
+    },
+  ]}
+/>
+
+## Authoring a skill
+
+<Steps>
+  <Step>Create the folder and SKILL.md</Step>
+
+<FileTree>
+  <FileTreeFolder name="skills" defaultOpen>
+    <FileTreeFolder name="my-skill" defaultOpen>
+      <FileTreeFile name="SKILL.md" />
+    </FileTreeFolder>
+  </FileTreeFolder>
+</FileTree>
+
+<Step>Register it in frakment.json</Step>
+
+```json title="frakment.json"
+{
+  "skills": [
+    {
+      "name": "my-skill",
+      "source": "skills/my-skill/SKILL.md",
+      "version": "0.1.0"
+    }
+  ]
+}
+```
+
+<Step>Build and publish</Step>
+
+```bash
+npm run registry:build
+```
+
+</Steps>
+
+## FAQ
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="difference-skill-mcp">
+  <AccordionTrigger>
+    How is a skill different from an MCP tool?
+  </AccordionTrigger>
+  <AccordionContent>
+    A skill is documentation: prose that tells an agent how to act. An MCP tool
+    is executable: a function the agent can call. Skills describe intent, MCP
+    tools perform actions.
+  </AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="required-hosting">
+<AccordionTrigger>Do I need to host skills myself?</AccordionTrigger>
+<AccordionContent>
+No. Frakment publishes skills at `/.well-known/agent-skills/index.json` and `/skills/<name>/SKILL.md`. Point your agent there.
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="agent-skills-protocol">
+  <AccordionTrigger>What is the Agent Skills protocol?</AccordionTrigger>
+  <AccordionContent>
+    An emerging convention for exposing `SKILL.md` files at predictable URLs so
+    agents can discover and load them at runtime. Frakment follows the
+    `schemas.agentskills.io` discovery schema.
+  </AccordionContent>
+</AccordionItem>
+
+</Accordion>

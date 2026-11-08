@@ -1,0 +1,344 @@
+---
+title: "November 7, 2026"
+description: "Attachment docs, per-variant trace installs, scroll-fade and shimmer utilities."
+date: "2026-11-07"
+---
+
+import { AttachmentDemo } from "@/examples/attachment-demo";
+import { ContextDemo } from "@/examples/context-demo";
+import { ScrollFadeOverflow } from "@/examples/scroll-fade-overflow";
+import { ShimmerDemo } from "@/examples/shimmer-demo";
+import { HoverCardDemo } from "@/examples/hover-card-demo";
+import { ProgressDemo } from "@/examples/progress-demo";
+import { SliderDemo } from "@/examples/slider-demo";
+import { QuestionnaireDemo } from "@/examples/questionnaire-demo";
+
+This release adds the **Attachment** docs page with six examples, per-variant install commands for **Trace**, and two CSS utilities: **scroll-fade** for edge-aware scroll containers and **shimmer** for animated loading text.
+
+- [Attachment](#attachment): Docs page with six examples.
+- [Hover Card](#hover-card): Rich content on hover, portal-based.
+- [Progress](#progress): Task completion indicator with smooth transitions.
+- [Slider](#slider): Range input with single, range, and vertical modes.
+- [Questionnaire](#questionnaire): Multi-step form primitive with headless engine.
+- [Scroll fade](#scroll-fade): Mask gradient utilities for scroll containers.
+- [Shimmer](#shimmer): Animated gradient text utility.
+
+<hr className="my-16 border-border/40" />
+
+### Attachment
+
+<ComponentPreview name="attachment" title="attachment.tsx" previewClassName="h-auto py-8">
+  <AttachmentDemo />
+</ComponentPreview>
+
+**Attachment** renders a compact file card with media, title, description, and actions. It supports idle, uploading, processing, error, and done states with size variants for dense layouts. Pass `variant="image"` to render a thumbnail, or wrap with `AttachmentTrigger` to make the whole card interactive.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive</Step>
+
+```bash
+npx frakment add attachment
+```
+
+<Step>Use it in your app</Step>
+
+```tsx
+import {
+  Attachment,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentMedia,
+  AttachmentTitle,
+} from "@/components/ui/attachment";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<Attachment>
+  <AttachmentMedia>
+    <FileTextIcon />
+  </AttachmentMedia>
+  <AttachmentContent>
+    <AttachmentTitle>report.pdf</AttachmentTitle>
+    <AttachmentDescription>PDF · 2.4 MB</AttachmentDescription>
+  </AttachmentContent>
+</Attachment>
+```
+
+See the [Attachment docs](/docs/components/attachment) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Scroll fade
+
+<ComponentPreview name="scroll-fade-overflow" title="scroll-fade-overflow.tsx">
+  <ScrollFadeOverflow />
+</ComponentPreview>
+
+**scroll-fade** applies a scroll-aware mask to the edges of a scroll container. The fade tracks the scroll position, only appearing when there is content beyond the visible area. Variants: `scroll-fade-x` for horizontal, `scroll-fade-{t,b,l,r,s,e}` for single edges, and `scroll-fade-none` to disable.
+
+#### Installation
+
+```bash
+npx frakment add scroll-fade
+```
+
+#### Minimal usage
+
+```tsx
+<div className="scroll-fade overflow-y-auto">{/* ... */}</div>
+```
+
+See the [Scroll Fade docs](/docs/utilities/scroll-fade) for the full reference.
+
+<hr className="my-16 border-border/40" />
+
+### Shimmer
+
+<ComponentPreview name="shimmer-demo" title="shimmer-demo.tsx">
+  <ShimmerDemo />
+</ComponentPreview>
+
+**shimmer** is a CSS utility that animates a gradient over text. Replaces the previous inline-style `<Shimmer>` component with a class that supports color, duration, spread, and angle modifiers.
+
+#### Installation
+
+```bash
+npx frakment add shimmer
+```
+
+#### Minimal usage
+
+```tsx
+<p className="shimmer">Generating response&hellip;</p>
+```
+
+See the [Shimmer docs](/docs/utilities/shimmer) for the full reference.
+
+<hr className="my-16 border-border/40" />
+
+### Hover Card
+
+<ComponentPreview name="hover-card" title="hover-card-demo.tsx">
+  <HoverCardDemo />
+</ComponentPreview>
+
+**Hover Card** displays rich content in a portal when the user hovers over a trigger. It opens after a short delay, stays open while the pointer is over the card, and closes on mouse leave. Built on Radix `HoverCard`, it supports `side`, `align`, `openDelay`, and `closeDelay`.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive</Step>
+
+```bash
+npx frakment add hover-card
+```
+
+<Step>Use it in your app</Step>
+
+```tsx
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<HoverCard>
+  <HoverCardTrigger asChild>
+    <Button variant="link">@fraktment</Button>
+  </HoverCardTrigger>
+  <HoverCardContent>
+    Registry primitives for React.
+  </HoverCardContent>
+</HoverCard>
+```
+
+See the [Hover Card docs](/docs/components/hover-card) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Progress
+
+<ComponentPreview name="progress" title="progress-demo.tsx">
+  <ProgressDemo />
+</ComponentPreview>
+
+**Progress** shows how much of a task has completed. The indicator animates smoothly on every value change with a 500ms ease-out transform. Optional `ProgressLabel` and `ProgressValue` render a header row with the current percentage.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive</Step>
+
+```bash
+npx frakment add progress
+```
+
+<Step>Use it in your app</Step>
+
+```tsx
+import { Progress } from "@/components/ui/progress";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<Progress value={60} />
+```
+
+See the [Progress docs](/docs/components/progress) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Slider
+
+<ComponentPreview name="slider" title="slider-demo.tsx">
+  <SliderDemo />
+</ComponentPreview>
+
+**Slider** lets the user pick a value or range from a track. It supports single values, ranges with two thumbs, multiple thumbs, and vertical orientation. Built on Radix `Slider`, it handles keyboard navigation, focus rings, and disabled state out of the box.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive</Step>
+
+```bash
+npx frakment add slider
+```
+
+<Step>Use it in your app</Step>
+
+```tsx
+import { Slider } from "@/components/ui/slider";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<Slider defaultValue={[50]} max={100} step={1} />
+```
+
+See the [Slider docs](/docs/components/slider) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Questionnaire
+
+<ComponentPreview name="questionnaire" title="questionnaire-demo.tsx">
+  <QuestionnaireDemo />
+</ComponentPreview>
+
+**Questionnaire** is a multi-step form **component** that bundles a headless engine. Each step renders one question with a title, optional description, a set of choices, optional freeform input, and inline error. Navigation between steps and the final submit are handled by the headless engine in `lib/questionnaire`, which ships as a registry dependency.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive (pulls the engine automatically)</Step>
+
+```bash
+npx frakment add questionnaire checkbox radio-group button card
+```
+
+<Step>Use it in your app</Step>
+
+```tsx
+import {
+  Questionnaire,
+  QuestionnaireActions,
+  QuestionnaireChoice,
+  QuestionnaireChoices,
+  QuestionnaireItem,
+  QuestionnaireNext,
+  QuestionnairePrevious,
+  QuestionnaireSubmit,
+  QuestionnaireTitle,
+} from "@/components/ui/questionnaire";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<Questionnaire items={items} onSubmit={handleSubmit}>
+  <QuestionnaireItem name="scope" required>
+    <QuestionnaireTitle>What should the agent change?</QuestionnaireTitle>
+    <QuestionnaireChoices>
+      <QuestionnaireChoice value="component">Component only</QuestionnaireChoice>
+      <QuestionnaireChoice value="feature">Complete feature</QuestionnaireChoice>
+    </QuestionnaireChoices>
+  </QuestionnaireItem>
+  <QuestionnaireActions>
+    <QuestionnairePrevious />
+    <QuestionnaireNext>Next</QuestionnaireNext>
+    <QuestionnaireSubmit>Save</QuestionnaireSubmit>
+  </QuestionnaireActions>
+</Questionnaire>
+```
+
+See the [Questionnaire docs](/docs/modules/questionnaire) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Context
+
+<ComponentPreview name="context-demo" title="context-demo.tsx" src="examples/context-demo.tsx">
+  <ContextDemo />
+</ComponentPreview>
+
+**Context** is a compact context-window indicator. Hovering the badge reveals a token breakdown and a progress bar showing how much of the model's limit is in use.
+
+#### Installation
+
+```bash
+npx frakment add hover-card progress button
+```
+
+#### Minimal usage
+
+```tsx
+<HoverCard>
+  <HoverCardTrigger asChild>
+    <Button size="sm" variant="outline">{percent}% context</Button>
+  </HoverCardTrigger>
+  <HoverCardContent>
+    <Progress value={percent} />
+  </HoverCardContent>
+</HoverCard>
+```
+
+See the [Context docs](/docs/ai-elements/context) for the full composition.
+
+<hr className="my-16 border-border/40" />
+
+### Inline Citation, Message, Model Selector
+
+Three AI element tutorials ship: **Inline Citation** for source badges, **Message** for a complete message row with actions, and **Model Selector** for a composer with model and effort pickers. Each is a composition, not a primitive.
+
+#### Installation
+
+```bash
+npx frakment add hover-card input-group dropdown-menu message bubble tooltip button markdown
+```
+
+Each tutorial has its own page:
+
+- [Inline Citation](/docs/ai-elements/inline-citation)
+- [Message](/docs/ai-elements/message)
+- [Model Selector](/docs/ai-elements/model-selector)

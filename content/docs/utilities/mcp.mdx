@@ -1,0 +1,260 @@
+---
+title: "MCP"
+description: "Run Frakment as a Model Context Protocol server so any MCP-capable agent can browse and install components."
+---
+
+import { DownloadIcon, ListIcon, SearchIcon, TerminalIcon } from "lucide-react";
+
+<Callout type="success" title="One line to start">
+  `npx -y @frakment/mcp`. No install, no config file, just a working MCP server
+  on stdio.
+</Callout>
+
+Frakment ships an MCP server that exposes the registry as tools. Agents call the tools instead of scraping HTML or writing custom HTTP glue.
+
+## Quick start
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="npx">npx</TabsTrigger>
+    <TabsTrigger value="install">Install</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="npx">
+
+```bash
+npx -y @frakment/mcp
+```
+
+  </TabsContent>
+
+  <TabsContent value="install">
+
+```bash
+npm install --save-dev frakment-mcp
+frakment-mcp
+```
+
+  </TabsContent>
+</CodeTabs>
+
+## Tools at a glance
+
+<div className="mt-6 grid gap-4 sm:grid-cols-2">
+
+<FeatureCard
+  icon={ListIcon}
+  title="list_components"
+  description="Every component in the registry, with name and description."
+/>
+
+<FeatureCard
+  icon={SearchIcon}
+  title="search_components"
+  description="Case-insensitive substring search across name and description."
+/>
+
+<FeatureCard
+  icon={DownloadIcon}
+  title="view_component"
+  description="Full source, npm dependencies, and registry dependencies of one component."
+/>
+
+<FeatureCard
+  icon={TerminalIcon}
+  title="get_install_command"
+  description="The exact CLI command to install a component."
+/>
+
+<FeatureCard
+  icon={ListIcon}
+  title="list_scenarios"
+  description="Ready-made compositions for common UI scenarios."
+/>
+
+<FeatureCard
+  icon={TerminalIcon}
+  title="compose"
+  description="Components, resolved dependencies, and install command for a scenario."
+/>
+
+</div>
+
+## Tools
+
+### list_components
+
+Returns every component with `name` and `description`.
+
+**Input**: none
+
+**Output**: text list of components.
+
+### view_component
+
+Returns the full source of one component.
+
+<PropsTable
+  rows={[
+    {
+      name: "name",
+      type: "string",
+      description: "Component slug from /r/index.json.",
+      required: true,
+    },
+  ]}
+/>
+
+**Output**: markdown with file contents, npm dependencies, and registry dependencies.
+
+### search_components
+
+Case-insensitive substring search across `name` and `description`.
+
+<PropsTable
+  rows={[
+    {
+      name: "query",
+      type: "string",
+      description: "Free-text search term.",
+      required: true,
+    },
+  ]}
+/>
+
+**Output**: matching components with descriptions.
+
+### get_install_command
+
+Returns the exact CLI command.
+
+<PropsTable
+  rows={[
+    {
+      name: "name",
+      type: "string",
+      description: "Component slug.",
+      required: true,
+    },
+  ]}
+/>
+
+**Output**: `npx frakment@latest add <name>`
+
+### list_scenarios
+
+Returns the built-in compositions available for common UI scenarios. No parameters.
+
+**Output**: a list of scenario names with one-line descriptions.
+
+### compose
+
+Returns the components, resolved dependencies, and install command for a scenario.
+
+<PropsTable
+  rows={[
+    {
+      name: "scenario",
+      type: "string",
+      description: "Scenario key from `list_scenarios`.",
+      required: true,
+    },
+  ]}
+/>
+
+**Output**: scenario name, description, components, install command, and a note about transitive dependencies.
+
+Supported scenarios: `chat`, `agent-timeline`, `code-output`, `login-form`, `settings-panel`, `empty-state`, `search-input`, `status-dashboard`.
+
+## Client configuration
+
+<Callout type="info" title="stdio transport">
+  Frakment MCP speaks stdio. Launch it from any MCP client that spawns
+  subprocesses.
+</Callout>
+
+### Claude Desktop
+
+Config lives at `~/Library/Application Support/Claude/claude_desktop_config.json` on macOS, or `%APPDATA%\Claude\claude_desktop_config.json` on Windows.
+
+```json title="claude_desktop_config.json"
+{
+  "mcpServers": {
+    "frakment": {
+      "command": "npx",
+      "args": ["-y", "frakment-mcp"]
+    }
+  }
+}
+```
+
+### Cursor
+
+Config lives at `~/.cursor/mcp.json`:
+
+```json title="mcp.json"
+{
+  "mcpServers": {
+    "frakment": {
+      "command": "npx",
+      "args": ["-y", "frakment-mcp"]
+    }
+  }
+}
+```
+
+### Generic stdio
+
+Any client that spawns stdio processes:
+
+```bash
+frakment-mcp
+```
+
+## Environment
+
+<PropsTable
+  rows={[
+    {
+      name: "FRAKMENT_REGISTRY",
+      type: "string",
+      default: "https://frakment.vercel.app",
+      description:
+        "Override the registry base URL. Useful for local dev against http://localhost:3000.",
+    },
+  ]}
+/>
+
+## Troubleshooting
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="404">
+  <AccordionTrigger>Tool returns HTTP 404</AccordionTrigger>
+  <AccordionContent>
+    The component name does not exist in the registry. Call `list_components`
+    first to get a valid slug.
+  </AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="fetch-failed">
+  <AccordionTrigger>fetch failed</AccordionTrigger>
+  <AccordionContent>
+    The registry is unreachable. Check `FRAKMENT_REGISTRY` or your network. For
+    local dev, run `FRAKMENT_REGISTRY=http://localhost:3000 npx frakment-mcp`.
+  </AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="agent-blind">
+  <AccordionTrigger>Agent does not see the tools</AccordionTrigger>
+  <AccordionContent>
+    Verify the client config JSON parses, and that `npx -y @frakment/mcp` runs
+    from a terminal without errors.
+  </AccordionContent>
+</AccordionItem>
+
+</Accordion>
+
+## Source
+
+The MCP server lives in the [`mcp/` directory](https://github.com/arrafipd/frakment/tree/main/mcp) of the Frakment repo. It is a thin wrapper over the registry JSON with no interpretation logic. Browse the source on [GitHub](https://github.com/arrafipd/frakment/tree/main/mcp).

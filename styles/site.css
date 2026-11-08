@@ -1,0 +1,388 @@
+/** Frakment site — homepage orbs only. Never shipped. */
+
+/* Orbs orb styles */
+.orb-cosmos {
+  --lp-grain-ball: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.25' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0.805 0.0975 0 0 0 0.805 0.0975 0 0 0 0.805 0.0975 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  position: relative;
+  height: auto;
+  min-height: 260px;
+  overflow: visible;
+}
+
+/* The SVG bank is only a source for cloning marks into the 3D rings. */
+.orb-cosmos .orb-icon-bank {
+  display: none !important;
+}
+
+.orb-cosmos .lp-orb {
+  --ink: #fff;
+  --tint: #f8f8f8;
+  --type: calc(var(--s) * 0.135);
+  position: relative;
+  top: auto;
+  left: auto;
+  z-index: 0;
+  flex: 0 0 var(--s);
+  width: var(--s);
+  height: var(--s);
+  pointer-events: auto;
+  cursor: default;
+  opacity: 0;
+  will-change: transform;
+}
+
+.orb-cosmos .lp-orb--chatgpt {
+  --s: 104px;
+  --d: 0ms;
+  --ink: #0d0d0d;
+}
+
+.orb-cosmos .lp-orb--claude {
+  --s: 104px;
+  --d: 120ms;
+  --tint: #f0582a;
+}
+
+.orb-cosmos .lp-orb--gemini {
+  --s: 104px;
+  --d: 240ms;
+  --tint: #2d6bff;
+}
+
+.orb-cosmos .lp-orb--opencode {
+  --s: 104px;
+  --d: 360ms;
+  --tint: #ffb020;
+  --ink: #0d0d0d;
+}
+
+.orb-cosmos .lp-orb--grok {
+  --s: 104px;
+  --d: 480ms;
+  --ink: #fff;
+}
+
+.orb-cosmos .lp-orb--t3 {
+  --s: 104px;
+  --d: 600ms;
+  --tint: #e5399b;
+}
+
+.orb-cosmos .lp-orb.is-placed {
+  animation: lp-orb-pop 800ms cubic-bezier(0.34, 1.56, 0.64, 1) var(--d, 0ms)
+    both;
+}
+
+.orb-cosmos .lp-orb:hover {
+  z-index: 4;
+}
+
+@keyframes lp-orb-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.orb-cosmos .lp-orb.is-popped {
+  opacity: 1;
+  animation: none;
+}
+
+.orb-cosmos .lp-ball-filters {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.orb-cosmos .lp-orb-ball {
+  --lp-ball-light: radial-gradient(
+    calc(var(--s) * 0.7) calc(var(--s) * 0.6) at 50% calc(50% + var(--s) * 0.54),
+    rgba(255, 255, 255, 0.45),
+    rgba(255, 255, 255, 0) 70%
+  );
+  --lp-ball-paint: radial-gradient(
+    calc(var(--s) / 2) at 50% 50%,
+    color-mix(in oklab, var(--tint) 90%, white) 40%,
+    var(--tint) 80%
+  );
+  --lp-ball-shade:
+    inset 4px 16px 18px -12px rgba(0, 0, 0, 0.14),
+    inset 0 -5px 8px -5px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  inset: calc(var(--s) * -0.25);
+  pointer-events: none;
+}
+
+.orb-cosmos .lp-orb-skin {
+  position: absolute;
+  inset: calc(var(--s) * 0.25);
+  background: var(--lp-ball-light), var(--lp-ball-paint);
+  border-radius: 50%;
+  box-shadow: var(--lp-ball-shade);
+}
+
+.orb-cosmos .lp-orb .lp-orb-skin {
+  isolation: isolate;
+}
+
+.orb-cosmos .lp-orb .lp-orb-skin::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: var(--lp-grain-ball) 0 0 / 160px 160px;
+  border-radius: inherit;
+  mix-blend-mode: overlay;
+  animation: lp-grain-roll var(--lp-grain-turn, 1300ms) linear infinite;
+}
+
+@keyframes lp-grain-roll {
+  to {
+    background-position: 160px 0;
+  }
+}
+
+.orb-cosmos .lp-orb.is-talking .lp-orb-skin::after {
+  animation-play-state: paused;
+}
+
+.orb-cosmos .lp-orb-ball.is-shaped {
+  filter: url(#lp-ball-shade);
+}
+
+.orb-cosmos .lp-orb-ball.is-shaped .lp-orb-skin {
+  inset: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.orb-cosmos .lp-orb--claude .lp-orb-ball {
+  --lp-ball-paint:
+    radial-gradient(
+      calc(var(--s) * 0.66) calc(var(--s) * 0.54) at 50%
+        calc(50% + var(--s) * 0.48),
+      #ffb27a 0 16%,
+      rgba(255, 178, 122, 0) 100%
+    ),
+    radial-gradient(calc(var(--s) / 2) at 50% 50%, #f36a40 36%, #f0582a 76%);
+}
+
+.orb-cosmos .lp-orb--opencode .lp-orb-ball {
+  --lp-ball-paint:
+    radial-gradient(
+      calc(var(--s) * 0.66) calc(var(--s) * 0.54) at 50%
+        calc(50% + var(--s) * 0.48),
+      #ffe56b 0 16%,
+      rgba(255, 229, 107, 0) 100%
+    ),
+    radial-gradient(calc(var(--s) / 2) at 50% 50%, #ffc43a 36%, #ffb000 76%);
+}
+
+.orb-cosmos .lp-orb--t3 .lp-orb-ball {
+  --lp-ball-paint:
+    radial-gradient(
+      calc(var(--s) * 0.66) calc(var(--s) * 0.54) at 50%
+        calc(50% + var(--s) * 0.48),
+      #ff8ad0 0 16%,
+      rgba(255, 138, 208, 0) 100%
+    ),
+    radial-gradient(calc(var(--s) / 2) at 50% 50%, #f052ae 36%, #e5399b 76%);
+}
+
+.orb-cosmos .lp-orb--grok .lp-orb-ball {
+  --lp-ball-light: radial-gradient(
+    calc(var(--s) * 0.7) calc(var(--s) * 0.6) at 50% calc(50% + var(--s) * 0.54),
+    rgba(255, 255, 255, 0.22),
+    rgba(255, 255, 255, 0) 70%
+  );
+  --lp-ball-paint: radial-gradient(
+    calc(var(--s) / 2) at 50% 50%,
+    #4a4a50 55%,
+    #3a3a40 100%
+  );
+  --lp-ball-shade:
+    inset 4px 16px 18px -12px rgba(255, 255, 255, 0.1),
+    inset 0 -5px 8px -5px rgba(0, 0, 0, 0.15),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.orb-cosmos .lp-orb--grok .lp-orb-ball.is-shaped {
+  filter: url(#lp-ball-shade-dark);
+}
+
+.orb-cosmos .lp-orb--chatgpt .lp-orb-ball {
+  --lp-ball-light: radial-gradient(
+    calc(var(--s) * 0.7) calc(var(--s) * 0.6) at 50% calc(50% + var(--s) * 0.54),
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0) 70%
+  );
+  --lp-ball-paint: radial-gradient(
+    calc(var(--s) / 2) at 50% 50%,
+    #f8f8f8 72%,
+    #f4f4f4 100%
+  );
+  --lp-ball-shade:
+    inset 4px 16px 18px -12px rgba(28, 32, 36, 0.18),
+    inset 0 -5px 8px -5px rgba(0, 0, 0, 0.04),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.035);
+}
+
+.orb-cosmos .lp-orb--chatgpt .lp-orb-ball.is-shaped {
+  filter: url(#lp-ball-shade-glass);
+}
+
+.orb-cosmos .lp-orb-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform: rotateY(var(--a)) translateZ(calc(var(--s) / 2));
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.orb-cosmos .lp-orb-glyph {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-family: inherit;
+  font-size: var(--type);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  white-space: pre;
+  transform: translate(-50%, -50%);
+  backface-visibility: hidden;
+}
+
+.orb-cosmos .lp-orb-glyph svg {
+  display: block;
+  width: 1.15em;
+  height: 1.15em;
+}
+
+.orb-cosmos .lp-orb-glyph svg [fill] {
+  fill: currentColor;
+}
+
+.orb-cosmos .lp-face {
+  --lp-eye-d: calc(var(--s) * 0.09);
+  --lp-eye-mark: calc(var(--s) * 0.17);
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.orb-cosmos .lp-eye {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  backface-visibility: hidden;
+}
+
+.orb-cosmos .lp-face.is-on .lp-eye {
+  visibility: visible;
+}
+
+.orb-cosmos .lp-eye-lid,
+.orb-cosmos .lp-eye-pupil {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+}
+
+.orb-cosmos .lp-eye-cap,
+.orb-cosmos .lp-eye-bar {
+  position: absolute;
+  top: calc(var(--lp-eye-d) / -2);
+  left: calc(var(--lp-eye-d) / -2);
+  width: var(--lp-eye-d);
+  height: var(--lp-eye-d);
+  background: var(--ink);
+}
+
+.orb-cosmos .lp-eye-cap {
+  border-radius: 50%;
+}
+
+.orb-cosmos .lp-eye-mark {
+  position: absolute;
+  top: calc(var(--lp-eye-mark) / -2);
+  left: calc(var(--lp-eye-mark) / -2);
+  display: none;
+  width: var(--lp-eye-mark);
+  height: var(--lp-eye-mark);
+  color: var(--ink);
+}
+
+.orb-cosmos .lp-eye-mark svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.orb-cosmos .lp-eye-mark svg [fill] {
+  fill: currentColor;
+}
+
+.orb-cosmos .lp-face.is-marks .lp-eye-cap,
+.orb-cosmos .lp-face.is-marks .lp-eye-bar {
+  display: none;
+}
+
+.orb-cosmos .lp-face.is-marks .lp-eye-mark {
+  display: block;
+}
+
+.orb-cosmos .lp-orb--claude .lp-face,
+.orb-cosmos .lp-orb--gemini .lp-face {
+  transition: scale 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.orb-cosmos .lp-orb--claude.is-talking .lp-face {
+  scale: 0.76;
+}
+
+.orb-cosmos .lp-orb--gemini.is-talking .lp-face {
+  scale: 0.62;
+}
+
+.orb-cosmos .lp-orb--gemini .lp-eye-pupil {
+  scale: 1.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb-cosmos .lp-orb .lp-orb-skin::after {
+    animation: none;
+  }
+}
+/* stable text rendering across hover / morph */
+.orb-cosmos .lp-orb-glyph {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+  font-synthesis-weight: none;
+}
+
+.orb-cosmos .lp-face {
+  will-change: transform, scale;
+}
+
+@media (max-width: 767px) {
+  .orb-cosmos {
+    overflow: clip;
+  }
+}

@@ -1,0 +1,144 @@
+---
+title: React 19
+description: Peer dependencies and breaking changes for React 19.
+---
+
+Frakment targets React 19. Most components are drop-in compatible with React 18, but a few rely on React 19 features. This page covers what changes, what breaks, and how to migrate.
+
+## Prerequisites
+
+- **React** 19.0 or newer
+- **TypeScript** 5.7 or newer
+- **Node.js** 20 or newer
+
+## Peer dependencies
+
+Frakment components expect React 19. If you use the engine packages, add both as peers:
+
+```json title="package.json"
+{
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}
+```
+
+`@frakment/ai` and `@frakment/react` ship with the same peer range.
+
+## Components that require React 19
+
+Most primitives (`button`, `input`, `card`, `dialog`) work on React 18.3. The following components require React 19:
+
+| Component | React 19 feature |
+| :-- | :-- |
+| `message-animated` | `useOptimistic` for streaming UI |
+| `trace` | `useTransition` for collapse animation |
+| `code-block` | Ref cleanup function |
+| `bubble` | Ref as a prop (no `forwardRef`) |
+
+The rest compile on React 18.3 but are only tested on React 19.
+
+## Breaking changes to watch
+
+### `ref` as a prop
+
+React 19 allows `ref` without `forwardRef`. Frakment components use this in new files. Old files that still use `forwardRef` still compile, but the wrapper is redundant:
+
+```tsx
+// React 18 style
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => (
+  <button ref={ref} {...props} />
+));
+
+// React 19 style
+function Button({ ref, ...props }: ButtonProps & { ref?: React.Ref<HTMLButtonElement> }) {
+  return <button ref={ref} {...props} />;
+}
+```
+
+### Ref cleanup
+
+`ref` callbacks can return a cleanup function. Returning a value in React 18 triggers a warning:
+
+```tsx
+// React 19
+<div ref={(node) => {
+  setup(node);
+  return () => teardown(node);
+}} />
+```
+
+### The `use` hook
+
+Some engine files use `use(Promise)` for async boundaries. It works in React 19 only.
+
+### `useFormStatus` and `useActionState`
+
+Form primitives in Frakment use these hooks. They do not exist in React 18.
+
+## Migrating from React 18
+
+<Steps>
+
+<Step>Bump React</Step>
+
+```bash
+npm install react@^19 react-dom@^19
+```
+
+<Step>Bump types</Step>
+
+```bash
+npm install -D @types/react@^19 @types/react-dom@^19
+```
+
+<Step>Reinstall components</Step>
+
+For every installed component, re-run:
+
+```bash
+npx frakment@latest add <component> --overwrite
+```
+
+This pulls the React 19 compatible version from the registry.
+
+<Step>Typecheck</Step>
+
+```bash
+npx tsc --noEmit
+```
+
+Look for `ref` callback warnings and `forwardRef` removals.
+
+</Steps>
+
+## Common errors
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="forward-ref">
+<AccordionTrigger>forwardRef is not a function</AccordionTrigger>
+<AccordionContent>
+
+React 19 removes the deprecated `forwardRef` calls from the default export. Use the new `ref` prop style instead.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="two-copies">
+<AccordionTrigger>Invalid hook call</AccordionTrigger>
+<AccordionContent>
+
+Two React copies are installed. Check `npm ls react`. Deduplicate by hoisting React to the root of the workspace.
+
+</AccordionContent>
+</AccordionItem>
+
+</Accordion>
+
+## Next
+
+- [Tailwind CSS v4](/docs/advanced/tailwind-v4) - required version
+- [Monorepo](/docs/advanced/monorepo) - shared UI package
+- [React 19 release notes](https://react.dev/blog/2024/12/05/react-19) - official changes

@@ -1,0 +1,175 @@
+---
+title: Astro
+description: Install and configure Frakment for Astro.
+---
+
+Frakment works in any Astro project with the React integration, React 19, and Tailwind v4.
+
+## Prerequisites
+
+- **Astro** with the React integration
+- **React** 19 + TypeScript
+- **Tailwind CSS** v4
+
+Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/guides/theming) manually.
+
+<div id="use-cli" className="scroll-mt-24" />
+
+## Use the CLI
+
+Scaffold a new Astro project with Frakment installed.
+
+<Steps>
+
+<Step>Create Project</Step>
+
+```bash
+npm create astro@latest app
+cd app
+npx astro add react
+npx astro add tailwind
+```
+
+<Step>Add Components</Step>
+
+```bash
+npx frakment@latest init
+npx frakment@latest add button
+```
+
+<Step>Use it</Step>
+
+```tsx title="src/components/Hello.tsx"
+// src/components/Hello.tsx
+import { Button } from "@/components/ui/button";
+
+export default function Hello() {
+  return <Button>Hello, Frakment.</Button>;
+}
+```
+
+```js title="astro.config.mjs"
+---
+import Hello from "@/components/Hello";
+---
+<Hello client:load />
+```
+
+</Steps>
+
+<div id="existing-project" className="scroll-mt-24" />
+
+## Existing Project
+
+Add Frakment to an Astro app you already created.
+
+<Steps>
+
+<Step>Add React integration</Step>
+
+```bash
+npx astro add react
+```
+
+<Step>Add Tailwind CSS</Step>
+
+```bash
+npx astro add tailwind
+```
+
+<Step>Run `frakment init`</Step>
+
+Run `npx frakment@latest init` — it injects the theme block into `globals.css` between FRAKMENT THEME markers. Alternatively, paste the block manually from [Theming](/docs/guides/theming):
+
+```css title="globals.css"
+@import "tailwindcss";
+
+/* ==== FRAKMENT THEME START ==== */
+/* ... theme block ... */
+/* ==== FRAKMENT THEME END ==== */
+```
+
+See [Manual](/docs/getting-started/installation/manual) for details.
+
+<Step>Configure the import alias</Step>
+
+In `tsconfig.json`:
+
+```json title="tsconfig.json"
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
+```
+
+<Step>Add a component</Step>
+
+```bash
+npx frakment@latest add button
+```
+
+</Steps>
+
+## Project structure
+
+After `npm create astro` and `astro add react`, your project will have:
+
+<FileTree>
+  <FileTreeFolder name="app" defaultOpen>
+    <FileTreeFile name="package.json" />
+    <FileTreeFile name="astro.config.mjs" />
+    <FileTreeFile name="tsconfig.json" />
+    <FileTreeFolder name="src" defaultOpen>
+      <FileTreeFolder name="pages" defaultOpen>
+        <FileTreeFile name="index.astro" />
+      </FileTreeFolder>
+      <FileTreeFolder name="components">
+        <FileTreeFolder name="ui" />
+      </FileTreeFolder>
+    </FileTreeFolder>
+  </FileTreeFolder>
+</FileTree>
+
+## Verify
+
+After installing your first component, confirm the setup:
+
+```bash
+ls src/components/ui/button.tsx
+```
+
+Then render the component with client:load in an Astro page. If it renders without errors, you're ready.
+
+## Troubleshooting
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="missing-utils">
+<AccordionTrigger>Cannot find module lib/utils</AccordionTrigger>
+<AccordionContent>
+
+Run `npx frakment@latest init` again. It will create `lib/utils.ts` and update `tsconfig.json`.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="hydration">
+<AccordionTrigger>Component renders nothing</AccordionTrigger>
+<AccordionContent>
+
+React components in Astro need a client directive. Use `<Hello client:load />` (or `client:visible`, `client:idle`).
+
+</AccordionContent>
+</AccordionItem>
+
+</Accordion>
+
+## Next
+
+- [Theming](/docs/guides/theming) - customize tokens and dark mode
+- [Components](/docs/components/bubble) - browse the catalog

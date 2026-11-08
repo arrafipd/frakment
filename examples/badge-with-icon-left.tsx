@@ -1,0 +1,18 @@
+import { BadgeCheck, Bookmark } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
+
+export function BadgeWithIconLeft() {
+  return (
+    <div className="flex flex-wrap gap-2">
+      <Badge variant="secondary">
+        <BadgeCheck data-icon="inline-start" />
+        Verified
+      </Badge>
+      <Badge variant="outline">
+        Bookmark
+        <Bookmark data-icon="inline-end" />
+      </Badge>
+    </div>
+  );
+}

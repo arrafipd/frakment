@@ -1,0 +1,20 @@
+{
+  "dependencies": [
+    "lucide-react",
+    "radix-ui"
+  ],
+  "deprecated": false,
+  "description": "Navigation for splitting content across multiple pages.",
+  "files": [
+    {
+      "content": "import {\n  ChevronLeftIcon,\n  ChevronRightIcon,\n  MoreHorizontalIcon,\n} from \"lucide-react\";\nimport type * as React from \"react\";\nimport { Button } from \"@/components/ui/button\";\nimport { cn } from \"@/lib/utils\";\n\nfunction Pagination({ className, ...props }: React.ComponentProps<\"nav\">) {\n  return (\n    <nav\n      aria-label=\"pagination\"\n      className={cn(\"mx-auto flex w-full justify-center\", className)}\n      data-slot=\"pagination\"\n      role=\"navigation\"\n      {...props}\n    />\n  );\n}\n\nfunction PaginationContent({\n  className,\n  ...props\n}: React.ComponentProps<\"ul\">) {\n  return (\n    <ul\n      className={cn(\"flex items-center gap-0.5\", className)}\n      data-slot=\"pagination-content\"\n      {...props}\n    />\n  );\n}\n\nfunction PaginationItem({ ...props }: React.ComponentProps<\"li\">) {\n  return <li data-slot=\"pagination-item\" {...props} />;\n}\n\ntype PaginationLinkProps = {\n  isActive?: boolean;\n} & Pick<React.ComponentProps<typeof Button>, \"size\"> &\n  React.ComponentProps<\"a\">;\n\nfunction PaginationLink({\n  className,\n  isActive,\n  size = \"icon\",\n  ...props\n}: PaginationLinkProps) {\n  return (\n    <Button\n      asChild\n      className={cn(className)}\n      size={size}\n      variant={isActive ? \"outline\" : \"ghost\"}\n    >\n      <a\n        aria-current={isActive ? \"page\" : undefined}\n        data-active={isActive}\n        data-slot=\"pagination-link\"\n        {...props}\n      />\n    </Button>\n  );\n}\n\nfunction PaginationPrevious({\n  className,\n  text = \"Previous\",\n  ...props\n}: React.ComponentProps<typeof PaginationLink> & { text?: string }) {\n  return (\n    <PaginationLink\n      aria-label=\"Go to previous page\"\n      className={cn(\"pl-1.5!\", className)}\n      size=\"default\"\n      {...props}\n    >\n      <ChevronLeftIcon data-icon=\"inline-start\" />\n      <span className=\"hidden sm:block\">{text}</span>\n    </PaginationLink>\n  );\n}\n\nfunction PaginationNext({\n  className,\n  text = \"Next\",\n  ...props\n}: React.ComponentProps<typeof PaginationLink> & { text?: string }) {\n  return (\n    <PaginationLink\n      aria-label=\"Go to next page\"\n      className={cn(\"pr-1.5!\", className)}\n      size=\"default\"\n      {...props}\n    >\n      <span className=\"hidden sm:block\">{text}</span>\n      <ChevronRightIcon data-icon=\"inline-end\" />\n    </PaginationLink>\n  );\n}\n\nfunction PaginationEllipsis({\n  className,\n  ...props\n}: React.ComponentProps<\"span\">) {\n  return (\n    <span\n      aria-hidden\n      className={cn(\n        \"flex size-8 items-center justify-center [&_svg:not([class*='size-'])]:size-4\",\n        className\n      )}\n      data-slot=\"pagination-ellipsis\"\n      {...props}\n    >\n      <MoreHorizontalIcon />\n      <span className=\"sr-only\">More pages</span>\n    </span>\n  );\n}\n\nexport {\n  Pagination,\n  PaginationContent,\n  PaginationEllipsis,\n  PaginationItem,\n  PaginationLink,\n  PaginationNext,\n  PaginationPrevious,\n};\n",
+      "path": "components/ui/pagination.tsx"
+    }
+  ],
+  "name": "pagination",
+  "registryDependencies": [
+    "button"
+  ],
+  "title": "Pagination",
+  "version": "0.1.0"
+}

@@ -1,0 +1,178 @@
+---
+title: Next.js
+description: Install and configure Frakment for Next.js.
+---
+
+Frakment works in any Next.js 15+ project with React 19 and Tailwind v4. This guide covers both a new project (via the CLI) and an existing app.
+
+## Prerequisites
+
+- **Next.js** 15 or newer (App Router or Pages Router)
+- **React** 19
+- **TypeScript**
+- **Tailwind CSS** v4
+
+Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/guides/theming) manually.
+
+<div id="use-cli" className="scroll-mt-24" />
+
+## Use the CLI
+
+Scaffold a new Next.js app with Frakment installed.
+
+<Steps>
+
+<Step>Create Project</Step>
+
+```bash
+npx create-next-app@latest app --typescript --tailwind --app
+cd app
+```
+
+<Step>Add Components</Step>
+
+```bash
+npx frakment@latest init
+npx frakment@latest add bubble
+```
+
+<Step>Use it</Step>
+
+```tsx title="app/page.tsx"
+// app/page.tsx
+import { Bubble, BubbleContent } from "@/components/ui/bubble";
+
+export default function Page() {
+  return (
+    <Bubble>
+      <BubbleContent>Hello, Frakment.</BubbleContent>
+    </Bubble>
+  );
+}
+```
+
+</Steps>
+
+<div id="existing-project" className="scroll-mt-24" />
+
+## Existing Project
+
+Add Frakment to a Next.js app you already created.
+
+<Steps>
+
+<Step>Configure Tailwind CSS</Step>
+
+Make sure Tailwind v4 is installed and `globals.css` is imported in your root layout.
+
+<Step>Run `frakment init`</Step>
+
+Run `npx frakment@latest init` — it injects the theme block into `globals.css` between FRAKMENT THEME markers. Alternatively, paste the block manually from [Theming](/docs/guides/theming):
+
+```css title="globals.css"
+@import "tailwindcss";
+
+/* ==== FRAKMENT THEME START ==== */
+/* ... theme block ... */
+/* ==== FRAKMENT THEME END ==== */
+```
+
+See [Manual](/docs/getting-started/installation/manual) for details.
+
+<Step>Configure the import alias</Step>
+
+In `tsconfig.json`:
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  }
+}
+```
+
+<Step>Add a component</Step>
+
+```bash
+npx frakment@latest add bubble
+```
+
+<Step>Import and use</Step>
+
+```tsx title="app/page.tsx"
+// app/page.tsx
+import { Bubble, BubbleContent } from "@/components/ui/bubble";
+
+export default function Page() {
+  return (
+    <Bubble>
+      <BubbleContent>Hello, Frakment.</BubbleContent>
+    </Bubble>
+  );
+}
+```
+
+</Steps>
+
+## Project structure
+
+After `create-next-app`, your project will have:
+
+<FileTree>
+  <FileTreeFolder name="app" defaultOpen>
+    <FileTreeFile name="package.json" />
+    <FileTreeFile name="tsconfig.json" />
+    <FileTreeFile name="next.config.ts" />
+    <FileTreeFolder name="app" defaultOpen>
+      <FileTreeFile name="layout.tsx" />
+      <FileTreeFile name="page.tsx" />
+      <FileTreeFile name="globals.css" />
+    </FileTreeFolder>
+    <FileTreeFolder name="components">
+      <FileTreeFolder name="ui" />
+    </FileTreeFolder>
+    <FileTreeFolder name="public"></FileTreeFolder>
+  </FileTreeFolder>
+</FileTree>
+
+## Verify
+
+After installing your first component, confirm the setup:
+
+```bash
+ls components/ui/bubble.tsx
+```
+
+Then import and render it in a page. If it renders without errors, you're ready.
+
+## Troubleshooting
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="missing-utils">
+<AccordionTrigger>Cannot find module lib/utils</AccordionTrigger>
+<AccordionContent>
+
+Run `npx frakment@latest init` again. It will create `lib/utils.ts` and update `tsconfig.json`.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="styles">
+<AccordionTrigger>Styles do not apply</AccordionTrigger>
+<AccordionContent>
+
+Make sure `globals.css` includes the theme tokens from [Theming](/docs/guides/theming).
+
+</AccordionContent>
+</AccordionItem>
+
+</Accordion>
+
+## Next
+
+- [Theming](/docs/guides/theming) - customize tokens and dark mode
+- [Components](/docs/components/bubble) - browse the catalog

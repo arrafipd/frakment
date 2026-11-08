@@ -1,0 +1,83 @@
+---
+title: "Shimmer"
+description: "Animated gradient utility for loading text."
+---
+
+import { ShimmerDemo } from "@/examples/shimmer-demo";
+import { ShimmerMarker } from "@/examples/shimmer-marker";
+import { ShimmerColor } from "@/examples/shimmer-color";
+import { ShimmerDuration } from "@/examples/shimmer-duration";
+import { ShimmerSpread } from "@/examples/shimmer-spread";
+import { ShimmerAngle } from "@/examples/shimmer-angle";
+import { ShimmerOnce } from "@/examples/shimmer-once";
+import { ShimmerNone } from "@/examples/shimmer-none";
+
+<ComponentPreview name="shimmer-demo" title="shimmer-demo.tsx">
+  <ShimmerDemo />
+</ComponentPreview>
+
+The `shimmer` utility animates a gradient over text to signal a loading or streaming state. It is applied as a class on any text element.
+
+## Usage
+
+```tsx
+<p className="shimmer">Generating response&hellip;</p>
+```
+
+## With Marker
+
+<ComponentPreview name="shimmer-marker" title="shimmer-marker.tsx">
+  <ShimmerMarker />
+</ComponentPreview>
+
+## Color
+
+Change the highlight color with `shimmer-color-[color]`.
+
+<ComponentPreview name="shimmer-color" title="shimmer-color.tsx">
+  <ShimmerColor />
+</ComponentPreview>
+
+## Duration
+
+Change the animation duration with `shimmer-duration-[time]`.
+
+<ComponentPreview name="shimmer-duration" title="shimmer-duration.tsx">
+  <ShimmerDuration />
+</ComponentPreview>
+
+## Spread
+
+Change the gradient spread with `[--shimmer-spread:percent]`.
+
+<ComponentPreview name="shimmer-spread" title="shimmer-spread.tsx">
+  <ShimmerSpread />
+</ComponentPreview>
+
+## Angle
+
+Change the gradient angle with `[--shimmer-angle:deg]`.
+
+<ComponentPreview name="shimmer-angle" title="shimmer-angle.tsx">
+  <ShimmerAngle />
+</ComponentPreview>
+
+## Once
+
+`shimmer-once` runs the animation once.
+
+<ComponentPreview name="shimmer-once" title="shimmer-once.tsx">
+  <ShimmerOnce />
+</ComponentPreview>
+
+## Disable
+
+`shimmer-none` disables the animation. Combine with a breakpoint for responsive control.
+
+<ComponentPreview name="shimmer-none" title="shimmer-none.tsx">
+  <ShimmerNone />
+</ComponentPreview>
+
+## Accessibility
+
+Shimmer is decorative. Pair it with a visible text label so the loading state is conveyed to screen readers.

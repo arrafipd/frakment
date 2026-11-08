@@ -1,0 +1,239 @@
+---
+title: Accordion
+description: A vertically stacked set of interactive headings that each reveal a section of content.
+---
+
+import { AccordionDemo } from "@/examples/accordion-demo";
+import { AccordionBasic } from "@/examples/accordion-basic";
+import { AccordionMultiple } from "@/examples/accordion-multiple";
+import { AccordionDisabled } from "@/examples/accordion-disabled";
+import { AccordionBorders } from "@/examples/accordion-borders";
+import { AccordionCard } from "@/examples/accordion-card";
+
+<ComponentPreview name="accordion" title="accordion.tsx">
+  <AccordionDemo />
+</ComponentPreview>
+
+Accordion reveals related content in place, one section at a time. It keeps long surfaces compact without requiring a new page or modal.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add accordion
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ~~~bash
+      npm install radix-ui lucide-react
+      ~~~
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="accordion" title="components/ui/accordion.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="accordion.tsx"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+~~~
+
+~~~tsx title="accordion.tsx"
+<Accordion collapsible defaultValue="shipping" type="single">
+  <AccordionItem value="shipping">
+    <AccordionTrigger>What are your shipping options?</AccordionTrigger>
+    <AccordionContent>
+      Standard, express, and overnight options available.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+~~~
+
+## Composition
+
+```text
+Accordion
+└── AccordionItem
+    ├── AccordionTrigger
+    └── AccordionContent
+```
+
+## Examples
+
+### Basic
+
+A minimal accordion with three items.
+
+<ComponentPreview name="accordion" title="accordion.tsx" previewClassName="h-auto py-8">
+  <AccordionBasic />
+</ComponentPreview>
+
+### Multiple
+
+Use `type="multiple"` to allow several items open at the same time.
+
+<ComponentPreview name="accordion" title="accordion.tsx" previewClassName="h-auto py-8">
+  <AccordionMultiple />
+</ComponentPreview>
+
+### Disabled
+
+Set `disabled` on an `AccordionItem` to lock it.
+
+<ComponentPreview name="accordion" title="accordion.tsx" previewClassName="h-auto py-8">
+  <AccordionDisabled />
+</ComponentPreview>
+
+### Borders
+
+Add borders around the container and between items for a boxed look.
+
+<ComponentPreview name="accordion" title="accordion.tsx" previewClassName="h-auto py-8">
+  <AccordionBorders />
+</ComponentPreview>
+
+### Card
+
+Nest an accordion inside a card for grouped, framed content.
+
+<ComponentPreview name="accordion" title="accordion.tsx" previewClassName="h-auto py-8">
+  <AccordionCard />
+</ComponentPreview>
+
+## In Context
+
+### FAQ section
+
+<ComponentPreview name="accordion" title="accordion.tsx">
+  <Accordion className="w-full max-w-md" collapsible type="single">
+    <AccordionItem value="ship">
+      <AccordionTrigger>How do I ship Frakment in my app?</AccordionTrigger>
+      <AccordionContent>
+        Copy each primitive into your project with the CLI, then import from
+        your local `components/ui` directory.
+      </AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="update">
+      <AccordionTrigger>How do updates work?</AccordionTrigger>
+      <AccordionContent>
+        Because every component is local, run `npx frakment add <name>` again
+        and diff the result.
+      </AccordionContent>
+    </AccordionItem>
+  </Accordion>
+</ComponentPreview>
+
+## API Reference
+
+### Accordion
+
+<PropsTable
+  rows={[
+    {
+      name: "type",
+      type: "single | multiple",
+      description: "Whether one or several items can be open at once.",
+    },
+    {
+      name: "defaultValue",
+      type: "string | string[]",
+      description: "Item value(s) open on first render.",
+    },
+    {
+      name: "collapsible",
+      type: "boolean",
+      default: "false",
+      description: "When single, allow closing the open item.",
+    },
+    {
+      name: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "Prevent all interaction.",
+    },
+  ]}
+/>
+
+### AccordionItem
+
+<PropsTable
+  rows={[
+    {
+      name: "value",
+      type: "string",
+      description: "Unique identifier for the item.",
+    },
+    {
+      name: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "Prevent the item from opening.",
+    },
+  ]}
+/>
+
+## Controlled
+
+```tsx
+const [value, setValue] = React.useState("item-1")
+<Accordion type="single" value={value} onValueChange={setValue}>{/* ... */}</Accordion>
+```
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `Space` / `Enter` | Toggle the focused item |
+| `↑` / `↓` | Move between triggers |
+| `Home` / `End` | First / last trigger |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `accordion`, `accordion-item`, `accordion-trigger`, `accordion-content` |
+| `data-state` | `open` \| `closed` |
+| `data-orientation` | `vertical` |
+| `data-disabled` | `true` |
+
+## Accessibility
+
+- Built on Radix Accordion, which follows the WAI-ARIA disclosure pattern.
+- Triggers expose `aria-expanded` and `aria-controls` automatically.
+- Keyboard: `Enter` and `Space` toggle an item; `ArrowUp` and `ArrowDown` move focus.
+- Use descriptive trigger text, not icon-only headers.
+
+## Best Practices
+
+- **Keep content short per section.**
+- **Use `type="single"` for FAQ-style lists.**
+- **Use `type="multiple"` for settings panels.**
+- **Reserve `defaultValue` for one item.**
+## Related Components
+
+- [Collapsible](/docs/components/collapsible) — single expandable panel
+- [Tabs](/docs/components/tabs) — content panes
+

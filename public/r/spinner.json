@@ -1,0 +1,17 @@
+{
+  "dependencies": [
+    "lucide-react"
+  ],
+  "deprecated": false,
+  "description": "A small animated loading indicator.",
+  "files": [
+    {
+      "content": "import { LoaderIcon } from \"lucide-react\";\n\nimport { cn } from \"@/lib/utils\";\n\nfunction Spinner({\n  className,\n  variant = \"default\",\n  ...props\n}: React.ComponentProps<\"span\"> & {\n  variant?: \"default\" | \"spoke\";\n}) {\n  if (variant === \"spoke\") {\n    return (\n      <span\n        aria-label=\"Loading\"\n        className={cn(\n          \"inline-flex size-4 shrink-0 items-center justify-center\",\n          className\n        )}\n        data-slot=\"spinner\"\n        role=\"status\"\n        {...props}\n      >\n        <span className=\"block size-full [transform-origin:center] animate-spin [transform-box:view-box]\">\n          <LoaderIcon className=\"block size-full [shape-rendering:geometricPrecision]\" />\n        </span>\n      </span>\n    );\n  }\n\n  return (\n    <span\n      aria-label=\"Loading\"\n      className={cn(\n        \"inline-block size-4 shrink-0 animate-spin rounded-full border-2 border-current border-t-transparent\",\n        className\n      )}\n      data-slot=\"spinner\"\n      role=\"status\"\n      {...props}\n    />\n  );\n}\n\nexport { Spinner };\n",
+      "path": "components/ui/spinner.tsx"
+    }
+  ],
+  "name": "spinner",
+  "registryDependencies": [],
+  "title": "Spinner",
+  "version": "0.1.0"
+}

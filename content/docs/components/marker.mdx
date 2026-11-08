@@ -1,0 +1,319 @@
+---
+title: Marker
+description: A small inline status row with icon, content, and separator variants.
+---
+
+import { MarkerDemo } from "@/examples/marker-demo";
+import { Marker, MarkerContent, MarkerIcon } from "@/components/ui/marker";
+import { CheckIcon, ChevronRightIcon, ClockIcon, GitBranchIcon, SearchIcon } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner";
+
+<ComponentPreview
+  name="marker"
+  title="marker.tsx"
+  align="start"
+  previewClassName="h-auto"
+>
+  <MarkerDemo />
+</ComponentPreview>
+
+Marker is a small, single-line status row. Use it for system events, inline notifications, typing indicators, or as a separator between sections in a conversation.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add marker
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install class-variance-authority radix-ui
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="marker" title="components/ui/marker.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="marker.tsx"
+import { Marker, MarkerContent, MarkerIcon } from "@/components/ui/marker";
+```
+
+```tsx title="marker.tsx"
+<Marker>
+  <MarkerIcon>
+    <CheckIcon />
+  </MarkerIcon>
+  <MarkerContent>{"Saved just now"}</MarkerContent>
+</Marker>
+```
+
+## Composition
+
+```text
+Marker
+├── MarkerIcon
+└── MarkerContent
+```
+
+## Basic
+
+The simplest form — just text.
+
+<ComponentPreview name="marker" title="marker.tsx">
+  <div className="w-full max-w-sm">
+    <Marker>
+      <MarkerContent>{"Conversation started"}</MarkerContent>
+    </Marker>
+  </div>
+</ComponentPreview>
+
+## With icon
+
+Place `MarkerIcon` as the first child. The icon is sized to 16px.
+
+<ComponentPreview name="marker" title="marker.tsx" previewClassName="h-auto">
+  <div className="flex w-full max-w-sm flex-col gap-4">
+    <Marker>
+      <MarkerIcon>
+        <GitBranchIcon />
+      </MarkerIcon>
+      <MarkerContent>{"Switched to a new branch"}</MarkerContent>
+    </Marker>
+    <Marker>
+      <MarkerIcon>
+        <SearchIcon />
+      </MarkerIcon>
+      <MarkerContent>{"Explored 4 files"}</MarkerContent>
+    </Marker>
+    <Marker>
+      <MarkerIcon>
+        <CheckIcon />
+      </MarkerIcon>
+      <MarkerContent>{"All checks passed"}</MarkerContent>
+    </Marker>
+  </div>
+</ComponentPreview>
+
+## Status
+
+Set `role="status"` when the marker announces a live change. Pair with a spinner icon and the `shimmer` class for a streaming effect.
+
+<ComponentPreview name="marker" title="marker.tsx" previewClassName="h-auto">
+  <div className="flex w-full max-w-sm flex-col gap-4">
+    <Marker role="status">
+      <MarkerIcon>
+        <Spinner />
+      </MarkerIcon>
+      <MarkerContent className="shimmer">{"Thinking..."}</MarkerContent>
+    </Marker>
+    <Marker role="status">
+      <MarkerIcon>
+        <Spinner />
+      </MarkerIcon>
+      <MarkerContent className="shimmer">{"Reading 4 files..."}</MarkerContent>
+    </Marker>
+    <Marker role="status">
+      <MarkerIcon>
+        <Spinner />
+      </MarkerIcon>
+      <MarkerContent className="shimmer">{"Running tests..."}</MarkerContent>
+    </Marker>
+  </div>
+</ComponentPreview>
+
+## Shimmer
+
+Apply `shimmer` to `MarkerContent` for a gentle highlight animation. Combine with `font-medium` on a name to mimic a chat presence line.
+
+<ComponentPreview name="marker" title="marker.tsx" previewClassName="h-auto">
+  <div className="flex w-full max-w-sm flex-col gap-4">
+    <Marker>
+      <MarkerContent className="shimmer">
+        <span className="font-medium">{"Oliver"}</span>
+        {" is typing..."}
+      </MarkerContent>
+    </Marker>
+    <Marker>
+      <MarkerContent className="shimmer">
+        {"Generating response..."}
+      </MarkerContent>
+    </Marker>
+  </div>
+</ComponentPreview>
+
+## Separator
+
+Set `variant="separator"` for a divider with a centered label. Useful for time markers, conversation breaks, or section transitions.
+
+<ComponentPreview name="marker" title="marker.tsx" previewClassName="h-auto">
+  <div className="flex w-full max-w-sm flex-col gap-6">
+    <Marker variant="separator">
+      <MarkerContent>{"Today"}</MarkerContent>
+    </Marker>
+    <Marker variant="separator">
+      <MarkerContent>{"Worked for 42s"}</MarkerContent>
+    </Marker>
+    <Marker variant="separator">
+      <MarkerContent>{"Conversation compacted"}</MarkerContent>
+    </Marker>
+  </div>
+</ComponentPreview>
+
+## Border
+
+Set `variant="border"` for a status row with a bottom rule — useful as a section header.
+
+<ComponentPreview name="marker" title="marker.tsx" previewClassName="h-auto">
+  <div className="flex w-full max-w-sm flex-col gap-2">
+    <Marker variant="border">
+      <MarkerIcon>
+        <GitBranchIcon />
+      </MarkerIcon>
+      <MarkerContent>{"Switched to release-candidate"}</MarkerContent>
+    </Marker>
+    <Marker>
+      <MarkerContent>{"build started"}</MarkerContent>
+    </Marker>
+  </div>
+</ComponentPreview>
+
+## With time
+
+Combine an icon with a muted duration. Use `tabular-nums` for aligned digits.
+
+<ComponentPreview name="marker" title="marker.tsx" previewClassName="h-auto">
+  <div className="flex w-full max-w-sm flex-col gap-2">
+    <Marker>
+      <MarkerIcon>
+        <ClockIcon />
+      </MarkerIcon>
+      <MarkerContent>{"Profiled in 1.8s"}</MarkerContent>
+    </Marker>
+    <Marker>
+      <MarkerIcon>
+        <ClockIcon />
+      </MarkerIcon>
+      <MarkerContent>{"Deployed in 12.4s"}</MarkerContent>
+    </Marker>
+  </div>
+</ComponentPreview>
+
+## Links and buttons
+
+Use `asChild` to render the marker as a link or button. The whole row becomes clickable and keyboard-focusable.
+
+<ComponentPreview name="marker" title="marker.tsx" previewClassName="h-auto">
+  <div className="flex w-full max-w-sm flex-col gap-4">
+    <Marker asChild>
+      <a href="#">
+        <MarkerIcon>
+          <GitBranchIcon />
+        </MarkerIcon>
+        <MarkerContent>{"View branch on GitHub"}</MarkerContent>
+        <ChevronRightIcon className="ms-auto size-4 opacity-50" />
+      </a>
+    </Marker>
+    <Marker asChild>
+      <button type="button">
+        <MarkerIcon>
+          <SearchIcon />
+        </MarkerIcon>
+        <MarkerContent>{"Show all 4 explored files"}</MarkerContent>
+        <ChevronRightIcon className="ms-auto size-4 opacity-50" />
+      </button>
+    </Marker>
+  </div>
+</ComponentPreview>
+
+## In Context
+
+### Thinking marker
+
+<ComponentPreview name="marker" title="marker.tsx">
+  <div className="mx-auto flex w-full max-w-sm flex-col gap-3">
+    <Marker role="status">
+      <MarkerIcon><Spinner /></MarkerIcon>
+      <MarkerContent>Thinking…</MarkerContent>
+    </Marker>
+    <Marker variant="separator" role="status">
+      <MarkerContent>Read 4 files</MarkerContent>
+    </Marker>
+  </div>
+</ComponentPreview>
+
+## API Reference
+
+### Marker
+
+<PropsTable
+  rows={[
+    {
+      name: "variant",
+      type: "default | border | separator",
+      default: "default",
+      description: "Visual style of the row.",
+    },
+    {
+      name: "asChild",
+      type: "boolean",
+      default: "false",
+      description:
+        "When true, renders the child element (e.g. <a>, <button>) instead of a div.",
+    },
+  ]}
+/>
+
+### MarkerIcon
+
+Extends `React.ComponentProps<"span">`. `aria-hidden`. Sizes child SVG to 16px unless overridden.
+
+### MarkerContent
+
+Extends `React.ComponentProps<"span">`. Wraps inline links with underline and hover color. Add `className="shimmer"` for animated streaming text.
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `marker`, `marker-icon`, `marker-content` |
+| `data-variant` | `default` \| `separator` \| `border` |
+
+## Accessibility
+
+- Pass `role="status"` to `Marker` when it announces a live change (typing, syncing, running).
+- `MarkerIcon` is `aria-hidden` — the meaning lives in `MarkerContent`.
+- For `asChild` markers, use `<a href>` for navigation and `<button type="button">` for actions so keyboard and screen readers behave correctly.
+- With `prefers-reduced-motion`, the shimmer animation stops automatically.
+
+## Best Practices
+
+- **Use `variant="separator"` for inline status.** A horizontal rule with centered text reads as a divider.
+- **Pair with an icon.** A spinner or check clarifies the state.
+- **Keep text short.** "Thinking" beats "The model is currently thinking".
+- **Announce with `role="status"`.** Screen readers announce updates politely.
+## Related Components
+
+- [Badge](/docs/components/badge) — compact label
+- [Item](/docs/components/item) — row with media and actions
+

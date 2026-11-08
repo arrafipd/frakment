@@ -1,0 +1,297 @@
+---
+title: Bubble
+description: Chat bubble surface with variants, alignment, and optional reactions.
+---
+
+import { BubbleDemo } from "@/examples/bubble-demo";
+
+import {
+  Bubble,
+  BubbleGroup,
+  BubbleContent,
+  BubbleReactions,
+} from "@/components/ui/bubble";
+
+<ComponentPreview
+  name="bubble"
+  title="bubble.tsx"
+  align="start"
+  previewClassName="h-auto"
+>
+  <BubbleDemo />
+</ComponentPreview>
+
+Bubble renders a chat message surface with rounded corners, padding, and variants for primary, secondary, muted, and destructive tones.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add bubble
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install class-variance-authority radix-ui
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="bubble" title="components/ui/bubble.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="bubble.tsx"
+import { Bubble, BubbleContent } from "@/components/ui/bubble";
+```
+
+```tsx title="bubble.tsx"
+<Bubble variant="muted" align="end">
+  <BubbleContent>{"Why is the dashboard slow?"}</BubbleContent>
+</Bubble>
+```
+
+## Composition
+
+```text
+Bubble
+├── BubbleContent
+└── BubbleReactions
+```
+
+## Variants
+
+Seven tone variants cover sent, received, muted, and error states.
+
+<ComponentPreview
+  name="bubble"
+  title="bubble.tsx"
+  align="center"
+  previewClassName="h-auto"
+>
+  <div className="flex w-full max-w-2xl flex-wrap items-end justify-center gap-3 p-6">
+    <Bubble variant="default">
+      <BubbleContent>{"Default"}</BubbleContent>
+    </Bubble>
+    <Bubble variant="secondary">
+      <BubbleContent>{"Secondary"}</BubbleContent>
+    </Bubble>
+    <Bubble variant="muted">
+      <BubbleContent>{"Muted"}</BubbleContent>
+    </Bubble>
+    <Bubble variant="tinted">
+      <BubbleContent>{"Tinted"}</BubbleContent>
+    </Bubble>
+    <Bubble variant="outline">
+      <BubbleContent>{"Outline"}</BubbleContent>
+    </Bubble>
+    <Bubble variant="destructive">
+      <BubbleContent>{"Destructive"}</BubbleContent>
+    </Bubble>
+    <Bubble variant="ghost">
+      <BubbleContent>{"Ghost"}</BubbleContent>
+    </Bubble>
+  </div>
+</ComponentPreview>
+
+## Alignment
+
+Use `align="start"` (default) for received and `align="end"` for sent messages.
+
+<ComponentPreview
+  name="bubble"
+  title="bubble.tsx"
+  align="start"
+  previewClassName="h-auto"
+>
+  <div className="w-full max-w-md space-y-2 p-6">
+    <Bubble>
+      <BubbleContent>{"Received message"}</BubbleContent>
+    </Bubble>
+    <Bubble align="end" variant="muted">
+      <BubbleContent>{"Sent message"}</BubbleContent>
+    </Bubble>
+  </div>
+</ComponentPreview>
+
+## With reactions
+
+`BubbleReactions` floats a pill on the bottom or top edge of the bubble.
+
+<ComponentPreview
+  name="bubble"
+  title="bubble.tsx"
+  align="start"
+  previewClassName="h-auto"
+>
+  <div className="w-full max-w-md p-6">
+    <BubbleGroup>
+      <Bubble>
+        <BubbleContent>{"Great answer, thanks!"}</BubbleContent>
+        <BubbleReactions side="bottom" align="end">
+          <span>👍</span>
+          <span>🎉</span>
+        </BubbleReactions>
+      </Bubble>
+    </BubbleGroup>
+  </div>
+</ComponentPreview>
+
+## In chat
+
+Combine **Bubble** with [Message](/docs/components/message) for a full conversation layout.
+
+<ComponentPreview
+  name="bubble"
+  title="bubble.tsx"
+  align="start"
+  previewClassName="h-auto"
+>
+  <div className="w-full max-w-md space-y-3 p-6">
+    <div className="flex flex-col gap-2">
+      <span className="text-xs font-medium text-muted-foreground">
+        {"Assistant"}
+      </span>
+      <Bubble>
+        <BubbleContent>{"Hi! How can I help you today?"}</BubbleContent>
+      </Bubble>
+    </div>
+    <div className="flex flex-col items-end gap-2">
+      <span className="text-xs font-medium text-muted-foreground">{"You"}</span>
+      <Bubble align="end" variant="muted">
+        <BubbleContent>
+          {"Why is my dashboard taking 4 seconds to load?"}
+        </BubbleContent>
+      </Bubble>
+    </div>
+    <div className="flex flex-col gap-2">
+      <span className="text-xs font-medium text-muted-foreground">
+        {"Assistant"}
+      </span>
+      <Bubble>
+        <BubbleContent>
+          {"Two problems compound. Let me trace them."}
+        </BubbleContent>
+      </Bubble>
+    </div>
+  </div>
+</ComponentPreview>
+
+## In Context
+
+### Chat thread
+
+<ComponentPreview name="bubble" title="bubble.tsx">
+  <div className="mx-auto flex w-full max-w-sm flex-col gap-3">
+    <Bubble align="start" variant="ghost">
+      <BubbleContent>How do I install Frakment?</BubbleContent>
+    </Bubble>
+    <Bubble align="end" variant="default">
+      <BubbleContent>Run `npx frakment init` first.</BubbleContent>
+    </Bubble>
+    <Bubble align="start" variant="ghost">
+      <BubbleContent>Got it, thanks!</BubbleContent>
+    </Bubble>
+  </div>
+</ComponentPreview>
+
+## API Reference
+
+### Bubble
+
+<PropsTable
+  rows={[
+    {
+      name: "variant",
+      type: "default | secondary | muted | tinted | outline | ghost | destructive",
+      default: "default",
+      description: "Visual tone of the bubble surface.",
+    },
+    {
+      name: "align",
+      type: "start | end",
+      default: "start",
+      description: "Horizontal alignment for sent vs received messages.",
+    },
+  ]}
+/>
+
+### BubbleContent
+
+Extends `React.ComponentProps<"div">` with `asChild` support. When true, renders as a `Slot`, letting the content become a `<button>` or `<a>` for interactive bubbles.
+
+### BubbleReactions
+
+<PropsTable
+  rows={[
+    {
+      name: "side",
+      type: "top | bottom",
+      default: "bottom",
+      description: "Which edge of the bubble the reaction pill anchors to.",
+    },
+    {
+      name: "align",
+      type: "start | end",
+      default: "end",
+      description: "Horizontal alignment of the reaction pill.",
+    },
+  ]}
+/>
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `bubble`, `bubble-content`, `bubble-reactions`, `bubble-group` |
+| `data-align` | `start` \| `end` |
+| `data-variant` | same values as the `variant` prop |
+
+## Variants
+
+| Variant | Use case |
+| :-- | :-- |
+| `default` | Received message |
+| `secondary` | Alternate received |
+| `muted` | Sent message (calm) |
+| `tinted` | Highlighted reply |
+| `outline` | Neutral border |
+| `ghost` | Long reply, no surface |
+| `destructive` | Error reply |
+
+## Accessibility
+
+- Use `asChild` to make a bubble a button or link when it should be clickable.
+- Reactions should have `aria-label` for screen readers — emoji alone is not descriptive.
+- Alignment is visual only; do not rely on it to convey sender role.
+
+## Best Practices
+
+- **Align by role.** `end` for the user, `start` for the assistant.
+- **Prefer `ghost` for long replies.** Full-surface bubbles feel heavy for paragraphs.
+- **Keep bubble content one idea.** Split into multiple bubbles for multi-paragraph answers.
+- **Do not put interactive content inside a bubble.** Use a Message row with actions instead.
+## Related Components
+
+- [Message](/docs/components/message) — full message row with avatar
+- [Attachment](/docs/components/attachment) — file chips
+- [Trace](/docs/components/trace) — agent step rows
+

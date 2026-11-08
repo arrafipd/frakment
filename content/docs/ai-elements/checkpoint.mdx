@@ -1,0 +1,168 @@
+---
+title: "Checkpoint"
+description: "Restore a conversation to any earlier point with data-checkpoint parts."
+---
+
+import { CheckpointDemo } from "@/examples/checkpoint-demo";
+
+<ComponentPreview name="checkpoint-demo" title="checkpoint-demo.tsx" src="examples/checkpoint-demo.tsx">
+  <CheckpointDemo />
+</ComponentPreview>
+
+Checkpoint marks a point in a conversation that can be restored. It renders a `data-checkpoint` part as a separator marker with a restore action, and messages after that point are trimmed when the user clicks it.
+
+Checkpoint is a composition — install the primitives, then wire them together the same way the demo does.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npm install @frakment/ai
+
+npx frakment add bubble button marker message
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install @frakment/ai @ai-sdk/react ai motion
+      ```
+
+      <Step>Install the required registry components:</Step>
+
+      <ComponentSource src="lib/ai.ts" title="lib/ai.ts" />
+      <ComponentSource name="bubble" title="components/ui/bubble.tsx" />
+      <ComponentSource name="button" title="components/ui/button.tsx" />
+      <ComponentSource name="marker" title="components/ui/marker.tsx" />
+      <ComponentSource name="message" title="components/ui/message.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+Emit a `data-checkpoint` part from the assistant turn. The part carries a label, which renders as a separator marker in the transcript.
+
+```tsx title="chat.tsx"
+import { createChat } from "@frakment/ai";
+import type { UIMessage } from "ai";
+
+type ChatMessage = UIMessage<
+  unknown,
+  { checkpoint: { label: string } }
+>;
+
+const chat = createChat<ChatMessage>()
+  .user("Rename the button component to action.")
+  .assistant(({ writer }) => {
+    writer.text("Renamed Button to Action.");
+    writer.data({
+      type: "data-checkpoint",
+      id: "rename",
+      data: { label: "Button renamed" },
+    });
+  });
+```
+
+## Anatomy
+
+```tsx title="checkpoint.tsx"
+<Message align="end">
+  <MessageContent>
+    <Bubble align="end" variant="muted">
+      <BubbleContent>{userText}</BubbleContent>
+    </Bubble>
+  </MessageContent>
+</Message>
+
+<Message>
+  <MessageContent>
+    <p>{assistantText}</p>
+  </MessageContent>
+</Message>
+
+<Marker variant="separator">
+  <MarkerContent>
+    {checkpoint.data.label}
+    <Button size="xs" variant="outline" onClick={restore}>
+      Restore
+    </Button>
+  </MarkerContent>
+</Marker>
+```
+
+- **Message**, **Bubble** — user and assistant turns.
+- **Marker** with `variant="separator"` — the visual checkpoint line.
+- **Button** — restore action, only shown when there is a later turn to trim.
+
+## Animation
+
+Checkpoint rows animate through the same variants as chat messages.
+
+```tsx title="checkpoint.tsx"
+import { MESSAGE_ANIMATIONS } from "@/lib/message-animations";
+import { motion, useReducedMotion } from "motion/react";
+
+const shouldReduceMotion = useReducedMotion();
+
+<motion.div
+  animate={shouldReduceMotion ? undefined : "animate"}
+  initial={shouldReduceMotion ? undefined : "initial"}
+  variants={MESSAGE_ANIMATIONS["slide-up"].variants}
+>
+  ...
+</motion.div>
+```
+
+The checkpoint marker uses the `fade` variant, so it appears after the message it belongs to.
+
+## Restore semantics
+
+`restore(messageId)` trims every message after the one that carried the checkpoint.
+
+```tsx
+function restore(messageId: string) {
+  const index = messages.findIndex((m) => m.id === messageId);
+  if (index === -1) return;
+  setMessages(messages.slice(0, index + 1));
+}
+```
+
+The restore button hides when the checkpoint is already the last message. Send the next user turn to branch again from that point.
+
+## Next
+
+- [Chat](/docs/ai-elements/chat) — full streaming chat surface.
+- [Message](/docs/components/message) — message row primitive.
+- [Bubble](/docs/components/bubble) — chat bubble surface.
+- [Marker](/docs/components/marker) — separator and status line.
+- [Button](/docs/components/button) — restore action.
+
+## Accessibility
+
+- The checkpoint marker is a separator with a visible label. Provide `aria-label` on the restore button, e.g. "Restore to Button renamed".
+- Restore buttons are focusable and respond to Enter and Space.
+- When the checkpoint is the last message, restore is hidden to avoid a no-op for keyboard users.
+- Announce transcript length with `role="status"` if you track it elsewhere.
+
+## Best Practices
+
+- **One checkpoint per logical step.** Emit when the state is worth returning to.
+- **Label with what changed.** "Button renamed" beats "Checkpoint 3".
+- **Hide restore on the last checkpoint.** Nothing to trim means no button.
+- **Combine with confirmation for destructive restores.** Restoring over unsaved work should ask first.
+- **Do not persist checkpoints across sessions.** They belong to the current transcript.

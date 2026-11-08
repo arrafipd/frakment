@@ -1,0 +1,192 @@
+---
+title: Sheet
+description: A modal panel that slides in from the edge of the screen.
+---
+
+import { SheetDemo } from "@/examples/sheet-demo";
+import { SheetSide } from "@/examples/sheet-side";
+import { SheetNoCloseButton } from "@/examples/sheet-no-close-button";
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+
+<ComponentPreview name="sheet" title="sheet.tsx">
+  <SheetDemo />
+</ComponentPreview>
+
+Sheet renders a modal panel that slides in from a screen edge. Built on Radix Dialog, so focus is trapped and Escape dismisses.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add sheet
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ~~~bash
+      npm install lucide-react radix-ui
+      ~~~
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="sheet" title="components/ui/sheet.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="sheet.tsx"
+import {
+  Sheet, SheetClose, SheetContent, SheetDescription,
+  SheetFooter, SheetHeader, SheetTitle, SheetTrigger,
+} from "@/components/ui/sheet";
+~~~
+
+~~~tsx
+<Sheet>
+  <SheetTrigger asChild>
+    <Button>Open</Button>
+  </SheetTrigger>
+  <SheetContent>
+    <SheetHeader>
+      <SheetTitle>Title</SheetTitle>
+      <SheetDescription>Description</SheetDescription>
+    </SheetHeader>
+    <SheetFooter>
+      <SheetClose asChild>
+        <Button variant="outline">Close</Button>
+      </SheetClose>
+    </SheetFooter>
+  </SheetContent>
+</Sheet>
+~~~
+## Composition
+
+```text
+Sheet
+├── SheetTrigger
+└── SheetContent
+    ├── SheetHeader
+    │   ├── SheetTitle
+    │   └── SheetDescription
+    ├── SheetFooter
+    └── SheetClose
+```
+
+## Sides
+
+Four sides are available: `top`, `right`, `bottom`, `left`.
+
+<ComponentPreview name="sheet" title="sheet.tsx">
+  <SheetSide />
+</ComponentPreview>
+
+## Without close button
+
+Pass `showCloseButton={false}` and dismiss via backdrop or Escape.
+
+<ComponentPreview name="sheet" title="sheet.tsx">
+  <SheetNoCloseButton />
+</ComponentPreview>
+
+## In Context
+
+### Mobile navigation
+
+<ComponentPreview name="sheet" title="sheet.tsx">
+  <Sheet>
+    <SheetTrigger asChild>
+      <Button variant="outline">Open menu</Button>
+    </SheetTrigger>
+    <SheetContent>
+      <SheetHeader>
+        <SheetTitle>Navigation</SheetTitle>
+      </SheetHeader>
+      <nav className="flex flex-col gap-2 pt-4">
+        <a className="text-sm" href="/docs">Docs</a>
+        <a className="text-sm" href="/changelog">Changelog</a>
+        <a className="text-sm" href="/github">GitHub</a>
+      </nav>
+    </SheetContent>
+  </Sheet>
+</ComponentPreview>
+
+## API Reference
+
+### SheetContent
+
+<PropsTable
+  rows={[
+    { name: "side", type: "top | right | bottom | left", default: "right", description: "Edge the panel slides from." },
+    { name: "showCloseButton", type: "boolean", default: "true", description: "Show the top-right close button." },
+    { name: "className", type: "string", description: "Extra classes on the panel." },
+  ]}
+/>
+
+## As Child
+
+`SheetTrigger` and `SheetClose` accept `asChild` to render your own element.
+
+## Controlled
+
+```tsx
+const [open, setOpen] = React.useState(false)
+<Sheet open={open} onOpenChange={setOpen}>
+  <SheetTrigger asChild>
+    <Button>Open</Button>
+  </SheetTrigger>
+  <SheetContent side="right">{/* ... */}</SheetContent>
+</Sheet>
+```
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `Esc` | Close the sheet |
+| `Tab` | Move focus |
+| `Shift + Tab` | Move focus backwards |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `sheet-trigger`, `sheet-content`, `sheet-header`, `sheet-footer`, `sheet-title`, `sheet-description`, `sheet-close` |
+| `data-state` | `open` \| `closed` |
+| `data-side` | `top` \| `right` \| `bottom` \| `left` |
+
+## Accessibility
+
+- Focus is trapped inside the sheet while open.
+- `SheetTitle` and `SheetDescription` are announced to screen readers.
+- `Escape` closes the sheet unless prevented.
+- Clicking the backdrop closes the sheet.
+
+## Best Practices
+
+- **Use for navigation, not for data entry.** Long forms belong on a page.
+- **Keep the side consistent.** `right` for navigation, `bottom` for mobile menus.
+- **Close on link click.** Otherwise the sheet sits between the user and the destination.
+- **Do not stack sheets.** One at a time.
+## Related Components
+
+- [Dialog](/docs/components/dialog) — centered modal
+- [Dropdown Menu](/docs/components/dropdown-menu) — action menu
+- [Tooltip](/docs/components/tooltip) — hint on hover
+

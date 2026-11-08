@@ -1,0 +1,186 @@
+---
+title: Laravel
+description: Install and configure Frakment for Laravel with Inertia.
+---
+
+Frakment works in any Laravel 12+ project with Inertia + React 19 and Tailwind v4. This guide covers both a new project via the CLI and an existing app.
+
+## Prerequisites
+
+- **Laravel** 12 or newer
+- **Inertia.js** with React adapter
+- **React** 19
+- **Vite** 5+
+- **TypeScript**
+- **Tailwind CSS** v4
+
+Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/guides/theming) manually.
+
+## Use the CLI
+
+Scaffold a new Laravel + React app with Frakment installed.
+
+<Steps>
+
+<Step>Create project</Step>
+
+```bash
+laravel new app --react
+cd app
+```
+
+<Step>Install Tailwind v4</Step>
+
+```bash
+npm install tailwindcss@latest @tailwindcss/vite
+```
+
+Register the Vite plugin:
+
+```ts title="vite.config.ts"
+import tailwindcss from "@tailwindcss/vite";
+import laravel from "laravel-vite-plugin";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  plugins: [
+    laravel({
+      input: ["resources/css/app.css", "resources/js/app.tsx"],
+      refresh: true,
+    }),
+    react(),
+    tailwindcss(),
+  ],
+});
+```
+
+<Step>Add components</Step>
+
+```bash
+npx frakment@latest init
+npx frakment@latest add bubble
+```
+
+<Step>Use it</Step>
+
+```tsx title="resources/js/pages/Home.tsx"
+import { Bubble, BubbleContent } from "@/components/ui/bubble";
+
+export default function Home() {
+  return (
+    <Bubble>
+      <BubbleContent>Hello, Frakment.</BubbleContent>
+    </Bubble>
+  );
+}
+```
+
+</Steps>
+
+## Existing Project
+
+Add Frakment to a Laravel + Inertia app you already created.
+
+<Steps>
+
+<Step>Install Tailwind v4</Step>
+
+```bash
+npm install tailwindcss@latest @tailwindcss/vite
+```
+
+Register the Vite plugin in `vite.config.ts`.
+
+<Step>Run frakment init</Step>
+
+```bash
+npx frakment@latest init
+```
+
+Point to `resources/css/app.css` when prompted. The CLI injects the theme block.
+
+<Step>Configure the import alias</Step>
+
+In `tsconfig.json`:
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./resources/js/*"]
+    }
+  }
+}
+```
+
+<Step>Add a component</Step>
+
+```bash
+npx frakment@latest add bubble
+```
+
+</Steps>
+
+## Project structure
+
+<FileTree>
+  <FileTreeFolder name="app" defaultOpen>
+    <FileTreeFile name="package.json" />
+    <FileTreeFile name="vite.config.ts" />
+    <FileTreeFile name="tsconfig.json" />
+    <FileTreeFolder name="resources" defaultOpen>
+      <FileTreeFolder name="css">
+        <FileTreeFile name="app.css" />
+      </FileTreeFolder>
+      <FileTreeFolder name="js" defaultOpen>
+        <FileTreeFile name="app.tsx" />
+        <FileTreeFolder name="pages">
+          <FileTreeFile name="Home.tsx" />
+        </FileTreeFolder>
+        <FileTreeFolder name="components">
+          <FileTreeFolder name="ui" />
+        </FileTreeFolder>
+      </FileTreeFolder>
+    </FileTreeFolder>
+  </FileTreeFolder>
+</FileTree>
+
+## Verify
+
+```bash
+ls resources/js/components/ui/bubble.tsx
+```
+
+Then render it in an Inertia page. If it renders without errors, you are ready.
+
+## Troubleshooting
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="vite-plugin">
+<AccordionTrigger>Tailwind not applied after npm run dev</AccordionTrigger>
+<AccordionContent>
+
+Make sure `@tailwindcss/vite` is in `vite.config.ts` and the `input` array includes your CSS file. Laravel Mix is not used in Laravel 12 — Vite only.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="inertia">
+<AccordionTrigger>Component does not render in page</AccordionTrigger>
+<AccordionContent>
+
+Inertia pages live in `resources/js/pages/`. Make sure the component imports resolve from `@/components/ui/*`.
+
+</AccordionContent>
+</AccordionItem>
+
+</Accordion>
+
+## Next
+
+- [Theming](/docs/guides/theming) - customize tokens and dark mode
+- [Components](/docs/components) - browse the catalog
+- [Laravel docs](https://laravel.com/docs) - framework reference

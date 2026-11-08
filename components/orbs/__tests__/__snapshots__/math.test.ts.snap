@@ -1,0 +1,32 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`orbs/math > look rotation > snapshots for known yaw/pitch pairs > yaw=-12 pitch=-3 1`] = `"0.241674333 -0.970024900 -0.025400996 12.3679859deg"`;
+
+exports[`orbs/math > look rotation > snapshots for known yaw/pitch pairs > yaw=-24 pitch=-4 1`] = `"0.162019872 -0.986186371 -0.034438387 24.3262276deg"`;
+
+exports[`orbs/math > look rotation > snapshots for known yaw/pitch pairs > yaw=0 pitch=4 1`] = `"-1.000000000 0.000000000 0.000000000 4.0000000deg"`;
+
+exports[`orbs/math > look rotation > snapshots for known yaw/pitch pairs > yaw=24 pitch=0 1`] = `"0.000000000 1.000000000 0.000000000 24.0000000deg"`;
+
+exports[`orbs/math > look rotation > snapshots for known yaw/pitch pairs > yaw=24 pitch=4 1`] = `"-0.162019872 0.986186371 -0.034438387 24.3262276deg"`;
+
+exports[`orbs/math > wander path > snapshots for known seed and time > seed=0 time=0 1`] = `
+[
+  0,
+  0.3854232741668772,
+]
+`;
+
+exports[`orbs/math > wander path > snapshots for known seed and time > seed=1.5 time=5000 1`] = `
+[
+  -0.041450722497116434,
+  -0.3747253709460897,
+]
+`;
+
+exports[`orbs/math > wander path > snapshots for known seed and time > seed=42 time=12345 1`] = `
+[
+  0.42498876717487405,
+  0.3961634666928757,
+]
+`;

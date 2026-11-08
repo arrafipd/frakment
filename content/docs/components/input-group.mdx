@@ -1,0 +1,303 @@
+---
+title: Input Group
+description: A composable input wrapper with inline addons, buttons, and text groups.
+---
+
+import { InputGroupDemo } from "@/examples/input-group-demo";
+import { InputGroupBlockEnd } from "@/examples/input-group-block-end";
+import { InputGroupBlockStart } from "@/examples/input-group-block-start";
+import { InputGroupTextareaDemo } from "@/examples/input-group-textarea";
+import { InputGroupKbd } from "@/examples/input-group-kbd";
+import { InputGroupDisabled } from "@/examples/input-group-disabled";
+import { InputGroupInvalid } from "@/examples/input-group-invalid";
+import { SearchIcon } from "lucide-react";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+
+<ComponentPreview name="input-group" title="input-group.tsx">
+  <InputGroupDemo />
+</ComponentPreview>
+
+Input Group wraps a single input or textarea and lets you compose inline addons — icons, text prefixes, and buttons — in a single bordered surface.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add input-group
+```
+
+The CLI also installs the registry dependencies: `button`, `input`, and `textarea`.
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install class-variance-authority
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="input-group" title="components/ui/input-group.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+## Usage
+
+```tsx title="input-group.tsx"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+  InputGroupText,
+  InputGroupTextarea,
+} from "@/components/ui/input-group";
+```
+
+```tsx title="input-group.tsx"
+<InputGroup>
+  <InputGroupAddon>
+    <Search />
+  </InputGroupAddon>
+  <InputGroupInput placeholder="Search..." />
+</InputGroup>
+```
+
+## Composition
+
+```text
+InputGroup
+├── InputGroupInput
+├── InputGroupTextarea
+├── InputGroupAddon
+├── InputGroupButton
+└── InputGroupText
+```
+
+## Examples
+
+### Block end
+
+`align="block-end"` stacks content below the control and lets the group grow taller automatically.
+
+<ComponentPreview
+  name="input-group"
+  title="input-group.tsx"
+  previewClassName="h-auto py-8"
+>
+  <InputGroupBlockEnd />
+</ComponentPreview>
+
+```tsx
+<InputGroup>
+  <InputGroupTextarea placeholder="Type a message" rows={2} />
+  <InputGroupAddon align="block-end" className="justify-end">
+    <InputGroupButton size="icon-sm" variant="default">
+      <ArrowUpIcon />
+    </InputGroupButton>
+  </InputGroupAddon>
+</InputGroup>
+```
+
+### Block start
+
+`align="block-start"` stacks content above the control — useful for a compact inline label.
+
+<ComponentPreview
+  name="input-group"
+  title="input-group.tsx"
+  previewClassName="h-auto py-8"
+>
+  <InputGroupBlockStart />
+</ComponentPreview>
+
+```tsx
+<InputGroup>
+  <InputGroupAddon align="block-start">
+    <InputGroupText>Subject</InputGroupText>
+  </InputGroupAddon>
+  <InputGroupInput placeholder="Enter a subject" />
+</InputGroup>
+```
+
+### Textarea
+
+Swap `InputGroupInput` for `InputGroupTextarea` to keep the same shell around a multi-line control.
+
+<ComponentPreview
+  name="input-group"
+  title="input-group.tsx"
+  previewClassName="h-auto py-8"
+>
+  <InputGroupTextareaDemo />
+</ComponentPreview>
+
+```tsx
+<InputGroup>
+  <InputGroupAddon align="block-start">
+    <InputGroupText>Message</InputGroupText>
+  </InputGroupAddon>
+  <InputGroupTextarea placeholder="Write a reply..." rows={3} />
+</InputGroup>
+```
+
+### Keyboard hint
+
+Any element inside `InputGroupAddon` works — here a `kbd` shortcut hint on the trailing edge.
+
+<ComponentPreview name="input-group" title="input-group.tsx">
+  <InputGroupKbd />
+</ComponentPreview>
+
+```tsx
+<InputGroup>
+  <InputGroupAddon>
+    <Search />
+  </InputGroupAddon>
+  <InputGroupInput placeholder="Search..." />
+  <InputGroupAddon align="inline-end">
+    <kbd>Ctrl K</kbd>
+  </InputGroupAddon>
+</InputGroup>
+```
+
+### Disabled
+
+Set `data-disabled="true"` on the group, or `disabled` on the control, to fade the inline text and make the controls non-interactive.
+
+<ComponentPreview name="input-group" title="input-group.tsx">
+  <InputGroupDisabled />
+</ComponentPreview>
+
+```tsx
+<InputGroup data-disabled="true">
+  <InputGroupAddon>
+    <Search />
+  </InputGroupAddon>
+  <InputGroupInput placeholder="Disabled" disabled />
+</InputGroup>
+```
+
+### Invalid
+
+Set `aria-invalid` on the control to trigger the destructive border and ring on the group.
+
+<ComponentPreview name="input-group" title="input-group.tsx">
+  <InputGroupInvalid />
+</ComponentPreview>
+
+```tsx
+<InputGroup>
+  <InputGroupAddon>
+    <Search />
+  </InputGroupAddon>
+  <InputGroupInput
+    placeholder="Invalid"
+    aria-invalid
+    defaultValue="Not found"
+  />
+</InputGroup>
+```
+
+## In Context
+
+### Search with icon
+
+<ComponentPreview name="input-group" title="input-group.tsx">
+  <InputGroup className="mx-auto w-full max-w-sm">
+    <InputGroupAddon><SearchIcon /></InputGroupAddon>
+    <InputGroupInput placeholder="Search…" />
+  </InputGroup>
+</ComponentPreview>
+
+## API Reference
+
+### InputGroupAddon
+
+<PropsTable
+  rows={[
+    {
+      name: "align",
+      type: '"inline-start" | "inline-end" | "block-start" | "block-end"',
+      defaultValue: '"inline-start"',
+      description: "Position of the addon inside the group.",
+    },
+  ]}
+/>
+
+### InputGroupButton
+
+Extends Frakment `Button`. Accepts all button props (`variant`, `size`, `disabled`, `asChild`, …). Additional compact sizes:
+
+<PropsTable
+  rows={[
+    {
+      name: "size xs",
+      type: '"xs"',
+      defaultValue: "",
+      description: "6×24px — default for InputGroupButton.",
+    },
+    {
+      name: "size icon-xs",
+      type: '"icon-xs"',
+      defaultValue: "",
+      description: "6×6px icon-only.",
+    },
+    {
+      name: "size icon-sm",
+      type: '"icon-sm"',
+      defaultValue: "",
+      description: "8×8px icon-only.",
+    },
+  ]}
+/>
+
+### InputGroupInput / InputGroupTextarea
+
+Extend native `input` / `textarea` props. Borders, ring, and background are stripped so the group provides the visual shell.
+
+## CSS Variables
+
+| Variable | Default | Purpose |
+| :-- | :-- | :-- |
+| `--radius` | theme default | Corner radius of the wrapper |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `input-group`, `input-group-addon`, `input-group-button`, `input-group-text` |
+| `data-align` | `inline-start` \| `inline-end` \| `block-start` \| `block-end` |
+| `data-disabled` | `true` |
+
+## Accessibility
+
+- `InputGroup` wraps a single input or textarea. Do not nest multiple controls.
+- Addons are decorative; use `aria-label` on icon-only addons.
+- The focus ring applies to the group, not the inner input.
+
+## Best Practices
+
+- **One input per group.** Multiple inputs need multiple groups.
+- **Addons align end or start.** Never both around the input.
+- **Label the input inside.** Addons are not labels.
+- **Keep addons visual.** A button inside an addon is a full Button.
+## Related Components
+
+- [Input](/docs/components/input) — plain input
+- [Field](/docs/components/field) — label + description
+- [Button Group](/docs/components/button-group) — grouped buttons
+

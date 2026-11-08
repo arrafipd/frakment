@@ -1,0 +1,390 @@
+---
+title: "November 5, 2026"
+description: "Thirteen new registry components and a ten-variant Text Flip."
+date: "2026-11-05"
+---
+
+import { AccordionDemo } from "@/examples/accordion-demo";
+import { CardDemo } from "@/examples/card-demo";
+import { CollapsibleDemo } from "@/examples/collapsible-demo";
+import { DropdownMenuDemo } from "@/examples/dropdown-menu-demo";
+import { TabsDemo } from "@/examples/tabs-demo";
+import { TextFlipRoll } from "@/examples/text-flip-roll";
+import { TooltipDemo } from "@/examples/tooltip-demo";
+import { BreadcrumbDemo } from "@/examples/breadcrumb-demo";
+import { ButtonGroupDemo } from "@/examples/button-group-demo";
+import { InputOTPDemo } from "@/examples/input-otp-demo";
+import { PaginationDemo } from "@/examples/pagination-demo";
+import { RadioGroupDemo } from "@/examples/radio-group-demo";
+import { ToastDemo } from "@/examples/toast-demo";
+
+This release adds **thirteen registry components** and expands **Text Flip** with ten transition variants.
+
+- [Accordion](#accordion): Collapsible sections with single or multiple expansion.
+- [Card](#card): Now installable via `npx frakment add card`.
+- [Collapsible](#collapsible): Single-panel expand and collapse with animated height.
+- [Dropdown Menu](#dropdown-menu): Menu with items, checkboxes, submenus, and three alignment values.
+- [Tabs](#tabs): Layered content panels with vertical and disabled support.
+- [Text Flip](#text-flip): Ten variants for animating text and numbers.
+- [Tooltip](#tooltip): Hover and focus popup with three side placements.
+- [Breadcrumb](#breadcrumb): Path hierarchy with dropdown and ellipsis.
+- [Button Group](#button-group): Merged clusters of buttons, inputs, and selects.
+- [Input OTP](#input-otp): One-time password input with pattern and length control.
+- [Pagination](#pagination): Page navigation with numbered and icon-only variants.
+- [Radio Group](#radio-group): Mutually exclusive options with fieldset support.
+- [Toast](#toast): Sonner-based notifications with types and promises.
+<hr className="my-16 border-border/40" />
+
+### Accordion
+
+<ComponentPreview name="accordion" title="accordion.tsx">
+  <AccordionDemo />
+</ComponentPreview>
+
+**Accordion** stacks headings that each reveal a section of content. It supports `type="single"` and `type="multiple"`, item-level `disabled`, and animated height transitions. Trigger and content use `data-slot` markers for styling hooks.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive</Step>
+
+~~~bash
+npx frakment add accordion
+~~~
+
+<Step>Use it in your app</Step>
+
+~~~tsx
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+~~~
+
+</Steps>
+
+#### Minimal usage
+
+~~~tsx
+<Accordion collapsible defaultValue="item-1" type="single">
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Is it accessible?</AccordionTrigger>
+    <AccordionContent>
+      Yes. It adheres to the WAI-ARIA design pattern.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+~~~
+
+See the [Accordion docs](/docs/components/accordion) for the full API reference.
+<hr className="my-16 border-border/40" />
+
+### Card
+
+<ComponentPreview name="card" title="card.tsx">
+  <CardDemo />
+</ComponentPreview>
+
+`card` is now installable via `npx frakment add card`. The component and docs already existed, but the `frakment.json` entry and `registry/card.tsx` mirror were missing, so the install command returned 404 until today.
+
+#### Installation
+
+<Steps>
+  <Step>Install</Step>
+
+~~~bash
+npx frakment add card
+~~~
+
+</Steps>
+
+See the [Card docs](/docs/components/card) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Collapsible
+
+<ComponentPreview name="collapsible" title="collapsible.tsx">
+  <CollapsibleDemo />
+</ComponentPreview>
+
+**Collapsible** expands and collapses a single panel with an animated height transition. It composes into nested structures like file trees and accepts the standard Radix Collapsible props plus `asChild` on the trigger.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive</Step>
+
+~~~bash
+npx frakment add collapsible
+~~~
+
+<Step>Use it in your app</Step>
+
+~~~tsx
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+~~~
+
+</Steps>
+
+See the [Collapsible docs](/docs/components/collapsible) for the full API reference.
+<hr className="my-16 border-border/40" />
+
+### Dropdown Menu
+
+<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
+  <DropdownMenuDemo />
+</ComponentPreview>
+
+`dropdown-menu` is now installable via `npx frakment add dropdown-menu`. It supports items, checkbox items, submenus, and three `align` values on the content: `start`, `center` (default), and `end`.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive</Step>
+
+~~~bash
+npx frakment add dropdown-menu
+~~~
+
+</Steps>
+
+See the [Dropdown Menu docs](/docs/components/dropdown-menu) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Tabs
+
+<ComponentPreview name="tabs" title="tabs.tsx">
+  <TabsDemo />
+</ComponentPreview>
+
+**Tabs** ships as a registry component with `Tabs`, `TabsList`, `TabsTrigger`, and `TabsContent`. Supports horizontal and vertical orientation, disabled triggers, and icon triggers.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive</Step>
+
+~~~bash
+npx frakment add tabs
+~~~
+
+</Steps>
+
+See the [Tabs docs](/docs/components/tabs) for the full API reference.
+<hr className="my-16 border-border/40" />
+
+### Text Flip
+
+<ComponentPreview name="text-flip" title="text-flip.tsx">
+  <TextFlipRoll />
+</ComponentPreview>
+
+**Text Flip** ships with ten variants: `flip`, `fade`, `blur`, `slide`, `scale`, `count`, `roll`, `shuffle`, `typewriter`, and `wave`. Numeric variants (`count`, `roll`) interpolate numbers via `@number-flow/react`. The `as` prop chooses the rendered element. `typewriter` and `wave` accept a `speed` prop in milliseconds.
+
+#### Installation
+
+<Steps>
+  <Step>Install</Step>
+
+~~~bash
+npx frakment add text-flip
+~~~
+
+<Step>Use it in your app</Step>
+
+~~~tsx
+import { TextFlip } from "@/components/ui/text-flip";
+~~~
+
+</Steps>
+
+#### Minimal usage
+
+~~~tsx
+<TextFlip>{"Build", "Ship", "Iterate"}</TextFlip>
+~~~
+
+See the [Text Flip docs](/docs/components/text-flip) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Tooltip
+
+<ComponentPreview name="tooltip" title="tooltip.tsx">
+  <TooltipDemo />
+</ComponentPreview>
+
+`tooltip` is now installable via `npx frakment add tooltip`. Wraps Radix Tooltip with three side placements and a disabled state.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive</Step>
+
+~~~bash
+npx frakment add tooltip
+~~~
+
+</Steps>
+
+See the [Tooltip docs](/docs/components/tooltip) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Breadcrumb
+
+<ComponentPreview name="breadcrumb" title="breadcrumb.tsx">
+  <BreadcrumbDemo />
+</ComponentPreview>
+
+**Breadcrumb** shows the path to the current page using a hierarchy of links. It supports custom separators, dropdown menus for intermediate levels, and ellipsis for long paths.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive</Step>
+
+~~~bash
+npx frakment add breadcrumb
+~~~
+
+</Steps>
+
+See the [Breadcrumb docs](/docs/components/breadcrumb) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Button Group
+
+<ComponentPreview name="button-group" title="button-group.tsx" previewClassName="h-auto py-8">
+  <ButtonGroupDemo />
+</ComponentPreview>
+
+**Button Group** merges adjacent buttons into a single bordered unit. It handles orientation, sizes, and composition with inputs, selects, and dropdown menus.
+
+#### Installation
+
+<Steps>
+  <Step>Install the group and its separator</Step>
+
+~~~bash
+npx frakment add button-group separator
+~~~
+
+</Steps>
+
+See the [Button Group docs](/docs/components/button-group) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Input OTP
+
+<ComponentPreview name="input-otp" title="input-otp.tsx">
+  <InputOTPDemo />
+</ComponentPreview>
+
+**Input OTP** renders a one-time password field with real input handling for paste, backspace, and arrow keys. Length, character pattern, and separators are configurable.
+
+#### Installation
+
+<Steps>
+  <Step>Install</Step>
+
+~~~bash
+npx frakment add input-otp
+~~~
+
+</Steps>
+
+See the [Input OTP docs](/docs/components/input-otp) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Pagination
+
+<ComponentPreview name="pagination" title="pagination.tsx">
+  <PaginationDemo />
+</ComponentPreview>
+
+**Pagination** splits long content into pages with numbered links, previous/next controls, and an ellipsis for skipped ranges. Active page uses aria-current.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive</Step>
+
+~~~bash
+npx frakment add pagination
+~~~
+
+</Steps>
+
+See the [Pagination docs](/docs/components/pagination) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Radio Group
+
+<ComponentPreview name="radio-group" title="radio-group.tsx">
+  <RadioGroupDemo />
+</ComponentPreview>
+
+**Radio Group** is a set of mutually exclusive options. It handles arrow key navigation, fieldset semantics, and disabled or invalid states through Field.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitive</Step>
+
+~~~bash
+npx frakment add radio-group
+~~~
+
+</Steps>
+
+See the [Radio Group docs](/docs/components/radio-group) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Toast
+
+<ComponentPreview name="sonner" title="sonner.tsx" previewClassName="h-auto py-16">
+  <ToastDemo />
+</ComponentPreview>
+
+**Toast** wraps Sonner with theme-aware icons and tokens. Success, info, warning, and error types map to Lucide icons from the shim, and promise-aware toasts switch state as the underlying promise resolves.
+
+#### Installation
+
+<Steps>
+  <Step>Install</Step>
+
+~~~bash
+npx frakment add sonner
+~~~
+
+</Steps>
+
+See the [Toast docs](/docs/components/sonner) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Changed: Icons use lucide-react
+
+Components installed via `npx frakment add` now import from `lucide-react` instead of a bundled Lucide shim. Running any `npx frakment add <component>` installs `lucide-react` automatically and no longer pulls `icons`.
+
+~~~bash
+npx frakment add button
+# installs: class-variance-authority radix-ui lucide-react
+~~~
+
+The `icons` registry entry is removed. Projects that previously installed it can keep using it, but new installs should import from `lucide-react` directly.
+

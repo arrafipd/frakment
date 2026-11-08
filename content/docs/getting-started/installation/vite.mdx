@@ -1,0 +1,168 @@
+---
+title: Vite
+description: Install and configure Frakment for Vite.
+---
+
+Frakment works in any Vite + React 19 project with Tailwind v4. This guide covers both a new project (via the CLI) and an existing app.
+
+## Prerequisites
+
+- **Vite** with React 19 + TypeScript
+- **Tailwind CSS** v4 installed
+
+Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/guides/theming) manually.
+
+<div id="use-cli" className="scroll-mt-24" />
+
+## Use the CLI
+
+Scaffold a new Vite app with Frakment installed.
+
+<Steps>
+
+<Step>Create Project</Step>
+
+```bash
+npm create vite@latest app -- --template react-ts
+cd app
+```
+
+<Step>Add Components</Step>
+
+```bash
+npx frakment@latest init
+npx frakment@latest add button
+```
+
+<Step>Use it</Step>
+
+```tsx title="src/App.tsx"
+// src/App.tsx
+import { Button } from "@/components/ui/button";
+
+export default function App() {
+  return <Button>Hello, Frakment.</Button>;
+}
+```
+
+</Steps>
+
+<div id="existing-project" className="scroll-mt-24" />
+
+## Existing Project
+
+Add Frakment to a Vite app you already created.
+
+<Steps>
+
+<Step>Install Tailwind CSS</Step>
+
+Follow the [Tailwind v4 guide for Vite](https://tailwindcss.com/docs/getting-started/installation/using-vite).
+
+<Step>Run `frakment init`</Step>
+
+Run `npx frakment@latest init` — it injects the theme block into `globals.css` between FRAKMENT THEME markers. Alternatively, paste the block manually from [Theming](/docs/guides/theming):
+
+```css title="globals.css"
+@import "tailwindcss";
+
+/* ==== FRAKMENT THEME START ==== */
+/* ... theme block ... */
+/* ==== FRAKMENT THEME END ==== */
+```
+
+See [Manual](/docs/getting-started/installation/manual) for details.
+
+<Step>Configure the import alias in tsconfig.json</Step>
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
+```
+
+```ts title="vite.config.ts"
+import path from "path";
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: { "@": path.resolve(__dirname, "./src") },
+  },
+});
+```
+
+<Step>Add a component</Step>
+
+```bash
+npx frakment@latest add button
+```
+
+</Steps>
+
+## Project structure
+
+After `npm create vite`, your project will have:
+
+<FileTree>
+  <FileTreeFolder name="app" defaultOpen>
+    <FileTreeFile name="package.json" />
+    <FileTreeFile name="vite.config.ts" />
+    <FileTreeFile name="tsconfig.json" />
+    <FileTreeFile name="index.html" />
+    <FileTreeFolder name="src" defaultOpen>
+      <FileTreeFile name="app.tsx" />
+      <FileTreeFile name="main.tsx" />
+      <FileTreeFile name="index.css" />
+    </FileTreeFolder>
+    <FileTreeFolder name="components">
+      <FileTreeFolder name="ui" />
+    </FileTreeFolder>
+  </FileTreeFolder>
+</FileTree>
+
+## Verify
+
+After installing your first component, confirm the setup:
+
+```bash
+ls src/components/ui/button.tsx
+```
+
+Then import and render it in App.tsx. If it renders without errors, you're ready.
+
+## Troubleshooting
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="missing-utils">
+<AccordionTrigger>Cannot find module lib/utils</AccordionTrigger>
+<AccordionContent>
+
+Run `npx frakment@latest init` again. It will create `lib/utils.ts` and update `tsconfig.json`.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="alias">
+<AccordionTrigger>Cannot resolve @/ imports</AccordionTrigger>
+<AccordionContent>
+
+Make sure both `tsconfig.json` and `vite.config.ts` define the `@` alias. Vite needs the runtime alias, TypeScript needs the types alias.
+
+</AccordionContent>
+</AccordionItem>
+
+</Accordion>
+
+## Next
+
+- [Theming](/docs/guides/theming) - customize tokens and dark mode
+- [Components](/docs/components/bubble) - browse the catalog

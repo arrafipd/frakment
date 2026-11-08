@@ -1,0 +1,144 @@
+---
+title: Tailwind CSS v4
+description: Frakment requires Tailwind v4. Setup notes, migration, and common errors.
+---
+
+Frakment requires **Tailwind v4**. The theme block uses `@theme inline`, `@utility`, and `@custom-variant` — none of these exist in Tailwind v3. This page covers how to verify, migrate, and troubleshoot.
+
+## Prerequisites
+
+- **Tailwind CSS** 4.0 or newer
+- **PostCSS** 8 (if you use the PostCSS pipeline)
+- A CSS entry file that contains `@import "tailwindcss";`
+
+## Verify the version
+
+```bash
+npm ls tailwindcss
+```
+
+Output must show `tailwindcss@^4`. If it shows `^3`, follow the migration below.
+
+## What Frakment uses from v4
+
+| Feature | Used in | v3 equivalent |
+| :-- | :-- | :-- |
+| `@theme inline` | Token mapping | None |
+| `@utility` | `no-scrollbar`, `scroll-fade`, `container`, `step` | `plugin()` |
+| `@custom-variant` | `dark`, `data-*` variants | `addVariant()` |
+| `@apply` | Component classes | Same |
+
+None of the first three work in v3. There is no shim — the theme block is v4-only.
+
+## Migrating from v3
+
+<Steps>
+
+<Step>Install v4 packages</Step>
+
+```bash
+npm install tailwindcss@latest @tailwindcss/postcss
+npm uninstall tailwindcss@3 postcss autoprefixer
+```
+
+<Step>Update PostCSS config</Step>
+
+```js title="postcss.config.mjs"
+export default {
+  plugins: {
+    "@tailwindcss/postcss": {},
+  },
+};
+```
+
+Remove `tailwindcss` and `autoprefixer` from the plugin list.
+
+<Step>Delete tailwind.config.js</Step>
+
+Tailwind v4 does not need a config file for Frakment. Everything lives in CSS.
+
+<Step>Replace @tailwind directives</Step>
+
+In your CSS entry file:
+
+```css
+/* v3 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* v4 */
+@import "tailwindcss";
+```
+
+<Step>Reinstall Frakment components</Step>
+
+```bash
+npx frakment@latest add <component> --overwrite
+```
+
+v4 registry files use `@theme`, `@utility`, and `@custom-variant`.
+
+</Steps>
+
+## Theme block placement
+
+The Frakment theme block must come **after** `@import "tailwindcss";` and **after** any other imports. If it comes first, token resolution fails:
+
+```css
+@import "tailwindcss";
+
+/* ==== FRAKMENT THEME START ==== */
+/* ... tokens, @theme, @utility ... */
+/* ==== FRAKMENT THEME END ==== */
+```
+
+`npx frakment init` handles this automatically.
+
+## Common errors
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="unknown-at-rule">
+<AccordionTrigger>Unknown at rule @theme</AccordionTrigger>
+<AccordionContent>
+
+Tailwind v3 is installed. Upgrade: `npm install tailwindcss@latest`.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="import-missing">
+<AccordionTrigger>Cannot find @import tailwindcss</AccordionTrigger>
+<AccordionContent>
+
+Your CSS entry file is missing the import. Add `@import "tailwindcss";` at the top, before the Frakment theme block.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="tokens-missing">
+<AccordionTrigger>Tokens not applied</AccordionTrigger>
+<AccordionContent>
+
+The theme block is placed before `@import "tailwindcss";`. Move it after all imports. Tailwind cannot resolve tokens declared before the import.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="postcss">
+<AccordionTrigger>Styles not generated</AccordionTrigger>
+<AccordionContent>
+
+Check `postcss.config.mjs`. Only `@tailwindcss/postcss` should be registered. Old `tailwindcss` and `autoprefixer` plugins must be removed.
+
+</AccordionContent>
+</AccordionItem>
+
+</Accordion>
+
+## Next
+
+- [Theming](/docs/guides/theming) - token reference
+- [Dark mode](/docs/guides/dark-mode) - framework-specific wiring
+- [Tailwind CSS v4 docs](https://tailwindcss.com/docs) - upstream reference

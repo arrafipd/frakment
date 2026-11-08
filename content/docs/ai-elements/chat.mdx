@@ -1,0 +1,213 @@
+---
+title: "Chat"
+description: "Full streaming chat composed from Frakment primitives, with reasoning traces, tool calls, and animated messages."
+---
+
+import { ChatDemo } from "@/examples/chat-demo";
+
+<ComponentPreview name="chat-demo" title="chat-demo.tsx" src="examples/chat-demo.tsx">
+  <ChatDemo />
+</ComponentPreview>
+
+A complete chat surface wired with `@ai-sdk/react` and Frakment primitives. Messages animate on entry, reasoning appears as a collapsible trace, tool calls render as code blocks, and the transcript stays anchored to the latest message.
+
+Chat is not a single component — it composes **Message Scroller**, **Message**, **Bubble**, and **Input Group** into one surface. Install the primitives, then assemble them the same way the demo does.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add message-scroller message bubble input-group trace code-block empty tooltip dropdown-menu
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install @ai-sdk/react ai motion lucide-react
+      ```
+
+      <Step>Install the required registry components:</Step>
+
+      <ComponentSource name="message-scroller" title="components/ui/message-scroller.tsx" />
+      <ComponentSource name="message" title="components/ui/message.tsx" />
+      <ComponentSource name="bubble" title="components/ui/bubble.tsx" />
+      <ComponentSource name="input-group" title="components/ui/input-group.tsx" />
+      <ComponentSource name="trace" title="components/ui/trace.tsx" />
+      <ComponentSource name="code-block" title="components/ui/code-block.tsx" />
+      <ComponentSource name="empty" title="components/ui/empty.tsx" />
+      <ComponentSource name="tooltip" title="components/ui/tooltip.tsx" />
+      <ComponentSource name="dropdown-menu" title="components/ui/dropdown-menu.tsx" />
+
+      <Step>Install the chat engine:</Step>
+
+      <ComponentSource src="lib/ai.ts" title="lib/ai.ts" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+Wire the chat engine from `@frakment/ai` and render messages with the composed primitives.
+
+```tsx title="chat.tsx"
+import { useChat } from "@ai-sdk/react";
+import type { UIDataTypes, UIMessage } from "ai";
+
+import { createChat } from "@frakment/ai";
+
+type ChatMessage = UIMessage<
+  unknown,
+  UIDataTypes,
+  { runCommand: { input: { command: string }; output: { stdout: string } } }
+>;
+
+const chat = createChat<ChatMessage>()
+  .user("Run the tests.")
+  .assistant(({ writer }) => {
+    writer
+      .tool("runCommand", { input: { command: "pnpm test" } })
+      .output({ stdout: "15 passed" });
+    writer.text("Tests pass.");
+  });
+
+const transport = chat.transport({ delayMs: 16 });
+
+export function MyChat() {
+  const { messages, sendMessage, status } = useChat({ transport });
+  // render messages with MessageScroller + Message + Bubble
+}
+```
+
+## Anatomy
+
+The demo composes seven primitives. Each one is documented on its own page.
+
+```tsx title="chat.tsx"
+<MessageScrollerProvider>
+  <MessageScroller>
+    <MessageScrollerViewport>
+      <MessageScrollerContent>
+        <MessageScrollerItem>
+          <Message>
+            <MessageContent>
+              <Bubble>
+                <BubbleContent />
+              </Bubble>
+            </MessageContent>
+          </Message>
+        </MessageScrollerItem>
+      </MessageScrollerContent>
+    </MessageScrollerViewport>
+    <MessageScrollerButton />
+  </MessageScroller>
+
+  <InputGroup>
+    <InputGroupTextarea />
+    <InputGroupAddon>
+      <DropdownMenu>...</DropdownMenu>
+      <InputGroupButton type="submit" />
+    </InputGroupAddon>
+  </InputGroup>
+</MessageScrollerProvider>
+```
+
+- **MessageScroller** — scroll-aware transcript viewport with sticky scroll button.
+- **Message**, **Bubble** — user and assistant turns.
+- **Trace**, **TraceCollapsible** — reasoning and tool-call steps inside an assistant message.
+- **CodeBlock** — renders tool output.
+- **InputGroup** — the composer with textarea, addon buttons, and send action.
+- **Empty** — zero-state before the first message.
+
+## Animation
+
+Message rows animate through variants defined in `lib/message-animations.ts`. Motion is skipped when the user prefers reduced motion.
+
+```tsx title="chat.tsx"
+import { MESSAGE_ANIMATIONS } from "@/lib/message-animations";
+import { motion, useReducedMotion } from "motion/react";
+
+const shouldReduceMotion = useReducedMotion();
+
+<motion.div
+  animate={shouldReduceMotion ? undefined : "animate"}
+  initial={shouldReduceMotion ? undefined : "initial"}
+  variants={MESSAGE_ANIMATIONS["slide-up"].variants}
+>
+  <Message>...</Message>
+</motion.div>
+```
+
+Each variant exposes `initial` and `animate` states that plug into `motion.div`. Add a new variant by extending the object — the `MessageAnimation` type covers all keys.
+
+## Reasoning traces
+
+Reasoning and tool calls render as nested `TraceCollapsible` items inside the assistant message. The line auto-expands while streaming and collapses when done.
+
+```tsx title="chat.tsx"
+<Trace>
+  {steps.map((part) => (
+    <TraceCollapsible key={part.id}>
+      <TraceCollapsibleTrigger>
+        <TraceLine status={running ? "running" : undefined}>
+          <TraceIcon>{running ? <LoaderCircleIcon /> : <CircleCheckIcon />}</TraceIcon>
+          <TraceTitle>{running ? "Thinking" : "Thought"}</TraceTitle>
+        </TraceLine>
+      </TraceCollapsibleTrigger>
+      <TraceCollapsibleContent>{part.text}</TraceCollapsibleContent>
+    </TraceCollapsible>
+  ))}
+</Trace>
+```
+
+## Replacing the script
+
+The demo ships with a scripted `chat` built from `createChat`. Replace it with a real transport:
+
+```tsx title="chat.tsx"
+import { useChat } from "@ai-sdk/react";
+
+const { messages, sendMessage, status } = useChat({
+  transport: yourTransport,
+});
+```
+
+The rendered components do not assume the scripted transport. Any `UIMessage[]` works.
+
+## Next
+
+- [Message Scroller](/docs/components/message-scroller) — scroll-aware transcript viewport.
+- [Message](/docs/components/message) — message row primitive.
+- [Bubble](/docs/components/bubble) — chat bubble surface.
+- [Trace](/docs/components/trace) — collapsible reasoning and tool-call lines.
+- [Code Block](/docs/components/code-block) — syntax-highlighted code.
+- [Input Group](/docs/components/input-group) — inline composer with addons.
+
+## Accessibility
+
+- Every assistant turn is a `Message` with role semantics. Screen readers announce the transcript in order.
+- `MessageScroller` sets `aria-busy` while streaming so assistive tech pauses politely.
+- Reasoning and tool-call steps render as `TraceCollapsible` with a visible trigger label ("Thinking", "Ran …").
+- The composer is a labelled `InputGroupTextarea`. Enter sends, Shift+Enter inserts a newline.
+- Animations respect `prefers-reduced-motion`; motion is skipped when the user disables it.
+
+## Best Practices
+
+- **Anchor the transcript to the latest user turn.** Pass `scrollAnchor` so new messages follow.
+- **Stream text, do not swap.** Replacing the whole message per chunk breaks the typewriter effect.
+- **Collapse reasoning automatically.** Open while running, close when resolved.
+- **Fail gracefully.** Append a system message on transport error instead of clearing the transcript.
+- **Replace the scripted transport in production.** `createChat` is for demos, not real backends.

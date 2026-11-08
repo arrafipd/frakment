@@ -1,0 +1,190 @@
+Frakment License
+Version 1.0
+
+Copyright (c) 2026 arrafipd <https://github.com/arrafipd>
+
+This is a source-available license. It is NOT an open-source license
+as defined by the Open Source Initiative (OSI).
+
+In short:
+
+  - Use Frakment freely for personal, educational, and non-commercial
+    purposes. Just keep the attribution.
+
+  - Use Frakment commercially only after you get one pull request
+    merged into the main repository. That is the only path.
+
+  - Always keep the attribution. Always mark modifications.
+
+====================================================================
+1. DEFINITIONS
+====================================================================
+
+"Software" means the source code, components, CLI, MCP server, agent
+skills, documentation, and any associated files in this repository,
+whether used in original or modified form.
+
+"Personal Use" means use by an individual for personal projects,
+learning, experimentation, hobby work, or internal tools that do not
+generate revenue.
+
+"Educational Use" means use by students, teachers, or institutions
+for teaching, coursework, academic research, or non-commercial
+educational activities.
+
+"Commercial Use" means any use that:
+
+  (a) is part of a product, service, or website that generates revenue
+      directly or indirectly (including ads, subscriptions, paid
+      features, consulting, or paid support);
+  (b) is deployed in production by a for-profit entity; or
+  (c) is used to build something that is sold, licensed, or monetized
+      in any form.
+
+"Qualifying Contribution" means a pull request that has been
+reviewed and merged into the main branch of
+github.com/hanshapd/frakment, where all of the following are true:
+
+  (a) The commit author is you (your GitHub username or email is
+      recorded in the commit metadata).
+  (b) The pull request makes at least one substantive change: fixes a
+      bug, adds a feature, adds or corrects documentation, adds a
+      test, translates content, or fixes a typo.
+  (c) The pull request has not been reverted within 30 days of being
+      merged.
+
+There is no minimum number of lines changed. A single-line typo fix
+qualifies. A documentation clarification qualifies. A test addition
+qualifies.
+
+A pull request that was closed without merging does NOT qualify. A
+pull request that was merged and later reverted within 30 days does
+NOT qualify.
+
+====================================================================
+2. GRANT OF RIGHTS
+====================================================================
+
+Subject to the terms of this license, you are granted permission to:
+
+  (a) View, read, and study the source code.
+  (b) Fork, clone, and copy the repository.
+  (c) Modify the source code.
+  (d) Distribute the original or modified version.
+
+These rights apply without additional conditions for Personal Use and
+Educational Use, provided you satisfy the Attribution Requirements in
+Section 3.
+
+These rights apply for Commercial Use only after you have made a
+Qualifying Contribution, in addition to the Attribution Requirements.
+
+====================================================================
+3. ATTRIBUTION REQUIREMENTS (ALWAYS)
+====================================================================
+
+Any use, copy, modification, or distribution of the Software, in
+whole or in part, for Personal, Educational, or Commercial Use, must:
+
+  (a) Include the following attribution in the README, documentation,
+      footer, or another reasonably visible user-facing location:
+
+        Based on Frakment by hanshapd
+        https://github.com/hanshapd/frakment
+
+  (b) Include this LICENSE file unmodified in all copies and
+      derivative works.
+
+  (c) Clearly mark any modified versions as modified, with a brief
+      description of the changes (e.g., in a CHANGELOG or README).
+
+====================================================================
+4. COMMERCIAL USE REQUIREMENT
+====================================================================
+
+Before using the Software for any Commercial Use, you (or the legal
+entity you represent) must have made one Qualifying Contribution as
+defined in Section 1. This is the only path to Commercial Use.
+
+--------------------------------------------------------------------
+4.1  SCOPE OF SATISFACTION
+--------------------------------------------------------------------
+
+Once a Qualifying Contribution has been made, the requirement is
+satisfied permanently for:
+
+  - the individual who made the contribution, OR
+  - the legal entity (company, organization, or team) on whose
+    behalf the contribution was made,
+
+for all future Commercial Use of the Software by that individual or
+entity. No further contributions are required for future commercial
+use by the same party.
+
+--------------------------------------------------------------------
+4.2  EVIDENCE ON REQUEST
+--------------------------------------------------------------------
+
+If hanshapd requests proof that the Commercial Use requirement has
+been satisfied, you must provide, within 30 days, a link to the
+merged pull request on GitHub.
+
+Refusal or failure to provide evidence on request voids the
+permission for Commercial Use until evidence is provided.
+
+--------------------------------------------------------------------
+4.3  NO REQUIREMENT FOR NON-COMMERCIAL USE
+--------------------------------------------------------------------
+
+Personal Use and Educational Use do NOT require a Qualifying
+Contribution. Attribution (Section 3) is the only requirement for
+those uses.
+
+====================================================================
+5. RESTRICTIONS
+====================================================================
+
+You may not:
+
+  (a) Remove, hide, or alter copyright notices or the attribution
+      required by Section 3.
+  (b) Claim authorship of this Software or of any derivative work.
+  (c) Use the names "Frakment", "frakment", or "hanshapd", or any
+      associated logos or branding, to endorse or promote derivative
+      works without prior written permission.
+  (d) Sublicense this Software under different terms. Any party that
+      receives a copy from you does so subject to this same license.
+
+====================================================================
+6. NO TRADEMARK LICENSE
+====================================================================
+
+This license does not grant any rights to use the names "Frakment",
+"frakment", or "hanshapd", or any associated logos or marks, except
+as strictly necessary for the attribution described in Section 3.
+
+====================================================================
+7. WARRANTY
+====================================================================
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
+NON-INFRINGEMENT.
+
+IN NO EVENT SHALL THE AUTHOR OR COPYRIGHT HOLDER BE LIABLE FOR ANY
+CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+====================================================================
+8. ACCEPTANCE
+====================================================================
+
+By accessing, using, copying, modifying, or distributing this project,
+you agree to be bound by the terms above. If you do not agree, you are
+not granted permission to use this project and must delete all copies
+in your possession.
+
+For permission requests or questions about this license, contact
+hanshapd on GitHub: https://github.com/hanshapd

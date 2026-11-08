@@ -1,0 +1,5 @@
+﻿{
+  "title": "Utilities",
+  "pages": ["agents", "mcp", "scroll-fade", "shimmer", "skills"],
+  "root": true
+}

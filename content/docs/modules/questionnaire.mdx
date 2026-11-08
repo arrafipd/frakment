@@ -1,0 +1,400 @@
+---
+title: "Questionnaire"
+description: "A multi-step form for structured questions with navigation, validation, and keyboard shortcuts."
+---
+
+import { QuestionnaireDemo } from "@/examples/questionnaire-demo";
+import { QuestionnaireMultiple } from "@/examples/questionnaire-multiple";
+import { QuestionnaireFreeform } from "@/examples/questionnaire-freeform";
+import { QuestionnaireConditional } from "@/examples/questionnaire-conditional";
+import { QuestionnaireShortcuts } from "@/examples/questionnaire-shortcuts";
+import { QuestionnaireDialog } from "@/examples/questionnaire-dialog";
+import { QuestionnaireSkipExample } from "@/examples/questionnaire-skip";
+import { QuestionnaireValidation } from "@/examples/questionnaire-validation";
+import { QuestionnaireControlled } from "@/examples/questionnaire-controlled";
+import { QuestionnaireResume } from "@/examples/questionnaire-resume";
+import { QuestionnaireNavigationState } from "@/examples/questionnaire-navigation";
+import { QuestionnaireProgressExample } from "@/examples/questionnaire-progress";
+import { QuestionnaireAnimated } from "@/examples/questionnaire-animated";
+import { QuestionnaireCard } from "@/examples/questionnaire-card";
+
+<ComponentPreview name="questionnaire" title="questionnaire-demo.tsx">
+  <QuestionnaireDemo />
+</ComponentPreview>
+
+Questionnaire is a **composition**, not a primitive. It wraps a headless engine in `lib/questionnaire` with four Frakment primitives — **Checkbox**, **RadioGroup**, **Button**, and **Card** — to render a multi-step form with navigation, validation, and keyboard shortcuts.
+
+Because the engine is compiled, install it through the CLI, not by copying source. The wrapper is available to copy from the Manual tab below.
+
+## Installation
+
+Questionnaire is an **engine plus a composition**. The engine is compiled JavaScript, so install it through the CLI. The wrapper is a regular component you copy from the Manual tab.
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add questionnaire checkbox radio-group button card
+```
+
+### What the command installs
+
+<FileTree>
+  <FileTreeFolder name="app" defaultOpen>
+    <FileTreeFolder name="components" defaultOpen>
+      <FileTreeFolder name="ui" defaultOpen>
+        <FileTreeFile name="questionnaire.tsx" />
+        <FileTreeFile name="checkbox.tsx" />
+        <FileTreeFile name="radio-group.tsx" />
+        <FileTreeFile name="button.tsx" />
+        <FileTreeFile name="card.tsx" />
+      </FileTreeFolder>
+    </FileTreeFolder>
+    <FileTreeFolder name="lib" defaultOpen>
+      <FileTreeFile name="questionnaire.ts" />
+    </FileTreeFolder>
+  </FileTreeFolder>
+</FileTree>
+
+The CLI also installs the npm dependencies these files need: `radix-ui` and `lucide-react`.
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the npm dependencies:</Step>
+
+      ```bash
+      npm install radix-ui lucide-react
+      ```
+
+      <Step>Copy the headless engine into `lib/questionnaire/`:</Step>
+
+      <ComponentSource src="lib/questionnaire.ts" title="lib/questionnaire/index.ts" />
+      
+
+      <Step>Copy the four primitives the wrapper composes:</Step>
+
+      <ComponentSource name="checkbox" title="components/ui/checkbox.tsx" />
+      <ComponentSource name="radio-group" title="components/ui/radio-group.tsx" />
+      <ComponentSource name="button" title="components/ui/button.tsx" />
+      <ComponentSource name="card" title="components/ui/card.tsx" />
+
+      <Step>Copy the wrapper into `components/ui/questionnaire.tsx`:</Step>
+
+      <ComponentSource name="questionnaire" title="components/ui/questionnaire.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+Import the wrapper from `components/ui/questionnaire` and the engine types from `lib/questionnaire` if you need to type `onStatusChange`.
+
+```tsx title="questionnaire.tsx"
+import {
+  Questionnaire,
+  QuestionnaireActions,
+  QuestionnaireChoice,
+  QuestionnaireChoices,
+  QuestionnaireDescription,
+  QuestionnaireError,
+  QuestionnaireItem,
+  QuestionnaireNext,
+  QuestionnairePrevious,
+  QuestionnaireProgress,
+  QuestionnaireSubmit,
+  QuestionnaireTitle,
+} from "@/components/ui/questionnaire";
+```
+
+```tsx title="questionnaire.tsx"
+<Questionnaire items={items} defaultItem="scope" onSubmit={handleSubmit}>
+  <QuestionnaireProgress />
+  <QuestionnaireItem name="scope" required>
+    <QuestionnaireTitle>What should the agent change?</QuestionnaireTitle>
+    <QuestionnaireDescription>Pick the change scope.</QuestionnaireDescription>
+    <QuestionnaireChoices>
+      <QuestionnaireChoice value="component">Component only</QuestionnaireChoice>
+      <QuestionnaireChoice value="feature">Complete feature</QuestionnaireChoice>
+    </QuestionnaireChoices>
+    <QuestionnaireError />
+  </QuestionnaireItem>
+  <QuestionnaireActions>
+    <QuestionnairePrevious />
+    <QuestionnaireNext>Next</QuestionnaireNext>
+    <QuestionnaireSubmit>Save</QuestionnaireSubmit>
+  </QuestionnaireActions>
+</Questionnaire>
+```
+
+The engine handles keyboard navigation, focus management, and form submission. Every choice renders as a native `<input>` wrapped by **Checkbox** or **RadioGroup** depending on whether the parent item is `multiple`.
+
+## Anatomy
+
+```tsx title="questionnaire.tsx"
+<Questionnaire items={items} defaultItem="first">
+  <QuestionnaireProgress />
+  <QuestionnaireItem name="first" required>
+    <QuestionnaireTitle />
+    <QuestionnaireDescription />
+    <QuestionnaireChoices>
+      <QuestionnaireChoice value="a" />
+      <QuestionnaireChoice value="b" />
+      <QuestionnaireInput />
+    </QuestionnaireChoices>
+    <QuestionnaireError />
+  </QuestionnaireItem>
+  <QuestionnaireActions>
+    <QuestionnairePrevious />
+    <QuestionnaireSkip />
+    <QuestionnaireNext />
+    <QuestionnaireSubmit />
+  </QuestionnaireActions>
+</Questionnaire>
+```
+
+- **Questionnaire** — form root, tracks current step, focuses the active fieldset
+- **Progress** — current position indicator, supports custom `render`
+- **Item** — one question; renders as a `fieldset` with a `legend`
+- **Title / Description** — question heading and helper text
+- **Choices / Choice** — radio or checkbox group, depending on `multiple`
+- **Input** — freeform text input inside the choice group
+- **Error** — inline error region, wired via `aria-describedby` when invalid
+- **Actions / Previous / Skip / Next / Submit** — navigation controls
+
+## Multiple selection
+
+Set `multiple` on `QuestionnaireItem` to render checkboxes instead of radios.
+
+<ComponentPreview name="questionnaire" title="questionnaire-multiple.tsx">
+  <QuestionnaireMultiple />
+</ComponentPreview>
+
+## Freeform input
+
+Add `QuestionnaireInput` inside `QuestionnaireChoices` to let users type a custom answer alongside the predefined choices.
+
+<ComponentPreview name="questionnaire" title="questionnaire-freeform.tsx">
+  <QuestionnaireFreeform />
+</ComponentPreview>
+
+## Conditional steps
+
+Set `disabled` on an item to skip it dynamically. The engine skips disabled steps during navigation.
+
+<ComponentPreview name="questionnaire" title="questionnaire-conditional.tsx">
+  <QuestionnaireConditional />
+</ComponentPreview>
+
+## Keyboard shortcuts
+
+Pass `shortcuts="letters"` or `shortcuts="numbers"` to show a shortcut badge on each choice. Pressing the key selects that choice.
+
+<ComponentPreview name="questionnaire" title="questionnaire-shortcuts.tsx">
+  <QuestionnaireShortcuts />
+</ComponentPreview>
+
+## In a dialog
+
+`Questionnaire` composes with `Dialog` for inline clarification flows. Each step renders into `DialogHeader`, and `QuestionnaireActions` sits inside `DialogFooter`.
+
+<ComponentPreview name="questionnaire" title="questionnaire-dialog.tsx">
+  <QuestionnaireDialog />
+</ComponentPreview>
+
+## In Context
+
+### Agent configuration wizard
+
+A multi-step flow that configures an agent before it starts. Each question narrows what the agent is allowed to do.
+
+<ComponentPreview name="questionnaire" title="questionnaire-demo.tsx">
+  <QuestionnaireDemo />
+</ComponentPreview>
+
+### Scoped clarification in a dialog
+
+Embed the questionnaire in a dialog when the agent needs a single focused clarification. Only the active step renders at once.
+
+<ComponentPreview name="questionnaire" title="questionnaire-dialog.tsx">
+  <QuestionnaireDialog />
+</ComponentPreview>
+
+## Skip button
+
+Add `QuestionnaireSkip` for optional steps. The demo tracks `onStatusChange` to distinguish "skipped" from "answered".
+
+<ComponentPreview name="questionnaire" title="questionnaire-skip.tsx">
+  <QuestionnaireSkipExample />
+</ComponentPreview>
+
+## Validation
+
+Validate answers on submit with any schema library. The demo uses Zod and pushes errors back into `QuestionnaireError` per item.
+
+<ComponentPreview name="questionnaire" title="questionnaire-validation.tsx">
+  <QuestionnaireValidation />
+</ComponentPreview>
+
+## Controlled step
+
+Pass `item` and `onItemChange` to control the active step from outside. Useful when a host tracks the checkpoint.
+
+<ComponentPreview name="questionnaire" title="questionnaire-controlled.tsx">
+  <QuestionnaireControlled />
+</ComponentPreview>
+
+## Resume with saved answers
+
+Combine `defaultItem`, `defaultChecked`, and `onReset` to resume from saved state. `defaultValue` on `QuestionnaireInput` prefills freeform fields.
+
+<ComponentPreview name="questionnaire" title="questionnaire-resume.tsx">
+  <QuestionnaireResume />
+</ComponentPreview>
+
+## Navigation state
+
+Track `onStatusChange` per item to disable Next and Submit until the current step is answered.
+
+<ComponentPreview name="questionnaire" title="questionnaire-navigation.tsx">
+  <QuestionnaireNavigationState />
+</ComponentPreview>
+
+## Custom progress
+
+Override `QuestionnaireProgress` with `render` to display a step bar or any custom indicator.
+
+<ComponentPreview name="questionnaire" title="questionnaire-progress.tsx">
+  <QuestionnaireProgressExample />
+</ComponentPreview>
+
+## Animated step transition
+
+Animate the active item with `data-active` utilities. Motion respects `prefers-reduced-motion`.
+
+<ComponentPreview name="questionnaire" title="questionnaire-animated.tsx">
+  <QuestionnaireAnimated />
+</ComponentPreview>
+
+## In a card
+
+Compose `Questionnaire` with `Card`. Use `render` on `QuestionnaireTitle` and `QuestionnaireDescription` to render `CardTitle` and `CardDescription`.
+
+<ComponentPreview name="questionnaire" title="questionnaire-card.tsx">
+  <QuestionnaireCard />
+</ComponentPreview>
+
+## API Reference
+
+### Questionnaire
+
+Extends `React.ComponentPropsWithRef<"form">`.
+
+<PropsTable
+  rows={[
+    { name: "items", type: "QuestionnaireItemDefinition[]", description: "Ordered step definitions." },
+    { name: "defaultItem", type: "string", description: "Initial step when uncontrolled." },
+    { name: "item", type: "string", description: "Controlled active step." },
+    { name: "onItemChange", type: "(item: string) => void", description: "Fires on step change." },
+    { name: "shortcuts", type: '"letters" | "numbers"', description: "Show keyboard shortcut badges." },
+    { name: "onSubmit", type: "(event: React.FormEvent<HTMLFormElement>) => void", description: "Fires on final step submit." },
+  ]}
+/>
+
+### QuestionnaireProgress
+
+Renders step indicator. Accepts `render`.
+
+<PropsTable
+  rows={[
+    { name: "render", type: "React.ReactElement | ((props, state) => React.ReactNode)", description: "Custom indicator. State: { current, first, last, total }." },
+  ]}
+/>
+
+### QuestionnaireItem
+
+Extends `React.ComponentPropsWithRef<"fieldset">`.
+
+<PropsTable
+  rows={[
+    { name: "name", type: "string", required: true, description: "Matches the items entry." },
+    { name: "multiple", type: "boolean", default: "false", description: "Checkboxes instead of radios." },
+    { name: "required", type: "boolean", default: "false", description: "Blocks Next/Submit until answered." },
+    { name: "disabled", type: "boolean", default: "false", description: "Skips the step." },
+    { name: "invalid", type: "boolean", default: "false", description: "Marks invalid; links Error via aria-describedby." },
+    { name: "onStatusChange", type: "(status: QuestionnaireItemStatus) => void", description: "Fires on unanswered / answered / skipped." },
+  ]}
+/>
+
+### QuestionnaireTitle / QuestionnaireDescription
+
+Render question heading (`legend`) and helper (`p`). Both accept `render` for custom elements.
+
+### QuestionnaireChoices
+
+Wraps the choice group. Accepts `render`.
+
+### QuestionnaireChoice
+
+<PropsTable
+  rows={[
+    { name: "value", type: "string", required: true, description: "Submitted value." },
+    { name: "checked", type: "boolean", description: "Controlled state." },
+    { name: "defaultChecked", type: "boolean", description: "Uncontrolled initial state." },
+    { name: "disabled", type: "boolean", description: "Disables this choice." },
+    { name: "onChange", type: "React.ChangeEventHandler<HTMLInputElement>", description: "Fires on toggle." },
+  ]}
+/>
+
+### QuestionnaireInput
+
+<PropsTable
+  rows={[
+    { name: "type", type: '"text" | "email" | "number" | "url" | "tel" | "date" | "password" | "search"', default: '"text"', description: "Native input type." },
+    { name: "placeholder", type: "string", description: "Shown when empty." },
+    { name: "defaultValue", type: "string", description: "Uncontrolled initial value." },
+  ]}
+/>
+
+### QuestionnaireError
+
+Inline error. Linked via `aria-describedby` when the parent is invalid. Accepts `render`.
+
+### QuestionnaireActions
+
+Container for navigation buttons.
+
+### QuestionnairePrevious / QuestionnaireSkip / QuestionnaireNext / QuestionnaireSubmit
+
+<PropsTable
+  rows={[
+    { name: "disabled", type: "boolean", description: "Forces disabled state." },
+    { name: "variant", type: "Button variant", description: "Passed to the default Button." },
+    { name: "render", type: "React.ReactElement", description: "Swaps the underlying element." },
+  ]}
+/>
+
+## Accessibility
+
+- Each `QuestionnaireItem` renders a `fieldset` with `legend` (via `QuestionnaireTitle`), so screen readers announce the question on focus.
+- `QuestionnaireError` is linked to the fieldset via `aria-describedby` when the item is invalid.
+- Keyboard shortcuts do not replace tab navigation. Users can still move between choices with Tab and Space.
+- When the questionnaire is embedded in a Dialog, focus is trapped inside and restored on close.
+
+## Best Practices
+
+- **One question per step.** Long forms break focus management and lose the progress indicator's value.
+- **Mark required fields explicitly.** `required` on the item enables inline validation; skipping is only allowed when the field is optional.
+- **Use `shortcuts` sparingly.** Letters or numbers help power users in dense flows but confuse others in short flows.
+- **Validate on submit, not on every keystroke.** Reserve `invalid` for real problems; show it only after the user tries to advance.
+- **Persist answers if the flow spans sessions.** Store `FormData` after each submit; the engine resumes from the active step on load.
+- **Keep the last step informational.** The final submit should confirm what will happen, not add a new question.

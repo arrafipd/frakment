@@ -1,0 +1,114 @@
+name: CI
+
+on:
+  pull_request:
+    branches: ["*"]
+  push:
+    branches: ["main"]
+  merge_group:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  lint-and-format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Setup
+        uses: $/.github/actions/setup
+
+      - name: Lint and format
+        run: npm run check
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Setup
+        uses: $/.github/actions/setup
+
+      - name: Build
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+        run: npm run build
+
+      - name: Typecheck
+        run: npm run typecheck
+
+  registry-drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Setup
+        uses: $/.github/actions/setup
+
+      - name: Build registry
+        run: npm run registry:build
+
+      - name: Check for drift
+        run: |
+          if [ -n "$(git status --porcelain public/r public/skills)" ]; then
+            echo "::error::Registry artifacts are stale."
+            echo "::error::Run 'npm run registry:build' locally and commit the result."
+            echo ""
+            echo "Changed files:"
+            git status --porcelain public/r public/skills
+            echo ""
+            echo "Diff:"
+            git diff public/r public/skills
+            exit 1
+          fi
+          echo "Registry artifacts are in sync with source."
+
+  theme-drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Setup
+        uses: $/.github/actions/setup
+
+      - name: Check styles/theme.css in sync with CLI template
+        run: |
+          if ! diff -q styles/theme.css packages/cli/templates/theme.css; then
+            echo "::error::styles/theme.css and packages/cli/templates/theme.css have drifted."
+            echo "::error::Run: cp styles/theme.css packages/cli/templates/theme.css"
+            echo ""
+            echo "Diff:"
+            diff -u styles/theme.css packages/cli/templates/theme.css || true
+            exit 1
+          fi
+          echo "theme.css is in sync with CLI template."
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Setup
+        uses: $/.github/actions/setup
+
+      - name: Test
+        run: npm test
+
+      - name: Audit package signatures
+        run: npm audit signatures

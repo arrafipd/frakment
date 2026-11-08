@@ -1,0 +1,264 @@
+---
+title: Text Morph
+description: An animated text component that cycles through strings with ten transition variants.
+---
+
+import { TextMorphDemo } from "@/examples/text-morph-demo";
+import { TextMorphAs } from "@/examples/text-morph-as";
+import { TextMorphInterval } from "@/examples/text-morph-interval";
+import { TextMorphFade } from "@/examples/text-morph-fade";
+import { TextMorphBlur } from "@/examples/text-morph-blur";
+import { TextMorphSlide } from "@/examples/text-morph-slide";
+import { TextMorphScale } from "@/examples/text-morph-scale";
+import { TextMorphTypewriter } from "@/examples/text-morph-typewriter";
+import { TextMorphWave } from "@/examples/text-morph-wave";
+import { TextMorphCount } from "@/examples/text-morph-count";
+import { TextMorphRoll } from "@/examples/text-morph-roll";
+import { TextMorphRollBasic } from "@/examples/text-morph-roll-basic";
+import { TextMorphShuffle } from "@/examples/text-morph-shuffle";
+import { TextMorph } from "@/components/ui/text-morph";
+
+<ComponentPreview name="text-morph" title="text-morph.tsx" previewClassName="h-auto">
+  <TextMorphRoll />
+</ComponentPreview>
+
+Text Morph cycles through an array of strings with a smooth transition. Three variants cover flip, numeric count, and character shuffle.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add text-morph
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependency:</Step>
+
+      ~~~bash
+      npm install motion @number-flow/react
+      ~~~
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="text-morph" title="components/ui/text-morph.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="text-morph.tsx"
+import { TextMorph } from "@/components/ui/text-morph";
+~~~
+
+~~~tsx title="text-morph.tsx"
+<TextMorph>
+  {["Build", "Ship", "Iterate"]}
+</TextMorph>
+~~~
+
+## Anatomy
+
+Text Morph renders a single element that swaps its content on an interval.
+
+- **TextMorph** - root element; accepts `as` to choose between `p`, `span`, or `code`
+
+## Examples
+
+### Custom element
+
+<ComponentPreview name="text-morph" title="text-morph.tsx" previewClassName="h-auto py-8">
+  <TextMorphAs />
+</ComponentPreview>
+
+### Custom interval
+
+`interval` sets the seconds between flips. The demo lets you toggle 1s, 3s, and 6s to feel the change. Remounting via `key` resets the cycle to the first item.
+
+<ComponentPreview name="text-morph" title="text-morph.tsx" previewClassName="h-auto py-8">
+  <TextMorphInterval />
+</ComponentPreview>
+
+## Variants
+
+### Flip
+
+The default variant. Old text exits downward while the new text enters from above, both animated simultaneously via `mode="popLayout"`.
+
+~~~tsx
+<TextMorph>{"Build", "Ship", "Iterate"}</TextMorph>
+~~~
+
+### Fade
+
+Crossfade where the outgoing text fades out while the incoming text fades in, both visible at the same time. The transition runs on native CSS at 0.6s ease-in-out, so it stays smooth regardless of JS frame budget.
+
+<ComponentPreview name="text-morph" title="text-morph.tsx" previewClassName="h-auto">
+  <TextMorphFade />
+</ComponentPreview>
+
+~~~tsx
+<TextMorph variant="fade" interval={2.2}>
+  {"Crafted with care", "Designed for clarity"}
+</TextMorph>
+~~~
+
+### Blur
+
+Adds a blur ramp on top of the crossfade. Use it for hero headings where you want a cinematic reveal.
+
+<ComponentPreview name="text-morph" title="text-morph.tsx" previewClassName="h-auto">
+  <TextMorphBlur />
+</ComponentPreview>
+
+~~~tsx
+<TextMorph variant="blur">{"Focus", "Clarity", "Momentum"}</TextMorph>
+~~~
+
+### Slide
+
+Horizontal slide instead of vertical. Suits headlines, notification banners, and tab labels.
+
+<ComponentPreview name="text-morph" title="text-morph.tsx" previewClassName="h-auto">
+  <TextMorphSlide />
+</ComponentPreview>
+
+~~~tsx
+<TextMorph variant="slide">{"Introducing Frakment 2.0", "The new way"}</TextMorph>
+~~~
+
+### Scale
+
+Scales from 0.85 to 1 while fading. Compact footprint, good for inline counters and badges.
+
+<ComponentPreview name="text-morph" title="text-morph.tsx" previewClassName="h-auto">
+  <TextMorphScale />
+</ComponentPreview>
+
+~~~tsx
+<TextMorph variant="scale">{"+128", "+384", "+1024"}</TextMorph>
+~~~
+
+### Count
+
+Interpolates numeric strings smoothly. Preserves prefix, suffix, decimals, and thousands separators.
+
+<ComponentPreview name="text-morph" title="text-morph.tsx" previewClassName="h-auto">
+  <TextMorphCount />
+</ComponentPreview>
+
+~~~tsx
+<TextMorph variant="count">{"12,000+", "48,000+", "120,000+"}</TextMorph>
+~~~
+
+### Roll
+
+Slot-machine roll powered by `@number-flow/react`. Digits spin into place with a smooth vertical mask and eased settle. Control `index` and `paused` to expose Pause and Reset like the hero demo above.
+
+<ComponentPreview name="text-morph" title="text-morph.tsx" previewClassName="h-auto">
+  <TextMorphRollBasic />
+</ComponentPreview>
+
+~~~tsx
+<TextMorph variant="roll">{"$48,210", "$92,405", "$163,890"}</TextMorph>
+~~~
+
+### Shuffle
+
+Scrambles each character through symbols and capitals before settling to the target letter, left to right across the full duration. Spaces remain visible so word boundaries stay readable.
+
+<ComponentPreview name="text-morph" title="text-morph.tsx" previewClassName="h-auto py-8">
+  <TextMorphShuffle />
+</ComponentPreview>
+
+~~~tsx
+<TextMorph variant="shuffle">{"Build", "Ship", "Iterate"}</TextMorph>
+~~~
+
+### Typewriter
+
+Characters appear one at a time from left to right. Set `speed` in milliseconds to control the typing pace.
+
+<ComponentPreview name="text-morph" title="text-morph.tsx" previewClassName="h-auto">
+  <TextMorphTypewriter />
+</ComponentPreview>
+
+~~~tsx
+<TextMorph variant="typewriter" speed={70} interval={3.5}>
+  {"npm install frakment", "npx frakment add button"}
+</TextMorph>
+~~~
+
+### Wave
+
+Each character fades in instead of snapping. Softer than plain typewriter, still left-to-right.
+
+<ComponentPreview name="text-morph" title="text-morph.tsx" previewClassName="h-auto">
+  <TextMorphWave />
+</ComponentPreview>
+
+~~~tsx
+<TextMorph variant="wave" speed={35} interval={3.5}>
+  {"Build something people love", "Ship without the boilerplate"}
+</TextMorph>
+~~~
+
+## In Context
+
+### Hero headline
+
+<ComponentPreview name="text-morph" title="text-morph.tsx">
+  <div className="mx-auto flex flex-col items-center gap-2 text-center">
+    <span className="text-muted-foreground text-sm">Ship faster with</span>
+    <span className="text-2xl font-semibold">
+      <TextMorph words={["Frakment", "primitives", "copy-paste"]} />
+    </span>
+  </div>
+</ComponentPreview>
+
+## API Reference
+
+### TextMorph
+
+<PropsTable
+  rows={[
+    { name: "children", type: "ReactNode[]", description: "Array of strings or nodes cycled in order." },
+    { name: "variant", type: "flip | fade | blur | slide | scale | count | roll | shuffle | typewriter | wave", default: "flip", description: "Transition style. See Variants section for a comparison." },
+    { name: "as", type: "p | span | code", default: "p", description: "Underlying motion element used to render the text." },
+    { name: "interval", type: "number", default: "2", description: "Seconds between each flip." },
+    { name: "index", type: "number", description: "Controlled index. When set, interval is ignored." },
+    { name: "defaultIndex", type: "number", default: "0", description: "Initial index in uncontrolled mode." },
+    { name: "paused", type: "boolean", default: "false", description: "Stop the auto-advance interval." },
+    { name: "onIndexChange", type: "function", description: "Called with the new index after each flip." },
+    { name: "transition", type: "Transition", description: "Motion transition override (flip variant only)." },
+    { name: "variants", type: "Variants", description: "Motion variants override (flip variant only)." },
+    { name: "speed", type: "number", default: "60", description: "Milliseconds per character for typewriter and wave variants." },
+    { name: "className", type: "string", description: "Applied to the rendered element." },
+  ]}
+/>
+
+## Accessibility
+
+- Wraps the text in a semantic element chosen via `as`.
+- Motion respects `prefers-reduced-motion`.
+- Keep each phrase short so screen readers announce quickly.
+
+## Best Practices
+
+- **Keep phrases short.** Two to four words per flip; longer clips mid-animation.
+- **Pause on hover.** Let users finish reading before the next phrase.
+- **Do not use for critical text.** If users might miss it, use static copy.
+- **Respect reduced-motion.** Fall back to a static phrase.

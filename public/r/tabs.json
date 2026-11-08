@@ -1,0 +1,17 @@
+{
+  "dependencies": [
+    "radix-ui"
+  ],
+  "deprecated": false,
+  "description": "A set of layered sections of content, known as tab panels, displayed one at a time.",
+  "files": [
+    {
+      "content": "\"use client\";\n\nimport { Tabs as TabsPrimitive } from \"radix-ui\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst Tabs = ({\n  className,\n  ...props\n}: React.ComponentProps<typeof TabsPrimitive.Root>) => (\n  <TabsPrimitive.Root\n    className={cn(\"flex flex-col gap-2\", className)}\n    data-slot=\"tabs\"\n    {...props}\n  />\n);\n\nconst TabsList = ({\n  className,\n  ...props\n}: React.ComponentProps<typeof TabsPrimitive.List>) => (\n  <TabsPrimitive.List\n    className={cn(\n      \"bg-muted text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px]\",\n      \"outline-none\",\n      className\n    )}\n    data-slot=\"tabs-list\"\n    {...props}\n  />\n);\n\nconst TabsTrigger = ({\n  className,\n  ...props\n}: React.ComponentProps<typeof TabsPrimitive.Trigger> & { sound?: string }) => (\n  <TabsPrimitive.Trigger\n    className={cn(\n      \"data-[state=active]:bg-background dark:data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 text-foreground dark:text-muted-foreground inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap transition-[color,box-shadow,opacity] duration-150 focus-visible:outline-none active:opacity-60 data-[state=active]:shadow-sm [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4\",\n      className\n    )}\n    data-slot=\"tabs-trigger\"\n    {...props}\n  />\n);\n\nconst TabsContent = ({\n  className,\n  ...props\n}: React.ComponentProps<typeof TabsPrimitive.Content>) => (\n  <TabsPrimitive.Content\n    className={cn(\n      \"flex-1 outline-none\",\n      \"data-[state=active]:animate-in data-[state=active]:fade-in-0 data-[state=active]:duration-200\",\n      className\n    )}\n    data-slot=\"tabs-content\"\n    {...props}\n  />\n);\n\nexport { Tabs, TabsContent, TabsList, TabsTrigger };\n",
+      "path": "components/ui/tabs.tsx"
+    }
+  ],
+  "name": "tabs",
+  "registryDependencies": [],
+  "title": "Tabs",
+  "version": "0.1.0"
+}

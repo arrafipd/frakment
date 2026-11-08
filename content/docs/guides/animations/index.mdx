@@ -1,0 +1,59 @@
+---
+title: Animations
+description: How motion works across Frakment and when to reach for it.
+---
+
+Every Frakment component ships with its animation already wired. State transitions run on Motion. The CLI installs `motion` the first time you add a component that needs it, and every animated component pulls in the helpers it depends on — you never install anything by hand.
+
+## Two systems, one install
+
+Frakment uses two animation engines behind the scenes. You do not choose between them; the CLI installs whatever a component declares.
+
+- **Motion** — every state transition (accordion height, collapsible expand, trace collapse, text flip, shimmer, attachment loading). Backed by the `motion` npm package.
+- **NumberFlow** — numeric roll and count variants in Text Flip. Backed by `@number-flow/react`.
+
+A third-party library fills in the rest: Tailwind's `animate-spin` for loaders, and `tw-animate-css` for dropdown and dialog entrances. Those ship inside Tailwind and `tw-animate-css`, not Frakment, and require nothing extra from you.
+
+## What installs automatically
+
+| Component | Animation | Installed by CLI |
+| --- | --- | --- |
+| Accordion | Motion height | `motion` |
+| Collapsible | Motion height | `motion` |
+| Trace | Motion height + shimmer | `motion`, `shimmer` |
+| Attachment | Motion shimmer | `motion`, `shimmer` |
+| Text Flip (flip, slide, fade, blur, scale) | Motion | `motion` |
+| Text Flip (count, roll) | NumberFlow | `@number-flow/react`, `motion` |
+| Text Flip (typewriter, wave, shuffle) | WAAPI | `motion` |
+| Message Animated | Motion | `motion` |
+
+Run `npx frakment add <name>` once and every dependency in that row is installed for you.
+
+## Shared helpers
+
+`lib/animation.ts` is created by `npx frakment init`. Import from it when you build your own animated components so timing matches the rest of the library.
+
+~~~ts
+import { SPRING_SMOOTH, EASE_OUT, EASE_SMOOTH, DURATION_SMOOTH } from "@/lib/animation";
+~~~
+
+- **SPRING_SMOOTH** — `{ stiffness: 200, damping: 30 }`. Use for expand and collapse that should settle without bounce.
+- **EASE_OUT** — `[0.16, 1, 0.3, 1]`. Use for entrances that decelerate.
+- **EASE_SMOOTH** — `[0.32, 0.72, 0, 1]`. Default for Frakment height transitions.
+- **DURATION_SMOOTH** — `0.45` seconds. Pair with `EASE_SMOOTH`.
+
+## Shimmer
+
+`Shimmer` is a Motion component that animates a text gradient. Trace and Attachment use it internally when their state is `running`, `processing`, or `uploading`, but it works anywhere.
+
+~~~tsx
+import { Shimmer } from "@/components/ui/shimmer";
+
+<Shimmer>Loading registry…</Shimmer>
+~~~
+
+Run `npx frakment add shimmer` to install it on its own, or let another component pull it in.
+
+## Customising
+
+Every animated component accepts a `className` and works with Motion's `transition` overrides where it exposes them. Trace and Collapsible expose `animateHeight` to opt out of the built-in height animation when you provide your own. See each component page for props.

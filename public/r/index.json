@@ -1,0 +1,328 @@
+{
+  "components": [
+    {
+      "deprecated": false,
+      "description": "A small label for statuses, categories, or counts.",
+      "name": "badge",
+      "title": "Badge",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A monochrome button with six variants and six sizes.",
+      "name": "button",
+      "title": "Button",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Displays rich content in a portal when hovering over a trigger.",
+      "name": "hover-card",
+      "title": "Hover Card",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Displays an indicator showing the completion progress of a task.",
+      "name": "progress",
+      "title": "Progress",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A daily status timeline for service uptime, with inline incident logs.",
+      "name": "pulse",
+      "title": "Pulse",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Multi-step form component. Bundles the headless engine and composes checkbox, radio-group, button, and card.",
+      "name": "questionnaire",
+      "title": "Questionnaire",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "An input where the user selects a value from within a given range.",
+      "name": "slider",
+      "title": "Slider",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A list of lines for the steps an agent takes.",
+      "name": "trace",
+      "title": "Trace",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Scroll container for chat transcripts. Anchors turns, follows streamed replies, restores position, and tracks visibility.",
+      "name": "message-scroller",
+      "title": "Message Scroller",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A single-line text input.",
+      "name": "input",
+      "title": "Input",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A multi-line text input.",
+      "name": "textarea",
+      "title": "Textarea",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A centered placeholder for empty states.",
+      "name": "empty",
+      "title": "Empty",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A composable input wrapper with inline addons, buttons, and text groups.",
+      "name": "input-group",
+      "title": "Input Group",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A text label for form controls.",
+      "name": "label",
+      "title": "Label",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A toggle control for boolean settings.",
+      "name": "switch",
+      "title": "Switch",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A control that lets the user toggle between checked and not checked.",
+      "name": "checkbox",
+      "title": "Checkbox",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A dropdown for selecting a single value from a list.",
+      "name": "select",
+      "title": "Select",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A layout primitive for form fields — label, description, and inputs.",
+      "name": "field",
+      "title": "Field",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "An animated chat message that fades in and pins to the message scroller.",
+      "name": "message-animated",
+      "title": "Message Animated",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Chat bubble surface with variants, alignment, and optional reactions.",
+      "name": "bubble",
+      "title": "Bubble",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A scrollable code container with header, copy button, line numbers, and diff highlighting.",
+      "name": "code-block",
+      "title": "Code Block",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A chat message layout with alignment, avatar, header, and footer.",
+      "name": "message",
+      "title": "Message",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A circular user image with fallback, badge, and stacking group.",
+      "name": "avatar",
+      "title": "Avatar",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A small inline status row with icon, content, and separator variants.",
+      "name": "marker",
+      "title": "Marker",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A small animated loading indicator.",
+      "name": "spinner",
+      "title": "Spinner",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A visual divider between content sections.",
+      "name": "separator",
+      "title": "Separator",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A flexible row for grouping media, content, and actions.",
+      "name": "item",
+      "title": "Item",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A two-state button that can be toggled on or off.",
+      "name": "toggle",
+      "title": "Toggle",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A set of grouped toggle buttons.",
+      "name": "toggle-group",
+      "title": "Toggle Group",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A container for grouping related content and actions.",
+      "name": "card",
+      "title": "Card",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
+      "name": "accordion",
+      "title": "Accordion",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A menu triggered by a button, with items, checkboxes, and submenus.",
+      "name": "dropdown-menu",
+      "title": "Dropdown Menu",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A popup that displays information related to an element on hover or focus.",
+      "name": "tooltip",
+      "title": "Tooltip",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A set of layered sections of content, known as tab panels, displayed one at a time.",
+      "name": "tabs",
+      "title": "Tabs",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "An animated text component that cycles through strings with ten transition variants.",
+      "name": "text-morph",
+      "title": "Text Morph",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "An interactive component which expands and collapses a panel.",
+      "name": "collapsible",
+      "title": "Collapsible",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Displays the path to the current resource using a hierarchy of links.",
+      "name": "breadcrumb",
+      "title": "Breadcrumb",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Groups related buttons into a single visual unit.",
+      "name": "button-group",
+      "title": "Button Group",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Accessible one-time password input with configurable length and pattern.",
+      "name": "input-otp",
+      "title": "Input OTP",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Navigation for splitting content across multiple pages.",
+      "name": "pagination",
+      "title": "Pagination",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A set of checkable buttons where only one can be selected at a time.",
+      "name": "radio-group",
+      "title": "Radio Group",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "An opinionated toast component for React, powered by Sonner.",
+      "name": "sonner",
+      "title": "Toast",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Motion-driven text shimmer for streaming states.",
+      "name": "shimmer",
+      "title": "Shimmer",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Displays file attachments with state indicators and shimmer for upload/processing.",
+      "name": "attachment",
+      "title": "Attachment",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A modal dialog built on Radix.",
+      "name": "dialog",
+      "title": "Dialog",
+      "version": "0.1.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A modal sheet that slides in from a side.",
+      "name": "sheet",
+      "title": "Sheet",
+      "version": "0.1.0"
+    }
+  ],
+  "homepage": "https://github.com/arrafipd/frakment",
+  "name": "frakment"
+}

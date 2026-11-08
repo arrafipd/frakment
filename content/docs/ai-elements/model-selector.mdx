@@ -1,0 +1,165 @@
+---
+title: "Model Selector"
+description: "A composer with model and effort pickers for chat and agent surfaces."
+---
+
+import { ModelSelectorDemo } from "@/examples/model-selector-demo";
+
+<ComponentPreview name="model-selector-demo" title="model-selector-demo.tsx" src="examples/model-selector-demo.tsx">
+  <ModelSelectorDemo />
+</ComponentPreview>
+
+Model Selector is a composer with two dropdowns for picking the model and the reasoning effort. It composes InputGroup, DropdownMenu, and Button so the pickers sit inside the same bordered surface as the textarea and the send action.
+
+Model Selector is a **composition**, not a primitive. Install the three primitives it uses, then wire it the same way the demo does.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add input-group dropdown-menu button
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install radix-ui lucide-react
+      ```
+
+      <Step>Install the required registry primitives:</Step>
+
+      <ComponentSource name="input-group" title="components/ui/input-group.tsx" />
+      <ComponentSource name="dropdown-menu" title="components/ui/dropdown-menu.tsx" />
+      <ComponentSource name="button" title="components/ui/button.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="model-selector.tsx"
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupTextarea } from "@/components/ui/input-group";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+<InputGroup>
+  <InputGroupTextarea value={text} onChange={...} />
+  <InputGroupAddon align="block-end">
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <InputGroupButton size="sm" variant="outline">
+          {currentModel.name}
+        </InputGroupButton>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuRadioGroup value={model} onValueChange={setModel}>
+          <DropdownMenuRadioItem value="gpt-5">GPT-5</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+    <InputGroupButton type="submit" disabled={!canSend}>
+      <ArrowUpIcon />
+    </InputGroupButton>
+  </InputGroupAddon>
+</InputGroup>
+```
+
+## Anatomy
+
+```tsx title="model-selector.tsx"
+<InputGroup>
+  <InputGroupTextarea />
+  <InputGroupAddon align="block-end">
+    <InputGroupButton type="button" aria-label="Attach"><PlusIcon /></InputGroupButton>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <InputGroupButton size="sm" variant="outline">{model}</InputGroupButton>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuRadioGroup>...</DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <InputGroupButton size="sm" variant="outline">{effort}</InputGroupButton>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuRadioGroup>...</DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+    <InputGroupButton type="submit" aria-label="Send"><ArrowUpIcon /></InputGroupButton>
+  </InputGroupAddon>
+</InputGroup>
+```
+
+- **InputGroup** — bordered surface holding the textarea and the addon.
+- **InputGroupTextarea** — the composer input. Enter sends, Shift+Enter inserts a newline.
+- **InputGroupAddon align="block-end"** — bottom row of actions.
+- **DropdownMenuTrigger asChild** — renders an `InputGroupButton` as the trigger.
+- **DropdownMenuRadioGroup** — one active item per group.
+- **InputGroupButton type="submit"** — the send action, disabled when the textarea is empty.
+
+## Grouped models
+
+Show each provider as a `DropdownMenuGroup` with a `DropdownMenuLabel` heading. The separator between groups comes from `DropdownMenuSeparator`:
+
+```tsx
+<DropdownMenuRadioGroup onValueChange={setModel} value={model}>
+  {providers.map((provider, index) => (
+    <React.Fragment key={provider.name}>
+      {index > 0 && <DropdownMenuSeparator />}
+      <DropdownMenuGroup>
+        <DropdownMenuLabel>{provider.name}</DropdownMenuLabel>
+        {provider.models.map((item) => (
+          <DropdownMenuRadioItem key={item.id} value={item.id}>
+            {item.name}
+          </DropdownMenuRadioItem>
+        ))}
+      </DropdownMenuGroup>
+    </React.Fragment>
+  ))}
+</DropdownMenuRadioGroup>
+```
+
+## Best Practices
+
+- **Always show the current model.** The trigger label is the value, so users see it without opening the menu.
+- **Group by provider.** Models across providers differ in capability and cost; the group heading tells the user which family they are picking.
+- **Disable Send when empty.** `disabled={!canSend}` prevents accidental empty submissions.
+- **Attach is not Send.** Use a separate icon-only button with `type="button"` for attachments so Enter doesn't submit the file picker.
+- **Effort is a second dropdown.** Do not fold effort into the model name; users change it independently.
+
+## Accessibility
+
+- Both `DropdownMenuTrigger` instances use `asChild` so the trigger is a real `InputGroupButton` (a button element) with an `aria-label` describing its value.
+- `DropdownMenuRadioGroup` exposes `role="radiogroup"` per group and `role="menuitemradio"` per item; arrow keys move the selection.
+- The Send button has `aria-label="Send"` and is disabled when the composer is empty.
+- The attach button has `aria-label="Attach"` and is `type="button"` so it never submits the form.
+
+## Next
+
+- [Chat](/docs/ai-elements/chat) — full streaming chat surface.
+- [Input Group](/docs/components/input-group) — composer with inline addons.
+- [Dropdown Menu](/docs/components/dropdown-menu) — menu with grouped radio items.

@@ -1,0 +1,198 @@
+# Frakment — HANDOFF
+
+> Detail: `HANDOFF.archive/README.md`.
+
+## Current State
+
+`main` = `origin/main` (clean). Monorepo aktif (5 paket). Build 360 pages EXIT=0, typecheck EXIT=0, test 42/42, registry 46 components. Site live at `https://www.arrafi.dev/frakment`. Npm: `frakment@0.0.4`, `@frakment/ai@0.0.3`, `@frakment/react@0.0.2`, `@frakment/mcp@0.0.2`. Registry: `https://www.arrafi.dev/frakment/r`. Release: Changesets independent + OIDC Trusted Publisher (`.github/workflows/release.yml`).
+
+| # | Nama | Path | Publish |
+|---|---|---|---|
+| 1 | `frakment` | `packages/cli` | `0.0.4` |
+| 2 | `@frakment/ai` | `packages/ai` | `0.0.2` |
+| 3 | `@frakment/react` | `packages/react` | `0.0.2` |
+| 4 | `@frakment/mcp` | `packages/mcp` | `0.0.2` |
+| 5 | `@frakment/site` | root | private |
+
+## Backlog
+
+1. **`public/r/` osilasi** — `registry:build` vs `ultracite fix` format beda. Fix sementara biome ignore (`0fc269e`).
+
+## Gotchas — New
+
+- **#26** TS7 native tidak emit `.d.ts` -> TS 5.7.3 di paket.
+- **#27** `tsconfig.tsbuildinfo` stale -> hapus / `--incremental false`.
+- **#28** `ignoreDeprecations`: TS5.7.3 hanya `"5.0"`.
+- **#29** `tsup dts:true` gagal TS7 -> `dts:false` + `tsc --emitDeclarationOnly`.
+- **#30** biome `extends: ["ultracite/biome/core"]`, ignore `!**/node_modules`.
+- **#31** PS 5.1 tidak dukung `utf8NoBOM` -> `[IO.File]::WriteAllText` + `UTF8Encoding($false)`.
+- **#32** heredoc >2KB cut saat paste -> pecah chunk atau base64.
+- **#57** `has-disabled:opacity-50` di parent -> semua anak pudar 50%. Pakai `disabled:bg-muted` di kontrol.
+- **#58** Warna di base cva menimpa variant (`text-foreground` kalahkan `text-primary-foreground`).
+- **#59** `<body>` butuh `bg-background` eksplisit di Tailwind v4, jika tidak canvas transparan.
+- **#60** PS 5.1 here-string >2KB cut saat paste (bukan heredoc) -> pakai `StreamWriter`+`WriteLine` per baris untuk file besar.
+- **#61** `ComponentSource name="X"` resolve ke `examples/X.tsx` / `registry/X.tsx` saja; file lain (lib engine, composition di `components/ui/`) wajib `src="path"`. `title` = label display, bukan path.
+
+- **#62** npm CLI di GitHub Actions runner perlu >= 11.5.1 untuk OIDC Trusted Publishing. Tanpa upgrade, publish gagal E404 misleading. Fix: step `npm install -g npm@latest` sebelum `npm ci`.
+- **#63** NPM_CONFIG_PROVENANCE: true wajib di workflow env untuk OIDC + Sigstore attestation. Tanpa ini, OIDC auth tetap jalan tapi provenance tidak dihasilkan.
+- **#64** Trusted Publisher npm berstatus Pending validation setelah setup. Config expired jika tidak ada publish sukses via OIDC dalam 24 jam. Setup + push pertama harus dalam window ini.
+
+- **#65** Changeset summary + commit message + GitHub Release title = **public**. Changeset summary langsung jadi body GitHub Release & entry CHANGELOG.md. Jangan placeholder ("test:", "wip:", "tmp:"), jangan sebut brand/proyek lain. Tulis user-facing: apa yang berubah, kenapa, cara pakai.
+- **#66** `.changeset/*.md` tidak auto-delete setelah `changeset publish`. Hapus manual setelah rilis verified, sebelum batch changeset berikutnya.
+- **#67** Versi manual-published (sebelum Changesets aktif) tidak punya GitHub Release/tag. Backfill: `git tag -a <tag> -m "<title>"` + `git push origin <tag>` + `gh release create <tag> --title "<title>" --notes-file <file>`.
+Gotchas lama (#1-67): `HANDOFF.archive/gotchas.md`.
+
+- #46: Components using `React.createContext`, `useState`, or `useEffect` require `"use client"` on line 1. Sync to `registry/<name>.tsx` (SHA256 identical). Without it, Next.js throws `createContext only works in Client Components` when imported from an MDX/Server Component.
+- #47: Write `.mdx` files via Node `fs.writeFileSync`, not PowerShell here-string. MDX backticks and special characters can leave PowerShell stuck in continuation mode.
+- #48: `ComponentPreview` uses `children` for live render. `name` resolves source via `getRegistryComponent("x")` to `components/ui/x.tsx`. Never use `name="x-demo"` — demos live in `examples/` and are passed as children.
+- #49: After `npm run fix`, check `git diff` on non-glob files (e.g. `styles/theme.css`) — real UTF-8 mojibake can appear (em-dash → garbled bytes). Verify with `node -e "console.log(fs.readFileSync(p,'utf8'))"`, NOT `Select-String`/`Get-Content`: PowerShell 5.1 renders UTF-8 as Windows-1252 and shows clean `·`/`—` as `Â·`/`â€"` — that is a display artifact, not file corruption. `git checkout` only files confirmed corrupted by Node.
+- #50: `lefthook` pre-commit (format, lint) may modify files and abort the commit. Re-stage with `git add -A` and commit again. Don't use `--no-verify` unless absolutely necessary.
+- #51: `content/docs/*/meta.json` may carry a UTF-8 BOM; Node `JSON.parse` throws `Unexpected token`. Strip with `c.replace(/^\uFEFF/,'')` or use PowerShell `ConvertFrom-Json`.
+- #52: Primitives (`trace`, `code-block`, `badge`, `bubble`, `message`, `input-group`, dll.) installable via `npx frakment add <name>`. Compositions (`chat`, `terminal`, `chain-of-thought`) **not** installable — remove from `frakment.json` and `public/r/`. Docs must teach `npx frakment add <primitive1> <primitive2> ...`, never `<composition>`. Pattern matches shadcn `ai-elements/chat`.
+- #53: Docs manual install command must **exactly match** `registryDependencies` in `frakment.json`. Before adding an install line, verify imports in the component source. Missing dep = broken install for users; extra dep = unnecessary install. `npx frakment add <name>` CLI auto-resolves regdeps, so the CLI tab needs only the top-level primitive(s).
+- #54: Icons migrated from `@phosphor-icons/react` to `lucide-react`. `registry/icons.ts` remains as a legacy shim re-exporting Phosphor under Lucide-compatible names for backward compat. New components must import from `lucide-react` directly, not the shim. Docs must never teach `@phosphor-icons/react` install.
+
+## Pointers
+
+- Archive: [`HANDOFF.archive/README.md`](./HANDOFF.archive/README.md)
+- Migration: [`session-monorepo-migration.md`](./HANDOFF.archive/session-monorepo-migration.md)
+- Workflow: [`patterns.md`](./HANDOFF.archive/patterns.md)
+- Decisions: [`plan-monorepo.md`](./HANDOFF.archive/plan-monorepo.md)
+
+## Maintenance
+
+- Commit + HANDOFF update per phase.
+- Gotcha baru -> 1 baris di atas + detail di `gotchas.md`.
+- HANDOFF <= 15KB. Lewat -> extract ke archive.
+- Perubahan user-facing -> changelog `content/docs/changelog/YYYY-MM-DD.mdx`.
+## Efek per aktor
+
+**Admin (solo dev):**
+- Direct push ke `main` → bisa (bypass Ruleset B)
+- Force-push / delete `main` → bisa (bypass Ruleset C)
+- Merge PR saat CI merah → bisa (bypass Ruleset B)
+- Tidak perlu toggle ruleset untuk cleanup — cukup `git push --force`
+
+**Non-admin (future contributors):**
+- Direct push → diblok (Ruleset A)
+- Merge PR saat CI merah → diblok (Ruleset B)
+- Force-push / delete `main` → diblok (Ruleset C)
+- Wajib lewat PR + CI hijau
+
+### Konsekuensi
+
+- Admin bisa merusak `main` (force-push, delete). Recovery: `git reset --hard <sha>` + force-push.
+- History `main` bisa terpolusi kalau admin push commit test. Cleanup: force-push ke commit bersih.
+- Disiplin lokal tetap penting: lefthook pre-push jalankan build+test.
+
+### Perintah inspeksi
+
+`gh api repos/arrafipd/frakment/rulesets --jq ".[] | {id, name, enforcement}"`
+`gh api repos/arrafipd/frakment/rulesets/<id> --jq "{name, bypass: .bypass_actors, rules: [.rules[].type]}"`
+
+Update: tulis body JSON + `gh api -X PUT repos/arrafipd/frakment/rulesets/<id> --input body.json`.
+
+## Commit/PR Policy
+
+### Admin (solo dev)
+
+**Commit + push langsung ke `main`. Tanpa PR.**
+
+Alur:
+1. `npm run fix && npm run check && npm run typecheck && npm test` (verify lokal)
+2. `git add -A && git commit -m "..."` — pre-commit hook jalankan format+lint+typecheck otomatis
+3. `git push origin main` — pre-push hook jalankan build+test otomatis
+
+Admin bypass semua ruleset. Kalau ada kesalahan yang perlu dibersihkan: `git reset --hard <sha>` + `git push --force`.
+
+### Non-admin (future contributors)
+
+Wajib PR + CI hijau. Direct push diblok. Lihat section Ruleset di bawah.
+
+## Docs & Changelog Rules (AI-facing)
+
+**HANDOFF is admin/AI only. Never mention it in `CONTRIBUTING.md`, `README.md`, user docs, changelog, commit messages, or code comments.** No contributor should ever know this file exists.
+
+User-facing guidelines live in `CONTRIBUTING.md`. The rules below are the AI-side mirror so docs stay consistent when written by an agent.
+
+### Docs rules (same as CONTRIBUTING)
+
+- **Shipped state only.** Docs describe what exists and works in `main` today. No roadmap, milestones, "planned", "in development", "coming soon", "TBD", "WIP", or "draft".
+- **No internal detail.** Never mention build tooling, dev paths, temporary files, local HTTP servers, `_old`, `node_modules`, or scratch notes in docs.
+- **English only.** No mixed-language prose.
+- **One sentence per paragraph.** Rich but simple.
+- **Component page shape:** frontmatter + 2–3 sentence intro + `## Installation` (`<Steps>`) + `## Usage` (`<ComponentPreview>`) + `## API`. Reference: `content/docs/components/button.mdx`.
+
+### Changelog rules (same as CONTRIBUTING)
+
+- **Only for library/package changes:** new registry component, visual/behaviour change, public API change, CLI command/flag change, `theme.css` token change, registry schema change, package publish/rename.
+- **Skip:** site-only UI (header, sidebar, demo page), docs typo, refactor internal, dev tooling, CI changes.
+- **One file per day:** `content/docs/changelog/YYYY-MM-DD.mdx`. Immutable after merge.
+- **Preview-first pattern:** for visual changes, `<ComponentPreview>` goes **above** the prose. Non-visual sections (CLI, config, dependency) use a fenced code diff only.
+- **Template reference:** `content/docs/changelog/2026-11-03.mdx`.
+
+### When adding a new registry component
+
+Eight steps. Skipping steps 4 or 5 causes a silent navigation failure: the component becomes installable via `npx frakment add` but does not appear in the sidebar, mobile nav, or command menu.
+
+1. Copy `components/ui/<name>.tsx` to `registry/<name>.tsx` (SHA256 identical).
+2. Add an entry to `frakment.json` with `name`, `version`, `title`, `description`, `source`, `target`, `dependencies`, `registryDependencies`.
+3. Add `content/docs/components/<name>.mdx` using the docs template (reference: `button.mdx`).
+4. Add `"<name>"` to `content/docs/components/meta.json` pages array, alphabetically. Without this the page does not appear in sidebar or command menu.
+5. Add `"/docs/components/<name>"` to `PAGES_NEW` in `lib/docs.ts`. Without this the new badge is missing. See PAGES_NEW semantics below.
+6. Add `content/docs/changelog/YYYY-MM-DD.mdx` (preview-first, template `2026-11-03.mdx`).
+7. If `registry:lib` and ships internal files, verify `public/r/<name>.json` lists them with the correct `targetDir`.
+8. Run `npm run registry:build`, `npm run fix`, `npm run check`, `npm run typecheck`, `npm test`, `npm run build`. Commit and push.
+
+### PAGES_NEW semantics
+
+`PAGES_NEW` in `lib/docs.ts` controls the blue new badge in sidebar and mobile nav.
+
+It is a rotating set of the latest release batch, not a cumulative list. When a new batch ships, replace the entire set with only the components from that batch. Entries from the previous batch graduate and their badges disappear.
+
+Example: yesterday batch was `{card, tooltip, toggle}`. Today batch is `{accordion}`. Today `PAGES_NEW = {"/docs/components/accordion"}`. Card, tooltip, and toggle lose their badge.
+
+Exception: a component whose docs page shipped in an earlier batch but whose registry entry only became installable today (e.g. `card` on 2026-11-05) does not get re-added. `PAGES_NEW` tracks page release, not registry availability.
+
+### Silent navigation failures
+
+Three updates are easy to forget and fail silently. The component installs via CLI and compiles, but does not appear in navigation:
+
+- Missing `frakment.json` entry: `npx frakment add <name>` returns 404.
+- Missing `content/docs/components/meta.json` entry: page exists at its URL but is not linked from sidebar, mobile nav, or command menu.
+- Missing `lib/docs.ts` `PAGES_NEW` entry: page appears everywhere but without the new badge.
+
+Always verify all three after adding a component.
+
+### When only changing site UI (header, sidebar, demo page)
+
+- No changelog. No docs update unless the component page itself changed.
+- Still run `npm run check` + `npm run typecheck` before commit.
+
+### When publishing a package to npm
+
+1. Update the corresponding docs page: replace "copy source" instructions with `npm install <pkg>`.
+2. Add a changelog entry with a `### Published: <pkg>` section and an install snippet.
+3. If a component no longer needs a `registry:lib` twin (because the npm package now covers it), decide explicitly: keep both paths or drop the registry twin. Document the decision in this file.
+4. Update `libraries/index.mdx` table — remove "not published" caveats.
+
+### Never
+
+- Never mention `HANDOFF.md` in any user-facing file (docs, README, CONTRIBUTING, changelog, commit messages, code comments).
+- Never write roadmap, milestone, or forward-looking content in docs or changelog.
+- Never write BOM, PowerShell, `_old`, `node_modules`, tooling workarounds, or local-server notes in docs. Those belong here, in HANDOFF, only.
+- Never document a component that is not shipped and working. If it is parked, note it in `HANDOFF.archive/`, not in docs.
+- Never mention other brands or competing projects (e.g. shadcn) in release titles, release notes, commit messages, or changeset summaries. These become public artifacts.
+
+## MCP compose + list_scenarios
+
+Moved to archive on 2026-11-06. See `HANDOFF.archive/security.md`.
+
+
+## Archived sections
+
+See archive.
+
+Topics: see archive.
+
+See Efek per aktor, #31.

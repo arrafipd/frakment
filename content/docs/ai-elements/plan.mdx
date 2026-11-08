@@ -1,0 +1,166 @@
+---
+title: Plan
+description: Stream an agent plan as a collapsible list of steps with done, running, and pending status.
+---
+
+import { PlanDemo } from "@/examples/plan-demo";
+import { PlanDescription } from "@/examples/plan-description";
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceDescription,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+import { RouteIcon, CircleCheckIcon, CircleDotIcon, CircleIcon } from "lucide-react";
+
+<ComponentPreview name="plan-demo" title="plan-demo.tsx" src="examples/plan-demo.tsx" align="start" previewClassName="h-auto">
+  <PlanDemo />
+</ComponentPreview>
+
+Plan renders an agent plan as a collapsible step list. Each step carries a status of `done`, `running`, or `pending`, and the header shows how many are finished. The whole block collapses to a single line.
+
+Plan is a **composition**, not a primitive. It composes [Trace](/docs/components/trace) lines inside a collapsible and drives streaming status through a chat transport.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add trace message bubble button
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the primitives:</Step>
+
+      ~~~bash
+      npx frakment add trace message bubble button
+      ~~~
+
+      <Step>Copy the demo into your project:</Step>
+
+      <ComponentSource name="plan-demo" title="examples/plan-demo.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="plan.tsx"
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceDescription,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+import { RouteIcon, CircleCheckIcon, CircleDotIcon, CircleIcon } from "lucide-react";
+~~~
+
+~~~tsx title="plan.tsx"
+<Trace>
+  <TraceCollapsible defaultOpen>
+    <TraceCollapsibleTrigger>
+      <TraceLine status={running ? "running" : undefined}>
+        <TraceIcon>
+          <RouteIcon />
+        </TraceIcon>
+        <TraceTitle>{"Plan: migrate to Base UI"}</TraceTitle>
+        <TraceDescription>{"1 of 4 done"}</TraceDescription>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>
+      <Trace>
+        <TraceLine status="pending">
+          <TraceIcon>
+            <CircleIcon />
+          </TraceIcon>
+          <TraceTitle>{"Replace the Radix imports"}</TraceTitle>
+        </TraceLine>
+      </Trace>
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+~~~
+
+## Anatomy
+
+~~~tsx title="plan.tsx"
+<Trace>
+  <TraceCollapsible>
+    <TraceCollapsibleTrigger>
+      <TraceLine>
+        <TraceIcon />
+        <TraceTitle />
+        <TraceDescription />
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>
+      <Trace>
+        <TraceLine>
+          <TraceIcon />
+          <TraceTitle />
+        </TraceLine>
+      </Trace>
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+~~~
+
+- **Trace** — outer wrapper, flex column
+- **TraceCollapsibleTrigger** — header row with route icon, title, and progress count
+- **TraceCollapsibleContent** — nested `Trace` with one `TraceLine` per step
+- **TraceLine** — a single step row, accepts `status`
+- **TraceIcon** — icon slot, swaps between check, running, and pending glyphs
+
+## Status
+
+Each step carries a status. The header shows how many are done.
+
+| Status | Effect |
+| :-- | :-- |
+| `running` | Foreground color, shimmer on title |
+| `pending` | 60% opacity |
+
+## Static plan
+
+Render a fixed plan without a chat transport for a read-only summary.
+
+<ComponentPreview name="plan-description" title="plan-description.tsx" src="examples/plan-description.tsx" align="start" previewClassName="h-auto">
+  <PlanDescription />
+</ComponentPreview>
+
+## Streaming
+
+The demo streams `data-plan` parts through a chat transport. Each tick replaces the plan with a new snapshot where one more step is `done` and the next is `running`. The header count updates and the shimmers settle on the current step.
+
+## Accessibility
+
+- Use `TraceTitle` as the accessible name. Write titles as verb-first sentences.
+- Status is conveyed by icon glyph and color. Do not rely on color alone.
+- The collapsible trigger is keyboard-focusable and toggles with Enter or Space.
+- `prefers-reduced-motion` disables shimmer and collapse animation.
+
+## Best Practices
+
+- **Stream status, not text.** Update `data-plan` snapshots instead of mutating the transcript.
+- **Keep titles short.** One step is one sentence, no sub-clauses.
+- **Collapse by default for long runs.** More than six steps crowds the surface.
+- **Pair with a terminal message.** The plan is not the answer. Close the turn with text.

@@ -1,0 +1,127 @@
+---
+title: "Brand"
+description: Logos, marks, and wordmarks for Frakment. Use these assets for press, docs, and third-party integrations without redrawing the mark.
+---
+
+Official visual resources for referencing Frakment in articles, products, or projects.
+
+## About
+
+**Frakment** is a component registry for React interfaces. Components are copy-paste, standalone, and dependency-light — designed to sit quietly next to whatever product they're embedded in.
+
+The brand reflects that intent: neutral, typographic, and without decoration. Ink on paper. Paper on ink. Nothing that competes with the interface itself.
+
+## Naming
+
+Always write **Frakment** as one word, capital **F**, lowercase for the rest.
+
+<PropsTable
+  rows={[
+    {
+      name: "Frakment",
+      type: "valid",
+      description: "The project and registry name",
+    },
+    {
+      name: "Frakment Registry",
+      type: "valid",
+      description: "Full product name",
+    },
+    {
+      name: "Frakment CLI",
+      type: "valid",
+      description: "Full product name",
+    },
+    {
+      name: "Frakment MCP",
+      type: "valid",
+      description: "Full product name",
+    },
+    {
+      name: "Frakment.js",
+      type: "invalid",
+      description: "Not a JS package name",
+    },
+    {
+      name: "FrakmentJS",
+      type: "invalid",
+      description: "No camel case variants",
+    },
+    {
+      name: "frakment",
+      type: "invalid",
+      description: "Only in code, never in prose",
+    },
+    {
+      name: "Fragment",
+      type: "invalid",
+      description: "Different word, different meaning",
+    },
+  ]}
+/>
+
+In code, use the casing your language expects:
+
+<PropsTable
+  rows={[
+    {
+      name: "Package name",
+      type: "frakment",
+      description: "Package name",
+    },
+    {
+      name: "CLI command",
+      type: "npx frakment add",
+      description: "CLI command",
+    },
+    {
+      name: "Import path",
+      type: "@/components/ui/…",
+      description: "Import path",
+    },
+  ]}
+/>
+
+## Usage
+
+Give the mark room to breathe. Scale it up or down as needed, but never stretch, recolor, outline, rotate, or layer effects on top of it. Keep at least the height of the logomark as clear space on every side.
+
+## Logomark
+
+Use the logomark for tight layouts, logo-only grids, or places where text alongside the mark would feel cramped. Monochrome usage is preferred — dark version on light surfaces, light version on dark surfaces. Use at **16px minimum**.
+
+<div className="not-prose my-6 grid gap-5 sm:grid-cols-2">
+  <div className="flex flex-col overflow-hidden rounded border border-border">
+    <div className="flex items-center justify-center bg-white py-12">
+      <FrakmentMark size={96} className="text-neutral-950" />
+    </div>
+    <div className="border-t border-border bg-background px-4 py-3.5">
+      <span className="text-sm font-semibold">Dark on light</span>
+    </div>
+  </div>
+  <div className="flex flex-col overflow-hidden rounded border border-border">
+    <div className="flex items-center justify-center bg-neutral-950 py-12">
+      <FrakmentMark size={96} className="text-white" />
+    </div>
+    <div className="border-t border-border bg-background px-4 py-3.5">
+      <span className="text-sm font-semibold">Light on dark</span>
+    </div>
+  </div>
+</div>
+
+## Colors
+
+The Frakment palette is **high-contrast monochrome** so it stays consistent across light and dark mode. Click any hex value to copy it.
+
+<div className="not-prose my-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+  <BrandColorSwatch name="Frakment Ink" hex="#0A0A0A" rgb="10, 10, 10" />
+  <BrandColorSwatch name="Frakment Slate" hex="#737373" rgb="115, 115, 115" />
+  <BrandColorSwatch name="Frakment Mist" hex="#A3A3A3" rgb="163, 163, 163" />
+  <BrandColorSwatch name="Frakment Paper" hex="#FFFFFF" rgb="255, 255, 255" />
+</div>
+
+Body text and headings use **Ink** on light surfaces, **Paper** on dark surfaces. Muted text, borders, and disabled states use **Slate** and **Mist**. Color is reserved for state — errors, warnings, success — never for decoration.
+
+## Questions
+
+Missing an asset or need a specific format? [Open an issue](https://github.com/arrafipd/frakment/issues) with the `brand` label.

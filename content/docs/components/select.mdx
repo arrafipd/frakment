@@ -1,0 +1,281 @@
+---
+title: Select
+description: A dropdown list of options for picking a single value.
+---
+
+import { SelectDemo } from "@/examples/select-demo";
+import { SelectGroups } from "@/examples/select-groups";
+import { SelectDisabled } from "@/examples/select-disabled";
+import { SelectInvalid } from "@/examples/select-invalid";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+<ComponentPreview name="select" title="select.tsx">
+  <SelectDemo />
+</ComponentPreview>
+
+Select is a compound Radix dropdown styled with Frakment tokens. It exposes `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem`, and grouping/scroll helpers.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add select
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install radix-ui
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="select" title="components/ui/select.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="select.tsx"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+```
+
+```tsx
+<Select>
+  <SelectTrigger>
+    <SelectValue placeholder="Select a fruit" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="apple">Apple</SelectItem>
+    <SelectItem value="banana">Banana</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+> **Note:** `Select` does **not** accept an `items` prop. Pass `value` / `defaultValue` / `onValueChange` on the root, and never pass an empty string to `value` — Radix Select treats `""` as a special state.
+
+## Composition
+
+```text
+Select
+├── SelectTrigger
+├── SelectValue
+└── SelectContent
+    ├── SelectGroup
+    │   └── SelectItem
+    ├── SelectLabel
+    └── SelectSeparator
+```
+
+## Examples
+
+### Groups
+
+<ComponentPreview name="select" title="select.tsx">
+  <SelectGroups />
+</ComponentPreview>
+
+```tsx
+<Select>
+  <SelectTrigger>
+    <SelectValue placeholder="Select a timezone" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectGroup>
+      <SelectLabel>North America</SelectLabel>
+      <SelectItem value="est">Eastern (EST)</SelectItem>
+      <SelectItem value="pst">Pacific (PST)</SelectItem>
+    </SelectGroup>
+  </SelectContent>
+</Select>
+```
+
+### Disabled
+
+Pass `disabled` on the root `Select` to lock the entire control.
+
+<ComponentPreview name="select" title="select.tsx">
+  <SelectDisabled />
+</ComponentPreview>
+
+```tsx
+<Select disabled>
+  <SelectTrigger>
+    <SelectValue placeholder="Disabled select" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="a">Option A</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+### Invalid
+
+Set `aria-invalid` on `SelectTrigger` to trigger the destructive border and ring.
+
+<ComponentPreview name="select" title="select.tsx">
+  <SelectInvalid />
+</ComponentPreview>
+
+```tsx
+<Select>
+  <SelectTrigger aria-invalid>
+    <SelectValue placeholder="Select a value" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="a">Option A</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+## In Context
+
+### Model selector
+
+<ComponentPreview name="select" title="select.tsx">
+  <Select defaultValue="gpt-5">
+    <SelectTrigger className="w-56">
+      <SelectValue placeholder="Pick a model" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectItem value="gpt-5">GPT-5</SelectItem>
+      <SelectItem value="claude">Claude</SelectItem>
+      <SelectItem value="gemini">Gemini</SelectItem>
+    </SelectContent>
+  </Select>
+</ComponentPreview>
+
+### Language picker
+
+<ComponentPreview name="select" title="select.tsx">
+  <Select defaultValue="en">
+    <SelectTrigger className="w-56">
+      <SelectValue placeholder="Language" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectItem value="en">English</SelectItem>
+      <SelectItem value="id">Bahasa Indonesia</SelectItem>
+      <SelectItem value="ja">日本語</SelectItem>
+    </SelectContent>
+  </Select>
+</ComponentPreview>
+
+## API Reference
+
+### Select
+
+Extends Radix `Select.Root`.
+
+<PropsTable
+  rows={[
+    { name: "value", type: "string", description: "Controlled selected value." },
+    { name: "defaultValue", type: "string", description: "Uncontrolled initial value." },
+    { name: "onValueChange", type: "(value: string) => void", description: "Fires when the selection changes." },
+    { name: "disabled", type: "boolean", default: "false", description: "Disables the trigger." },
+    { name: "name", type: "string", description: "Submitted with the form." },
+    { name: "required", type: "boolean", default: "false", description: "Native form requirement." },
+  ]}
+/>
+
+### SelectTrigger
+
+Renders the trigger button. Accepts `size` (`sm` | `default`) and `className`.
+
+### SelectContent
+
+Extends Radix `Select.Content`. Renders inside a portal. Accepts `position` (`item-aligned` | `popper`) and `side`.
+
+### SelectItem
+
+Extends Radix `Select.Item`. Accepts `value` (required) and `disabled`.
+
+### SelectValue
+
+Renders the selected label. Accepts `placeholder` for the empty state.
+
+### SelectGroup / SelectLabel
+
+`SelectGroup` clusters items under a heading rendered by `SelectLabel`.
+
+## Controlled
+
+```tsx
+const [value, setValue] = React.useState("")
+<Select value={value} onValueChange={setValue}>
+  <SelectTrigger>
+    <SelectValue placeholder="Pick one" />
+  </SelectTrigger>
+  <SelectContent>{/* ... */}</SelectContent>
+</Select>
+```
+
+## States
+
+| State | How |
+| :-- | :-- |
+| Default | — |
+| Placeholder | no `value` selected |
+| Invalid | `aria-invalid="true"` |
+| Disabled | `disabled` prop |
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `Space` / `Enter` | Open the select |
+| `↑` / `↓` | Navigate options |
+| `Home` / `End` | First / last option |
+| `a`–`z` | Type-ahead search |
+| `Esc` | Close |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `select-trigger`, `select-content`, `select-item`, `select-label`, `select-separator` |
+| `data-state` | `open` \| `closed` |
+| `data-highlighted` | `true` (focused item) |
+| `data-disabled` | `true` |
+| `data-placeholder` | `true` (empty value) |
+
+## Accessibility
+
+- `SelectTrigger` renders a button with `role="combobox"` and `aria-expanded`. Do not add `role` manually.
+- Pair with a `Label` or `FieldLabel` using `htmlFor` so screen readers announce the field name.
+- `SelectItem` accepts `disabled`; disabled items remain in the list for context but are not focusable.
+- When the trigger is inside a form, always set `name` so the value submits correctly.
+
+## Best Practices
+
+- **Use Select for long lists.** Radio Group is better for under five options.
+- **Always show a placeholder.** `SelectValue placeholder` makes the empty state clear.
+- **Group long lists.** Use `SelectGroup` and `SelectLabel` to organize by category.
+- **Do not use Select for navigation.** Use a link or a Button with a dropdown menu.
+- **Keep items scannable.** Sort alphabetically or logically; do not mix sort orders within one group.
+## Related Components
+
+- [Dropdown Menu](/docs/components/dropdown-menu) — action menu with arbitrary content
+- [Radio Group](/docs/components/radio-group) — visible options
+- [Combobox](/docs/components/select) — searchable select
+

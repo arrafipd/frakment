@@ -1,0 +1,416 @@
+---
+title: Code Block
+description: A scrollable code container with header, copy button, line numbers, and highlighted lines.
+---
+
+import { CodeBlockDemo } from "@/examples/code-block-demo";
+import { Button } from "@/components/ui/button";
+import {
+  CodeBlock,
+  CodeBlockHeader,
+  CodeBlockTitle,
+  CodeBlockActions,
+  CodeBlockCopyButton,
+  CodeBlockContent,
+  CodeBlockLine,
+} from "@/components/ui/code-block";
+import { FileCode2Icon } from "lucide-react";
+
+<ComponentPreview
+  name="code-block"
+  title="code-block.tsx"
+  align="start"
+  previewClassName="h-auto"
+>
+  <CodeBlockDemo />
+</ComponentPreview>
+
+Code Block renders a monospaced code surface with optional header, copy button, line numbers, and per-line variants for diffs.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add code-block
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install class-variance-authority lucide-react
+      ```
+
+      <Step>Install the required registry components first:</Step>
+
+      ```bash
+      npx frakment add button
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="code-block" title="components/ui/code-block.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="example.tsx"
+import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block";
+```
+
+```tsx title="codeblock.tsx"
+<CodeBlock>
+  <CodeBlockContent>{"npm install frakment"}</CodeBlockContent>
+</CodeBlock>
+```
+
+## Basic
+
+The simplest form — pass a string as children of `CodeBlockContent`.
+
+<ComponentPreview name="code-block" title="code-block.tsx">
+  <div className="w-full max-w-lg">
+    <CodeBlock>
+      <CodeBlockContent>{"npm install frakment"}</CodeBlockContent>
+    </CodeBlock>
+  </div>
+</ComponentPreview>
+
+## Header
+
+Wrap the top row in `CodeBlockHeader`. Use `CodeBlockTitle` for the filename and `CodeBlockActions` for buttons.
+
+<ComponentPreview name="code-block" title="code-block.tsx">
+  <div className="w-full max-w-lg">
+    <CodeBlock>
+      <CodeBlockHeader>
+        <CodeBlockTitle>
+          <FileCode2Icon />
+          Terminal
+        </CodeBlockTitle>
+        <CodeBlockActions>
+          <CodeBlockCopyButton value="npx frakment add button" />
+        </CodeBlockActions>
+      </CodeBlockHeader>
+      <CodeBlockContent>{"npx frakment add button"}</CodeBlockContent>
+    </CodeBlock>
+  </div>
+</ComponentPreview>
+
+## Actions
+
+`CodeBlockActions` can hold multiple buttons — copy, download, wrap toggle. Each is a plain `Button`.
+
+<ComponentPreview name="code-block" title="code-block.tsx">
+  <div className="w-full max-w-lg">
+    <CodeBlock>
+      <CodeBlockHeader>
+        <CodeBlockTitle>
+          <FileCode2Icon />
+          install.sh
+        </CodeBlockTitle>
+        <CodeBlockActions>
+          <CodeBlockCopyButton value="pnpm add frakment" />
+        </CodeBlockActions>
+      </CodeBlockHeader>
+      <CodeBlockContent>{"pnpm add frakment"}</CodeBlockContent>
+    </CodeBlock>
+  </div>
+</ComponentPreview>
+
+## Floating Actions
+
+Place `CodeBlockActions` **directly inside** `CodeBlock` (no header) — the buttons float top-end and fade in on hover.
+
+<ComponentPreview name="code-block" title="code-block.tsx">
+  <div className="w-full max-w-lg">
+    <CodeBlock>
+      <CodeBlockActions>
+        <CodeBlockCopyButton value="npm i frakment" />
+      </CodeBlockActions>
+      <CodeBlockContent>{"npm i frakment"}</CodeBlockContent>
+    </CodeBlock>
+  </div>
+</ComponentPreview>
+
+## Line Numbers
+
+Add `lineNumbers` to `CodeBlockContent`. Line numbers **are not copied** when the user selects the code.
+
+<ComponentPreview name="code-block" title="code-block.tsx">
+  <div className="w-full max-w-lg">
+    <CodeBlock>
+      <CodeBlockContent lineNumbers>{`import { Button } from "@/components/ui/button"
+
+export default function Page() {
+  return <Button>Click me</Button>
+}`}</CodeBlockContent>
+    </CodeBlock>
+  </div>
+</ComponentPreview>
+
+## Start Line
+
+Set `startLine` to begin numbering from a different number — useful when showing a snippet from the middle of a file.
+
+<ComponentPreview name="code-block" title="code-block.tsx">
+  <div className="w-full max-w-lg">
+    <CodeBlock>
+      <CodeBlockContent lineNumbers startLine={20}>{`  const result = streamText({
+    model: "anthropic/claude-sonnet-4.5",
+    messages,
+  })
+
+return result.toUIMessageStreamResponse()`}</CodeBlockContent>
+
+</CodeBlock>
+
+  </div>
+</ComponentPreview>
+
+## Wrap
+
+Add `wrap` to `CodeBlockContent` to break long lines instead of scroll. Compare both sides:
+
+<ComponentPreview
+  name="code-block"
+  title="code-block.tsx"
+  previewClassName="h-auto"
+>
+  <div className="grid w-full max-w-2xl grid-cols-1 gap-4 p-4 sm:grid-cols-2">
+    <div className="flex flex-col gap-2">
+      <span className="text-xs font-medium text-muted-foreground">
+        default (scroll)
+      </span>
+      <CodeBlock>
+        <CodeBlockContent>
+          {"Error: Failed to resolve module from /app/page.tsx"}
+        </CodeBlockContent>
+      </CodeBlock>
+    </div>
+    <div className="flex flex-col gap-2">
+      <span className="text-xs font-medium text-muted-foreground">wrap</span>
+      <CodeBlock>
+        <CodeBlockContent wrap>
+          {"Error: Failed to resolve module from /app/page.tsx"}
+        </CodeBlockContent>
+      </CodeBlock>
+    </div>
+  </div>
+</ComponentPreview>
+
+## Highlighted Lines
+
+Use `CodeBlockLine` with `variant="highlighted"` to draw attention to specific lines.
+
+<ComponentPreview name="code-block" title="code-block.tsx">
+  <div className="w-full max-w-lg">
+    <CodeBlock>
+      <CodeBlockContent>
+        <CodeBlockLine>{"const config = {"}</CodeBlockLine>
+        <CodeBlockLine>{"  theme: 'system',"}</CodeBlockLine>
+        <CodeBlockLine variant="highlighted">
+          {"  primary: 'oklch(0.6 0.2 250)',"}
+        </CodeBlockLine>
+        <CodeBlockLine>{"  radius: 0.5,"}</CodeBlockLine>
+        <CodeBlockLine>{"}"}</CodeBlockLine>
+      </CodeBlockContent>
+    </CodeBlock>
+  </div>
+</ComponentPreview>
+
+## Diff
+
+Use `variant="added"` and `variant="removed"`. The `+` and `−` markers are added by CSS — no need to type them.
+
+<ComponentPreview name="code-block" title="code-block.tsx">
+  <div className="w-full max-w-lg">
+    <CodeBlock>
+      <CodeBlockContent>
+        <CodeBlockLine>{"const config = {"}</CodeBlockLine>
+        <CodeBlockLine variant="removed">{"  theme: 'light',"}</CodeBlockLine>
+        <CodeBlockLine variant="added">{"  theme: 'system',"}</CodeBlockLine>
+        <CodeBlockLine>{"}"}</CodeBlockLine>
+      </CodeBlockContent>
+    </CodeBlock>
+  </div>
+</ComponentPreview>
+
+## Height
+
+Constrain height with a `max-h-*` class on `CodeBlockContent`. Content becomes scrollable — good for long build logs.
+
+<ComponentPreview name="code-block" title="code-block.tsx" previewClassName="h-auto">
+  <div className="w-full max-w-lg">
+    <CodeBlock>
+      <CodeBlockContent className="max-h-40" lineNumbers>{`✓ Compiled successfully in 2.1s
+✓ Linting and checking validity of types
+✓ Collecting page data
+✓ Generating static pages (12/12)
+✓ Finalizing page optimization
+
+Route (app) Size First Load JS
+┌ ○ / 1.2 kB 90.2 kB
+├ ○ /\_not-found 875 B 88.9 kB
+├ ○ /docs 3.4 kB 92.4 kB
+└ ○ /docs/components 5.1 kB 94.1 kB
+
+- First Load JS shared by all 88.1 kB
+  ├ chunks/1a2b3c.js 45.2 kB
+  ├ chunks/4d5e6f.js 32.9 kB
+  └ chunks/7g8h9i.js 10.0 kB`}</CodeBlockContent>
+  </CodeBlock>
+  </div>
+  </ComponentPreview>
+
+## Size
+
+Two sizes: `default` (14px, 16px padding) and `sm` (12px, 12px padding). `sm` fits inside compact slots.
+
+<ComponentPreview
+  name="code-block"
+  title="code-block.tsx"
+  previewClassName="h-auto"
+>
+  <div className="flex w-full max-w-lg flex-col gap-4 p-4">
+    <div className="flex flex-col gap-2">
+      <span className="text-xs font-medium text-muted-foreground">
+        size="default"
+      </span>
+      <CodeBlock>
+        <CodeBlockContent>{"npx frakment add button"}</CodeBlockContent>
+      </CodeBlock>
+    </div>
+    <div className="flex flex-col gap-2">
+      <span className="text-xs font-medium text-muted-foreground">
+        size="sm"
+      </span>
+      <CodeBlock size="sm">
+        <CodeBlockContent>{"npx frakment add button"}</CodeBlockContent>
+      </CodeBlock>
+    </div>
+  </div>
+</ComponentPreview>
+
+## Destructive
+
+Use `variant="destructive"` for error output. Background and text shift to destructive tone.
+
+<ComponentPreview name="code-block" title="code-block.tsx">
+  <div className="w-full max-w-lg">
+    <CodeBlock variant="destructive">
+      <CodeBlockContent>
+        {"Error: Failed to resolve module '@/components/ui/code-block'"}
+      </CodeBlockContent>
+    </CodeBlock>
+  </div>
+</ComponentPreview>
+
+## In Context
+
+### Documentation snippet
+
+<ComponentPreview name="code-block" title="code-block.tsx">
+  <CodeBlock className="mx-auto w-full max-w-md">
+    <CodeBlockContent wrap>{`npx frakment add button`}</CodeBlockContent>
+  </CodeBlock>
+</ComponentPreview>
+
+## API Reference
+
+### CodeBlock
+
+<PropsTable
+  rows={[
+    {
+      name: "variant",
+      type: "default | destructive",
+      default: "default",
+      description: "Visual style of the container.",
+    },
+    {
+      name: "size",
+      type: "default | sm",
+      default: "default",
+      description: "Text size and padding scale.",
+    },
+  ]}
+/>
+
+### CodeBlockContent
+
+<PropsTable
+  rows={[
+    {
+      name: "wrap",
+      type: "boolean",
+      default: "false",
+      description: "Wrap long lines instead of horizontal scroll.",
+    },
+    {
+      name: "lineNumbers",
+      type: "boolean",
+      default: "false",
+      description: "Render line numbers. Requires string children.",
+    },
+    {
+      name: "startLine",
+      type: "number",
+      default: "1",
+      description: "First line number when lineNumbers is enabled.",
+    },
+  ]}
+/>
+
+### CodeBlockLine
+
+<PropsTable
+  rows={[
+    {
+      name: "variant",
+      type: "default | added | removed | highlighted",
+      default: "default",
+      description: "Visual diff or highlight style for the line.",
+    },
+  ]}
+/>
+
+## Accessibility
+
+- **CodeBlockContent** has `tabIndex={0}` for keyboard scroll.
+- **CodeBlockCopyButton** has `aria-label` and a `aria-live` region announcing "Copied".
+- Use **CodeBlockTitle** as the accessible name of the block.
+
+## Composition
+
+```text
+CodeBlock
+├── CodeBlockHeader
+│   ├── CodeBlockTitle
+│   └── CodeBlockActions
+├── CodeBlockContent
+├── CodeBlockCopyButton
+└── CodeBlockFooter
+```
+
+## Best Practices
+
+- **Set a max-height.** Long files push the layout.
+- **Show the file name.** Users need to know where the code goes.
+- **Copy action on hover, not always.** Reduces visual noise.
+- **Do not highlight unknown languages.** Fall back to plain text.

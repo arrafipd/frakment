@@ -1,0 +1,185 @@
+---
+title: Empty
+description: A centered placeholder for empty states.
+---
+
+import { EmptyDemo } from "@/examples/empty-demo";
+import { EmptyNoMedia } from "@/examples/empty-no-media";
+import { EmptyLink } from "@/examples/empty-link";
+import { EmptyOutline } from "@/examples/empty-outline";
+import { MessageCircleDashedIcon } from "lucide-react";
+import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
+
+<ComponentPreview name="empty" title="empty.tsx" previewClassName="h-auto py-8">
+  <EmptyDemo />
+</ComponentPreview>
+
+Empty is a composable placeholder for zero-data screens — inbox, search results, project lists, first-run onboarding. It renders a dashed surface with a stacked icon, title, description, and optional call-to-action.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add empty
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install class-variance-authority
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="empty" title="components/ui/empty.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+## Composition
+
+```text
+Empty
+├── EmptyHeader
+├── EmptyMedia
+├── EmptyTitle
+├── EmptyDescription
+└── EmptyContent
+```
+
+## Examples
+
+### Without media
+
+Omit `EmptyMedia` entirely for the simplest empty state.
+
+<ComponentPreview name="empty" title="empty.tsx" previewClassName="h-auto py-8">
+  <EmptyNoMedia />
+</ComponentPreview>
+
+```tsx
+<Empty>
+  <EmptyHeader>
+    <EmptyTitle>No results found</EmptyTitle>
+    <EmptyDescription>Try adjusting your search or filters.</EmptyDescription>
+  </EmptyHeader>
+</Empty>
+```
+
+### With description link
+
+`EmptyDescription` accepts inline links that pick up Frakment underline styling.
+
+<ComponentPreview name="empty" title="empty.tsx" previewClassName="h-auto py-8">
+  <EmptyLink />
+</ComponentPreview>
+
+```tsx
+<Empty>
+  <EmptyHeader>
+    <EmptyMedia variant="icon">
+      <Folder />
+    </EmptyMedia>
+    <EmptyTitle>No projects yet</EmptyTitle>
+    <EmptyDescription>
+      <a href="#docs">Read the guide</a> to learn how to create one.
+    </EmptyDescription>
+  </EmptyHeader>
+</Empty>
+```
+
+### Outline media
+
+Use `variant="default"` on `EmptyMedia` to render media without a muted background square.
+
+<ComponentPreview name="empty" title="empty.tsx" previewClassName="h-auto py-8">
+  <EmptyOutline />
+</ComponentPreview>
+
+```tsx
+<Empty>
+  <EmptyHeader>
+    <EmptyMedia>
+      <Folder />
+    </EmptyMedia>
+    <EmptyTitle>Nothing here</EmptyTitle>
+    <EmptyDescription>
+      Use variant="default" to render media without a background.
+    </EmptyDescription>
+  </EmptyHeader>
+</Empty>
+```
+
+## In Context
+
+### Zero-data state
+
+<ComponentPreview name="empty" title="empty.tsx">
+  <Empty className="mx-auto h-64 w-full max-w-sm">
+    <EmptyHeader>
+      <EmptyMedia><MessageCircleDashedIcon /></EmptyMedia>
+      <EmptyTitle>No messages</EmptyTitle>
+      <EmptyDescription>Start a new conversation to see it here.</EmptyDescription>
+    </EmptyHeader>
+  </Empty>
+</ComponentPreview>
+
+## API Reference
+
+All parts extend `React.ComponentProps<"div">` (except **EmptyDescription** which renders a `<div>` too for layout consistency).
+
+### EmptyMedia
+
+<PropsTable
+  rows={[
+    {
+      name: "variant",
+      type: '"default" | "icon"',
+      defaultValue: '"default"',
+      description:
+        "Icon wraps the child in a rounded muted square; default is transparent.",
+    },
+  ]}
+/>
+
+## Usage
+
+```tsx title="empty.tsx"
+import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
+```
+
+```tsx title="empty.tsx"
+<Empty>
+  <EmptyHeader>
+    <EmptyMedia><MessageCircleDashedIcon /></EmptyMedia>
+    <EmptyTitle>No messages yet</EmptyTitle>
+    <EmptyDescription>Send the first one.</EmptyDescription>
+  </EmptyHeader>
+</Empty>
+```
+
+## Accessibility
+
+- The `EmptyTitle` renders as a heading; document outline stays flat.
+- Pair the icon with the title; icon-only empty states are invisible to screen readers.
+- Provide a primary action inside the empty state when possible.
+
+## Best Practices
+
+- **Explain the empty state.** "No messages" beats "Empty".
+- **Offer the first action.** A button or link beats a dead end.
+- **Keep it small.** Empty states should not fill the whole page unless the page is empty.
+- **Do not hide the empty state during loading.** Use a Skeleton instead.

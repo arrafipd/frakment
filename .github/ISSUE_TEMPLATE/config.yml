@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question or discussion
+    url: https://github.com/arrafipd/frakment/discussions
+    about: Ask questions about usage, setup, or architecture here.
+  - name: Security vulnerability
+    url: https://github.com/arrafipd/frakment/security/advisories/new
+    about: Report security issues privately. Do not open a public issue.
+  - name: Documentation
+    url: https://frakment.vercel.app/docs
+    about: Browse the official documentation before opening an issue.

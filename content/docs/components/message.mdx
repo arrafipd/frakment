@@ -1,0 +1,316 @@
+---
+title: Message
+description: A chat message layout with alignment, avatar, header, and footer.
+---
+
+import { MessageDemo } from "@/examples/message-demo";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+import {
+  Message,
+  MessageGroup,
+  MessageAvatar,
+  MessageContent,
+  MessageHeader,
+  MessageFooter,
+} from "@/components/ui/message";
+import { Bubble, BubbleContent } from "@/components/ui/bubble";
+
+<ComponentPreview
+  name="message"
+  title="message.tsx"
+  align="start"
+  previewClassName="h-auto"
+>
+  <MessageDemo />
+</ComponentPreview>
+
+Message is a layout primitive for one chat turn. It pairs with [Bubble](/docs/components/bubble) for the visible surface.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add message
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="message" title="components/ui/message.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="message.tsx"
+import { Message, MessageContent } from "@/components/ui/message";
+import { Bubble, BubbleContent } from "@/components/ui/bubble";
+```
+
+```tsx title="message.tsx"
+<Message align="end">
+  <MessageContent>
+    <Bubble variant="muted" align="end">
+      <BubbleContent>{"Why is the dashboard slow?"}</BubbleContent>
+    </Bubble>
+  </MessageContent>
+</Message>
+```
+
+## Composition
+
+```text
+Message
+├── MessageAvatar
+├── MessageHeader
+├── MessageContent
+└── MessageFooter
+```
+
+## Alignment
+
+`align="start"` for received, `align="end"` for sent. When `end`, children with `data-slot` push to the end of the row.
+
+<ComponentPreview
+  name="message"
+  title="message.tsx"
+  align="start"
+  previewClassName="h-auto"
+>
+  <div className="w-full max-w-md space-y-3 p-6">
+    <Message>
+      <MessageContent>
+        <Bubble>
+          <BubbleContent>{"Start-aligned message"}</BubbleContent>
+        </Bubble>
+      </MessageContent>
+    </Message>
+    <Message align="end">
+      <MessageContent>
+        <Bubble variant="muted" align="end">
+          <BubbleContent>{"End-aligned message"}</BubbleContent>
+        </Bubble>
+      </MessageContent>
+    </Message>
+  </div>
+</ComponentPreview>
+
+## With avatar
+
+Add `MessageAvatar` as the first child of `Message`. It sits at the bottom of the message and shifts up 32px when a `MessageFooter` is present.
+
+<ComponentPreview
+  name="message"
+  title="message.tsx"
+  align="start"
+  previewClassName="h-auto"
+>
+  <div className="w-full max-w-md space-y-3 p-6">
+    <Message>
+      <MessageAvatar>
+              <Avatar>
+                <AvatarImage alt="@ai" src="/avatars/male-r.avif" />
+                <AvatarFallback>{"R"}</AvatarFallback>
+              </Avatar>
+            </MessageAvatar>
+      <MessageContent>
+        <MessageHeader>{"Assistant"}</MessageHeader>
+        <Bubble>
+          <BubbleContent>{"Reading your build log now."}</BubbleContent>
+        </Bubble>
+      </MessageContent>
+    </Message>
+    <Message align="end">
+      <MessageAvatar>
+              <Avatar>
+                <AvatarImage alt="@me" src="/avatars/female-l-1.avif" />
+                <AvatarFallback>{"ME"}</AvatarFallback>
+              </Avatar>
+            </MessageAvatar>
+      <MessageContent>
+        <Bubble variant="muted" align="end">
+          <BubbleContent>{"Thanks!"}</BubbleContent>
+        </Bubble>
+      </MessageContent>
+    </Message>
+  </div>
+</ComponentPreview>
+
+## With header and footer
+
+Header above the bubble, footer below — useful for names, timestamps, and inline actions.
+
+<ComponentPreview
+  name="message"
+  title="message.tsx"
+  align="start"
+  previewClassName="h-auto"
+>
+  <div className="w-full max-w-md p-6">
+    <Message>
+      <MessageAvatar>
+              <Avatar>
+                <AvatarImage alt="@ai" src="/avatars/male-r.avif" />
+                <AvatarFallback>{"R"}</AvatarFallback>
+              </Avatar>
+            </MessageAvatar>
+      <MessageContent>
+        <MessageHeader>{"Assistant · 2:14 PM"}</MessageHeader>
+        <Bubble>
+          <BubbleContent>
+            {"Chart library is 812 KB and loads on first paint."}
+          </BubbleContent>
+        </Bubble>
+        <MessageFooter>{"Suggested fix · lazy-load the chart"}</MessageFooter>
+      </MessageContent>
+    </Message>
+  </div>
+</ComponentPreview>
+
+## In a conversation
+
+The realistic pattern: a group of messages using **Message**, **Bubble**, and optional headers.
+
+<ComponentPreview
+  name="message"
+  title="message.tsx"
+  align="start"
+  previewClassName="h-auto"
+>
+  <div className="w-full max-w-md p-6">
+    <MessageGroup>
+      <Message>
+        <MessageAvatar>
+              <Avatar>
+                <AvatarImage alt="@ai" src="/avatars/male-r.avif" />
+                <AvatarFallback>{"R"}</AvatarFallback>
+              </Avatar>
+            </MessageAvatar>
+        <MessageContent>
+          <MessageHeader>{"Assistant"}</MessageHeader>
+          <Bubble>
+            <BubbleContent>{"Hi! How can I help you today?"}</BubbleContent>
+          </Bubble>
+        </MessageContent>
+      </Message>
+      <Message align="end">
+        <MessageAvatar>
+              <Avatar>
+                <AvatarImage alt="@me" src="/avatars/female-l-1.avif" />
+                <AvatarFallback>{"ME"}</AvatarFallback>
+              </Avatar>
+            </MessageAvatar>
+        <MessageContent>
+          <MessageHeader>{"You"}</MessageHeader>
+          <Bubble variant="muted" align="end">
+            <BubbleContent>
+              {"Why is my dashboard taking 4 seconds to load?"}
+            </BubbleContent>
+          </Bubble>
+        </MessageContent>
+      </Message>
+      <Message>
+        <MessageAvatar>
+              <Avatar>
+                <AvatarImage alt="@ai" src="/avatars/male-r.avif" />
+                <AvatarFallback>{"R"}</AvatarFallback>
+              </Avatar>
+            </MessageAvatar>
+        <MessageContent>
+          <MessageHeader>{"Assistant"}</MessageHeader>
+          <Bubble>
+            <BubbleContent>
+              {"Two problems compound. Let me trace them."}
+            </BubbleContent>
+          </Bubble>
+        </MessageContent>
+      </Message>
+    </MessageGroup>
+  </div>
+</ComponentPreview>
+
+## In Context
+
+### Assistant reply with trace
+
+<ComponentPreview name="message" title="message.tsx">
+  <div className="mx-auto flex w-full max-w-sm flex-col gap-2">
+    <Message align="end">
+      <MessageContent>
+        <Bubble align="end" variant="default">
+          <BubbleContent>Run the tests.</BubbleContent>
+        </Bubble>
+      </MessageContent>
+    </Message>
+    <Message>
+      <MessageContent>
+        <p className="text-sm">Running the suite now.</p>
+        <p className="text-muted-foreground text-xs">15 tests passed</p>
+      </MessageContent>
+    </Message>
+  </div>
+</ComponentPreview>
+
+## API Reference
+
+### Message
+
+<PropsTable
+  rows={[
+    {
+      name: "align",
+      type: "start | end",
+      default: "start",
+      description: "Direction the message content is aligned to.",
+    },
+  ]}
+/>
+
+### MessageAvatar
+
+Auto-translates up 32px when a **MessageFooter** is present, keeping the avatar aligned to the bubble. Extends `React.ComponentProps<"div">`.
+
+### MessageContent / MessageHeader / MessageFooter
+
+Extend `React.ComponentProps<"div">`. Header and footer render in 12px muted text.
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `message`, `message-avatar`, `message-header`, `message-content`, `message-footer` |
+| `data-align` | `start` \| `end` |
+
+## Accessibility
+
+- Use a semantic role on the outer group if the conversation is a list (`role="log"` for live streams).
+- `MessageAvatar` is decorative unless it carries a name — pair it with `MessageHeader` for screen readers.
+- Footer actions should have `aria-label` if they are icon-only.
+
+## Best Practices
+
+- **Align by role.** `end` for the user, `start` for the assistant.
+- **One MessageContent per row.** Do not nest multiple content wrappers.
+- **Pair with a Bubble for user turns.** Assistant turns can be text-only.
+- **Do not mix alignment within a row.** The whole row aligns to one side.
+## Related Components
+
+- [Bubble](/docs/components/bubble) — speech surface
+- [Message Scroller](/docs/components/message-scroller) — scroll container
+- [Attachment](/docs/components/attachment) — file chips
+

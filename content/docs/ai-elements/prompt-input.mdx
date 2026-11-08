@@ -1,0 +1,183 @@
+---
+title: Prompt Input
+description: A composer with attachment chips, model and effort pickers, and a send action.
+---
+
+import { PromptInputDemo } from "@/examples/prompt-input-demo";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupTextarea,
+} from "@/components/ui/input-group";
+import {
+  Attachment,
+  AttachmentAction,
+  AttachmentActions,
+  AttachmentContent,
+  AttachmentMedia,
+  AttachmentTitle,
+} from "@/components/ui/attachment";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ArrowUpIcon, PlusIcon } from "lucide-react";
+
+<ComponentPreview name="prompt-input-demo" title="prompt-input-demo.tsx" src="examples/prompt-input-demo.tsx" align="start" previewClassName="h-auto">
+  <PromptInputDemo />
+</ComponentPreview>
+
+Prompt Input is a composer for chat and agent surfaces. Attachment chips sit above a textarea, and a bottom bar holds the attach action, a model picker, an effort picker, and the send button.
+
+Prompt Input is a **composition**, not a primitive. It composes [InputGroup](/docs/components/input-group), [Attachment](/docs/components/attachment), [Dropdown Menu](/docs/components/dropdown-menu), and [Button](/docs/components/button).
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add input-group attachment dropdown-menu button
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the primitives:</Step>
+
+      ~~~bash
+      npx frakment add input-group attachment dropdown-menu button
+      ~~~
+
+      <Step>Copy the demo into your project:</Step>
+
+      <ComponentSource name="prompt-input-demo" title="examples/prompt-input-demo.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="prompt-input.tsx"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupTextarea,
+} from "@/components/ui/input-group";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Attachment,
+  AttachmentAction,
+  AttachmentActions,
+  AttachmentContent,
+  AttachmentMedia,
+  AttachmentTitle,
+} from "@/components/ui/attachment";
+~~~
+
+~~~tsx title="prompt-input.tsx"
+<InputGroup>
+  <InputGroupAddon align="block-start">{/* attachments */}</InputGroupAddon>
+  <InputGroupTextarea placeholder="Ask the agent..." />
+  <InputGroupAddon align="block-end">
+    <InputGroupButton aria-label="Attach files" size="icon-sm" variant="outline">
+      <PlusIcon />
+    </InputGroupButton>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <InputGroupButton size="sm" variant="outline">
+          {"GPT-5"}
+        </InputGroupButton>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuRadioGroup>{/* models */}</DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+    <InputGroupButton type="submit" size="icon-sm" variant="default" aria-label="Send">
+      <ArrowUpIcon />
+    </InputGroupButton>
+  </InputGroupAddon>
+</InputGroup>
+~~~
+
+## Anatomy
+
+~~~tsx title="prompt-input.tsx"
+<InputGroup>
+  <InputGroupAddon align="block-start">
+    <Attachment>
+      <AttachmentMedia />
+      <AttachmentContent>
+        <AttachmentTitle />
+      </AttachmentContent>
+      <AttachmentActions>
+        <AttachmentAction />
+      </AttachmentActions>
+    </Attachment>
+  </InputGroupAddon>
+  <InputGroupTextarea />
+  <InputGroupAddon align="block-end">
+    <InputGroupButton />
+    <DropdownMenu>
+      <DropdownMenuTrigger />
+      <DropdownMenuContent>
+        <DropdownMenuRadioGroup>
+          <DropdownMenuRadioItem />
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+    <InputGroupButton type="submit" />
+  </InputGroupAddon>
+</InputGroup>
+~~~
+
+- **InputGroup** — the bordered composer surface
+- **InputGroupAddon** — top row for attachments, bottom row for actions
+- **InputGroupTextarea** — the multi-line input, grows with content
+- **InputGroupButton** — pill-shaped action buttons for attach, model, effort, send
+- **Attachment** — compact file chip with media, title, and a remove action
+
+## Attachments
+
+Files selected with a hidden `<input type="file">` are stored in component state and rendered as chips in the top addon. Each chip exposes an `AttachmentAction` for removal. The top addon uses `align="block-start"` and `flex-wrap` so chips wrap on narrow widths.
+
+## Pickers
+
+Model and effort use `DropdownMenuRadioGroup`. The trigger is an `InputGroupButton` wrapped with `asChild`, which preserves the composer styles. Radix closes the menu on select, no extra handler needed.
+
+## Send state
+
+The send button uses `disabled={!canSend}`. When disabled it renders with the muted background from the Button primitive, keeping the icon readable against the composer instead of fading out.
+
+## Accessibility
+
+- Every `InputGroupButton` carries an `aria-label` (`Attach files`, `Model: GPT-5`, `Effort: Medium`, `Send`).
+- The file input is `sr-only` and triggered by the attach button.
+- The attach chip remove action is labelled per file (`Remove report.pdf`).
+- Enter submits, Shift+Enter inserts a newline.
+
+## Best Practices
+
+- **Keep the picker set small.** Model and effort are enough. A third picker crowds the bar.
+- **Show attachments before send.** Users want to confirm what is going out.
+- **Disable, do not hide the send button.** Hidden sends leave no affordance to aim at.
+- **Use `asChild` on picker triggers.** Wrapping the `InputGroupButton` keeps the shared styles.

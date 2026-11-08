@@ -1,0 +1,45 @@
+name: Feature Request
+description: Suggest a new component, tool, or capability.
+title: "[feat]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the suggestion. Clear use cases help prioritize.
+
+  - type: textarea
+    id: feature
+    attributes:
+      label: What do you want to see?
+      description: Describe the component, tool, or capability you would like.
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: What is the use case?
+      description: Why do you need this? What problem does it solve?
+      placeholder: I am building ... and I need ... because ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Have you tried any workaround or alternative?
+    validations:
+      required: false
+
+  - type: dropdown
+    id: contribute
+    attributes:
+      label: Would you like to contribute this yourself?
+      options:
+        - "Yes, I can open a pull request"
+        - "Maybe, with some guidance"
+        - "No, just suggesting"
+    validations:
+      required: true

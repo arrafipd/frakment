@@ -1,0 +1,66 @@
+---
+title: "Scroll Fade"
+description: "Utilities for adding a fade effect to the edges of a scroll container."
+---
+
+import { ScrollFadeOverflow } from "@/examples/scroll-fade-overflow";
+import { ScrollFadeHorizontal } from "@/examples/scroll-fade-horizontal";
+import { ScrollFadeEdge } from "@/examples/scroll-fade-edge";
+import { ScrollFadeSize } from "@/examples/scroll-fade-size";
+import { ScrollFadeNone } from "@/examples/scroll-fade-none";
+
+<ComponentPreview name="scroll-fade-overflow" title="scroll-fade-overflow.tsx">
+  <ScrollFadeOverflow />
+</ComponentPreview>
+
+Scroll fade adds a mask-image gradient to the edges of a scroll container so content dissolves into the background when there is more content beyond the visible area.
+
+## Usage
+
+| Class | Styles |
+| :-- | :-- |
+| `scroll-fade` | Fade on both vertical edges, scroll-aware. |
+| `scroll-fade-x` | Fade on both horizontal edges, scroll-aware. |
+| `scroll-fade-t` | Fade on the top edge only. |
+| `scroll-fade-b` | Fade on the bottom edge only. |
+| `scroll-fade-l` | Fade on the left edge only. |
+| `scroll-fade-r` | Fade on the right edge only. |
+| `scroll-fade-s` | Fade on the logical start edge. |
+| `scroll-fade-e` | Fade on the logical end edge. |
+| `scroll-fade-none` | Remove the fade. |
+
+## No Overflow, No Fade
+
+<ComponentPreview name="scroll-fade-overflow" title="scroll-fade-overflow.tsx">
+  <ScrollFadeOverflow />
+</ComponentPreview>
+
+## Horizontal
+
+<ComponentPreview name="scroll-fade-horizontal" title="scroll-fade-horizontal.tsx">
+  <ScrollFadeHorizontal />
+</ComponentPreview>
+
+## Edges
+
+<ComponentPreview name="scroll-fade-edge" title="scroll-fade-edge.tsx">
+  <ScrollFadeEdge />
+</ComponentPreview>
+
+## Fade Size
+
+Use arbitrary value syntax `[--scroll-fade-size:1rem]` to change the fade depth.
+
+<ComponentPreview name="scroll-fade-size" title="scroll-fade-size.tsx">
+  <ScrollFadeSize />
+</ComponentPreview>
+
+## Disable
+
+<ComponentPreview name="scroll-fade-none" title="scroll-fade-none.tsx">
+  <ScrollFadeNone />
+</ComponentPreview>
+
+## Fallback
+
+Scroll-driven animations with static fallback for unsupported browsers.

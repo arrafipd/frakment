@@ -1,0 +1,239 @@
+---
+title: Input OTP
+description: Accessible one-time password input with configurable length and pattern.
+---
+
+import { InputOTPDemo } from "@/examples/input-otp-demo";
+import { InputOTPPattern } from "@/examples/input-otp-pattern";
+import { InputOTPWithSeparator } from "@/examples/input-otp-separator";
+import { InputOTPControlled } from "@/examples/input-otp-controlled";
+import { InputOTPInvalid } from "@/examples/input-otp-invalid";
+import { InputOTPAlphanumeric } from "@/examples/input-otp-alphanumeric";
+import { InputOTPDisabled } from "@/examples/input-otp-disabled";
+import { InputOTPFourDigits } from "@/examples/input-otp-four-digits";
+import { Label } from "@/components/ui/label";
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp";
+
+<ComponentPreview name="input-otp" title="input-otp.tsx">
+  <InputOTPDemo />
+</ComponentPreview>
+
+Input OTP renders a one-time password field with real input handling for paste, backspace, and arrow keys. Each slot is a separate visual box, but the underlying input is a single element for form submission.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add input-otp
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependency:</Step>
+
+      ~~~bash
+      npm install input-otp
+      ~~~
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="input-otp" title="components/ui/input-otp.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="input-otp.tsx"
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+~~~
+
+~~~tsx
+<InputOTP maxLength={6}>
+  <InputOTPGroup>
+    <InputOTPSlot index={0} />
+    <InputOTPSlot index={1} />
+    <InputOTPSlot index={2} />
+  </InputOTPGroup>
+  <InputOTPSeparator />
+  <InputOTPGroup>
+    <InputOTPSlot index={3} />
+    <InputOTPSlot index={4} />
+    <InputOTPSlot index={5} />
+  </InputOTPGroup>
+</InputOTP>
+~~~
+
+## Composition
+
+```text
+InputOTP
+├── InputOTPGroup
+│   └── InputOTPSlot
+└── InputOTPSeparator
+```
+
+## Examples
+
+### Pattern
+
+`REGEXP_ONLY_DIGITS` restricts input to numbers.
+
+<ComponentPreview name="input-otp" title="input-otp.tsx">
+  <InputOTPPattern />
+</ComponentPreview>
+
+### With separator
+
+<ComponentPreview name="input-otp" title="input-otp.tsx">
+  <InputOTPWithSeparator />
+</ComponentPreview>
+
+### Controlled
+
+Drive the value from your own state.
+
+<ComponentPreview name="input-otp" title="input-otp.tsx" previewClassName="h-auto py-8">
+  <InputOTPControlled />
+</ComponentPreview>
+
+### Invalid
+
+Set `aria-invalid` on slots to mark them invalid.
+
+<ComponentPreview name="input-otp" title="input-otp.tsx">
+  <InputOTPInvalid />
+</ComponentPreview>
+
+### Alphanumeric
+
+`REGEXP_ONLY_DIGITS_AND_CHARS` allows letters and numbers.
+
+<ComponentPreview name="input-otp" title="input-otp.tsx">
+  <InputOTPAlphanumeric />
+</ComponentPreview>
+
+### Disabled
+
+<ComponentPreview name="input-otp" title="input-otp.tsx">
+  <InputOTPDisabled />
+</ComponentPreview>
+
+### Four digits
+
+<ComponentPreview name="input-otp" title="input-otp.tsx">
+  <InputOTPFourDigits />
+</ComponentPreview>
+
+## In Context
+
+### Verification code
+
+<ComponentPreview name="input-otp" title="input-otp.tsx">
+  <div className="mx-auto flex w-full max-w-sm flex-col gap-2">
+    <Label>Verification code</Label>
+    <InputOTP maxLength={6}>
+      <InputOTPGroup>
+        <InputOTPSlot index={0} />
+        <InputOTPSlot index={1} />
+        <InputOTPSlot index={2} />
+      </InputOTPGroup>
+      <InputOTPSeparator />
+      <InputOTPGroup>
+        <InputOTPSlot index={3} />
+        <InputOTPSlot index={4} />
+        <InputOTPSlot index={5} />
+      </InputOTPGroup>
+    </InputOTP>
+  </div>
+</ComponentPreview>
+
+## API Reference
+
+### InputOTP
+
+<PropsTable
+  rows={[
+    { name: "maxLength", type: "number", description: "Number of character slots." },
+    { name: "value", type: "string", description: "Controlled value." },
+    { name: "onChange", type: "function", description: "Called with the new value." },
+    { name: "pattern", type: "string", description: "Regex string that limits allowed characters." },
+    { name: "disabled", type: "boolean", default: "false", description: "Prevent input." },
+    { name: "containerClassName", type: "string", description: "Applied to the input container." },
+  ]}
+/>
+
+### InputOTPSlot
+
+<PropsTable
+  rows={[
+    { name: "index", type: "number", description: "Position of this slot within the input." },
+  ]}
+/>
+
+## Controlled
+
+```tsx
+const [value, setValue] = React.useState("")
+<InputOTP value={value} onChange={setValue} maxLength={6}>{/* ... */}</InputOTP>
+```
+
+## States
+
+| State | How |
+| :-- | :-- |
+| Empty | default |
+| Partial | some slots filled |
+| Complete | all slots filled |
+| Invalid | `aria-invalid="true"` |
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `←` / `→` | Move between slots |
+| `Backspace` | Delete and move back |
+| `Ctrl + V` / `Cmd + V` | Paste the full code |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `input-otp`, `input-otp-group`, `input-otp-slot`, `input-otp-separator` |
+| `data-active` | `true` (caret in this slot) |
+
+## Accessibility
+
+- The wrapper renders a real `<input>` with `inputmode="numeric"` for mobile keyboards.
+- Slots expose `data-active` and `data-invalid` for styling, but the input itself carries `aria-invalid`.
+- Paste, backspace, and arrow navigation are handled automatically.
+- Pair with `FieldLabel htmlFor` and `id` for labelled forms.
+
+## Best Practices
+
+- **Use `maxLength` matching the code length.** Do not let the input grow arbitrarily.
+- **Group visually, not semantically.** 3 + 3 reads better than 6 in one row.
+- **Auto-focus the first slot on mount.** Reduces taps on mobile.
+- **Paste support is required.** Users copy codes from messages; paste should fill every slot.
+## Related Components
+
+- [Input](/docs/components/input) — plain text
+- [Field](/docs/components/field) — label + error
+

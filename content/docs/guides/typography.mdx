@@ -1,0 +1,128 @@
+---
+title: Typography
+description: Font setup and text styles used by Frakment components.
+---
+
+Frakment uses a single typographic scale for every surface. Sizes, weights, and line heights come from the default Tailwind scale, with three font tokens layered on top: `--font-sans`, `--font-mono`, and `--font-heading`. Change a token once and every heading, paragraph, and caption follows.
+
+## Font tokens
+
+Three CSS variables define the font families used everywhere.
+
+| Token | Default | Used for |
+| :-- | :-- | :-- |
+| `--font-sans` | System UI stack | Body text, UI labels |
+| `--font-mono` | System mono stack | Code, keyboard shortcuts, tabular numbers |
+| `--font-heading` | Inherits `--font-sans` | Page titles, section headings |
+
+These are defined in `theme.css` and exposed to Tailwind through `@theme inline`. Override any of them in `:root` to swap the typographic voice of the system.
+
+```css title="globals.css"
+:root {
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-heading: "Inter Display", "Inter", system-ui, sans-serif;
+}
+```
+
+## Type scale
+
+Frakment leans on the default Tailwind type scale. These are the sizes you will see most often in components.
+
+| Class | Size | Line height | Typical use |
+| :-- | :-- | :-- | :-- |
+| `text-xs` | 12px | 16px | Captions, badges, keyboard hints |
+| `text-sm` | 14px | 20px | Body copy, labels, sidebar items |
+| `text-base` | 16px | 24px | Default body, input text |
+| `text-lg` | 18px | 28px | Lead paragraph |
+| `text-xl` | 20px | 28px | Section subtitle |
+| `text-2xl` | 24px | 32px | Page section heading |
+| `text-3xl` | 30px | 36px | Page title |
+| `text-4xl` | 36px | 40px | Hero heading |
+
+Apply with utilities:
+
+```tsx title="example.tsx"
+<h1 className="text-4xl font-semibold tracking-tight">Page title</h1>
+<p className="text-sm text-muted-foreground">Supporting copy.</p>
+<span className="text-xs font-medium uppercase tracking-wider">Section</span>
+```
+
+## Weights
+
+| Class | Weight | Use |
+| :-- | :-- | :-- |
+| `font-normal` | 400 | Body paragraphs |
+| `font-medium` | 500 | Labels, buttons, sidebar items |
+| `font-semibold` | 600 | Headings, emphasis |
+| `font-bold` | 700 | Reserved for marketing copy |
+
+Components default to `font-medium` on interactive elements and `font-semibold` on headings. Body paragraphs stay `font-normal`.
+
+## Headings
+
+Headings are styled by `.prose` inside documentation pages. Outside prose, use utility classes directly.
+
+```tsx
+<h1 className="text-3xl font-semibold tracking-tight">Heading 1</h1>
+<h2 className="text-2xl font-semibold tracking-tight">Heading 2</h2>
+<h3 className="text-xl font-semibold">Heading 3</h3>
+<h4 className="text-lg font-medium">Heading 4</h4>
+```
+
+## Body text
+
+Body copy sits at `text-sm` on dense surfaces and `text-base` on standalone pages. Muted secondary text uses `text-muted-foreground`.
+
+```tsx
+<p className="text-sm text-muted-foreground">
+  Secondary text never competes with primary content.
+</p>
+```
+
+## Code
+
+Inline code and code blocks use `--font-mono` at a slightly smaller size for visual parity.
+
+```tsx
+<code className="rounded bg-muted px-1.5 py-0.5 font-mono text-[0.85em]">
+  npx frakment add button
+</code>
+```
+
+Long code blocks rely on the `code-block` primitive. See [Code Block](/docs/components/code-block).
+
+## Numbers
+
+Tabular figures keep columns aligned. Apply `tabular-nums` to any numeric surface that grows or aligns vertically.
+
+```tsx
+<span className="font-mono text-xs tabular-nums">1,204</span>
+```
+
+## Prose
+
+The `.prose` class styles rendered MDX. It controls heading spacing, list margins, blockquote styling, table borders, and code block padding. Every documentation page renders inside `.prose` by default.
+
+You do not need to add `.prose` manually to content files. It is applied by the docs layout.
+
+## Best Practices
+
+- **Use one scale.** Pick sizes from the table above rather than inventing new ones.
+- **Pair `text-sm` with `font-medium` on labels.** Body copy stays normal.
+- **Use `text-muted-foreground` for secondary text.** Do not reduce opacity.
+- **Keep line length between 60 and 75 characters.** Apply `max-w-prose` on long-form content.
+- **Use `tabular-nums` for numbers that align vertically.**
+
+## Accessibility
+
+- Minimum body size is `text-sm` (14px). Avoid going below it for prose.
+- Never rely on font weight alone to convey meaning.
+- Increase line height when the type size increases.
+- Contrast meets WCAG AA against the default background.
+
+## Related
+
+- [Theming](/docs/guides/theming) - token system and color scale
+- [Dark mode](/docs/guides/dark-mode) - dark variants for every token
+- [Code Block](/docs/components/code-block) - styled fenced code

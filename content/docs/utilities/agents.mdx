@@ -1,0 +1,162 @@
+---
+title: Agents
+description: What an AI agent sees when it builds with Frakment. Real MCP tool calls, real responses, no hand-waving.
+---
+
+Frakment ships an MCP server and an agent skill. Agents can **compose, install, and use** the registry without a human in the loop.
+
+## The workflow
+
+<Steps>
+  <Step>Agent calls `compose` with a scenario name</Step>
+
+  MCP returns the components that fit that UI pattern.
+
+  <Step>Agent calls `get_install_command` with the primary component</Step>
+
+  MCP returns the `npx` command that installs it and pulls its `registryDependencies`.
+
+  <Step>User runs one command</Step>
+
+  The rest lands automatically. No manual dependency resolution, no guessing slugs.
+</Steps>
+
+## Chat UI
+
+**Prompt:** "Build a chat interface with auto-scroll"
+
+The agent calls `compose`:
+
+```json
+{
+  "tool": "compose",
+  "arguments": { "scenario": "chat" }
+}
+```
+
+MCP responds:
+
+```text
+# chat
+Chat interface with auto-scroll and animated turns
+
+Components: bubble, message, message-scroller, avatar, message-animated
+
+Install: npx frakment@latest add message-animated
+```
+
+The agent calls `get_install_command`:
+
+```json
+{
+  "tool": "get_install_command",
+  "arguments": { "name": "message-animated" }
+}
+```
+
+MCP responds:
+
+```bash
+npx frakment@latest add message-animated
+```
+
+That single command pulls `bubble`, `message-scroller`, and the AI engine via `registryDependencies`.
+
+## Agent timeline
+
+**Prompt:** "Build an agent timeline with reasoning steps"
+
+The agent calls `compose`:
+
+```json
+{
+  "tool": "compose",
+  "arguments": { "scenario": "agent-timeline" }
+}
+```
+
+MCP responds:
+
+```text
+# agent-timeline
+Agent reasoning timeline with status and command output
+
+Components: trace, code-block, chain-of-thought, pulse
+
+Install: npx frakment@latest add trace code-block
+```
+
+The agent calls `get_install_command`:
+
+```json
+{
+  "tool": "get_install_command",
+  "arguments": { "name": "trace" }
+}
+```
+
+MCP responds:
+
+```bash
+npx frakment@latest add trace code-block
+```
+
+`trace` pulls `code-block` as a registry dependency. Add `chain-of-thought` and `pulse` separately.
+
+## Login form
+
+**Prompt:** "Build an accessible login form"
+
+The agent calls `compose`:
+
+```json
+{
+  "tool": "compose",
+  "arguments": { "scenario": "login-form" }
+}
+```
+
+MCP responds:
+
+```text
+# login-form
+Accessible login form with remember-me toggle
+
+Components: field, label, input, button, checkbox
+
+Install: npx frakment@latest add field
+```
+
+The agent calls `get_install_command`:
+
+```json
+{
+  "tool": "get_install_command",
+  "arguments": { "name": "field" }
+}
+```
+
+MCP responds:
+
+```bash
+npx frakment@latest add field
+```
+
+`field` pulls `label` and `separator`. Add `input`, `button`, and `checkbox` separately.
+
+## All scenarios
+
+| Scenario | What you get | Entry |
+| :--- | :--- | :--- |
+| `chat` | Chat UI with auto-scroll, avatar, and animated turns | `message-animated` |
+| `agent-timeline` | Reasoning timeline with status, pulse, and command output | `terminal` |
+| `login-form` | Accessible form with field, label, input, button, and checkbox | `field` |
+| `settings-panel` | Settings view with toggles, grouped options, and separators | `toggle-group` |
+| `search-input` | Search field with inline button and loading state | `input-group` |
+| `status-dashboard` | Service health overview with daily timeline and badges | `pulse` |
+
+Call `list_scenarios` with no input to get the current set. The tool is the source of truth so the list stays current.
+
+## Connect your agent
+
+See [MCP server](/docs/utilities/mcp) for the stdio config and the full tool list. See [Skills](/docs/utilities/skills) for the load-on-demand skill that teaches agents when to use the registry.

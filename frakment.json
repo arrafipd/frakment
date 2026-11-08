@@ -1,0 +1,498 @@
+{
+  "name": "frakment",
+  "homepage": "https://github.com/arrafipd/frakment",
+  "components": [
+    {
+      "name": "badge",
+      "version": "0.1.0",
+      "title": "Badge",
+      "description": "A small label for statuses, categories, or counts.",
+      "source": "registry/badge.tsx",
+      "target": "components/ui/badge.tsx",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "button",
+      "version": "0.1.0",
+      "title": "Button",
+      "description": "A monochrome button with six variants and six sizes.",
+      "source": "registry/button.tsx",
+      "target": "components/ui/button.tsx",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "hover-card",
+      "version": "0.1.0",
+      "title": "Hover Card",
+      "description": "Displays rich content in a portal when hovering over a trigger.",
+      "source": "registry/hover-card.tsx",
+      "target": "components/ui/hover-card.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "progress",
+      "version": "0.1.0",
+      "title": "Progress",
+      "description": "Displays an indicator showing the completion progress of a task.",
+      "source": "registry/progress.tsx",
+      "target": "components/ui/progress.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "pulse",
+      "version": "0.1.0",
+      "title": "Pulse",
+      "description": "A daily status timeline for service uptime, with inline incident logs.",
+      "source": "registry/pulse.tsx",
+      "target": "components/ui/pulse.tsx",
+      "dependencies": [],
+      "registryDependencies": ["badge", "card", "trace"]
+    },
+    {
+      "name": "questionnaire",
+      "version": "0.1.0",
+      "title": "Questionnaire",
+      "description": "Multi-step form component. Bundles the headless engine and composes checkbox, radio-group, button, and card.",
+      "type": "registry:component",
+      "source": "registry/questionnaire.tsx",
+      "target": "components/ui/questionnaire.tsx",
+      "additionalFiles": [
+        {
+          "source": "lib/questionnaire.ts",
+          "target": "lib/questionnaire.ts"
+        }
+      ],
+      "dependencies": ["radix-ui", "lucide-react"],
+      "registryDependencies": ["checkbox", "radio-group", "button", "card"]
+    },
+    {
+      "name": "slider",
+      "version": "0.1.0",
+      "title": "Slider",
+      "description": "An input where the user selects a value from within a given range.",
+      "source": "registry/slider.tsx",
+      "target": "components/ui/slider.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "trace",
+      "version": "0.1.0",
+      "title": "Trace",
+      "description": "A list of lines for the steps an agent takes.",
+      "source": "registry/trace.tsx",
+      "target": "components/ui/trace.tsx",
+      "dependencies": ["motion", "radix-ui"],
+      "registryDependencies": ["shimmer"]
+    },
+    {
+      "name": "message-scroller",
+      "version": "0.1.0",
+      "title": "Message Scroller",
+      "description": "Scroll container for chat transcripts. Anchors turns, follows streamed replies, restores position, and tracks visibility.",
+      "source": "registry/message-scroller.tsx",
+      "target": "components/ui/message-scroller.tsx",
+      "dependencies": ["@frakment/react", "lucide-react"],
+      "registryDependencies": ["button"]
+    },
+    {
+      "name": "input",
+      "version": "0.1.0",
+      "title": "Input",
+      "description": "A single-line text input.",
+      "source": "registry/input.tsx",
+      "target": "components/ui/input.tsx",
+      "dependencies": [],
+      "registryDependencies": []
+    },
+    {
+      "name": "textarea",
+      "version": "0.1.0",
+      "title": "Textarea",
+      "description": "A multi-line text input.",
+      "source": "registry/textarea.tsx",
+      "target": "components/ui/textarea.tsx",
+      "dependencies": [],
+      "registryDependencies": []
+    },
+    {
+      "name": "empty",
+      "version": "0.1.0",
+      "title": "Empty",
+      "description": "A centered placeholder for empty states.",
+      "source": "registry/empty.tsx",
+      "target": "components/ui/empty.tsx",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": []
+    },
+    {
+      "name": "input-group",
+      "version": "0.1.0",
+      "title": "Input Group",
+      "description": "A composable input wrapper with inline addons, buttons, and text groups.",
+      "source": "registry/input-group.tsx",
+      "target": "components/ui/input-group.tsx",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["button", "input", "textarea"]
+    },
+    {
+      "name": "label",
+      "version": "0.1.0",
+      "title": "Label",
+      "description": "A text label for form controls.",
+      "source": "registry/label.tsx",
+      "target": "components/ui/label.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "switch",
+      "version": "0.1.0",
+      "title": "Switch",
+      "description": "A toggle control for boolean settings.",
+      "source": "registry/switch.tsx",
+      "target": "components/ui/switch.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "checkbox",
+      "version": "0.1.0",
+      "title": "Checkbox",
+      "description": "A control that lets the user toggle between checked and not checked.",
+      "source": "registry/checkbox.tsx",
+      "target": "components/ui/checkbox.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "select",
+      "version": "0.1.0",
+      "title": "Select",
+      "description": "A dropdown for selecting a single value from a list.",
+      "source": "registry/select.tsx",
+      "target": "components/ui/select.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "field",
+      "version": "0.1.0",
+      "title": "Field",
+      "description": "A layout primitive for form fields — label, description, and inputs.",
+      "source": "registry/field.tsx",
+      "target": "components/ui/field.tsx",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["label", "separator"]
+    },
+    {
+      "name": "message-animated",
+      "version": "0.1.0",
+      "title": "Message Animated",
+      "description": "An animated chat message that fades in and pins to the message scroller.",
+      "source": "registry/message-animated.tsx",
+      "target": "components/ui/message-animated.tsx",
+      "dependencies": ["@frakment/ai", "ai", "motion"],
+      "registryDependencies": ["bubble", "message-scroller"]
+    },
+    {
+      "name": "bubble",
+      "version": "0.1.0",
+      "title": "Bubble",
+      "description": "Chat bubble surface with variants, alignment, and optional reactions.",
+      "source": "registry/bubble.tsx",
+      "target": "components/ui/bubble.tsx"
+    },
+    {
+      "name": "code-block",
+      "version": "0.1.0",
+      "title": "Code Block",
+      "description": "A scrollable code container with header, copy button, line numbers, and diff highlighting.",
+      "source": "registry/code-block.tsx",
+      "target": "components/ui/code-block.tsx",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["button"]
+    },
+    {
+      "name": "message",
+      "version": "0.1.0",
+      "title": "Message",
+      "description": "A chat message layout with alignment, avatar, header, and footer.",
+      "source": "registry/message.tsx",
+      "target": "components/ui/message.tsx"
+    },
+    {
+      "name": "avatar",
+      "version": "0.1.0",
+      "title": "Avatar",
+      "description": "A circular user image with fallback, badge, and stacking group.",
+      "source": "registry/avatar.tsx",
+      "target": "components/ui/avatar.tsx",
+      "assets": [
+        {
+          "path": "public/avatars/male-l.avif",
+          "type": "registry:file",
+          "target": "public/avatars/male-l.avif"
+        },
+        {
+          "path": "public/avatars/male-r.avif",
+          "type": "registry:file",
+          "target": "public/avatars/male-r.avif"
+        },
+        {
+          "path": "public/avatars/female-l-1.avif",
+          "type": "registry:file",
+          "target": "public/avatars/female-l-1.avif"
+        },
+        {
+          "path": "public/avatars/female-l-2.avif",
+          "type": "registry:file",
+          "target": "public/avatars/female-l-2.avif"
+        },
+        {
+          "path": "public/avatars/female-l-3.avif",
+          "type": "registry:file",
+          "target": "public/avatars/female-l-3.avif"
+        }
+      ]
+    },
+    {
+      "name": "marker",
+      "version": "0.1.0",
+      "title": "Marker",
+      "description": "A small inline status row with icon, content, and separator variants.",
+      "source": "registry/marker.tsx",
+      "target": "components/ui/marker.tsx"
+    },
+    {
+      "name": "spinner",
+      "version": "0.1.0",
+      "title": "Spinner",
+      "description": "A small animated loading indicator.",
+      "source": "registry/spinner.tsx",
+      "target": "components/ui/spinner.tsx",
+      "dependencies": [],
+      "registryDependencies": []
+    },
+    {
+      "name": "separator",
+      "version": "0.1.0",
+      "title": "Separator",
+      "description": "A visual divider between content sections.",
+      "source": "registry/separator.tsx",
+      "target": "components/ui/separator.tsx"
+    },
+    {
+      "name": "item",
+      "version": "0.1.0",
+      "title": "Item",
+      "description": "A flexible row for grouping media, content, and actions.",
+      "source": "registry/item.tsx",
+      "target": "components/ui/item.tsx"
+    },
+    {
+      "name": "toggle",
+      "version": "0.1.0",
+      "title": "Toggle",
+      "description": "A two-state button that can be toggled on or off.",
+      "source": "registry/toggle.tsx",
+      "target": "components/ui/toggle.tsx",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "toggle-group",
+      "version": "0.1.0",
+      "title": "Toggle Group",
+      "description": "A set of grouped toggle buttons.",
+      "source": "registry/toggle-group.tsx",
+      "target": "components/ui/toggle-group.tsx",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["toggle"]
+    },
+    {
+      "name": "card",
+      "version": "0.1.0",
+      "title": "Card",
+      "description": "A container for grouping related content and actions.",
+      "source": "registry/card.tsx",
+      "target": "components/ui/card.tsx",
+      "dependencies": [],
+      "registryDependencies": []
+    },
+    {
+      "name": "accordion",
+      "version": "0.1.0",
+      "title": "Accordion",
+      "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
+      "source": "registry/accordion.tsx",
+      "target": "components/ui/accordion.tsx",
+      "dependencies": ["motion", "radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "dropdown-menu",
+      "version": "0.1.0",
+      "title": "Dropdown Menu",
+      "description": "A menu triggered by a button, with items, checkboxes, and submenus.",
+      "source": "registry/dropdown-menu.tsx",
+      "target": "components/ui/dropdown-menu.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "tooltip",
+      "version": "0.1.0",
+      "title": "Tooltip",
+      "description": "A popup that displays information related to an element on hover or focus.",
+      "source": "registry/tooltip.tsx",
+      "target": "components/ui/tooltip.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "tabs",
+      "version": "0.1.0",
+      "title": "Tabs",
+      "description": "A set of layered sections of content, known as tab panels, displayed one at a time.",
+      "source": "registry/tabs.tsx",
+      "target": "components/ui/tabs.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "text-morph",
+      "version": "0.1.0",
+      "title": "Text Morph",
+      "description": "An animated text component that cycles through strings with ten transition variants.",
+      "source": "registry/text-morph.tsx",
+      "target": "components/ui/text-morph.tsx",
+      "dependencies": ["@number-flow/react", "motion"],
+      "registryDependencies": []
+    },
+    {
+      "name": "collapsible",
+      "version": "0.1.0",
+      "title": "Collapsible",
+      "description": "An interactive component which expands and collapses a panel.",
+      "source": "registry/collapsible.tsx",
+      "target": "components/ui/collapsible.tsx",
+      "dependencies": ["motion", "radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "breadcrumb",
+      "version": "0.1.0",
+      "title": "Breadcrumb",
+      "description": "Displays the path to the current resource using a hierarchy of links.",
+      "source": "registry/breadcrumb.tsx",
+      "target": "components/ui/breadcrumb.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "button-group",
+      "version": "0.1.0",
+      "title": "Button Group",
+      "description": "Groups related buttons into a single visual unit.",
+      "source": "registry/button-group.tsx",
+      "target": "components/ui/button-group.tsx",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["separator"]
+    },
+    {
+      "name": "input-otp",
+      "version": "0.1.0",
+      "title": "Input OTP",
+      "description": "Accessible one-time password input with configurable length and pattern.",
+      "source": "registry/input-otp.tsx",
+      "target": "components/ui/input-otp.tsx",
+      "dependencies": ["input-otp"],
+      "registryDependencies": []
+    },
+    {
+      "name": "pagination",
+      "version": "0.1.0",
+      "title": "Pagination",
+      "description": "Navigation for splitting content across multiple pages.",
+      "source": "registry/pagination.tsx",
+      "target": "components/ui/pagination.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["button"]
+    },
+    {
+      "name": "radio-group",
+      "version": "0.1.0",
+      "title": "Radio Group",
+      "description": "A set of checkable buttons where only one can be selected at a time.",
+      "source": "registry/radio-group.tsx",
+      "target": "components/ui/radio-group.tsx",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "sonner",
+      "version": "0.1.0",
+      "title": "Toast",
+      "description": "An opinionated toast component for React, powered by Sonner.",
+      "source": "registry/sonner.tsx",
+      "target": "components/ui/sonner.tsx",
+      "dependencies": ["next-themes", "sonner"],
+      "registryDependencies": []
+    },
+    {
+      "name": "shimmer",
+      "version": "0.1.0",
+      "title": "Shimmer",
+      "description": "Motion-driven text shimmer for streaming states.",
+      "source": "registry/shimmer.tsx",
+      "target": "components/ui/shimmer.tsx",
+      "dependencies": ["motion"],
+      "registryDependencies": []
+    },
+    {
+      "name": "attachment",
+      "version": "0.1.0",
+      "title": "Attachment",
+      "description": "Displays file attachments with state indicators and shimmer for upload/processing.",
+      "source": "registry/attachment.tsx",
+      "target": "components/ui/attachment.tsx",
+      "dependencies": ["class-variance-authority", "motion", "radix-ui"],
+      "registryDependencies": ["button", "shimmer"]
+    },
+    {
+      "name": "dialog",
+      "version": "0.1.0",
+      "title": "Dialog",
+      "description": "A modal dialog built on Radix.",
+      "source": "registry/dialog.tsx",
+      "target": "components/ui/dialog.tsx",
+      "dependencies": ["lucide-react", "radix-ui"],
+      "registryDependencies": []
+    },
+    {
+      "name": "sheet",
+      "version": "0.1.0",
+      "title": "Sheet",
+      "description": "A modal sheet that slides in from a side.",
+      "source": "registry/sheet.tsx",
+      "target": "components/ui/sheet.tsx",
+      "dependencies": ["lucide-react", "radix-ui"],
+      "registryDependencies": []
+    }
+  ],
+  "skills": [
+    {
+      "name": "frakment-usage",
+      "title": "Frakment Usage",
+      "description": "Instructions for AI agents to discover, browse, and install Frakment components.",
+      "source": "skills/frakment-usage/SKILL.md",
+      "version": "0.1.0",
+      "allowedTools": ["fetch", "bash"]
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+---
+title: JavaScript
+description: Use Frakment in a plain JavaScript project without TypeScript.
+---
+
+Frakment components ship as TypeScript. To use them in a plain JavaScript project, strip type annotations after install. This page covers which patterns to strip, how to strip them, and what stays.
+
+## Prerequisites
+
+- A JavaScript project (`.jsx` / `.js`)
+- **React** 19
+- **Tailwind CSS** v4
+
+## Setup
+
+Run init and add a component as usual:
+
+```bash
+npx frakment@latest init
+npx frakment@latest add button
+```
+
+The CLI writes `.tsx`. Rename to `.jsx` and strip types.
+
+## Stripping types
+
+Frakment uses four TypeScript patterns. Remove them in this order:
+
+| Pattern | Strip to |
+| :-- | :-- |
+| `interface Props { ... }` | Delete the entire block |
+| `(props: Props)` | `(props)` |
+| `React.ComponentProps<"div">` | `{}` (empty object) |
+| `as const` | Delete `as const` |
+
+## Example
+
+A typical Frakment component has a props interface, a `ComponentProps` generic, and a `cva` call. Strip all three:
+
+```tsx title="button.tsx (before)"
+interface ButtonProps extends React.ComponentProps<"button"> {
+  variant?: "default" | "outline";
+  size?: "sm" | "md";
+}
+
+export function Button({ variant = "default", size = "md", ...props }: ButtonProps) {
+  return <button data-variant={variant} data-size={size} {...props} />;
+}
+```
+
+```jsx title="button.jsx (after)"
+export function Button({ variant = "default", size = "md", ...props }) {
+  return <button data-variant={variant} data-size={size} {...props} />;
+}
+```
+
+## Components with more types
+
+Compound components use more patterns. Here is a Dialog example:
+
+```tsx
+// Before (TypeScript)
+function DialogContent({
+  className,
+  ...props
+}: React.ComponentProps<typeof DialogPrimitive.Content>) {
+  return <DialogPrimitive.Content className={className} {...props} />;
+}
+
+// After (JavaScript)
+function DialogContent({ className, ...props }) {
+  return <DialogPrimitive.Content className={className} {...props} />;
+}
+```
+
+## Engine packages
+
+`@frakment/ai` and `@frakment/react` ship compiled JavaScript with `.d.ts` types. They work in JS projects without any changes. Keep the `.d.ts` files — your editor uses them for hints even in a JS project.
+
+## Common errors
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="unexpected-token">
+<AccordionTrigger>Unexpected token : in JSX</AccordionTrigger>
+<AccordionContent>
+
+A type annotation is still present. Search for `: React.` and `: Props` in the `.jsx` file.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="cva-types">
+<AccordionTrigger>VariantProps is not defined</AccordionTrigger>
+<AccordionContent>
+
+`class-variance-authority` exports `VariantProps` as a type only. In JavaScript, remove the import and the type annotation. `cva()` itself works in JS.
+
+</AccordionContent>
+</AccordionItem>
+
+</Accordion>
+
+## Best practices
+
+- **Keep `.d.ts` files.** Import them for editor hints even in JS projects.
+- **Do not edit installed TSX in place.** Copy to `.jsx` first, then edit.
+- **Upgrade carefully.** Re-running `npx frakment add` writes `.tsx` again — keep your `.jsx` in sync or run the CLI with `--overwrite` carefully.
+
+## Next
+
+- [Manual installation](/docs/getting-started/installation/manual) - step-by-step setup
+- [Theming](/docs/guides/theming) - token reference
+- [Components](/docs/components) - browse the catalog

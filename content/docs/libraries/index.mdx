@@ -1,0 +1,36 @@
+---
+title: Libraries
+description: CLI, AI engine, and runtime engines shipped with Frakment.
+---
+
+Frakment ships three runtime layers beyond the component registry. Each is source-available, fully in-repo, and independently installable.
+
+## Layers
+
+| Layer            | Import                    | Purpose                                  | Status                 |
+| ---------------- | ------------------------- | ---------------------------------------- | ---------------------- |
+| **frakment CLI** | `npx frakment@latest ...` | Install components + theme               | Stable                 |
+| **AI engine**    | `@frakment/ai`            | Deterministic chat engine (`createChat`) | Stable |
+| **React engine** | `@frakment/react`         | Message scroller primitives              | Stable |
+
+## Design principles
+
+- **Zero external engine dependencies.** Every runtime layer is a first-party Frakment package, published on npm.
+- **Deterministic.** No network calls, no model invocations. Same input → same output.
+- **Composable.** CLI, AI engine, and React engine are independently installable.
+- **Contract-first.** When replacing an existing library, the public API and behaviour match the contract consumers already rely on — no surprises.
+
+## Distribution
+
+| Layer                            | Installed via                    |
+| -------------------------------- | -------------------------------- |
+| Components (`button`, `card`, …) | `npx frakment@latest add <name>` |
+| Theme (tokens + utilities)       | `npx frakment@latest init`       |
+| AI engine (`@frakment/ai`)       | `npm install @frakment/ai`       |
+| React engine (`@frakment/react`) | `npm install @frakment/react`    |
+
+
+## Quick links
+
+- **[CLI](/docs/libraries/cli)** — `init`, `add`, `list` commands and flags
+- **[AI engine](/docs/libraries/ai)** — `createChat()` chainable API, transport, tools, approvals
