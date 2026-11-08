@@ -8,7 +8,7 @@ const { ROUTES } = await jiti.import("./constants/routes");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: "/frakment",
+  basePath: process.env.NODE_ENV === "production" ? "/frakment" : "",
   devIndicators: false,
   experimental: {
     optimizePackageImports: [
