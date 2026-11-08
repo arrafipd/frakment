@@ -11,8 +11,12 @@ import { ReasoningDemo } from "@/examples/reasoning-demo";
 import { SourcesDemo } from "@/examples/sources-demo";
 import { StackTraceDemo } from "@/examples/stack-trace-demo";
 import { SubagentDemo } from "@/examples/subagent-demo";
+import { SuggestionDemo } from "@/examples/suggestion-demo";
+import { TaskDemo } from "@/examples/task-demo";
+import { TestResultsDemo } from "@/examples/test-results-demo";
+import { ToolDemo } from "@/examples/tool-demo";
 
-This release adds seven AI element tutorials — **Plan** and **Prompt Input** — plus a monochrome token pass that fixes disabled states across buttons, input groups, OTP inputs, and native selects.
+This release adds eleven AI element tutorials — **Plan** and **Prompt Input** — plus a monochrome token pass that fixes disabled states across buttons, input groups, OTP inputs, and native selects.
 
 - [Plan](#plan): Stream an agent plan with step status.
 - [Prompt Input](#prompt-input): Composer with attachments, model, and effort pickers.
@@ -21,6 +25,10 @@ This release adds seven AI element tutorials — **Plan** and **Prompt Input** �
 - [Sources](#sources): Collapsible list of agent source citations.
 - [Stack Trace](#stack-trace): Failed command with parsed stack frames.
 - [Subagent](#subagent): Live trace of a delegated task with nested tool calls.
+- [Suggestion](#suggestion): Starter prompts above the composer.
+- [Task](#task): Multi-step agent task with running, done, and error states.
+- [Test Results](#test-results): Grouped trace of suites, tests, and failures.
+- [Tool](#tool): Tool call with running, done, error, denied, and approval states.
 - [Disabled state](#disabled-state): Muted background replaces reduced opacity.
 - [Tokens](#tokens): `--subtle-foreground` and higher contrast for `--input` and `--border`.
 
@@ -407,6 +415,206 @@ subagent.output(getSubagentMessage(steps.length, report))
 ```
 
 See the [Subagent docs](/docs/ai-elements/subagent) for the full composition.
+
+<hr className="my-16 border-border/40" />
+
+### Suggestion
+
+<ComponentPreview name="suggestion-demo" title="suggestion-demo.tsx" src="examples/suggestion-demo.tsx" previewClassName="h-auto py-8">
+  <SuggestionDemo />
+</ComponentPreview>
+
+**Suggestion** renders a horizontal row of starter prompts above the composer. Clicking one sends it immediately. The row scrolls horizontally and fades its edges.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitives</Step>
+
+```bash
+npx frakment add input-group bubble message button
+```
+
+<Step>Use it in your app</Step>
+
+```tsx
+import { Button } from "@/components/ui/button";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<div className="scroll-fade-x no-scrollbar flex gap-2 overflow-x-auto">
+  {suggestions.map((suggestion) => (
+    <Button key={suggestion} variant="outline" size="sm" onClick={() => send(suggestion)}>
+      {suggestion}
+    </Button>
+  ))}
+</div>
+```
+
+See the [Suggestion docs](/docs/ai-elements/suggestion) for the full composition.
+
+<hr className="my-16 border-border/40" />
+
+### Task
+
+<ComponentPreview name="task-demo" title="task-demo.tsx" src="examples/task-demo.tsx" previewClassName="h-auto py-8">
+  <TaskDemo />
+</ComponentPreview>
+
+**Task** renders a multi-step agent operation as a collapsible trace. Each step updates in place as the task advances.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitives</Step>
+
+```bash
+npx frakment add trace message bubble button
+```
+
+<Step>Use it in your app</Step>
+
+```tsx
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<TraceCollapsible>
+  <TraceCollapsibleTrigger>
+    <TraceLine status={status}>
+      <TraceIcon><StatusIcon status={status} /></TraceIcon>
+      <TraceTitle>{task.title}</TraceTitle>
+    </TraceLine>
+  </TraceCollapsibleTrigger>
+  <TraceCollapsibleContent>
+    <Trace>{/* steps */}</Trace>
+  </TraceCollapsibleContent>
+</TraceCollapsible>
+```
+
+See the [Task docs](/docs/ai-elements/task) for the full composition.
+
+<hr className="my-16 border-border/40" />
+
+### Test Results
+
+<ComponentPreview name="test-results-demo" title="test-results-demo.tsx" src="examples/test-results-demo.tsx" previewClassName="h-auto py-8">
+  <TestResultsDemo />
+</ComponentPreview>
+
+**Test Results** renders a test run as a nested trace. The header shows counts, each suite collapses into its tests, and failures expand into the assertion output.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitives</Step>
+
+```bash
+npx frakment add trace code-block message bubble button
+```
+
+<Step>Use it in your app</Step>
+
+```tsx
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<TraceCollapsible>
+  <TraceCollapsibleTrigger>
+    <TraceLine status={summary.failed > 0 ? "error" : undefined}>
+      <TraceIcon><FlaskConicalIcon /></TraceIcon>
+      <TraceTitle>Ran {formatCounts(summary)}</TraceTitle>
+    </TraceLine>
+  </TraceCollapsibleTrigger>
+  <TraceCollapsibleContent>
+    <Trace>{/* suites */}</Trace>
+  </TraceCollapsibleContent>
+</TraceCollapsible>
+```
+
+See the [Test Results docs](/docs/ai-elements/test-results) for the full composition.
+
+<hr className="my-16 border-border/40" />
+
+### Tool
+
+<ComponentPreview name="tool-demo" title="tool-demo.tsx" src="examples/tool-demo.tsx" previewClassName="h-auto py-8">
+  <ToolDemo />
+</ComponentPreview>
+
+**Tool** renders a tool call as a trace row with running, done, error, denied, and approval states. Failing calls auto-expand their output.
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitives</Step>
+
+```bash
+npx frakment add trace code-block message bubble button item
+```
+
+<Step>Use it in your app</Step>
+
+```tsx
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<TraceCollapsible>
+  <TraceCollapsibleTrigger>
+    <TraceLine status={failed ? "error" : undefined}>
+      <TraceIcon><TerminalIcon /></TraceIcon>
+      <TraceTitle>{failed ? "Failed to run" : "Ran"} {command}</TraceTitle>
+    </TraceLine>
+  </TraceCollapsibleTrigger>
+  <TraceCollapsibleContent>
+    <CodeBlock><CodeBlockContent wrap>{output}</CodeBlockContent></CodeBlock>
+  </TraceCollapsibleContent>
+</TraceCollapsible>
+```
+
+See the [Tool docs](/docs/ai-elements/tool) for the full composition.
 
 <hr className="my-16 border-border/40" />
 

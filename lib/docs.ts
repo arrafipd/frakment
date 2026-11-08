@@ -58,4 +58,8 @@ export const PAGES_NEW: ReadonlySet<string> = new Set([
   "/docs/ai-elements/sources",
   "/docs/ai-elements/stack-trace",
   "/docs/ai-elements/subagent",
+  "/docs/ai-elements/suggestion",
+  "/docs/ai-elements/task",
+  "/docs/ai-elements/test-results",
+  "/docs/ai-elements/tool",
 ]);

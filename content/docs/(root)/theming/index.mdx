@@ -5,23 +5,23 @@ description: Customize Frakment with CSS variables and theme tokens.
 
 Frakment uses **CSS variables** for theming. Every component references semantic tokens like `bg-background`, `text-foreground`, `border-border` — never hardcoded colors. Change the tokens, change the entire look of your app.
 
-Theme tokens live directly in your `globals.css`, wrapped between `/* ==== FRAKMENT THEME START ==== */` and `/* ==== FRAKMENT THEME END ==== */`. `npx frakment init` injects the block automatically. Manual setup is one copy-paste.
+Theme tokens live directly in your `globals.css`. `npx frakment init` injects them automatically. Manual setup is one copy-paste.
 
 ## Where the tokens live
 
-Frakment injects its theme tokens directly into `globals.css`, wrapped between two markers. `npx frakment init` sets up:
+Frakment injects its theme tokens directly into `globals.css`. `npx frakment init` sets up:
 
 - **Theme block in `globals.css`** — tokens, dark mode, component utilities
 - **`components.json`** — CLI config (registry URL, aliases, globals.css path)
 
-The block goes **after** all your `@import` statements. Placement looks like this:
+The tokens go **after** all your `@import` statements. Placement looks like this:
 
 ```css title="app/globals.css"
 @import "tailwindcss";
-/* ==== FRAKMENT THEME START ==== */
+/* theme tokens start below */
 ```
 
-The block is self-contained: it defines `@theme inline`, `:root` (light), `.dark` (dark), `@custom-variant dark`, and 9 `@utility` helpers. To customize the look, edit the block in `globals.css` — anywhere between the markers.
+The block is self-contained: it defines `@theme inline`, `:root` (light), `.dark` (dark), `@custom-variant dark`, and 9 `@utility` helpers. To customize the look, edit these tokens in `globals.css`.
 
 **Tailwind v4 required.** The theme block uses `@theme`, `@utility`, and `@custom-variant` — Tailwind v3 is not supported.
 
@@ -41,7 +41,7 @@ Each surface token controls a background; its paired `-foreground` controls text
 
 ## Theme tokens
 
-Define these in `:root` (light) and `.dark` (dark mode) inside the FRAKMENT THEME block:
+Define these in `:root` (light) and `.dark` (dark mode) in your CSS:
 
 | Token                                | Controls                       | Used by                              |
 | :----------------------------------- | :----------------------------- | :----------------------------------- |
@@ -51,6 +51,7 @@ Define these in `:root` (light) and `.dark` (dark mode) inside the FRAKMENT THEM
 | `primary` / `primary-foreground`     | High-emphasis actions          | Default Button, selected states      |
 | `secondary` / `secondary-foreground` | Lower-emphasis actions         | Secondary buttons                    |
 | `muted` / `muted-foreground`         | Subtle surfaces                | Descriptions, placeholders           |
+| `subtle-foreground`                  | Secondary text between foreground and muted | Composer trigger values, secondary labels |
 | `accent` / `accent-foreground`       | Hover and focus surfaces       | Ghost buttons, hover rows            |
 | `destructive`                        | Errors and destructive actions | Destructive buttons, error states    |
 | `border`                             | Borders and separators         | Cards, Separator, inputs             |
@@ -139,7 +140,6 @@ The full block also includes 9 `@utility` helpers (`container`, `no-scrollbar`, 
 <CodeCollapsibleWrapper>
 
 ```css title="app/globals.css"
-/* ==== FRAKMENT THEME START ==== */
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -163,6 +163,7 @@ The full block also includes 9 `@utility` helpers (`container`, `no-scrollbar`, 
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+  --color-subtle-foreground: var(--subtle-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
@@ -205,12 +206,13 @@ The full block also includes 9 `@utility` helpers (`container`, `no-scrollbar`, 
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
+  --muted-foreground: oklch(0.5 0 0);
+  --subtle-foreground: oklch(0.32 0 0);
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
+  --border: oklch(0.92 0 0);
+  --input: oklch(0.89 0 0);
   --ring: oklch(0.708 0 0);
   --chart-1: var(--color-blue-300);
   --chart-2: var(--color-blue-500);
@@ -247,7 +249,8 @@ The full block also includes 9 `@utility` helpers (`container`, `no-scrollbar`, 
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
+  --muted-foreground: oklch(0.75 0 0);
+  --subtle-foreground: oklch(0.88 0 0);
   --accent: oklch(0.371 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
@@ -261,7 +264,7 @@ The full block also includes 9 `@utility` helpers (`container`, `no-scrollbar`, 
   --chart-5: var(--color-blue-800);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary: oklch(0.488 0 0);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
@@ -332,7 +335,6 @@ The full block also includes 9 `@utility` helpers (`container`, `no-scrollbar`, 
   -webkit-text-fill-color: transparent;
   animation: shimmer 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
-/* ==== FRAKMENT THEME END ==== */
 ```
 
 </CodeCollapsibleWrapper>

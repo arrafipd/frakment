@@ -17,6 +17,10 @@
     "sources",
     "stack-trace",
     "subagent",
-    "terminal"
+    "suggestion",
+    "task",
+    "terminal",
+    "test-results",
+    "tool"
   ]
 }
