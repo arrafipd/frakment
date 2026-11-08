@@ -12,7 +12,7 @@ Frakment works in any Next.js 15+ project with React 19 and Tailwind v4. This gu
 - **TypeScript**
 - **Tailwind CSS** v4
 
-Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/theming) manually.
+Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/guides/theming) manually.
 
 <div id="use-cli" className="scroll-mt-24" />
 
@@ -67,7 +67,7 @@ Make sure Tailwind v4 is installed and `globals.css` is imported in your root la
 
 <Step>Run `frakment init`</Step>
 
-Run `npx frakment@latest init` — it injects the theme block into `globals.css` between FRAKMENT THEME markers. Alternatively, paste the block manually from [Theming](/docs/theming):
+Run `npx frakment@latest init` — it injects the theme block into `globals.css` between FRAKMENT THEME markers. Alternatively, paste the block manually from [Theming](/docs/guides/theming):
 
 ```css title="globals.css"
 @import "tailwindcss";
@@ -77,7 +77,7 @@ Run `npx frakment@latest init` — it injects the theme block into `globals.css`
 /* ==== FRAKMENT THEME END ==== */
 ```
 
-See [Manual](/docs/installation/manual) for details.
+See [Manual](/docs/getting-started/installation/manual) for details.
 
 <Step>Configure the import alias</Step>
 
@@ -165,7 +165,7 @@ Run `npx frakment@latest init` again. It will create `lib/utils.ts` and update `
 <AccordionTrigger>Styles do not apply</AccordionTrigger>
 <AccordionContent>
 
-Make sure `globals.css` includes the theme tokens from [Theming](/docs/theming).
+Make sure `globals.css` includes the theme tokens from [Theming](/docs/guides/theming).
 
 </AccordionContent>
 </AccordionItem>
@@ -174,5 +174,5 @@ Make sure `globals.css` includes the theme tokens from [Theming](/docs/theming).
 
 ## Next
 
-- [Theming](/docs/theming) - customize tokens and dark mode
+- [Theming](/docs/guides/theming) - customize tokens and dark mode
 - [Components](/docs/components/bubble) - browse the catalog

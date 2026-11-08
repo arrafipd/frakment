@@ -20,7 +20,7 @@ Frakment is a set of components you install into your own project. There are two
 - **Tailwind CSS** v4
 - **TypeScript** (recommended)
 
-Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/theming) manually.
+Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/guides/theming) manually.
 
 ## Use the CLI
 
@@ -77,7 +77,7 @@ After `frakment init`, your project will have:
   </FileTreeFolder>
 </FileTree>
 
-The theme block includes `.dark` and `@custom-variant dark`. As soon as your app toggles `.dark` on `<html>` (via `next-themes`, a custom button, or anything else), components switch automatically — no extra config needed. See [Theming](/docs/theming) for the full wiring.
+The theme block includes `.dark` and `@custom-variant dark`. As soon as your app toggles `.dark` on `<html>` (via `next-themes`, a custom button, or anything else), components switch automatically — no extra config needed. See [Theming](/docs/guides/theming) for the full wiring.
 
 ## Existing Project
 
@@ -91,7 +91,7 @@ Pick your framework and follow that path.
 
 <div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-6">
 
-<LinkedCard href="/docs/installation/next">
+<LinkedCard href="/docs/getting-started/installation/next">
   <svg
     role="img"
     viewBox="0 0 24 24"
@@ -105,7 +105,7 @@ Pick your framework and follow that path.
   <p className="mt-2 font-medium">Next.js</p>
 </LinkedCard>
 
-<LinkedCard href="/docs/installation/astro">
+<LinkedCard href="/docs/getting-started/installation/astro">
   <svg
     role="img"
     viewBox="0 0 24 24"
@@ -119,32 +119,32 @@ Pick your framework and follow that path.
   <p className="mt-2 font-medium">Astro</p>
 </LinkedCard>
 
-<LinkedCard href="/docs/installation/gatsby">
+<LinkedCard href="/docs/getting-started/installation/gatsby">
   <GatsbyBrandIcon className="h-10 w-10" />
   <p className="mt-2 font-medium">Gatsby</p>
 </LinkedCard>
 
-<LinkedCard href="/docs/installation/laravel">
+<LinkedCard href="/docs/getting-started/installation/laravel">
   <LaravelBrandIcon className="h-10 w-10" />
   <p className="mt-2 font-medium">Laravel</p>
 </LinkedCard>
 
-<LinkedCard href="/docs/installation/react-router">
+<LinkedCard href="/docs/getting-started/installation/react-router">
   <ReactRouterBrandIcon className="h-10 w-10" />
   <p className="mt-2 font-medium">React Router</p>
 </LinkedCard>
 
-<LinkedCard href="/docs/installation/remix">
+<LinkedCard href="/docs/getting-started/installation/remix">
   <RemixBrandIcon className="h-10 w-10" />
   <p className="mt-2 font-medium">Remix</p>
 </LinkedCard>
 
-<LinkedCard href="/docs/installation/tanstack-router">
+<LinkedCard href="/docs/getting-started/installation/tanstack-router">
   <TanStackBrandIcon className="h-10 w-10" />
   <p className="mt-2 font-medium">TanStack Router</p>
 </LinkedCard>
 
-<LinkedCard href="/docs/installation/vite">
+<LinkedCard href="/docs/getting-started/installation/vite">
   <svg
     role="img"
     viewBox="0 0 24 24"
@@ -158,7 +158,7 @@ Pick your framework and follow that path.
   <p className="mt-2 font-medium">Vite</p>
 </LinkedCard>
 
-<LinkedCard href="/docs/installation/manual">
+<LinkedCard href="/docs/getting-started/installation/manual">
   <svg
     role="img"
     viewBox="0 0 24 24"
@@ -207,7 +207,7 @@ If you see `Cannot find module '@/lib/utils'`, run `npx frakment@latest init` ag
 <AccordionTrigger>Styles do not apply</AccordionTrigger>
 <AccordionContent>
 
-Make sure your globals.css includes the theme tokens from [Theming](/docs/theming).
+Make sure your globals.css includes the theme tokens from [Theming](/docs/guides/theming).
 
 </AccordionContent>
 </AccordionItem>
@@ -234,6 +234,6 @@ Yes. components.json accepts any registry URL. Point it at https://your-domain.c
 
 ## Next
 
-- [Theming](/docs/theming) - customize tokens and dark mode
+- [Theming](/docs/guides/theming) - customize tokens and dark mode
 - [Components](/docs/components/bubble) - browse the catalog
 - [Introduction](/docs) - principles and quick example

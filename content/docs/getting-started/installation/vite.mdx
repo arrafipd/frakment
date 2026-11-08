@@ -10,7 +10,7 @@ Frakment works in any Vite + React 19 project with Tailwind v4. This guide cover
 - **Vite** with React 19 + TypeScript
 - **Tailwind CSS** v4 installed
 
-Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/theming) manually.
+Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/guides/theming) manually.
 
 <div id="use-cli" className="scroll-mt-24" />
 
@@ -57,11 +57,11 @@ Add Frakment to a Vite app you already created.
 
 <Step>Install Tailwind CSS</Step>
 
-Follow the [Tailwind v4 guide for Vite](https://tailwindcss.com/docs/installation/using-vite).
+Follow the [Tailwind v4 guide for Vite](https://tailwindcss.com/docs/getting-started/installation/using-vite).
 
 <Step>Run `frakment init`</Step>
 
-Run `npx frakment@latest init` — it injects the theme block into `globals.css` between FRAKMENT THEME markers. Alternatively, paste the block manually from [Theming](/docs/theming):
+Run `npx frakment@latest init` — it injects the theme block into `globals.css` between FRAKMENT THEME markers. Alternatively, paste the block manually from [Theming](/docs/guides/theming):
 
 ```css title="globals.css"
 @import "tailwindcss";
@@ -71,7 +71,7 @@ Run `npx frakment@latest init` — it injects the theme block into `globals.css`
 /* ==== FRAKMENT THEME END ==== */
 ```
 
-See [Manual](/docs/installation/manual) for details.
+See [Manual](/docs/getting-started/installation/manual) for details.
 
 <Step>Configure the import alias in tsconfig.json</Step>
 
@@ -164,5 +164,5 @@ Make sure both `tsconfig.json` and `vite.config.ts` define the `@` alias. Vite n
 
 ## Next
 
-- [Theming](/docs/theming) - customize tokens and dark mode
+- [Theming](/docs/guides/theming) - customize tokens and dark mode
 - [Components](/docs/components/bubble) - browse the catalog

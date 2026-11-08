@@ -11,7 +11,7 @@ Frakment works in any Astro project with the React integration, React 19, and Ta
 - **React** 19 + TypeScript
 - **Tailwind CSS** v4
 
-Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/theming) manually.
+Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/guides/theming) manually.
 
 <div id="use-cli" className="scroll-mt-24" />
 
@@ -79,7 +79,7 @@ npx astro add tailwind
 
 <Step>Run `frakment init`</Step>
 
-Run `npx frakment@latest init` — it injects the theme block into `globals.css` between FRAKMENT THEME markers. Alternatively, paste the block manually from [Theming](/docs/theming):
+Run `npx frakment@latest init` — it injects the theme block into `globals.css` between FRAKMENT THEME markers. Alternatively, paste the block manually from [Theming](/docs/guides/theming):
 
 ```css title="globals.css"
 @import "tailwindcss";
@@ -89,7 +89,7 @@ Run `npx frakment@latest init` — it injects the theme block into `globals.css`
 /* ==== FRAKMENT THEME END ==== */
 ```
 
-See [Manual](/docs/installation/manual) for details.
+See [Manual](/docs/getting-started/installation/manual) for details.
 
 <Step>Configure the import alias</Step>
 
@@ -171,5 +171,5 @@ React components in Astro need a client directive. Use `<Hello client:load />` (
 
 ## Next
 
-- [Theming](/docs/theming) - customize tokens and dark mode
+- [Theming](/docs/guides/theming) - customize tokens and dark mode
 - [Components](/docs/components/bubble) - browse the catalog

@@ -12,7 +12,7 @@ Use this guide if you prefer to copy files yourself instead of using the CLI. It
 - **TypeScript**
 - **Node.js** 18 or newer
 
-Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/theming) manually.
+Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/guides/theming) manually.
 
 ## Setup
 
@@ -255,7 +255,7 @@ Copy the theme block from [`cli/templates/theme.css`](https://github.com/arrafip
 
 </CodeCollapsibleWrapper>
 
-The block contains the design tokens (`:root` + `.dark`), `@custom-variant dark` (for `dark:` utilities), `@theme inline` (Tailwind mapping), and 9 `@utility` helpers. Dark mode works as soon as `<html>` gets the `.dark` class — no extra setup. See [Theming](/docs/theming) for tokens and dark-mode wiring.
+The block contains the design tokens (`:root` + `.dark`), `@custom-variant dark` (for `dark:` utilities), `@theme inline` (Tailwind mapping), and 9 `@utility` helpers. Dark mode works as soon as `<html>` gets the `.dark` class — no extra setup. See [Theming](/docs/guides/theming) for tokens and dark-mode wiring.
 
 <Alert variant="warning" className="mt-6">
   <AlertTitle>Placement matters</AlertTitle>
@@ -324,7 +324,7 @@ Make sure `lib/utils.ts` exists and your `tsconfig.json` defines the `@/*` alias
 <AccordionTrigger>Styles do not apply</AccordionTrigger>
 <AccordionContent>
 
-Make sure your `globals.css` includes the theme tokens from [Theming](/docs/theming).
+Make sure your `globals.css` includes the theme tokens from [Theming](/docs/guides/theming).
 
 </AccordionContent>
 </AccordionItem>
@@ -333,5 +333,5 @@ Make sure your `globals.css` includes the theme tokens from [Theming](/docs/them
 
 ## Next
 
-- [Theming](/docs/theming) - customize tokens and dark mode
+- [Theming](/docs/guides/theming) - customize tokens and dark mode
 - [Components](/docs/components/bubble) - browse the catalog
