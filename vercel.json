@@ -1,0 +1,27 @@
+{
+  "rewrites": [
+    {
+      "source": "/.well-known/:path*",
+      "destination": "/frakment/.well-known/:path*"
+    },
+    { "source": "/llms.txt", "destination": "/frakment/llms.txt" },
+    { "source": "/llms-full.txt", "destination": "/frakment/llms-full.txt" },
+    { "source": "/llms.md/:path*", "destination": "/frakment/llms.md/:path*" },
+    { "source": "/robots.txt", "destination": "/frakment/robots.txt" },
+    { "source": "/sitemap.xml", "destination": "/frakment/sitemap.xml" },
+    { "source": "/rss.xml", "destination": "/frakment/rss.xml" },
+    { "source": "/openapi.json", "destination": "/frakment/openapi.json" },
+    {
+      "source": "/manifest.webmanifest",
+      "destination": "/frakment/manifest.webmanifest"
+    },
+    { "source": "/r/:path*", "destination": "/frakment/r/:path*" },
+    { "source": "/api/:path*", "destination": "/frakment/api/:path*" },
+    { "source": "/docs/:path*", "destination": "/frakment/docs/:path*" },
+    { "source": "/docs", "destination": "/frakment/docs" },
+    { "source": "/skills/:path*", "destination": "/frakment/skills/:path*" }
+  ],
+  "redirects": [
+    { "source": "/", "destination": "/frakment", "permanent": false }
+  ]
+}

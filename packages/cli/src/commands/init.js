@@ -15,7 +15,7 @@ import {
 const __dirname = import.meta.dirname;
 const TEMPLATES_DIR = path.resolve(__dirname, "../../templates");
 
-const DEFAULT_REGISTRY = "https://frakment.vercel.app/r";
+const DEFAULT_REGISTRY = "https://arrafi.dev/frakment/r";
 const CONFIG_FILE = "components.json";
 const THEME_MARKER_START = "/* ==== FRAKMENT THEME START ==== */";
 const THEME_MARKER_END = "/* ==== FRAKMENT THEME END ==== */";

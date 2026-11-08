@@ -1,4 +1,5 @@
-export const FALLBACK_SITE_ORIGIN = "https://frakment.vercel.app" as const;
+export const FALLBACK_SITE_ORIGIN = "https://arrafi.dev/frakment" as const;
+const BASE_PATH = "/frakment" as const;
 
 const getBaseUrl = () => {
   if (process.env.NODE_ENV !== "production") {
@@ -6,7 +7,7 @@ const getBaseUrl = () => {
   }
 
   if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}${BASE_PATH}`;
   }
 
   return process.env.SITE_URL ?? FALLBACK_SITE_ORIGIN;

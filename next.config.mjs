@@ -8,6 +8,7 @@ const { ROUTES } = await jiti.import("./constants/routes");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  basePath: "/frakment",
   devIndicators: false,
   experimental: {
     optimizePackageImports: [
@@ -19,12 +20,17 @@ const nextConfig = {
     const link = [
       `<${ROUTES.API_CATALOG}>; rel="api-catalog"`,
       `<${ROUTES.OPENAPI}>; rel="service-desc"`,
-      `<${ROUTES.DOCS}>; rel="service-doc"`,
+      `</frakment${ROUTES.DOCS}>; rel="service-doc"`,
       `<${LINK.FRAKMENT_MCP_DOCS}>; rel="service-doc"; title="Frakment MCP server"`,
       `<${ROUTES.AGENT_SKILLS_INDEX}>; rel="describedby"`,
     ].join(", ");
 
-    return [{ headers: [{ key: "Link", value: link }], source: ROUTES.HOME }];
+    return [
+      {
+        headers: [{ key: "Link", value: link }],
+        source: `/frakment${ROUTES.HOME}`,
+      },
+    ];
   },
   images: {
     remotePatterns: [

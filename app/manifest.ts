@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
 
-import { ROUTES } from "@/constants/routes";
 import { META_THEME_COLORS, SITE } from "@/constants/site";
 
 export default function manifest(): MetadataRoute.Manifest {
@@ -11,18 +10,18 @@ export default function manifest(): MetadataRoute.Manifest {
     icons: [
       {
         sizes: "192x192",
-        src: "/android-chrome-192x192.png",
+        src: "/frakment/android-chrome-192x192.png",
         type: "image/png",
       },
       {
         sizes: "512x512",
-        src: "/android-chrome-512x512.png",
+        src: "/frakment/android-chrome-512x512.png",
         type: "image/png",
       },
     ],
     name: SITE.NAME,
     short_name: SITE.NAME,
-    start_url: ROUTES.HOME,
+    start_url: "/frakment",
     theme_color: META_THEME_COLORS.light,
   };
 }

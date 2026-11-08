@@ -7,7 +7,7 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 
 const REGISTRY = (
-  process.env.FRAKMENT_REGISTRY || "https://frakment.vercel.app"
+  process.env.FRAKMENT_REGISTRY || "https://arrafi.dev/frakment"
 ).replace(/\/$/u, "");
 
 const SCENARIOS = {
