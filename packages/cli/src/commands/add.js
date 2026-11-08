@@ -2,38 +2,40 @@ import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import * as p from "@clack/prompts";
+import chalk from "chalk";
 import { execa } from "execa";
-import pc from "picocolors";
+import ora from "ora";
+import prompts from "prompts";
 
 import { detectPackageManager, findProjectRoot } from "../utils/detect.js";
+import { logger } from "../utils/logger.js";
 
-async function fetchComponent(name, registryUrl, s) {
-  s.start(`fetching ${name}`);
+async function fetchComponent(name, registryUrl, spinner) {
   try {
     const res = await fetch(`${registryUrl}/${name}.json`);
     if (!res.ok) {
       throw new Error(`HTTP ${res.status}`);
     }
     const payload = await res.json();
-    s.stop(`${pc.green("✓")} fetched ${name}`);
+    spinner.text = `Fetching ${name}...`;
     return payload;
   } catch {
-    s.stop(`${pc.red("✗")} ${name} not found in registry`);
+    spinner.fail(`Registry fetch failed for ${name}.`);
     process.exit(1);
   }
 }
-
 async function writeFileSafely(file, cwd, options) {
   const targetPath = path.join(cwd, file.path);
   if (existsSync(targetPath) && !options.overwrite) {
-    const overwrite = await p.confirm({
-      initialValue: false,
+    const { overwrite } = await prompts({
+      initial: false,
       message: `${file.path} already exists. Overwrite?`,
+      name: "overwrite",
+      type: "confirm",
     });
-    if (p.isCancel(overwrite) || !overwrite) {
-      p.log.info(`skipped ${file.path}`);
-      return;
+    if (overwrite === undefined || !overwrite) {
+      logger.info(`Skipped ${file.path}.`);
+      return null;
     }
   }
   await mkdir(path.dirname(targetPath), { recursive: true });
@@ -42,36 +44,31 @@ async function writeFileSafely(file, cwd, options) {
       ? Buffer.from(file.content, "base64")
       : file.content.replaceAll("\r\n", "\n");
   await writeFile(targetPath, output);
-  p.log.success(file.path);
+  return file.path;
 }
 
 export async function add(componentName, options) {
-  p.intro(`${pc.dim("frakment")} add ${pc.bold(componentName)}`);
-
   let cwd;
+  const preflight = ora("Preflight checks").start();
   try {
     cwd = findProjectRoot(process.cwd());
+    preflight.succeed("Preflight checks. Found project root.");
   } catch (error) {
-    p.outro(pc.red("error ") + error.message);
+    preflight.fail(error.message);
     process.exit(1);
   }
-
   const configPath = path.join(cwd, "components.json");
   if (!existsSync(configPath)) {
-    p.outro(
-      `${pc.red(
-        "error "
-      )}components.json not found. Run \`frakment init\` first.`
-    );
+    logger.error(`${chalk.red("Error:")} components.json not found.`);
+    logger.info("Run `frakment init` first.");
     process.exit(1);
   }
 
   const configRaw = await readFile(configPath, "utf-8");
   const config = JSON.parse(configRaw.replace(/^\uFEFF/u, ""));
   const registryUrl = (options.registry ?? config.registry).replace(/\/$/u, "");
-  const s = p.spinner();
 
-  // 1. Recursively fetch the component and its registryDependencies
+  const registrySpinner = ora("Checking registry").start();
   const queue = [componentName];
   const fetched = new Map();
   const npmDeps = new Set();
@@ -81,7 +78,7 @@ export async function add(componentName, options) {
     if (fetched.has(name)) {
       continue;
     }
-    const payload = await fetchComponent(name, registryUrl, s);
+    const payload = await fetchComponent(name, registryUrl, registrySpinner);
     fetched.set(name, payload);
     for (const d of payload.dependencies ?? []) {
       npmDeps.add(d);
@@ -92,10 +89,7 @@ export async function add(componentName, options) {
       }
     }
   }
-
-  // 2. Write registry deps first (imports resolve), then main component
-  // Detect src/ layout: component files go under src/, but public/ assets
-  // stay at project root (Next.js serves public/ from root regardless of src/).
+  registrySpinner.succeed("Checking registry.");
   const isSrcLayout = config.tailwind?.css?.startsWith("src/") ?? false;
   const resolveTargetPath = (p) => {
     if (!isSrcLayout) {
@@ -109,14 +103,26 @@ export async function add(componentName, options) {
 
   const order = [...fetched.keys()].filter((n) => n !== componentName);
   order.push(componentName);
+  const written = [];
+
   for (const name of order) {
     for (const file of fetched.get(name).files ?? []) {
       const targetFile = { ...file, path: resolveTargetPath(file.path) };
-      await writeFileSafely(targetFile, cwd, options);
+      const result = await writeFileSafely(targetFile, cwd, options);
+      if (result) {
+        written.push(result);
+      }
     }
   }
 
-  // 3. Install npm dependencies
+  if (written.length > 0) {
+    logger.success(
+      `Created ${written.length} file${written.length === 1 ? "" : "s"}:`
+    );
+    for (const p of written) {
+      logger.log(`  - ${p}`);
+    }
+  }
   if (npmDeps.size > 0) {
     const pkgPath = path.join(cwd, "package.json");
     const pkgRaw = await readFile(pkgPath, "utf-8");
@@ -124,19 +130,19 @@ export async function add(componentName, options) {
     const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
     const missing = [...npmDeps].filter((d) => !allDeps[d]);
     if (missing.length > 0) {
-      s.start(`installing ${missing.join(", ")}`);
+      const s = ora("Installing dependencies").start();
       const pm = detectPackageManager(cwd);
       try {
         const args =
           pm === "npm" ? ["install", ...missing] : ["add", ...missing];
         await execa(pm, args, { cwd, stdio: "ignore" });
-        s.stop(`${pc.green("✓")} installed ${missing.length} package(s)`);
+        s.succeed(`Installed ${missing.length} package(s).`);
       } catch (error) {
-        s.stop(`${pc.red("✗")} failed to install dependencies`);
-        p.log.warn(error.message);
+        s.fail("Failed to install dependencies.");
+        logger.warn(error.message);
       }
     }
   }
 
-  p.outro(`${pc.green("✓")} ${componentName} added`);
+  logger.break();
 }

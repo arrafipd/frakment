@@ -1,7 +1,6 @@
-﻿# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
 /.pnp
 .pnp.*
 .yarn/*
@@ -67,10 +66,8 @@ public/avatars/*.png
 *.log
 
 # CLI dependencies (install via: cd cli && npm install)
-cli/node_modules/
 *.bak-*
 
-mcp/node_modules/
 
 _snapshot_*/
 build.log
@@ -83,3 +80,6 @@ _node_modules_old
 *.tmp
 *.old
 .temp-assets/
+
+# Dependencies (all workspaces)
+**/node_modules/

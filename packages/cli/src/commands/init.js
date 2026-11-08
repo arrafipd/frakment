@@ -2,15 +2,17 @@ import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import * as p from "@clack/prompts";
+import chalk from "chalk";
 import { execa } from "execa";
-import pc from "picocolors";
+import ora from "ora";
+import prompts from "prompts";
 
 import {
   detectGlobalsCss,
   detectPackageManager,
   findProjectRoot,
 } from "../utils/detect.js";
+import { logger } from "../utils/logger.js";
 
 const __dirname = import.meta.dirname;
 const TEMPLATES_DIR = path.resolve(__dirname, "../../templates");
@@ -20,43 +22,64 @@ const CONFIG_FILE = "components.json";
 const THEME_MARKER_START = "/* ==== FRAKMENT THEME START ==== */";
 const THEME_MARKER_END = "/* ==== FRAKMENT THEME END ==== */";
 
-export async function init() {
-  p.intro(`${pc.dim("frakment")} init`);
+function escapeRegex(s) {
+  return s.replaceAll(/[.*+?^${}()|[\]\\]/gu, "\\$&");
+}
 
+export async function init() {
   let cwd;
+  const preflight = ora("Preflight checks").start();
   try {
     cwd = findProjectRoot(process.cwd());
+    preflight.succeed("Preflight checks. Found project root.");
   } catch (error) {
-    p.outro(pc.red("error ") + error.message);
+    preflight.fail(error.message);
     process.exit(1);
   }
+
+  const cssPath = detectGlobalsCss(cwd);
+  const cssFullPath = path.join(cwd, cssPath);
+  const cssCheck = ora("Verifying Tailwind CSS config").start();
+  if (!existsSync(cssFullPath)) {
+    cssCheck.fail(`CSS file not found: ${cssPath}`);
+    logger.error("Frakment needs an existing Tailwind v4 entry file.");
+    process.exit(1);
+  }
+  let css = await readFile(cssFullPath, "utf-8");
+  css = css.replace(/^\uFEFF/u, "");
+  if (!/^@import\s+["']tailwindcss(\/|["'])/mu.test(css)) {
+    cssCheck.fail("Frakment requires Tailwind v4.");
+    logger.error(`Could not find @import "tailwindcss" in ${cssPath}`);
+    process.exit(1);
+  }
+  cssCheck.succeed(
+    `Verifying Tailwind CSS config. Found ${chalk.cyan("v4")} in ${chalk.cyan(cssPath)}.`
+  );
 
   const configPath = path.join(cwd, CONFIG_FILE);
   const configExists = existsSync(configPath);
   let shouldWriteConfig = !configExists;
-
   if (configExists) {
-    const overwrite = await p.confirm({
-      initialValue: false,
+    const { overwrite } = await prompts({
+      initial: false,
       message: `${CONFIG_FILE} already exists. Overwrite?`,
+      name: "overwrite",
+      type: "confirm",
     });
-    if (p.isCancel(overwrite)) {
-      p.outro(pc.dim("cancelled"));
-      return;
+    if (overwrite === undefined) {
+      logger.break();
+      logger.info("Cancelled.");
+      process.exit(0);
     }
-    if (overwrite) {
-      shouldWriteConfig = true;
-    } else {
-      p.log.info(`keeping existing ${CONFIG_FILE}`);
+    shouldWriteConfig = overwrite === true;
+    if (!shouldWriteConfig) {
+      logger.break();
+      logger.info(`Keeping existing ${CONFIG_FILE}.`);
     }
   }
 
-  const s = p.spinner();
-  const cssPath = detectGlobalsCss(cwd);
-
-  // 1. components.json (write only if new or user chose to overwrite)
   if (shouldWriteConfig) {
-    s.start("writing components.json");
+    const s = ora("Writing components.json").start();
     const template = JSON.parse(
       await readFile(path.join(TEMPLATES_DIR, "components.json"), "utf-8")
     );
@@ -66,37 +89,9 @@ export async function init() {
       tailwind: { ...template.tailwind, css: cssPath },
     };
     await writeFile(configPath, `${JSON.stringify(config, null, 2)}\n`);
-    s.stop(`${pc.green("✓")} components.json`);
+    s.succeed("Writing components.json.");
   }
-
-  // 2. theme (inline block)
-  const cssFullPath = path.join(cwd, cssPath);
-  if (!existsSync(cssFullPath)) {
-    p.log.error(`CSS file not found: ${cssPath}`);
-    p.outro(
-      `${pc.red(
-        "error "
-      )}Could not find globals.css. Frakment needs an existing Tailwind v4 entry file.`
-    );
-    process.exit(1);
-  }
-
-  let css = await readFile(cssFullPath, "utf-8");
-  css = css.replace(/^\uFEFF/u, "");
-
-  if (!/^@import\s+["']tailwindcss(\/|["'])/mu.test(css)) {
-    p.outro(
-      `${pc.red(
-        "error "
-      )}Frakment requires Tailwind v4. Could not find @import "tailwindcss" in ${
-        cssPath
-      }`
-    );
-    process.exit(1);
-  }
-
-  // Cleanup: strip any prior theme block (marker-bounded) and
-  // any split-approach @import "./theme.css" line.
+  const themeSpinner = ora("Updating CSS variables").start();
   css = css.replaceAll(
     new RegExp(
       `\\n*${escapeRegex(THEME_MARKER_START)}[\\s\\S]*?${escapeRegex(THEME_MARKER_END)}\\n*`,
@@ -107,8 +102,6 @@ export async function init() {
   css = css.replaceAll(/^@import\s+["']\.\/theme\.css["'];?\s*$\n?/gmu, "");
   css = `${css.replaceAll(/\n{3,}/gu, "\n\n").trimEnd()}\n`;
 
-  // Inject fresh theme block right after the last top-level @import
-  s.start("injecting theme block");
   const themeContent = await readFile(
     path.join(TEMPLATES_DIR, "theme.css"),
     "utf-8"
@@ -123,13 +116,10 @@ export async function init() {
   } else {
     css = `${css.trimEnd()}\n\n${wrapped}\n`;
   }
-
   await writeFile(cssFullPath, css);
-  s.stop(`${pc.green("✓")} theme block`);
-
-  // 3. lib/utils.ts
+  themeSpinner.succeed(`Updating CSS variables in ${cssPath}`);
   if (!existsSync(path.join(cwd, "lib/utils.ts"))) {
-    s.start("creating lib/utils.ts");
+    const s = ora("Creating lib/utils.ts").start();
     await mkdir(path.join(cwd, "lib"), { recursive: true });
     await writeFile(
       path.join(cwd, "lib/utils.ts"),
@@ -141,12 +131,12 @@ export function cn(...inputs: ClassValue[]) {
 }
 `
     );
-    s.stop(`${pc.green("✓")} lib/utils.ts`);
+    s.succeed("Created 1 file:");
+    logger.log("  - lib/utils.ts");
   }
 
-  // 3b. lib/animation.ts
   if (!existsSync(path.join(cwd, "lib/animation.ts"))) {
-    s.start("creating lib/animation.ts");
+    const s = ora("Creating lib/animation.ts").start();
     await mkdir(path.join(cwd, "lib"), { recursive: true });
     await writeFile(
       path.join(cwd, "lib/animation.ts"),
@@ -160,10 +150,9 @@ export const DURATION_FAST = 0.2
 export const DURATION_SMOOTH = 0.45
 `
     );
-    s.stop(`${pc.green("✓")} lib/animation.ts`);
+    s.succeed("Created 1 file:");
+    logger.log("  - lib/animation.ts");
   }
-
-  // 4. dependencies
   const pkgPath = path.join(cwd, "package.json");
   const pkgRaw = await readFile(pkgPath, "utf-8");
   const pkg = JSON.parse(pkgRaw.replace(/^\uFEFF/u, ""));
@@ -173,29 +162,26 @@ export const DURATION_SMOOTH = 0.45
     "tailwind-merge",
     "class-variance-authority",
     "radix-ui",
-    "@phosphor-icons/react",
+    "lucide-react",
     "motion",
   ].filter((d) => !allDeps[d]);
 
   if (missing.length > 0) {
-    s.start(`installing ${missing.join(", ")}`);
+    const s = ora("Installing dependencies").start();
     const pm = detectPackageManager(cwd);
     try {
       const args = pm === "npm" ? ["install", ...missing] : ["add", ...missing];
       await execa(pm, args, { cwd, stdio: "ignore" });
-      s.stop(`${pc.green("✓")} installed ${missing.length} package(s)`);
+      s.succeed(`Installed ${missing.length} package(s).`);
     } catch (error) {
-      s.stop(`${pc.red("✗")} failed to install dependencies`);
-      p.log.warn(error.message);
+      s.fail("Failed to install dependencies.");
+      logger.warn(error.message);
     }
   }
 
-  p.outro(
-    `${pc.green("✓")} frakment is ready\n\n` +
-      `  Next  ${pc.cyan("frakment add status-chip")}`
+  logger.break();
+  logger.log(
+    `${chalk.green("Success!")} Project initialization completed. You may now add components.`
   );
-}
-
-function escapeRegex(s) {
-  return s.replaceAll(/[.*+?^${}()|[\]\\]/gu, "\\$&");
+  logger.break();
 }
