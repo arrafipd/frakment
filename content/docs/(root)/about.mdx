@@ -1,0 +1,42 @@
+---
+title: About
+description: The principles behind Frakment.
+---
+
+Frakment is a component registry for React interfaces. It ships standalone components you copy into your project, not a library you depend on.
+
+## Principles
+
+### Monochrome by default
+
+Every UI token uses `oklch(L 0 0)` — pure grayscale. Hierarchy comes from lightness, not hue. Two exceptions ship as tokens you can override: `--destructive` for error states and `.hljs-*` for syntax highlighting.
+
+### Composition, not primitives
+
+Primitives are single elements installable via CLI (`button`, `input`, `card`). Compositions are tutorials that wire primitives together (`chat`, `terminal`, `plan`). Compositions are not registry items — you assemble them from primitives.
+
+### Engine in packages, styling in registry
+
+State logic (chat engine, message scroller) lives in published npm packages: `@frakment/ai` and `@frakment/react`. Styling lives in registry components. Copy the styling, install the engine. This keeps your scroll and stream behavior bug-fixed without re-copying files.
+
+### AI-native, motion-first
+
+Components for agent surfaces ship with AI support built in. Every component animates through Motion — no extra setup. Chat, trace, plan, and reasoning ship as first-class compositions.
+
+### Docs describe what ships
+
+Every page describes a component that installs today. No roadmaps, no "coming soon", no deprecated stubs. If it is not in the registry, it is not in the docs.
+
+## Comparison
+
+| Aspect | Frakment |
+| :-- | :-- |
+| Distribution | Registry — copy into your project |
+| Theme | Monochrome |
+| Motion | Motion, built in |
+| AI | First-party engine at `@frakment/ai` |
+| Composition | Tutorials, not installable items |
+
+## Credits
+
+Frakment is built and maintained by [@arrafipd](https://github.com/arrafipd). Component APIs follow patterns established by the broader React community. License: SEE LICENSE IN LICENSE.

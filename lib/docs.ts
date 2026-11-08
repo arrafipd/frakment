@@ -23,12 +23,17 @@ export interface TopLevelSection {
 export const TOP_LEVEL_SECTIONS: TopLevelSection[] = [
   { href: ROUTES.DOCS, name: "Introduction" },
   { href: ROUTES.DOCS_INSTALLATION, name: "Installation" },
+  { href: ROUTES.DOCS_COMPONENTS_JSON, name: "components.json" },
   { href: ROUTES.DOCS_THEMING, name: "Theming" },
+  { href: ROUTES.DOCS_TYPOGRAPHY, name: "Typography" },
   { href: ROUTES.DOCS_DARK_MODE, name: "Dark mode" },
   { href: ROUTES.DOCS_ANIMATIONS, name: "Animations" },
+  { href: ROUTES.DOCS_ADVANCED, name: "Advanced" },
   { href: ROUTES.DOCS_COMPONENTS, name: "Components" },
   { href: ROUTES.DOCS_AI_ELEMENTS, name: "AI Elements" },
   { href: ROUTES.DOCS_MODULES, name: "Modules" },
+  { href: ROUTES.DOCS_ABOUT, name: "About" },
+  { href: ROUTES.DOCS_FAQ, name: "FAQ" },
   { href: ROUTES.DOCS_CHANGELOG, name: "Changelog" },
 ];
 

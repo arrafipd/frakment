@@ -1,0 +1,53 @@
+---
+title: Remix
+description: Install Frakment in a Remix project.
+---
+
+Frakment works in Remix with Tailwind v4. `npx frakment init` writes `components.json`, injects the theme block into `app/tailwind.css`, and installs `lib/utils.ts`.
+
+## Create project
+
+```bash
+npx create-remix@latest my-app
+cd my-app
+```
+
+## Install Tailwind v4
+
+```bash
+npm install tailwindcss@latest @tailwindcss/vite
+```
+
+Add the Vite plugin in `vite.config.ts`:
+
+```ts title="vite.config.ts"
+import { vitePlugin as remix } from "@remix-run/dev";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  plugins: [remix(), tailwindcss()],
+});
+```
+
+## Run init
+
+```bash
+npx frakment init
+```
+
+When prompted, point to `app/tailwind.css`. The CLI injects the theme block after your `@import "tailwindcss";`.
+
+## Add a component
+
+```bash
+npx frakment add button
+```
+
+Files land in `app/components/ui/button.tsx`. The default alias `@/components` maps to `app/components` in `components.json`.
+
+## Next steps
+
+- [Theming](/docs/theming) — override tokens
+- [Dark mode](/docs/dark-mode) — wire a toggle
+- [Button](/docs/components/button) — first component

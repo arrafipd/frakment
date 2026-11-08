@@ -1,0 +1,52 @@
+---
+title: Gatsby
+description: Install Frakment in a Gatsby project.
+---
+
+Frakment works with Gatsby 5 + Tailwind v4.
+
+## Create project
+
+```bash
+npm init gatsby
+cd my-app
+```
+
+## Install Tailwind v4
+
+```bash
+npm install tailwindcss@latest gatsby-plugin-postcss postcss
+```
+
+Add the plugin in `gatsby-config.ts`:
+
+```ts title="gatsby-config.ts"
+import type { GatsbyConfig } from "gatsby";
+
+const config: GatsbyConfig = {
+  plugins: ["gatsby-plugin-postcss"],
+};
+
+export default config;
+```
+
+## Run init
+
+```bash
+npx frakment init
+```
+
+Point to `src/styles/global.css`.
+
+## Add a component
+
+```bash
+npx frakment add button
+```
+
+Components land in `src/components/ui/`.
+
+## Next steps
+
+- [Theming](/docs/theming)
+- [Dark mode](/docs/dark-mode)

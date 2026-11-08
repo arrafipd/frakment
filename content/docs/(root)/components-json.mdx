@@ -1,0 +1,103 @@
+---
+title: components.json
+description: Configuration file for the Frakment CLI.
+---
+
+The `components.json` file holds the configuration for the Frakment CLI. `npx frakment init` writes it to your project root. All fields are optional — the defaults match a standard Next.js + Tailwind v4 setup.
+
+## Schema
+
+```json title="components.json"
+{
+  "$schema": "https://www.arrafi.dev/frakment/schema.json",
+  "registry": "https://www.arrafi.dev/frakment/r",
+  "aliases": {
+    "components": "@/components",
+    "ui": "@/components/ui",
+    "utils": "@/lib/utils"
+  },
+  "tailwind": {
+    "css": "app/globals.css"
+  }
+}
+```
+
+## Fields
+
+### `registry`
+
+Base URL the CLI fetches components from. Defaults to `https://www.arrafi.dev/frakment/r`.
+
+Override per-command with `--registry <url>`:
+
+```bash
+npx frakment add button --registry http://localhost:3000/r
+```
+
+### `aliases`
+
+Import path prefixes used by installed components. Match them to your `tsconfig.json` `paths` entries.
+
+| Key | Default | Purpose |
+| :-- | :-- | :-- |
+| `components` | `@/components` | Top-level components directory |
+| `ui` | `@/components/ui` | Component primitive directory |
+| `utils` | `@/lib/utils` | `cn()` helper path |
+
+### `tailwind`
+
+Tailwind v4 entry point. `npx frakment init` injects the theme block into this file.
+
+| Key | Default | Purpose |
+| :-- | :-- | :-- |
+| `css` | `app/globals.css` | Path to the CSS file that imports Tailwind |
+
+## Minimal setup
+
+```json title="components.json"
+{
+  "registry": "https://www.arrafi.dev/frakment/r",
+  "aliases": {
+    "components": "@/components",
+    "ui": "@/components/ui",
+    "utils": "@/lib/utils"
+  },
+  "tailwind": {
+    "css": "app/globals.css"
+  }
+}
+```
+
+## Troubleshooting
+
+### "CSS file not found: app/globals.css"
+
+The path in `tailwind.css` must exist and contain `@import "tailwindcss";`. Create the file first:
+
+```bash
+mkdir -p app && echo '@import "tailwindcss";' > app/globals.css
+```
+
+### "Component not found in registry"
+
+The `registry` URL is unreachable. Check connectivity:
+
+```bash
+curl <registry>/index.json
+```
+
+A `404` means the URL is wrong. A `000` means the host is unreachable.
+
+### Alias mismatch
+
+If installed files import from `@/components/ui/button` but your project uses `~/ui/button`, adjust `aliases` in `components.json`:
+
+```json
+{
+  "aliases": {
+    "components": "~/components",
+    "ui": "~/ui",
+    "utils": "~/lib/utils"
+  }
+}
+```

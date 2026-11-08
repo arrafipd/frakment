@@ -1,0 +1,52 @@
+---
+title: Tailwind CSS v4
+description: Frakment requires Tailwind v4. Setup notes and gotchas.
+---
+
+Frakment requires **Tailwind v4**. The theme block uses `@theme inline`, `@utility`, and `@custom-variant` — none exist in Tailwind v3.
+
+## Verify the version
+
+```bash
+npm ls tailwindcss
+```
+
+Output must show `tailwindcss@^4`.
+
+## Upgrade from v3
+
+```bash
+npm install tailwindcss@latest @tailwindcss/postcss
+```
+
+Replace `tailwind.config.js` with a `@theme` block in CSS. Tailwind v4 does not need a config file for Frakment.
+
+## What Frakment uses from v4
+
+| Feature | Used in |
+| :-- | :-- |
+| `@theme inline` | Token mapping |
+| `@utility` | `no-scrollbar`, `scroll-fade`, `container` |
+| `@custom-variant` | `dark`, `data-*` variants |
+| `@apply` | Component classes |
+
+None of these work in v3.
+
+## Common errors
+
+### "Unknown at rule @theme"
+
+Tailwind v3 is installed. Upgrade: `npm install tailwindcss@latest`.
+
+### "Cannot find @import tailwindcss"
+
+Your `globals.css` is missing the import. Add it before the Frakment theme block:
+
+```css
+@import "tailwindcss";
+/* Frakment theme block below */
+```
+
+### Tokens not applied
+
+The theme block must be **after** all `@import` statements. If it comes first, Tailwind cannot resolve tokens.

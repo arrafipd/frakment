@@ -1,0 +1,58 @@
+---
+title: JavaScript
+description: Use Frakment in a JavaScript project.
+---
+
+Frakment components ship as TypeScript. To use them in plain JavaScript, strip type annotations after install.
+
+## Setup
+
+```bash
+npx frakment init
+npx frakment add button
+```
+
+The CLI writes `.tsx`. Rename to `.jsx` and strip types.
+
+## Stripping types
+
+Frakment uses four TypeScript patterns. Remove them in order:
+
+| Pattern | Strip to |
+| :-- | :-- |
+| `interface Props { ... }` | Delete the block |
+| `(props: Props)` | `(props)` |
+| `React.ComponentProps<"div">` | `{}` (empty) |
+| `as const` | Delete `as const` |
+
+## Example
+
+Before:
+
+```tsx
+interface ButtonProps extends React.ComponentProps<"button"> {
+  variant?: "default" | "outline";
+}
+
+export function Button({ variant = "default", ...props }: ButtonProps) {
+  return <button data-variant={variant} {...props} />;
+}
+```
+
+After:
+
+```jsx
+export function Button({ variant = "default", ...props }) {
+  return <button data-variant={variant} {...props} />;
+}
+```
+
+## Engine packages
+
+`@frakment/ai` and `@frakment/react` ship compiled JavaScript + `.d.ts`. They work in JS projects without changes.
+
+## Best practices
+
+- **Keep the `.d.ts` files.** Import them for editor hints even in JS projects.
+- **Do not edit installed TSX in place.** Copy to `.jsx` first, then edit.
+- **Upgrade carefully.** Re-running `npx frakment add` writes `.tsx` again — keep your `.jsx` in sync.

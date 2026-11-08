@@ -1,0 +1,52 @@
+---
+title: React Router
+description: Install Frakment in a React Router project.
+---
+
+Frakment works with React Router v7 (framework mode) and Tailwind v4. Setup is nearly identical to Remix.
+
+## Create project
+
+```bash
+npx create-react-router@latest my-app
+cd my-app
+```
+
+## Install Tailwind v4
+
+```bash
+npm install tailwindcss@latest @tailwindcss/vite
+```
+
+Add the plugin in `vite.config.ts`:
+
+```ts title="vite.config.ts"
+import { reactRouter } from "@react-router/dev/vite";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  plugins: [reactRouter(), tailwindcss()],
+});
+```
+
+## Run init
+
+```bash
+npx frakment init
+```
+
+Point to `app/tailwind.css` when prompted. The CLI injects the theme block.
+
+## Add a component
+
+```bash
+npx frakment add button
+```
+
+Components land in `app/components/ui/`.
+
+## Next steps
+
+- [Theming](/docs/theming) — override tokens
+- [Dark mode](/docs/dark-mode) — wire a toggle

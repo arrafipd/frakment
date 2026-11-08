@@ -1,0 +1,62 @@
+---
+title: Monorepo
+description: Use Frakment in a monorepo with multiple apps.
+---
+
+Frakment works in a monorepo where one package holds the components and multiple apps import from it.
+
+## Structure
+
+```text
+my-monorepo/
+├── apps/
+│   ├── web/       (Next.js)
+│   └── admin/     (Vite)
+├── packages/
+│   └── ui/        (Frakment components)
+└── package.json
+```
+
+## Set up the UI package
+
+From `packages/ui`, run init:
+
+```bash
+cd packages/ui
+npx frakment init
+```
+
+Point to `src/styles.css`. Components land in `src/components/ui/`.
+
+## Share the package
+
+In `packages/ui/package.json`:
+
+```json
+{
+  "name": "@myorg/ui",
+  "exports": {
+    "./*": "./src/components/ui/*.tsx",
+    "./styles.css": "./src/styles.css"
+  }
+}
+```
+
+## Import from apps
+
+In `apps/web`:
+
+```bash
+npm install @myorg/ui
+```
+
+```tsx
+import { Button } from "@myorg/ui/button";
+import "@myorg/ui/styles.css";
+```
+
+## Best practices
+
+- **One `components.json` per package.** Do not init from the monorepo root.
+- **Shared `tsconfig.json`.** Every app must resolve `@myorg/ui` from `paths`.
+- **Peer dependencies.** Add `react`, `react-dom`, and `tailwindcss` as peers in `packages/ui`.

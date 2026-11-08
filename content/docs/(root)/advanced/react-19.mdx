@@ -1,0 +1,41 @@
+---
+title: React 19
+description: Peer dependencies and breaking changes for React 19.
+---
+
+Frakment components target React 19. Most are drop-in compatible with React 18, but a few rely on React 19 features.
+
+## Peer dependencies
+
+```json title="package.json"
+{
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}
+```
+
+## Components that require React 19
+
+| Component | Reason |
+| :-- | :-- |
+| `message-animated` | Uses `useOptimistic` for streaming |
+| `trace` | Uses `useTransition` for collapse animation |
+| `code-block` | Uses ref cleanup function |
+
+The rest work on React 18.3+ but are tested on 19.
+
+## Breaking changes to watch
+
+- **`ref` as a prop.** React 19 allows `ref` without `forwardRef`. Frakment components use this in new files.
+- **`use` hook.** Some engine files use `use(Promise)` for async boundaries.
+- **Ref cleanup.** `ref` callbacks can return a cleanup. Older React leaks a warning.
+
+## Migrating from React 18
+
+1. Bump `react` and `react-dom` to `^19.0.0`.
+2. Run `npx frakment add <component> --overwrite` for every installed component.
+3. Run `npx tsc --noEmit` to catch `forwardRef` removals.
+
+Most code compiles unchanged. Fix any `ref` callback warnings by returning `undefined` explicitly.

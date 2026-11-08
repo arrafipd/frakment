@@ -1,0 +1,51 @@
+---
+title: TanStack Router
+description: Install Frakment in a TanStack Router project.
+---
+
+Frakment works with TanStack Router + Vite + Tailwind v4.
+
+## Create project
+
+```bash
+npx create-tsrouter-app@latest my-app --template file-router
+cd my-app
+```
+
+## Install Tailwind v4
+
+```bash
+npm install tailwindcss@latest @tailwindcss/vite
+```
+
+Add the plugin in `vite.config.ts`:
+
+```ts title="vite.config.ts"
+import { tanstackRouter } from "@tanstack/router-plugin/vite";
+import tailwindcss from "@tailwindcss/vite";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  plugins: [tanstackRouter(), react(), tailwindcss()],
+});
+```
+
+## Run init
+
+```bash
+npx frakment init
+```
+
+Point to `src/styles.css`.
+
+## Add a component
+
+```bash
+npx frakment add button
+```
+
+## Next steps
+
+- [Theming](/docs/theming)
+- [Dark mode](/docs/dark-mode)

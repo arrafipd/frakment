@@ -1,15 +1,21 @@
 import {
   SiAstro,
   SiCss,
+  SiGatsby,
   SiGnubash,
   SiHtml5,
   SiJavascript,
+  SiLaravel,
   SiNextdotjs,
   SiPostcss,
   SiReact,
+  SiReactrouter,
+  SiRemix,
   SiSvelte,
   SiTailwindcss,
+  SiTanstack,
   SiToml,
+  SiTurborepo,
   SiVite,
   SiVuedotjs,
   SiYaml,
@@ -487,3 +493,9 @@ export const VueBrandIcon = wrapBrand(SiVuedotjs);
 export const SvelteBrandIcon = wrapBrand(SiSvelte);
 export const TomlBrandIcon = wrapBrand(SiToml);
 export const CssBrandIcon = wrapBrand(SiCss);
+export const RemixBrandIcon = wrapBrand(SiRemix);
+export const ReactRouterBrandIcon = wrapBrand(SiReactrouter);
+export const TanStackBrandIcon = wrapBrand(SiTanstack);
+export const LaravelBrandIcon = wrapBrand(SiLaravel);
+export const GatsbyBrandIcon = wrapBrand(SiGatsby);
+export const TurborepoBrandIcon = wrapBrand(SiTurborepo);

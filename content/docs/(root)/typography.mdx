@@ -1,0 +1,82 @@
+---
+title: Typography
+description: Font setup and text styles used by Frakment components.
+---
+
+Frakment uses two font stacks: `font-sans` for body text and `font-mono` for code. Both are CSS variables you set once in `globals.css`.
+
+## Font setup
+
+Set the two font variables in your `:root` block:
+
+```css title="globals.css"
+:root {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+```
+
+The Frakment theme maps them to Tailwind utilities automatically:
+
+```css
+@theme inline {
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+```
+
+## Font variables
+
+| Variable | Utility | Used by |
+| :-- | :-- | :-- |
+| `--font-sans` | `font-sans` | Body text, buttons, forms |
+| `--font-mono` | `font-mono` | Code Block, Kbd, Trace titles |
+
+## Text styles
+
+Frakment uses semantic Tailwind utilities for text. There is no typography plugin — components set their own styles.
+
+| Style | Utility | Used by |
+| :-- | :-- | :-- |
+| Body | `text-sm` | Buttons, inputs, menu items |
+| Small | `text-xs` | Descriptions, markers, badges |
+| Code | `font-mono text-sm` | Code Block, Kbd |
+| Heading | `font-heading text-xl` | Docs headings only |
+
+## With Next.js fonts
+
+Use `next/font` to self-host and set the variables:
+
+```tsx title="app/layout.tsx"
+import { Inter, JetBrains_Mono } from "next/font/google"
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
+const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" })
+
+export default function RootLayout({ children }) {
+  return (
+    <html className={`${inter.variable} ${mono.variable}`}>
+      <body>{children}</body>
+    </html>
+  )
+}
+```
+
+## With plain CSS
+
+Import fonts from a CDN or self-host them:
+
+```css title="globals.css"
+@import url("https://fonts.googleapis.com/css2?family=Inter&family=JetBrains+Mono&display=swap");
+
+:root {
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+```
+
+## Best practices
+
+- **Two families, no more.** Frakment components assume `font-sans` and `font-mono` only.
+- **Set both variables.** If `--font-mono` is missing, code falls back to the browser default.
+- **Preload in production.** Both fonts are used on every page — self-host or preload from a CDN.
