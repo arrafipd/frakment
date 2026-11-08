@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import { readFileSync } from "node:fs";
 import path from "node:path";
+import chalk from "chalk";
 import { Command } from "commander";
-import pc from "picocolors";
 
 import { add } from "../src/commands/add.js";
 import { init } from "../src/commands/init.js";
@@ -23,9 +23,9 @@ program
     "after",
     `
 Examples:
-  ${pc.dim("$ frakment init")}
-  ${pc.dim("$ frakment add status-chip")}
-  ${pc.dim("$ frakment list")}
+  ${chalk.dim("$ frakment init")}
+  ${chalk.dim("$ frakment add button")}
+  ${chalk.dim("$ frakment list")}
 `
   );
 

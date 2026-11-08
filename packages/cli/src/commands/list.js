@@ -2,34 +2,33 @@ import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
-import * as p from "@clack/prompts";
-import pc from "picocolors";
+import chalk from "chalk";
+import ora from "ora";
 
 import { findProjectRoot } from "../utils/detect.js";
+import { logger } from "../utils/logger.js";
 
 export async function list(options) {
-  p.intro(`${pc.dim("frakment")} list`);
-
   let cwd;
+  const preflight = ora("Preflight checks").start();
   try {
     cwd = findProjectRoot(process.cwd());
+    preflight.succeed("Preflight checks. Found project root.");
   } catch (error) {
-    p.outro(pc.red("error ") + error.message);
+    preflight.fail(error.message);
     process.exit(1);
   }
 
   const configPath = path.join(cwd, "components.json");
   if (!existsSync(configPath)) {
-    p.outro(
-      `${pc.red("error ")}components.json not found. Run \`frakment init\` first.`
-    );
+    logger.error(`${chalk.red("Error:")} components.json not found.`);
+    logger.info("Run `frakment init` first.");
     process.exit(1);
   }
 
   const config = JSON.parse(await readFile(configPath, "utf-8"));
   const registryUrl = (options.registry ?? config.registry).replace(/\/$/u, "");
-  const s = p.spinner();
-  s.start("fetching components");
+  const s = ora("Fetching components").start();
 
   let index;
   try {
@@ -39,23 +38,25 @@ export async function list(options) {
     }
     index = await res.json();
   } catch {
-    s.stop(`${pc.red("✗")} failed to fetch component list`);
+    s.fail("Failed to fetch component list.");
     process.exit(1);
   }
-  s.stop(`${pc.green("✓")} found ${index.components.length} component(s)`);
+  s.succeed(`Found ${index.components.length} component(s).`);
 
   if (!index.components.length) {
-    p.outro(pc.dim("no components available yet"));
+    logger.break();
+    logger.log(chalk.dim("No components available yet."));
     return;
   }
 
   const nameWidth = Math.max(...index.components.map((c) => c.name.length));
-  const lines = index.components.map(
-    (c) =>
-      `  ${pc.cyan(c.name.padEnd(nameWidth))}  ${pc.dim(c.description ?? "")}`
-  );
-
-  p.outro(
-    `${lines.join("\n")}\n\n  Add one with ${pc.cyan("frakment add <name>")}`
-  );
+  logger.break();
+  for (const c of index.components) {
+    logger.log(
+      `  ${chalk.cyan(c.name.padEnd(nameWidth))}  ${chalk.dim(c.description ?? "")}`
+    );
+  }
+  logger.break();
+  logger.log(`Add one with ${chalk.cyan("frakment add <name>")}`);
+  logger.break();
 }
