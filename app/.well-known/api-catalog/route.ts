@@ -1,5 +1,6 @@
 import { LINK } from "@/constants/links";
 import { ROUTES } from "@/constants/routes";
+import { SITE } from "@/constants/site";
 import { requestOrigin } from "@/lib/agent-discovery/request-origin";
 import { homeContentRoute } from "@/lib/docs";
 
@@ -7,11 +8,12 @@ const PROFILE = "https://www.rfc-editor.org/info/rfc9727";
 
 const catalogLinkset = (origin: string) => {
   const base = origin.replace(/\/$/u, "");
+  const siteBase = SITE.URL;
 
   return {
     linkset: [
       {
-        anchor: `${base}/`,
+        anchor: `${siteBase}`,
         "api-catalog": [
           {
             href: `${base}${ROUTES.API_CATALOG}`,
@@ -29,27 +31,29 @@ const catalogLinkset = (origin: string) => {
           },
         ],
         "service-desc": [
-          { href: `${base}${ROUTES.OPENAPI}`, type: "application/json" },
+          { href: `${siteBase}${ROUTES.OPENAPI}`, type: "application/json" },
         ],
         "service-doc": [
-          { href: `${base}${ROUTES.DOCS}`, type: "text/html" },
-          { href: `${base}${ROUTES.LLMS}`, type: "text/plain" },
-          { href: `${base}${ROUTES.LLMS_FULL}`, type: "text/plain" },
-          { href: `${base}${homeContentRoute}`, type: "text/markdown" },
-          { href: LINK.FRAKMENT_MCP_DOCS, type: "text/html" },
+          { href: `${siteBase}${ROUTES.DOCS}`, type: "text/html" },
+          { href: `${siteBase}${ROUTES.LLMS}`, type: "text/plain" },
+          { href: `${siteBase}${ROUTES.LLMS_FULL}`, type: "text/plain" },
+          { href: `${siteBase}${homeContentRoute}`, type: "text/markdown" },
+          { href: `${base}${LINK.FRAKMENT_MCP_DOCS}`, type: "text/html" },
         ],
         status: [
-          { href: `${base}${ROUTES.API_STATUS}`, type: "application/json" },
+          { href: `${siteBase}${ROUTES.API_STATUS}`, type: "application/json" },
         ],
       },
       {
-        anchor: `${base}${ROUTES.REGISTRY}`,
+        anchor: `${siteBase}${ROUTES.REGISTRY}`,
         "service-desc": [
-          { href: `${base}${ROUTES.OPENAPI}`, type: "application/json" },
+          { href: `${siteBase}${ROUTES.OPENAPI}`, type: "application/json" },
         ],
-        "service-doc": [{ href: `${base}${ROUTES.DOCS}`, type: "text/html" }],
+        "service-doc": [
+          { href: `${siteBase}${ROUTES.DOCS}`, type: "text/html" },
+        ],
         status: [
-          { href: `${base}${ROUTES.API_STATUS}`, type: "application/json" },
+          { href: `${siteBase}${ROUTES.API_STATUS}`, type: "application/json" },
         ],
       },
     ],

@@ -1,7 +1,6 @@
 import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
 import { AGENT_DOCS_DIRECTIVE_MARKDOWN } from "@/lib/agent-discovery/directive";
-import { requestOrigin } from "@/lib/agent-discovery/request-origin";
 import { markdownResponse } from "@/lib/api";
 
 export const revalidate = false;
@@ -28,13 +27,13 @@ ${AGENT_DOCS_DIRECTIVE_MARKDOWN}
 };
 
 export const GET = (request: Request) => {
-  const body = homepageMarkdown(requestOrigin(request));
+  const body = homepageMarkdown(SITE.URL);
 
   return markdownResponse(body, true);
 };
 
 export const HEAD = (request: Request) => {
-  const body = homepageMarkdown(requestOrigin(request));
+  const body = homepageMarkdown(SITE.URL);
 
   return markdownResponse(body, false);
 };

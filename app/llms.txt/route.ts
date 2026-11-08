@@ -25,7 +25,7 @@ const docsIndex = (origin: string) => {
 
 > ${SITE.DESCRIPTION.LONG} Use this index to discover the available documentation pages, markdown mirrors, and registry resources before browsing.
 
-${documentationIndex(base)}
+${documentationIndex(SITE.URL)}
 
 ## Machine-readable Resources
 
