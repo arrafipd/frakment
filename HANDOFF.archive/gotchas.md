@@ -163,3 +163,5 @@ stay color-neutral; variants own the color.
 mode the browser renders white, making light foreground text invisible.
 Always include `bg-background` on `<body>` (or via
 `@layer base { body { @apply bg-background text-foreground } }`).
+
+- #60: PowerShell 5.1 here-string / paste >2KB kepotong di tengah (bukan hanya heredoc interaktif). Gejala: prompt PS stuck di prompt kontinuasi setelah baris awal. Workaround: StreamWriter + WriteLine per baris, atau [IO.File]::WriteAllText dengan chunk <2KB + UTF8Encoding($false). Hindari here-string untuk MDX/CSS besar.
