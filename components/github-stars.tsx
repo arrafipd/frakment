@@ -33,6 +33,7 @@ export const GitHubStars = ({
     <Tooltip>
       <TooltipTrigger asChild>
         <a
+          aria-label="GitHub repository"
           className={cn(buttonVariants({ size: "sm", variant: "ghost" }))}
           href={addQueryParams(LINK.GITHUB, UTM_PARAMS)}
           onClick={play}

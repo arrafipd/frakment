@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import type { Root as PageTreeRoot } from "fumadocs-core/page-tree";
 import { useRouter } from "next/navigation";
@@ -282,6 +282,7 @@ export const CommandMenu = ({
     <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
         <Button
+          aria-label="Search documentation"
           className={cn(
             "text-surface-foreground/60 hover:bg-accent md:bg-surface dark:md:bg-card relative size-8 justify-center p-0 font-normal shadow-none md:h-8 md:w-40 md:justify-start md:gap-2 md:pl-2.5 lg:w-56 xl:w-64"
           )}
