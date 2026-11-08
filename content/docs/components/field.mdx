@@ -70,32 +70,15 @@ import { Input } from "@/components/ui/input";
 </Field>
 ```
 
-## Anatomy
+## Composition
 
-```tsx
-<FieldSet>
-  <FieldLegend>Section title</FieldLegend>
-  <FieldDescription>Section description</FieldDescription>
-  <FieldGroup>
-    <Field>
-      <FieldLabel />
-      <Input />
-      <FieldDescription />
-    </Field>
-  </FieldGroup>
-</FieldSet>
+```text
+Field
+├── FieldLabel
+├── FieldDescription
+├── FieldError
+└── FieldContent
 ```
-
-- **FieldSet** — semantic `<fieldset>` wrapper for grouped fields
-- **FieldLegend** — `<legend>` for the set
-- **FieldGroup** — vertical flex column with consistent gap
-- **Field** — wraps one control + label + description; `orientation` switches between vertical (default) and horizontal
-- **FieldContent** — stack for label + description when placed beside the control (horizontal mode)
-- **FieldLabel** — the label; when used with a checkbox or switch, allows click-through to toggle
-- **FieldTitle** — bold title, used inside **FieldContent** when the description is below
-- **FieldDescription** — muted helper text below (or beside, in horizontal mode) the control
-- **FieldError** — inline error message; accepts `children` or an `errors` array
-- **FieldSeparator** — visual break between fields or sets, with optional inline label
 
 ## Examples
 

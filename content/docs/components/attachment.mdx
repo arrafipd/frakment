@@ -85,30 +85,16 @@ import {
 </Attachment>
 ```
 
-## Anatomy
+## Composition
 
-```tsx title="attachment.tsx"
-<Attachment>
-  <AttachmentMedia />
-  <AttachmentContent>
-    <AttachmentTitle />
-    <AttachmentDescription />
-  </AttachmentContent>
-  <AttachmentActions>
-    <AttachmentAction />
-  </AttachmentActions>
-  <AttachmentTrigger />
-</Attachment>
+```text
+Attachment
+├── AttachmentMedia
+├── AttachmentContent
+│   ├── AttachmentTitle
+│   └── AttachmentDescription
+└── AttachmentActions
 ```
-
-- **Attachment** — flex row, 3px radius, accepts `state`, `size`, and `orientation`
-- **AttachmentMedia** — 16px icon slot; pass `variant="image"` to render a 40px thumbnail
-- **AttachmentContent** — vertical stack for title and description
-- **AttachmentTitle** — truncated file name, medium weight
-- **AttachmentDescription** — small muted metadata line
-- **AttachmentActions** — cluster of actions aligned to the end
-- **AttachmentAction** — 24px ghost button, requires `aria-label`
-- **AttachmentTrigger** — absolute overlay that fills the card; accepts `asChild`
 
 ## States
 

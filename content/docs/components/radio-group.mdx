@@ -72,12 +72,12 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 </RadioGroup>
 ~~~
 
-## Anatomy
+## Composition
 
-- **RadioGroup** - root wrapper; holds `value` or `defaultValue`
-- **RadioGroupItem** - one checkable option; requires a unique `value` and matching `id`
-
-Pair `RadioGroupItem` with `Field` for descriptions, fieldset semantics, and disabled or invalid state.
+```text
+RadioGroup
+└── RadioGroupItem
+```
 
 ## Examples
 

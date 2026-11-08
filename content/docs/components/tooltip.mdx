@@ -71,19 +71,14 @@ import {
 </Tooltip>
 ```
 
-## Anatomy
+## Composition
 
-```tsx
-<Tooltip>
-  <TooltipTrigger asChild />
-  <TooltipContent />
-</Tooltip>
+```text
+TooltipProvider
+└── Tooltip
+    ├── TooltipTrigger
+    └── TooltipContent
 ```
-
-- **Tooltip** — Radix `Tooltip.Root`; accepts `open`, `defaultOpen`, `onOpenChange`, `delayDuration`
-- **TooltipTrigger** — the trigger; use `asChild` to merge into a single child
-- **TooltipContent** — the popup; accepts `side`, `sideOffset`, `align`
-- **TooltipProvider** — required ancestor (Frakment root layout already provides one)
 
 ## Examples
 

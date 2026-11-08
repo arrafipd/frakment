@@ -76,15 +76,14 @@ import {
 </Breadcrumb>
 ~~~
 
-## Anatomy
+## Composition
 
-- **Breadcrumb** - `<nav aria-label="breadcrumb">` wrapper
-- **BreadcrumbList** - `<ol>` container
-- **BreadcrumbItem** - one `<li>`; wraps a link, page, or ellipsis
-- **BreadcrumbLink** - anchor; accepts `asChild` to forward to a router Link
-- **BreadcrumbPage** - the current page; not a link
-- **BreadcrumbSeparator** - visual divider; children replace the default chevron
-- **BreadcrumbEllipsis** - truncated-path indicator
+```text
+Breadcrumb
+└── BreadcrumbList
+    ├── BreadcrumbItem
+    └── BreadcrumbSeparator
+```
 
 ## Examples
 

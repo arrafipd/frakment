@@ -150,22 +150,13 @@ Extends Radix `HoverCard.Content`. Renders inside a portal.
 - Hover Card also opens on keyboard focus. Make sure the trigger is a focusable element such as `<button>` or `<a>`.
 - Provide a visible text label on the trigger so keyboard and screen reader users understand what it does.
 
-## Anatomy
+## Composition
 
-```tsx title="hover-card.tsx"
-<HoverCard>
-  <HoverCardTrigger asChild>
-    <Button>Trigger</Button>
-  </HoverCardTrigger>
-  <HoverCardContent>
-    {/* rich content */}
-  </HoverCardContent>
-</HoverCard>
+```text
+HoverCard
+├── HoverCardTrigger
+└── HoverCardContent
 ```
-
-- **Root** — open state and timing
-- **Trigger** — hoverable element; compose with `asChild`
-- **Content** — portal-rendered card with slide and fade
 
 ## Best Practices
 

@@ -75,29 +75,18 @@ import {
 
 > **Note:** `Select` does **not** accept an `items` prop. Pass `value` / `defaultValue` / `onValueChange` on the root, and never pass an empty string to `value` — Radix Select treats `""` as a special state.
 
-## Anatomy
+## Composition
 
-```tsx
-<Select>
-  <SelectTrigger>
-    <SelectValue />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectGroup>
-      <SelectLabel />
-      <SelectItem />
-    </SelectGroup>
-  </SelectContent>
-</Select>
+```text
+Select
+├── SelectTrigger
+├── SelectValue
+└── SelectContent
+    ├── SelectGroup
+    │   └── SelectItem
+    ├── SelectLabel
+    └── SelectSeparator
 ```
-
-- **Select** — Radix `Select.Root`; accepts `value`, `defaultValue`, `onValueChange`, `disabled`
-- **SelectTrigger** — the button that opens the dropdown; accepts `aria-invalid`
-- **SelectValue** — renders the current value or `placeholder`
-- **SelectContent** — the popup; portals into `document.body`
-- **SelectItem** — a selectable option; must have a non-empty `value`
-- **SelectGroup** / **SelectLabel** — group related items with a heading
-- **SelectSeparator** / **SelectScrollUpButton** / **SelectScrollDownButton** — additional Radix helpers
 
 ## Examples
 

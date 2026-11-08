@@ -47,27 +47,17 @@ npx frakment add card
   </TabsContent>
 </CodeTabs>
 
-## Anatomy
+## Composition
 
-```tsx
-<Card>
-  <CardHeader>
-    <CardTitle />
-    <CardDescription />
-    <CardAction />
-  </CardHeader>
-  <CardContent />
-  <CardFooter />
-</Card>
+```text
+Card
+├── CardHeader
+│   ├── CardTitle
+│   ├── CardDescription
+│   └── CardAction
+├── CardContent
+└── CardFooter
 ```
-
-- **Card** — root surface; accepts `size` (`default` / `sm`), sets `--card-spacing`
-- **CardHeader** — grid container; auto-column when `CardAction` is present
-- **CardTitle** — heading
-- **CardDescription** — muted helper text
-- **CardAction** — top-right slot (grid column 2)
-- **CardContent** — body; padding via `px-(--card-spacing)`
-- **CardFooter** — bottom row; auto border-top + muted background
 
 ## Examples
 

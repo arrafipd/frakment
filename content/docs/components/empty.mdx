@@ -49,25 +49,16 @@ npx frakment add empty
 
   </TabsContent>
 </CodeTabs>
-## Anatomy
+## Composition
 
-```tsx
-<Empty>
-  <EmptyHeader>
-    <EmptyMedia variant="icon" />
-    <EmptyTitle />
-    <EmptyDescription />
-  </EmptyHeader>
-  <EmptyContent />
-</Empty>
+```text
+Empty
+├── EmptyHeader
+├── EmptyMedia
+├── EmptyTitle
+├── EmptyDescription
+└── EmptyContent
 ```
-
-- **Empty** — centered flex column with dashed border, `rounded-xl`, padding, and `text-balance`
-- **EmptyHeader** — max-width container that keeps title and description centered
-- **EmptyMedia** — icon container; `variant="icon"` gives a rounded square with muted background
-- **EmptyTitle** — small medium-weight heading
-- **EmptyDescription** — muted secondary text; accepts links
-- **EmptyContent** — full-width content block for actions below the header
 
 ## Examples
 

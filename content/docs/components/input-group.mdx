@@ -76,26 +76,16 @@ import {
 </InputGroup>
 ```
 
-## Anatomy
+## Composition
 
-```tsx
-<InputGroup>
-  <InputGroupAddon align="inline-start">
-    <Search />
-  </InputGroupAddon>
-  <InputGroupInput placeholder="Search..." />
-  <InputGroupAddon align="inline-end">
-    <InputGroupButton>Go</InputGroupButton>
-  </InputGroupAddon>
-</InputGroup>
+```text
+InputGroup
+├── InputGroupInput
+├── InputGroupTextarea
+├── InputGroupAddon
+├── InputGroupButton
+└── InputGroupText
 ```
-
-- **InputGroup** — bordered wrapper; auto-sizes height when an addon uses `align="block-start"` / `align="block-end"`
-- **InputGroupAddon** — icon, text, or button container; `align` controls position
-- **InputGroupButton** — compact button sized for the group; inherits from Frakment `Button`
-- **InputGroupInput** — native input stripped of border and ring (the group provides them)
-- **InputGroupTextarea** — same, for textarea
-- **InputGroupText** — inline text (prefixes, units) with muted styling
 
 ## Examples
 

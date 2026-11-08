@@ -74,23 +74,19 @@ import { Trace, TraceLine, TraceIcon, TraceTitle } from "@/components/ui/trace";
   </TraceLine>
 </Trace>
 ~~~
-## Anatomy
+## Composition
 
-~~~tsx title="trace.tsx"
-<Trace>
-  <TraceLine>
-    <TraceIcon />
-    <TraceTitle />
-    <TraceDescription />
-  </TraceLine>
-</Trace>
-~~~
+```text
+Trace
+├── TraceLine
+│   ├── TraceIcon
+│   ├── TraceTitle
+│   └── TraceDescription
+└── TraceCollapsible
+    ├── TraceCollapsibleTrigger
+    └── TraceCollapsibleContent
+```
 
-- **Trace** — flex column, 4px gap, full width
-- **TraceLine** — inline row with icon and title, accepts `status`
-- **TraceIcon** — 16px icon container, `aria-hidden`
-- **TraceTitle** — truncated title, wraps in a shimmer when the line is running
-- **TraceDescription** — small muted secondary text on the right
 ## Static line
 
 The smallest trace: an icon and a sentence.

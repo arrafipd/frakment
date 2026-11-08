@@ -102,28 +102,15 @@ export function Chat({ messages }: { messages: ChatMessage[] }) {
 }
 ```
 
-## Anatomy
+## Composition
 
-```tsx
-<MessageScrollerProvider>
-  <MessageScroller>
-    <MessageScrollerViewport>
-      <MessageScrollerContent>
-        <MessageScrollerItem scrollAnchor />
-        <MessageScrollerItem />
-      </MessageScrollerContent>
-    </MessageScrollerViewport>
-    <MessageScrollerButton />
-  </MessageScroller>
-</MessageScrollerProvider>
+```text
+MessageScroller.Provider
+└── MessageScroller.Viewport
+    ├── MessageScroller.Content
+    │   └── MessageScroller.Item
+    └── MessageScroller.Button
 ```
-
-- **MessageScrollerProvider** — owns scroll state; wraps the whole tree.
-- **MessageScroller** — relative flex column, `overflow-hidden`.
-- **MessageScrollerViewport** — the scroll element; handles anchoring and stick-to-bottom.
-- **MessageScrollerContent** — vertical flex column with `gap-6`.
-- **MessageScrollerItem** — content-visibility optimization; pass `scrollAnchor` on user turns.
-- **MessageScrollerButton** — floating "jump to latest/start" pill; shows only when scrolled away.
 
 ## Anchoring
 

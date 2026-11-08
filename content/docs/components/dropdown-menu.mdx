@@ -78,21 +78,18 @@ import {
 </DropdownMenu>
 ```
 
-## Anatomy
+## Composition
 
-```tsx
-<DropdownMenu>
-  <DropdownMenuTrigger asChild />
-  <DropdownMenuContent>
-    <DropdownMenuLabel />
-    <DropdownMenuItem />
-    <DropdownMenuSeparator />
-    <DropdownMenuSub>
-      <DropdownMenuSubTrigger />
-      <DropdownMenuSubContent />
-    </DropdownMenuSub>
-  </DropdownMenuContent>
-</DropdownMenu>
+```text
+DropdownMenu
+├── DropdownMenuTrigger
+└── DropdownMenuContent
+    ├── DropdownMenuLabel
+    ├── DropdownMenuItem
+    ├── DropdownMenuSeparator
+    └── DropdownMenuSub
+        ├── DropdownMenuSubTrigger
+        └── DropdownMenuSubContent
 ```
 
 ## Examples

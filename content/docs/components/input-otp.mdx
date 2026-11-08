@@ -81,12 +81,14 @@ import {
 </InputOTP>
 ~~~
 
-## Anatomy
+## Composition
 
-- **InputOTP** - root wrapper; forwards every prop from `input-otp`
-- **InputOTPGroup** - visually groups adjacent slots
-- **InputOTPSlot** - one character box; `index` is required
-- **InputOTPSeparator** - visual divider between groups
+```text
+InputOTP
+├── InputOTPGroup
+│   └── InputOTPSlot
+└── InputOTPSeparator
+```
 
 ## Examples
 

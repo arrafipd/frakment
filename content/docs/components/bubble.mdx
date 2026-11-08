@@ -69,21 +69,13 @@ import { Bubble, BubbleContent } from "@/components/ui/bubble";
 </Bubble>
 ```
 
-## Anatomy
+## Composition
 
-```tsx title="bubblegroup.tsx"
-<BubbleGroup>
-  <Bubble>
-    <BubbleContent />
-    <BubbleReactions />
-  </Bubble>
-</BubbleGroup>
+```text
+Bubble
+├── BubbleContent
+└── BubbleReactions
 ```
-
-- **BubbleGroup** — vertical stack with 8px gap
-- **Bubble** — bubble root, controls variant and alignment
-- **BubbleContent** — the visible surface (border, padding, background)
-- **BubbleReactions** — floating pill for emoji reactions
 
 ## Variants
 

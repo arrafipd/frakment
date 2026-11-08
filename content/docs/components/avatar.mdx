@@ -81,28 +81,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 </Avatar>
 ```
 
-## Anatomy
+## Composition
 
-```tsx title="avatar.tsx"
-<Avatar>
-  <AvatarImage />
-  <AvatarFallback />
-  <AvatarBadge />
-</Avatar>
-
-<AvatarGroup>
-  <Avatar />
-  <Avatar />
-  <AvatarGroupCount />
-</AvatarGroup>
+```text
+Avatar
+├── AvatarImage
+└── AvatarFallback
 ```
-
-- **Avatar** — circular root, controls size (`sm` | `default` | `lg`)
-- **AvatarImage** — the actual image, `object-cover` and `rounded-full`
-- **AvatarFallback** — initial text shown while loading or on error
-- **AvatarBadge** — small dot at the bottom-right for online or status
-- **AvatarGroup** — overlapping stack with -8px gap and background ring
-- **AvatarGroupCount** — "+N" badge at the end of a group
 
 ## Sizes
 

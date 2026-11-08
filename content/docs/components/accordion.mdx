@@ -72,18 +72,14 @@ import {
 </Accordion>
 ~~~
 
-## Anatomy
+## Composition
 
-Accordion is a stack of items, each with a trigger and a panel.
-
-<ComponentPreview name="accordion" title="accordion.tsx" previewClassName="h-auto py-8">
-  <AccordionDemo />
-</ComponentPreview>
-
-- **Accordion** - root container; controls single or multiple expansion
-- **AccordionItem** - one collapsible section; carries a unique `value`
-- **AccordionTrigger** - header button; rotates the chevron on open
-- **AccordionContent** - panel that animates height between states
+```text
+Accordion
+└── AccordionItem
+    ├── AccordionTrigger
+    └── AccordionContent
+```
 
 ## Examples
 

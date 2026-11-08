@@ -79,14 +79,18 @@ import {
   </DialogContent>
 </Dialog>
 ~~~
-## Anatomy
+## Composition
 
-- **Dialog** — root; accepts `open` / `onOpenChange`
-- **DialogTrigger** — button; use `asChild` to wrap your Button
-- **DialogContent** — the modal panel; `showCloseButton` toggles the top-right X
-- **DialogHeader** / **DialogFooter** — layout slots
-- **DialogTitle** / **DialogDescription** — required for accessibility
-- **DialogClose** — dismiss button; use `asChild`
+```text
+Dialog
+├── DialogTrigger
+└── DialogContent
+    ├── DialogHeader
+    │   ├── DialogTitle
+    │   └── DialogDescription
+    ├── DialogFooter
+    └── DialogClose
+```
 
 ## Examples
 

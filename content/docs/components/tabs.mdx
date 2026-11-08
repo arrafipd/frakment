@@ -71,14 +71,14 @@ import {
 </Tabs>
 ~~~
 
-## Anatomy
+## Composition
 
-Tabs is a root paired with a list of triggers and matching panels.
-
-- **Tabs** - root container; carries `defaultValue` or controlled `value`
-- **TabsList** - row of triggers
-- **TabsTrigger** - one button per panel; carries a unique `value`
-- **TabsContent** - panel revealed when its `value` matches the active tab
+```text
+Tabs
+├── TabsList
+│   └── TabsTrigger
+└── TabsContent
+```
 
 ## Examples
 

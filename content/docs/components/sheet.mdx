@@ -76,14 +76,18 @@ import {
   </SheetContent>
 </Sheet>
 ~~~
-## Anatomy
+## Composition
 
-- **Sheet** — root; accepts `open` / `onOpenChange`
-- **SheetTrigger** — button; use `asChild`
-- **SheetContent** — the panel; `side` = `top | right | bottom | left`, `showCloseButton` toggles the X
-- **SheetHeader** / **SheetFooter** — layout slots
-- **SheetTitle** / **SheetDescription** — required for accessibility
-- **SheetClose** — dismiss button; use `asChild`
+```text
+Sheet
+├── SheetTrigger
+└── SheetContent
+    ├── SheetHeader
+    │   ├── SheetTitle
+    │   └── SheetDescription
+    ├── SheetFooter
+    └── SheetClose
+```
 
 ## Sides
 

@@ -4,6 +4,19 @@ description: Displays a button or a component that behaves like a button.
 ---
 
 import { ButtonDemo } from "@/examples/button-demo";
+import { ButtonDefault } from "@/examples/button-default";
+import { ButtonOutline } from "@/examples/button-outline";
+import { ButtonSecondary } from "@/examples/button-secondary";
+import { ButtonGhost } from "@/examples/button-ghost";
+import { ButtonDestructive } from "@/examples/button-destructive";
+import { ButtonLink } from "@/examples/button-link";
+import { ButtonSize } from "@/examples/button-size";
+import { ButtonIcon } from "@/examples/button-icon";
+import { ButtonWithIcon } from "@/examples/button-with-icon";
+import { ButtonLoading } from "@/examples/button-loading";
+import { ButtonRounded } from "@/examples/button-rounded";
+import { ButtonRender } from "@/examples/button-render";
+import { ButtonGroupDemo } from "@/examples/button-group-demo";
 
 import { Button } from "@/components/ui/button";
 import { ArrowRightIcon, CheckIcon, ClockIcon, GitBranchIcon, PackageIcon, PlusIcon, SparklesIcon, TrashIcon, XIcon } from "lucide-react";
@@ -86,66 +99,56 @@ A button is a single element with an optional icon on either side of a text labe
 
 The primary variant, intended for the most important action on a page.
 
-<ComponentPreview name="button" title="button.tsx">
-  <Button>Default</Button>
+<ComponentPreview name="button-default" title="button-default.tsx" src="examples/button-default.tsx">
+  <ButtonDefault />
 </ComponentPreview>
 
 ### Secondary
 
 Intended for actions of lesser prominence.
 
-<ComponentPreview name="button" title="button.tsx">
-  <Button variant="secondary">Secondary</Button>
+<ComponentPreview name="button-secondary" title="button-secondary.tsx" src="examples/button-secondary.tsx">
+  <ButtonSecondary />
 </ComponentPreview>
 
 ### Outline
 
 Renders with a border and a transparent background.
 
-<ComponentPreview name="button" title="button.tsx">
-  <Button variant="outline">Outline</Button>
+<ComponentPreview name="button-outline" title="button-outline.tsx" src="examples/button-outline.tsx">
+  <ButtonOutline />
 </ComponentPreview>
 
 ### Ghost
 
 Renders without a border. Background applies only on hover.
 
-<ComponentPreview name="button" title="button.tsx">
-  <Button variant="ghost">Ghost</Button>
+<ComponentPreview name="button-ghost" title="button-ghost.tsx" src="examples/button-ghost.tsx">
+  <ButtonGhost />
 </ComponentPreview>
 
 ### Destructive
 
 Intended for destructive or irreversible actions.
 
-<ComponentPreview name="button" title="button.tsx">
-  <Button variant="destructive">Destructive</Button>
+<ComponentPreview name="button-destructive" title="button-destructive.tsx" src="examples/button-destructive.tsx">
+  <ButtonDestructive />
 </ComponentPreview>
 
 ### Link
 
 Renders as inline text with an underline on hover.
 
-<ComponentPreview name="button" title="button.tsx">
-  <Button variant="link">Link</Button>
+<ComponentPreview name="button-link" title="button-link.tsx" src="examples/button-link.tsx">
+  <ButtonLink />
 </ComponentPreview>
 
 ## Size
 
 Use the `size` prop to control the dimensions of a text button.
 
-<ComponentPreview name="button" title="button.tsx">
-  <div className="flex flex-wrap items-center justify-center gap-3">
-    <Button variant="outline" size="sm">
-      Small
-    </Button>
-    <Button variant="outline" size="default">
-      Default
-    </Button>
-    <Button variant="outline" size="lg">
-      Large
-    </Button>
-  </div>
+<ComponentPreview name="button-size" title="button-size.tsx" src="examples/button-size.tsx">
+  <ButtonSize />
 </ComponentPreview>
 
 | Size      | Height | Padding |
@@ -188,62 +191,46 @@ Icon buttons use a separate size system. Each produces a square button sized to 
 
 Use `size="icon"` to render a square button containing only an icon. An `aria-label` is required.
 
-<ComponentPreview name="button" title="button.tsx">
-  <div className="flex flex-wrap items-center justify-center gap-3">
-    <Button size="icon" aria-label="Add">
-      <PlusIcon />
-    </Button>
-    <Button size="icon" variant="outline" aria-label="Delete">
-      <TrashIcon />
-    </Button>
-    <Button size="icon" variant="ghost" aria-label="Next">
-      <ArrowRightIcon />
-    </Button>
-  </div>
+<ComponentPreview name="button-icon" title="button-icon.tsx" src="examples/button-icon.tsx">
+  <ButtonIcon />
 </ComponentPreview>
 
 ### With Icons
 
 Icons inside a button are automatically sized by `[&_svg]:size-4`.
 
-<ComponentPreview name="button" title="button.tsx">
-  <div className="flex flex-wrap items-center justify-center gap-3">
-    <Button>
-      Continue
-      <ArrowRightIcon />
-    </Button>
-    <Button variant="outline">
-      <PlusIcon />
-      Add item
-    </Button>
-  </div>
+<ComponentPreview name="button-with-icon" title="button-with-icon.tsx" src="examples/button-with-icon.tsx">
+  <ButtonWithIcon />
 </ComponentPreview>
 
 ## Loading State
 
 Render a spinner beside the label and set `disabled` to indicate an in-progress action.
 
-<ComponentPreview name="button" title="button.tsx">
-  <div className="flex flex-wrap items-center justify-center gap-3">
-    <Button disabled>
-      <Spinner />
-      Processing
-    </Button>
-    <Button variant="outline" disabled>
-      <Spinner />
-      Loading
-    </Button>
-  </div>
+<ComponentPreview name="button-loading" title="button-loading.tsx" src="examples/button-loading.tsx">
+  <ButtonLoading />
 </ComponentPreview>
 
 ## As a Link
 
 Use `asChild` to render the button as another element, such as a Next.js `Link`.
 
-<ComponentPreview name="button" title="button.tsx">
-  <Button asChild>
-    <a href="#">Read the docs</a>
-  </Button>
+<ComponentPreview name="button-render" title="button-render.tsx" src="examples/button-render.tsx">
+  <ButtonRender />
+</ComponentPreview>
+
+## Rounded
+
+<ComponentPreview name="button-rounded" title="button-rounded.tsx" src="examples/button-rounded.tsx">
+  <ButtonRounded />
+</ComponentPreview>
+
+## Button Group
+
+For grouped actions, see [Button Group](/docs/components/button-group). A quick example:
+
+<ComponentPreview name="button-group-demo" title="button-group-demo.tsx" src="examples/button-group-demo.tsx">
+  <ButtonGroupDemo />
 </ComponentPreview>
 
 ## In Context
@@ -294,6 +281,33 @@ Use `asChild` to render the button as another element, such as a Next.js `Link`.
     </div>
   </div>
 </ComponentPreview>
+
+## Variants
+
+| Variant | Use case |
+| :-- | :-- |
+| `default` | Primary action |
+| `secondary` | Secondary action |
+| `outline` | Bordered neutral |
+| `ghost` | Minimal, hover only |
+| `destructive` | Irreversible action |
+| `link` | Inline link styling |
+
+Set with the `variant` prop:
+
+```tsx
+<Button variant="outline">Cancel</Button>
+```
+
+## As Child
+
+`Button` renders a `<button>` by default. Use `asChild` to render a link:
+
+```tsx
+<Button asChild>
+  <a href="/docs">Read the docs</a>
+</Button>
+```
 
 ## API Reference
 
@@ -354,3 +368,9 @@ Use `asChild` to render the button as another element, such as a Next.js `Link`.
 - **Never rely on color alone.**
 - **Use `asChild` for links, not buttons.**
 - **Reserve `destructive` for irreversible actions.**
+## Related Components
+
+- [Button Group](/docs/components/button-group) — visually group buttons
+- [Toggle](/docs/components/toggle) — two-state button
+- [Input Group](/docs/components/input-group) — button inside an input
+

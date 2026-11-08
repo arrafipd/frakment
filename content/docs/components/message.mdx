@@ -72,27 +72,15 @@ import { Bubble, BubbleContent } from "@/components/ui/bubble";
 </Message>
 ```
 
-## Anatomy
+## Composition
 
-```tsx title="messagegroup.tsx"
-<MessageGroup>
-  <Message>
-    <MessageAvatar />
-    <MessageContent>
-      <MessageHeader />
-      {/* bubbles, text, code, etc. */}
-      <MessageFooter />
-    </MessageContent>
-  </Message>
-</MessageGroup>
+```text
+Message
+├── MessageAvatar
+├── MessageHeader
+├── MessageContent
+└── MessageFooter
 ```
-
-- **MessageGroup** — vertical stack of messages, 8px gap
-- **Message** — one turn, controls alignment
-- **MessageAvatar** — 32px circular avatar, bottom-aligned
-- **MessageContent** — flex column with 10px gap
-- **MessageHeader** — small muted text above content (e.g. name, time)
-- **MessageFooter** — small muted text below content (e.g. actions)
 
 ## Alignment
 

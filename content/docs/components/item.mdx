@@ -90,28 +90,16 @@ import { Item, ItemContent, ItemMedia, ItemTitle } from "@/components/ui/item";
 </Item>
 ```
 
-## Anatomy
+## Composition
 
-```tsx title="itemgroup.tsx"
-<ItemGroup>
-  <Item>
-    <ItemMedia />
-    <ItemContent>
-      <ItemTitle />
-      <ItemDescription />
-    </ItemContent>
-    <ItemActions />
-  </Item>
-</ItemGroup>
+```text
+Item
+├── ItemMedia
+├── ItemContent
+│   ├── ItemTitle
+│   └── ItemDescription
+└── ItemActions
 ```
-
-- **Item** — row root, controls variant and `asChild`
-- **ItemGroup** — vertical stack of items, 8px gap
-- **ItemMedia** — leading visual (icon, avatar, badge)
-- **ItemContent** — flexible content area, can appear multiple times
-- **ItemTitle** — one-line truncated title
-- **ItemDescription** — muted secondary text
-- **ItemActions** — trailing actions (button, badge, amount)
 
 ## Variants
 

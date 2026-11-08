@@ -4,6 +4,10 @@ description: Displays a badge or a component that looks like a badge.
 ---
 
 import { BadgeDemo } from "@/examples/badge-demo";
+import { BadgeVariants } from "@/examples/badge-variants";
+import { BadgeWithIconLeft } from "@/examples/badge-with-icon-left";
+import { BadgeWithSpinner } from "@/examples/badge-with-spinner";
+import { BadgeAsLink } from "@/examples/badge-as-link";
 import { Button } from "@/components/ui/button";
 
 import { Badge } from "@/components/ui/badge";
@@ -84,55 +88,9 @@ A badge is a single-part component. It has a bordered surface and a text label. 
 
 ## Variants
 
-Use the `variant` prop to change the visual style of the badge.
-
-### Default
-
-High-contrast surface for primary statuses or prominent counts.
-
-<ComponentPreview name="badge" title="badge.tsx">
-  <Badge>Default</Badge>
+<ComponentPreview name="badge-variants" title="badge-variants.tsx" src="examples/badge-variants.tsx">
+  <BadgeVariants />
 </ComponentPreview>
-
-```tsx title="badge.tsx"
-<Badge>Default</Badge>
-```
-
-### Secondary
-
-Muted surface for secondary information.
-
-<ComponentPreview name="badge" title="badge.tsx">
-  <Badge variant="secondary">Secondary</Badge>
-</ComponentPreview>
-
-```tsx title="badge.tsx"
-<Badge variant="secondary">Secondary</Badge>
-```
-
-### Outline
-
-Border only, no fill. Useful for neutral categories or filters.
-
-<ComponentPreview name="badge" title="badge.tsx">
-  <Badge variant="outline">Outline</Badge>
-</ComponentPreview>
-
-```tsx title="badge.tsx"
-<Badge variant="outline">Outline</Badge>
-```
-
-### Destructive
-
-Intended for error states, failed operations, or prohibited items.
-
-<ComponentPreview name="badge" title="badge.tsx">
-  <Badge variant="destructive">Destructive</Badge>
-</ComponentPreview>
-
-```tsx title="badge.tsx"
-<Badge variant="destructive">Destructive</Badge>
-```
 
 ## With Icon
 
@@ -142,21 +100,8 @@ Any icon placed inside a badge is automatically sized to 12px.
 
 The most common pattern. Icon on the left, label on the right.
 
-<ComponentPreview name="badge" title="badge.tsx">
-  <div className="flex flex-wrap items-center justify-center gap-3">
-    <Badge>
-      <CheckIcon />
-      Verified
-    </Badge>
-    <Badge variant="secondary">
-      <ClockIcon />
-      Pending
-    </Badge>
-    <Badge variant="destructive">
-      <XIcon />
-      Failed
-    </Badge>
-  </div>
+<ComponentPreview name="badge-with-icon-left" title="badge-with-icon-left.tsx" src="examples/badge-with-icon-left.tsx">
+  <BadgeWithIconLeft />
 </ComponentPreview>
 
 ```tsx title="example.tsx"
@@ -196,17 +141,8 @@ A badge with just an icon. Provide an `aria-label` so screen readers can announc
 
 Render a spinner beside the label to indicate an in-progress state.
 
-<ComponentPreview name="badge" title="badge.tsx">
-  <div className="flex flex-wrap items-center justify-center gap-3">
-    <Badge variant="secondary">
-      <Spinner />
-      Generating
-    </Badge>
-    <Badge variant="outline">
-      <Spinner />
-      Loading
-    </Badge>
-  </div>
+<ComponentPreview name="badge-with-spinner" title="badge-with-spinner.tsx" src="examples/badge-with-spinner.tsx">
+  <BadgeWithSpinner />
 </ComponentPreview>
 
 ```tsx title="example.tsx"
@@ -222,21 +158,8 @@ Render a spinner beside the label to indicate an in-progress state.
 
 Use `asChild` to render the badge as an anchor. Hover states (`[a&]:hover:*`) apply only when the badge renders as an interactive element.
 
-<ComponentPreview name="badge" title="badge.tsx">
-  <div className="flex flex-wrap items-center justify-center gap-3">
-    <Badge asChild>
-      <a href="#">View release</a>
-    </Badge>
-    <Badge variant="outline" asChild>
-      <a href="#">v1.2.0</a>
-    </Badge>
-    <Badge variant="secondary" asChild>
-      <a href="#">
-        <PackageIcon />
-        Changelog
-      </a>
-    </Badge>
-  </div>
+<ComponentPreview name="badge-as-link" title="badge-as-link.tsx" src="examples/badge-as-link.tsx">
+  <BadgeAsLink />
 </ComponentPreview>
 
 ```tsx title="badge.tsx"
@@ -424,6 +347,15 @@ Badges can sit next to headings or inline text to mark status without breaking f
   ]}
 />
 
+## Variants
+
+| Variant | Use case |
+| :-- | :-- |
+| `default` | Standard status |
+| `secondary` | Lower emphasis |
+| `outline` | Bordered, transparent |
+| `destructive` | Error label |
+
 ## Accessibility
 
 - Badges are not interactive unless `asChild` wraps an interactive element such as `<a>` or `<button>`. Do not attach `onClick` handlers to a plain `<Badge>` — use `<Button>` instead.
@@ -440,3 +372,8 @@ Badges can sit next to headings or inline text to mark status without breaking f
 - **Prefer monochrome by default.** Reserve custom colors for status indicators that must be readable at a glance.
 - **Pair color with icon or text.** Never rely on color alone to convey state — this is a WCAG requirement and also helps users with color vision deficiencies.
 - **Compose with other components.** Badges work best inside `Button`, `Table`, `Card`, or alongside headings. They are not standalone UI elements.
+## Related Components
+
+- [Marker](/docs/components/marker) — inline status row
+- [Kbd](/docs/components/badge) — keyboard hint
+

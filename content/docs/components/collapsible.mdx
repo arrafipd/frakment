@@ -65,13 +65,13 @@ import {
 </Collapsible>
 ~~~
 
-## Anatomy
+## Composition
 
-Collapsible pairs a trigger with content in a single container.
-
-- **Collapsible** - root; holds `open` or `defaultOpen`
-- **CollapsibleTrigger** - button that toggles the panel; use `asChild` to wrap a custom button
-- **CollapsibleContent** - panel that animates height
+```text
+Collapsible
+├── CollapsibleTrigger
+└── CollapsibleContent
+```
 
 ## Examples
 

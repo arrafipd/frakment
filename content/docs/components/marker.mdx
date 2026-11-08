@@ -68,18 +68,13 @@ import { Marker, MarkerContent, MarkerIcon } from "@/components/ui/marker";
 </Marker>
 ```
 
-## Anatomy
+## Composition
 
-```tsx title="marker.tsx"
-<Marker>
-  <MarkerIcon />
-  <MarkerContent />
-</Marker>
+```text
+Marker
+├── MarkerIcon
+└── MarkerContent
 ```
-
-- **Marker** — root row, controls variant (`default` | `border` | `separator`) and `asChild`
-- **MarkerIcon** — 16px icon slot, `aria-hidden`
-- **MarkerContent** — the visible label, wraps inline links with underline
 
 ## Basic
 

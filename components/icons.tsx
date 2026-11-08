@@ -1,3 +1,19 @@
+import {
+  SiAstro,
+  SiCss,
+  SiGnubash,
+  SiHtml5,
+  SiJavascript,
+  SiNextdotjs,
+  SiPostcss,
+  SiReact,
+  SiSvelte,
+  SiTailwindcss,
+  SiToml,
+  SiVite,
+  SiVuedotjs,
+  SiYaml,
+} from "@icons-pack/react-simple-icons";
 import type { PackageManager } from "@/hooks/use-package-manager";
 import { FileIcon, TerminalSquareIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
@@ -446,3 +462,28 @@ export const getIconForPackageManager = (manager: PackageManager) => {
     }
   }
 };
+// ===== Brand icons (from @icons-pack/react-simple-icons) =====
+type BrandIconProps = React.ComponentProps<"svg">;
+
+const wrapBrand = (Brand: React.ComponentType<{ className?: string }>) => {
+  const Wrapped = ({ className }: BrandIconProps) => (
+    <Brand className={cn("size-4", className)} />
+  );
+  Wrapped.displayName = Brand.displayName || "BrandIcon";
+  return Wrapped;
+};
+
+export const NextjsBrandIcon = wrapBrand(SiNextdotjs);
+export const AstroBrandIcon = wrapBrand(SiAstro);
+export const ViteBrandIcon = wrapBrand(SiVite);
+export const TailwindBrandIcon = wrapBrand(SiTailwindcss);
+export const PostcssBrandIcon = wrapBrand(SiPostcss);
+export const JavascriptBrandIcon = wrapBrand(SiJavascript);
+export const HtmlBrandIcon = wrapBrand(SiHtml5);
+export const YamlBrandIcon = wrapBrand(SiYaml);
+export const BashBrandIcon = wrapBrand(SiGnubash);
+export const ReactBrandIcon = wrapBrand(SiReact);
+export const VueBrandIcon = wrapBrand(SiVuedotjs);
+export const SvelteBrandIcon = wrapBrand(SiSvelte);
+export const TomlBrandIcon = wrapBrand(SiToml);
+export const CssBrandIcon = wrapBrand(SiCss);

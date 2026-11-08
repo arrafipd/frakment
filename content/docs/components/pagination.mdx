@@ -89,14 +89,16 @@ Pair with a `Select` for page size, keeping the controls minimal.
   <PaginationIconsOnly />
 </ComponentPreview>
 
-## Anatomy
+## Composition
 
-- **Pagination** - `<nav>` wrapper with `aria-label`
-- **PaginationContent** - list container
-- **PaginationItem** - one entry; usually wraps a link or ellipsis
-- **PaginationLink** - `<a>` styled as a button; `isActive` marks the current page
-- **PaginationPrevious** / **PaginationNext** - labeled arrow links
-- **PaginationEllipsis** - visual skip indicator
+```text
+Pagination
+└── PaginationContent
+    ├── PaginationItem
+    ├── PaginationPrevious
+    ├── PaginationNext
+    └── PaginationEllipsis
+```
 
 ## In Context
 

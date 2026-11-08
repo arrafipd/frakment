@@ -396,20 +396,17 @@ Use `variant="destructive"` for error output. Background and text shift to destr
 - **CodeBlockCopyButton** has `aria-label` and a `aria-live` region announcing "Copied".
 - Use **CodeBlockTitle** as the accessible name of the block.
 
-## Anatomy
+## Composition
 
-```tsx title="code-block.tsx"
-<CodeBlock>
-  <CodeBlockHeader />
-  <CodeBlockContent>{code}</CodeBlockContent>
-  <CodeBlockFooter />
-</CodeBlock>
+```text
+CodeBlock
+├── CodeBlockHeader
+│   ├── CodeBlockTitle
+│   └── CodeBlockActions
+├── CodeBlockContent
+├── CodeBlockCopyButton
+└── CodeBlockFooter
 ```
-
-- **CodeBlock** — rounded container with overflow control
-- **Header** — file name, language, copy button
-- **Content** — syntax-highlighted body, scrollable
-- **Footer** — line count or actions
 
 ## Best Practices
 
