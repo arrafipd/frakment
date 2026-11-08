@@ -1,2 +1,5 @@
 # Compiled engine (esbuild bundle, not source)
 lib/questionnaire/**
+
+# Generated registry artifacts (biome.json also excludes)
+public/r/**

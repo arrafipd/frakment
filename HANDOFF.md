@@ -17,8 +17,6 @@
 ## Backlog
 
 1. **`public/r/` osilasi** — `registry:build` vs `ultracite fix` format beda. Fix sementara biome ignore (`0fc269e`).
-2. **Dependabot low** — `security/dependabot/3`.
-3. **Branch protection** — push bypass sekarang, ke depan PR.
 
 ## Gotchas — New
 
