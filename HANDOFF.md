@@ -31,8 +31,9 @@
 - **#58** Warna di base cva menimpa variant (`text-foreground` kalahkan `text-primary-foreground`).
 - **#59** `<body>` butuh `bg-background` eksplisit di Tailwind v4, jika tidak canvas transparan.
 - **#60** PS 5.1 here-string >2KB cut saat paste (bukan heredoc) -> pakai `StreamWriter`+`WriteLine` per baris untuk file besar.
+- **#61** `ComponentSource name="X"` resolve ke `examples/X.tsx` / `registry/X.tsx` saja; file lain (lib engine, composition di `components/ui/`) wajib `src="path"`. `title` = label display, bukan path.
 
-Gotchas lama (#1-60): `HANDOFF.archive/gotchas.md`.
+Gotchas lama (#1-61): `HANDOFF.archive/gotchas.md`.
 
 - #46: Components using `React.createContext`, `useState`, or `useEffect` require `"use client"` on line 1. Sync to `registry/<name>.tsx` (SHA256 identical). Without it, Next.js throws `createContext only works in Client Components` when imported from an MDX/Server Component.
 - #47: Write `.mdx` files via Node `fs.writeFileSync`, not PowerShell here-string. MDX backticks and special characters can leave PowerShell stuck in continuation mode.
