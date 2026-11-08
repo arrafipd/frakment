@@ -4,7 +4,7 @@
 
 ## Current State
 
-`main` = `origin/main` @ `2be6ceb` (clean). Monorepo aktif (5 paket). Build 303 pages EXIT=0, typecheck EXIT=0, test 39/39, registry 46 components. Site live at `https://www.arrafi.dev/frakment`. Npm: `frakment@0.0.2`, `@frakment/ai@0.0.1`, `@frakment/react@0.0.1`, `@frakment/mcp@0.0.2`. Registry: `https://www.arrafi.dev/frakment/r`.
+`main` = `origin/main` @ `2be6ceb` (clean). Monorepo aktif (5 paket). Build 303 pages EXIT=0, typecheck EXIT=0, test 39/39, registry 46 components. Site live at `https://www.arrafi.dev/frakment`. Npm: `frakment@0.0.4` (shadcn-style: prompts+chalk+ora), `@frakment/ai@0.0.1`, `@frakment/react@0.0.1`, `@frakment/mcp@0.0.2`. Registry: `https://www.arrafi.dev/frakment/r`.
 
 | # | Nama | Path | Publish |
 |---|---|---|---|
