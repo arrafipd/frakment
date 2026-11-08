@@ -1,0 +1,166 @@
+---
+title: Dark mode in Remix
+description: Wire dark mode in Remix with a cookie for SSR-safe rendering.
+---
+
+Remix renders on the server. Reading the theme from a cookie during SSR avoids the flash entirely: the server sends the correct class with the HTML, and no client script is needed before paint.
+
+## Prerequisites
+
+- **Remix** 2 or newer
+- **React** 19
+- Frakment theme block already in `app/tailwind.css`
+
+## Server-side theme read
+
+```ts title="app/theme.server.ts"
+import { createCookie } from "@remix-run/node"
+
+export type Theme = "light" | "dark" | "system"
+
+export const themeCookie = createCookie("theme", {
+  maxAge: 60 * 60 * 24 * 365,
+  path: "/",
+  sameSite: "lax",
+})
+
+export async function getTheme(request: Request): Promise<Theme> {
+  const cookie = request.headers.get("Cookie")
+  const value = await themeCookie.parse(cookie)
+  if (value === "light" || value === "dark" || value === "system") {
+    return value
+  }
+  return "system"
+}
+
+export async function resolveTheme(
+  theme: Theme,
+  request: Request
+): Promise<"light" | "dark"> {
+  if (theme === "dark" || theme === "light") return theme
+
+  // System preference from client hints (Safari, Chrome)
+  const hint = request.headers.get("Sec-CH-Prefers-Color-Scheme")
+  if (hint === "dark" || hint === "light") return hint
+
+  return "light"
+}
+```
+
+## Root loader
+
+```tsx title="app/root.tsx"
+import { json, type LoaderFunctionArgs } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
+
+import { getTheme, resolveTheme } from "./theme.server"
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  const theme = await getTheme(request)
+  const resolved = await resolveTheme(theme, request)
+  return json({ theme, resolved })
+}
+
+export default function App() {
+  const { resolved } = useLoaderData<typeof loader>()
+
+  return (
+    <html lang="en" className={resolved === "dark" ? "dark" : undefined}>
+      {/* rest of layout */}
+    </html>
+  )
+}
+```
+
+## Toggle action
+
+```tsx title="app/routes/action.set-theme.tsx"
+import { json, redirect, type ActionFunctionArgs } from "@remix-run/node"
+
+import { themeCookie, type Theme } from "./theme.server"
+
+export async function action({ request }: ActionFunctionArgs) {
+  const form = await request.formData()
+  const theme = form.get("theme") as Theme
+
+  return redirect(request.headers.get("Referer") ?? "/", {
+    headers: {
+      "Set-Cookie": await themeCookie.serialize(theme),
+    },
+  })
+}
+```
+
+## Toggle button
+
+```tsx title="app/components/mode-toggle.tsx"
+import { MoonIcon, SunIcon } from "lucide-react"
+import { useFetcher, useLoaderData } from "@remix-run/react"
+
+import { Button } from "@/components/ui/button"
+
+export function ModeToggle() {
+  const { resolved } = useLoaderData<{ resolved: "light" | "dark" }>()
+  const fetcher = useFetcher()
+  const isDark = resolved === "dark"
+
+  return (
+    <fetcher.Form action="/action/set-theme" method="post">
+      <input type="hidden" name="theme" value={isDark ? "light" : "dark"} />
+      <Button type="submit" variant="ghost" size="icon" aria-label="Toggle theme">
+        {isDark ? <SunIcon /> : <MoonIcon />}
+      </Button>
+    </fetcher.Form>
+  )
+}
+```
+
+The form posts to the action, the action sets the cookie and redirects back, the loader reads the new cookie, and the server re-renders with the correct class. No client-side class swap, no flash.
+
+## Alternative: client-only toggle
+
+If you prefer a client-only approach (like Vite), skip the cookie and use `next-themes`. The trade-off: a brief flash on first paint because the server cannot read `localStorage`.
+
+```tsx title="app/root.tsx"
+import { ThemeProvider } from "next-themes"
+
+<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+  {children}
+</ThemeProvider>
+```
+
+Add `suppressHydrationWarning` to `<html>` to silence the mismatch warning.
+
+## Troubleshooting
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="flash">
+<AccordionTrigger>Page flashes on first load</AccordionTrigger>
+<AccordionContent>
+
+The theme is set on the client only. Use the cookie path above, or add an inline script in `<head>` that reads `localStorage`.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="hint-missing">
+<AccordionTrigger>System preference is ignored</AccordionTrigger>
+<AccordionContent>
+
+Client hints require an `Accept-CH` header. Add it in `entry.server.tsx`:
+```tsx
+response.headers.set("Accept-CH", "Sec-CH-Prefers-Color-Scheme")
+```
+Browsers that do not support client hints fall back to `light`. Acceptable for a first visit - the user can toggle.
+
+</AccordionContent>
+</AccordionItem>
+
+</Accordion>
+
+## Next
+
+- [Theming](/docs/theming) - token reference
+- [Next.js dark mode](/docs/dark-mode/next) - App Router setup
+- [Remix docs](https://remix.run/docs) - framework reference

@@ -1,0 +1,186 @@
+---
+title: Dark mode in Vite
+description: Wire dark mode in a React + Vite app with next-themes.
+---
+
+`next-themes` works in any React app, not just Next.js. In a Vite SPA it handles persistence, system preference, and class swap on mount.
+
+## Prerequisites
+
+- **Vite** 5 or newer
+- **React** 19
+- Frakment theme block already in `src/index.css`
+
+## Install next-themes
+
+```bash
+npm install next-themes
+```
+
+## Create the provider
+
+```tsx title="src/components/theme-provider.tsx"
+import { ThemeProvider as NextThemesProvider } from "next-themes"
+import type * as React from "react"
+
+export function ThemeProvider(
+  props: React.ComponentProps<typeof NextThemesProvider>
+) {
+  return <NextThemesProvider {...props} />
+}
+```
+
+## Wrap the app
+
+```tsx title="src/main.tsx"
+import React from "react"
+import ReactDOM from "react-dom/client"
+
+import { App } from "./App"
+import { ThemeProvider } from "./components/theme-provider"
+import "./index.css"
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <App />
+    </ThemeProvider>
+  </React.StrictMode>
+)
+```
+
+Unlike Next.js, no `suppressHydrationWarning` is needed. Vite does not hydrate, so there is no server-rendered class to mismatch.
+
+## Add a toggle
+
+```tsx title="src/components/mode-toggle.tsx"
+import { MoonIcon, SunIcon } from "lucide-react"
+import { useTheme } from "next-themes"
+import * as React from "react"
+
+import { Button } from "@/components/ui/button"
+
+export function ModeToggle() {
+  const { resolvedTheme, setTheme } = useTheme()
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => setMounted(true), [])
+
+  if (!mounted) {
+    return <Button variant="ghost" size="icon" aria-label="Toggle theme" />
+  }
+
+  const isDark = resolvedTheme === "dark"
+
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      aria-label="Toggle theme"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+    >
+      {isDark ? <SunIcon /> : <MoonIcon />}
+    </Button>
+  )
+}
+```
+
+## Alternative: manual provider
+
+If you do not want `next-themes` in a Vite bundle, use a 30-line provider:
+
+```tsx title="src/components/theme-provider.tsx"
+import * as React from "react"
+
+type Theme = "light" | "dark" | "system"
+
+const ThemeContext = React.createContext<{
+  theme: Theme
+  resolvedTheme: "light" | "dark"
+  setTheme: (theme: Theme) => void
+} | null>(null)
+
+function applyTheme(theme: Theme) {
+  const isDark =
+    theme === "dark" ||
+    (theme === "system" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+  document.documentElement.classList.toggle("dark", isDark)
+}
+
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setThemeState] = React.useState<Theme>("system")
+
+  React.useEffect(() => {
+    const stored = localStorage.getItem("theme") as Theme | null
+    if (stored) setThemeState(stored)
+  }, [])
+
+  React.useEffect(() => {
+    applyTheme(theme)
+    localStorage.setItem("theme", theme)
+  }, [theme])
+
+  const resolvedTheme = document.documentElement.classList.contains("dark")
+    ? "dark"
+    : "light"
+
+  return (
+    <ThemeContext.Provider
+      value={{ theme, resolvedTheme, setTheme: setThemeState }}
+    >
+      {children}
+    </ThemeContext.Provider>
+  )
+}
+```
+
+If you go this path, add this blocking script to `index.html` `<head>` to prevent the flash:
+
+```html title="index.html"
+<script>
+  (function () {
+    var stored = localStorage.getItem("theme")
+    var isDark =
+      stored === "dark" ||
+      (stored !== "light" &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    document.documentElement.classList.toggle("dark", isDark)
+  })()
+</script>
+```
+
+## Troubleshooting
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="flash">
+<AccordionTrigger>Page flashes white on first load</AccordionTrigger>
+<AccordionContent>
+
+`next-themes` injects a blocking script automatically. If you use the manual provider, add the inline `<script>` above to `index.html`.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="flash-toggle">
+<AccordionTrigger>Flash when clicking the toggle</AccordionTrigger>
+<AccordionContent>
+
+Add `disableTransitionOnChange` to `ThemeProvider`. It disables the CSS transition during the swap, which otherwise animates every color on the page.
+
+</AccordionContent>
+</AccordionItem>
+
+</Accordion>
+
+## Next
+
+- [Theming](/docs/theming) - token reference
+- [Next.js dark mode](/docs/dark-mode/next) - App Router setup
+- [next-themes docs](https://github.com/pacocoursey/next-themes) - upstream reference

@@ -1,18 +1,33 @@
 ---
 title: Gatsby
-description: Install Frakment in a Gatsby project.
+description: Install and configure Frakment for Gatsby.
 ---
 
-Frakment works with Gatsby 5 + Tailwind v4.
+Frakment works in any Gatsby 5+ project with React 19 and Tailwind v4. This guide covers both a new project via the CLI and an existing app.
 
-## Create project
+## Prerequisites
+
+- **Gatsby** 5 or newer
+- **React** 19
+- **TypeScript**
+- **Tailwind CSS** v4
+
+Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/theming) manually.
+
+## Use the CLI
+
+Scaffold a new Gatsby app with Frakment installed.
+
+<Steps>
+
+<Step>Create project</Step>
 
 ```bash
 npm init gatsby
-cd my-app
+cd app
 ```
 
-## Install Tailwind v4
+<Step>Install Tailwind v4</Step>
 
 ```bash
 npm install tailwindcss@latest gatsby-plugin-postcss postcss
@@ -30,23 +45,135 @@ const config: GatsbyConfig = {
 export default config;
 ```
 
-## Run init
+Create `src/styles/global.css`:
 
-```bash
-npx frakment init
+```css title="src/styles/global.css"
+@import "tailwindcss";
 ```
 
-Point to `src/styles/global.css`.
-
-## Add a component
+<Step>Add components</Step>
 
 ```bash
-npx frakment add button
+npx frakment@latest init
+npx frakment@latest add bubble
 ```
 
-Components land in `src/components/ui/`.
+<Step>Use it</Step>
 
-## Next steps
+```tsx title="src/pages/index.tsx"
+import { Bubble, BubbleContent } from "@/components/ui/bubble";
 
-- [Theming](/docs/theming)
-- [Dark mode](/docs/dark-mode)
+export default function Index() {
+  return (
+    <Bubble>
+      <BubbleContent>Hello, Frakment.</BubbleContent>
+    </Bubble>
+  );
+}
+```
+
+</Steps>
+
+## Existing Project
+
+Add Frakment to a Gatsby app you already created.
+
+<Steps>
+
+<Step>Install Tailwind v4</Step>
+
+```bash
+npm install tailwindcss@latest gatsby-plugin-postcss postcss
+```
+
+Register `gatsby-plugin-postcss` in `gatsby-config.ts`.
+
+<Step>Run frakment init</Step>
+
+```bash
+npx frakment@latest init
+```
+
+Point to `src/styles/global.css` when prompted. The CLI injects the theme block.
+
+<Step>Configure the import alias</Step>
+
+In `tsconfig.json`:
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  }
+}
+```
+
+<Step>Add a component</Step>
+
+```bash
+npx frakment@latest add bubble
+```
+
+</Steps>
+
+## Project structure
+
+<FileTree>
+  <FileTreeFolder name="app" defaultOpen>
+    <FileTreeFile name="package.json" />
+    <FileTreeFile name="gatsby-config.ts" />
+    <FileTreeFile name="tsconfig.json" />
+    <FileTreeFolder name="src" defaultOpen>
+      <FileTreeFolder name="pages">
+        <FileTreeFile name="index.tsx" />
+      </FileTreeFolder>
+      <FileTreeFolder name="styles">
+        <FileTreeFile name="global.css" />
+      </FileTreeFolder>
+      <FileTreeFolder name="components">
+        <FileTreeFolder name="ui" />
+      </FileTreeFolder>
+    </FileTreeFolder>
+  </FileTreeFolder>
+</FileTree>
+
+## Verify
+
+```bash
+ls src/components/ui/bubble.tsx
+```
+
+Then render it in a page. If it renders without errors, you are ready.
+
+## Troubleshooting
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="postcss">
+<AccordionTrigger>Tailwind not compiled</AccordionTrigger>
+<AccordionContent>
+
+Gatsby does not ship Tailwind v4 out of the box. Make sure `gatsby-plugin-postcss` is registered in `gatsby-config.ts` and restart with `gatsby develop --clear-cache`.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="alias">
+<AccordionTrigger>Cannot resolve @/components</AccordionTrigger>
+<AccordionContent>
+
+Gatsby puts source in `src/`. Set `"baseUrl": "src"` and `"@/*": ["./*"]` in `tsconfig.json`.
+
+</AccordionContent>
+</AccordionItem>
+
+</Accordion>
+
+## Next
+
+- [Theming](/docs/theming) - customize tokens and dark mode
+- [Components](/docs/components) - browse the catalog
+- [Gatsby docs](https://www.gatsbyjs.com/docs) - framework reference

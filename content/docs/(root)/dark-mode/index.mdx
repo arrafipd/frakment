@@ -1,0 +1,115 @@
+---
+title: Dark mode
+description: How dark mode works in Frakment and how to wire it per framework.
+---
+
+import { NextjsBrandIcon, ViteBrandIcon, AstroBrandIcon, RemixBrandIcon } from "@/components/icons";
+
+Frakment ships dark mode through CSS variables. Every token has a light and dark value. Toggling the `.dark` class on `<html>` swaps the entire palette, no JavaScript required at the component level.
+
+This page covers the CSS layer. Framework guides cover how to toggle the class on load without a flash.
+
+## How it works
+
+Every token in `theme.css` has two values:
+
+```css title="theme.css"
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --muted: oklch(0.97 0 0);
+  --border: oklch(0.92 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --border: oklch(1 0 0 / 10%);
+}
+```
+
+`@custom-variant dark (&:is(.dark *))` registers the `dark:` Tailwind variant. It activates whenever a `.dark` ancestor exists, so components can scope overrides locally:
+
+```tsx
+<div className="bg-background dark:bg-muted">
+```
+
+## Toggle the class
+
+Add or remove `dark` on the `<html>` element. Any of these works:
+
+- **`next-themes`** - handles persistence, system preference, and FOUC
+- **A manual script** - reads `localStorage` and sets the class before hydration
+- **A cookie** - server-readable, no flash on first paint
+
+The framework guides below cover each path.
+
+## Framework guides
+
+<div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-6">
+
+<LinkedCard href="/docs/dark-mode/next">
+  <NextjsBrandIcon className="h-10 w-10" />
+  <p className="mt-2 font-medium">Next.js</p>
+</LinkedCard>
+
+<LinkedCard href="/docs/dark-mode/vite">
+  <ViteBrandIcon className="h-10 w-10" />
+  <p className="mt-2 font-medium">Vite</p>
+</LinkedCard>
+
+<LinkedCard href="/docs/dark-mode/astro">
+  <AstroBrandIcon className="h-10 w-10" />
+  <p className="mt-2 font-medium">Astro</p>
+</LinkedCard>
+
+<LinkedCard href="/docs/dark-mode/remix">
+  <RemixBrandIcon className="h-10 w-10" />
+  <p className="mt-2 font-medium">Remix</p>
+</LinkedCard>
+
+</div>
+
+## System preference
+
+Respect the OS setting on first load with `prefers-color-scheme`:
+
+```css title="globals.css"
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    /* dark tokens */
+  }
+}
+```
+
+`next-themes` and the framework guides handle this automatically. Only add the media query if you do not use a theme library.
+
+## Per-section theming
+
+Force a section to stay light or dark regardless of the page theme:
+
+```tsx
+<div className="light bg-background text-foreground">
+  {/* always light */}
+</div>
+
+<div className="dark bg-background text-foreground">
+  {/* always dark */}
+</div>
+```
+
+The `dark` class on any ancestor activates the `dark:` variant for its subtree. The `light` class removes `.dark` from that subtree.
+
+## Accessibility
+
+- **Do not toggle on scroll.** Users set their preference once.
+- **Respect the OS preference on first visit.** All guides start with `system`.
+- **Contrast is guaranteed at the token level.** `foreground` and `background` meet WCAG AA in both modes.
+- **Animate the swap only on explicit toggle.** Use `disableTransitionOnChange` from `next-themes`.
+
+## Next
+
+- [Theming](/docs/theming) - token reference
+- [Next.js dark mode](/docs/dark-mode/next) - App Router setup
+- [Components](/docs/components) - browse the catalog

@@ -3,7 +3,7 @@ title: About
 description: The principles behind Frakment.
 ---
 
-Frakment is a component registry for React interfaces. It ships standalone components you copy into your project, not a library you depend on.
+Frakment is a component registry for React interfaces. It ships standalone components you copy into your project, not a library you depend on. This page covers the principles, how Frakment compares to libraries, and where it draws the line.
 
 ## Principles
 
@@ -11,13 +11,19 @@ Frakment is a component registry for React interfaces. It ships standalone compo
 
 Every UI token uses `oklch(L 0 0)` — pure grayscale. Hierarchy comes from lightness, not hue. Two exceptions ship as tokens you can override: `--destructive` for error states and `.hljs-*` for syntax highlighting.
 
+Change a token, the entire system follows. Light and dark mode both inherit from the same scale.
+
 ### Composition, not primitives
 
-Primitives are single elements installable via CLI (`button`, `input`, `card`). Compositions are tutorials that wire primitives together (`chat`, `terminal`, `plan`). Compositions are not registry items — you assemble them from primitives.
+Primitives are single elements installable via CLI (`button`, `input`, `card`). Compositions are tutorials that wire primitives together (`chat`, `terminal`, `plan`). Compositions are not registry items — you assemble them from primitives following the tutorial.
+
+This keeps every installable file small and single-purpose. The trade-off: compositions need more work to wire, but you end up with exactly the UI you want.
 
 ### Engine in packages, styling in registry
 
-State logic (chat engine, message scroller) lives in published npm packages: `@frakment/ai` and `@frakment/react`. Styling lives in registry components. Copy the styling, install the engine. This keeps your scroll and stream behavior bug-fixed without re-copying files.
+State logic (chat engine, message scroller) lives in published npm packages: `@frakment/ai` and `@frakment/react`. Styling lives in registry components. Copy the styling, install the engine.
+
+This keeps scroll and stream behavior bug-fixed through `npm update`, without re-copying files. Your visual edits stay yours.
 
 ### AI-native, motion-first
 
@@ -29,13 +35,32 @@ Every page describes a component that installs today. No roadmaps, no "coming so
 
 ## Comparison
 
-| Aspect | Frakment |
-| :-- | :-- |
-| Distribution | Registry — copy into your project |
-| Theme | Monochrome |
-| Motion | Motion, built in |
-| AI | First-party engine at `@frakment/ai` |
-| Composition | Tutorials, not installable items |
+| Aspect | Frakment | Component library |
+| :-- | :-- | :-- |
+| Distribution | Copy into your project | `npm install` |
+| Updates | Re-run `npx frakment add` | `npm update` |
+| Theme | Monochrome | Any |
+| Motion | Built in | Add your own |
+| AI | First-party engine at `@frakment/ai` | Third-party |
+| Composition | Tutorials, not installable items | Pre-built |
+
+## Frequently asked
+
+### Why not just use a library?
+
+Libraries give you less code to maintain but less control. Frakment gives you the source — you own it, you edit it, you upgrade it on your schedule. If you do not need that level of control, a library is the better choice.
+
+### Is it Tailwind only?
+
+Yes. Tokens are Tailwind CSS variables. Components use Tailwind utilities. Tailwind v4 is required.
+
+### Can I add color?
+
+Yes. Override any token in `:root` and `.dark`. The default monochrome palette is a starting point, not a constraint.
+
+## Versioning
+
+Frakment follows semantic versioning for its npm packages (`@frakment/ai`, `@frakment/react`, `@frakment/mcp`). Registry components ship with per-component versions tracked in `frakment.json`. Breaking changes are noted in the [Changelog](/docs/changelog).
 
 ## Credits
 

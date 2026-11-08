@@ -1,24 +1,40 @@
 ---
 title: TanStack Router
-description: Install Frakment in a TanStack Router project.
+description: Install and configure Frakment for TanStack Router.
 ---
 
-Frakment works with TanStack Router + Vite + Tailwind v4.
+Frakment works in any TanStack Router project with React 19 and Tailwind v4. This guide covers both a new project via the CLI and an existing app.
 
-## Create project
+## Prerequisites
+
+- **TanStack Router** 1.x
+- **React** 19
+- **Vite** 5+
+- **TypeScript**
+- **Tailwind CSS** v4
+
+Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/theming) manually.
+
+## Use the CLI
+
+Scaffold a new TanStack Router app with Frakment installed.
+
+<Steps>
+
+<Step>Create project</Step>
 
 ```bash
-npx create-tsrouter-app@latest my-app --template file-router
-cd my-app
+npx create-tsrouter-app@latest app --template file-router
+cd app
 ```
 
-## Install Tailwind v4
+<Step>Install Tailwind v4</Step>
 
 ```bash
 npm install tailwindcss@latest @tailwindcss/vite
 ```
 
-Add the plugin in `vite.config.ts`:
+Register the Vite plugin:
 
 ```ts title="vite.config.ts"
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
@@ -31,21 +47,144 @@ export default defineConfig({
 });
 ```
 
-## Run init
+<Step>Add components</Step>
 
 ```bash
-npx frakment init
+npx frakment@latest init
+npx frakment@latest add bubble
 ```
 
-Point to `src/styles.css`.
+<Step>Use it</Step>
 
-## Add a component
+```tsx title="src/routes/index.tsx"
+import { createFileRoute } from "@tanstack/react-router";
+import { Bubble, BubbleContent } from "@/components/ui/bubble";
+
+export const Route = createFileRoute("/")({
+  component: Index,
+});
+
+function Index() {
+  return (
+    <Bubble>
+      <BubbleContent>Hello, Frakment.</BubbleContent>
+    </Bubble>
+  );
+}
+```
+
+</Steps>
+
+## Existing Project
+
+Add Frakment to a TanStack Router app you already created.
+
+<Steps>
+
+<Step>Install Tailwind v4</Step>
 
 ```bash
-npx frakment add button
+npm install tailwindcss@latest @tailwindcss/vite
 ```
 
-## Next steps
+Register the Vite plugin:
 
-- [Theming](/docs/theming)
-- [Dark mode](/docs/dark-mode)
+```ts title="vite.config.ts"
+import { tanstackRouter } from "@tanstack/router-plugin/vite";
+import tailwindcss from "@tailwindcss/vite";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  plugins: [tanstackRouter(), react(), tailwindcss()],
+});
+```
+
+<Step>Run frakment init</Step>
+
+```bash
+npx frakment@latest init
+```
+
+Point to `src/styles.css` when prompted. The CLI injects the theme block.
+
+<Step>Configure the import alias</Step>
+
+In `tsconfig.json`:
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
+```
+
+<Step>Add a component</Step>
+
+```bash
+npx frakment@latest add bubble
+```
+
+</Steps>
+
+## Project structure
+
+<FileTree>
+  <FileTreeFolder name="app" defaultOpen>
+    <FileTreeFile name="package.json" />
+    <FileTreeFile name="vite.config.ts" />
+    <FileTreeFile name="tsconfig.json" />
+    <FileTreeFolder name="src" defaultOpen>
+      <FileTreeFile name="main.tsx" />
+      <FileTreeFile name="styles.css" />
+      <FileTreeFolder name="routes">
+        <FileTreeFile name="index.tsx" />
+      </FileTreeFolder>
+      <FileTreeFolder name="components">
+        <FileTreeFolder name="ui" />
+      </FileTreeFolder>
+    </FileTreeFolder>
+  </FileTreeFolder>
+</FileTree>
+
+## Verify
+
+```bash
+ls src/components/ui/bubble.tsx
+```
+
+Then render it in a route. If it renders without errors, you are ready.
+
+## Troubleshooting
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="route-plugin">
+<AccordionTrigger>Route file not picked up</AccordionTrigger>
+<AccordionContent>
+
+Make sure `tanstackRouter()` is the first plugin in `vite.config.ts`. The router plugin scans `src/routes/` at build time.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="alias">
+<AccordionTrigger>Cannot resolve @/components</AccordionTrigger>
+<AccordionContent>
+
+TanStack apps put source in `src/`. Set `"@/*": ["./src/*"]` in `tsconfig.json` and `"components": "@/components"` in `components.json`.
+
+</AccordionContent>
+</AccordionItem>
+
+</Accordion>
+
+## Next
+
+- [Theming](/docs/theming) - customize tokens and dark mode
+- [Components](/docs/components) - browse the catalog
+- [TanStack Router docs](https://tanstack.com/router) - framework reference

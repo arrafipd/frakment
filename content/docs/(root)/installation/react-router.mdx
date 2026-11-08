@@ -1,24 +1,39 @@
 ---
 title: React Router
-description: Install Frakment in a React Router project.
+description: Install and configure Frakment for React Router.
 ---
 
-Frakment works with React Router v7 (framework mode) and Tailwind v4. Setup is nearly identical to Remix.
+Frakment works in any React Router v7 project with React 19 and Tailwind v4. This guide covers both a new project via the CLI and an existing app.
 
-## Create project
+## Prerequisites
+
+- **React Router** v7 (framework mode)
+- **React** 19
+- **TypeScript**
+- **Tailwind CSS** v4
+
+Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/theming) manually.
+
+## Use the CLI
+
+Scaffold a new React Router app with Frakment installed.
+
+<Steps>
+
+<Step>Create project</Step>
 
 ```bash
-npx create-react-router@latest my-app
-cd my-app
+npx create-react-router@latest app
+cd app
 ```
 
-## Install Tailwind v4
+<Step>Install Tailwind v4</Step>
 
 ```bash
 npm install tailwindcss@latest @tailwindcss/vite
 ```
 
-Add the plugin in `vite.config.ts`:
+Register the Vite plugin:
 
 ```ts title="vite.config.ts"
 import { reactRouter } from "@react-router/dev/vite";
@@ -30,23 +45,138 @@ export default defineConfig({
 });
 ```
 
-## Run init
+<Step>Add components</Step>
 
 ```bash
-npx frakment init
+npx frakment@latest init
+npx frakment@latest add bubble
 ```
 
-Point to `app/tailwind.css` when prompted. The CLI injects the theme block.
+<Step>Use it</Step>
 
-## Add a component
+```tsx title="app/routes/home.tsx"
+import { Bubble, BubbleContent } from "@/components/ui/bubble";
+
+export default function Home() {
+  return (
+    <Bubble>
+      <BubbleContent>Hello, Frakment.</BubbleContent>
+    </Bubble>
+  );
+}
+```
+
+</Steps>
+
+## Existing Project
+
+Add Frakment to a React Router app you already created.
+
+<Steps>
+
+<Step>Install Tailwind v4</Step>
 
 ```bash
-npx frakment add button
+npm install tailwindcss@latest @tailwindcss/vite
 ```
 
-Components land in `app/components/ui/`.
+Register the Vite plugin:
 
-## Next steps
+```ts title="vite.config.ts"
+import { reactRouter } from "@react-router/dev/vite";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "vite";
 
-- [Theming](/docs/theming) — override tokens
-- [Dark mode](/docs/dark-mode) — wire a toggle
+export default defineConfig({
+  plugins: [reactRouter(), tailwindcss()],
+});
+```
+
+<Step>Run frakment init</Step>
+
+```bash
+npx frakment@latest init
+```
+
+Point to `app/app.css` when prompted. The CLI injects the theme block.
+
+<Step>Configure the import alias</Step>
+
+In `tsconfig.json`:
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  }
+}
+```
+
+<Step>Add a component</Step>
+
+```bash
+npx frakment@latest add bubble
+```
+
+</Steps>
+
+## Project structure
+
+<FileTree>
+  <FileTreeFolder name="app" defaultOpen>
+    <FileTreeFile name="package.json" />
+    <FileTreeFile name="vite.config.ts" />
+    <FileTreeFile name="tsconfig.json" />
+    <FileTreeFolder name="app" defaultOpen>
+      <FileTreeFile name="root.tsx" />
+      <FileTreeFile name="app.css" />
+      <FileTreeFolder name="routes">
+        <FileTreeFile name="home.tsx" />
+      </FileTreeFolder>
+      <FileTreeFolder name="components">
+        <FileTreeFolder name="ui" />
+      </FileTreeFolder>
+    </FileTreeFolder>
+  </FileTreeFolder>
+</FileTree>
+
+## Verify
+
+```bash
+ls app/components/ui/bubble.tsx
+```
+
+Then render it in a route. If it renders without errors, you are ready.
+
+## Troubleshooting
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="vite-plugin">
+<AccordionTrigger>Tailwind classes not applied</AccordionTrigger>
+<AccordionContent>
+
+Make sure `@tailwindcss/vite` is in `vite.config.ts` and restart the dev server.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="route-module">
+<AccordionTrigger>Route not rendering the component</AccordionTrigger>
+<AccordionContent>
+
+React Router v7 uses file-based routing. Make sure the route file is under `app/routes/` and exported as default.
+
+</AccordionContent>
+</AccordionItem>
+
+</Accordion>
+
+## Next
+
+- [Theming](/docs/theming) - customize tokens and dark mode
+- [Components](/docs/components) - browse the catalog
+- [React Router docs](https://reactrouter.com) - framework reference

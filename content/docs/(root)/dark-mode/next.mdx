@@ -1,0 +1,154 @@
+---
+title: Dark mode in Next.js
+description: Wire dark mode in Next.js with next-themes.
+---
+
+`next-themes` is the canonical way to wire dark mode in Next.js. It handles persistence, system preference, and the FOUC (flash of unstyled content) that follows a manual `localStorage` read.
+
+## Prerequisites
+
+- **Next.js** 15 or newer (App Router)
+- **React** 19
+- Frakment theme block already in `globals.css`
+
+## Install next-themes
+
+```bash
+npm install next-themes
+```
+
+## Create the provider
+
+```tsx title="components/theme-provider.tsx"
+"use client"
+
+import { ThemeProvider as NextThemesProvider } from "next-themes"
+import type * as React from "react"
+
+export function ThemeProvider(
+  props: React.ComponentProps<typeof NextThemesProvider>
+) {
+  return <NextThemesProvider {...props} />
+}
+```
+
+## Wrap the root layout
+
+```tsx title="app/layout.tsx"
+import { ThemeProvider } from "@/components/theme-provider"
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
+  )
+}
+```
+
+`suppressHydrationWarning` on `<html>` is required. `next-themes` sets the `class` attribute before React hydrates, which causes a mismatch warning without it.
+
+## Add a toggle
+
+```tsx title="components/mode-toggle.tsx"
+"use client"
+
+import { MoonIcon, SunIcon } from "lucide-react"
+import { useTheme } from "next-themes"
+import * as React from "react"
+
+import { Button } from "@/components/ui/button"
+
+export function ModeToggle() {
+  const { resolvedTheme, setTheme } = useTheme()
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => setMounted(true), [])
+
+  if (!mounted) {
+    return <Button variant="ghost" size="icon" aria-label="Toggle theme" />
+  }
+
+  const isDark = resolvedTheme === "dark"
+
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      aria-label="Toggle theme"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+    >
+      {isDark ? <SunIcon /> : <MoonIcon />}
+    </Button>
+  )
+}
+```
+
+The `mounted` guard prevents a hydration mismatch. Before mount, `resolvedTheme` is `undefined`, so render a neutral button.
+
+## Prevent the flash
+
+`next-themes` injects a blocking script into `<head>` that reads `localStorage` and applies the class before the first paint. No extra setup needed.
+
+If you see a flash anyway:
+
+- **Do not call `setTheme` during SSR.** Only from event handlers or effects.
+- **Keep `<html suppressHydrationWarning>`.** Removing it triggers a mismatch.
+- **Do not render theme-dependent UI without the `mounted` guard.** The server has no access to `localStorage`.
+
+## Per-section override
+
+Force a subtree to stay light or dark:
+
+```tsx
+<div className="light">{/* always light */}</div>
+<div className="dark">{/* always dark */}</div>
+```
+
+## Troubleshooting
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="flicker">
+<AccordionTrigger>Page flashes light before turning dark</AccordionTrigger>
+<AccordionContent>
+
+Remove the `disableTransitionOnChange` prop if the flash is a color transition, not a class swap. If the flash is white-to-dark, `next-themes` is not injected in `<head>`. Check that `ThemeProvider` wraps `<html>` children, not a nested element.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="mismatch">
+<AccordionTrigger>Hydration mismatch on the html class</AccordionTrigger>
+<AccordionContent>
+
+Add `suppressHydrationWarning` to `<html>`. `next-themes` sets the class attribute outside of React, so React treats the mismatch as an error without this prop.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="toggle-not-working">
+<AccordionTrigger>Toggle sets the theme but nothing changes</AccordionTrigger>
+<AccordionContent>
+
+The theme block is missing from `globals.css`, or `.dark` tokens are not defined. Run `npx frakment init` again.
+
+</AccordionContent>
+</AccordionItem>
+
+</Accordion>
+
+## Next
+
+- [Theming](/docs/theming) - token reference
+- [Vite dark mode](/docs/dark-mode/vite) - SPA setup
+- [next-themes docs](https://github.com/pacocoursey/next-themes) - upstream reference

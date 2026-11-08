@@ -1,21 +1,44 @@
 ---
 title: Monorepo
-description: Use Frakment in a monorepo with multiple apps.
+description: Use Frakment in a monorepo with multiple apps sharing one UI package.
 ---
 
-Frakment works in a monorepo where one package holds the components and multiple apps import from it.
+Frakment works in a monorepo where one package holds the components and multiple apps import from it. This guide uses Turborepo + pnpm workspaces as the reference setup — the same pattern works with npm/yarn workspaces and Nx.
 
-## Structure
+## Prerequisites
 
-```text
-my-monorepo/
-├── apps/
-│   ├── web/       (Next.js)
-│   └── admin/     (Vite)
-├── packages/
-│   └── ui/        (Frakment components)
-└── package.json
-```
+- A working monorepo (Turborepo, Nx, or plain workspaces)
+- **TypeScript** shared across packages
+- **Tailwind CSS** v4 in the UI package
+
+## Project structure
+
+<FileTree>
+  <FileTreeFolder name="monorepo" defaultOpen>
+    <FileTreeFile name="package.json" />
+    <FileTreeFile name="pnpm-workspace.yaml" />
+    <FileTreeFile name="turbo.json" />
+    <FileTreeFolder name="apps" defaultOpen>
+      <FileTreeFolder name="web">
+        <FileTreeFile name="package.json" />
+      </FileTreeFolder>
+      <FileTreeFolder name="admin">
+        <FileTreeFile name="package.json" />
+      </FileTreeFolder>
+    </FileTreeFolder>
+    <FileTreeFolder name="packages" defaultOpen>
+      <FileTreeFolder name="ui" defaultOpen>
+        <FileTreeFile name="package.json" />
+        <FileTreeFolder name="src">
+          <FileTreeFile name="styles.css" />
+          <FileTreeFolder name="components">
+            <FileTreeFolder name="ui" />
+          </FileTreeFolder>
+        </FileTreeFolder>
+      </FileTreeFolder>
+    </FileTreeFolder>
+  </FileTreeFolder>
+</FileTree>
 
 ## Set up the UI package
 
@@ -23,40 +46,118 @@ From `packages/ui`, run init:
 
 ```bash
 cd packages/ui
-npx frakment init
+npx frakment@latest init
 ```
 
-Point to `src/styles.css`. Components land in `src/components/ui/`.
+Point to `src/styles.css` when prompted. Components land in `src/components/ui/`.
+
+Add a component:
+
+```bash
+npx frakment@latest add button bubble
+```
 
 ## Share the package
 
-In `packages/ui/package.json`:
+In `packages/ui/package.json`, expose the components and styles:
 
-```json
+```json title="packages/ui/package.json"
 {
   "name": "@myorg/ui",
+  "version": "0.0.0",
+  "private": true,
   "exports": {
     "./*": "./src/components/ui/*.tsx",
     "./styles.css": "./src/styles.css"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.0.0"
   }
 }
 ```
 
 ## Import from apps
 
-In `apps/web`:
+In `apps/web/package.json`:
 
-```bash
-npm install @myorg/ui
+```json
+{
+  "dependencies": {
+    "@myorg/ui": "workspace:*"
+  }
+}
 ```
+
+In `apps/web/app/layout.tsx`:
+
+```tsx title="apps/web/app/layout.tsx"
+import "@myorg/ui/styles.css";
+```
+
+In any page:
 
 ```tsx
 import { Button } from "@myorg/ui/button";
-import "@myorg/ui/styles.css";
+
+export default function Page() {
+  return <Button>Click me</Button>;
+}
+```
+
+## Tailwind content scanning
+
+Tailwind v4 scans the source of every dependency automatically. If styles do not apply, add the UI package to `@source` in the app CSS:
+
+```css title="apps/web/app/globals.css"
+@import "tailwindcss";
+@import "@myorg/ui/styles.css";
+@source "../../../packages/ui/src";
 ```
 
 ## Best practices
 
 - **One `components.json` per package.** Do not init from the monorepo root.
-- **Shared `tsconfig.json`.** Every app must resolve `@myorg/ui` from `paths`.
-- **Peer dependencies.** Add `react`, `react-dom`, and `tailwindcss` as peers in `packages/ui`.
+- **Shared `tsconfig.json` base.** Every app must resolve `@myorg/ui` from `paths` or workspace protocol.
+- **Peer dependencies for UI.** Add `react`, `react-dom`, and `tailwindcss` as peers — not dependencies — in `packages/ui`.
+- **One Tailwind config per app.** Each app can override tokens via its own `globals.css`.
+
+## Common errors
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="no-styles">
+<AccordionTrigger>Components render without styles</AccordionTrigger>
+<AccordionContent>
+
+Tailwind is not scanning `packages/ui/src`. Add `@source "../path/to/packages/ui/src"` in the app CSS after the Tailwind import.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="module-not-found">
+<AccordionTrigger>Cannot resolve @myorg/ui/*</AccordionTrigger>
+<AccordionContent>
+
+Check the `exports` field in `packages/ui/package.json`. Each subpath must exist. Run `pnpm install` after changing exports.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="react-mismatch">
+<AccordionTrigger>Invalid hook call</AccordionTrigger>
+<AccordionContent>
+
+Two React copies are loaded. Add `react` and `react-dom` to `peerDependencies` in `packages/ui`, and enable `resolve.dedupe` in the app Vite config if needed.
+
+</AccordionContent>
+</AccordionItem>
+
+</Accordion>
+
+## Next
+
+- [React 19](/docs/advanced/react-19) - peer deps and breaking changes
+- [Tailwind CSS v4](/docs/advanced/tailwind-v4) - required version
+- [Theming](/docs/theming) - override tokens per app

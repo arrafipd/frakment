@@ -1,24 +1,39 @@
 ---
 title: Remix
-description: Install Frakment in a Remix project.
+description: Install and configure Frakment for Remix.
 ---
 
-Frakment works in Remix with Tailwind v4. `npx frakment init` writes `components.json`, injects the theme block into `app/tailwind.css`, and installs `lib/utils.ts`.
+Frakment works in any Remix 2+ project with React 19 and Tailwind v4. This guide covers both a new project via the CLI and an existing app.
 
-## Create project
+## Prerequisites
+
+- **Remix** 2 or newer
+- **React** 19
+- **TypeScript**
+- **Tailwind CSS** v4
+
+Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/theming) manually.
+
+## Use the CLI
+
+Scaffold a new Remix app with Frakment installed.
+
+<Steps>
+
+<Step>Create project</Step>
 
 ```bash
-npx create-remix@latest my-app
-cd my-app
+npx create-remix@latest app
+cd app
 ```
 
-## Install Tailwind v4
+<Step>Install Tailwind v4</Step>
 
 ```bash
 npm install tailwindcss@latest @tailwindcss/vite
 ```
 
-Add the Vite plugin in `vite.config.ts`:
+Register the Vite plugin:
 
 ```ts title="vite.config.ts"
 import { vitePlugin as remix } from "@remix-run/dev";
@@ -30,24 +45,138 @@ export default defineConfig({
 });
 ```
 
-## Run init
+<Step>Add components</Step>
 
 ```bash
-npx frakment init
+npx frakment@latest init
+npx frakment@latest add bubble
 ```
 
-When prompted, point to `app/tailwind.css`. The CLI injects the theme block after your `@import "tailwindcss";`.
+<Step>Use it</Step>
 
-## Add a component
+```tsx title="app/routes/_index.tsx"
+import { Bubble, BubbleContent } from "@/components/ui/bubble";
+
+export default function Index() {
+  return (
+    <Bubble>
+      <BubbleContent>Hello, Frakment.</BubbleContent>
+    </Bubble>
+  );
+}
+```
+
+</Steps>
+
+## Existing Project
+
+Add Frakment to a Remix app you already created.
+
+<Steps>
+
+<Step>Install Tailwind v4</Step>
 
 ```bash
-npx frakment add button
+npm install tailwindcss@latest @tailwindcss/vite
 ```
 
-Files land in `app/components/ui/button.tsx`. The default alias `@/components` maps to `app/components` in `components.json`.
+Register the Vite plugin:
 
-## Next steps
+```ts title="vite.config.ts"
+import { vitePlugin as remix } from "@remix-run/dev";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "vite";
 
-- [Theming](/docs/theming) — override tokens
-- [Dark mode](/docs/dark-mode) — wire a toggle
-- [Button](/docs/components/button) — first component
+export default defineConfig({
+  plugins: [remix(), tailwindcss()],
+});
+```
+
+<Step>Run frakment init</Step>
+
+```bash
+npx frakment@latest init
+```
+
+Point to `app/tailwind.css` when prompted. The CLI injects the theme block after your imports.
+
+<Step>Configure the import alias</Step>
+
+In `tsconfig.json`:
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  }
+}
+```
+
+<Step>Add a component</Step>
+
+```bash
+npx frakment@latest add bubble
+```
+
+</Steps>
+
+## Project structure
+
+<FileTree>
+  <FileTreeFolder name="app" defaultOpen>
+    <FileTreeFile name="package.json" />
+    <FileTreeFile name="vite.config.ts" />
+    <FileTreeFile name="tsconfig.json" />
+    <FileTreeFolder name="app" defaultOpen>
+      <FileTreeFile name="root.tsx" />
+      <FileTreeFile name="tailwind.css" />
+      <FileTreeFolder name="routes">
+        <FileTreeFile name="_index.tsx" />
+      </FileTreeFolder>
+      <FileTreeFolder name="components">
+        <FileTreeFolder name="ui" />
+      </FileTreeFolder>
+    </FileTreeFolder>
+  </FileTreeFolder>
+</FileTree>
+
+## Verify
+
+```bash
+ls app/components/ui/bubble.tsx
+```
+
+Then render it in a route. If it renders without errors, you are ready.
+
+## Troubleshooting
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="vite-plugin">
+<AccordionTrigger>Tailwind classes not applied</AccordionTrigger>
+<AccordionContent>
+
+Make sure `@tailwindcss/vite` is registered in `vite.config.ts` and restart the dev server. Vite caches the plugin list in memory.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="alias">
+<AccordionTrigger>Cannot resolve @/components</AccordionTrigger>
+<AccordionContent>
+
+Check `tsconfig.json` `paths` and the `aliases` in `components.json`. Both must match.
+
+</AccordionContent>
+</AccordionItem>
+
+</Accordion>
+
+## Next
+
+- [Theming](/docs/theming) - customize tokens and dark mode
+- [Components](/docs/components) - browse the catalog
+- [Remix docs](https://remix.run/docs) - framework reference
