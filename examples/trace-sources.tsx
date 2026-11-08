@@ -39,7 +39,13 @@ export function TraceSources() {
         <TraceCollapsibleContent>
           <Trace>
             {SOURCES.map((s) => (
-              <a href={s.href} key={s.href} rel="noreferrer" target="_blank">
+              <a
+                className="decoration-muted-foreground block underline-offset-4 hover:underline"
+                href={s.href}
+                key={s.href}
+                rel="noreferrer"
+                target="_blank"
+              >
                 <TraceLine>
                   <TraceIcon>
                     <Globe />

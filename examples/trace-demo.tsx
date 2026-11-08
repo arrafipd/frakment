@@ -177,6 +177,7 @@ function SourcesRow({
         <Trace>
           {sources.map((source) => (
             <a
+              className="decoration-muted-foreground block underline-offset-4 hover:underline"
               href={source.url}
               key={source.url}
               rel="noreferrer"

@@ -9,7 +9,10 @@ import { Trace, TraceIcon, TraceLine, TraceTitle } from "@/components/ui/trace";
 export function TraceLink() {
   return (
     <Trace className="max-w-sm">
-      <a href="#link">
+      <a
+        className="decoration-muted-foreground block underline-offset-4 hover:underline"
+        href="#link"
+      >
         <TraceLine>
           <TraceIcon>
             <FileTextIcon />
@@ -21,6 +24,7 @@ export function TraceLink() {
         </TraceLine>
       </a>
       <a
+        className="decoration-muted-foreground block underline-offset-4 hover:underline"
         href="https://docs.astro.build/en/install-and-setup/"
         rel="noreferrer"
         target="_blank"

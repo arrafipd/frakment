@@ -50,6 +50,7 @@ export function TraceDialog() {
           <Trace>
             {results.map((result) => (
               <a
+                className="decoration-muted-foreground block underline-offset-4 hover:underline"
                 href={result.url}
                 key={result.url}
                 rel="noreferrer"

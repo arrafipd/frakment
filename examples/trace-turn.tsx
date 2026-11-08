@@ -83,7 +83,10 @@ export function TraceTurn() {
             Node is installed and pnpm is not. Reading the docs config.
           </p>
           <Trace>
-            <a href="#turn">
+            <a
+              className="decoration-muted-foreground block underline-offset-4 hover:underline"
+              href="#turn"
+            >
               <TraceLine>
                 <TraceIcon>
                   <FileTextIcon />

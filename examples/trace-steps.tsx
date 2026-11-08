@@ -37,7 +37,10 @@ export function TraceSteps() {
                 <Badge variant="secondary">github.com</Badge>
               </TraceCollapsibleContent>
             </TraceCollapsible>
-            <a href="#steps">
+            <a
+              className="decoration-muted-foreground block underline-offset-4 hover:underline"
+              href="#steps"
+            >
               <TraceLine>
                 <TraceIcon>
                   <FileTextIcon />
