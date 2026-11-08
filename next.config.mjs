@@ -50,6 +50,11 @@ const nextConfig = {
   redirects() {
     return [
       {
+        destination: ROUTES.DOCS_INSTALLATION,
+        permanent: false,
+        source: ROUTES.DOCS,
+      },
+      {
         destination: `${ROUTES.DOCS}.md`,
         permanent: true,
         source: `${ROUTES.DOCS}.mdx`,
