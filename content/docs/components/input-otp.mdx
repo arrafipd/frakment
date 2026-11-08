@@ -188,6 +188,37 @@ Set `aria-invalid` on slots to mark them invalid.
   ]}
 />
 
+## Controlled
+
+```tsx
+const [value, setValue] = React.useState("")
+<InputOTP value={value} onChange={setValue} maxLength={6}>{/* ... */}</InputOTP>
+```
+
+## States
+
+| State | How |
+| :-- | :-- |
+| Empty | default |
+| Partial | some slots filled |
+| Complete | all slots filled |
+| Invalid | `aria-invalid="true"` |
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `←` / `→` | Move between slots |
+| `Backspace` | Delete and move back |
+| `Ctrl + V` / `Cmd + V` | Paste the full code |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `input-otp`, `input-otp-group`, `input-otp-slot`, `input-otp-separator` |
+| `data-active` | `true` (caret in this slot) |
+
 ## Accessibility
 
 - The wrapper renders a real `<input>` with `inputmode="numeric"` for mobile keyboards.
@@ -201,3 +232,8 @@ Set `aria-invalid` on slots to mark them invalid.
 - **Group visually, not semantically.** 3 + 3 reads better than 6 in one row.
 - **Auto-focus the first slot on mount.** Reduces taps on mobile.
 - **Paste support is required.** Users copy codes from messages; paste should fill every slot.
+## Related Components
+
+- [Input](/docs/components/input) — plain text
+- [Field](/docs/components/field) — label + error
+

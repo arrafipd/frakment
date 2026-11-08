@@ -195,6 +195,30 @@ Nest an accordion inside a card for grouped, framed content.
   ]}
 />
 
+## Controlled
+
+```tsx
+const [value, setValue] = React.useState("item-1")
+<Accordion type="single" value={value} onValueChange={setValue}>{/* ... */}</Accordion>
+```
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `Space` / `Enter` | Toggle the focused item |
+| `↑` / `↓` | Move between triggers |
+| `Home` / `End` | First / last trigger |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `accordion`, `accordion-item`, `accordion-trigger`, `accordion-content` |
+| `data-state` | `open` \| `closed` |
+| `data-orientation` | `vertical` |
+| `data-disabled` | `true` |
+
 ## Accessibility
 
 - Built on Radix Accordion, which follows the WAI-ARIA disclosure pattern.
@@ -208,3 +232,8 @@ Nest an accordion inside a card for grouped, framed content.
 - **Use `type="single"` for FAQ-style lists.**
 - **Use `type="multiple"` for settings panels.**
 - **Reserve `defaultValue` for one item.**
+## Related Components
+
+- [Collapsible](/docs/components/collapsible) — single expandable panel
+- [Tabs](/docs/components/tabs) — content panes
+

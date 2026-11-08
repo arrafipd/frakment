@@ -218,6 +218,47 @@ Renders the selected label. Accepts `placeholder` for the empty state.
 
 `SelectGroup` clusters items under a heading rendered by `SelectLabel`.
 
+## Controlled
+
+```tsx
+const [value, setValue] = React.useState("")
+<Select value={value} onValueChange={setValue}>
+  <SelectTrigger>
+    <SelectValue placeholder="Pick one" />
+  </SelectTrigger>
+  <SelectContent>{/* ... */}</SelectContent>
+</Select>
+```
+
+## States
+
+| State | How |
+| :-- | :-- |
+| Default | — |
+| Placeholder | no `value` selected |
+| Invalid | `aria-invalid="true"` |
+| Disabled | `disabled` prop |
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `Space` / `Enter` | Open the select |
+| `↑` / `↓` | Navigate options |
+| `Home` / `End` | First / last option |
+| `a`–`z` | Type-ahead search |
+| `Esc` | Close |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `select-trigger`, `select-content`, `select-item`, `select-label`, `select-separator` |
+| `data-state` | `open` \| `closed` |
+| `data-highlighted` | `true` (focused item) |
+| `data-disabled` | `true` |
+| `data-placeholder` | `true` (empty value) |
+
 ## Accessibility
 
 - `SelectTrigger` renders a button with `role="combobox"` and `aria-expanded`. Do not add `role` manually.
@@ -232,3 +273,9 @@ Renders the selected label. Accepts `placeholder` for the empty state.
 - **Group long lists.** Use `SelectGroup` and `SelectLabel` to organize by category.
 - **Do not use Select for navigation.** Use a link or a Button with a dropdown menu.
 - **Keep items scannable.** Sort alphabetically or logically; do not mix sort orders within one group.
+## Related Components
+
+- [Dropdown Menu](/docs/components/dropdown-menu) — action menu with arbitrary content
+- [Radio Group](/docs/components/radio-group) — visible options
+- [Combobox](/docs/components/select) — searchable select
+

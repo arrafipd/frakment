@@ -145,6 +145,27 @@ All other parts extend `React.ComponentProps<"div">`.
 
 Adds `data-slot="card-*"` for styling hooks.
 
+## CSS Variables
+
+| Variable | Default | Purpose |
+| :-- | :-- | :-- |
+| `--card-padding` | `--spacing(6)` | Inner padding |
+| `--card-radius` | `--radius-xl` | Corner radius |
+| `--card-spacing` | `--spacing(4)` | Gap between sections |
+
+## Variants
+
+| Variant | Use case |
+| :-- | :-- |
+| `default` | Standard surface |
+| `outline` | Bordered, no elevation |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `card`, `card-header`, `card-title`, `card-description`, `card-action`, `card-content`, `card-footer` |
+
 ## Usage
 
 ```tsx title="card.tsx"
@@ -220,3 +241,9 @@ import {
 - **Keep actions in the footer.** `CardFooter` aligns buttons and metadata to the end.
 - **Use `CardTitle` as a heading, not a label.** For labels, use `text-sm font-medium` on a span.
 - **Avoid full-surface hover unless the whole card is clickable.** Mixed hover states confuse users.
+## Related Components
+
+- [Item](/docs/components/item) — row-level container
+- [Accordion](/docs/components/accordion) — collapsible content
+- [Tabs](/docs/components/tabs) — switch content panes
+

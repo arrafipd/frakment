@@ -257,6 +257,26 @@ Extends `React.ComponentProps<"div">` with `asChild` support. When true, renders
   ]}
 />
 
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `bubble`, `bubble-content`, `bubble-reactions`, `bubble-group` |
+| `data-align` | `start` \| `end` |
+| `data-variant` | same values as the `variant` prop |
+
+## Variants
+
+| Variant | Use case |
+| :-- | :-- |
+| `default` | Received message |
+| `secondary` | Alternate received |
+| `muted` | Sent message (calm) |
+| `tinted` | Highlighted reply |
+| `outline` | Neutral border |
+| `ghost` | Long reply, no surface |
+| `destructive` | Error reply |
+
 ## Accessibility
 
 - Use `asChild` to make a bubble a button or link when it should be clickable.
@@ -269,3 +289,9 @@ Extends `React.ComponentProps<"div">` with `asChild` support. When true, renders
 - **Prefer `ghost` for long replies.** Full-surface bubbles feel heavy for paragraphs.
 - **Keep bubble content one idea.** Split into multiple bubbles for multi-paragraph answers.
 - **Do not put interactive content inside a bubble.** Use a Message row with actions instead.
+## Related Components
+
+- [Message](/docs/components/message) — full message row with avatar
+- [Attachment](/docs/components/attachment) — file chips
+- [Trace](/docs/components/trace) — agent step rows
+

@@ -269,6 +269,20 @@ Extends Frakment `Button`. Accepts all button props (`variant`, `size`, `disable
 
 Extend native `input` / `textarea` props. Borders, ring, and background are stripped so the group provides the visual shell.
 
+## CSS Variables
+
+| Variable | Default | Purpose |
+| :-- | :-- | :-- |
+| `--radius` | theme default | Corner radius of the wrapper |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `input-group`, `input-group-addon`, `input-group-button`, `input-group-text` |
+| `data-align` | `inline-start` \| `inline-end` \| `block-start` \| `block-end` |
+| `data-disabled` | `true` |
+
 ## Accessibility
 
 - `InputGroup` wraps a single input or textarea. Do not nest multiple controls.
@@ -281,3 +295,9 @@ Extend native `input` / `textarea` props. Borders, ring, and background are stri
 - **Addons align end or start.** Never both around the input.
 - **Label the input inside.** Addons are not labels.
 - **Keep addons visual.** A button inside an addon is a full Button.
+## Related Components
+
+- [Input](/docs/components/input) — plain input
+- [Field](/docs/components/field) — label + description
+- [Button Group](/docs/components/button-group) — grouped buttons
+

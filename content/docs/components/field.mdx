@@ -309,6 +309,29 @@ Extend native `<fieldset>`, `<legend>`, `<div>`, `<label>`, and `<p>`.
 
 Renders Frakment `Separator`. Accepts an optional `children` that renders as a centered label between two divider lines.
 
+## CSS Variables
+
+| Variable | Default | Purpose |
+| :-- | :-- | :-- |
+| `--field-gap` | theme spacing | Gap between label, control, description |
+
+## States
+
+| State | How |
+| :-- | :-- |
+| Default | — |
+| Invalid | `data-invalid="true"` on `Field` |
+| Disabled | `data-disabled="true"` |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `field-set`, `field-group`, `field`, `field-label`, `field-description`, `field-error`, `field-content` |
+| `data-invalid` | `true` |
+| `data-disabled` | `true` |
+| `data-orientation` | `vertical` \| `horizontal` |
+
 ## Accessibility
 
 - `Field` does not add roles. It is a layout primitive that groups `FieldLabel` with its control.
@@ -321,3 +344,9 @@ Renders Frakment `Separator`. Accepts an optional `children` that renders as a c
 - **Use `FieldGroup` for multiple fields.** It normalizes vertical spacing.
 - **Horizontal orientation works for Checkbox and Switch.** Not for inputs.
 - **Pair label with description, not placeholder.** Placeholders disappear.
+## Related Components
+
+- [Input](/docs/components/input) — single-line text
+- [Label](/docs/components/label) — plain label
+- [Checkbox](/docs/components/checkbox) — boolean field
+

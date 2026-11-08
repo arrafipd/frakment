@@ -163,6 +163,29 @@ Mark each item with `aria-invalid` and its `Field` wrapper with `data-invalid`.
   ]}
 />
 
+## Controlled
+
+```tsx
+const [value, setValue] = React.useState("")
+<RadioGroup value={value} onValueChange={setValue}>{/* ... */}</RadioGroup>
+```
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `Space` | Select the focused option |
+| `↑` / `↓` | Move between options |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `radio-group`, `radio-group-item` |
+| `data-state` | `checked` \| `unchecked` |
+| `data-disabled` | `true` |
+| `data-orientation` | `horizontal` \| `vertical` |
+
 ## Accessibility
 
 - Built on Radix RadioGroup, following the WAI-ARIA radio group pattern.
@@ -176,3 +199,9 @@ Mark each item with `aria-invalid` and its `Field` wrapper with `data-invalid`.
 - **Always set a default.** An empty radio group leaves the user unsure of the starting state.
 - **Stack vertically for forms.** Horizontal layouts are hard to read past three options.
 - **Pair with a visible label.** Every option needs a matching `Label htmlFor`.
+## Related Components
+
+- [Checkbox](/docs/components/checkbox) — multiple choice
+- [Select](/docs/components/select) — compact single choice
+- [Field](/docs/components/field) — label + error
+

@@ -142,6 +142,26 @@ Extends Radix `HoverCard.Content`. Renders inside a portal.
   ]}
 />
 
+## As Child
+
+`HoverCardTrigger` accepts `asChild` to render your own element.
+
+## Controlled
+
+```tsx
+const [open, setOpen] = React.useState(false)
+<HoverCard open={open} onOpenChange={setOpen}>{/* ... */}</HoverCard>
+```
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `hover-card-trigger`, `hover-card-content` |
+| `data-state` | `open` \| `closed` |
+| `data-side` | `top` \| `right` \| `bottom` \| `left` |
+| `data-align` | `start` \| `center` \| `end` |
+
 ## Accessibility
 
 ## Accessibility
@@ -164,3 +184,8 @@ HoverCard
 - **Do not put interactive content inside.** Hover Card is pointer-driven.
 - **Use for preview, not action.** Show metadata, not forms.
 - **Add a visible trigger label.** Screen readers rely on trigger text.
+## Related Components
+
+- [Tooltip](/docs/components/tooltip) — short text hint
+- [Popover](/docs/components/hover-card) — click-triggered
+

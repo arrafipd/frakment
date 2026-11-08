@@ -147,6 +147,34 @@ Triggers accept icons before the label. Icons size themselves via `[&_svg]:size-
   ]}
 />
 
+## As Child
+
+`TabsTrigger` accepts `asChild` to render your own element.
+
+## Controlled
+
+```tsx
+const [value, setValue] = React.useState("tab-1")
+<Tabs value={value} onValueChange={setValue}>{/* ... */}</Tabs>
+```
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `←` / `→` | Move between triggers (horizontal) |
+| `↑` / `↓` | Move between triggers (vertical) |
+| `Home` / `End` | First / last trigger |
+| `Enter` / `Space` | Activate focused trigger |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `tabs`, `tabs-list`, `tabs-trigger`, `tabs-content` |
+| `data-state` | `active` \| `inactive` |
+| `data-orientation` | `horizontal` \| `vertical` |
+
 ## Accessibility
 
 - Built on Radix Tabs, following the WAI-ARIA tabs pattern.
@@ -159,3 +187,8 @@ Triggers accept icons before the label. Icons size themselves via `[&_svg]:size-
 - **Pick a default.** Empty tab groups confuse users about the current state.
 - **Do not nest tabs.** Nested tabs lose context; use a segmented control instead.
 - **Do not lazy-load the first tab.** The default tab should not flash.
+## Related Components
+
+- [Accordion](/docs/components/accordion) — stacked collapsible sections
+- [Breadcrumb](/docs/components/breadcrumb) — navigate between pages
+

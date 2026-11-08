@@ -145,6 +145,30 @@ Extends Radix `Checkbox.Root`.
   ]}
 />
 
+## Controlled
+
+```tsx
+const [checked, setChecked] = React.useState(false)
+<Checkbox checked={checked} onCheckedChange={setChecked} />
+```
+
+## States
+
+| State | How |
+| :-- | :-- |
+| Unchecked | default |
+| Checked | `checked` prop |
+| Indeterminate | `checked="indeterminate"` |
+| Disabled | `disabled` prop |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `checkbox` |
+| `data-state` | `checked` \| `unchecked` \| `indeterminate` |
+| `data-disabled` | `true` |
+
 ## Accessibility
 
 - `Checkbox` renders a button with `role="checkbox"` and manages `aria-checked`. Do not add `role` manually.
@@ -159,6 +183,12 @@ Extends Radix `Checkbox.Root`.
 - **Instant toggle.** Checkboxes toggle immediately; there is no separate save step.
 - **Indeterminate is a display state.** Set it programmatically when a parent has mixed child states.
 - **Use `Switch` for immediate settings.** Checkbox reads as "queued until save" to many users.
+
+## Related Components
+
+- [Radio Group](/docs/components/radio-group) — single choice
+- [Switch](/docs/components/switch) — on/off toggle
+- [Field](/docs/components/field) — label + description
 
 ## Anatomy
 

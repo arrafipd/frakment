@@ -8,7 +8,7 @@ import { InputBasic } from "@/examples/input-basic";
 import { InputField } from "@/examples/input-field";
 import { InputFieldgroup } from "@/examples/input-fieldgroup";
 import { InputInvalid } from "@/examples/input-invalid";
-import { SearchIcon } from "lucide-react";
+import { InputGroupDemo } from "@/examples/input-group-demo";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
@@ -148,12 +148,25 @@ Set `aria-invalid` on the input, or `data-invalid` on the **Field** wrapper, to 
 
 ### Search bar
 
-<ComponentPreview name="input" title="input.tsx">
-  <div className="mx-auto flex w-full max-w-sm items-center gap-2">
-    <SearchIcon className="size-4 text-muted-foreground" />
-    <Input placeholder="Search components…" />
-  </div>
+For an icon inside the input surface, use [Input Group](/docs/components/input-group):
+
+<ComponentPreview name="input-group-demo" title="input-group-demo.tsx">
+  <InputGroupDemo />
 </ComponentPreview>
+
+## States
+
+| State | How |
+| :-- | :-- |
+| Default | — |
+| Focus | keyboard focus on the field |
+| Invalid | `aria-invalid="true"` |
+| Disabled | `disabled` prop |
+
+```tsx
+<Input aria-invalid="true" placeholder="Email" />
+<Input disabled placeholder="Disabled" />
+```
 
 ## API Reference
 
@@ -187,6 +200,13 @@ Extends `React.ComponentProps<"input">`.
 - **Show errors inline.** Use `aria-invalid` and a description below the input, not a toast.
 - **Do not disable without reason.** Disabled inputs are invisible to screen readers.
 - **Cap length with `maxLength`.** Do not rely on server-side validation alone.
+
+## Related Components
+
+- [Field](/docs/components/field) — label, description, and error wrapper
+- [Input Group](/docs/components/input-group) — add icons and buttons
+- [Input OTP](/docs/components/input-otp) — one-time password input
+- [Textarea](/docs/components/textarea) — multi-line variant
 
 ## Anatomy
 

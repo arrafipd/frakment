@@ -125,6 +125,31 @@ Compose nested collapsibles to build a tree.
   ]}
 />
 
+## As Child
+
+`CollapsibleTrigger` accepts `asChild` to render your own element.
+
+## Controlled
+
+```tsx
+const [open, setOpen] = React.useState(false)
+<Collapsible open={open} onOpenChange={setOpen}>{/* ... */}</Collapsible>
+```
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `Space` / `Enter` | Toggle the panel |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `collapsible`, `collapsible-trigger`, `collapsible-content` |
+| `data-state` | `open` \| `closed` |
+| `data-disabled` | `true` |
+
 ## Accessibility
 
 - Built on Radix Collapsible; exposes `aria-expanded` and `aria-controls`.
@@ -137,3 +162,8 @@ Compose nested collapsibles to build a tree.
 - **Keep the trigger visible.** Never hide the trigger inside the content.
 - **Default closed for long content.** Default open for short, always-relevant blocks.
 - **Do not nest collapsibles.** Two levels is hard to track; use Accordion for nested groups.
+## Related Components
+
+- [Accordion](/docs/components/accordion) — multiple collapsible sections
+- [Tabs](/docs/components/tabs) — swap content panes
+

@@ -182,6 +182,42 @@ Extends `React.ComponentProps<typeof TogglePrimitive.Root>` from `radix-ui`.
   ]}
 />
 
+## Controlled
+
+```tsx
+const [pressed, setPressed] = React.useState(false)
+<Toggle pressed={pressed} onPressedChange={setPressed} />
+```
+
+## States
+
+| State | How |
+| :-- | :-- |
+| Off | default |
+| On | `pressed` prop |
+| Disabled | `disabled` prop |
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `Space` / `Enter` | Toggle |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `toggle` |
+| `data-state` | `on` \| `off` |
+| `data-disabled` | `true` |
+
+## Variants
+
+| Variant | Use case |
+| :-- | :-- |
+| `default` | Solid pressed state |
+| `outline` | Bordered, transparent until pressed |
+
 ## Accessibility
 
 - `Toggle` renders a button with `aria-pressed`.
@@ -193,3 +229,8 @@ Extends `React.ComponentProps<typeof TogglePrimitive.Root>` from `radix-ui`.
 - **Icon-only toggles need a label.** `aria-label` is not optional.
 - **Use `ToggleGroup` for multiple toggles.** Standalone toggles read as buttons.
 - **Persist the state.** Toggles are stateful, not one-shot.
+## Related Components
+
+- [Toggle Group](/docs/components/toggle-group) — set of toggles
+- [Switch](/docs/components/switch) — boolean setting
+

@@ -326,6 +326,14 @@ Combine with [Spinner](/docs/components/spinner) for a live processing row.
 
 Extend `React.ComponentProps<"div">`. Each maps to a `data-slot` attribute for CSS targeting.
 
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `item`, `item-group`, `item-media`, `item-content`, `item-title`, `item-description`, `item-actions` |
+| `data-variant` | `default` \| `outline` \| `muted` |
+| `data-size` | `default` \| `sm` |
+
 ## Accessibility
 
 - `Item` renders a `<div>` — for interactive rows, use `asChild` with `<a>` or `<button>` so keyboard and screen readers work.
@@ -338,3 +346,9 @@ Extend `React.ComponentProps<"div">`. Each maps to a `data-slot` attribute for C
 - **Keep the media square.** A 32px to 40px square reads as an avatar or icon.
 - **Actions belong in `ItemActions`.** Do not float buttons inside content.
 - **One action cluster.** More than three actions belong in a dropdown.
+## Related Components
+
+- [Card](/docs/components/card) — elevated container
+- [Marker](/docs/components/marker) — inline status row
+- [Attachment](/docs/components/attachment) — file row
+

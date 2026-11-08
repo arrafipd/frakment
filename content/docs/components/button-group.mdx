@@ -202,6 +202,19 @@ Attach a `DropdownMenu` as the trailing icon button.
   ]}
 />
 
+## CSS Variables
+
+| Variable | Default | Purpose |
+| :-- | :-- | :-- |
+| `--radius` | theme default | Corner radius applied to the group |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `button-group`, `button-group-text`, `button-group-separator` |
+| `data-orientation` | `horizontal` \| `vertical` |
+
 ## Accessibility
 
 - Renders `role="group"` on the wrapper.
@@ -214,3 +227,9 @@ Attach a `DropdownMenu` as the trailing icon button.
 - **Keep sizes consistent.** Mixing `sm` and `default` breaks the shared border.
 - **Use `separator` between unrelated pairs.** A vertical divider clarifies intent.
 - **Do not nest Button Groups.** Split into two groups instead.
+## Related Components
+
+- [Button](/docs/components/button) — single action
+- [Toggle Group](/docs/components/toggle-group) — grouped toggles
+- [Input Group](/docs/components/input-group) — button inside an input
+

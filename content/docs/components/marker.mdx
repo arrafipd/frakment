@@ -292,6 +292,13 @@ Extends `React.ComponentProps<"span">`. `aria-hidden`. Sizes child SVG to 16px u
 
 Extends `React.ComponentProps<"span">`. Wraps inline links with underline and hover color. Add `className="shimmer"` for animated streaming text.
 
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `marker`, `marker-icon`, `marker-content` |
+| `data-variant` | `default` \| `separator` \| `border` |
+
 ## Accessibility
 
 - Pass `role="status"` to `Marker` when it announces a live change (typing, syncing, running).
@@ -305,3 +312,8 @@ Extends `React.ComponentProps<"span">`. Wraps inline links with underline and ho
 - **Pair with an icon.** A spinner or check clarifies the state.
 - **Keep text short.** "Thinking" beats "The model is currently thinking".
 - **Announce with `role="status"`.** Screen readers announce updates politely.
+## Related Components
+
+- [Badge](/docs/components/badge) — compact label
+- [Item](/docs/components/item) — row with media and actions
+

@@ -151,6 +151,36 @@ Extends Radix `Switch.Root`.
   ]}
 />
 
+## Controlled
+
+```tsx
+const [checked, setChecked] = React.useState(false)
+<Switch checked={checked} onCheckedChange={setChecked} />
+```
+
+## States
+
+| State | How |
+| :-- | :-- |
+| Off | default |
+| On | `checked` prop |
+| Disabled | `disabled` prop |
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `Space` | Toggle |
+| `Enter` | Toggle |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `switch` |
+| `data-state` | `checked` \| `unchecked` |
+| `data-disabled` | `true` |
+
 ## Accessibility
 
 - `Switch` renders a button with `role="switch"` and manages `aria-checked`. Do not add `role` manually.
@@ -165,6 +195,11 @@ Extends Radix `Switch.Root`.
 - **Keep the label short.** A phrase, not a sentence.
 - **Group related switches** under a heading rather than scattering them.
 - **Do not use Switch for a destructive action.** Use a Dialog confirmation.
+
+## Related Components
+
+- [Checkbox](/docs/components/checkbox) — explicit agree/select
+- [Toggle](/docs/components/toggle) — visual pressed state
 
 ## Anatomy
 

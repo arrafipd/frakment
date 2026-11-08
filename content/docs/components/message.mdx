@@ -289,6 +289,13 @@ Auto-translates up 32px when a **MessageFooter** is present, keeping the avatar 
 
 Extend `React.ComponentProps<"div">`. Header and footer render in 12px muted text.
 
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `message`, `message-avatar`, `message-header`, `message-content`, `message-footer` |
+| `data-align` | `start` \| `end` |
+
 ## Accessibility
 
 - Use a semantic role on the outer group if the conversation is a list (`role="log"` for live streams).
@@ -301,3 +308,9 @@ Extend `React.ComponentProps<"div">`. Header and footer render in 12px muted tex
 - **One MessageContent per row.** Do not nest multiple content wrappers.
 - **Pair with a Bubble for user turns.** Assistant turns can be text-only.
 - **Do not mix alignment within a row.** The whole row aligns to one side.
+## Related Components
+
+- [Bubble](/docs/components/bubble) — speech surface
+- [Message Scroller](/docs/components/message-scroller) — scroll container
+- [Attachment](/docs/components/attachment) — file chips
+

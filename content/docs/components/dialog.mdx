@@ -150,6 +150,59 @@ Long content scrolls inside the dialog without growing it past the viewport.
   </Dialog>
 </ComponentPreview>
 
+## Data Attributes
+
+| Attribute | Values | Applies to |
+| :-- | :-- | :-- |
+| `data-slot` | `dialog-trigger`, `dialog-content`, `dialog-header`, `dialog-footer`, `dialog-title`, `dialog-description`, `dialog-close` | Per sub-component |
+| `data-state` | `open` \| `closed` | `DialogContent`, `DialogTrigger` |
+
+Use these in CSS or tests to target the current state:
+
+```tsx
+<DialogContent className="data-[state=open]:animate-in data-[state=closed]:animate-out" />
+```
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `Esc` | Close the dialog |
+| `Tab` | Move focus forward |
+| `Shift + Tab` | Move focus backwards |
+| `Enter` / `Space` | Activate focused element |
+
+Focus is trapped inside `DialogContent` while open. On close, focus returns to `DialogTrigger`.
+
+## Controlled
+
+Without `open`, the dialog manages its own state. Pass `open` and `onOpenChange` to control it:
+
+```tsx
+const [open, setOpen] = React.useState(false)
+
+<Dialog open={open} onOpenChange={setOpen}>
+  <DialogTrigger asChild>
+    <Button>Open</Button>
+  </DialogTrigger>
+  <DialogContent>{/* ... */}</DialogContent>
+</Dialog>
+```
+
+Use `defaultOpen` for an uncontrolled dialog that starts open.
+
+## As Child
+
+`DialogTrigger` and `DialogClose` accept `asChild` to render your own element:
+
+```tsx
+<DialogTrigger asChild>
+  <Button variant="outline">Settings</Button>
+</DialogTrigger>
+```
+
+Without `asChild`, the trigger renders as a `<button>` with default Frakment styles.
+
 ## API Reference
 
 ### DialogContent
@@ -174,3 +227,9 @@ Long content scrolls inside the dialog without growing it past the viewport.
 - **Keep content short.** If it needs to scroll, it might belong on its own page.
 - **Provide multiple exits.** Cancel in the footer, Escape key, and outside click.
 - **Put the destructive action last.** Primary on the right, destructive on the far right.
+## Related Components
+
+- [Sheet](/docs/components/sheet) — modal panel that slides in from an edge
+- [Dropdown Menu](/docs/components/dropdown-menu) — action menu anchored to a trigger
+- [Tooltip](/docs/components/tooltip) — short hint on hover
+

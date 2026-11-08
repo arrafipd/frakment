@@ -173,6 +173,38 @@ Extends Radix `Slider.Range`. Filled portion between `min` and the current value
 
 Extends Radix `Slider.Thumb`. One per value. Focusable with arrow keys, Home, and End.
 
+## Controlled
+
+```tsx
+const [value, setValue] = React.useState([50])
+<Slider value={value} onValueChange={setValue} />
+```
+
+## States
+
+| State | How |
+| :-- | :-- |
+| Single | `defaultValue={[50]}` |
+| Range | `defaultValue={[25, 75]}` |
+| Disabled | `disabled` prop |
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `←` / `→` | Decrease / increase value |
+| `↑` / `↓` | Decrease / increase value |
+| `Home` / `End` | Min / max |
+| `Page Up` / `Page Down` | Step up / down |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `slider`, `slider-track`, `slider-range`, `slider-thumb` |
+| `data-orientation` | `horizontal` \| `vertical` |
+| `data-disabled` | `true` |
+
 ## Accessibility
 
 ## Accessibility
@@ -188,3 +220,8 @@ Extends Radix `Slider.Thumb`. One per value. Focusable with arrow keys, Home, an
 - **Prefer ranges when both ends matter.** Use two thumbs for temperature, price, or scale intervals.
 - **Add a label.** Link a `Label` with `htmlFor` to the slider `id` so screen readers announce it.
 - **Do not replace a numeric input.** Sliders are imprecise for exact values. Pair with a number input when precision matters.
+## Related Components
+
+- [Progress](/docs/components/progress) — read-only indicator
+- [Input](/docs/components/input) — exact numeric entry
+

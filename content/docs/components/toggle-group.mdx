@@ -228,6 +228,36 @@ All parts extend their Radix `ToggleGroup` primitives.
 
 Extends Radix `ToggleGroup.Item`. Requires `value` and an accessible `aria-label`.
 
+## Controlled
+
+```tsx
+const [value, setValue] = React.useState(["bold"])
+<ToggleGroup type="multiple" value={value} onValueChange={setValue}>{/* ... */}</ToggleGroup>
+```
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `Tab` | Move focus to the group |
+| `Space` / `Enter` | Toggle focused item |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `toggle-group`, `toggle-group-item` |
+| `data-state` | `on` \| `off` |
+| `data-orientation` | `horizontal` \| `vertical` |
+| `data-disabled` | `true` |
+
+## Variants
+
+| Variant | Use case |
+| :-- | :-- |
+| `default` | Solid pressed state |
+| `outline` | Bordered |
+
 ## Accessibility
 
 - Each item renders a button with `aria-pressed`.
@@ -240,3 +270,8 @@ Extends Radix `ToggleGroup.Item`. Requires `value` and an accessible `aria-label
 - **Use single type for exclusive choices.** Font family, alignment.
 - **Use multiple type for independent toggles.** Formatting.
 - **Cap at five items.** More become a toolbar with labels.
+## Related Components
+
+- [Toggle](/docs/components/toggle) — single toggle
+- [Radio Group](/docs/components/radio-group) — mutually exclusive selection
+

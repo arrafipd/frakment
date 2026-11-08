@@ -152,6 +152,26 @@ Extends Radix `Tooltip.Content`. Supports `side` (`top` / `right` / `bottom` / `
 
 Adds `data-slot="tooltip-content"` for styling hooks.
 
+## As Child
+
+`TooltipTrigger` accepts `asChild` to render your own element.
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `Tab` | Focus trigger, opens tooltip |
+| `Esc` | Close tooltip |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `tooltip-trigger`, `tooltip-content` |
+| `data-state` | `open` \| `closed` |
+| `data-side` | `top` \| `right` \| `bottom` \| `left` |
+| `data-align` | `start` \| `center` \| `end` |
+
 ## Accessibility
 
 - `TooltipTrigger` composes with a focusable element via `asChild`.
@@ -164,3 +184,8 @@ Adds `data-slot="tooltip-content"` for styling hooks.
 - **Keep it short.** A phrase, not a sentence.
 - **Do not stack tooltips.** One open at a time.
 - **Wrap around a real element.** `asChild` with Button or Link.
+## Related Components
+
+- [Hover Card](/docs/components/hover-card) — rich content on hover
+- [Popover](/docs/components/tooltip) — click-triggered panel
+

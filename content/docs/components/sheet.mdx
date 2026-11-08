@@ -139,6 +139,38 @@ Pass `showCloseButton={false}` and dismiss via backdrop or Escape.
   ]}
 />
 
+## As Child
+
+`SheetTrigger` and `SheetClose` accept `asChild` to render your own element.
+
+## Controlled
+
+```tsx
+const [open, setOpen] = React.useState(false)
+<Sheet open={open} onOpenChange={setOpen}>
+  <SheetTrigger asChild>
+    <Button>Open</Button>
+  </SheetTrigger>
+  <SheetContent side="right">{/* ... */}</SheetContent>
+</Sheet>
+```
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `Esc` | Close the sheet |
+| `Tab` | Move focus |
+| `Shift + Tab` | Move focus backwards |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `sheet-trigger`, `sheet-content`, `sheet-header`, `sheet-footer`, `sheet-title`, `sheet-description`, `sheet-close` |
+| `data-state` | `open` \| `closed` |
+| `data-side` | `top` \| `right` \| `bottom` \| `left` |
+
 ## Accessibility
 
 - Focus is trapped inside the sheet while open.
@@ -152,3 +184,9 @@ Pass `showCloseButton={false}` and dismiss via backdrop or Escape.
 - **Keep the side consistent.** `right` for navigation, `bottom` for mobile menus.
 - **Close on link click.** Otherwise the sheet sits between the user and the destination.
 - **Do not stack sheets.** One at a time.
+## Related Components
+
+- [Dialog](/docs/components/dialog) — centered modal
+- [Dropdown Menu](/docs/components/dropdown-menu) — action menu
+- [Tooltip](/docs/components/tooltip) — hint on hover
+

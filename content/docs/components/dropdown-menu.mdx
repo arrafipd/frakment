@@ -238,6 +238,42 @@ All parts extend their corresponding Radix `DropdownMenu` primitives.
 
 Adds `data-slot="dropdown-menu-*"` markers for styling hooks.
 
+## As Child
+
+`DropdownMenuTrigger` accepts `asChild` to render your own element.
+
+## Controlled
+
+```tsx
+const [open, setOpen] = React.useState(false)
+<DropdownMenu open={open} onOpenChange={setOpen}>
+  <DropdownMenuTrigger asChild>
+    <Button variant="outline">Open</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>{/* ... */}</DropdownMenuContent>
+</DropdownMenu>
+```
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `Space` / `Enter` | Open, or activate focused item |
+| `↑` / `↓` | Move focus |
+| `→` / `←` | Open or close a submenu |
+| `Home` / `End` | First / last item |
+| `Esc` | Close |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `dropdown-menu-trigger`, `dropdown-menu-content`, `dropdown-menu-item`, `dropdown-menu-label`, `dropdown-menu-separator` |
+| `data-state` | `open` \| `closed` |
+| `data-highlighted` | `true` (focused item) |
+| `data-disabled` | `true` |
+| `data-side` | `top` \| `right` \| `bottom` \| `left` |
+
 ## Accessibility
 
 - The trigger must have `aria-label` when icon-only.
@@ -251,3 +287,9 @@ Adds `data-slot="dropdown-menu-*"` markers for styling hooks.
 - **Group related items.** `DropdownMenuSeparator` between clusters.
 - **Destructive items last.** And always separated.
 - **Keep labels verb-based.** "Delete", not "Deletion".
+## Related Components
+
+- [Select](/docs/components/select) — single-value picker with keyboard search
+- [Context Menu](/docs/components/dropdown-menu) — right-click equivalent
+- [Command](/docs/components/dropdown-menu) — searchable menu
+
