@@ -83,6 +83,7 @@ export const mdxComponents = {
   ),
   Callout,
   ChangelogList,
+  CodeBlockCommand,
   CodeCollapsibleWrapper,
   CodeTabs,
   ComponentPreview,

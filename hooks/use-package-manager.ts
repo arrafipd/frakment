@@ -4,8 +4,8 @@ import { atomWithStorage } from "jotai/utils";
 export type PackageManager = "npm" | "yarn" | "pnpm" | "bun";
 
 const packageManagerAtom = atomWithStorage<PackageManager>(
-  "package-manager",
-  "pnpm"
+  "frakment:package-manager",
+  "npm"
 );
 
 export const usePackageManager = () => useAtom(packageManagerAtom);

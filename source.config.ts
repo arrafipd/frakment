@@ -5,9 +5,9 @@ import {
   metaSchema,
 } from "fumadocs-mdx/config";
 import { rehypePrettyCode } from "rehype-pretty-code";
-
 import { DOCS_DIR } from "@/lib/docs";
 import { transformers } from "@/lib/highlight-code";
+import { remarkFrakmentCommand } from "@/lib/remark-frakment-command";
 
 export default defineConfig({
   mdxOptions: {
@@ -24,6 +24,10 @@ export default defineConfig({
         },
       ]);
 
+      return plugins;
+    },
+    remarkPlugins: (plugins) => {
+      plugins.push(remarkFrakmentCommand);
       return plugins;
     },
   },
