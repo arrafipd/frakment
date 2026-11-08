@@ -138,5 +138,9 @@ export function buildNavGroups(tree: PageTreeRoot): NavGroup[] {
       });
     }
   }
+  const resources = groups.find((g) => g.label === "Resources");
+  if (resources && !resources.items.some((i) => i.href === "/docs/changelog")) {
+    resources.items.push({ href: "/docs/changelog", name: "Changelog" });
+  }
   return groups;
 }

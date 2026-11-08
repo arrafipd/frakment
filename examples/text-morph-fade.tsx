@@ -1,6 +1,6 @@
 "use client";
 
-import { TextFlip } from "@/components/ui/text-flip";
+import { TextMorph } from "@/components/ui/text-morph";
 
 const PHRASES = [
   "Crafted with care",
@@ -8,13 +8,13 @@ const PHRASES = [
   "Built for speed",
 ];
 
-export function TextFlipFade() {
+export function TextMorphFade() {
   return (
     <div className="flex min-h-[360px] w-full flex-col items-center justify-center px-6 py-12 text-center">
       <div className="text-4xl font-semibold tracking-tight sm:text-5xl">
-        <TextFlip as="span" interval={2.2} variant="fade">
+        <TextMorph as="span" interval={2.2} variant="fade">
           {PHRASES}
-        </TextFlip>
+        </TextMorph>
       </div>
     </div>
   );

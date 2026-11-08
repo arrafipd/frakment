@@ -3,7 +3,7 @@
 import NumberFlow from "@number-flow/react";
 import { useEffect, useState } from "react";
 
-export function TextFlipRollBasic() {
+export function TextMorphRollBasic() {
   const [count, setCount] = useState(60);
 
   useEffect(() => {

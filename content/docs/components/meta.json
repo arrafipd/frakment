@@ -1,4 +1,4 @@
-﻿{
+{
   "title": "Components",
   "root": true,
   "pages": [
@@ -38,7 +38,6 @@
     "spinner",
     "switch",
     "tabs",
-    "text-flip",
     "textarea",
     "toggle",
     "toggle-group",

@@ -1,20 +1,20 @@
 "use client";
 
 import { ChevronRightIcon } from "lucide-react";
-import { TextFlip } from "@/components/ui/text-flip";
+import { TextMorph } from "@/components/ui/text-morph";
 
-export function TextFlipAs() {
+export function TextMorphAs() {
   return (
     <div className="flex min-h-[420px] w-full flex-col items-center justify-center gap-10 px-6 py-12">
       <p className="text-muted-foreground max-w-md text-center text-lg leading-relaxed text-balance">
         We help teams{" "}
-        <TextFlip
+        <TextMorph
           as="span"
           className="text-foreground inline-block font-medium"
           interval={2}
         >
           {["ship faster", "build smarter", "iterate daily"]}
-        </TextFlip>{" "}
+        </TextMorph>{" "}
         with primitives that feel native to their stack.
       </p>
 
@@ -25,13 +25,13 @@ export function TextFlipAs() {
         </div>
         <div className="flex items-center gap-2">
           <span className="text-muted-foreground">$</span>
-          <TextFlip as="code" className="font-mono" interval={2.5}>
+          <TextMorph as="code" className="font-mono" interval={2.5}>
             {["pnpm install", "pnpm build", "pnpm dev"]}
-          </TextFlip>
+          </TextMorph>
         </div>
       </div>
 
-      <TextFlip
+      <TextMorph
         as="p"
         className="text-muted-foreground max-w-md text-center text-base"
         interval={3}
@@ -41,7 +41,7 @@ export function TextFlipAs() {
           "Use it for standalone sentences.",
           "Switch tags with the as prop.",
         ]}
-      </TextFlip>
+      </TextMorph>
     </div>
   );
 }

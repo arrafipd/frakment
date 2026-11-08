@@ -1,6 +1,6 @@
 "use client";
 
-import { TextFlip } from "@/components/ui/text-flip";
+import { TextMorph } from "@/components/ui/text-morph";
 
 const LINES = [
   "npm install frakment",
@@ -9,7 +9,7 @@ const LINES = [
   "npx frakment dev",
 ];
 
-export function TextFlipTypewriter() {
+export function TextMorphTypewriter() {
   return (
     <div className="flex min-h-[360px] w-full flex-col items-center justify-center px-6 py-12">
       <div className="bg-card w-full max-w-md rounded-lg border px-4 py-3 font-mono text-sm shadow-sm">
@@ -20,7 +20,7 @@ export function TextFlipTypewriter() {
         </div>
         <div className="text-muted-foreground flex items-center gap-2">
           <span className="text-emerald-500">$</span>
-          <TextFlip
+          <TextMorph
             as="span"
             className="text-foreground"
             interval={3.5}
@@ -28,7 +28,7 @@ export function TextFlipTypewriter() {
             variant="typewriter"
           >
             {LINES}
-          </TextFlip>
+          </TextMorph>
         </div>
       </div>
     </div>

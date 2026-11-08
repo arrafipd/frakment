@@ -7,7 +7,7 @@ import { AgentsPopover } from "@/components/agents-popover";
 import { CopyButton } from "@/components/copy-button";
 import { getIconForPackageManager } from "@/components/icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TextFlip } from "@/components/ui/text-flip";
+import { TextMorph } from "@/components/ui/text-morph";
 import frakment from "@/frakment.json";
 import type { PackageManager } from "@/hooks/use-package-manager";
 import { usePackageManager } from "@/hooks/use-package-manager";
@@ -78,7 +78,7 @@ export const CommandBox = ({ className }: { className?: string }) => {
                 </span>
               </TabsContent>
             ))}
-            <TextFlip
+            <TextMorph
               as={motion.span}
               className="text-foreground"
               interval={1.5}
@@ -92,7 +92,7 @@ export const CommandBox = ({ className }: { className?: string }) => {
               }}
             >
               {registryItemNames}
-            </TextFlip>
+            </TextMorph>
           </code>
         </pre>
       </Tabs>

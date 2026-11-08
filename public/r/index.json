@@ -240,9 +240,9 @@
     },
     {
       "deprecated": false,
-      "description": "An animated text component that cycles through strings with a vertical flip.",
-      "name": "text-flip",
-      "title": "Text Flip",
+      "description": "An animated text component that cycles through strings with ten transition variants.",
+      "name": "text-morph",
+      "title": "Text Morph",
       "version": "0.1.0"
     },
     {

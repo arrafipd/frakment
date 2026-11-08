@@ -1,16 +1,16 @@
 "use client";
 
-import { TextFlip } from "@/components/ui/text-flip";
+import { TextMorph } from "@/components/ui/text-morph";
 
 const PHRASES = ["Focus", "Clarity", "Momentum"];
 
-export function TextFlipBlur() {
+export function TextMorphBlur() {
   return (
     <div className="flex min-h-[360px] w-full flex-col items-center justify-center px-6 py-12 text-center">
       <div className="text-6xl font-semibold tracking-tight sm:text-7xl">
-        <TextFlip as="span" interval={2.2} variant="blur">
+        <TextMorph as="span" interval={2.2} variant="blur">
           {PHRASES}
-        </TextFlip>
+        </TextMorph>
       </div>
     </div>
   );

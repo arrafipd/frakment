@@ -365,12 +365,12 @@
       "registryDependencies": []
     },
     {
-      "name": "text-flip",
+      "name": "text-morph",
       "version": "0.1.0",
-      "title": "Text Flip",
-      "description": "An animated text component that cycles through strings with a vertical flip.",
-      "source": "registry/text-flip.tsx",
-      "target": "components/ui/text-flip.tsx",
+      "title": "Text Morph",
+      "description": "An animated text component that cycles through strings with ten transition variants.",
+      "source": "registry/text-morph.tsx",
+      "target": "components/ui/text-morph.tsx",
       "dependencies": ["@number-flow/react", "motion"],
       "registryDependencies": []
     },

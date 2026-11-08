@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 const VALUES = [12_480, 48_210, 92_405, 163_890, 248_750];
 
-export function TextFlipCount() {
+export function TextMorphCount() {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {

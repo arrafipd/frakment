@@ -7,7 +7,7 @@ import { Children, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
-export type TextFlipVariant =
+export type TextMorphVariant =
   | "flip"
   | "fade"
   | "blur"
@@ -31,7 +31,7 @@ const slideVariants: Variants = {
   initial: { opacity: 0, x: 16 },
 };
 
-export interface TextFlipProps {
+export interface TextMorphProps {
   as?: React.ElementType;
   children: React.ReactNode[];
   className?: string;
@@ -42,7 +42,7 @@ export interface TextFlipProps {
   paused?: boolean;
   speed?: number;
   transition?: Transition;
-  variant?: TextFlipVariant;
+  variant?: TextMorphVariant;
   variants?: Variants;
 }
 function parseValue(s: string) {
@@ -150,7 +150,7 @@ function WaveText({ text, speed }: { text: string; speed: number }) {
     </span>
   );
 }
-export const TextFlip = ({
+export const TextMorph = ({
   as: Component = motion.p,
   variant = "flip",
   className,
@@ -163,7 +163,7 @@ export const TextFlip = ({
   variants = defaultVariants,
   onIndexChange,
   speed = 60,
-}: TextFlipProps) => {
+}: TextMorphProps) => {
   const [internalIndex, setInternalIndex] = useState(defaultIndex);
   const currentIndex = index ?? internalIndex;
   const items = Children.toArray(children).map((c) => String(c));
