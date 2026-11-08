@@ -2,6 +2,9 @@
 
 # Session — Lucide → Phosphor Migration
 
+> [!WARNING]
+> **STATUS: REVERTED.** This session migrated `lucide-react` to `@phosphor-icons/react`. The migration was later reversed — see `HANDOFF.md` gotcha #54. **Current state:** registry components use `lucide-react` directly; `@phosphor-icons/react` is site-only (`lib/icons.ts`, `components/icons.tsx`). Do not follow this pattern for new components. Historical reference only.
+
 Complete migration from lucide-react to @phosphor-icons/react. Renamed LucideIcon to IconComponent. Registered icons shim.
 
 ---

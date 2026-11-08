@@ -1,5 +1,8 @@
 # frakment-mcp
 
+[![npm](https://img.shields.io/npm/v/@frakment/mcp?style=for-the-badge&color=000)](https://www.npmjs.com/package/@frakment/mcp)
+[![License](https://img.shields.io/badge/license-source--available-blue?style=for-the-badge)](./LICENSE)
+
 Model Context Protocol server for the [Frakment](https://github.com/arrafipd/frakment) component registry.
 
 Exposes the registry as MCP tools so any MCP-capable agent can browse, search, and install Frakment components without scraping HTML or writing HTTP glue.
@@ -13,7 +16,7 @@ npx -y @frakment/mcp
 Or pin it as a dev dependency:
 
 ```bash
-npm install --save-dev frakment-mcp
+npm install --save-dev @frakment/mcp
 ```
 
 ## Configure your MCP client
@@ -25,7 +28,7 @@ Add to `claude_desktop_config.json` (macOS: `~/Library/Application Support/Claud
   "mcpServers": {
     "frakment": {
       "command": "npx",
-      "args": ["-y", "frakment-mcp"]
+      "args": ["-y", "@frakment/mcp"]
     }
   }
 }
@@ -52,7 +55,7 @@ For Cursor, add the same block to `~/.cursor/mcp.json`.
 
 ## Development
 
-From the `mcp/` folder:
+From the `packages/mcp/` folder:
 
 ```bash
 npm install
@@ -63,4 +66,4 @@ The server speaks JSON-RPC over stdin/stdout. Any MCP client that spawns subproc
 
 ## License
 
-MIT
+Source-available. Free for personal and educational use. Commercial use requires at least one merged pull request to [arrafipd/frakment](https://github.com/arrafipd/frakment). See [LICENSE](./LICENSE).
