@@ -81,9 +81,9 @@ MCP responds:
 # agent-timeline
 Agent reasoning timeline with status and command output
 
-Components: trace, chain-of-thought, pulse, terminal
+Components: trace, code-block, chain-of-thought, pulse
 
-Install: npx frakment@latest add terminal
+Install: npx frakment@latest add trace code-block
 ```
 
 The agent calls `get_install_command`:
@@ -91,17 +91,17 @@ The agent calls `get_install_command`:
 ```json
 {
   "tool": "get_install_command",
-  "arguments": { "name": "terminal" }
+  "arguments": { "name": "trace" }
 }
 ```
 
 MCP responds:
 
 ```bash
-npx frakment@latest add terminal
+npx frakment@latest add trace code-block
 ```
 
-`terminal` pulls `trace` and `code-block`. Add `chain-of-thought` and `pulse` separately.
+`trace` pulls `code-block` as a registry dependency. Add `chain-of-thought` and `pulse` separately.
 
 ## Login form
 
