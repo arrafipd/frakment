@@ -25,7 +25,7 @@
     "dev": "tsup --watch"
   },
   "devDependencies": {
-    "@types/node": "^22.0.0",
+    "@types/node": "^26.6.6",
     "tsup": "^8.5.0",
     "typescript": "5.7.3"
   },
