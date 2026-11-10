@@ -3,7 +3,7 @@ title: Animations
 description: How motion works across Frakment, when to reach for it, and how to customise it.
 ---
 
-Every animated Frakment component ships with its motion already wired. State transitions run on Motion, the CLI installs the `motion` package the first time you add a component that needs it, and every animated component pulls in the helpers it depends on. You never install anything by hand.
+Every animated Frakment component ships with its motion already wired. State transitions run on Motion. `frakment init` installs the `motion` package once; `frakment add` installs any additional npm package a specific component needs. You never install anything by hand.
 
 ## Installation
 
@@ -14,7 +14,7 @@ npx frakment@latest init
 npx frakment@latest add button
 ```
 
-`init` runs once per project. It creates `lib/animation.ts` with the shared helper tokens, installs `motion`, and wires up the base dependencies (React 19, Tailwind v4). `add` runs once per component - it copies the component source into your project and installs whatever npm package that component animates with. No global config, no extra build step. Motion is available the moment the first animated component lands in your tree.
+`init` runs once per project. It verifies Tailwind v4 is configured, creates `lib/animation.ts` with the shared helper tokens, and installs `motion` along with the base dependencies. `add` runs once per component - it copies the component source into your project and installs whatever npm package that component animates with. No global config, no extra build step.
 
 ## Default motion
 
@@ -97,7 +97,7 @@ If the string cannot be parsed, `parseAnimation` logs `[motion-dsl] <reason>` to
 - **Collapsible** — animates `height`. Default: `durationSlow` + `easeSmoothOut`.
 - **Trace** — animates `height` and `opacity`. Default: `height` uses `springSoft`, `opacity` uses `0.3s` + `easeOutExpo`. Ignored when `animateHeight={false}`.
 - **Credit Card** — animates `scale`, `opacity`, and `filter: blur` per character. `stagger` sets the delay between characters. Default transition: `durationSlow` + `easeInOutQuad`.
-- **Text Morph** — passes the parsed transition to its internal `motion.span` (for `flip`, `slide`, `fade`, `blur`, `scale` variants). Priority: `animation` string > `transition` prop > internal default (`{ duration: 0.3 }`).
+- **Text Morph** — passes the parsed transition to its internal `motion.span` for `flip` and `slide` variants only. The other variants (`fade`, `blur`, `scale`, `count`, `roll`, `shuffle`, `typewriter`, `wave`) run their own animation paths (CSS, NumberFlow, or timers) and ignore `animation`. Priority: `animation` string > `transition` prop > internal default.
 
 ### Limitations
 
@@ -146,7 +146,8 @@ Every animation in Frakment picks the smallest tool that fits. Six components an
 
 **Motion** (`motion/react`) - per-frame control, springs, per-character orchestration:
 
-- Accordion, Collapsible, Trace - height animation with spring settle
+- Accordion, Collapsible — height animation with tween (`durationSlow` + `easeSmoothOut`)
+- Trace — height animation with spring (`springSoft`)
 - Credit Card (Masked) - per-character stagger
 - Text Morph - layout transitions per variant
 
@@ -154,7 +155,7 @@ Every animation in Frakment picks the smallest tool that fits. Six components an
 
 - Dialog, Sheet, Dropdown Menu, Select, Tooltip, Hover Card, Tabs
 
-`npx frakment@latest init` installs Motion. Radix primitives arrive with the components that need them; `tw-animate-css` is a Tailwind plugin that must be added to your project separately if you use CSS-animated Radix components. The split exists so that simple enter/exit transitions stay off the JS main thread, and only the animations that genuinely need per-frame calculations ship a Motion bundle.
+`npx frakment@latest init` installs Motion. Radix primitives arrive with the components that need them. The split exists so that simple enter/exit transitions stay off the JS main thread, and only the animations that genuinely need per-frame calculations ship a Motion bundle.
 
 ## What `init` creates
 
@@ -185,10 +186,10 @@ Plus six npm packages: `class-variance-authority`, `clsx`, `tailwind-merge`, `ra
 
 Frakment uses two animation engines behind the scenes. You do not choose between them - the CLI installs whatever a component declares.
 
-- **Motion** - every state transition (accordion height, collapsible expand, trace collapse, text flip, shimmer, attachment loading). Backed by the `motion` npm package.
+- **Motion** - state transitions (accordion height, collapsible expand, trace collapse, text morph flip/slide, credit card per-character mask). Backed by the `motion` npm package.
 - **NumberFlow** - numeric roll and count variants in Text Morph. Backed by `@number-flow/react`.
 
-A third-party layer fills the rest: Tailwind's `animate-spin` for loaders, and `tw-animate-css` for dropdown and dialog entrances. Those ship inside Tailwind and `tw-animate-css`, not Frakment, and require nothing extra from you.
+A third-party layer fills the rest: Tailwind's `animate-spin` for loaders, and `tw-animate-css` for Radix enter/exit transitions. Those ship inside Tailwind and `tw-animate-css`, not Frakment, and require nothing extra from you.
 
 ## What installs automatically
 
@@ -196,11 +197,11 @@ A third-party layer fills the rest: Tailwind's `animate-spin` for loaders, and `
 | --- | --- | --- |
 | Accordion | Motion height | `motion` |
 | Collapsible | Motion height | `motion` |
-| Trace | Motion height + shimmer | `motion`, `shimmer` |
-| Attachment | Motion shimmer | `motion`, `shimmer` |
+| Trace | Motion height | `motion` |
+| Attachment | Shimmer utility (CSS) | `shimmer` |
 | Text Morph (flip, slide, fade, blur, scale) | Motion | `motion` |
 | Text Morph (count, roll) | NumberFlow | `@number-flow/react`, `motion` |
-| Text Morph (typewriter, wave, shuffle) | WAAPI | `motion` |
+| Text Morph (typewriter, wave, shuffle) | Timers / WAAPI | `motion` |
 | Message Animated | Motion | `motion` |
 | Credit Card (Masked) | Motion (per-character morph) | `motion` |
 
@@ -313,7 +314,7 @@ export function Safe({ open }: { open: boolean }) {
 
 ## Shimmer
 
-`Shimmer` is a Motion component that animates a text gradient. Trace and Attachment use it internally when their state is `running`, `processing`, or `uploading`, but it works anywhere.
+`Shimmer` is a CSS-animated component that renders a gradient over text. Trace and Attachment use it internally when their state is `running`, `processing`, or `uploading`, but it works anywhere. No Motion dependency.
 
 ```tsx
 import { Shimmer } from "@/components/ui/shimmer";
