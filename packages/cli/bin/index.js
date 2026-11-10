@@ -25,6 +25,7 @@ program
 Examples:
   ${chalk.dim("$ frakment init")}
   ${chalk.dim("$ frakment add button")}
+  ${chalk.dim("$ frakment add button bubble")}
   ${chalk.dim("$ frakment list")}
 `
   );
@@ -35,8 +36,8 @@ program
   .action(init);
 
 program
-  .command("add <component>")
-  .description("Add a component from the frakment registry")
+  .command("add <components...>")
+  .description("Add one or more components from the frakment registry")
   .option(
     "--dry-run",
     "Show planned file and dependency changes without writing"

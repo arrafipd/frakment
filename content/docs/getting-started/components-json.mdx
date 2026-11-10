@@ -36,13 +36,15 @@ npx frakment add button --registry http://localhost:3000/r
 
 ### `aliases`
 
-Import path prefixes used by installed components. Match them to your `tsconfig.json` `paths` entries.
+Import path prefixes rewritten in the installed component source. When the CLI writes a file, it replaces `@/components/ui/`, `@/components/`, and `@/lib/utils` with the values here. Match them to your `tsconfig.json` `paths` entries.
 
 | Key | Default | Purpose |
 | :-- | :-- | :-- |
 | `components` | `@/components` | Top-level components directory |
 | `ui` | `@/components/ui` | Component primitive directory |
 | `utils` | `@/lib/utils` | `cn()` helper path |
+
+`aliases` controls the **import statements** inside installed files, not where the files are written. Write targets follow the registry payload paths, with a `src/` prefix applied automatically when `tailwind.css` lives under `src/`.
 
 ### `tailwind`
 
@@ -90,7 +92,7 @@ A `404` means the URL is wrong. A `000` means the host is unreachable.
 
 ### Alias mismatch
 
-If installed files import from `@/components/ui/button` but your project uses `~/ui/button`, adjust `aliases` in `components.json`:
+If installed files import from `@/components/ui/button` but your project uses `~/ui/button`, adjust `aliases` in `components.json` and re-run `npx frakment add <component> --overwrite`:
 
 ```json
 {

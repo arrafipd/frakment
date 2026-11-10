@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { assertSafePath, validateRegistryPayload } from "./add.js";
+import {
+  assertSafePath,
+  rewriteImports,
+  validateRegistryPayload,
+} from "./add.js";
 
 const unsignedPayload = {
   dependencies: ["@frakment/react@^0.0.3", "motion@^14.10.0"],
@@ -85,5 +89,43 @@ describe("registry target paths", () => {
     await expect(
       assertSafePath(process.cwd(), "C:\\outside.txt")
     ).rejects.toThrow("Absolute path rejected");
+  });
+});
+
+describe("rewriteImports", () => {
+  const src = `import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Card } from "@/components/card";
+export { cn, Button, Card };
+`;
+
+  it("is a no-op with default aliases", () => {
+    expect(rewriteImports(src, undefined)).toBe(src);
+    expect(rewriteImports(src, {})).toBe(src);
+  });
+
+  it("rewrites ui, components, and utils prefixes", () => {
+    const out = rewriteImports(src, {
+      components: "~/components",
+      ui: "~/ui",
+      utils: "~/lib/cn",
+    });
+    expect(out).toContain('from "~/ui/button"');
+    expect(out).toContain('from "~/lib/cn"');
+    expect(out).toContain('from "~/components/card"');
+    expect(out).not.toContain("@/components/ui/");
+    expect(out).not.toContain("@/lib/utils");
+  });
+
+  it("derives ui from components when ui is omitted", () => {
+    const out = rewriteImports(src, { components: "~/components" });
+    expect(out).toContain('from "~/components/ui/button"');
+    expect(out).toContain('from "~/components/card"');
+  });
+
+  it("does not rewrite unrelated @/lib paths", () => {
+    const input = 'import { springSoft } from "@/lib/animation";\n';
+    const out = rewriteImports(input, { utils: "~/lib/cn" });
+    expect(out).toBe(input);
   });
 });
