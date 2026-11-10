@@ -1,5 +1,11 @@
 # @frakment/ai
 
+## 0.0.6
+
+### Patch Changes
+
+- 9d65b1d: Fix the README quick-start to use the actual `createChat().user().assistant().transport()` chain instead of the non-existent `chat.send()`. Declare `engines.node: ">=22.12.0"` to match the CLI requirement.
+
 ## 0.0.5
 
 ### Patch Changes
