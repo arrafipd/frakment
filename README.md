@@ -35,7 +35,7 @@ npx frakment@latest add button
 
 Node.js `>=22` · React `19` · Tailwind CSS `v4`
 
-> **Pre-1.0** — APIs may change between `0.0.x` releases. Pin a version before upgrading.
+> **Pre-1.0** — APIs may change between `0.x` releases. Pin a version before upgrading.
 
 ## Contributing
 
