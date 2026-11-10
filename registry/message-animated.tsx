@@ -26,7 +26,7 @@ export function MessageAnimated({
       >
         <Bubble
           align={isUser ? "end" : "start"}
-          variant={isUser ? "muted" : "ghost"}
+          variant={isUser ? "default" : "ghost"}
         >
           <BubbleContent className="whitespace-pre-wrap">{text}</BubbleContent>
         </Bubble>

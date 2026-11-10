@@ -18,31 +18,19 @@ concurrency:
 jobs:
   lint-and-format:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        pm: [npm, pnpm]
-    name: lint-and-format (${{ matrix.pm }})
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
           persist-credentials: false
 
       - name: Setup
         uses: $/.github/actions/setup
-        with:
-          pm: ${{ matrix.pm }}
 
       - name: Lint and format
-        run: ${{ matrix.pm }} run check
+        run: npm run check
 
   typecheck:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        pm: [npm, pnpm]
-    name: typecheck (${{ matrix.pm }})
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -50,24 +38,17 @@ jobs:
 
       - name: Setup
         uses: $/.github/actions/setup
-        with:
-          pm: ${{ matrix.pm }}
 
       - name: Build
         env:
           NEXT_TELEMETRY_DISABLED: 1
-        run: ${{ matrix.pm }} run build
+        run: npm run build
 
       - name: Typecheck
-        run: ${{ matrix.pm }} run typecheck
+        run: npm run typecheck
 
   registry-drift:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        pm: [npm, pnpm]
-    name: registry-drift (${{ matrix.pm }})
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -75,17 +56,15 @@ jobs:
 
       - name: Setup
         uses: $/.github/actions/setup
-        with:
-          pm: ${{ matrix.pm }}
 
       - name: Build registry
-        run: ${{ matrix.pm }} run registry:build
+        run: npm run registry:build
 
       - name: Check for drift
         run: |
           if [ -n "$(git status --porcelain public/r public/skills)" ]; then
             echo "::error::Registry artifacts are stale."
-            echo "::error::Run '${{ matrix.pm }} run registry:build' locally and commit the result."
+            echo "::error::Run 'npm run registry:build' locally and commit the result."
             echo ""
             echo "Changed files:"
             git status --porcelain public/r public/skills
@@ -97,7 +76,7 @@ jobs:
           echo "Registry artifacts are in sync with source."
 
       - name: Registry audit
-        run: ${{ matrix.pm }} run registry:audit
+        run: npm run registry:audit
 
   theme-drift:
     runs-on: ubuntu-latest
@@ -123,11 +102,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        pm: [npm, pnpm]
-    name: test (${{ matrix.pm }})
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -135,14 +109,11 @@ jobs:
 
       - name: Setup
         uses: $/.github/actions/setup
-        with:
-          pm: ${{ matrix.pm }}
 
       - name: Test
-        run: ${{ matrix.pm }} test
+        run: npm test
 
       - name: Audit package signatures
-        if: matrix.pm == 'npm'
         run: npm audit signatures
 
   gitleaks:

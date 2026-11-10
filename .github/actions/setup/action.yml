@@ -1,12 +1,6 @@
 name: Setup and install
 description: Common setup steps for Actions
 
-inputs:
-  pm:
-    description: Package manager to use (npm or pnpm)
-    required: false
-    default: npm
-
 runs:
   using: composite
   steps:
@@ -18,18 +12,5 @@ runs:
     - name: Upgrade npm (fix EMISSINGSIGNATUREKEY for keyless attestations)
       shell: bash
       run: npm install -g npm@11.11.0
-    - name: Enable pnpm
-      if: inputs.pm == 'pnpm'
-      shell: bash
-      run: |
-        corepack enable
-        corepack prepare pnpm@12 --activate
-        pnpm --version
-    - name: Install (npm)
-      if: inputs.pm == 'npm'
-      shell: bash
+    - shell: bash
       run: npm ci
-    - name: Install (pnpm)
-      if: inputs.pm == 'pnpm'
-      shell: bash
-      run: pnpm install

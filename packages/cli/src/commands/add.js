@@ -16,29 +16,6 @@ const DEPENDENCY_PATTERN =
   /^(?:@[a-z0-9][a-z0-9._-]*\/)?[a-z0-9][a-z0-9._-]*(?:@[0-9A-Za-z*~^<>=|.+_-]+)?$/u;
 const MAX_REGISTRY_PAYLOAD_BYTES = 10 * 1024 * 1024;
 
-const DEFAULT_ALIASES = {
-  components: "@/components",
-  ui: "@/components/ui",
-  utils: "@/lib/utils",
-};
-
-const normalizeAliases = (input) => {
-  const aliases = input ?? {};
-  const components = aliases.components ?? DEFAULT_ALIASES.components;
-  const ui = aliases.ui ?? `${components}/ui`;
-  const utils = aliases.utils ?? DEFAULT_ALIASES.utils;
-  return { components, ui, utils };
-};
-
-export const rewriteImports = (content, aliases) => {
-  const a = normalizeAliases(aliases);
-  let out = content;
-  out = out.replaceAll("@/components/ui/", `${a.ui}/`);
-  out = out.replaceAll("@/components/", `${a.components}/`);
-  out = out.replace(/@\/lib\/utils\b/g, a.utils);
-  return out;
-};
-
 const isRecord = (value) =>
   typeof value === "object" && value !== null && !Array.isArray(value);
 
@@ -217,7 +194,7 @@ export async function assertSafePath(cwd, relativePath) {
   return target;
 }
 
-async function writeFileSafely(file, cwd, options, aliases) {
+async function writeFileSafely(file, cwd, options) {
   const targetPath = await assertSafePath(cwd, file.path);
   if (existsSync(targetPath) && !options.overwrite) {
     const { overwrite } = await prompts({
@@ -235,21 +212,12 @@ async function writeFileSafely(file, cwd, options, aliases) {
   const output =
     file.encoding === "base64"
       ? Buffer.from(file.content, "base64")
-      : rewriteImports(file.content, aliases).replaceAll("\r\n", "\n");
+      : file.content.replaceAll("\r\n", "\n");
   await writeFile(targetPath, output);
   return file.path;
 }
 
-export async function add(componentNamesInput, options) {
-  const componentNames = Array.isArray(componentNamesInput)
-    ? [...new Set(componentNamesInput)]
-    : [componentNamesInput];
-  if (componentNames.length === 0) {
-    logger.error(
-      `${chalk.red("Error:")} At least one component name is required.`
-    );
-    process.exit(1);
-  }
+export async function add(componentName, options) {
   let cwd;
   const preflight = ora("Preflight checks").start();
   try {
@@ -269,9 +237,7 @@ export async function add(componentNamesInput, options) {
   let config;
   let registryUrl;
   try {
-    for (const name of componentNames) {
-      assertComponentName(name);
-    }
+    assertComponentName(componentName);
     const configRaw = await readFile(configPath, "utf-8");
     config = JSON.parse(configRaw.replace(/^\uFEFF/u, ""));
     registryUrl = getRegistryUrl(options.registry ?? config.registry);
@@ -283,8 +249,7 @@ export async function add(componentNamesInput, options) {
   }
 
   const registrySpinner = ora("Checking registry").start();
-  const roots = new Set(componentNames);
-  const queue = [...roots];
+  const queue = [componentName];
   const fetched = new Map();
   const npmDeps = new Map();
 
@@ -312,7 +277,6 @@ export async function add(componentNamesInput, options) {
     }
   }
   registrySpinner.succeed("Checking registry.");
-  const aliases = normalizeAliases(config.aliases);
   const isSrcLayout = config.tailwind?.css?.startsWith("src/") ?? false;
   const resolveTargetPath = (p) => {
     if (!isSrcLayout) {
@@ -324,8 +288,8 @@ export async function add(componentNamesInput, options) {
     return `src/${p}`;
   };
 
-  const order = [...fetched.keys()].filter((n) => !roots.has(n));
-  order.push(...roots);
+  const order = [...fetched.keys()].filter((n) => n !== componentName);
+  order.push(componentName);
   const written = [];
 
   const getMissingDependencies = async () => {
@@ -356,7 +320,7 @@ export async function add(componentNamesInput, options) {
   for (const name of order) {
     for (const file of fetched.get(name).files ?? []) {
       const targetFile = { ...file, path: resolveTargetPath(file.path) };
-      const result = await writeFileSafely(targetFile, cwd, options, aliases);
+      const result = await writeFileSafely(targetFile, cwd, options);
       if (result) {
         written.push(result);
       }

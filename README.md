@@ -25,6 +25,7 @@ npx frakment@latest add button
 ```
 
 - **47 components** across base primitives, AI chat elements, and utility modules
+- **You own the source** — full code in your repo, fully editable
 - **Accessible by default** — ARIA-first, a11y tested
 - **Motion built in** — consistent transitions and micro-interactions out of the box
 
@@ -34,17 +35,7 @@ npx frakment@latest add button
 
 Node.js `>=22` · React `19` · Tailwind CSS `v4`
 
-> **Pre-1.0** — APIs may change between `0.x` releases. Pin a version before upgrading.
-
-## Package manager
-
-Both **npm** and **pnpm** are supported. CI runs every PR against both, and the workspace scripts detect the active package manager automatically.
-
-```bash
-npm ci && npm run build      # or: pnpm install && pnpm build
-```
-
-See [CONTRIBUTING.md](./CONTRIBUTING.md#package-manager) for the full policy, lockfile rules, and troubleshooting.
+> **Pre-1.0** — APIs may change between `0.0.x` releases. Pin a version before upgrading.
 
 ## Contributing
 

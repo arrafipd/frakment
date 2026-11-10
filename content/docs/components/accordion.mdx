@@ -9,6 +9,7 @@ import { AccordionMultiple } from "@/examples/accordion-multiple";
 import { AccordionDisabled } from "@/examples/accordion-disabled";
 import { AccordionBorders } from "@/examples/accordion-borders";
 import { AccordionCard } from "@/examples/accordion-card";
+import { AnimationDemo } from "@/examples/animation-demo";
 
 <ComponentPreview name="accordion" title="accordion.tsx">
   <AccordionDemo />
@@ -150,14 +151,11 @@ Nest an accordion inside a card for grouped, framed content.
 
 Accordion accepts an `animation` prop on the root, inherited by every content item. Pass a per-item override on `AccordionContent` to diverge from the root setting.
 
-```tsx
-<Accordion animation="spring(300, 25)" collapsible type="single">
-  <AccordionItem value="a">
-    <AccordionTrigger>Question</AccordionTrigger>
-    <AccordionContent animation="easeInOut 200ms">Answer</AccordionContent>
-  </AccordionItem>
-</Accordion>
-```
+<ComponentPreview name="accordion" title="animation-demo.tsx" src="examples/animation-demo.tsx" previewClassName="h-auto py-8">
+  <AnimationDemo />
+</ComponentPreview>
+
+The prop takes a compact string DSL.
 
 | Form | Example |
 | :-- | :-- |
@@ -168,7 +166,18 @@ Accordion accepts an `animation` prop on the root, inherited by every content it
 | Inertia | `"inertia(0.2, 400)"` |
 | Keyframes | `"keyframes([0, 1.2, 1], [0, 0.5, 1]) 500ms"` |
 
-Any form supports `delay(...)` and `repeat(n | infinite)`. Pass `animation={false}` to disable the reveal transition.
+Any form supports `delay(...)` and `repeat(n | infinite)`. Pass `animation={false}` to disable the reveal animation.
+
+```tsx
+<Accordion animation="spring(300, 25)" collapsible type="single">
+  <AccordionItem value="a">
+    <AccordionTrigger>Question</AccordionTrigger>
+    <AccordionContent animation="easeInOut 200ms">
+      Per-item override.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
 
 ## API Reference
 

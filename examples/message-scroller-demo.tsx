@@ -11,6 +11,7 @@ import {
   PlusIcon,
   TelescopeIcon,
 } from "lucide-react";
+import { MessageAnimated } from "@/components/message-animated";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -40,7 +41,6 @@ import {
   InputGroupAddon,
   InputGroupButton,
 } from "@/components/ui/input-group";
-import { MessageAnimated } from "@/components/ui/message-animated";
 import {
   MessageScroller,
   MessageScrollerButton,

@@ -6,13 +6,10 @@ import { Collapsible as CollapsiblePrimitive } from "radix-ui";
 import * as React from "react";
 
 import { Shimmer } from "@/components/ui/shimmer";
-import { easeOutExpo, parseAnimation, springSoft } from "@/lib/animation";
+import { springSoft } from "@/lib/animation";
 import { cn } from "@/lib/utils";
 
-const TraceCollapsibleContext = React.createContext<{
-  animation?: false | string;
-  open: boolean;
-}>({
+const TraceCollapsibleContext = React.createContext<{ open: boolean }>({
   open: false,
 });
 
@@ -115,12 +112,9 @@ function TraceCollapsible({
   open,
   defaultOpen,
   onOpenChange,
-  animation,
   children,
   ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.Root> & {
-  animation?: false | string;
-}) {
+}: React.ComponentProps<typeof CollapsiblePrimitive.Root>) {
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen ?? false);
   const isControlled = open !== undefined;
   const currentOpen = isControlled ? open : internalOpen;
@@ -136,7 +130,7 @@ function TraceCollapsible({
   );
 
   return (
-    <TraceCollapsibleContext.Provider value={{ animation, open: currentOpen }}>
+    <TraceCollapsibleContext.Provider value={{ open: currentOpen }}>
       <CollapsiblePrimitive.Root
         className={cn("flex w-full min-w-0 flex-col", className)}
         data-slot="trace-collapsible"
@@ -193,18 +187,12 @@ function TraceCollapsibleContent({
   children,
   keepMounted: _keepMounted,
   animateHeight = true,
-  animation: localAnimation,
   ...props
 }: React.ComponentProps<typeof CollapsiblePrimitive.Content> & {
   keepMounted?: boolean;
   animateHeight?: boolean;
-  animation?: false | string;
 }) {
-  const { animation: contextAnimation, open } = React.useContext(
-    TraceCollapsibleContext
-  );
-  const animation = localAnimation ?? contextAnimation;
-  const anim = React.useMemo(() => parseAnimation(animation), [animation]);
+  const { open } = React.useContext(TraceCollapsibleContext);
   const shouldReduce = useReducedMotion();
   const ref = React.useRef<HTMLDivElement>(null);
   const [height, setHeight] = React.useState(0);
@@ -245,15 +233,6 @@ function TraceCollapsibleContent({
     );
   }
 
-  const defaultTransition = {
-    height: springSoft,
-    opacity: { duration: 0.3, ease: easeOutExpo },
-  };
-  const transition =
-    animation === false || shouldReduce
-      ? { duration: 0 }
-      : (anim?.transition ?? defaultTransition);
-
   return (
     <CollapsiblePrimitive.Content
       data-slot="trace-collapsible-content-wrapper"
@@ -265,7 +244,14 @@ function TraceCollapsibleContent({
         data-slot="trace-collapsible-content"
         initial={false}
         style={{ overflow: "hidden", willChange: "height" }}
-        transition={transition}
+        transition={
+          shouldReduce
+            ? { duration: 0 }
+            : {
+                height: springSoft,
+                opacity: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
+              }
+        }
       >
         <div ref={ref}>
           <div

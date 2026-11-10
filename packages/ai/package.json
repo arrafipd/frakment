@@ -1,6 +1,6 @@
 {
   "name": "@frakment/ai",
-  "version": "0.0.6",
+  "version": "0.0.5",
   "description": "First-party deterministic chat engine for Frakment AI interfaces",
   "repository": {
     "type": "git",
@@ -32,8 +32,5 @@
   },
   "peerDependencies": {
     "ai": ">=7"
-  },
-  "engines": {
-    "node": ">=22.12.0"
   }
 }

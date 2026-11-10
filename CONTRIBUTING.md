@@ -13,58 +13,6 @@ produced.
 (`.cursor/`, `CLAUDE.md`, `.claude/`), personal notes, and temporary
 experiments belong in your local environment or your fork.
 
-## Package manager
-
-The monorepo supports **npm** and **pnpm** equally for local development and CI. Use whichever you prefer.
-
-### Install and build
-
-```bash
-# npm
-npm ci
-npm run build
-
-# pnpm
-pnpm install
-pnpm build
-```
-
-Every workspace-aware script (`prebuild`, `precheck`, `predev`, `pretest`, `pretypecheck`, `release`) detects the active package manager through `scripts/workspaces.mjs` and dispatches to either `npm run <script> --workspaces` or `pnpm -r`. You do not need to configure anything.
-
-### Lockfiles
-
-Only `package-lock.json` is committed. `pnpm-lock.yaml` is gitignored on purpose:
-
-- **Single source of truth.** Two committed lockfiles drift apart when only one is regenerated. Dependency bumps, overrides, and engine constraints must match across both or contributors get inconsistent installs.
-- **Deterministic CI.** CI resolves dependencies from `package-lock.json` only, so every job sees the same graph regardless of which PM a contributor uses locally.
-
-If you use pnpm locally, `pnpm install` will create `pnpm-lock.yaml` in your working tree. Do not commit it. If you add a dependency, run `pnpm install` locally to install it, then `npm install` to update the committed `package-lock.json`, and commit only the npm lockfile change.
-
-### Overrides and build approvals
-
-pnpm 10+ reads two config blocks from `pnpm-workspace.yaml`, not from `package.json`:
-
-- **`overrides`** — pins transitive dependencies (the same pins declared in `package.json#overrides` for npm). Without mirroring them into `pnpm-workspace.yaml`, pnpm silently resolves unpatched versions.
-- **`allowBuilds`** — the map of packages allowed to run postinstall scripts (`esbuild`, `lefthook`, `ffmpeg-static`). pnpm 12 blocks postinstall by default.
-
-When you change `package.json#overrides`, mirror the change into `pnpm-workspace.yaml#overrides`. When you add a dependency that needs to run a postinstall script, add it to `allowBuilds` and verify `pnpm install` exits clean.
-
-### CI
-
-Every PR runs all six CI jobs against **both** package managers (matrix `[npm, pnpm]`). The `gitleaks` and theme-drift jobs are PM-neutral and run once.
-
-If `pnpm` CI fails, reproduce locally with:
-
-```bash
-pnpm install
-pnpm build
-pnpm run check
-```
-
-### Yarn and Bun
-
-Not supported. The workspace helper and lockfile policy target npm and pnpm only. Do not add `yarn.lock` or `bun.lockb`.
-
 ## Ground rules
 
 - **Shipped state only.** Docs describe what exists and works in the current `main`. No roadmap, no milestones, no "planned", no "in development", no "coming soon".
@@ -123,14 +71,6 @@ For security issues, do **not** open a public issue. See [SECURITY.md](./SECURIT
 ## Docs style
 
 Rich but simple. One sentence per paragraph. Every component page follows the same shape.
-
-### Component naming
-
-- **Lowercase in prose.** Write "a button", "the badge", "spinners" — not "a Button" or "the Badge".
-- **Title Case only in headings, the first word of a sentence, or a bold reference.** `## Accordion`, "Button renders a `<button>`", "**TraceIcon** is `aria-hidden`".
-- **Never drop articles.** "A badge is a single-part component" stays grammatical; "Badge is a single-part component" does not.
-- **Code identifiers keep their exact case.** `<Button>`, `<Badge>`, `<AccordionTrigger>` always match the export name.
-- **One rule per sentence.** If a sentence switches between lowercase reference and code identifier, keep both consistent with this section.
 
 ### Template
 
@@ -298,14 +238,6 @@ npx frakment@latest add x
 - **Code diff for non-visual sections.** CLI flags, config keys, and dependency fixes use a fenced code block, not a preview.
 - **One file per day.** Name is `YYYY-MM-DD.mdx`. Immutable after merge.
 - **No internal detail.** No dependency bumps without a user-visible effect, no `package.json` diffs, no CI notes, no roadmap language.
-
-
-**Before merging the `changeset-release/main` bot PR**, verify every changeset description matches the final shipped state:
-
-- Every file the changeset mentions still exists.
-- Every feature the changeset names is observable by a user of the published package.
-- No reference to files that were removed or merged into another file.
-- No reference to parser internals or tokens that no shipped component consumes.
 
 ## Workflow
 
@@ -523,5 +455,4 @@ Steps:
 4. Add `DOCS_<SLUG>: "/docs/<slug>"` to `constants/routes.ts`.
 5. If manually grouped, add `{ label: "<Group>", sections: [{ href: ROUTES.DOCS_<SLUG>, name: "<Display Name>" }] }` to `SECTION_GROUPS` in `lib/docs.ts`. Auto-discovered folders need no `SECTION_GROUPS` entry.
 6. Run `npm run build` to verify.
-
 

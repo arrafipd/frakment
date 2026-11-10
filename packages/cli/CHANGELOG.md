@@ -1,21 +1,5 @@
 # frakment
 
-## 0.3.0
-
-### Minor Changes
-
-- 935312e: Add holo-card module: a card with a procedural foil that reacts to pointer tilt and device motion. Two variants: `card` (default) with a chip and an optional `logo`, and `image` with artwork under the foil. Two presets: `bursts` and `cosmos`. `logo` accepts a URL, plain text, or any ReactNode. `chip` overrides the built-in EMV chip.
-
-### Patch Changes
-
-- 4d16130: Fix `credit-card`: `CreditCardIssuer` no longer imports the site-internal `@/components/brand`. Pass a `logo` or `children` to render a mark; omitting both renders nothing. Fresh installs no longer fail with a module-not-found error.
-
-## 0.2.0
-
-### Minor Changes
-
-- 22a0330: Add an `animation` prop to Accordion, Collapsible, Trace, Credit Card, and Text Morph. Accepts a string DSL: named easings (`"easeInOut"`, `"easeOutExpo"`), `"cubic-bezier(...)"`, `"spring(stiffness, damping)"`, plus `delay(...)` and `repeat(...)` options. Pass `animation={false}` to disable. Credit Card applies the transition per character. Text Morph overrides its `transition` prop when `animation` is set. Parsed by `parseAnimation` in `lib/animation.ts`, scaffolded by `frakment init`. Note: `inertia(...)` and `keyframes(...)` are parsed but have no visible effect on the five components yet.
-
 ## 0.1.0
 
 ### Minor Changes

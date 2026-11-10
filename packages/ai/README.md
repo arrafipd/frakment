@@ -28,20 +28,24 @@ Peer dependency: ai >= 7.
 ```ts
 import { createChat } from "@frakment/ai";
 
-// Build a deterministic transcript.
-const chat = createChat()
-  .user("Hello")
-  .assistant("Hi! How can I help?")
-  .user("Show me a trace.");
+const chat = createChat();
 
-// Read turns back.
-const messages = chat.get();
-const last = messages.at(-1);
+const stream = chat.send({
+  messages: [{ id: "1", role: "user", parts: [{ type: "text", text: "Hello" }] }],
+  transport: {
+    async run({ messages, abortSignal }) {
+      return fetch("/api/chat", {
+        method: "POST",
+        body: JSON.stringify({ messages }),
+        signal: abortSignal,
+      }).body!;
+    },
+  },
+});
 
-// Hand the transport to any AI SDK consumer.
-const transport = chat.transport();
-// In React: useChat({ transport }) picks up sendMessages automatically.
-// Outside React: await transport.sendMessages({ messages, abortSignal });
+for await (const event of stream) {
+  if (event.type === "text-delta") process.stdout.write(event.delta);
+}
 ```
 
 ## Public API
@@ -55,8 +59,8 @@ All event types (`ChatEvent`, `ChatEventEnvelope`, `UIMessageChunk`, `ToolHandle
 
 ## Used by
 
-- `message-animated` imports `getMessageText` from this package.
-- Other AI primitives (`bubble`, `message`, `message-scroller`, `trace`, `chain-of-thought`, `plan`, `reasoning`, `tool`, `subagent`) are independent and do not depend on this package.
+- Chat primitives: `message-animated`, `bubble`, `message`, `message-scroller`.
+- Agent primitives: `trace`, `chain-of-thought`, `plan`, `reasoning`, `tool`, `subagent`.
 
 ## Documentation
 

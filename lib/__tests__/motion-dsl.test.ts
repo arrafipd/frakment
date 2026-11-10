@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { parseAnimation } from "../animation";
+import { parseAnimation } from "../motion-dsl";
 
 describe("parseAnimation", () => {
   it("returns null for undefined", () => {

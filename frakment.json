@@ -467,10 +467,10 @@
     {
       "name": "shimmer",
       "title": "Shimmer",
-      "description": "CSS-animated text shimmer for streaming states.",
+      "description": "Motion-driven text shimmer for streaming states.",
       "source": "registry/shimmer.tsx",
       "target": "components/ui/shimmer.tsx",
-      "dependencies": [],
+      "dependencies": ["motion@^14.9.0"],
       "registryDependencies": [],
       "type": "registry:ui"
     },
@@ -480,7 +480,11 @@
       "description": "Displays file attachments with state indicators and shimmer for upload/processing.",
       "source": "registry/attachment.tsx",
       "target": "components/ui/attachment.tsx",
-      "dependencies": ["class-variance-authority@^0.7.1", "radix-ui@^1.8.1"],
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "motion@^14.9.0",
+        "radix-ui@^1.8.1"
+      ],
       "registryDependencies": ["button", "shimmer"],
       "type": "registry:ui"
     },
@@ -515,16 +519,6 @@
         "@icons-pack/react-simple-icons@^13.15.1",
         "motion@^14.9.0"
       ],
-      "registryDependencies": [],
-      "type": "registry:ui"
-    },
-    {
-      "name": "holo-card",
-      "title": "Holo Card",
-      "description": "A card with a procedural foil that reacts to pointer tilt and device motion. Card and image variants.",
-      "source": "registry/holo-card.tsx",
-      "target": "components/ui/holo-card.tsx",
-      "dependencies": [],
       "registryDependencies": [],
       "type": "registry:ui"
     }

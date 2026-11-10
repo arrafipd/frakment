@@ -9,14 +9,10 @@ import {
   SiVisa,
 } from "@icons-pack/react-simple-icons";
 import { cva, type VariantProps } from "class-variance-authority";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import type * as React from "react";
-import {
-  delayTight,
-  durationSlow,
-  easeInOutQuad,
-  parseAnimation,
-} from "@/lib/animation";
+import { FrakmentMark } from "@/components/brand";
+import { delayTight, durationSlow, easeInOutQuad } from "@/lib/animation";
 import { cn } from "@/lib/utils";
 
 type CardBrand = "mastercard" | "visa" | "amex" | "discover" | "jcb" | "diners";
@@ -150,7 +146,7 @@ function CreditCardIssuer({
 }) {
   return (
     <div className={cn("flex items-center", className)} {...props}>
-      {children ?? logo ?? null}
+      {children ?? logo ?? <FrakmentMark className="size-5 sm:size-6" />}
     </div>
   );
 }
@@ -173,7 +169,7 @@ function CreditCardNumber({
   value,
   brand,
   masked = false,
-  animation,
+  animation = true,
   duration = durationSlow,
   stagger = delayTight,
   ...props
@@ -181,7 +177,7 @@ function CreditCardNumber({
   value: string;
   brand?: CardBrand;
   masked?: boolean;
-  animation?: false | string;
+  animation?: boolean;
   duration?: number;
   stagger?: number;
 }) {
@@ -189,24 +185,18 @@ function CreditCardNumber({
   const fullText = formatCardNumber(value, resolvedBrand, false);
   const maskedText = formatCardNumber(value, resolvedBrand, true);
   const displayText = masked ? maskedText : fullText;
-  const prefersReduced = useReducedMotion();
   const baseClass = cn(
     "overflow-hidden font-mono text-sm tracking-[0.1em] whitespace-nowrap tabular-nums sm:text-lg sm:tracking-[0.15em]",
     className
   );
 
-  if (animation === false) {
+  if (!animation) {
     return (
       <p className={baseClass} {...props}>
         {displayText}
       </p>
     );
   }
-
-  const anim = parseAnimation(animation);
-  const baseTransition = prefersReduced
-    ? { duration: 0 }
-    : (anim?.transition ?? { duration, ease: easeInOutQuad });
 
   const maxLen = Math.max(fullText.length, maskedText.length);
   const chars: React.ReactNode[] = [];
@@ -228,7 +218,7 @@ function CreditCardNumber({
           }}
           className="absolute inset-0 flex items-center justify-center will-change-transform"
           initial={false}
-          transition={{ ...baseTransition, delay }}
+          transition={{ delay, duration, ease: easeInOutQuad }}
         >
           {isSpace ? "\u00A0" : fullChar}
         </motion.span>
@@ -240,7 +230,7 @@ function CreditCardNumber({
           }}
           className="absolute inset-0 flex items-center justify-center will-change-transform"
           initial={false}
-          transition={{ ...baseTransition, delay }}
+          transition={{ delay, duration, ease: easeInOutQuad }}
         >
           {isSpace ? "\u00A0" : maskedChar}
         </motion.span>

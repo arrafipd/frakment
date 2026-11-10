@@ -296,7 +296,7 @@
     },
     {
       "deprecated": false,
-      "description": "CSS-animated text shimmer for streaming states.",
+      "description": "Motion-driven text shimmer for streaming states.",
       "name": "shimmer",
       "title": "Shimmer",
       "version": "0.0.0"
@@ -327,13 +327,6 @@
       "description": "A monochrome credit card display with three variants.",
       "name": "credit-card",
       "title": "Credit Card",
-      "version": "0.0.0"
-    },
-    {
-      "deprecated": false,
-      "description": "A card with a procedural foil that reacts to pointer tilt and device motion. Card and image variants.",
-      "name": "holo-card",
-      "title": "Holo Card",
       "version": "0.0.0"
     }
   ],

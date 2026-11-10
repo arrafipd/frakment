@@ -1,6 +1,6 @@
 {
   "name": "frakment",
-  "version": "0.3.0",
+  "version": "0.1.0",
   "description": "CLI and design system for the frakment component registry",
   "keywords": [
     "components",
@@ -28,7 +28,7 @@
   ],
   "dependencies": {
     "chalk": "^6.0.1",
-    "commander": "^15.1.0",
+    "commander": "^15.0.0",
     "execa": "^10.2.1",
     "ora": "^10.0.0",
     "prompts": "^2.4.2"

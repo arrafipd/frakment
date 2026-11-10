@@ -1,10 +1,11 @@
 "use client";
 
-import { getMessageText } from "@frakment/ai";
 import type { UIMessage } from "ai";
 import { motion } from "motion/react";
+
 import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import { MessageScrollerItem } from "@/components/ui/message-scroller";
+import { getMessageText } from "@/lib/ai";
 
 export function MessageAnimated({
   message,
@@ -26,7 +27,7 @@ export function MessageAnimated({
       >
         <Bubble
           align={isUser ? "end" : "start"}
-          variant={isUser ? "muted" : "ghost"}
+          variant={isUser ? "default" : "ghost"}
         >
           <BubbleContent className="whitespace-pre-wrap">{text}</BubbleContent>
         </Bubble>

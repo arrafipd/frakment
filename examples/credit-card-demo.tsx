@@ -1,5 +1,4 @@
-﻿import { FrakmentMark } from "@/components/brand";
-import {
+﻿import {
   CreditCard,
   CreditCardBrand,
   CreditCardExpiry,
@@ -14,9 +13,7 @@ export function CreditCardDemo() {
   return (
     <CreditCard>
       <CreditCardHeader>
-        <CreditCardIssuer
-          logo={<FrakmentMark className="size-5 sm:size-6" />}
-        />
+        <CreditCardIssuer />
         <CreditCardBrand brand="visa" />
       </CreditCardHeader>
       <CreditCardNumber value="4242424242424242" />
