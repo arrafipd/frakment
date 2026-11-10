@@ -28,24 +28,19 @@ Peer dependency: ai >= 7.
 ```ts
 import { createChat } from "@frakment/ai";
 
-const chat = createChat();
+// Build a deterministic transcript.
+const chat = createChat()
+  .user("Hello")
+  .assistant("Hi! How can I help?")
+  .user("Show me a trace.");
 
-const stream = chat.send({
-  messages: [{ id: "1", role: "user", parts: [{ type: "text", text: "Hello" }] }],
-  transport: {
-    async run({ messages, abortSignal }) {
-      return fetch("/api/chat", {
-        method: "POST",
-        body: JSON.stringify({ messages }),
-        signal: abortSignal,
-      }).body!;
-    },
-  },
-});
+// Read turns back.
+const messages = chat.get();
+const last = messages.at(-1);
 
-for await (const event of stream) {
-  if (event.type === "text-delta") process.stdout.write(event.delta);
-}
+// Stream the next reply over HTTP.
+const transport = chat.transport();
+const response = transport.create({ messages });
 ```
 
 ## Public API
