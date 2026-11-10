@@ -1,0 +1,11 @@
+# Default: maintainer reviews everything
+* @arrafipd
+
+# Security-sensitive paths require maintainer review
+/.github/ @arrafipd
+/packages/cli/ @arrafipd
+/packages/mcp/ @arrafipd
+/registry/ @arrafipd
+/public/r/ @arrafipd
+/scripts/ @arrafipd
+/SECURITY.md @arrafipd
