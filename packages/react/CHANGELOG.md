@@ -1,5 +1,11 @@
 # @frakment/react
 
+## 0.0.4
+
+### Patch Changes
+
+- e82251d: Declare `engines.node: ">=22.12.0"` to match the CLI requirement.
+
 ## 0.0.3
 
 ### Patch Changes
