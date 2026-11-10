@@ -8,7 +8,7 @@
   "description": "An animated chat message that fades in and pins to the message scroller.",
   "files": [
     {
-      "content": "\"use client\";\n\nimport { getMessageText } from \"@frakment/ai\";\nimport type { UIMessage } from \"ai\";\nimport { motion } from \"motion/react\";\nimport { Bubble, BubbleContent } from \"@/components/ui/bubble\";\nimport { MessageScrollerItem } from \"@/components/ui/message-scroller\";\n\nexport function MessageAnimated({\n  message,\n  scrollAnchor,\n}: {\n  message: UIMessage;\n  scrollAnchor?: boolean;\n}) {\n  const text = getMessageText(message);\n  const isUser = message.role === \"user\";\n\n  return (\n    <MessageScrollerItem scrollAnchor={scrollAnchor}>\n      <motion.div\n        animate={{ opacity: 1, y: 0 }}\n        className=\"flex flex-col\"\n        initial={{ opacity: 0, y: 8 }}\n        transition={{ duration: 0.2, ease: \"easeOut\" }}\n      >\n        <Bubble\n          align={isUser ? \"end\" : \"start\"}\n          variant={isUser ? \"default\" : \"ghost\"}\n        >\n          <BubbleContent className=\"whitespace-pre-wrap\">{text}</BubbleContent>\n        </Bubble>\n      </motion.div>\n    </MessageScrollerItem>\n  );\n}\n",
+      "content": "\"use client\";\n\nimport { getMessageText } from \"@frakment/ai\";\nimport type { UIMessage } from \"ai\";\nimport { motion } from \"motion/react\";\nimport { Bubble, BubbleContent } from \"@/components/ui/bubble\";\nimport { MessageScrollerItem } from \"@/components/ui/message-scroller\";\n\nexport function MessageAnimated({\n  message,\n  scrollAnchor,\n}: {\n  message: UIMessage;\n  scrollAnchor?: boolean;\n}) {\n  const text = getMessageText(message);\n  const isUser = message.role === \"user\";\n\n  return (\n    <MessageScrollerItem scrollAnchor={scrollAnchor}>\n      <motion.div\n        animate={{ opacity: 1, y: 0 }}\n        className=\"flex flex-col\"\n        initial={{ opacity: 0, y: 8 }}\n        transition={{ duration: 0.2, ease: \"easeOut\" }}\n      >\n        <Bubble\n          align={isUser ? \"end\" : \"start\"}\n          variant={isUser ? \"muted\" : \"ghost\"}\n        >\n          <BubbleContent className=\"whitespace-pre-wrap\">{text}</BubbleContent>\n        </Bubble>\n      </motion.div>\n    </MessageScrollerItem>\n  );\n}\n",
       "path": "components/ui/message-animated.tsx"
     }
   ],
@@ -19,5 +19,5 @@
   ],
   "title": "Message Animated",
   "version": "0.0.0",
-  "integrity": "sha256:d780425d7fa63cd6c6c1609ce3e4f81dc67ad7bc7be12751fc49b761af372e46"
+  "integrity": "sha256:f4a2e4a77e5bd33c99abc0b6fe1163d0474a1bcc7baa3d7ec7d39c73a42ff6e3"
 }
