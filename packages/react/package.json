@@ -40,5 +40,8 @@
   "peerDependencies": {
     "react": ">=19",
     "react-dom": ">=19"
+  },
+  "engines": {
+    "node": ">=22.12.0"
   }
 }
