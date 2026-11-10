@@ -51,7 +51,7 @@ For Cursor, add the same block to `~/.cursor/mcp.json`.
 
 | Variable            | Default                       | Purpose                                                                                       |
 | ------------------- | ----------------------------- | --------------------------------------------------------------------------------------------- |
-| `FRAKMENT_REGISTRY` | `https://frakment.vercel.app` | Override the registry base URL. Useful for local development against `http://localhost:3000`. |
+| `FRAKMENT_REGISTRY` | `https://www.arrafi.dev/frakment` | Override the registry base URL. Useful for local development against `http://localhost:3000`. |
 
 ## Development
 
