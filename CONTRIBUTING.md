@@ -72,6 +72,14 @@ For security issues, do **not** open a public issue. See [SECURITY.md](./SECURIT
 
 Rich but simple. One sentence per paragraph. Every component page follows the same shape.
 
+### Component naming
+
+- **Lowercase in prose.** Write "a button", "the badge", "spinners" — not "a Button" or "the Badge".
+- **Title Case only in headings, the first word of a sentence, or a bold reference.** `## Accordion`, "Button renders a `<button>`", "**TraceIcon** is `aria-hidden`".
+- **Never drop articles.** "A badge is a single-part component" stays grammatical; "Badge is a single-part component" does not.
+- **Code identifiers keep their exact case.** `<Button>`, `<Badge>`, `<AccordionTrigger>` always match the export name.
+- **One rule per sentence.** If a sentence switches between lowercase reference and code identifier, keep both consistent with this section.
+
 ### Template
 
 ````mdx
