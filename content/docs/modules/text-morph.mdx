@@ -22,7 +22,7 @@ import { TextMorph } from "@/components/ui/text-morph";
   <TextMorphRoll />
 </ComponentPreview>
 
-Text Morph cycles through an array of strings with a smooth transition. Three variants cover flip, numeric count, and character shuffle.
+Text Morph cycles through an array of strings with a smooth transition. Ten variants cover flip, fade, blur, slide, scale, count, roll, shuffle, typewriter, and wave. Each variant has its own animation path — Motion for `flip` and `slide`, CSS for `fade`, `blur`, and `scale`, NumberFlow for `count` and `roll`, and timers or WAAPI for `shuffle`, `typewriter`, and `wave`.
 
 ## Installation
 
@@ -263,7 +263,7 @@ Priority: `animation` string > `transition` prop > internal default. Pass `anima
     { name: "defaultIndex", type: "number", default: "0", description: "Initial index in uncontrolled mode." },
     { name: "paused", type: "boolean", default: "false", description: "Stop the auto-advance interval." },
     { name: "onIndexChange", type: "function", description: "Called with the new index after each flip." },
-    { name: "transition", type: "Transition", description: "Motion transition override (flip variant only)." },
+    { name: "transition", type: "Transition", description: "Motion transition override (flip and slide variants only)." },
     { name: "variants", type: "Variants", description: "Motion variants override (flip variant only)." },
     { name: "speed", type: "number", default: "60", description: "Milliseconds per character for typewriter and wave variants." },
     { name: "className", type: "string", description: "Applied to the rendered element." },
@@ -278,7 +278,7 @@ Priority: `animation` string > `transition` prop > internal default. Pass `anima
 ## Accessibility
 
 - Wraps the text in a semantic element chosen via `as`.
-- Motion respects `prefers-reduced-motion`.
+- `flip` and `slide` variants respect `prefers-reduced-motion` through Motion. `fade`, `blur`, and `scale` run on CSS and follow the user's CSS preference. `count` and `roll` use NumberFlow's own behavior. `shuffle`, `typewriter`, and `wave` run on timers without a reduced-motion check.
 - Keep each phrase short so screen readers announce quickly.
 
 ## Best Practices
@@ -286,5 +286,5 @@ Priority: `animation` string > `transition` prop > internal default. Pass `anima
 - **Keep phrases short.** Two to four words per flip; longer clips mid-animation.
 - **Pause on hover.** Let users finish reading before the next phrase.
 - **Do not use for critical text.** If users might miss it, use static copy.
-- **Respect reduced-motion.** Fall back to a static phrase.
+- **Respect reduced-motion.** Prefer `flip` or `slide` if you rely on Motion's automatic `prefers-reduced-motion` handling, or gate the other variants yourself.
 
