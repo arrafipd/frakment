@@ -99,7 +99,7 @@ Text Morph renders a single element that swaps its content on an interval.
 The default variant. Old text exits downward while the new text enters from above, both animated simultaneously via `mode="popLayout"`.
 
 ~~~tsx
-<TextMorph>{"Build", "Ship", "Iterate"}</TextMorph>
+<TextMorph>{["Build", "Ship", "Iterate"]}</TextMorph>
 ~~~
 
 ### Fade
@@ -112,7 +112,7 @@ Crossfade where the outgoing text fades out while the incoming text fades in, bo
 
 ~~~tsx
 <TextMorph variant="fade" interval={2.2}>
-  {"Crafted with care", "Designed for clarity"}
+  {["Crafted with care", "Designed for clarity"]}
 </TextMorph>
 ~~~
 
@@ -125,7 +125,7 @@ Adds a blur ramp on top of the crossfade. Use it for hero headings where you wan
 </ComponentPreview>
 
 ~~~tsx
-<TextMorph variant="blur">{"Focus", "Clarity", "Momentum"}</TextMorph>
+<TextMorph variant="blur">{["Focus", "Clarity", "Momentum"]}</TextMorph>
 ~~~
 
 ### Slide
@@ -137,7 +137,7 @@ Horizontal slide instead of vertical. Suits headlines, notification banners, and
 </ComponentPreview>
 
 ~~~tsx
-<TextMorph variant="slide">{"Introducing Frakment 2.0", "The new way"}</TextMorph>
+<TextMorph variant="slide">{["Introducing Frakment 2.0", "The new way"]}</TextMorph>
 ~~~
 
 ### Scale
@@ -149,7 +149,7 @@ Scales from 0.85 to 1 while fading. Compact footprint, good for inline counters 
 </ComponentPreview>
 
 ~~~tsx
-<TextMorph variant="scale">{"+128", "+384", "+1024"}</TextMorph>
+<TextMorph variant="scale">{["+128", "+384", "+1024"]}</TextMorph>
 ~~~
 
 ### Count
@@ -161,7 +161,7 @@ Interpolates numeric strings smoothly. Preserves prefix, suffix, decimals, and t
 </ComponentPreview>
 
 ~~~tsx
-<TextMorph variant="count">{"12,000+", "48,000+", "120,000+"}</TextMorph>
+<TextMorph variant="count">{["12,000+", "48,000+", "120,000+"]}</TextMorph>
 ~~~
 
 ### Roll
@@ -173,7 +173,7 @@ Slot-machine roll powered by `@number-flow/react`. Digits spin into place with a
 </ComponentPreview>
 
 ~~~tsx
-<TextMorph variant="roll">{"$48,210", "$92,405", "$163,890"}</TextMorph>
+<TextMorph variant="roll">{["$48,210", "$92,405", "$163,890"]}</TextMorph>
 ~~~
 
 ### Shuffle
@@ -198,7 +198,7 @@ Characters appear one at a time from left to right. Set `speed` in milliseconds 
 
 ~~~tsx
 <TextMorph variant="typewriter" speed={70} interval={3.5}>
-  {"npm install frakment", "npx frakment add button"}
+  {["npm install frakment", "npx frakment add button"]}
 </TextMorph>
 ~~~
 
@@ -212,7 +212,7 @@ Each character fades in instead of snapping. Softer than plain typewriter, still
 
 ~~~tsx
 <TextMorph variant="wave" speed={35} interval={3.5}>
-  {"Build something people love", "Ship without the boilerplate"}
+  {["Build something people love", "Ship without the boilerplate"]}
 </TextMorph>
 ~~~
 
@@ -224,7 +224,7 @@ Each character fades in instead of snapping. Softer than plain typewriter, still
   <div className="mx-auto flex flex-col items-center gap-2 text-center">
     <span className="text-muted-foreground text-sm">Ship faster with</span>
     <span className="text-2xl font-semibold">
-      <TextMorph words={["Frakment", "primitives", "copy-paste"]} />
+      <TextMorph>{["Frakment", "primitives", "copy-paste"]}</TextMorph>
     </span>
   </div>
 </ComponentPreview>
@@ -246,10 +246,8 @@ Each character fades in instead of snapping. Softer than plain typewriter, still
 | Named easing + duration | `"easeInOut 300ms"`, `"easeOutExpo 0.5"` |
 | Custom curve | `"cubic-bezier(0.4, 0, 0.2, 1) 300ms"` |
 | Spring | `"spring(300, 25)"` |
-| Inertia | `"inertia(0.2, 400)"` |
-| Keyframes | `"keyframes([0, 1.2, 1], [0, 0.5, 1]) 500ms"` |
 
-Priority: `animation` string > `transition` prop > internal default. Pass `animation={false}` to disable transitions.
+Priority: `animation` string > `transition` prop > internal default. Pass `animation={false}` to disable transitions. Only `flip` and `slide` use this transition; `fade`, `blur`, and `scale` run on CSS, `count` and `roll` use NumberFlow, and `shuffle`, `typewriter`, `wave` use timers.
 
 ## API Reference
 
