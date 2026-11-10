@@ -296,7 +296,7 @@
     },
     {
       "deprecated": false,
-      "description": "Motion-driven text shimmer for streaming states.",
+      "description": "CSS-animated text shimmer for streaming states.",
       "name": "shimmer",
       "title": "Shimmer",
       "version": "0.0.0"

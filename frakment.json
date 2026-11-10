@@ -467,7 +467,7 @@
     {
       "name": "shimmer",
       "title": "Shimmer",
-      "description": "Motion-driven text shimmer for streaming states.",
+      "description": "CSS-animated text shimmer for streaming states.",
       "source": "registry/shimmer.tsx",
       "target": "components/ui/shimmer.tsx",
       "dependencies": [],
