@@ -91,15 +91,6 @@ If the string cannot be parsed, `parseAnimation` logs `[motion-dsl] <reason>` to
 <Accordion animation="wobbleOut 300ms">     // warns, falls back to default
 ```
 
-### Not yet wired
-
-Two tokens are parsed but have no visible effect on the five components:
-
-- `inertia(power, timeConstant)` — physics deceleration from a starting velocity. State transitions start at rest, so there is no velocity to decelerate from.
-- `keyframes([values], [times]?)` — parsed into `{ type: "tween" }` with metadata attached, but no component consumes the keyframe values. Height cannot overshoot (`auto` is not a number), so a keyframe curve on height is a no-op.
-
-For bounce-like effects, use `spring(...)` or a `cubic-bezier(...)` with overshoot handles such as `backOut`.
-
 ### Per-component behavior
 
 - **Accordion** — animates `height` and `opacity` together. Default: `height` uses `durationSlow` + `easeSmoothOut`, `opacity` uses `0.2s`. Setting `animation` replaces both with a single shared transition.
@@ -147,23 +138,23 @@ Physics-based transitions that settle naturally without a fixed duration.
 | :-- | :-- |
 | `springSoft` | stiffness 200, damping 30 |
 
-Reach for `springSoft` when an element should feel physical rather than timed. Expand and collapse in Accordion, Collapsible, and Trace all use it.
+Reach for `springSoft` when an element should feel physical rather than timed. Trace uses it for height; Accordion and Collapsible use a tween (`durationSlow` + `easeSmoothOut`) by default.
 
 ## Motion vs CSS
 
-Every animation in Frakment picks the smallest tool that fits. Six components animate with Motion (JS-driven, per-frame control). Seven animate with pure CSS keyframes on Radix `data-state` attributes.
+Every animation in Frakment picks the smallest tool that fits. Six components animate with Motion (JS-driven, per-frame control). Seven animate with pure CSS keyframes on Radix `data-state` attributes. Message Animated uses Motion for a single container fade, not per-character.
 
 **Motion** (`motion/react`) - per-frame control, springs, per-character orchestration:
 
 - Accordion, Collapsible, Trace - height animation with spring settle
-- Message Animated, Credit Card (Masked) - per-character stagger
-- Text Flip - layout transitions per variant
+- Credit Card (Masked) - per-character stagger
+- Text Morph - layout transitions per variant
 
 **CSS** (`tw-animate-css` + Radix `data-state`) - zero JS at runtime, runs on the compositor thread:
 
 - Dialog, Sheet, Dropdown Menu, Select, Tooltip, Hover Card, Tabs
 
-Neither system requires extra setup. `npx frakment@latest init` installs Motion; Radix and `tw-animate-css` arrive with the components that need them. The split exists so that simple enter/exit transitions stay off the JS main thread, and only the animations that genuinely need per-frame calculations ship a Motion bundle.
+`npx frakment@latest init` installs Motion. Radix primitives arrive with the components that need them; `tw-animate-css` is a Tailwind plugin that must be added to your project separately if you use CSS-animated Radix components. The split exists so that simple enter/exit transitions stay off the JS main thread, and only the animations that genuinely need per-frame calculations ship a Motion bundle.
 
 ## What `init` creates
 
@@ -195,7 +186,7 @@ Plus six npm packages: `class-variance-authority`, `clsx`, `tailwind-merge`, `ra
 Frakment uses two animation engines behind the scenes. You do not choose between them - the CLI installs whatever a component declares.
 
 - **Motion** - every state transition (accordion height, collapsible expand, trace collapse, text flip, shimmer, attachment loading). Backed by the `motion` npm package.
-- **NumberFlow** - numeric roll and count variants in Text Flip. Backed by `@number-flow/react`.
+- **NumberFlow** - numeric roll and count variants in Text Morph. Backed by `@number-flow/react`.
 
 A third-party layer fills the rest: Tailwind's `animate-spin` for loaders, and `tw-animate-css` for dropdown and dialog entrances. Those ship inside Tailwind and `tw-animate-css`, not Frakment, and require nothing extra from you.
 
@@ -207,9 +198,9 @@ A third-party layer fills the rest: Tailwind's `animate-spin` for loaders, and `
 | Collapsible | Motion height | `motion` |
 | Trace | Motion height + shimmer | `motion`, `shimmer` |
 | Attachment | Motion shimmer | `motion`, `shimmer` |
-| Text Flip (flip, slide, fade, blur, scale) | Motion | `motion` |
-| Text Flip (count, roll) | NumberFlow | `@number-flow/react`, `motion` |
-| Text Flip (typewriter, wave, shuffle) | WAAPI | `motion` |
+| Text Morph (flip, slide, fade, blur, scale) | Motion | `motion` |
+| Text Morph (count, roll) | NumberFlow | `@number-flow/react`, `motion` |
+| Text Morph (typewriter, wave, shuffle) | WAAPI | `motion` |
 | Message Animated | Motion | `motion` |
 | Credit Card (Masked) | Motion (per-character morph) | `motion` |
 
