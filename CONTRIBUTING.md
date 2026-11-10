@@ -251,8 +251,9 @@ npx frakment@latest add x
 **Before merging the `changeset-release/main` bot PR**, verify every changeset description matches the final shipped state:
 
 - Every file the changeset mentions still exists.
-- Every feature the changeset names still works, or is explicitly marked "no visible effect yet".
+- Every feature the changeset names is observable by a user of the published package.
 - No reference to files that were removed or merged into another file.
+- No reference to parser internals or tokens that no shipped component consumes.
 
 ## Workflow
 
