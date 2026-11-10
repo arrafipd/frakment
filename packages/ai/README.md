@@ -38,9 +38,10 @@ const chat = createChat()
 const messages = chat.get();
 const last = messages.at(-1);
 
-// Stream the next reply over HTTP.
+// Hand the transport to any AI SDK consumer.
 const transport = chat.transport();
-const response = transport.create({ messages });
+// In React: useChat({ transport }) picks up sendMessages automatically.
+// Outside React: await transport.sendMessages({ messages, abortSignal });
 ```
 
 ## Public API
@@ -54,8 +55,8 @@ All event types (`ChatEvent`, `ChatEventEnvelope`, `UIMessageChunk`, `ToolHandle
 
 ## Used by
 
-- Chat primitives: `message-animated`, `bubble`, `message`, `message-scroller`.
-- Agent primitives: `trace`, `chain-of-thought`, `plan`, `reasoning`, `tool`, `subagent`.
+- `message-animated` imports `getMessageText` from this package.
+- Other AI primitives (`bubble`, `message`, `message-scroller`, `trace`, `chain-of-thought`, `plan`, `reasoning`, `tool`, `subagent`) are independent and do not depend on this package.
 
 ## Documentation
 
