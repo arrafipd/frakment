@@ -182,7 +182,7 @@ Config lives at `~/Library/Application Support/Claude/claude_desktop_config.json
   "mcpServers": {
     "frakment": {
       "command": "npx",
-      "args": ["-y", "frakment-mcp"]
+      "args": ["-y", "@frakment/mcp"]
     }
   }
 }
@@ -197,7 +197,7 @@ Config lives at `~/.cursor/mcp.json`:
   "mcpServers": {
     "frakment": {
       "command": "npx",
-      "args": ["-y", "frakment-mcp"]
+      "args": ["-y", "@frakment/mcp"]
     }
   }
 }
@@ -218,7 +218,7 @@ frakment-mcp
     {
       name: "FRAKMENT_REGISTRY",
       type: "string",
-      default: "https://frakment.vercel.app",
+      default: "https://www.arrafi.dev/frakment/r",
       description:
         "Override the registry base URL. Useful for local dev against http://localhost:3000.",
     },
@@ -257,4 +257,4 @@ frakment-mcp
 
 ## Source
 
-The MCP server lives in the [`mcp/` directory](https://github.com/arrafipd/frakment/tree/main/mcp) of the Frakment repo. It is a thin wrapper over the registry JSON with no interpretation logic. Browse the source on [GitHub](https://github.com/arrafipd/frakment/tree/main/mcp).
+The MCP server lives in the [`mcp/` directory](https://github.com/arrafipd/frakment/tree/main/mcp) of the Frakment repo. It is a thin wrapper over the registry JSON with no interpretation logic. Browse the source on [GitHub](https://github.com/arrafipd/frakment/tree/main/packages/mcp).

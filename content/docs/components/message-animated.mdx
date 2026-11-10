@@ -1,0 +1,81 @@
+---
+title: Message Animated
+description: A single message row that fades in as it appears in a chat transcript.
+---
+
+import { MessageAnimatedDemo } from "@/examples/chat-demo";
+
+<ComponentPreview name="message-animated" title="message-animated.tsx">
+  <MessageAnimatedDemo />
+</ComponentPreview>
+
+Message Animated renders one message from a `UIMessage` with a short fade-and-rise entrance. It pairs with `MessageScroller` to anchor messages as they stream in.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add message-animated
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+```bash
+npm install @frakment/ai ai motion
+```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="message-animated" title="components/ui/message-animated.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { MessageAnimated } from "@/components/ui/message-animated";
+```
+
+```tsx
+<MessageAnimated message={message} />
+```
+
+The `message` prop is a `UIMessage` from the `ai` package. Text is extracted with `getMessageText` from `@frakment/ai`.
+
+## Behavior
+
+- **Entrance animation.** The whole message row fades from `opacity: 0` and rises `y: 8` to `y: 0` over `0.2s` with `easeOut`.
+- **Reduced motion.** `prefers-reduced-motion` is respected by Motion automatically — the entrance is skipped.
+- **Alignment.** User messages render right-aligned in a bubble; assistant messages render left-aligned on a ghost surface.
+- **Scrolling.** When `scrollAnchor` is set, the row is registered as a scroll anchor with `MessageScroller`.
+
+## API Reference
+
+### MessageAnimated
+
+<PropsTable
+  rows={[
+    { name: "message", type: "UIMessage", required: true, description: "The message object from `ai`. Only text parts are rendered." },
+    { name: "scrollAnchor", type: "boolean", defaultValue: "false", description: "Register the row as an anchor with MessageScroller." },
+  ]}
+/>
+
+## Accessibility
+
+- Renders inside `MessageScrollerItem`, which carries list semantics.
+- The bubble content preserves whitespace with `whitespace-pre-wrap`.
+- `prefers-reduced-motion` disables the entrance transition.
