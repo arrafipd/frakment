@@ -1,7 +1,5 @@
 {
-  "dependencies": [
-    "motion@^14.9.0"
-  ],
+  "dependencies": [],
   "deprecated": false,
   "description": "Motion-driven text shimmer for streaming states.",
   "files": [
@@ -14,5 +12,5 @@
   "registryDependencies": [],
   "title": "Shimmer",
   "version": "0.0.0",
-  "integrity": "sha256:e4513ab0a090b8fdf734c3cea9f3ae40405d4412590c6743aeeac00aa290b40a"
+  "integrity": "sha256:2e67198815d781a533d6b11eaf346f100ac8de1af52beae416e502c6585287dc"
 }

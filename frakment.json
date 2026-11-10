@@ -470,7 +470,7 @@
       "description": "Motion-driven text shimmer for streaming states.",
       "source": "registry/shimmer.tsx",
       "target": "components/ui/shimmer.tsx",
-      "dependencies": ["motion@^14.9.0"],
+      "dependencies": [],
       "registryDependencies": [],
       "type": "registry:ui"
     },
@@ -480,11 +480,7 @@
       "description": "Displays file attachments with state indicators and shimmer for upload/processing.",
       "source": "registry/attachment.tsx",
       "target": "components/ui/attachment.tsx",
-      "dependencies": [
-        "class-variance-authority@^0.7.1",
-        "motion@^14.9.0",
-        "radix-ui@^1.8.1"
-      ],
+      "dependencies": ["class-variance-authority@^0.7.1", "radix-ui@^1.8.1"],
       "registryDependencies": ["button", "shimmer"],
       "type": "registry:ui"
     },

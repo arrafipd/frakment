@@ -1,7 +1,6 @@
 {
   "dependencies": [
     "class-variance-authority@^0.7.1",
-    "motion@^14.9.0",
     "radix-ui@^1.8.1"
   ],
   "deprecated": false,
@@ -19,5 +18,5 @@
   ],
   "title": "Attachment",
   "version": "0.0.0",
-  "integrity": "sha256:e7d09cb684b774a8d8c12cbc1281d8654b1b8fdb0c9d5928b8bd3354336a55f9"
+  "integrity": "sha256:9e894c55242612bfbaccbb91930eaddefe7783cb88839ce91bdbb6f698504f95"
 }
