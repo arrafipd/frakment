@@ -7,5 +7,5 @@ contact_links:
     url: https://github.com/arrafipd/frakment/security/advisories/new
     about: Report security issues privately. Do not open a public issue.
   - name: Documentation
-    url: https://frakment.vercel.app/docs
+    url: https://www.arrafi.dev/frakment/docs
     about: Browse the official documentation before opening an issue.
