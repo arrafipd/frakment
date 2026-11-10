@@ -71,7 +71,7 @@ export const docsImageRoute = `${ROUTES.OG}${ROUTES.DOCS}`;
 // Add the URL here when releasing a new component or page; remove once it
 // graduates from "new". Single source of truth for the "new" indicator.
 export const PAGES_NEW: ReadonlySet<string> = new Set([
-  "/docs/modules/credit-card",
+  "/docs/components/message-animated",
 ]);
 
 export interface NavItem {

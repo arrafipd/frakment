@@ -31,8 +31,8 @@ npx -y @frakment/mcp
   <TabsContent value="install">
 
 ```bash
-npm install --save-dev frakment-mcp
-frakment-mcp
+npm install --save-dev @frakment/mcp
+npx @frakment/mcp
 ```
 
   </TabsContent>
@@ -208,7 +208,7 @@ Config lives at `~/.cursor/mcp.json`:
 Any client that spawns stdio processes:
 
 ```bash
-frakment-mcp
+npx @frakment/mcp
 ```
 
 ## Environment
@@ -241,7 +241,7 @@ frakment-mcp
   <AccordionTrigger>fetch failed</AccordionTrigger>
   <AccordionContent>
     The registry is unreachable. Check `FRAKMENT_REGISTRY` or your network. For
-    local dev, run `FRAKMENT_REGISTRY=http://localhost:3000 npx frakment-mcp`.
+    local dev, run `FRAKMENT_REGISTRY=http://localhost:3000 npx @frakment/mcp`.
   </AccordionContent>
 </AccordionItem>
 
