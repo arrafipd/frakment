@@ -34,7 +34,7 @@ npx frakment add credit-card
       <Step>Install the following dependencies:</Step>
 
       ```bash
-      npm install class-variance-authority @icons-pack/react-simple-icons
+      npm install class-variance-authority @icons-pack/react-simple-icons motion
       ```
 
       <Step>Copy and paste the following code into your project.</Step>
@@ -48,18 +48,33 @@ npx frakment add credit-card
 ## Usage
 
 ```tsx title="credit-card.tsx"
-import { CreditCard } from "@/components/ui/credit-card";
+import {
+  CreditCard,
+  CreditCardBrand,
+  CreditCardExpiry,
+  CreditCardFooter,
+  CreditCardHeader,
+  CreditCardHolder,
+  CreditCardIssuer,
+  CreditCardNumber,
+} from "@/components/ui/credit-card";
 ```
 
 ```tsx title="credit-card.tsx"
-<CreditCard
-  cardNumber="4242424242424242"
-  cardHolder="John Doe"
-  cardExpiration="1228"
-/>
+<CreditCard>
+  <CreditCardHeader>
+    <CreditCardIssuer />
+    <CreditCardBrand brand="visa" />
+  </CreditCardHeader>
+  <CreditCardNumber value="4242424242424242" />
+  <CreditCardFooter>
+    <CreditCardHolder value="John Doe" />
+    <CreditCardExpiry value="1228" />
+  </CreditCardFooter>
+</CreditCard>
 ```
 
-Pass raw data. The component handles brand detection, number grouping, and expiry formatting.
+Pass raw data to sub-components. `CreditCardNumber` handles brand detection and grouping; `CreditCardExpiry` normalizes the expiry.
 ## Anatomy
 
 ```tsx title="credit-card.tsx"
@@ -140,8 +155,6 @@ A staggered per-character morph from the full number to the masked form.
 | Named easing + duration | `"easeInOut 300ms"`, `"easeOutExpo 0.5"` |
 | Custom curve | `"cubic-bezier(0.4, 0, 0.2, 1) 300ms"` |
 | Spring | `"spring(300, 25)"` |
-| Inertia | `"inertia(0.2, 400)"` |
-| Keyframes | `"keyframes([0, 1.2, 1], [0, 0.5, 1]) 500ms"` |
 
 Any form supports `delay(...)` and `repeat(n | infinite)`. Pass `animation={false}` to render plain text without motion markup.
 
@@ -151,26 +164,40 @@ Any form supports `delay(...)` and `repeat(n | infinite)`. Pass `animation={fals
 
 <PropsTable
   rows={[
-    { name: "cardNumber", type: "string", required: true, description: "Card number, with or without spaces." },
-    { name: "cardHolder", type: "string", required: true, description: "Name on the card." },
-    { name: "cardExpiration", type: "string", required: true, description: "Expiry. Accepts 1228, 12/28, or 12-28." },
-    { name: "brand", type: "mastercard | visa | amex | discover | jcb | diners", description: "Overrides brand auto-detection." },
-    { name: "masked", type: "boolean", defaultValue: "false", description: "Shows only the last four digits." },
     { name: "variant", type: "default | glass", defaultValue: "default", description: "Visual style of the card surface." },
-    {
-      name: "animation",
-      type: "false | string",
-      description: "Motion DSL string applied per character. Pass false to render plain text without animation markup.",
-    },
+    { name: "className", type: "string", description: "Merged into the surface." },
   ]}
 />
+
+Extends React.ComponentProps<"div">.
+
+### CreditCardIssuer
+
+<PropsTable
+  rows={[
+    { name: "logo", type: "ReactNode", description: "Custom logo. Falls back to children, then the Frakment mark." },
+  ]}
+/>
+
+### CreditCardBrand
+
+<PropsTable
+  rows={[
+    { name: "brand", type: "mastercard | visa | amex | discover | jcb | diners", description: "Network logo to render." },
+    { name: "children", type: "ReactNode", description: "Custom mark. Overrides brand." },
+  ]}
+/>
+
 ### CreditCardNumber
 
 <PropsTable
   rows={[
-    { name: "value", type: "string", required: true, description: "Raw number." },
-    { name: "brand", type: "CardBrand", description: "Overrides detection." },
+    { name: "value", type: "string", required: true, description: "Raw number. Spaces stripped before formatting." },
+    { name: "brand", type: "CardBrand", description: "Overrides auto-detection." },
     { name: "masked", type: "boolean", defaultValue: "false", description: "Shows only the last four digits." },
+    { name: "animation", type: "false | string", description: "Motion DSL applied per character. Pass false to render plain text without motion markup." },
+    { name: "duration", type: "number", defaultValue: "0.45", description: "Per-character transition duration in seconds. Ignored when animation is set." },
+    { name: "stagger", type: "number", defaultValue: "0.02", description: "Delay between characters in seconds. Applies whether or not animation is set." },
   ]}
 />
 
@@ -182,6 +209,7 @@ Any form supports `delay(...)` and `repeat(n | infinite)`. Pass `animation={fals
     { name: "label", type: "string", description: "Caption above the value. Defaults: Card holder / Expires." },
   ]}
 />
+
 ## Accessibility
 
 - The number uses `tabular-nums` so columns do not shift when toggling masked mode.
