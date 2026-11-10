@@ -82,7 +82,7 @@ After `frakment init`, your project will have:
 - **`components.json`** - registry URL, import aliases, Tailwind CSS path. Read by the CLI on every `add`.
 - **`app/globals.css`** - theme tokens (colors, radii, spacing) injected between `/* ==== FRAKMENT THEME START/END ==== */` markers, plus `.dark` variant and 9 utility classes.
 - **`lib/utils.ts`** - `cn()` helper for merging Tailwind classes.
-- **`lib/animation.ts`** - Motion tokens: `easeInOut`, `easeInOutQuad`, `easeOutExpo`, `easeSmoothOut`, `springSoft`, `durationFast`, `durationNormal`, `durationSlow`, `delayTight`. Import these when building your own animated components so timing matches the rest of the library.
+- **`lib/animation.ts`** - Motion tokens (`easeInOut`, `easeInOutQuad`, `easeOutExpo`, `easeSmoothOut`, `springSoft`, `durationFast`, `durationNormal`, `durationSlow`, `delayTight`) plus the `parseAnimation()` parser for the `animation` string prop. Import tokens when building your own animated components so timing matches the rest of the library.
 
 The theme block includes `.dark` and `@custom-variant dark`. As soon as your app toggles `.dark` on `<html>` (via `next-themes`, a custom button, or anything else), components switch automatically - no extra config needed. See [Theming](/docs/guides/theming) for the full wiring.
 

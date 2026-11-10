@@ -4,8 +4,7 @@ import { ChevronDownIcon } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { Accordion as AccordionPrimitive } from "radix-ui";
 import * as React from "react";
-import { durationSlow, easeSmoothOut } from "@/lib/animation";
-import { parseAnimation } from "@/lib/motion-dsl";
+import { durationSlow, easeSmoothOut, parseAnimation } from "@/lib/animation";
 import { cn } from "@/lib/utils";
 
 const AccordionAnimationContext = React.createContext<

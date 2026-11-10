@@ -231,6 +231,30 @@ Track tool invocations with running, done, and failed states.
   </div>
 </ComponentPreview>
 
+## Animation
+
+`TraceCollapsible` accepts an `animation` prop on the root, inherited by `TraceCollapsibleContent`. Pass a per-content override to diverge.
+
+```tsx
+<Trace>
+  <TraceCollapsible animation="spring(400, 30)">
+    <TraceCollapsibleTrigger>Expand</TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>Revealed content.</TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+```
+
+| Form | Example |
+| :-- | :-- |
+| Named easing | `"easeInOut"`, `"easeOutExpo"`, `"easeSmoothOut"` |
+| Named easing + duration | `"easeInOut 300ms"`, `"easeOutExpo 0.5"` |
+| Custom curve | `"cubic-bezier(0.4, 0, 0.2, 1) 300ms"` |
+| Spring | `"spring(300, 25)"` |
+| Inertia | `"inertia(0.2, 400)"` |
+| Keyframes | `"keyframes([0, 1.2, 1], [0, 0.5, 1]) 500ms"` |
+
+Any form supports `delay(...)` and `repeat(n | infinite)`. Pass `animation={false}` to disable. Ignored when `animateHeight={false}`.
+
 ## API Reference
 
 ### Trace / TraceIcon / TraceTitle / TraceDescription
@@ -242,6 +266,11 @@ Extend `React.ComponentProps<"div">` / `"span">`. **TraceIcon** is `aria-hidden`
 <PropsTable
   rows={[
     { name: "status", type: "running | error | pending", description: "Controls color and shimmer behavior of the line." },
+    {
+      name: "animation",
+      type: "false | string",
+      description: "Motion DSL string for the height/opacity reveal. Pass false to disable. Ignored when animateHeight is false.",
+    },
   ]}
 />
 
@@ -268,3 +297,4 @@ Extends Radix `Collapsible.Content`. Animates height via `motion/react` with `SP
 - **Wrap trace in a collapsible for long runs.** Ten lines collapse the transcript.
 - **Mark running steps.** `status="running"` triggers the shimmer and spinner.
 - **Keep titles verb-first.** "Ran pnpm test", not "pnpm test status".
+

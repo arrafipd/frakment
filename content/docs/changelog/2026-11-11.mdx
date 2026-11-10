@@ -1,26 +1,28 @@
 ---
 title: "November 11, 2026"
-description: "Animation DSL prop for Accordion."
+description: "Animation DSL prop for five motion-ready components."
 date: "2026-11-11"
 ---
 
-import { AnimationDemo } from "@/examples/animation-demo";
+import { AccordionDemo } from "@/examples/accordion-demo";
 
-Adds an `animation` prop to **Accordion**. Pass a string DSL to control the reveal transition without importing `motion` directly.
+Adds an `animation` prop to **Accordion**, **Collapsible**, **Trace**, **Credit Card**, and **Text Morph**. Pass a string DSL to control the reveal transition without importing `motion` directly.
 
 ### Animation
 
-<ComponentPreview name="accordion" title="animation-demo.tsx" src="examples/animation-demo.tsx" previewClassName="h-auto py-8">
-  <AnimationDemo />
+<ComponentPreview name="accordion" title="accordion.tsx">
+  <AccordionDemo />
 </ComponentPreview>
 
-Accordion now accepts `animation`, a compact string that maps to Motion transition options.
+All five components accept `animation`, a compact string that maps to Motion transition options.
 
-```tsx
-<Accordion animation="spring(300, 25)" collapsible type="single">
-  ...
-</Accordion>
-```
+| Component | Where the prop lives | Notes |
+| :-- | :-- | :-- |
+| Accordion | Root + `AccordionContent` | Per-item override on content. |
+| Collapsible | Root + `CollapsibleContent` | Per-instance override on content. |
+| Trace | `TraceCollapsible` + `TraceCollapsibleContent` | Ignored when `animateHeight={false}`. |
+| Credit Card | `CreditCardNumber` | Per-character; uses `stagger` as delay. |
+| Text Morph | `TextMorph` | Overrides `transition` prop when set. |
 
 Accepted forms:
 
@@ -35,12 +37,21 @@ Accepted forms:
 
 Any form supports `delay(...)` and `repeat(n | infinite)`. Pass `animation={false}` to disable.
 
+```tsx
+<Accordion animation="spring(300, 25)" collapsible type="single">
+  <AccordionItem value="a">
+    <AccordionTrigger>Question</AccordionTrigger>
+    <AccordionContent animation="easeInOut 200ms">Answer</AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
 Parsed by `lib/motion-dsl.ts`, scaffolded on `frakment init`.
 
 #### Installation
 
 <Steps>
-  <Step>Install Accordion</Step>
+  <Step>Install the component</Step>
 
 ```bash
 npx frakment add accordion
@@ -67,4 +78,3 @@ import {
 </Steps>
 
 See the [Accordion docs](/docs/components/accordion#animation) for the full syntax and per-item override.
-

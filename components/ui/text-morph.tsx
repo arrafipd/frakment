@@ -2,9 +2,10 @@
 
 import NumberFlow from "@number-flow/react";
 import type { Transition, Variants } from "motion/react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Children, useEffect, useLayoutEffect, useRef, useState } from "react";
 
+import { parseAnimation } from "@/lib/animation";
 import { cn } from "@/lib/utils";
 
 export type TextMorphVariant =
@@ -32,6 +33,7 @@ const slideVariants: Variants = {
 };
 
 export interface TextMorphProps {
+  animation?: false | string;
   as?: React.ElementType;
   children: React.ReactNode[];
   className?: string;
@@ -160,6 +162,7 @@ export const TextMorph = ({
   defaultIndex = 0,
   paused = false,
   transition = { duration: 0.3 },
+  animation,
   variants = defaultVariants,
   onIndexChange,
   speed = 60,
@@ -183,6 +186,13 @@ export const TextMorph = ({
     }, interval * 1000);
     return () => clearInterval(timer);
   }, [items.length, interval, onIndexChange, paused, controlled]);
+
+  const anim = parseAnimation(animation);
+  const prefersReduced = useReducedMotion();
+  const resolvedTransition =
+    animation === false || prefersReduced
+      ? { duration: 0 }
+      : ((anim?.transition as Transition | undefined) ?? transition);
 
   if (variant === "count" || variant === "roll") {
     const { raw, prefix, suffix } = parseValue(current);
@@ -263,7 +273,7 @@ export const TextMorph = ({
             exit="exit"
             initial="initial"
             key={currentIndex}
-            transition={transition}
+            transition={resolvedTransition}
             variants={slideVariants}
           >
             {current}
@@ -282,7 +292,7 @@ export const TextMorph = ({
           exit="exit"
           initial="initial"
           key={currentIndex}
-          transition={transition}
+          transition={resolvedTransition}
           variants={variants}
         >
           {current}

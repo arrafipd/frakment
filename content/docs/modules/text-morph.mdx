@@ -229,6 +229,28 @@ Each character fades in instead of snapping. Softer than plain typewriter, still
   </div>
 </ComponentPreview>
 
+## Animation
+
+`TextMorph` accepts an `animation` prop that overrides the `transition` prop when set.
+
+```tsx
+<TextMorph animation="spring(300, 25)" variant="flip">
+  <span>Hello</span>
+  <span>World</span>
+</TextMorph>
+```
+
+| Form | Example |
+| :-- | :-- |
+| Named easing | `"easeInOut"`, `"easeOutExpo"`, `"easeSmoothOut"` |
+| Named easing + duration | `"easeInOut 300ms"`, `"easeOutExpo 0.5"` |
+| Custom curve | `"cubic-bezier(0.4, 0, 0.2, 1) 300ms"` |
+| Spring | `"spring(300, 25)"` |
+| Inertia | `"inertia(0.2, 400)"` |
+| Keyframes | `"keyframes([0, 1.2, 1], [0, 0.5, 1]) 500ms"` |
+
+Priority: `animation` string > `transition` prop > internal default. Pass `animation={false}` to disable transitions.
+
 ## API Reference
 
 ### TextMorph
@@ -247,6 +269,11 @@ Each character fades in instead of snapping. Softer than plain typewriter, still
     { name: "variants", type: "Variants", description: "Motion variants override (flip variant only)." },
     { name: "speed", type: "number", default: "60", description: "Milliseconds per character for typewriter and wave variants." },
     { name: "className", type: "string", description: "Applied to the rendered element." },
+    {
+      name: "animation",
+      type: "false | string",
+      description: "Motion DSL string. Overrides the transition prop when set. Pass false to disable transitions.",
+    },
   ]}
 />
 
@@ -262,3 +289,4 @@ Each character fades in instead of snapping. Softer than plain typewriter, still
 - **Pause on hover.** Let users finish reading before the next phrase.
 - **Do not use for critical text.** If users might miss it, use static copy.
 - **Respect reduced-motion.** Fall back to a static phrase.
+

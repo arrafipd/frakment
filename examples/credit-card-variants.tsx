@@ -1,4 +1,4 @@
-﻿import {
+import {
   CreditCard,
   CreditCardBrand,
   CreditCardExpiry,
@@ -11,7 +11,7 @@
 
 export function CreditCardVariants() {
   return (
-    <div className="grid gap-4">
+    <div className="flex w-full max-w-sm flex-col gap-4">
       <CreditCard>
         <CreditCardHeader>
           <CreditCardIssuer />

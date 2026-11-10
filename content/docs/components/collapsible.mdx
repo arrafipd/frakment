@@ -104,6 +104,28 @@ Compose nested collapsibles to build a tree.
   </Collapsible>
 </ComponentPreview>
 
+## Animation
+
+Collapsible accepts an `animation` prop on the root, inherited by `CollapsibleContent`.
+
+```tsx
+<Collapsible animation="spring(300, 25)">
+  <CollapsibleTrigger>Toggle</CollapsibleTrigger>
+  <CollapsibleContent>Revealed content.</CollapsibleContent>
+</Collapsible>
+```
+
+| Form | Example |
+| :-- | :-- |
+| Named easing | `"easeInOut"`, `"easeOutExpo"`, `"easeSmoothOut"` |
+| Named easing + duration | `"easeInOut 300ms"`, `"easeOutExpo 0.5"` |
+| Custom curve | `"cubic-bezier(0.4, 0, 0.2, 1) 300ms"` |
+| Spring | `"spring(300, 25)"` |
+| Inertia | `"inertia(0.2, 400)"` |
+| Keyframes | `"keyframes([0, 1.2, 1], [0, 0.5, 1]) 500ms"` |
+
+Any form supports `delay(...)` and `repeat(n | infinite)`. Pass `animation={false}` to disable the reveal transition.
+
 ## API Reference
 
 ### Collapsible
@@ -114,6 +136,11 @@ Compose nested collapsibles to build a tree.
     { name: "open", type: "boolean", description: "Controlled open state." },
     { name: "onOpenChange", type: "function", description: "Called when the panel toggles." },
     { name: "disabled", type: "boolean", default: "false", description: "Prevent toggling." },
+    {
+      name: "animation",
+      type: "false | string",
+      description: "Motion DSL string. Accepts named easings, cubic-bezier, spring, inertia, keyframes, delay/repeat. Pass false to disable.",
+    },
   ]}
 />
 
@@ -166,4 +193,5 @@ const [open, setOpen] = React.useState(false)
 
 - [Accordion](/docs/components/accordion) — multiple collapsible sections
 - [Tabs](/docs/components/tabs) — swap content panes
+
 

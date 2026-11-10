@@ -135,38 +135,26 @@ export function cn(...inputs: ClassValue[]) {
     logger.log("  - lib/utils.ts");
   }
 
-  if (!existsSync(path.join(cwd, "lib/animation.ts"))) {
-    const s = ora("Creating lib/animation.ts").start();
-    await mkdir(path.join(cwd, "lib"), { recursive: true });
-    await writeFile(
+  if (existsSync(path.join(cwd, "lib/animation.ts"))) {
+    const existing = await readFile(
       path.join(cwd, "lib/animation.ts"),
-      `export const springSoft = { type: "spring", stiffness: 200, damping: 30 } as const
-
-export const easeInOut = [0.4, 0, 0.2, 1] as const
-export const easeInOutQuad = [0.45, 0, 0.55, 1] as const
-export const easeOutExpo = [0.16, 1, 0.3, 1] as const
-export const easeSmoothOut = [0.32, 0.72, 0, 1] as const
-
-export const durationFast = 0.2
-export const durationNormal = 0.3
-export const durationSlow = 0.45
-
-export const delayTight = 0.02
-`
-    );
-    s.succeed("Created 1 file:");
-    logger.log("  - lib/animation.ts");
-  }
-  if (!existsSync(path.join(cwd, "lib/motion-dsl.ts"))) {
-    const s = ora("Creating lib/motion-dsl.ts").start();
-    await mkdir(path.join(cwd, "lib"), { recursive: true });
-    const motionDsl = await readFile(
-      path.join(TEMPLATES_DIR, "lib/motion-dsl.ts"),
       "utf-8"
     );
-    await writeFile(path.join(cwd, "lib/motion-dsl.ts"), motionDsl);
+    if (!existing.includes("parseAnimation")) {
+      logger.warn(
+        "lib/animation.ts is outdated (missing animation DSL parser). Delete it and re-run `frakment init`."
+      );
+    }
+  } else {
+    const s = ora("Creating lib/animation.ts").start();
+    await mkdir(path.join(cwd, "lib"), { recursive: true });
+    const animation = await readFile(
+      path.join(TEMPLATES_DIR, "lib/animation.ts"),
+      "utf-8"
+    );
+    await writeFile(path.join(cwd, "lib/animation.ts"), animation);
     s.succeed("Created 1 file:");
-    logger.log("  - lib/motion-dsl.ts");
+    logger.log("  - lib/animation.ts");
   }
 
   const pkgPath = path.join(cwd, "package.json");

@@ -18,9 +18,102 @@ npx frakment@latest add button
 
 ## Default motion
 
-These components animate out of the box - no prop required. A custom `animation` prop is coming soon to override the default timing.
+These components animate out of the box - no prop required. A custom `animation` prop is also available on five Motion state-transition components. See [Custom animation prop](#custom-animation-prop).
 
 <ComponentDefaultsGrid />
+
+
+## Custom animation prop
+
+Five Motion state-transition components accept an `animation` prop. Pass a string; the parser (`parseAnimation` in `lib/animation.ts`) converts it into a Motion `transition`. No need to import `motion` yourself.
+
+| Component | Prop location |
+| :-- | :-- |
+| Accordion | `<Accordion animation>` (inherited) + `<AccordionContent animation>` (per-item) |
+| Collapsible | `<Collapsible animation>` + `<CollapsibleContent animation>` |
+| Trace | `<TraceCollapsible animation>` + `<TraceCollapsibleContent animation>` |
+| Credit Card | `<CreditCardNumber animation>` (per character; uses `stagger` as delay) |
+| Text Morph | `<TextMorph animation>` (overrides `transition` prop when set) |
+
+```tsx
+<Accordion animation="spring(300, 25)" collapsible type="single">
+  <AccordionItem value="a">
+    <AccordionTrigger>Shipping options</AccordionTrigger>
+    <AccordionContent animation="easeOutExpo 400ms">...</AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+### Syntax
+
+One required primary token, then any number of modifiers. Tokens separated by spaces; parentheses and brackets preserved, so `keyframes([0, 1, 0])` is one token.
+
+Primary token (exactly one):
+
+| Form | Example | Maps to |
+| :-- | :-- | :-- |
+| Named easing | `easeInOut`, `easeOutExpo`, `easeSmoothOut`, `linear`, `backOut`, `anticipate` | `{ type: "tween", ease }` |
+| Custom Bezier | `cubic-bezier(0.4, 0, 0.2, 1)` | `{ type: "tween", ease: [x1, y1, x2, y2] }` |
+| Spring | `spring(stiffness, damping)`, e.g. `spring(300, 25)` | `{ type: "spring", stiffness, damping }` |
+
+Modifiers (any order, repeatable):
+
+| Form | Example | Notes |
+| :-- | :-- | :-- |
+| Duration | `300ms`, `0.3s`, `0.3` | Tween only. Ignored on `spring`. |
+| Delay | `delay(100ms)` | Any transition type. |
+| Repeat | `repeat(3)`, `repeat(infinite)` | Any transition type. |
+
+```text
+spring(300, 25) delay(100ms) repeat(3)
+easeOutExpo 400ms
+cubic-bezier(0.4, 0, 0.2, 1) 300ms delay(50ms)
+```
+
+### Disable per instance
+
+```tsx
+<Accordion animation={false} collapsible type="single">...</Accordion>
+```
+
+`false` disables the animation for that instance. Omitting the prop keeps the internal default. `false` is not "use default" — it is "no animation".
+
+### Reduced motion
+
+When the user has `prefers-reduced-motion: reduce`, all five components force `{ duration: 0 }` regardless of the prop value.
+
+### Invalid input
+
+If the string cannot be parsed, `parseAnimation` logs `[motion-dsl] <reason>` to the console and returns `null`. The component then falls back to its internal default. No crash, no broken UI.
+
+```tsx
+<Accordion animation="spring(abc, def)">   // warns, falls back to default
+<Accordion animation="wobbleOut 300ms">     // warns, falls back to default
+```
+
+### Not yet wired
+
+Two tokens are parsed but have no visible effect on the five components:
+
+- `inertia(power, timeConstant)` — physics deceleration from a starting velocity. State transitions start at rest, so there is no velocity to decelerate from.
+- `keyframes([values], [times]?)` — parsed into `{ type: "tween" }` with metadata attached, but no component consumes the keyframe values. Height cannot overshoot (`auto` is not a number), so a keyframe curve on height is a no-op.
+
+For bounce-like effects, use `spring(...)` or a `cubic-bezier(...)` with overshoot handles such as `backOut`.
+
+### Per-component behavior
+
+- **Accordion** — animates `height` and `opacity` together. Default: `height` uses `durationSlow` + `easeSmoothOut`, `opacity` uses `0.2s`. Setting `animation` replaces both with a single shared transition.
+- **Collapsible** — animates `height`. Default: `durationSlow` + `easeSmoothOut`.
+- **Trace** — animates `height` and `opacity`. Default: `height` uses `springSoft`, `opacity` uses `0.3s` + `easeOutExpo`. Ignored when `animateHeight={false}`.
+- **Credit Card** — animates `scale`, `opacity`, and `filter: blur` per character. `stagger` sets the delay between characters. Default transition: `durationSlow` + `easeInOutQuad`.
+- **Text Morph** — passes the parsed transition to its internal `motion.span` (for `flip`, `slide`, `fade`, `blur`, `scale` variants). Priority: `animation` string > `transition` prop > internal default (`{ duration: 0.3 }`).
+
+### Limitations
+
+- **No per-property transitions.** One transition object applies to every animated property. To control `height` and `opacity` separately, leave `animation` unset and edit the source.
+- **`springSoft` cannot be referenced by name.** The token is an object, not a string. Use `spring(200, 30)`.
+- **Duration is ignored on spring and inertia.** Physics transitions derive duration from their parameters.
+- **`steps(...)` is not a stepping easing.** Parser accepts it but maps to `ease: "linear"`.
 
 ## Easing curves
 
@@ -94,7 +187,7 @@ Running `npx frakment@latest init` adds these files to your project:
 | `components.json` | Registry URL, import aliases, Tailwind CSS path |
 | `app/globals.css` | Theme tokens injected between `FRAKMENT THEME` markers |
 | `lib/utils.ts` | `cn()` helper - merges Tailwind classes |
-| `lib/animation.ts` | Motion tokens: easing, duration, spring, delay |
+| `lib/animation.ts` | Motion tokens + `parseAnimation()` parser for the `animation` prop |
 
 Plus six npm packages: `class-variance-authority`, `clsx`, `tailwind-merge`, `radix-ui`, `lucide-react`, `motion`.
 ## Two systems, one install
