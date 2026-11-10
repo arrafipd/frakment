@@ -247,6 +247,13 @@ npx frakment@latest add x
 - **One file per day.** Name is `YYYY-MM-DD.mdx`. Immutable after merge.
 - **No internal detail.** No dependency bumps without a user-visible effect, no `package.json` diffs, no CI notes, no roadmap language.
 
+
+**Before merging the `changeset-release/main` bot PR**, verify every changeset description matches the final shipped state:
+
+- Every file the changeset mentions still exists.
+- Every feature the changeset names still works, or is explicitly marked "no visible effect yet".
+- No reference to files that were removed or merged into another file.
+
 ## Workflow
 
 1. Branch from `main`.
@@ -463,4 +470,5 @@ Steps:
 4. Add `DOCS_<SLUG>: "/docs/<slug>"` to `constants/routes.ts`.
 5. If manually grouped, add `{ label: "<Group>", sections: [{ href: ROUTES.DOCS_<SLUG>, name: "<Display Name>" }] }` to `SECTION_GROUPS` in `lib/docs.ts`. Auto-discovered folders need no `SECTION_GROUPS` entry.
 6. Run `npm run build` to verify.
+
 
