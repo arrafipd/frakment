@@ -27,8 +27,8 @@ export const SITE = {
     TWITTER: "@arrafipd",
   },
   DESCRIPTION: {
-    LONG: "Composable, accessible, customizable components with motion built in — nothing to assemble, no wiring, no configuration.",
-    SHORT: "The Fragments behind your Design System",
+    LONG: "Components drop in from the registry directly, adapt to your theme natively, and move with your interface smoothly.",
+    SHORT: "Drop in directly, adapt natively, move smoothly.",
   },
   KEYWORDS: [
     "Frakment",
