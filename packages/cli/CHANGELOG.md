@@ -1,5 +1,15 @@
 # frakment
 
+## 0.3.0
+
+### Minor Changes
+
+- 935312e: Add holo-card module: a card with a procedural foil that reacts to pointer tilt and device motion. Two variants: `card` (default) with a chip and an optional `logo`, and `image` with artwork under the foil. Two presets: `bursts` and `cosmos`. `logo` accepts a URL, plain text, or any ReactNode. `chip` overrides the built-in EMV chip.
+
+### Patch Changes
+
+- 4d16130: Fix `credit-card`: `CreditCardIssuer` no longer imports the site-internal `@/components/brand`. Pass a `logo` or `children` to render a mark; omitting both renders nothing. Fresh installs no longer fail with a module-not-found error.
+
 ## 0.2.0
 
 ### Minor Changes
