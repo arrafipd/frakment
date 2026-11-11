@@ -118,11 +118,5 @@
         }
       ]
     }
-  ],
-  "git": {
-    "deploymentEnabled": {
-      "**": false,
-      "main": true
-    }
-  }
+  ]
 }
