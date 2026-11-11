@@ -44,12 +44,25 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          echo "Waiting 30s for npm registry propagation..."
+          sleep 30
           for pkg in packages/*/package.json; do
             name=$(node -p "require('./$pkg').name")
             version=$(node -p "require('./$pkg').version")
             tag="${name}@${version}"
-            if ! npm view "$name@$version" version >/dev/null 2>&1; then
-              echo "Skip $tag (not on npm)"
+            on_npm=false
+            for attempt in 1 2 3 4; do
+              if npm view "$name@$version" version >/dev/null 2>&1; then
+                on_npm=true
+                break
+              fi
+              if [ "$attempt" -lt 4 ]; then
+                echo "Attempt $attempt: $tag not on npm yet, retry in 10s..."
+                sleep 10
+              fi
+            done
+            if [ "$on_npm" = false ]; then
+              echo "Skip $tag (not on npm after retries)"
               continue
             fi
             if ! git rev-parse "$tag" >/dev/null 2>&1; then
