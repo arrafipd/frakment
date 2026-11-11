@@ -29,7 +29,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup
-        uses: $/.github/actions/setup
+        uses: ./.github/actions/setup
         with:
           pm: ${{ matrix.pm }}
 
@@ -49,7 +49,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup
-        uses: $/.github/actions/setup
+        uses: ./.github/actions/setup
         with:
           pm: ${{ matrix.pm }}
 
@@ -74,7 +74,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup
-        uses: $/.github/actions/setup
+        uses: ./.github/actions/setup
         with:
           pm: ${{ matrix.pm }}
 
@@ -107,7 +107,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup
-        uses: $/.github/actions/setup
+        uses: ./.github/actions/setup
 
       - name: Check styles/theme.css in sync with CLI template
         run: |
@@ -134,7 +134,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup
-        uses: $/.github/actions/setup
+        uses: ./.github/actions/setup
         with:
           pm: ${{ matrix.pm }}
 

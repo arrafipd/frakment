@@ -12,13 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Skip DCO for Dependabot
-        if: github.actor == 'dependabot[bot]' || github.event.pull_request.user.login == 'dependabot[bot]'
+        if: github.event.pull_request.user.login == 'dependabot[bot]'
         run: echo "DCO check skipped for Dependabot PR"
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
-        if: github.actor != 'dependabot[bot]' && github.event.pull_request.user.login != 'dependabot[bot]'
+        if: github.event.pull_request.user.login != 'dependabot[bot]'
         with:
           fetch-depth: 0
           persist-credentials: false
       - name: Check Signed-off-by on all commits
-        if: github.actor != 'dependabot[bot]' && github.event.pull_request.user.login != 'dependabot[bot]'
+        if: github.event.pull_request.user.login != 'dependabot[bot]'
         uses: tim-actions/dco@f2279e6e62d5a7d9115b0cb8e837b777b1b02e21
