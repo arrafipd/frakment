@@ -37,7 +37,7 @@ export const getContributors = unstable_cache(
     }
   },
   ["github-contributors"],
-  { revalidate: 86_400 }
+  { revalidate: 3600 }
 );
 
 export const getStargazers = unstable_cache(
