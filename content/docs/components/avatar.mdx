@@ -12,6 +12,9 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar";
 import { AvatarDemo } from "@/examples/avatar-demo";
+import { AvatarFallbackDemo } from "@/examples/avatar-fallback";
+import { AvatarGroupDemo } from "@/examples/avatar-group";
+import { AvatarStatusDemo } from "@/examples/avatar-status";
 
 <ComponentPreview
   name="avatar"
@@ -131,6 +134,14 @@ Pass `src` and `alt` on **AvatarImage**. **AvatarFallback** renders automaticall
   </div>
 </ComponentPreview>
 
+### Fallback on error
+
+When the image fails to load, **AvatarFallback** takes its place. No extra state is needed.
+
+<ComponentPreview name="avatar-fallback" title="avatar-fallback.tsx" src="examples/avatar-fallback.tsx">
+  <AvatarFallbackDemo />
+</ComponentPreview>
+
 ## Fallback only
 
 When there is no image, use **AvatarFallback** directly with initials.
@@ -152,6 +163,12 @@ When there is no image, use **AvatarFallback** directly with initials.
 ## With badge
 
 Use **AvatarBadge** to indicate presence. Place it as the last child of **Avatar**. Its position is automatic (bottom-right).
+
+Put the status in `sr-only` text inside the badge so screen readers announce it.
+
+<ComponentPreview name="avatar-status" title="avatar-status.tsx" src="examples/avatar-status.tsx">
+  <AvatarStatusDemo />
+</ComponentPreview>
 
 <ComponentPreview name="avatar" title="avatar.tsx">
   <div className="flex items-center gap-4">
@@ -178,6 +195,12 @@ Use **AvatarBadge** to indicate presence. Place it as the last child of **Avatar
 **AvatarGroup** overlaps avatars with a 2px background ring between each one,
 keeping the stack readable. Place **AvatarGroupCount** as the last child to
 show how many more are hidden.
+
+<ComponentPreview name="avatar-group" title="avatar-group.tsx" src="examples/avatar-group.tsx">
+  <AvatarGroupDemo />
+</ComponentPreview>
+
+With a count:
 
 <ComponentPreview name="avatar" title="avatar.tsx">
   <AvatarGroup>
