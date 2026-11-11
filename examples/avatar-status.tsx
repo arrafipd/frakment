@@ -8,24 +8,24 @@ import {
 const people = [
   {
     alt: "@anna",
-    src: "/avatars/female-l-1.avif",
-    initials: "AN",
-    status: "Online",
     color: "bg-green-600 dark:bg-green-800",
+    initials: "AN",
+    src: "/avatars/female-l-1.avif",
+    status: "Online",
   },
   {
     alt: "@sara",
-    src: "/avatars/female-l-2.avif",
-    initials: "SA",
-    status: "Away",
     color: "bg-yellow-500 dark:bg-yellow-700",
+    initials: "SA",
+    src: "/avatars/female-l-2.avif",
+    status: "Away",
   },
   {
     alt: "@liv",
-    src: "/avatars/female-l-3.avif",
-    initials: "LV",
-    status: "Busy",
     color: "bg-red-600 dark:bg-red-800",
+    initials: "LV",
+    src: "/avatars/female-l-3.avif",
+    status: "Busy",
   },
 ];
 
