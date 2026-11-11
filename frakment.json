@@ -517,6 +517,16 @@
       ],
       "registryDependencies": [],
       "type": "registry:ui"
+    },
+    {
+      "name": "holo-card",
+      "title": "Holo Card",
+      "description": "A card with a procedural foil that reacts to pointer tilt and device motion. Card and image variants.",
+      "source": "registry/holo-card.tsx",
+      "target": "components/ui/holo-card.tsx",
+      "dependencies": [],
+      "registryDependencies": [],
+      "type": "registry:ui"
     }
   ],
   "skills": [

@@ -1,0 +1,79 @@
+---
+title: "November 12, 2026"
+description: "Add holo-card and fix credit-card to remove an internal brand dependency."
+date: "2026-11-12"
+---
+
+import { HoloCardDemo } from "@/examples/holo-card-demo";
+import { CreditCardDemo } from "@/examples/credit-card-demo";
+
+Two library changes ship today. A new card with a procedural foil that reacts to pointer tilt and device motion, and a fix for the credit card that removes an internal import so it installs cleanly.
+
+- [Holo Card](#holo-card): New module.
+- [Credit Card](#credit-card): Fix internal brand dependency.
+
+<hr className="my-16 border-border/40" />
+
+### Holo Card
+
+<ComponentPreview name="holo-card" title="holo-card-demo.tsx" src="examples/holo-card-demo.tsx" previewClassName="h-auto py-8">
+  <HoloCardDemo />
+</ComponentPreview>
+
+Two presets ship: `bursts` (default) and `cosmos`. Card mode accepts a `logo` (URL, text, or any ReactNode) and an optional `chip` override. Image mode (`variant="image"` or a `HoloCardImage` child) renders artwork under the foil.
+
+#### Installation
+
+<Steps>
+  <Step>Install</Step>
+
+```bash
+npx frakment@latest add holo-card
+```
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<HoloCard logo="/logo.svg" preset="bursts" />
+```
+
+```tsx
+<HoloCard variant="image" preset="cosmos">
+  <HoloCardImage alt="Card" src="/card.avif" />
+</HoloCard>
+```
+
+### Credit Card
+
+<ComponentPreview name="credit-card" title="credit-card-demo.tsx" src="examples/credit-card-demo.tsx" previewClassName="h-auto py-8">
+  <CreditCardDemo />
+</ComponentPreview>
+
+`CreditCardIssuer` no longer imports the site-internal `@/components/brand`. Pass a `logo` or `children` to render a mark; omitting both renders nothing. Fresh installs of `credit-card` no longer fail with a module-not-found error.
+
+#### Installation
+
+<Steps>
+  <Step>Update</Step>
+
+```bash
+npx frakment@latest add credit-card
+```
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<CreditCard>
+  <CreditCardHeader>
+    <CreditCardIssuer logo={<MyLogo />} />
+    <CreditCardBrand brand="visa" />
+  </CreditCardHeader>
+  <CreditCardNumber value="4242424242424242" />
+  <CreditCardFooter>
+    <CreditCardHolder value="John Doe" />
+    <CreditCardExpiry value="1228" />
+  </CreditCardFooter>
+</CreditCard>
+```
