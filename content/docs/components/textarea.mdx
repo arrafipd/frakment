@@ -1,0 +1,198 @@
+---
+title: Textarea
+description: A multi-line text input with auto-grow support.
+---
+
+import { TextareaDemo } from "@/examples/textarea-demo";
+import { TextareaAutogrow } from "@/examples/textarea-autogrow";
+import { TextareaDisabled } from "@/examples/textarea-disabled";
+import { TextareaInvalid } from "@/examples/textarea-invalid";
+import { TextareaField } from "@/examples/textarea-field";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+
+<ComponentPreview name="textarea" title="textarea.tsx">
+  <TextareaDemo />
+</ComponentPreview>
+
+Textarea is a styled native `<textarea>` with `field-sizing-content` for automatic height, a consistent focus ring, and disabled / invalid states. Every native attribute is forwarded to the underlying `<textarea>`.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add textarea
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>No npm dependencies required.</Step>
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="textarea" title="components/ui/textarea.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+## Usage
+
+```tsx title="textarea.tsx"
+import { Textarea } from "@/components/ui/textarea";
+```
+
+```tsx title="textarea.tsx"
+<Textarea placeholder="Write a message..." />
+```
+
+## Anatomy
+
+```tsx
+<Textarea />
+```
+
+- **Textarea** — native `<textarea>` with `data-slot="textarea"`, `field-sizing-content`, `min-h-16`, and Frakment focus / disabled / invalid styling
+
+## Examples
+
+### Auto-grow
+
+Because of `field-sizing-content`, the textarea grows to fit its content without JavaScript. Set `rows` for a minimum height.
+
+<ComponentPreview
+  name="textarea"
+  title="textarea.tsx"
+  previewClassName="h-auto py-8"
+>
+  <TextareaAutogrow />
+</ComponentPreview>
+
+```tsx
+<Textarea
+  placeholder="Type a long message..."
+  defaultValue="field-sizing-content makes this grow automatically."
+/>
+```
+
+### Disabled
+
+<ComponentPreview
+  name="textarea"
+  title="textarea.tsx"
+  previewClassName="h-auto py-8"
+>
+  <TextareaDisabled />
+</ComponentPreview>
+
+```tsx
+<Textarea
+  placeholder="Disabled textarea"
+  disabled
+  defaultValue="This field is disabled."
+/>
+```
+
+### Invalid
+
+Set `aria-invalid` on the textarea to trigger the destructive border and ring.
+
+<ComponentPreview
+  name="textarea"
+  title="textarea.tsx"
+  previewClassName="h-auto py-8"
+>
+  <TextareaInvalid />
+</ComponentPreview>
+
+```tsx
+<Textarea
+  placeholder="Invalid"
+  aria-invalid
+  defaultValue="This content is not allowed."
+/>
+```
+
+### With Field
+
+Compose with `Field` for a label and description around the textarea.
+
+<ComponentPreview
+  name="textarea"
+  title="textarea.tsx"
+  previewClassName="h-auto py-8"
+>
+  <TextareaField />
+</ComponentPreview>
+
+```tsx
+<Field>
+  <FieldLabel htmlFor="feedback">Feedback</FieldLabel>
+  <Textarea id="feedback" placeholder="Share your thoughts..." rows={4} />
+  <FieldDescription>We read every message.</FieldDescription>
+</Field>
+```
+
+## In Context
+
+### Comment box
+
+<ComponentPreview name="textarea" title="textarea.tsx">
+  <div className="mx-auto flex w-full max-w-sm flex-col gap-2">
+    <Label htmlFor="comment">Comment</Label>
+    <Textarea id="comment" placeholder="Write a reply…" rows={3} />
+  </div>
+</ComponentPreview>
+
+### Bio field with limit
+
+<ComponentPreview name="textarea" title="textarea.tsx">
+  <div className="mx-auto flex w-full max-w-sm flex-col gap-2">
+    <Label htmlFor="bio">Bio</Label>
+    <Textarea id="bio" placeholder="A few words about you…" rows={4} />
+    <p className="text-muted-foreground text-xs">Max 160 characters.</p>
+  </div>
+</ComponentPreview>
+
+## API Reference
+
+### Textarea
+
+Extends `React.ComponentProps<"textarea">`.
+
+<PropsTable
+  rows={[
+    { name: "rows", type: "number", default: "2", description: "Initial visible rows." },
+    { name: "placeholder", type: "string", description: "Shown when empty." },
+    { name: "value", type: "string", description: "Controlled value." },
+    { name: "defaultValue", type: "string", description: "Uncontrolled initial value." },
+    { name: "onChange", type: "React.ChangeEventHandler<HTMLTextAreaElement>", description: "Fires on every keystroke." },
+    { name: "disabled", type: "boolean", default: "false", description: "Removes from the tab order." },
+    { name: "aria-invalid", type: "boolean", description: "Marks invalid; pair with aria-describedby." },
+  ]}
+/>
+
+## Accessibility
+
+- `Textarea` renders a native `<textarea>`. Always pair with a `Label` or `FieldLabel`.
+- `rows` sets the initial height; the textarea grows with content when `field-sizing-content` is applied.
+- Set `aria-invalid` and `aria-describedby` on error, same as `Input`.
+- Provide a character count via `aria-describedby` when a hard limit exists.
+
+## Best Practices
+
+- **Set a sensible rows default.** Two to four rows is enough for most forms.
+- **Auto-grow with care.** `field-sizing-content` is convenient but can push the submit button off-screen in long replies.
+- **Add a character count** when a limit exists.
+- **Keep the submit shortcut consistent.** `Cmd+Enter` or `Ctrl+Enter` sends; `Enter` inserts a newline.
+- **Do not use Textarea for a single line.** Use `Input` instead.

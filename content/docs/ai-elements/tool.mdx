@@ -1,0 +1,144 @@
+---
+title: Tool
+description: Render a tool call as a trace row with running, done, error, denied, and approval states.
+---
+
+import { ToolDemo } from "@/examples/tool-demo";
+import { ToolStates } from "@/examples/tool-states";
+import { ToolSheet } from "@/examples/tool-sheet";
+import { ToolApproval } from "@/examples/tool-approval";
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+import { TerminalIcon } from "lucide-react";
+
+<ComponentPreview name="tool-demo" title="tool-demo.tsx" src="examples/tool-demo.tsx" align="start" previewClassName="h-auto">
+  <ToolDemo />
+</ComponentPreview>
+
+Tool renders a tool call as a trace row. The row shows the command, a status glyph, and the output in a code block. Failing calls expand by default. Approvals render as a prompt outside the trace.
+
+Tool is a **composition**, not a primitive. It composes [Trace](/docs/components/trace) and [Code Block](/docs/components/code-block).
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add trace code-block message bubble button item
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the primitives:</Step>
+
+      ~~~bash
+      npx frakment add trace code-block message bubble button item
+      ~~~
+
+      <Step>Copy the demo into your project:</Step>
+
+      <ComponentSource name="tool-demo" title="examples/tool-demo.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="tool.tsx"
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block";
+import { TerminalIcon } from "lucide-react";
+~~~
+
+## Anatomy
+
+~~~tsx title="tool.tsx"
+<TraceCollapsible>
+  <TraceCollapsibleTrigger>
+    <TraceLine>
+      <TraceIcon />
+      <TraceTitle />
+    </TraceLine>
+  </TraceCollapsibleTrigger>
+  <TraceCollapsibleContent>
+    <CodeBlock>
+      <CodeBlockContent />
+    </CodeBlock>
+  </TraceCollapsibleContent>
+</TraceCollapsible>
+~~~
+
+- **TraceCollapsible** — one per call, header has the command and status
+- **TraceLine** — a single row, `status` drives icon and color
+- **Code Block** — the tool output (stdout or error text)
+
+## States
+
+A call can be running, done, error, denied, or pending approval. Each maps to a different row.
+
+<ComponentPreview name="tool-states" title="tool-states.tsx" src="examples/tool-states.tsx" align="start" previewClassName="h-auto">
+  <ToolStates />
+</ComponentPreview>
+
+## Output in a sheet
+
+For file reads or long outputs, open the result in a [Sheet](/docs/components/sheet) instead of expanding inline. The row becomes a trigger and the sheet shows the full content.
+
+<ComponentPreview name="tool-sheet" title="tool-sheet.tsx" src="examples/tool-sheet.tsx" align="start" previewClassName="h-auto">
+  <ToolSheet />
+</ComponentPreview>
+
+## Approval
+
+Mark a tool with `needsApproval: true` and the call pauses with `state: "approval-requested"`. Render it as an [Item](/docs/components/item) outside the trace, with Deny and Approve buttons. `addToolApprovalResponse` from `useChat` sends the decision, and `sendAutomaticallyWhen` resumes the assistant turn.
+
+~~~ts title="tool.ts"
+writer.tool("runCommand", {
+  input: { command: "rm -rf dist" },
+  needsApproval: true,
+  output: { stdout: "" },
+})
+~~~
+
+<ComponentPreview name="tool-approval" title="tool-approval.tsx" src="examples/tool-approval.tsx" align="start" previewClassName="h-auto">
+  <ToolApproval />
+</ComponentPreview>
+
+## Accessibility
+
+- The status icon is decorative. The `TraceTitle` carries the state.
+- Approval prompts use `Item` with two buttons. Each button is a real `<button>` with a clear label.
+- Failed calls auto-expand their output. Screen readers announce the open state via the trigger.
+- `prefers-reduced-motion` disables the spinner and collapse animation.
+
+## Best Practices
+
+- **Show the command, not the tool name.** Users care what runs, not what it is called.
+- **Auto-expand failures.** A failing tool needs its output visible.
+- **Ask before destructive commands.** `needsApproval` for anything that writes or deletes.
+- **Pair with a plain-text summary.** The tool row is evidence, not the answer.

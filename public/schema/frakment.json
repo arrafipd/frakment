@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://www.arrafi.dev/frakment/schema/frakment.json",
+  "title": "Frakment Registry Manifest",
+  "description": "Registry manifest for Frakment components and skills.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "homepage", "components"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "homepage": {
+      "type": "string",
+      "format": "uri"
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/component"
+      }
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/skill"
+      }
+    }
+  },
+  "$defs": {
+    "semverRange": {
+      "type": "string",
+      "pattern": "^[\\^~=]?[0-9]+\\.[0-9]+\\.[0-9]+"
+    },
+    "dependency": {
+      "type": "string",
+      "pattern": "^(@[a-z0-9-]+/)?[a-z0-9-]+@[\\^~=][0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "title", "description", "type", "source", "target"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "enum": [
+            "registry:ui",
+            "registry:component",
+            "registry:hook",
+            "registry:lib"
+          ]
+        },
+        "source": {
+          "type": "string",
+          "pattern": "^registry/"
+        },
+        "target": {
+          "type": "string",
+          "pattern": "^(components/ui/|lib/)"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/dependency"
+          },
+          "uniqueItems": true
+        },
+        "registryDependencies": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "uniqueItems": true
+        },
+        "additionalFiles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["source", "target"],
+            "properties": {
+              "source": {
+                "type": "string"
+              },
+              "target": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "assets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "type", "target"],
+            "properties": {
+              "path": {
+                "type": "string",
+                "pattern": "^public/"
+              },
+              "type": {
+                "type": "string",
+                "enum": ["registry:file"]
+              },
+              "target": {
+                "type": "string",
+                "pattern": "^public/"
+              }
+            }
+          }
+        }
+      }
+    },
+    "skill": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "title", "description", "source", "version"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "type": "string",
+          "pattern": "^skills/"
+        },
+        "version": {
+          "$ref": "#/$defs/semverRange"
+        },
+        "allowedTools": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

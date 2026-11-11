@@ -1,0 +1,380 @@
+---
+title: Theming
+description: Customize Frakment with CSS variables and theme tokens.
+---
+
+Frakment uses **CSS variables** for theming. Every component references semantic tokens like `bg-background`, `text-foreground`, `border-border` — never hardcoded colors. Change the tokens, change the entire look of your app.
+
+Theme tokens live directly in your `globals.css`. `npx frakment init` injects them automatically. Manual setup is one copy-paste.
+
+## Where the tokens live
+
+Frakment injects its theme tokens directly into `globals.css`. `npx frakment init` sets up:
+
+- **Theme block in `globals.css`** — tokens, dark mode, component utilities
+- **`components.json`** — CLI config (registry URL, aliases, globals.css path)
+
+The tokens go **after** all your `@import` statements. Placement looks like this:
+
+```css title="app/globals.css"
+@import "tailwindcss";
+/* theme tokens start below */
+```
+
+The block is self-contained: it defines `@theme inline`, `:root` (light), `.dark` (dark), `@custom-variant dark`, and 9 `@utility` helpers. To customize the look, edit these tokens in `globals.css`.
+
+**Tailwind v4 required.** The theme block uses `@theme`, `@utility`, and `@custom-variant` — Tailwind v3 is not supported.
+
+## Token convention
+
+Each surface token has a matching `-foreground` token for text on that surface. Components use both, so you only change two values per surface.
+
+- `primary` → `primary-foreground`
+- `secondary` → `secondary-foreground`
+- `muted` → `muted-foreground`
+- `card` → `card-foreground`
+- `popover` → `popover-foreground`
+- `accent` → `accent-foreground`
+- `destructive` — no `-foreground`; always uses white text
+
+Each surface token controls a background; its paired `-foreground` controls text on that surface. This keeps contrast automatic and makes light/dark mode trivial.
+
+## Theme tokens
+
+Define these in `:root` (light) and `.dark` (dark mode) in your CSS:
+
+| Token                                | Controls                       | Used by                              |
+| :----------------------------------- | :----------------------------- | :----------------------------------- |
+| `background` / `foreground`          | Page background and text       | Page shell, sections                 |
+| `card` / `card-foreground`           | Elevated surfaces              | Card, panels                         |
+| `popover` / `popover-foreground`     | Floating surfaces              | Popover, DropdownMenu                |
+| `primary` / `primary-foreground`     | High-emphasis actions          | Default Button, selected states      |
+| `secondary` / `secondary-foreground` | Lower-emphasis actions         | Secondary buttons                    |
+| `muted` / `muted-foreground`         | Subtle surfaces                | Descriptions, placeholders           |
+| `subtle-foreground`                  | Secondary text between foreground and muted | Composer trigger values, secondary labels |
+| `accent` / `accent-foreground`       | Hover and focus surfaces       | Ghost buttons, hover rows            |
+| `destructive`                        | Errors and destructive actions | Destructive buttons, error states    |
+| `border`                             | Borders and separators         | Cards, Separator, inputs             |
+| `input`                              | Form control borders           | Input, Textarea                      |
+| `ring`                               | Focus rings                    | Buttons, inputs                      |
+| `radius`                             | Base corner radius             | All rounded elements                 |
+| `surface` / `surface-foreground`     | Docs surface tokens            | Callout, LinkedCard                  |
+| `code` / `code-foreground`           | Code block background and text | Code Block, inline code              |
+| `sidebar-*`                          | Sidebar tokens                 | Sidebar, docs navigation             |
+| `chart-*`                            | Data visualization colors      | Reserved for future chart components |
+
+## Radius scale
+
+`--radius` is the base. Smaller and larger radii are derived from it by the components:
+
+```css title="globals.css"
+:root {
+  --radius: 0.625rem;
+  /* Components reference: */
+  /* radius-sm = calc(var(--radius) - 4px) */
+  /* radius-md = calc(var(--radius) - 2px) */
+  /* radius-lg = var(--radius) */
+  /* radius-xl = calc(var(--radius) + 4px) */
+}
+```
+
+Change `--radius` once and the entire radius scale updates across all components.
+
+## Adding a new token
+
+Define it under `:root` and `.dark`, then expose it with `@theme inline`:
+
+```css title="app/globals.css"
+:root {
+  --warning: oklch(0.84 0.16 84);
+  --warning-foreground: oklch(0.28 0.07 46);
+}
+
+.dark {
+  --warning: oklch(0.41 0.11 46);
+  --warning-foreground: oklch(0.99 0.02 95);
+}
+
+@theme inline {
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+}
+```
+
+Now you can use `bg-warning` and `text-warning-foreground` in your components.
+
+## Base colors
+
+Frakment works with any OKLCH palette. These base colors all work with the default theme without changes:
+
+| Base    | Character          |
+| :------ | :----------------- |
+| Neutral | Pure gray          |
+| Stone   | Warm gray          |
+| Zinc    | Cool gray          |
+| Mauve   | Purple-tinted gray |
+| Olive   | Green-tinted gray  |
+| Mist    | Blue-tinted gray   |
+| Taupe   | Brown-tinted gray  |
+
+Swap the OKLCH values in `:root` and `.dark` for any of these — Frakment components don't care which base you choose, they only read tokens.
+
+## Dark mode
+
+Frakment's dark mode is wired through two pieces in the theme block: a custom Tailwind variant and a token override block.
+
+- **`@custom-variant dark (&:is(.dark *))`** - registers the `dark:` Tailwind variant
+- **A `.dark { ... }` block** - dark token values
+
+When `<html class="dark">`, every `dark:*` utility and every token in `.dark` kicks in.
+
+See [Dark mode](/docs/guides/dark-mode) for the full setup with next-themes, manual toggle, and per-section theming.
+
+
+## Default theme
+
+This is what `npx frakment init` injects into `globals.css`. If you're setting up manually, paste it after your last `@import` (see [Manual](/docs/getting-started/installation/manual)).
+
+The full block also includes 9 `@utility` helpers (`container`, `no-scrollbar`, `border-grid`, etc.) used by some components. See [`cli/templates/theme.css`](https://github.com/arrafipd/frakment/blob/main/cli/templates/theme.css) for the source.
+
+<CodeCollapsibleWrapper>
+
+```css title="app/globals.css"
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --breakpoint-3xl: 1600px;
+  --breakpoint-4xl: 2000px;
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-subtle-foreground: var(--subtle-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-surface: var(--surface);
+  --color-surface-foreground: var(--surface-foreground);
+  --color-code: var(--code);
+  --color-code-foreground: var(--code-foreground);
+  --color-code-highlight: var(--code-highlight);
+  --color-code-number: var(--code-number);
+  --color-selection: var(--selection);
+  --color-selection-foreground: var(--selection-foreground);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.5 0 0);
+  --subtle-foreground: oklch(0.32 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.92 0 0);
+  --input: oklch(0.89 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: var(--color-blue-300);
+  --chart-2: var(--color-blue-500);
+  --chart-3: var(--color-blue-600);
+  --chart-4: var(--color-blue-700);
+  --chart-5: var(--color-blue-800);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+  --surface: oklch(0.98 0 0);
+  --surface-foreground: var(--foreground);
+  --code: var(--surface);
+  --code-foreground: var(--surface-foreground);
+  --code-highlight: oklch(0.96 0 0);
+  --code-number: oklch(0.56 0 0);
+  --selection: oklch(0.145 0 0);
+  --selection-foreground: oklch(1 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.269 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.75 0 0);
+  --subtle-foreground: oklch(0.88 0 0);
+  --accent: oklch(0.371 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: var(--color-blue-300);
+  --chart-2: var(--color-blue-500);
+  --chart-3: var(--color-blue-600);
+  --chart-4: var(--color-blue-700);
+  --chart-5: var(--color-blue-800);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.439 0 0);
+  --surface: oklch(0.2 0 0);
+  --surface-foreground: oklch(0.708 0 0);
+  --code: var(--surface);
+  --code-foreground: var(--surface-foreground);
+  --code-highlight: oklch(0.27 0 0);
+  --code-number: oklch(0.72 0 0);
+  --selection: oklch(0.922 0 0);
+  --selection-foreground: oklch(0.205 0 0);
+}
+
+/* Component utilities - kept here for the experiment */
+
+@utility border-grid {
+  @apply border-border/50 dark:border-border;
+}
+@utility section-soft {
+  @apply from-background to-surface/40 dark:bg-background 3xl:fixed:bg-none bg-gradient-to-b;
+}
+@utility container-wrapper {
+  @apply 3xl:fixed:max-w-[calc(var(--breakpoint-2xl)+2rem)] mx-auto w-full px-2;
+}
+@utility container {
+  @apply 3xl:max-w-screen-2xl mx-auto max-w-[1400px] px-4 lg:px-8;
+}
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+@utility border-ghost {
+  @apply after:border-border relative after:absolute after:inset-0 after:border after:mix-blend-darken dark:after:mix-blend-lighten;
+}
+@utility step {
+  counter-increment: step;
+
+  &:before {
+    @apply border-background bg-muted mr-2 inline-flex size-6 items-center justify-center rounded-full text-center -indent-px font-mono text-sm font-medium md:absolute md:mt-[-4px] md:ml-[-50px] md:size-9 md:border-4;
+    content: counter(step);
+  }
+}
+@utility extend-touch-target {
+  @media (pointer: coarse) {
+    @apply relative touch-manipulation after:absolute after:-inset-2;
+  }
+}
+@utility shimmer {
+  background-image: linear-gradient(
+    90deg,
+    var(--foreground) 0%,
+    var(--foreground) 35%,
+    var(--foreground) 45%,
+    color-mix(in oklab, var(--foreground) 50%, transparent) 50%,
+    var(--foreground) 55%,
+    var(--foreground) 65%,
+    var(--foreground) 100%
+  );
+  background-size: 220% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+```
+
+</CodeCollapsibleWrapper>
+
+## FAQ
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="why-oklch">
+<AccordionTrigger>Why OKLCH instead of hex or HSL?</AccordionTrigger>
+<AccordionContent>
+
+OKLCH is a perceptual color space — colors with the same lightness value look equally bright. This makes theme tokens consistent across hues and lets dark mode swap lightness without changing hue.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="custom-base">
+<AccordionTrigger>Can I use my own brand color?</AccordionTrigger>
+<AccordionContent>
+
+Yes. Set `--primary` and `--primary-foreground` to your brand colors. Keep the contrast ratio at WCAG AA (4.5:1 minimum) and everything else stays consistent.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="css-vars-off">
+<AccordionTrigger>Can I disable CSS variables?</AccordionTrigger>
+<AccordionContent>
+
+Not out of the box. Frakment components reference semantic tokens (`bg-background`, `text-foreground`). You would need to rewrite each component to use inline utilities instead — not recommended.
+
+</AccordionContent>
+</AccordionItem>
+
+</Accordion>
+
+## Next
+
+- [Dark mode](/docs/guides/dark-mode) - toggle, persistence, and per-section theming
+- [Components](/docs/components) - base primitives
+- [AI Elements](/docs/ai-elements) - chat and agent primitives
+- [Installation](/docs/getting-started/installation) - set up Frakment in your project

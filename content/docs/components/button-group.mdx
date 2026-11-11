@@ -1,0 +1,235 @@
+---
+title: Button Group
+description: Groups related buttons into a single visual unit.
+---
+
+import { ButtonGroupDemo } from "@/examples/button-group-demo";
+import { ButtonGroupOrientation } from "@/examples/button-group-orientation";
+import { ButtonGroupSize } from "@/examples/button-group-size";
+import { ButtonGroupSeparatorDemo } from "@/examples/button-group-separator";
+import { ButtonGroupSplit } from "@/examples/button-group-split";
+import { ButtonGroupInput } from "@/examples/button-group-input";
+import { ButtonGroupNested } from "@/examples/button-group-nested";
+import { ButtonGroupInputGroup } from "@/examples/button-group-input-group";
+import { ButtonGroupSelect } from "@/examples/button-group-select";
+import { ButtonGroupDropdown } from "@/examples/button-group-dropdown";
+import { ButtonGroup } from "@/components/ui/button-group";
+import { Button } from "@/components/ui/button";
+
+<ComponentPreview name="button-group" title="button-group.tsx" previewClassName="h-auto py-8">
+  <ButtonGroupDemo />
+</ComponentPreview>
+
+Button Group merges adjacent buttons into a single bordered unit. It removes inner radii and doubles the border weight so members read as one control.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add button-group
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ~~~bash
+      npm install class-variance-authority radix-ui
+      ~~~
+
+      <Step>Install the separator</Step>
+
+      ~~~bash
+      npx frakment add separator
+      ~~~
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="button-group" title="components/ui/button-group.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="button-group.tsx"
+import { Button } from "@/components/ui/button";
+import {
+  ButtonGroup,
+  ButtonGroupSeparator,
+} from "@/components/ui/button-group";
+~~~
+
+~~~tsx
+<ButtonGroup>
+  <Button variant="outline">Archive</Button>
+  <Button variant="outline">Report</Button>
+  <Button variant="outline">Snooze</Button>
+</ButtonGroup>
+~~~
+
+## Composition
+
+```text
+ButtonGroup
+├── Button
+├── ButtonGroupText
+└── ButtonGroupSeparator
+```
+
+## Orientation
+
+Set `orientation="vertical"` to stack buttons.
+
+<ComponentPreview name="button-group" title="button-group.tsx" previewClassName="h-auto py-8">
+  <ButtonGroupOrientation />
+</ComponentPreview>
+
+## Size
+
+Every button in the group must share the same `size`.
+
+<ComponentPreview name="button-group" title="button-group.tsx" previewClassName="h-auto py-8">
+  <ButtonGroupSize />
+</ComponentPreview>
+
+## Separator
+
+Insert a `ButtonGroupSeparator` between buttons for a stronger visual break.
+
+<ComponentPreview name="button-group" title="button-group.tsx" previewClassName="h-auto py-8">
+  <ButtonGroupSeparatorDemo />
+</ComponentPreview>
+
+## Split
+
+Combine a text button and an icon button with a separator.
+
+<ComponentPreview name="button-group" title="button-group.tsx" previewClassName="h-auto py-8">
+  <ButtonGroupSplit />
+</ComponentPreview>
+
+## With input
+
+Compose a group with an `Input` and a `Button`.
+
+<ComponentPreview name="button-group" title="button-group.tsx" previewClassName="h-auto py-8">
+  <ButtonGroupInput />
+</ComponentPreview>
+
+## With nested groups
+
+Nest groups to combine unrelated clusters in one row.
+
+<ComponentPreview name="button-group" title="button-group.tsx" previewClassName="h-auto py-8">
+  <ButtonGroupNested />
+</ComponentPreview>
+
+## With input group
+
+Merge an `InputGroup` into a `ButtonGroup` for composer-style layouts.
+
+<ComponentPreview name="button-group" title="button-group.tsx" previewClassName="h-auto py-8">
+  <ButtonGroupInputGroup />
+</ComponentPreview>
+
+## With select
+
+Pair a `Select` and an `Input` inside a single group.
+
+<ComponentPreview name="button-group" title="button-group.tsx" previewClassName="h-auto py-8">
+  <ButtonGroupSelect />
+</ComponentPreview>
+
+## With dropdown
+
+Attach a `DropdownMenu` as the trailing icon button.
+
+<ComponentPreview name="button-group" title="button-group.tsx" previewClassName="h-auto py-8">
+  <ButtonGroupDropdown />
+</ComponentPreview>
+
+## In Context
+
+### Editor toolbar
+
+<ComponentPreview name="button-group" title="button-group.tsx">
+  <ButtonGroup>
+    <Button variant="outline" size="sm">Bold</Button>
+    <Button variant="outline" size="sm">Italic</Button>
+    <Button variant="outline" size="sm">Underline</Button>
+  </ButtonGroup>
+</ComponentPreview>
+
+### Pagination controls
+
+<ComponentPreview name="button-group" title="button-group.tsx">
+  <ButtonGroup>
+    <Button variant="outline" size="sm">Previous</Button>
+    <Button variant="outline" size="sm">1</Button>
+    <Button variant="outline" size="sm">2</Button>
+    <Button variant="outline" size="sm">Next</Button>
+  </ButtonGroup>
+</ComponentPreview>
+
+## API Reference
+
+### ButtonGroup
+
+<PropsTable
+  rows={[
+    { name: "orientation", type: "horizontal | vertical", default: "horizontal", description: "Stack direction." },
+  ]}
+/>
+
+### ButtonGroupSeparator
+
+<PropsTable
+  rows={[
+    { name: "orientation", type: "horizontal | vertical", default: "vertical", description: "Divider direction." },
+  ]}
+/>
+
+## CSS Variables
+
+| Variable | Default | Purpose |
+| :-- | :-- | :-- |
+| `--radius` | theme default | Corner radius applied to the group |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `button-group`, `button-group-text`, `button-group-separator` |
+| `data-orientation` | `horizontal` \| `vertical` |
+
+## Accessibility
+
+- Renders `role="group"` on the wrapper.
+- Every icon-only button must have `aria-label`.
+- Groups read as a single control to screen readers when the role is set.
+
+## Best Practices
+
+- **Group related actions.** A Button Group is for actions that share context, not unrelated buttons.
+- **Keep sizes consistent.** Mixing `sm` and `default` breaks the shared border.
+- **Use `separator` between unrelated pairs.** A vertical divider clarifies intent.
+- **Do not nest Button Groups.** Split into two groups instead.
+## Related Components
+
+- [Button](/docs/components/button) — single action
+- [Toggle Group](/docs/components/toggle-group) — grouped toggles
+- [Input Group](/docs/components/input-group) — button inside an input
+

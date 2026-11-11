@@ -1,0 +1,236 @@
+---
+title: Toggle
+description: A two-state button that can be toggled on or off.
+---
+
+import { ToggleDemo } from "@/examples/toggle-demo";
+import { ToggleOutline } from "@/examples/toggle-outline";
+import { ToggleText } from "@/examples/toggle-text";
+import { ToggleSizes } from "@/examples/toggle-sizes";
+import { ToggleDisabled } from "@/examples/toggle-disabled";
+import { Toggle } from "@/components/ui/toggle";
+import { BoldIcon } from "lucide-react";
+
+<ComponentPreview name="toggle" title="toggle.tsx">
+  <ToggleDemo />
+</ComponentPreview>
+
+Toggle is a two-state button built on the Radix Toggle primitive. It supports `default` and `outline` variants, `sm` / `default` / `lg` sizes, and pressed / disabled states.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add toggle
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install class-variance-authority radix-ui
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="toggle" title="components/ui/toggle.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="toggle.tsx"
+import { Toggle } from "@/components/ui/toggle";
+```
+
+```tsx
+<Toggle aria-label="Toggle italic">
+  <ItalicIcon />
+  Italic
+</Toggle>
+```
+
+## Anatomy
+
+```tsx
+<Toggle>
+  <Icon />
+  Label
+</Toggle>
+```
+
+- **Toggle** — Radix `Toggle.Root`; accepts `variant`, `size`, `pressed`, `defaultPressed`, `onPressedChange`
+- Icons and text are children; the pressed state styles icon fills via `group-aria-pressed/toggle:`
+
+## Examples
+
+### Outline
+
+Pass `variant="outline"` for a bordered toggle.
+
+<ComponentPreview name="toggle" title="toggle.tsx">
+  <ToggleOutline />
+</ComponentPreview>
+
+```tsx
+<Toggle variant="outline" aria-label="Toggle italic">
+  <ItalicIcon />
+  Italic
+</Toggle>
+```
+
+### Text
+
+Default variant — no border, transparent background.
+
+<ComponentPreview name="toggle" title="toggle.tsx">
+  <ToggleText />
+</ComponentPreview>
+
+```tsx
+<Toggle aria-label="Toggle italic">
+  <ItalicIcon />
+  Italic
+</Toggle>
+```
+
+### Sizes
+
+`size` accepts `sm`, `default`, and `lg`.
+
+<ComponentPreview name="toggle" title="toggle.tsx">
+  <ToggleSizes />
+</ComponentPreview>
+
+```tsx
+<Toggle size="sm">Small</Toggle>
+<Toggle size="default">Default</Toggle>
+<Toggle size="lg">Large</Toggle>
+```
+
+### Disabled
+
+Set `disabled` on the toggle to lock interaction.
+
+<ComponentPreview name="toggle" title="toggle.tsx">
+  <ToggleDisabled />
+</ComponentPreview>
+
+```tsx
+<Toggle disabled>Disabled</Toggle>
+<Toggle variant="outline" disabled>Disabled</Toggle>
+```
+
+## In Context
+
+### Toolbar toggle
+
+<ComponentPreview name="toggle" title="toggle.tsx">
+  <Toggle aria-label="Bold" variant="outline"><BoldIcon /></Toggle>
+</ComponentPreview>
+
+## API Reference
+
+Extends `React.ComponentProps<typeof TogglePrimitive.Root>` from `radix-ui`.
+
+<PropsTable
+  rows={[
+    {
+      name: "variant",
+      type: '"default" | "outline"',
+      defaultValue: '"default"',
+      description: "Visual style.",
+    },
+    {
+      name: "size",
+      type: '"sm" | "default" | "lg"',
+      defaultValue: '"default"',
+      description: "Toggle size.",
+    },
+    {
+      name: "pressed",
+      type: "boolean",
+      defaultValue: "",
+      description: "Controlled pressed state.",
+    },
+    {
+      name: "defaultPressed",
+      type: "boolean",
+      defaultValue: "false",
+      description: "Initial pressed state (uncontrolled).",
+    },
+    {
+      name: "onPressedChange",
+      type: "(pressed: boolean) => void",
+      defaultValue: "",
+      description: "Called when the pressed state changes.",
+    },
+  ]}
+/>
+
+## Controlled
+
+```tsx
+const [pressed, setPressed] = React.useState(false)
+<Toggle pressed={pressed} onPressedChange={setPressed} />
+```
+
+## States
+
+| State | How |
+| :-- | :-- |
+| Off | default |
+| On | `pressed` prop |
+| Disabled | `disabled` prop |
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `Space` / `Enter` | Toggle |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `toggle` |
+| `data-state` | `on` \| `off` |
+| `data-disabled` | `true` |
+
+## Variants
+
+| Variant | Use case |
+| :-- | :-- |
+| `default` | Solid pressed state |
+| `outline` | Bordered, transparent until pressed |
+
+## Accessibility
+
+- `Toggle` renders a button with `aria-pressed`.
+- Provide `aria-label` when the toggle is icon-only.
+- Keyboard: Space toggles.
+
+## Best Practices
+
+- **Icon-only toggles need a label.** `aria-label` is not optional.
+- **Use `ToggleGroup` for multiple toggles.** Standalone toggles read as buttons.
+- **Persist the state.** Toggles are stateful, not one-shot.
+## Related Components
+
+- [Toggle Group](/docs/components/toggle-group) — set of toggles
+- [Switch](/docs/components/switch) — boolean setting
+

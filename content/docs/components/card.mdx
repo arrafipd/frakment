@@ -1,0 +1,249 @@
+---
+title: Card
+description: A container for grouping related content and actions.
+---
+
+import { CardDemo } from "@/examples/card-demo";
+import { CardSmall } from "@/examples/card-small";
+import { CardSpacing } from "@/examples/card-spacing";
+import { CardEdgeToEdge } from "@/examples/card-edge-to-edge";
+import { CardImage } from "@/examples/card-image";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+<ComponentPreview name="card" title="card.tsx" previewClassName="h-auto py-8">
+  <CardDemo />
+</ComponentPreview>
+
+Card is a flexible surface for content and actions. It supports a `size` prop (`default` / `sm`), an auto-spacing variable `--card-spacing` (default 16px, `sm` 12px), and image-friendly slots (`pt-0` / `rounded-t-xl`).
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add card
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>No npm dependencies required.</Step>
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="card" title="components/ui/card.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Composition
+
+```text
+Card
+├── CardHeader
+│   ├── CardTitle
+│   ├── CardDescription
+│   └── CardAction
+├── CardContent
+└── CardFooter
+```
+
+## Examples
+
+### Small size
+
+Pass `size="sm"` for tighter padding (12px) and smaller title.
+
+<ComponentPreview name="card" title="card.tsx" previewClassName="h-auto py-8">
+  <CardSmall />
+</ComponentPreview>
+
+```tsx
+<Card size="sm" className="mx-auto w-full max-w-xs">
+  <CardHeader>
+    <CardTitle>Scheduled reports</CardTitle>
+    <CardDescription>Weekly snapshots.</CardDescription>
+  </CardHeader>
+  <CardContent>...</CardContent>
+  <CardFooter>...</CardFooter>
+</Card>
+```
+
+### Custom spacing
+
+Override `--card-spacing` via an inline arbitrary class — the entire card (header, content, footer) adapts.
+
+<ComponentPreview name="card" title="card.tsx" previewClassName="h-auto py-8">
+  <CardSpacing />
+</ComponentPreview>
+
+```tsx
+<Card className="[--card-spacing:--spacing(6)]">...</Card>
+```
+
+### Edge to edge
+
+Negate `--card-spacing` on `CardContent` (`-mb-(--card-spacing)`, `-mx-(--card-spacing)`) for full-bleed sections like scrollable terms.
+
+<ComponentPreview name="card" title="card.tsx" previewClassName="h-auto py-8">
+  <CardEdgeToEdge />
+</ComponentPreview>
+
+```tsx
+<CardContent className="-mb-(--card-spacing)">
+  <div className="-mx-(--card-spacing) px-(--card-spacing) py-4">...</div>
+</CardContent>
+```
+
+### With image
+
+Any `<img>` as the first child gets `pt-0` + rounded top automatically — no extra classes needed on the image itself.
+
+<ComponentPreview name="card" title="card.tsx" previewClassName="h-auto py-8">
+  <CardImage />
+</ComponentPreview>
+
+```tsx
+<Card className="pt-0">
+  <img src="..." alt="..." className="aspect-video w-full object-cover" />
+  <CardHeader>...</CardHeader>
+</Card>
+```
+
+## API Reference
+
+Extends `React.ComponentProps<"div">`.
+
+### Card
+
+<PropsTable
+  rows={[
+    {
+      name: "size",
+      type: '"default" | "sm"',
+      defaultValue: '"default"',
+      description:
+        "Root padding via --card-spacing (16px → 12px) and smaller title.",
+    },
+  ]}
+/>
+
+### Other parts
+
+All other parts extend `React.ComponentProps<"div">`.
+
+Adds `data-slot="card-*"` for styling hooks.
+
+## CSS Variables
+
+| Variable | Default | Purpose |
+| :-- | :-- | :-- |
+| `--card-padding` | `--spacing(6)` | Inner padding |
+| `--card-radius` | `--radius-xl` | Corner radius |
+| `--card-spacing` | `--spacing(4)` | Gap between sections |
+
+## Variants
+
+| Variant | Use case |
+| :-- | :-- |
+| `default` | Standard surface |
+| `outline` | Bordered, no elevation |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `card`, `card-header`, `card-title`, `card-description`, `card-action`, `card-content`, `card-footer` |
+
+## Usage
+
+```tsx title="card.tsx"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+```
+
+```tsx title="card.tsx"
+<Card>
+  <CardHeader>
+    <CardTitle>Frakment</CardTitle>
+    <CardDescription>Registry primitives for React.</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <p>Copy-paste, not install.</p>
+  </CardContent>
+  <CardFooter>
+    <Button>Open</Button>
+  </CardFooter>
+</Card>
+```
+
+## In Context
+
+### Project list
+
+<ComponentPreview name="card" title="card.tsx">
+  <div className="mx-auto w-full max-w-sm space-y-3">
+    <Card>
+      <CardHeader>
+        <CardTitle>frakment/ui</CardTitle>
+        <CardDescription>Primitives for product surfaces.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm">42 components. Radix-based. Copy-paste first.</p>
+      </CardContent>
+      <CardFooter>
+        <Button size="sm" variant="outline">View</Button>
+      </CardFooter>
+    </Card>
+    <Card>
+      <CardHeader>
+        <CardTitle>frakment/ai</CardTitle>
+        <CardDescription>Chat, agent, and reasoning primitives.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm">Message, Bubble, Trace, Attachment.</p>
+      </CardContent>
+      <CardFooter>
+        <Button size="sm" variant="outline">View</Button>
+      </CardFooter>
+    </Card>
+  </div>
+</ComponentPreview>
+
+## Accessibility
+
+- `Card` renders a plain `<div>` with `data-slot="card"`. It has no role by default; add one when the card represents a distinct region (e.g. `role="region"` with `aria-labelledby`).
+- `CardTitle` renders an `h3`. Use one `CardTitle` per card so document outline stays flat.
+- Do not attach `onClick` to the card surface. If the whole card is clickable, wrap it in a link and keep the actions as separate focusable elements.
+- Interactive content inside `CardFooter` receives focus in DOM order; keep destructive actions last.
+
+## Best Practices
+
+- **One idea per card.** Split content into multiple cards rather than stacking everything inside one.
+- **Do not nest cards.** Use `Separator` to divide sections inside a card.
+- **Keep actions in the footer.** `CardFooter` aligns buttons and metadata to the end.
+- **Use `CardTitle` as a heading, not a label.** For labels, use `text-sm font-medium` on a span.
+- **Avoid full-surface hover unless the whole card is clickable.** Mixed hover states confuse users.
+## Related Components
+
+- [Item](/docs/components/item) — row-level container
+- [Accordion](/docs/components/accordion) — collapsible content
+- [Tabs](/docs/components/tabs) — switch content panes
+

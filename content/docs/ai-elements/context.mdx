@@ -1,0 +1,147 @@
+---
+title: "Context"
+description: "A compact context-window indicator for chat and agent surfaces."
+---
+
+import { ContextDemo } from "@/examples/context-demo";
+
+<ComponentPreview name="context-demo" title="context-demo.tsx" src="examples/context-demo.tsx">
+  <ContextDemo />
+</ComponentPreview>
+
+Context is a small composition that shows how much of the model's context window is in use. Hovering the badge reveals a breakdown of input, output, and reasoning tokens against the limit.
+
+Context is a **composition**, not a primitive. Install the three primitives it uses, then wire it the same way the demo does.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add hover-card progress button
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install radix-ui
+      ```
+
+      <Step>Install the required registry primitives:</Step>
+
+      <ComponentSource name="hover-card" title="components/ui/hover-card.tsx" />
+      <ComponentSource name="progress" title="components/ui/progress.tsx" />
+      <ComponentSource name="button" title="components/ui/button.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="context.tsx"
+import { Button } from "@/components/ui/button";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { Progress } from "@/components/ui/progress";
+
+const used = usage.input + usage.output + usage.reasoning;
+const percent = Math.round((used / usage.limit) * 100);
+
+<HoverCard closeDelay={100} openDelay={10}>
+  <HoverCardTrigger asChild>
+    <Button size="sm" variant="outline">
+      {percent}% context
+    </Button>
+  </HoverCardTrigger>
+  <HoverCardContent className="flex w-64 flex-col gap-3">
+    <div className="flex items-center justify-between gap-3 text-sm">
+      <span className="font-medium">Context</span>
+      <span className="text-muted-foreground">
+        {formatTokens(used)} / {formatTokens(usage.limit)}
+      </span>
+    </div>
+    <Progress aria-label="Context used" value={percent} />
+  </HoverCardContent>
+</HoverCard>
+```
+
+## Anatomy
+
+```tsx title="context.tsx"
+<HoverCard>
+  <HoverCardTrigger asChild>
+    <Button>{"{percent}"}% context</Button>
+  </HoverCardTrigger>
+  <HoverCardContent>
+    <span>{"{used}"} / {"{limit}"}</span>
+    <Progress value={percent} />
+    <span>Input {"{input}"}</span>
+    <span>Output {"{output}"}</span>
+    <span>Reasoning {"{reasoning}"}</span>
+  </HoverCardContent>
+</HoverCard>
+```
+
+- **HoverCardTrigger** — a compact `Button` showing the current percentage.
+- **HoverCardContent** — a 64-unit card with a header row, a `Progress` bar, and a per-category breakdown.
+- **Progress** — the visual fill representing `percent` of the context limit.
+
+## Token breakdown
+
+Split the total into **input**, **output**, and **reasoning** so users can see where the tokens go. The demo formats each value with `formatTokens`:
+
+```tsx
+function formatTokens(value: number) {
+  if (value < 1000) return String(value);
+  return `${(value / 1000).toFixed(1).replace(/\.0$/, "")}k`;
+}
+```
+
+8_420 tokens renders as `8.4k`, 1_260 as `1.3k`, 980 as `980`. The denominator uses the same formatter, so the header reads `10.7k / 128k`.
+
+## Updating the value
+
+Recalculate `used` and `percent` whenever the transcript changes. The `Progress` component animates smoothly over 500ms by default, so passing the new value is enough — no manual transition wiring.
+
+```tsx
+const used = usage.input + usage.output + usage.reasoning;
+const percent = Math.round((used / usage.limit) * 100);
+```
+
+## Best Practices
+
+- **Show the denominator.** "8%" is ambiguous. "10.7k / 128k" tells the user how close they are to the limit.
+- **Split the breakdown.** Input, output, and reasoning have different costs. Showing the split helps users diagnose spikes.
+- **Keep the trigger visible.** A floating "context" badge without a label is easy to miss. Use a compact `Button` with the percentage.
+- **Use HoverCard, not a tooltip.** The card contains a progress bar and a multi-row table; a tooltip is too small.
+- **Do not put interactive content inside.** The trigger opens a preview; for controls, use a Popover instead.
+
+## Accessibility
+
+- `HoverCardTrigger asChild` composes with a focusable `Button`, so keyboard users can open the card with Tab and Enter.
+- `Progress` exposes `role="progressbar"` with `aria-valuenow` automatically. Add `aria-label="Context used"` so screen readers announce the purpose.
+- The breakdown rows are plain text; screen readers read them in order after the progress bar.
+- Do not rely on the hover interaction alone. Make the trigger a real button so touch and keyboard users can open the card.
+
+## Next
+
+- [Chat](/docs/ai-elements/chat) — full streaming chat surface.
+- [Checkpoint](/docs/ai-elements/checkpoint) — restore points in a conversation.
+- [Hover Card](/docs/components/hover-card) — rich content on hover.
+- [Progress](/docs/components/progress) — task completion indicator.

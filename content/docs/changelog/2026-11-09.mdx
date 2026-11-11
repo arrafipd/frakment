@@ -1,0 +1,17 @@
+---
+title: "November 9, 2026"
+description: "Safer registry installation controls for the Frakment CLI."
+date: "2026-11-09"
+---
+
+### CLI safety
+
+`frakment add` now validates component payloads before writing files, rejects unsafe paths and unsupported dependency specifications, and limits registry response size.
+
+Review an installation without changing the project with `--dry-run`.
+
+```bash
+npx frakment@latest add button --dry-run
+```
+
+Use `--skip-dependencies` to write the component files and install npm dependencies separately.

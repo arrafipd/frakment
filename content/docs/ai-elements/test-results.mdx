@@ -1,0 +1,150 @@
+---
+title: Test Results
+description: Render a test run as a grouped trace with suites, tests, and inline failure output.
+---
+
+import { TestResultsDemo } from "@/examples/test-results-demo";
+import { TestResultsSuites } from "@/examples/test-results-suites";
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+import {
+  CheckIcon,
+  CircleDashedIcon,
+  FileCodeIcon,
+  FlaskConicalIcon,
+  XIcon,
+} from "lucide-react";
+
+<ComponentPreview name="test-results-demo" title="test-results-demo.tsx" src="examples/test-results-demo.tsx" align="start" previewClassName="h-auto">
+  <TestResultsDemo />
+</ComponentPreview>
+
+Test Results renders a test run as a nested trace. The header shows the total count and failure summary, each suite collapses into its tests, and failing tests expand into the assertion output.
+
+Test Results is a **composition**, not a primitive. It composes [Trace](/docs/components/trace) and [Code Block](/docs/components/code-block).
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add trace code-block message bubble button
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the primitives:</Step>
+
+      ~~~bash
+      npx frakment add trace code-block message bubble button
+      ~~~
+
+      <Step>Copy the demo into your project:</Step>
+
+      <ComponentSource name="test-results-demo" title="examples/test-results-demo.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="test-results.tsx"
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+import { FlaskConicalIcon, FileCodeIcon, XIcon, CheckIcon } from "lucide-react";
+~~~
+
+## Anatomy
+
+~~~tsx title="test-results.tsx"
+<TraceCollapsible>
+  <TraceCollapsibleTrigger>
+    <TraceLine>
+      <TraceIcon />
+      <TraceTitle />
+    </TraceLine>
+  </TraceCollapsibleTrigger>
+  <TraceCollapsibleContent>
+    <Trace>
+      <TraceCollapsible>
+        <TraceCollapsibleTrigger>
+          <TraceLine>
+            <TraceIcon />
+            <TraceTitle />
+          </TraceLine>
+        </TraceCollapsibleTrigger>
+        <TraceCollapsibleContent>
+          <Trace>
+            <TraceLine />
+          </Trace>
+        </TraceCollapsibleContent>
+      </TraceCollapsible>
+    </Trace>
+  </TraceCollapsibleContent>
+</TraceCollapsible>
+~~~
+
+- **TraceCollapsible (top)** — the run, header shows total count and failure summary
+- **TraceCollapsible (per suite)** — one per test file, header shows suite name and its own counts
+- **TraceLine (per test)** — a single test, marked `error` when failed
+- **Code Block** — the failure output, collapsible under the failed test
+
+## Counts
+
+Both the run header and each suite header render a count string: total tests, failures, skips. Compute the run counts by flattening all suites.
+
+~~~ts title="test-results.ts"
+function countTests(tests: Test[]) {
+  return {
+    total: tests.length,
+    failed: tests.filter((test) => test.status === "failed").length,
+    skipped: tests.filter((test) => test.status === "skipped").length,
+  }
+}
+~~~
+
+## Static suites
+
+Render a fixed run without a chat transport for a read-only summary.
+
+<ComponentPreview name="test-results-suites" title="test-results-suites.tsx" src="examples/test-results-suites.tsx" align="start" previewClassName="h-auto">
+  <TestResultsSuites />
+</ComponentPreview>
+
+## Accessibility
+
+- Each test row is text. Status is conveyed by the icon and by the `error` color.
+- Failed tests auto-expand their assertion output. Screen readers announce the open state via the trigger.
+- The suite header carries the counts, so a collapsed suite still announces its status.
+- `prefers-reduced-motion` disables collapse animation.
+
+## Best Practices
+
+- **Group by file.** A suite is a test file, not a category.
+- **Open failing suites by default.** Passing suites can stay collapsed.
+- **Show the raw failure output.** Do not rewrite the assertion message.
+- **Pair with a plain-text summary.** The results are evidence, not the answer.

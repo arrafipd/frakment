@@ -1,0 +1,171 @@
+---
+title: Terminal
+description: A live command runner that streams shell commands and output with typewriter animation.
+---
+
+import { TerminalDemo } from "@/examples/terminal-demo";
+import { TerminalError } from "@/examples/terminal-error";
+import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block";
+import { Terminal, TerminalCommand } from "@/components/ui/terminal";
+
+<ComponentPreview name="terminal" title="terminal.tsx">
+  <TerminalDemo />
+</ComponentPreview>
+
+Terminal renders a list of shell commands as collapsible trace rows. Each command streams character by character, output appears line by line, and a spinner flips to a checkmark when the command finishes.
+
+Built on top of [Trace](/docs/components/trace) and [Code Block](/docs/components/code-block), so the visual language stays consistent with the rest of the registry.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add trace code-block spinner
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install lucide-react motion
+      ```
+
+      <Step>Install the required registry components first:</Step>
+
+      ```bash
+      npx frakment add trace code-block spinner
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource src="components/ui/terminal.tsx" title="components/ui/terminal.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="terminal.tsx"
+import { Terminal, TerminalCommand } from "@/components/ui/terminal";
+```
+
+```tsx title="terminal.tsx"
+<Terminal>
+  <TerminalCommand command="npm run build" output="✓ compiled successfully" />
+</Terminal>
+```
+
+## Anatomy
+
+A terminal has three visible parts.
+
+- **Trace list** — the outer `Trace` container, one row per command
+- **Trigger row** — icon, spinner or checkmark, and the command text
+- **Output panel** — collapsible `CodeBlock` that streams stdout
+
+## Examples
+
+### Error output
+
+Mark a `TraceLine` with `status="error"` to turn the title red. The collapsible body still uses `CodeBlock` — anything that fits inside a `TraceCollapsibleContent` works.
+
+<ComponentPreview name="terminal" title="terminal.tsx">
+  <TerminalError />
+</ComponentPreview>
+
+### Full demo
+
+The preview on this page shows the terminal primitive composing with `useChat`, `createChat`, and `transport` from `@frakment/ai`. It streams three commands and uses `TraceCollapsible` for auto-expand during streaming and manual toggle afterwards.
+
+The composition pulls `@ai-sdk/react`, `ai`, and every UI primitive it uses. Follow the [Chat tutorial](/docs/ai-elements/chat) for the wiring pattern, or replace `createChat` with your own backend that streams `data-terminal` parts.
+
+## In Context
+
+### Build output
+
+<ComponentPreview name="terminal" title="terminal-demo.tsx">
+  <TerminalDemo />
+</ComponentPreview>
+
+### Failed command
+
+<ComponentPreview name="terminal" title="terminal-error.tsx">
+  <TerminalError />
+</ComponentPreview>
+
+## API Reference
+
+### TerminalCommand
+
+<PropsTable
+  rows={[
+    {
+      name: "command",
+      type: "string",
+      description: "The shell command to display.",
+      required: true,
+    },
+    {
+      name: "output",
+      type: "string",
+      description: "Combined stdout as a newline-joined string.",
+      required: true,
+    },
+    {
+      name: "status",
+      type: `"running" | "done" | "error"`,
+      default: `"done"`,
+      description:
+        "Controls the trigger icon. Running shows a spinner, done shows a checkmark, error shows a destructive icon.",
+    },
+    {
+      name: "defaultOpen",
+      type: "boolean",
+      default: "true",
+      description: "Whether the output panel is expanded on mount.",
+    },
+    {
+      name: "typewriter",
+      type: "boolean",
+      default: "true",
+      description: "Stream the command text character by character.",
+    },
+    {
+      name: "typeSpeed",
+      type: "number",
+      default: "24",
+      description: "Milliseconds between characters when typing.",
+    },
+  ]}
+/>
+
+### Terminal
+
+Extends `React.ComponentProps<"div">`. Renders as a `Trace` container. No custom props — pass `TerminalCommand` children.
+
+## Accessibility
+
+- The trigger uses `CollapsibleTrigger`, so keyboard navigation works with `Tab` and `Enter`/`Space`.
+- The trigger row exposes the command text as its accessible label.
+- Icons are decorative and inherit `aria-hidden` from lucide defaults.
+- Output renders inside a focusable `<pre>` — screen readers can select and copy stdout.
+
+## Best Practices
+
+- **Collapse by default.** Open the terminal only while a command is streaming.
+- **Cap the output height.** `max-h-64` on `CodeBlockContent` scrolls long logs.
+- **Label the command, not the exit.** "Ran pnpm build", not "Command complete".
+- **Do not embed a live terminal.** This primitive renders scripted output; for interactive shells, link out.

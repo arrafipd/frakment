@@ -1,0 +1,82 @@
+---
+title: React
+description: Headless message scroller primitives for React 19.
+---
+
+`@frakment/react` ships the message scroller engine as a headless compound. Every scroll behavior — anchoring turns, following streamed replies, restoring position, tracking visibility — lives in the package. The registry `message-scroller` component is a thin Tailwind wrapper on top.
+
+## Installation
+
+```bash
+npm install @frakment/react
+```
+
+## Message scroller
+
+A compound of six parts plus three hooks. Import from the `message-scroller` subpath:
+
+```tsx title="message-scroller.tsx"
+import { MessageScroller } from "@frakment/react/message-scroller";
+```
+
+## Anatomy
+
+```tsx title="message-scroller.tsx"
+<MessageScroller.Provider>
+  <MessageScroller.Viewport>
+    <MessageScroller.Content>
+      <MessageScroller.Item>
+        {/* message */}
+      </MessageScroller.Item>
+    </MessageScroller.Content>
+    <MessageScroller.Button />
+  </MessageScroller.Viewport>
+</MessageScroller.Provider>
+```
+
+- **MessageScroller.Provider** — owns scroll state, exposes context
+- **MessageScroller.Viewport** — the scrollable element, tracks size and visibility
+- **MessageScroller.Content** — the flex column of turns
+- **MessageScroller.Item** — one turn, registers with the scroller
+- **MessageScroller.Button** — jump-to-latest control, fades in when scrollable
+
+## Hooks
+
+```tsx title="message-scroller.tsx"
+import {
+  useMessageScroller,
+  useMessageScrollerScrollable,
+  useMessageScrollerVisibility,
+} from "@frakment/react/message-scroller";
+```
+
+- **`useMessageScroller()`** — the full scroll context (scroll, anchor, restore)
+- **`useMessageScrollerScrollable()`** — boolean, whether the viewport overflows
+- **`useMessageScrollerVisibility()`** — visibility state of the viewport top and bottom
+
+## Behavior
+
+The engine owns four behaviors that every chat surface needs:
+
+- **Anchoring** — pins a specific turn to the top of the viewport, even as messages stream above it
+- **Follow** — auto-scrolls to the bottom when new content arrives, pausing when the user scrolls up
+- **Restore** — saves scroll position per thread and restores it on remount
+- **Visibility** — exposes top and bottom visibility state so a scroll button can fade in when there is content below
+
+None of these require Tailwind or any specific styling. The registry wrapper adds the visual layer.
+
+## Styled wrapper
+
+If you want the ready-made component, install the registry wrapper — it depends on this package and adds the Tailwind layer:
+
+```bash
+npx frakment add message-scroller
+```
+
+See the [Message Scroller docs](/docs/components/message-scroller) for the composed component, demos, and API reference.
+
+## Quick links
+
+- [Message Scroller](/docs/components/message-scroller) — styled wrapper, demos, API
+- [AI engine](/docs/libraries/ai) — deterministic chat engine
+- [CLI](/docs/libraries/cli) — install components and theme

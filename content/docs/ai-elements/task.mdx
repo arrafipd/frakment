@@ -1,0 +1,138 @@
+---
+title: Task
+description: Render a multi-step agent task as a live trace with running, done, and error states.
+---
+
+import { TaskDemo } from "@/examples/task-demo";
+
+<ComponentPreview name="task-demo" title="task-demo.tsx" src="examples/task-demo.tsx" align="start" previewClassName="h-auto">
+  <TaskDemo />
+</ComponentPreview>
+
+Task renders a multi-step agent operation as a collapsible trace. The header shows the task title and a status icon. The body lists each step with its own status. Every step updates in place as the task advances.
+
+Task is a **composition**, not a primitive. It composes [Trace](/docs/components/trace) and drives its own step state through a chat transport.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add trace message bubble button
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the primitives:</Step>
+
+      ~~~bash
+      npx frakment add trace message bubble button
+      ~~~
+
+      <Step>Copy the demo into your project:</Step>
+
+      <ComponentSource name="task-demo" title="examples/task-demo.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="task.tsx"
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+~~~
+
+~~~tsx title="task.tsx"
+<TraceCollapsible open={open} onOpenChange={setOpen}>
+  <TraceCollapsibleTrigger>
+    <TraceLine status={status}>
+      <TraceIcon>
+        <StatusIcon status={status} />
+      </TraceIcon>
+      <TraceTitle>{task.title}</TraceTitle>
+    </TraceLine>
+  </TraceCollapsibleTrigger>
+  <TraceCollapsibleContent>
+    <Trace>
+      {steps.map((step) => (
+        <TraceLine key={step.title} status={step.status}>
+          <TraceTitle>{step.title}</TraceTitle>
+        </TraceLine>
+      ))}
+    </Trace>
+  </TraceCollapsibleContent>
+</TraceCollapsible>
+~~~
+
+## Anatomy
+
+~~~tsx title="task.tsx"
+<TraceCollapsible>
+  <TraceCollapsibleTrigger>
+    <TraceLine>
+      <TraceIcon />
+      <TraceTitle />
+    </TraceLine>
+  </TraceCollapsibleTrigger>
+  <TraceCollapsibleContent>
+    <Trace>
+      <TraceLine>
+        <TraceTitle />
+      </TraceLine>
+    </Trace>
+  </TraceCollapsibleContent>
+</TraceCollapsible>
+~~~
+
+- **TraceCollapsible** — the task run, one per task
+- **TraceCollapsibleTrigger** — header with status icon and task title
+- **TraceCollapsibleContent** — nested `Trace` with one step row per action
+- **TraceLine** — a single step, `status` drives the color
+
+## Step status
+
+Each step is `done`, `running`, or `error`. The parent task status derives from its steps: any error makes the task `error`, any running makes it `running`, otherwise it is done.
+
+~~~ts title="task.ts"
+const status = steps.some((step) => step.status === "error")
+  ? "error"
+  : steps.some((step) => step.status === "running")
+    ? "running"
+    : undefined
+~~~
+
+## Controlled open
+
+The demo keeps the task open while it is running and collapses it once it finishes. Pass `open` and `onOpenChange` when the parent wants to control visibility, or use `defaultOpen` for a fixed block that starts expanded.
+
+## Accessibility
+
+- The status icon is decorative. The `TraceTitle` carries the state.
+- While running, `aria-live="polite"` on the content region announces step changes.
+- Each step row is text, not an icon. Color is a secondary signal.
+- `prefers-reduced-motion` disables the spinner and collapse animation.
+
+## Best Practices
+
+- **One task per collapsible.** Do not merge unrelated work into one block.
+- **Keep step titles verb-first.** "Reading app/layout.tsx", not "app/layout.tsx".
+- **Open while running, collapse when done.** A live task signals progress.
+- **Pair with a plain-text summary.** The task is evidence, not the answer.

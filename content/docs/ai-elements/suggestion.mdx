@@ -1,0 +1,99 @@
+---
+title: Suggestion
+description: Offer starter prompts above the composer so users can pick a task instead of typing.
+---
+
+import { SuggestionDemo } from "@/examples/suggestion-demo";
+
+<ComponentPreview name="suggestion-demo" title="suggestion-demo.tsx" src="examples/suggestion-demo.tsx" align="start" previewClassName="h-auto">
+  <SuggestionDemo />
+</ComponentPreview>
+
+Suggestion renders a horizontal row of starter prompts above the composer. Clicking one sends it immediately. The row scrolls horizontally on narrow widths and fades its edges so the overflow is visible.
+
+Suggestion is a **composition**, not a primitive. It composes [Button](/docs/components/button) and [Input Group](/docs/components/input-group).
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add input-group bubble message button
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the primitives:</Step>
+
+      ~~~bash
+      npx frakment add input-group bubble message button
+      ~~~
+
+      <Step>Copy the demo into your project:</Step>
+
+      <ComponentSource name="suggestion-demo" title="examples/suggestion-demo.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="suggestion.tsx"
+import { Button } from "@/components/ui/button";
+~~~
+
+~~~tsx title="suggestion.tsx"
+<div className="scroll-fade-x no-scrollbar flex gap-2 overflow-x-auto overscroll-x-contain">
+  {suggestions.map((suggestion) => (
+    <Button
+      key={suggestion}
+      variant="outline"
+      size="sm"
+      className="shrink-0"
+      onClick={() => send(suggestion)}
+    >
+      {suggestion}
+    </Button>
+  ))}
+</div>
+~~~
+
+## Anatomy
+
+~~~tsx title="suggestion.tsx"
+<div className="scroll-fade-x no-scrollbar flex gap-2 overflow-x-auto">
+  <Button variant="outline" size="sm" />
+  <Button variant="outline" size="sm" />
+  <Button variant="outline" size="sm" />
+</div>
+~~~
+
+- **scroll container** — horizontal row, fades edges, hides scrollbar
+- **Button** — one per suggestion, `size="sm"` and `variant="outline"`
+
+## Scrolling
+
+`scroll-fade-x` adds a mask that fades the left and right edges when the row overflows. `no-scrollbar` hides the scrollbar. `overscroll-x-contain` stops the page from scrolling when the row reaches its edge.
+
+## Accessibility
+
+- Each suggestion is a button with its prompt as the accessible name.
+- The row is keyboard-scrollable with arrow keys when focused.
+- `prefers-reduced-motion` disables the fade animation.
+
+## Best Practices
+
+- **Use 3 to 6 suggestions.** More crowds the row and forces scrolling.
+- **Phrase them as tasks.** "Add a dark mode toggle", not "Dark mode".
+- **Send on click, not on fill.** A suggestion is a decision, not a draft.
+- **Hide the row once a turn starts.** Suggestions are for first-time prompts.

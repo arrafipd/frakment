@@ -1,0 +1,139 @@
+---
+title: Dark mode in Astro
+description: Wire dark mode in Astro with an inline script and a client island.
+---
+
+Astro serves static HTML first. Dark mode must be set on the `<html>` element before the first paint, or the page flashes. Use an inline script in `<head>` plus a client island for the toggle.
+
+## Prerequisites
+
+- **Astro** 5 or newer
+- **React** 19 via `@astrojs/react`
+- Frakment theme block already in `src/styles/global.css`
+
+## Inline script in head
+
+Add this to `src/layouts/Base.astro` `<head>`. It runs before paint and sets the class based on `localStorage` or the OS preference:
+
+```html title="src/layouts/Base.astro"
+<html lang="en">
+  <head>
+    <script is:inline>
+      (function () {
+        var stored = localStorage.getItem("theme");
+        var isDark =
+          stored === "dark" ||
+          (stored !== "light" &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.classList.toggle("dark", isDark);
+      })();
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+```
+
+The `is:inline` directive keeps the script in the HTML. Without it, Astro bundles the script and it runs after paint, causing a flash.
+
+## Create the toggle island
+
+```tsx title="src/components/mode-toggle.tsx"
+import { MoonIcon, SunIcon } from "lucide-react"
+import * as React from "react"
+
+import { Button } from "@/components/ui/button"
+
+export function ModeToggle() {
+  const [isDark, setIsDark] = React.useState<boolean | null>(null)
+
+  React.useEffect(() => {
+    setIsDark(document.documentElement.classList.contains("dark"))
+  }, [])
+
+  if (isDark === null) {
+    return <Button variant="ghost" size="icon" aria-label="Toggle theme" />
+  }
+
+  function toggle() {
+    const next = !isDark
+    document.documentElement.classList.toggle("dark", next)
+    localStorage.setItem("theme", next ? "dark" : "light")
+    setIsDark(next)
+  }
+
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      aria-label="Toggle theme"
+      onClick={toggle}
+    >
+      {isDark ? <SunIcon /> : <MoonIcon />}
+    </Button>
+  )
+}
+```
+
+## Mount the island
+
+```astro title="src/layouts/Base.astro"
+---
+import { ModeToggle } from "@/components/mode-toggle"
+---
+
+<header>
+  <ModeToggle client:load />
+</header>
+```
+
+`client:load` hydrates the island immediately. `client:idle` also works and defers until the browser is idle.
+
+## With React islands inside Astro
+
+If your entire app is a React island (`client:only="react"`), you can use `next-themes` inside it. The inline script still goes in `<head>` for the initial class, and `next-themes` handles the toggle:
+
+```tsx title="src/components/app.tsx"
+import { ThemeProvider } from "next-themes"
+
+export function App() {
+  return (
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      {/* routes */}
+    </ThemeProvider>
+  )
+}
+```
+
+Mount with `client:only="react"` so the provider never runs on the server.
+
+## Troubleshooting
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="flash">
+<AccordionTrigger>Page flashes white before turning dark</AccordionTrigger>
+<AccordionContent>
+
+The inline script is missing `is:inline`, or is placed in `<body>` instead of `<head>`. Move it to `<head>` and add `is:inline`.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="island-no-hydrate">
+<AccordionTrigger>Toggle button does nothing</AccordionTrigger>
+<AccordionContent>
+
+The island is missing a `client:*` directive. Add `client:load` to `<ModeToggle />`.
+
+</AccordionContent>
+</AccordionItem>
+
+</Accordion>
+
+## Next
+
+- [Theming](/docs/guides/theming) - token reference
+- [Vite dark mode](/docs/guides/dark-mode/vite) - SPA setup
+- [Astro docs](https://docs.astro.build) - framework reference

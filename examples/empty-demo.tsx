@@ -1,0 +1,34 @@
+"use client";
+
+import { Folder, PlusIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
+
+export function EmptyDemo() {
+  return (
+    <Empty className="max-w-sm border">
+      <EmptyHeader>
+        <EmptyMedia variant="icon">
+          <Folder />
+        </EmptyMedia>
+        <EmptyTitle>No projects yet</EmptyTitle>
+        <EmptyDescription>
+          Get started by creating your first project.
+        </EmptyDescription>
+      </EmptyHeader>
+      <EmptyContent>
+        <Button size="sm">
+          <PlusIcon />
+          New project
+        </Button>
+      </EmptyContent>
+    </Empty>
+  );
+}

@@ -1,0 +1,144 @@
+---
+title: Introduction
+description: Composable, accessible components for React interfaces, with AI and motion built in.
+---
+
+import { MessageSquareIcon, ListTreeIcon, CodeIcon, SparklesIcon, GitBranchIcon, GaugeIcon } from "lucide-react";
+
+**Frakment** is a component registry for React interfaces. Every component is standalone, depends only on a small set of well-known libraries, and ships as open source you can read, copy, and modify.
+
+<Callout type="info" title="AI and motion, built in">
+
+Components designed for agent surfaces ship with AI support and motion already resolved per file. Baseline primitives stay motion-ready without extra setup.
+
+</Callout>
+
+## What's included
+
+<div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-3">
+
+<IntroFeatureCard
+  icon={MessageSquareIcon}
+  title="Chat surfaces"
+  description="Bubble and Message for user and assistant turns, with variants, reactions, and alignment."
+/>
+
+<IntroFeatureCard
+  icon={ListTreeIcon}
+  title="Agent traces"
+  description="Trace and Chain of Thought for collapsible, streaming step lists with status and shimmer."
+/>
+
+<IntroFeatureCard
+  icon={CodeIcon}
+  title="Code output"
+  description="Code Block with header, copy, line numbers, and per-line diff highlighting."
+/>
+
+<IntroFeatureCard
+  icon={SparklesIcon}
+  title="Status and markers"
+  description="Marker, Spinner, and Pulse for inline status, loading, and service health."
+/>
+
+<IntroFeatureCard
+  icon={GitBranchIcon}
+  title="Composable by default"
+  description="Every component follows the same shape: a root, a content slot, and cva variants."
+/>
+
+<IntroFeatureCard
+  icon={GaugeIcon}
+  title="Standalone primitives"
+  description="No hidden dependency chain. Each component is self-contained and copy-pasteable."
+/>
+
+</div>
+
+## Quick example
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="chat">Chat turn</TabsTrigger>
+    <TabsTrigger value="trace">Agent trace</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="chat">
+
+```tsx title="bubble.tsx"
+import { Bubble, BubbleContent } from "@/components/ui/bubble";
+import { Message, MessageContent } from "@/components/ui/message";
+
+<Message align="end">
+  <MessageContent>
+    <Bubble variant="muted" align="end">
+      <BubbleContent>Why is the dashboard slow?</BubbleContent>
+    </Bubble>
+  </MessageContent>
+</Message>;
+```
+
+  </TabsContent>
+
+  <TabsContent value="trace">
+
+```tsx title="example.tsx"
+import {
+  ChainOfThought,
+  ChainOfThoughtHeader,
+  ChainOfThoughtContent,
+  ChainOfThoughtStep,
+} from "@/components/ui/chain-of-thought";
+
+<ChainOfThought defaultOpen>
+  <ChainOfThoughtHeader>Researched in 3 steps</ChainOfThoughtHeader>
+  <ChainOfThoughtContent>
+    <ChainOfThoughtStep>Read the build log</ChainOfThoughtStep>
+    <ChainOfThoughtStep>Checked bundle size</ChainOfThoughtStep>
+    <ChainOfThoughtStep>Profiled 3 endpoints</ChainOfThoughtStep>
+  </ChainOfThoughtContent>
+</ChainOfThought>;
+```
+
+  </TabsContent>
+</CodeTabs>
+
+## Principles
+
+### Zero hidden dependencies
+
+Every component depends only on `radix-ui`, `class-variance-authority`, and `lucide-react`. There is no hidden dependency chain you need to install or keep in sync.
+
+### Composable by design
+
+All components follow the same shape: a root (`Bubble`), a content slot (`BubbleContent`), and variants via `cva`. This is predictable for you, and for LLMs reading the code.
+
+### Distribution via CLI and registry
+
+A flat-file registry (`public/r/*.json`) and a CLI (`npx frakment add`) make it easy to distribute components across projects. Each component is a JSON manifest with its source, npm dependencies, and registry dependencies.
+
+### Considered defaults
+
+The defaults are opinionated so you don't have to build the basics yourself. Components are designed for real product use — chat surfaces, agent traces, forms, and code output alike.
+
+### AI and motion, built in
+
+Components that need agent surfaces or animated states ship with AI support and motion resolved per file. The registry also publishes \ llms.txt, `an agent catalog endpoint, and an MCP server so AI tools can read and extend the source directly.`
+
+## Component catalog
+
+| Category | Components                                                                                                                                                 |
+| :------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Chat     | [Bubble](/docs/components/bubble), [Message](/docs/components/message)                                                                                   |
+| Agent    | [Trace](/docs/components/trace), [Chain of Thought](/docs/ai-elements/chain-of-thought)                                                                   |
+| Code     | [Code Block](/docs/components/code-block)                                                                                                                  |
+| Status   | [Marker](/docs/components/marker), [Spinner](/docs/components/spinner), [Pulse](/docs/modules/pulse) |
+| Layout   | [Item](/docs/components/item), [Separator](/docs/components/separator)                                                                                     |
+| Identity | [Avatar](/docs/components/avatar)                                                                                                                          |
+| Actions  | [Button](/docs/components/button), [Badge](/docs/components/badge)                                                                                         |
+
+## Next steps
+
+- [Installation](/docs/getting-started/installation) — set up Frakment in your project
+- [Theming](/docs/guides/theming) — customize CSS variables and dark mode
+- [Components](/docs/components/avatar) — start with a primitive

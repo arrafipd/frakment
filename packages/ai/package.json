@@ -1,0 +1,39 @@
+{
+  "name": "@frakment/ai",
+  "version": "0.0.6",
+  "description": "First-party deterministic chat engine for Frakment AI interfaces",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arrafipd/frakment.git",
+    "directory": "packages/ai"
+  },
+  "license": "MIT",
+  "author": "The Frakment Authors (https://github.com/arrafipd/frakment)",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup && node ../../node_modules/typescript/bin/tsc --emitDeclarationOnly --declaration --outDir dist --rootDir src --incremental false",
+    "dev": "tsup --watch"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsup": "^8.5.0",
+    "typescript": "5.9.3"
+  },
+  "peerDependencies": {
+    "ai": ">=7"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

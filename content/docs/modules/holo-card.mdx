@@ -1,0 +1,152 @@
+---
+title: "Holo Card"
+description: "A card with a procedural foil that reacts to pointer tilt and device motion."
+---
+
+import { HoloCardDemo } from "@/examples/holo-card-demo";
+import { HoloCardBurstsDemo } from "@/examples/holo-card-bursts-demo";
+import { HoloCardCosmosDemo } from "@/examples/holo-card-cosmos-demo";
+
+<ComponentPreview name="holo-card" title="holo-card-demo.tsx" src="examples/holo-card-demo.tsx" previewClassName="h-auto py-8">
+  <HoloCardDemo />
+</ComponentPreview>
+
+Holo Card renders a surface under a procedural foil layer that shifts as the pointer moves or the device tilts. The default card layout shows a chip and a brand mark; pass a `HoloCardImage` child (or `variant="image"`) to render artwork instead. The foil is drawn with WebGL2.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add holo-card
+```
+
+</TabsContent>
+<TabsContent value="manual">
+  <Steps className="mb-0 pt-2">
+    <Step>Copy and paste the following code into your project.</Step>
+
+    <ComponentSource name="holo-card" title="components/ui/holo-card.tsx" />
+
+    <Step>Update the import paths to match your project setup.</Step>
+  </Steps>
+</TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="holo-card.tsx"
+import { HoloCard, HoloCardImage } from "@/components/ui/holo-card";
+```
+
+Card mode is the default. Pass a `logo` to brand the bottom-right corner.
+
+```tsx title="holo-card.tsx"
+<HoloCard logo={<MyLogo />} />
+```
+
+Image mode keeps the artwork-first layout. Passing a `HoloCardImage` child (or `variant="image"`) switches the card into image mode.
+
+```tsx title="holo-card.tsx"
+<HoloCard variant="image">
+  <HoloCardImage alt="Pikachu" src="/card.avif" />
+</HoloCard>
+```
+
+`HoloCard` owns pointer tracking, tilt, device orientation, and foil rendering. `HoloCardImage` is a marker component that supplies `src` and `alt` to the parent.
+
+## Anatomy
+
+```tsx title="holo-card.tsx"
+<HoloCard logo={<MyLogo />} preset="bursts" />
+```
+
+- **HoloCard** - root container. Owns pointer tracking, tilt, orientation, and foil rendering.
+- **HoloCardImage** - marker child. Switches to image mode and supplies `src` and `alt`.
+
+## Image mode
+
+Pass a `HoloCardImage` child or set `variant="image"` to render artwork under the foil. Presets combine with both card and image modes.
+
+### Cosmos preset, light artwork
+
+<ComponentPreview name="holo-card" title="holo-card-cosmos-demo.tsx" src="examples/holo-card-cosmos-demo.tsx" previewClassName="h-auto py-8">
+  <HoloCardCosmosDemo />
+</ComponentPreview>
+
+### Bursts preset, dark artwork
+
+<ComponentPreview name="holo-card" title="holo-card-bursts-demo.tsx" src="examples/holo-card-bursts-demo.tsx" previewClassName="h-auto py-8">
+  <HoloCardBurstsDemo />
+</ComponentPreview>
+
+## Presets
+
+| Preset | Foil shape |
+| :-- | :-- |
+| `bursts` | Radial bursts from the pointer position. Default. |
+| `cosmos` | Layered rings and fine dust. |
+
+## API Reference
+
+### HoloCard
+
+<PropsTable
+  rows={[
+    { name: "variant", type: 'card | image', defaultValue: "card", description: "Card layout. `image` requires a HoloCardImage child or the `image` prop." },
+    { name: "logo", type: "string | ReactNode", description: "Bottom-right mark. Strings starting with /, https://, or data: render as an img. Other strings render as text. Any ReactNode renders as-is." },
+    { name: "chip", type: "ReactNode", description: "Override the built-in chip. Pass any element: lucide icon, custom SVG, or img." },
+    { name: "preset", type: "bursts | cosmos", defaultValue: "bursts", description: "Foil shape." },
+    { name: "image", type: "string", description: "Artwork URL. Alternative to the HoloCardImage child." },
+    { name: "alt", type: "string", defaultValue: '""', description: "Accessible description of the artwork." },
+    { name: "intensity", type: "number", defaultValue: "0.85", description: "Foil opacity, 0 to 1." },
+    { name: "tiltMax", type: "number", defaultValue: "14", description: "Maximum rotation in degrees at the edge." },
+    { name: "glare", type: "number", defaultValue: "0.5", description: "Specular highlight strength, 0 to 1." },
+    { name: "edgeSparkle", type: "number", defaultValue: "0.8", description: "Sparkle density at the card border." },
+    { name: "frame", type: "number", defaultValue: "4", description: "Border frame thickness in pixels." },
+    { name: "radius", type: "number", defaultValue: "14", description: "Corner radius in pixels." },
+    { name: "width", type: "number", defaultValue: "320", description: "Card width in pixels." },
+    { name: "shadow", type: "boolean", defaultValue: "true", description: "Render a soft drop shadow." },
+    { name: "idle", type: "boolean", defaultValue: "true", description: "Drift the light when the pointer is away." },
+    { name: "backImage", type: "string", description: "Back artwork URL. When set, the card becomes flippable." },
+    { name: "children", type: "ReactNode", description: "Overlay content rendered above the card." },
+    { name: "foilColor", type: "string", defaultValue: "#e2e6ec", description: "Base color of the foil." },
+    { name: "hoverScale", type: "number", defaultValue: "1.04", description: "Scale applied when pointer hovers." },
+    { name: "scale", type: "number", defaultValue: "1", description: "Foil pattern scale multiplier." },
+    { name: "className", type: "string", description: "Merged into the root." },
+    { name: "style", type: "CSSProperties", description: "Merged into the root style object." },
+  ]}
+/>
+
+Extends `React.ComponentProps<"div">`.
+
+### HoloCardImage
+
+<PropsTable
+  rows={[
+    { name: "src", type: "string", required: true, description: "Artwork URL." },
+    { name: "alt", type: "string", required: true, description: "Accessible description." },
+  ]}
+/>
+
+Marker component. `HoloCard` reads `src` and `alt` from this child and switches to image mode.
+
+## Accessibility
+
+- Pass a meaningful `alt` to `HoloCardImage` or the `alt` prop on `HoloCard`.
+- Tilt follows the pointer on desktop and the device orientation on touch devices.
+- Motion respects `prefers-reduced-motion` - tilt, springs, and orientation are disabled.
+- The card is focusable only when a `backImage` is provided for flip interaction.
+
+## Best Practices
+
+- **Use artwork that reads at a glance.** In image mode the foil adds motion; the image carries identity.
+- **Provide a `logo` for card mode.** Without one, only the chip is visible in the bottom-right region.
+- **Keep `intensity` between 0.6 and 0.9.** High values overwhelm text layered on top.
+- **Pick `bursts` for bright palettes, `cosmos` for dark palettes.** Bursts read best on colorful art; cosmos reads best on deep backgrounds.

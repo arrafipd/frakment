@@ -1,0 +1,226 @@
+---
+title: "Credit Card"
+description: "A credit card display with auto brand detection, formatting, and masked mode."
+---
+
+import { CreditCardDemo } from "@/examples/credit-card-demo";
+import { CreditCardVariants } from "@/examples/credit-card-variants";
+import { CreditCardBrands } from "@/examples/credit-card-brands";
+import { CreditCardMasked } from "@/examples/credit-card-masked";
+import { CreditCardMaskedMotion } from "@/examples/credit-card-masked-motion";
+
+<ComponentPreview name="credit-card" title="credit-card-demo.tsx" src="examples/credit-card-demo.tsx" previewClassName="h-auto py-8">
+  <CreditCardDemo />
+</ComponentPreview>
+
+Credit Card renders a card display from raw data. It detects the brand from the number prefix, groups the digits, and formats the expiry - with a `masked` mode for saved-card lists and a `glass` variant for translucent surfaces.
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add credit-card
+```
+
+</TabsContent>
+<TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install class-variance-authority @icons-pack/react-simple-icons motion
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="credit-card" title="components/ui/credit-card.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+## Usage
+
+```tsx title="credit-card.tsx"
+import {
+  CreditCard,
+  CreditCardBrand,
+  CreditCardExpiry,
+  CreditCardFooter,
+  CreditCardHeader,
+  CreditCardHolder,
+  CreditCardIssuer,
+  CreditCardNumber,
+} from "@/components/ui/credit-card";
+```
+
+```tsx title="credit-card.tsx"
+<CreditCard>
+  <CreditCardHeader>
+    <CreditCardIssuer>ACME Bank</CreditCardIssuer>
+    <CreditCardBrand brand="visa" />
+  </CreditCardHeader>
+  <CreditCardNumber value="4242424242424242" />
+  <CreditCardFooter>
+    <CreditCardHolder value="John Doe" />
+    <CreditCardExpiry value="1228" />
+  </CreditCardFooter>
+</CreditCard>
+```
+
+Pass raw data to sub-components. `CreditCardNumber` handles brand detection and grouping; `CreditCardExpiry` normalizes the expiry.
+## Anatomy
+
+```tsx title="credit-card.tsx"
+<CreditCard>
+  <CreditCardHeader>
+    <CreditCardIssuer>ACME Bank</CreditCardIssuer>
+    <CreditCardBrand brand="visa" />
+  </CreditCardHeader>
+  <CreditCardNumber value="4242424242424242" />
+  <CreditCardFooter>
+    <CreditCardHolder value="John Doe" />
+    <CreditCardExpiry value="1228" />
+  </CreditCardFooter>
+</CreditCard>
+```
+
+- **CreditCard** - root container. Accepts `variant`.
+- **CreditCardHeader** - top row, flex with space-between.
+- **CreditCardIssuer** - left slot, defaults to the Frakment mark. Accepts children for a custom logo.
+- **CreditCardBrand** - right slot. Pass `brand` for a network logo or children for a custom mark.
+- **CreditCardNumber** - number, accepts `value`, optional `brand`, `masked`.
+- **CreditCardFooter** - bottom row.
+- **CreditCardHolder** - cardholder name, accepts `value` and optional `label`.
+- **CreditCardExpiry** - expiry, accepts `value` and optional `label`.
+## Brands
+
+<ComponentPreview name="credit-card" title="credit-card-brands.tsx" src="examples/credit-card-brands.tsx" previewClassName="h-auto py-8">
+  <CreditCardBrands />
+</ComponentPreview>
+
+The network is inferred from the number prefix. Pass `brand` to override.
+
+| Prefix | Brand |
+| :-- | :-- |
+| `4` | Visa |
+| `51-55`, `22-27` | Mastercard |
+| `34`, `37` | American Express |
+| `6011`, `65`, `644-649` | Discover |
+| `35` | JCB |
+| `30`, `36`, `38` | Diners Club |
+## Masked
+
+<ComponentPreview name="credit-card" title="credit-card-masked.tsx" src="examples/credit-card-masked.tsx" previewClassName="h-auto py-8">
+  <CreditCardMasked />
+</ComponentPreview>
+
+Pass `masked` to hide all but the last four digits.
+
+### Animated mask
+
+<ComponentPreview name="credit-card" title="credit-card-masked-motion.tsx" src="examples/credit-card-masked-motion.tsx" previewClassName="h-auto py-8">
+  <CreditCardMaskedMotion />
+</ComponentPreview>
+
+A staggered per-character morph from the full number to the masked form.
+## Glass variant
+
+<ComponentPreview name="credit-card" title="credit-card-variants.tsx" src="examples/credit-card-variants.tsx" previewClassName="h-auto py-8">
+  <CreditCardVariants />
+</ComponentPreview>
+
+`default` follows the page theme. `glass` renders a translucent blurred surface for gradient or image backgrounds.
+## Animation
+
+`CreditCardNumber` accepts an `animation` prop. The transition applies per character when the number or mask state changes, using `stagger` as the per-character delay.
+
+```tsx
+<CreditCardNumber
+  value="4242424242424242"
+  masked={masked}
+  animation="spring(300, 25) delay(50ms)"
+/>
+```
+
+| Form | Example |
+| :-- | :-- |
+| Named easing | `"easeInOut"`, `"easeOutExpo"`, `"easeSmoothOut"` |
+| Named easing + duration | `"easeInOut 300ms"`, `"easeOutExpo 0.5"` |
+| Custom curve | `"cubic-bezier(0.4, 0, 0.2, 1) 300ms"` |
+| Spring | `"spring(300, 25)"` |
+
+Any form supports `delay(...)` and `repeat(n | infinite)`. Pass `animation={false}` to render plain text without motion markup.
+
+## API Reference
+
+### CreditCard
+
+<PropsTable
+  rows={[
+    { name: "variant", type: "default | glass", defaultValue: "default", description: "Visual style of the card surface." },
+    { name: "className", type: "string", description: "Merged into the surface." },
+  ]}
+/>
+
+Extends `React.ComponentProps<"div">`.
+
+### CreditCardIssuer
+
+<PropsTable
+  rows={[
+    { name: "logo", type: "ReactNode", description: "Custom logo. Falls back to children. Renders nothing when omitted." },
+  ]}
+/>
+
+### CreditCardBrand
+
+<PropsTable
+  rows={[
+    { name: "brand", type: "mastercard | visa | amex | discover | jcb | diners", description: "Network logo to render." },
+    { name: "children", type: "ReactNode", description: "Custom mark. Overrides brand." },
+  ]}
+/>
+
+### CreditCardNumber
+
+<PropsTable
+  rows={[
+    { name: "value", type: "string", required: true, description: "Raw number. Spaces stripped before formatting." },
+    { name: "brand", type: "CardBrand", description: "Overrides auto-detection." },
+    { name: "masked", type: "boolean", defaultValue: "false", description: "Shows only the last four digits." },
+    { name: "animation", type: "false | string", description: "Motion DSL applied per character. Pass false to render plain text without motion markup." },
+    { name: "duration", type: "number", defaultValue: "0.45", description: "Per-character transition duration in seconds. Ignored when animation is set." },
+    { name: "stagger", type: "number", defaultValue: "0.02", description: "Delay between characters in seconds. Applies whether or not animation is set." },
+  ]}
+/>
+
+### CreditCardHolder / CreditCardExpiry
+
+<PropsTable
+  rows={[
+    { name: "value", type: "string", required: true, description: "Value to render." },
+    { name: "label", type: "string", description: "Caption above the value. Defaults: Card holder / Expires." },
+  ]}
+/>
+
+## Accessibility
+
+- The number uses `tabular-nums` so columns do not shift when toggling masked mode.
+- Brand icons carry an `aria-label` with the network name.
+- The root container is not focusable. Wrap in an anchor or button if the card opens a detail view.
+- In `masked` mode the visible text is masked. Do not expose the full number in adjacent layout if it is meant to be hidden.
+
+## Best Practices
+
+- **Use `masked` for saved-card lists**, never for the primary display of the card being confirmed.
+- **Pass raw numbers** - do not pre-format. The component handles grouping and expiry normalization.
+- **Reserve `glass` for layered surfaces**. On plain backgrounds the blur has nothing to sample and reads flat.
+- **Keep labels short**. Card holder and Expires fit two words. Longer labels wrap and break the footer layout.
+

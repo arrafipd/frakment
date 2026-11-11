@@ -1,0 +1,207 @@
+---
+title: Radio Group
+description: A set of checkable buttons where only one can be selected at a time.
+---
+
+import { RadioGroupDemo } from "@/examples/radio-group-demo";
+import { RadioGroupDescription } from "@/examples/radio-group-description";
+import { RadioGroupChoiceCard } from "@/examples/radio-group-choice-card";
+import { RadioGroupFieldset } from "@/examples/radio-group-fieldset";
+import { RadioGroupDisabled } from "@/examples/radio-group-disabled";
+import { RadioGroupInvalid } from "@/examples/radio-group-invalid";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+
+<ComponentPreview name="radio-group" title="radio-group.tsx">
+  <RadioGroupDemo />
+</ComponentPreview>
+
+Radio Group is a set of mutually exclusive options. Only one item can be selected at a time, and the group manages focus with arrow keys.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add radio-group
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependency:</Step>
+
+      ~~~bash
+      npm install radix-ui
+      ~~~
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="radio-group" title="components/ui/radio-group.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="radio-group.tsx"
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+~~~
+
+~~~tsx
+<RadioGroup defaultValue="comfortable">
+  <div className="flex items-center gap-3">
+    <RadioGroupItem value="default" id="r1" />
+    <Label htmlFor="r1">Default</Label>
+  </div>
+  <div className="flex items-center gap-3">
+    <RadioGroupItem value="comfortable" id="r2" />
+    <Label htmlFor="r2">Comfortable</Label>
+  </div>
+</RadioGroup>
+~~~
+
+## Composition
+
+```text
+RadioGroup
+└── RadioGroupItem
+```
+
+## Examples
+
+### With description
+
+Compose `Field`, `FieldContent`, and `FieldDescription` for helper text under each option.
+
+<ComponentPreview name="radio-group" title="radio-group.tsx" previewClassName="h-auto py-8">
+  <RadioGroupDescription />
+</ComponentPreview>
+
+### Choice card
+
+Wrap each option in `FieldLabel` to make the entire card clickable.
+
+<ComponentPreview name="radio-group" title="radio-group.tsx" previewClassName="h-auto py-8">
+  <RadioGroupChoiceCard />
+</ComponentPreview>
+
+### Fieldset
+
+Use `FieldSet` and `FieldLegend` for a labelled group.
+
+<ComponentPreview name="radio-group" title="radio-group.tsx" previewClassName="h-auto py-8">
+  <RadioGroupFieldset />
+</ComponentPreview>
+
+### Disabled
+
+<ComponentPreview name="radio-group" title="radio-group.tsx" previewClassName="h-auto py-8">
+  <RadioGroupDisabled />
+</ComponentPreview>
+
+### Invalid
+
+Mark each item with `aria-invalid` and its `Field` wrapper with `data-invalid`.
+
+<ComponentPreview name="radio-group" title="radio-group.tsx" previewClassName="h-auto py-8">
+  <RadioGroupInvalid />
+</ComponentPreview>
+
+## In Context
+
+### Plan selector
+
+<ComponentPreview name="radio-group" title="radio-group.tsx">
+  <RadioGroup className="mx-auto w-full max-w-sm" defaultValue="pro">
+    <div className="flex items-center gap-2">
+      <RadioGroupItem id="free" value="free" />
+      <Label htmlFor="free">Free</Label>
+    </div>
+    <div className="flex items-center gap-2">
+      <RadioGroupItem id="pro" value="pro" />
+      <Label htmlFor="pro">Pro</Label>
+    </div>
+    <div className="flex items-center gap-2">
+      <RadioGroupItem id="team" value="team" />
+      <Label htmlFor="team">Team</Label>
+    </div>
+  </RadioGroup>
+</ComponentPreview>
+
+## API Reference
+
+### RadioGroup
+
+<PropsTable
+  rows={[
+    { name: "value", type: "string", description: "Controlled selected value." },
+    { name: "defaultValue", type: "string", description: "Initial selected value when uncontrolled." },
+    { name: "onValueChange", type: "function", description: "Called when the selection changes." },
+    { name: "disabled", type: "boolean", default: "false", description: "Disable the entire group." },
+    { name: "orientation", type: "horizontal | vertical", default: "vertical", description: "Arrow key navigation axis." },
+  ]}
+/>
+
+### RadioGroupItem
+
+<PropsTable
+  rows={[
+    { name: "value", type: "string", description: "Unique value returned when this item is selected." },
+    { name: "disabled", type: "boolean", default: "false", description: "Prevent selection." },
+  ]}
+/>
+
+## Controlled
+
+```tsx
+const [value, setValue] = React.useState("")
+<RadioGroup value={value} onValueChange={setValue}>{/* ... */}</RadioGroup>
+```
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `Space` | Select the focused option |
+| `↑` / `↓` | Move between options |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `radio-group`, `radio-group-item` |
+| `data-state` | `checked` \| `unchecked` |
+| `data-disabled` | `true` |
+| `data-orientation` | `horizontal` \| `vertical` |
+
+## Accessibility
+
+- Built on Radix RadioGroup, following the WAI-ARIA radio group pattern.
+- Arrow keys move the selection within the group.
+- Each item must have a matching `Label` with `htmlFor`.
+- Invalid state is conveyed via `aria-invalid` on the item and `data-invalid` on the wrapper.
+
+## Best Practices
+
+- **Use for exclusive choices.** Independent toggles belong in Checkbox.
+- **Always set a default.** An empty radio group leaves the user unsure of the starting state.
+- **Stack vertically for forms.** Horizontal layouts are hard to read past three options.
+- **Pair with a visible label.** Every option needs a matching `Label htmlFor`.
+## Related Components
+
+- [Checkbox](/docs/components/checkbox) — multiple choice
+- [Select](/docs/components/select) — compact single choice
+- [Field](/docs/components/field) — label + error
+

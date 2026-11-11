@@ -1,0 +1,142 @@
+---
+title: Pagination
+description: Navigation for splitting content across multiple pages.
+---
+
+import { PaginationDemo } from "@/examples/pagination-demo";
+import { PaginationSimple } from "@/examples/pagination-simple";
+import { PaginationIconsOnly } from "@/examples/pagination-icons-only";
+import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationLink, PaginationNext } from "@/components/ui/pagination";
+
+<ComponentPreview name="pagination" title="pagination.tsx">
+  <PaginationDemo />
+</ComponentPreview>
+
+Pagination splits long content into pages. It composes standard links so navigation works with keyboard, screen readers, and browser history.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add pagination
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the base button</Step>
+
+      ~~~bash
+      npx frakment add button
+      ~~~
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="pagination" title="components/ui/pagination.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="pagination.tsx"
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationPrevious,
+  PaginationNext,
+} from "@/components/ui/pagination";
+~~~
+
+~~~tsx
+<Pagination>
+  <PaginationContent>
+    <PaginationItem><PaginationPrevious href="#" /></PaginationItem>
+    <PaginationItem><PaginationLink href="#">1</PaginationLink></PaginationItem>
+    <PaginationItem><PaginationNext href="#" /></PaginationItem>
+  </PaginationContent>
+</Pagination>
+~~~
+
+## Examples
+
+### Simple
+
+Show every page number without an ellipsis.
+
+<ComponentPreview name="pagination" title="pagination.tsx">
+  <PaginationSimple />
+</ComponentPreview>
+
+### Icons only
+
+Pair with a `Select` for page size, keeping the controls minimal.
+
+<ComponentPreview name="pagination" title="pagination.tsx" previewClassName="h-auto py-8">
+  <PaginationIconsOnly />
+</ComponentPreview>
+
+## Composition
+
+```text
+Pagination
+└── PaginationContent
+    ├── PaginationItem
+    ├── PaginationPrevious
+    ├── PaginationNext
+    └── PaginationEllipsis
+```
+
+## In Context
+
+### Table footer
+
+<ComponentPreview name="pagination" title="pagination.tsx">
+  <Pagination>
+    <PaginationContent>
+      <PaginationItem><PaginationPrevious href="?page=1" /></PaginationItem>
+      <PaginationItem><PaginationLink href="?page=1">1</PaginationLink></PaginationItem>
+      <PaginationItem><PaginationLink href="?page=2" isActive>2</PaginationLink></PaginationItem>
+      <PaginationItem><PaginationLink href="?page=3">3</PaginationLink></PaginationItem>
+      <PaginationItem><PaginationNext href="?page=3" /></PaginationItem>
+    </PaginationContent>
+  </Pagination>
+</ComponentPreview>
+
+## API Reference
+
+### PaginationLink
+
+<PropsTable
+  rows={[
+    { name: "href", type: "string", description: "Destination URL." },
+    { name: "isActive", type: "boolean", default: "false", description: "Mark the link as the current page; sets aria-current." },
+    { name: "size", type: "sm | default | lg | icon", default: "icon", description: "Button size." },
+  ]}
+/>
+
+## Accessibility
+
+- Uses `<nav>` with `aria-label="pagination"` for landmark navigation.
+- Active page sets `aria-current="page"`.
+- Previous and Next set `aria-label="Go to previous page"` and `aria-label="Go to next page"`.
+
+## Best Practices
+
+- **Hide when total is one page.** Pagination with a single page is noise.
+- **Show first, last, current, and neighbors.** Skip the middle with an ellipsis.
+- **Keep page size in the URL.** Deep links and back button should work.
+- **Use pagination, not infinite scroll, for tables.** Users need to jump around.

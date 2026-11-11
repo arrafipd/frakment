@@ -1,0 +1,180 @@
+---
+title: Queue
+description: Render a streamed todo list as grouped trace rows for pending and completed work.
+---
+
+import { QueueDemo } from "@/examples/queue-demo";
+import { QueueDescriptions } from "@/examples/queue-descriptions";
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+import {
+  CircleCheckIcon,
+  CircleDotIcon,
+  CircleIcon,
+  ListChecksIcon,
+  ListTodoIcon,
+} from "lucide-react";
+
+<ComponentPreview name="queue-demo" title="queue-demo.tsx" src="examples/queue-demo.tsx" align="start" previewClassName="h-auto">
+  <QueueDemo />
+</ComponentPreview>
+
+Queue renders an agent todo list as two grouped trace sections: pending and completed. Each row carries a status glyph, the group headers show counts, and both groups collapse independently.
+
+Queue is a **composition**, not a primitive. It composes [Trace](/docs/components/trace) lines inside collapsibles and drives streaming status through a chat transport.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add trace message bubble button
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the primitives:</Step>
+
+      ~~~bash
+      npx frakment add trace message bubble button
+      ~~~
+
+      <Step>Copy the demo into your project:</Step>
+
+      <ComponentSource name="queue-demo" title="examples/queue-demo.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="queue.tsx"
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from "@/components/ui/trace";
+import {
+  CircleCheckIcon,
+  CircleDotIcon,
+  CircleIcon,
+  ListChecksIcon,
+  ListTodoIcon,
+} from "lucide-react";
+~~~
+
+~~~tsx title="queue.tsx"
+<Trace>
+  <TraceCollapsible defaultOpen>
+    <TraceCollapsibleTrigger>
+      <TraceLine>
+        <TraceIcon>
+          <ListTodoIcon />
+        </TraceIcon>
+        <TraceTitle>{"3 to do"}</TraceTitle>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>
+      <Trace>
+        <TraceLine status="running">
+          <TraceIcon>
+            <CircleDotIcon />
+          </TraceIcon>
+          <TraceTitle>{"Add a toggle to the settings page"}</TraceTitle>
+        </TraceLine>
+      </Trace>
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+~~~
+
+## Anatomy
+
+~~~tsx title="queue.tsx"
+<Trace>
+  <TraceCollapsible>
+    <TraceCollapsibleTrigger>
+      <TraceLine>
+        <TraceIcon />
+        <TraceTitle />
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>
+      <Trace>
+        <TraceLine>
+          <TraceIcon />
+          <TraceTitle />
+        </TraceLine>
+      </Trace>
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+~~~
+
+- **Trace** — outer wrapper, flex column
+- **TraceCollapsible** — one per group (pending, completed)
+- **TraceCollapsibleTrigger** — header row with group icon and count
+- **TraceCollapsibleContent** — the todo list rows
+- **TraceLine** — individual todo row, accepts `status`
+- **TraceTitle** — todo content
+
+## Todo status
+
+Each todo carries one of three states. The glyph and shimmer reflect the current one.
+
+| Status | Icon | Effect |
+| :-- | :-- | :-- |
+| `pending` | circle | muted, no shimmer |
+| `in_progress` | circle-dot | running, shimmer on title |
+| `completed` | circle-check | muted, no shimmer |
+
+## Grouped queue
+
+Split the todo list by status. Pending rows and completed rows collapse independently so a long run stays scannable. The header count updates as items move between groups.
+
+## Descriptions
+
+Each todo may carry a description that expands on demand. Wrap the todo row in a nested `TraceCollapsible` and pass the description as its content.
+
+<ComponentPreview name="queue-descriptions" title="queue-descriptions.tsx" src="examples/queue-descriptions.tsx" align="start" previewClassName="h-auto">
+  <QueueDescriptions />
+</ComponentPreview>
+
+## Streaming
+
+The demo streams `writeTodos` tool calls through a chat transport. Each tick replaces the todo list with a new snapshot where one more item moves to `completed` and the next becomes `in_progress`. The header counts and icons update without a full re-render of the chat.
+
+## Accessibility
+
+- Use `TraceTitle` as the accessible name. Write it as the todo content, not a status word.
+- Status is conveyed by icon glyph and color. Do not rely on color alone.
+- Each collapsible trigger is keyboard-focusable and toggles with Enter or Space.
+- `prefers-reduced-motion` disables shimmer and collapse animation.
+
+## Best Practices
+
+- **Group by status, not by index.** Pending and completed read as two lists, not one list with gaps.
+- **Keep todo titles short.** One sentence, imperative mood — "Add a toggle", not "Toggle should be added".
+- **Let the counts speak.** The header shows how many are left. Do not repeat that in the intro.
+- **Collapse the completed group by default for long runs.** Users scan the pending rows first.

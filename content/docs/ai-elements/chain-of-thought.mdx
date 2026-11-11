@@ -1,0 +1,169 @@
+---
+title: Chain of Thought
+description: Displays a summary that expands into the steps an agent took.
+---
+
+import { ChainOfThoughtDemo } from "@/examples/chain-of-thought-demo";
+import {
+  ChainOfThought,
+  ChainOfThoughtHeader,
+  ChainOfThoughtContent,
+  ChainOfThoughtStep,
+} from "@/components/ui/chain-of-thought";
+import { CheckIcon, CircleAlertIcon } from "lucide-react";
+
+<ComponentPreview
+  name="chain-of-thought"
+  title="chain-of-thought.tsx"
+  align="start"
+  previewClassName="h-auto"
+>
+  <ChainOfThoughtDemo />
+</ComponentPreview>
+
+Chain of Thought is a summary line that expands into the steps an agent took. The summary says what happened, like "Researched in 3 steps". The steps sit inside it, each one a line of its own.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add trace code-block badge
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install lucide-react
+      ```
+
+      <Step>Install the required registry component:</Step>
+
+      ```bash
+      npx frakment add trace
+      ```
+
+      <Step>Optional — install these primitives to replicate the full demo:</Step>
+
+      ```bash
+      npx frakment add badge bubble code-block message
+      npm install @ai-sdk/react ai
+      ```
+
+      <div className="text-sm text-muted-foreground">
+
+The demo uses `useChat` from `@ai-sdk/react` to simulate streaming agent output. If you only need the `ChainOfThought` component itself, you can skip this step — `trace` is the only required dependency.
+
+      </div>
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource src="components/ui/chain-of-thought.tsx" title="components/ui/chain-of-thought.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="example.tsx"
+import {
+  ChainOfThought,
+  ChainOfThoughtHeader,
+  ChainOfThoughtContent,
+  ChainOfThoughtStep,
+} from "@/components/ui/chain-of-thought";
+```
+
+```tsx title="chainofthought.tsx"
+<ChainOfThought defaultOpen>
+  <ChainOfThoughtHeader>Researched in 3 steps</ChainOfThoughtHeader>
+  <ChainOfThoughtContent>
+    <ChainOfThoughtStep>Read the build log for dpl_8Kx2</ChainOfThoughtStep>
+    <ChainOfThoughtStep>
+      Checked bundle size for dashboard.js
+    </ChainOfThoughtStep>
+    <ChainOfThoughtStep>Profiled 3 API endpoints</ChainOfThoughtStep>
+  </ChainOfThoughtContent>
+</ChainOfThought>
+```
+
+### Full demo
+
+The preview on this page shows the chain-of-thought primitive composing with `useChat`, `createChat`, and `transport` from `@frakment/ai`. It streams three tool calls with a line-by-line build log and uses nested `TraceCollapsible` for auto-expand and manual toggle.
+
+The composition pulls `@ai-sdk/react`, `ai`, `badge`, `bubble`, `button`, `code-block`, `message`, and `trace`. Follow the [Chat tutorial](/docs/ai-elements/chat) for the wiring pattern, or replace `createChat` with your own backend that streams `data-buildLog` and tool parts.
+
+## In Context
+
+### Research summary
+
+<ComponentPreview name="chain-of-thought" title="chain-of-thought.tsx">
+  <ChainOfThoughtDemo />
+</ComponentPreview>
+
+## API Reference
+
+<PropsTable
+  rows={[
+    {
+      name: "status",
+      type: "running | error | pending",
+      description:
+        "Set on TraceLine. Controls color, and shimmer when running.",
+    },
+    {
+      name: "open",
+      type: "boolean",
+      description:
+        "Controlled open state on TraceCollapsible. Use open={open ?? running} to open while steps stream.",
+    },
+    {
+      name: "defaultOpen",
+      type: "boolean",
+      description: "Start expanded. Useful for static content.",
+    },
+  ]}
+/>
+
+## Accessibility
+
+- **TraceIcon** is `aria-hidden`. **TraceTitle** is the accessible name. Write it as a sentence: "Searched for minimumReleaseAge", not just "minimumReleaseAge".
+- Status is conveyed by icon shape and color, not color alone.
+- `prefers-reduced-motion`: shimmer stops automatically.
+- Use `open={open ?? running}` so a reader's manual toggle wins over the auto state.
+
+## Anatomy
+
+```tsx title="chain-of-thought.tsx"
+<ChainOfThought>
+  <ChainOfThoughtHeader />
+  <ChainOfThoughtContent>
+    <ChainOfThoughtStep />
+  </ChainOfThoughtContent>
+</ChainOfThought>
+```
+
+- **ChainOfThought** — collapsible root
+- **ChainOfThoughtHeader** — summary line ("Researched in 3 steps")
+- **ChainOfThoughtContent** — step list
+- **ChainOfThoughtStep** — one step with a Trace line
+
+## Best Practices
+
+- **One summary per turn.** The header is a single line, not a tree.
+- **Keep steps atomic.** One action per step.
+- **Collapse by default.** Steps expand on demand.
+- **Keep nesting shallow.** Two levels is enough.

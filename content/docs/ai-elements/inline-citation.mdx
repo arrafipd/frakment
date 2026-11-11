@@ -1,0 +1,122 @@
+---
+title: "Inline Citation"
+description: "Attach hoverable source citations to inline text in agent replies."
+---
+
+import { InlineCitationDemo } from "@/examples/inline-citation-demo";
+
+<ComponentPreview name="inline-citation-demo" title="inline-citation-demo.tsx" src="examples/inline-citation-demo.tsx">
+  <InlineCitationDemo />
+</ComponentPreview>
+
+Inline Citation is a compact source badge that expands into a HoverCard with the title, description, and a link to the original page. It composes HoverCard and Button, so the badge inherits the button's focus and the card's portal behavior.
+
+Inline Citation is a **composition**, not a primitive. Install the two primitives it uses, then wire it the same way the demo does.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add hover-card button
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install radix-ui
+      ```
+
+      <Step>Install the required registry primitives:</Step>
+
+      <ComponentSource name="hover-card" title="components/ui/hover-card.tsx" />
+      <ComponentSource name="button" title="components/ui/button.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="citation.tsx"
+import { Button } from "@/components/ui/button";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+
+<HoverCard>
+  <HoverCardTrigger asChild>
+    <Button className="h-5 rounded-full px-2 text-xs font-medium" size="sm" variant="secondary">{host}</Button>
+  </HoverCardTrigger>
+  <HoverCardContent className="flex w-64 flex-col gap-1">
+    <div className="font-medium">{source.title}</div>
+    <p className="text-muted-foreground">{source.description}</p>
+    <a href={source.url} target="_blank" rel="noreferrer">
+      {host}
+    </a>
+  </HoverCardContent>
+</HoverCard>
+```
+
+## Anatomy
+
+```tsx title="citation.tsx"
+<HoverCard>
+  <HoverCardTrigger asChild>
+    <Button className="h-5 rounded-full px-2 text-xs font-medium" size="sm" variant="secondary">{host}</Button>
+  </HoverCardTrigger>
+  <HoverCardContent>
+    <span>{title}</span>
+    <p>{description}</p>
+    <a href={url}>{host}</a>
+  </HoverCardContent>
+</HoverCard>
+```
+
+- **HoverCardTrigger** — a compact `Button` that shows the source hostname.
+- **HoverCardContent** — a small card with title, description, and a link to the original page.
+
+## Formatting the hostname
+
+The badge shows the hostname without `www.`. Strip it with `new URL(url).hostname` and a single replace:
+
+```tsx
+function hostname(url: string) {
+  return new URL(url).hostname.replace(/^www\./u, "");
+}
+```
+
+## Best Practices
+
+- **Always link to the source.** A citation without a clickable link is a dead end.
+- **Open in a new tab.** `target="_blank"` and `rel="noreferrer"` so the reader doesn't lose the conversation.
+- **Include `(opens in a new tab)` for screen readers.** Use a visually hidden `<span className="sr-only">`.
+- **Keep descriptions short.** Two lines at most; the full context lives on the linked page.
+- **Do not nest citations.** Each claim gets one badge.
+
+## Accessibility
+
+- `HoverCardTrigger asChild` composes with a focusable `Button`, so keyboard users can open the preview with Tab and Enter.
+- The description is plain text and read after the title.
+- The link inside `HoverCardContent` is a real anchor with a visible label and a screen-reader suffix.
+- Do not rely on hover alone; the trigger being a button ensures touch and keyboard users can open it.
+
+## Next
+
+- [Chat](/docs/ai-elements/chat) — full streaming chat surface.
+- [Context](/docs/ai-elements/context) — context window indicator.
+- [Hover Card](/docs/components/hover-card) — rich content on hover.

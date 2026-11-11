@@ -1,0 +1,26 @@
+{
+  "title": "AI Elements",
+  "root": true,
+  "pages": [
+    "chain-of-thought",
+    "chat",
+    "checkpoint",
+    "confirmation",
+    "context",
+    "inline-citation",
+    "message",
+    "model-selector",
+    "plan",
+    "prompt-input",
+    "queue",
+    "reasoning",
+    "sources",
+    "stack-trace",
+    "subagent",
+    "suggestion",
+    "task",
+    "terminal",
+    "test-results",
+    "tool"
+  ]
+}

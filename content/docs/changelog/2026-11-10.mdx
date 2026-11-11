@@ -1,0 +1,45 @@
+---
+title: "November 10, 2026"
+description: "New Credit Card module."
+date: "2026-11-10"
+---
+
+import { CreditCardDemo } from "@/examples/credit-card-demo";
+
+Adds a **Credit Card** module. Renders a card display with auto brand detection, auto number and expiry formatting, a `masked` mode for saved-card lists, and a `glass` variant for translucent surfaces.
+
+### Credit Card
+
+<ComponentPreview name="credit-card" title="credit-card-demo.tsx" src="examples/credit-card-demo.tsx" previewClassName="h-auto py-8">
+  <CreditCardDemo />
+</ComponentPreview>
+#### Installation
+
+<Steps>
+  <Step>Install the module</Step>
+
+```bash
+npx frakment add credit-card
+```
+
+  <Step>Use it in your app</Step>
+
+```tsx
+import { CreditCard } from "@/components/ui/credit-card";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<CreditCard
+  cardNumber="4242424242424242"
+  cardHolder="John Doe"
+  cardExpiration="1228"
+/>
+```
+
+Pass raw data - the component handles brand detection, number grouping, and expiry normalization. Use `masked` for saved-card lists and `variant="glass"` for surfaces over gradient or image backgrounds.
+
+See the [Credit Card docs](/docs/modules/credit-card) for variants, brands, anatomy, and API.

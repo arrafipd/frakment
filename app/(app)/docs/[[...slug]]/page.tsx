@@ -1,0 +1,277 @@
+import { findNeighbour } from "fumadocs-core/page-tree";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+
+// import { DocsBaseSwitcher } from "@/components/docs-base-switcher";
+import { DocsCopyPage } from "@/components/docs-copy-page";
+import { DocsKeyboardShortcuts } from "@/components/docs-keyboard-shortcuts";
+import { DocsNavLink } from "@/components/docs-nav-link";
+import { DocsShareMenu } from "@/components/docs-share-menu";
+import { DocsTableOfContents } from "@/components/docs-toc";
+import { PageTransition } from "@/components/page-transition";
+import { Badge } from "@/components/ui/badge";
+import { ROUTES } from "@/constants/routes";
+import { getChangelogPages } from "@/lib/changelog";
+import { formatTitleFromSlug, TOP_LEVEL_SECTIONS } from "@/lib/docs";
+import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon } from "@/lib/icons";
+import { getPageImage, getPageMarkdownUrl, source } from "@/lib/source";
+import { absoluteUrl } from "@/lib/utils";
+import { mdxComponents } from "@/mdx-components";
+import { BreadcrumbJsonLd } from "@/seo/json-ld";
+import { createPageMetadata } from "@/seo/metadata";
+
+const getChangelogNeighbours = (url: string) => {
+  const pages = getChangelogPages()
+    .filter((p) => p.url !== "/docs/changelog")
+    .map((p) => ({
+      name: p.data.title,
+      url: p.url,
+    }));
+  const idx = pages.findIndex((p) => p.url === url);
+  if (idx === -1) {
+    return { next: null, previous: null };
+  }
+  return {
+    next: pages[idx - 1] ?? null,
+    previous: pages[idx + 1] ?? null,
+  };
+};
+
+const getTopLevelNeighbours = (pageUrl: string) => {
+  const idx = TOP_LEVEL_SECTIONS.findIndex((s) => s.href === pageUrl);
+  if (idx === -1) {
+    return { next: null, previous: null };
+  }
+  const prev = idx > 0 ? TOP_LEVEL_SECTIONS[idx - 1] : null;
+  const next =
+    idx < TOP_LEVEL_SECTIONS.length - 1 ? TOP_LEVEL_SECTIONS[idx + 1] : null;
+  return {
+    next: next ? { name: next.name, url: next.href } : null,
+    previous: prev ? { name: prev.name, url: prev.href } : null,
+  };
+};
+
+const getNeighbours = (slug: string[] | undefined, pageUrl: string) => {
+  const section = slug?.[0];
+  const slugLength = slug?.length ?? 0;
+
+  if (section === "changelog" && slugLength >= 2) {
+    return getChangelogNeighbours(pageUrl);
+  }
+
+  if (slugLength < 2) {
+    return getTopLevelNeighbours(pageUrl);
+  }
+
+  return findNeighbour(source.pageTree, pageUrl);
+};
+
+export const revalidate = false;
+export const dynamic = "force-static";
+export const dynamicParams = false;
+
+export const generateStaticParams = () => source.generateParams();
+
+export const generateMetadata = async (props: {
+  params: Promise<{ slug?: string[] }>;
+}) => {
+  const params = await props.params;
+  const page = source.getPage(params.slug);
+
+  if (!page) {
+    notFound();
+  }
+
+  const doc = page.data;
+  const ogImage = getPageImage(page).url;
+
+  return createPageMetadata({
+    description: doc.description,
+    ogImage,
+    ogType: "article",
+    path: page.url,
+    title: doc.title,
+  });
+};
+
+const buildBreadcrumbs = (
+  slugs: string[],
+  pageTitle: string,
+  pageUrl: string
+) => {
+  const items: { name: string; path: string }[] = [{ name: "Home", path: "/" }];
+
+  if (slugs.length === 0) {
+    items.push({ name: pageTitle, path: pageUrl });
+    return items;
+  }
+
+  items.push({ name: "Docs", path: ROUTES.DOCS });
+
+  let currentPath = ROUTES.DOCS;
+  for (let i = 0; i < slugs.length - 1; i += 1) {
+    currentPath += `/${slugs[i]}`;
+    items.push({ name: formatTitleFromSlug(slugs[i]), path: currentPath });
+  }
+
+  items.push({ name: pageTitle, path: pageUrl });
+  return items;
+};
+
+const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
+  const params = await props.params;
+  const page = source.getPage(params.slug);
+
+  if (!page) {
+    notFound();
+  }
+
+  const doc = page.data;
+  const MdxContent = doc.body;
+  const _isChangelog = params.slug?.[0] === "changelog";
+  const neighbours = getNeighbours(params.slug, page.url);
+  const markdownUrl = getPageMarkdownUrl(page).url;
+
+  const { links } = doc as { links?: { doc?: string; api?: string } };
+  const breadcrumbs = buildBreadcrumbs(params.slug ?? [], doc.title, page.url);
+
+  return (
+    <>
+      <BreadcrumbJsonLd items={breadcrumbs} />
+
+      <DocsKeyboardShortcuts
+        next={neighbours.next ? neighbours.next.url : null}
+        previous={neighbours.previous ? neighbours.previous.url : null}
+      />
+
+      <PageTransition>
+        <div
+          className="flex items-stretch text-[1.05rem] sm:text-[15px] xl:w-full"
+          data-slot="docs"
+        >
+          <div className="flex min-w-0 flex-1 flex-col">
+            <div className="h-(--top-spacing) shrink-0" />
+            <div className="mx-auto flex w-full max-w-2xl min-w-0 flex-1 flex-col gap-8 px-4 py-6 text-neutral-800 md:px-0 lg:py-8 dark:text-neutral-300">
+              <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center justify-between">
+                    <h1 className="scroll-m-20 text-4xl font-semibold tracking-tight sm:text-3xl xl:text-4xl">
+                      {doc.title}
+                    </h1>
+                    <div className="docs-nav flex items-center gap-2">
+                      <div className="hidden sm:block">
+                        <DocsCopyPage
+                          markdownUrl={absoluteUrl(markdownUrl)}
+                          url={absoluteUrl(page.url)}
+                        />
+                      </div>
+                      <div className="ml-auto flex gap-2">
+                        <DocsShareMenu
+                          title={doc.title}
+                          url={absoluteUrl(page.url)}
+                        />
+                        {neighbours.previous && (
+                          <DocsNavLink
+                            className="extend-touch-target size-8 md:size-7"
+                            href={neighbours.previous.url}
+                            tooltip={{
+                              icon: <ArrowLeftIcon />,
+                              title: "Previous Page",
+                            }}
+                            transitionTypes={["nav-back"]}
+                          >
+                            <span className="sr-only">Previous</span>
+                          </DocsNavLink>
+                        )}
+                        {neighbours.next && (
+                          <DocsNavLink
+                            className="extend-touch-target size-8 md:size-7"
+                            href={neighbours.next.url}
+                            tooltip={{
+                              icon: <ArrowRightIcon />,
+                              title: "Next Page",
+                            }}
+                            transitionTypes={["nav-forward"]}
+                          >
+                            <span className="sr-only">Next</span>
+                          </DocsNavLink>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  {doc.description && (
+                    <p className="text-muted-foreground text-[1.05rem] text-balance sm:text-base">
+                      {doc.description}
+                    </p>
+                  )}
+                </div>
+                {links ? (
+                  <div className="flex items-center space-x-2 pt-4">
+                    {links?.doc && (
+                      <Badge asChild variant="secondary">
+                        <Link href={links.doc} rel="noreferrer" target="_blank">
+                          Docs <ArrowUpRightIcon />
+                        </Link>
+                      </Badge>
+                    )}
+                    {links?.api && (
+                      <Badge asChild variant="secondary">
+                        <Link href={links.api} rel="noreferrer" target="_blank">
+                          API Reference <ArrowUpRightIcon />
+                        </Link>
+                      </Badge>
+                    )}
+                  </div>
+                ) : null}
+              </div>
+              <div className="w-full flex-1 *:data-[slot=alert]:first:mt-0">
+                {/* {params.slug &&
+                params.slug[0] === "components" &&
+                params.slug[1] &&
+                params.slug[2] && (
+                  <DocsBaseSwitcher
+                    base={params.slug[1]}
+                    component={params.slug.slice(2).join("/")}
+                    className="mb-4"
+                  />
+                )} */}
+                <MdxContent components={mdxComponents} />
+              </div>
+            </div>
+            <div className="mx-auto hidden h-16 w-full max-w-2xl items-center gap-2 px-4 sm:flex md:px-0">
+              {neighbours.previous && (
+                <DocsNavLink
+                  href={neighbours.previous.url}
+                  size="sm"
+                  transitionTypes={["nav-back"]}
+                >
+                  {neighbours.previous.name}
+                </DocsNavLink>
+              )}
+              {neighbours.next && (
+                <DocsNavLink
+                  className="ml-auto"
+                  href={neighbours.next.url}
+                  size="sm"
+                  transitionTypes={["nav-forward"]}
+                >
+                  {neighbours.next.name}
+                </DocsNavLink>
+              )}
+            </div>
+          </div>
+          <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--footer-height)+2rem)] w-72 flex-col gap-4 overflow-hidden overscroll-none pb-8 xl:flex">
+            <div className="h-(--top-spacing) shrink-0" />
+            {doc.toc?.length ? (
+              <div className="no-scrollbar mx-8 overflow-y-auto">
+                <DocsTableOfContents toc={doc.toc} />
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </PageTransition>
+    </>
+  );
+};
+
+export default Page;

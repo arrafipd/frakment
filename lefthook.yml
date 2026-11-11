@@ -1,0 +1,43 @@
+# Lefthook config - https://github.com/evilmartians/lefthook
+# Registry MUST build before format -> no JSON drift. See HANDOFF.md.
+
+pre-commit:
+  parallel: false
+  jobs:
+    - name: registry-build
+      glob: [ "registry/**", "examples/**", "frakment.json" ]
+      run: node scripts/build-registry.mjs
+      stage_fixed: true
+
+    - name: format
+      glob: "*.{ts,tsx,js,jsx,json,md,mdx,css,yml,yaml}"
+      run: npx ultracite fix {staged_files}
+      stage_fixed: true
+
+    - name: lint
+      glob: "*.{ts,tsx,js,jsx,json}"
+      run: npx ultracite check {staged_files}
+
+    - name: typecheck
+      glob: "*.{ts,tsx}"
+      run: npx tsc --noEmit
+
+    - name: registry-audit
+      glob: [ "registry/**", "components/ui/**", "frakment.json" ]
+      run: node scripts/audit-registry.mjs
+
+    - name: secrets
+      run: node scripts/scan-secrets.mjs
+
+commit-msg:
+  jobs:
+    - name: conventional
+      run: node scripts/check-commit-msg.mjs {1}
+
+pre-push:
+  parallel: false
+  jobs:
+    - name: build
+      run: npx cross-env NEXT_WORKER_THREADS=1 next build
+    - name: test
+      run: npx vitest run

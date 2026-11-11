@@ -1,0 +1,321 @@
+---
+title: "November 3, 2026"
+description: "Eleven form primitives, icon shim, and a first-party AI engine."
+date: "2026-11-03"
+---
+
+import { InputDemo } from "@/examples/input-demo";
+import { TextareaDemo } from "@/examples/textarea-demo";
+import { FieldDemo } from "@/examples/field-demo";
+import { LabelDemo } from "@/examples/label-demo";
+import { CheckboxDemo } from "@/examples/checkbox-demo";
+import { SwitchDemo } from "@/examples/switch-demo";
+import { SelectDemo } from "@/examples/select-demo";
+import { ToggleDemo } from "@/examples/toggle-demo";
+import { ToggleGroupDemo } from "@/examples/toggle-group-demo";
+import { InputGroupDemo } from "@/examples/input-group-demo";
+import { EmptyDemo } from "@/examples/empty-demo";
+import { MessageScrollerDemo } from "@/examples/message-scroller-demo";
+
+This release adds **eleven form primitives** for building accessible forms, an **icon shim** for library-agnostic icon imports, and a **first-party AI engine** replacing the external helper library.
+
+- [Input & Textarea](#input--textarea): Single-line and multi-line text inputs.
+- [Field & Label](#field--label): Layout primitive for labels, descriptions, and errors.
+- [Selection controls](#selection-controls): Checkbox, Switch, and Select.
+- [Toggle & Toggle Group](#toggle--toggle-group): Two-state buttons, single and grouped.
+- [Input Group & Empty](#input-group--empty): Inline addons and zero-data placeholders.
+- [Icon shim](#icon-shim): `lib/icons.ts` is now a registry component.
+- [Changed](#changed): Message Scroller polish.
+- [First-party AI engine](#first-party-ai-engine): `@/lib/ai` replaces the external helper.
+
+<hr className="my-16 border-border/40" />
+
+### Input & Textarea
+
+<ComponentPreview name="input" title="input.tsx">
+  <InputDemo />
+</ComponentPreview>
+
+<ComponentPreview name="textarea" title="textarea.tsx">
+  <TextareaDemo />
+</ComponentPreview>
+
+**Input** and **Textarea** are the base text controls. Both forward every native prop, carry `data-slot` markers for styling hooks, and support disabled and `aria-invalid` states out of the box. Textarea grows with content via `field-sizing-content` — no JavaScript required.
+
+
+#### Installation
+
+<Steps>
+  <Step>Install both primitives</Step>
+
+```bash
+npx frakment add input textarea
+```
+
+<Step>Use them in your app</Step>
+
+```tsx
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<Input placeholder="Email" type="email" />
+<Textarea placeholder="Write a message..." rows={4} />
+```
+
+See the [Input docs](/docs/components/input) and [Textarea docs](/docs/components/textarea) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Field & Label
+
+<ComponentPreview name="field" title="field.tsx" previewClassName="h-auto py-8">
+  <FieldDemo />
+</ComponentPreview>
+
+<ComponentPreview name="label" title="label.tsx" previewClassName="h-auto py-8">
+  <LabelDemo />
+</ComponentPreview>
+
+**Field** wraps a form control with its label, description, and error message. It handles vertical and horizontal orientation, works with `FieldSet` and `FieldGroup` for multi-field forms, and surfaces validation state through `data-invalid`. **Label** is the accessible primitive Field composes with — it forwards clicks to its control via `htmlFor`.
+
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitives</Step>
+
+```bash
+npx frakment add field label
+```
+
+<Step>Compose a field</Step>
+
+```tsx
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<Field>
+  <FieldLabel htmlFor="email">Email</FieldLabel>
+  <Input id="email" type="email" placeholder="name@example.com" />
+  <FieldDescription>We'll send updates to this address.</FieldDescription>
+</Field>
+```
+
+See the [Field docs](/docs/components/field) and [Label docs](/docs/components/label) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Selection controls
+
+<ComponentPreview name="checkbox" title="checkbox.tsx">
+  <CheckboxDemo />
+</ComponentPreview>
+
+<ComponentPreview name="switch" title="switch.tsx">
+  <SwitchDemo />
+</ComponentPreview>
+
+<ComponentPreview name="select" title="select.tsx">
+  <SelectDemo />
+</ComponentPreview>
+
+**Checkbox**, **Switch**, and **Select** cover boolean, toggle, and single-choice inputs. Each is built on Radix primitives, forwards native props, and supports `data-invalid`, `data-disabled`, and checked/unchecked/indeterminate states.
+
+
+#### Installation
+
+<Steps>
+  <Step>Install the primitives</Step>
+
+```bash
+npx frakment add checkbox switch select
+```
+
+<Step>Use them in your app</Step>
+
+```tsx
+import { Checkbox } from "@/components/ui/checkbox";
+import { Switch } from "@/components/ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<Checkbox id="terms" defaultChecked />
+<Switch id="wifi" />
+<Select>
+  <SelectTrigger>
+    <SelectValue placeholder="Pick one" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="a">Option A</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+See the [Checkbox docs](/docs/components/checkbox), [Switch docs](/docs/components/switch), and [Select docs](/docs/components/select) for full API references.
+
+<hr className="my-16 border-border/40" />
+
+### Toggle & Toggle Group
+
+<ComponentPreview name="toggle" title="toggle.tsx">
+  <ToggleDemo />
+</ComponentPreview>
+
+<ComponentPreview name="toggle-group" title="toggle-group.tsx">
+  <ToggleGroupDemo />
+</ComponentPreview>
+
+**Toggle** is a two-state button with `default` and `outline` variants, three sizes, and a pressed state. **Toggle Group** extends it into a set — single or multiple selection, `spacing`, `orientation`, and per-item disabled. Both accept icons and text, and style the pressed state through `group-aria-pressed/toggle:`.
+
+
+#### Installation
+
+<Steps>
+  <Step>Install the group (includes the base Toggle)</Step>
+
+```bash
+npx frakment add toggle-group
+```
+
+<Step>Use them in your app</Step>
+
+```tsx
+import { Toggle } from "@/components/ui/toggle";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<Toggle aria-label="Toggle bookmark" size="sm" variant="outline">
+  <BookmarkIcon />
+  Bookmark
+</Toggle>
+
+<ToggleGroup type="multiple">
+  <ToggleGroupItem value="bold" aria-label="Toggle bold"><Bold /></ToggleGroupItem>
+  <ToggleGroupItem value="italic" aria-label="Toggle italic"><Italic /></ToggleGroupItem>
+</ToggleGroup>
+```
+
+See the [Toggle docs](/docs/components/toggle) and [Toggle Group docs](/docs/components/toggle-group) for full API references.
+
+<hr className="my-16 border-border/40" />
+
+### Input Group & Empty
+
+<ComponentPreview name="input-group" title="input-group.tsx">
+  <InputGroupDemo />
+</ComponentPreview>
+
+<ComponentPreview name="empty" title="empty.tsx" previewClassName="h-auto py-8">
+  <EmptyDemo />
+</ComponentPreview>
+
+**Input Group** wraps a single input or textarea and lets you compose inline addons — icons, text prefixes, buttons — in a single bordered surface. Addons align inline-start, inline-end, block-start, or block-end. **Empty** is a composable placeholder for zero-data screens: a dashed surface with a stacked icon, title, description, and optional call-to-action.
+
+
+#### Installation
+
+<Steps>
+  <Step>Install both primitives</Step>
+
+```bash
+npx frakment add input-group empty
+```
+
+<Step>Use them in your app</Step>
+
+```tsx
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group";
+import {
+  Empty,
+  EmptyHeader,
+  EmptyTitle,
+  EmptyDescription,
+} from "@/components/ui/empty";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<InputGroup>
+  <InputGroupAddon><Search /></InputGroupAddon>
+  <InputGroupInput placeholder="Search..." />
+</InputGroup>
+
+<Empty>
+  <EmptyHeader>
+    <EmptyTitle>No results</EmptyTitle>
+    <EmptyDescription>Try a different search term.</EmptyDescription>
+  </EmptyHeader>
+</Empty>
+```
+
+See the [Input Group docs](/docs/components/input-group) and [Empty docs](/docs/components/empty) for full API references.
+
+<hr className="my-16 border-border/40" />
+
+### Icon shim
+
+`lib/icons.ts` is now a first-class registry component (`npx frakment add icons`). It re-exports Lucide icons under Lucide-compatible names — `Check as CheckIcon`, `TextB as BoldIcon`, `Globe` — so components can swap icon libraries with a single import change.
+
+Every Frakment component that imports `@/lib/icons` now declares `icons` as a `registryDependency`. Running `npx frakment add <component>` installs the shim automatically. The `IconComponent` type replaces the previous `LucideIcon` alias.
+
+```tsx
+import { CheckIcon, PlusIcon, ArrowUpIcon } from "@/lib/icons";
+```
+
+<hr className="my-16 border-border/40" />
+
+### Changed
+
+#### Message Scroller
+
+<ComponentPreview name="message-scroller" title="message-scroller.tsx">
+  <MessageScrollerDemo />
+</ComponentPreview>
+
+The scroll-to-end button is now `rounded-full`, the empty state uses `ChatCircleDots`, and the viewport opts into the shared scrollbar theme. No API change.
+
+<hr className="my-16 border-border/40" />
+
+### First-party AI engine
+
+`@/lib/ai` is now a first-party chat engine, written to match the API contract that chat builders rely on — `createChat()`, `ChatTransport`, chunk encoding, continuation semantics, and tools/approvals/files/sources support.
+
+No consumer code changes — `import { createChat, getMessageText } from "@/lib/ai"` still works, and `lib/ai/` is bundled with any component that depends on it.
+
+See the [AI Helpers reference](/docs/libraries/ai) for the full API.

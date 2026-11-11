@@ -1,0 +1,352 @@
+---
+title: Field
+description: A layout primitive for form fields — label, description, and inputs.
+---
+
+import { FieldDemo } from "@/examples/field-demo";
+import { FieldInput } from "@/examples/field-input";
+import { FieldTextarea } from "@/examples/field-textarea";
+import { FieldInvalid } from "@/examples/field-invalid";
+import { FieldCheckbox } from "@/examples/field-checkbox";
+import { FieldSwitch } from "@/examples/field-switch";
+import { FieldSelect } from "@/examples/field-select";
+import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+
+<ComponentPreview name="field" title="field.tsx" previewClassName="h-auto py-8">
+  <FieldDemo />
+</ComponentPreview>
+
+Field wraps a form control with its label, description, and error message. It handles vertical and horizontal orientation, works with `FieldSet` and `FieldGroup` for multi-field forms, and surfaces validation state through `data-invalid` on the wrapper.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add field
+```
+
+The CLI installs the registry dependencies: `label` and `separator`.
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install class-variance-authority
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="field" title="components/ui/field.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="field.tsx"
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+```
+
+```tsx
+<Field>
+  <FieldLabel htmlFor="email">Email</FieldLabel>
+  <Input id="email" type="email" placeholder="name@example.com" />
+  <FieldDescription>We'll send updates to this address.</FieldDescription>
+</Field>
+```
+
+## Composition
+
+```text
+Field
+├── FieldLabel
+├── FieldDescription
+├── FieldError
+└── FieldContent
+```
+
+## Examples
+
+### Input
+
+<ComponentPreview name="field" title="field.tsx" previewClassName="h-auto py-8">
+  <FieldInput />
+</ComponentPreview>
+
+```tsx
+<FieldSet>
+  <FieldGroup>
+    <Field>
+      <FieldLabel htmlFor="username">Username</FieldLabel>
+      <Input id="username" placeholder="Max Leiter" />
+      <FieldDescription>
+        Choose a unique username for your account.
+      </FieldDescription>
+    </Field>
+    <Field>
+      <FieldLabel htmlFor="password">Password</FieldLabel>
+      <FieldDescription>Must be at least 8 characters.</FieldDescription>
+      <Input id="password" type="password" />
+    </Field>
+  </FieldGroup>
+</FieldSet>
+```
+
+### Textarea
+
+<ComponentPreview name="field" title="field.tsx" previewClassName="h-auto py-8">
+  <FieldTextarea />
+</ComponentPreview>
+
+```tsx
+<Field>
+  <FieldLabel htmlFor="feedback">Feedback</FieldLabel>
+  <Textarea id="feedback" rows={4} />
+  <FieldDescription>Share your thoughts.</FieldDescription>
+</Field>
+```
+
+### Invalid
+
+Set `data-invalid` on **Field** (or `aria-invalid` on the control) to trigger destructive styling on the label and control ring.
+
+<ComponentPreview name="field" title="field.tsx" previewClassName="h-auto py-8">
+  <FieldInvalid />
+</ComponentPreview>
+
+```tsx
+<Field data-invalid>
+  <FieldLabel htmlFor="email">Email</FieldLabel>
+  <Input id="email" aria-invalid />
+  <FieldDescription>This field contains validation errors.</FieldDescription>
+</Field>
+```
+
+### With FieldError
+
+```tsx
+<Field data-invalid>
+  <FieldLabel htmlFor="email">Email</FieldLabel>
+  <Input id="email" aria-invalid />
+  <FieldError>Email is required.</FieldError>
+</Field>
+```
+
+### Horizontal with FieldContent
+
+`orientation="horizontal"` places the label and control side by side. Use **FieldContent** to stack a title and description beside the control.
+
+```tsx
+<Field orientation="horizontal">
+  <Checkbox id="terms" />
+  <FieldLabel htmlFor="terms">Accept terms and conditions</FieldLabel>
+</Field>
+```
+
+```tsx
+<Field orientation="horizontal">
+  <FieldContent>
+    <FieldTitle>Share across devices</FieldTitle>
+    <FieldDescription>Focused settings sync between devices.</FieldDescription>
+  </FieldContent>
+  <Switch id="sync" />
+</Field>
+```
+
+### Separator with label
+
+```tsx
+<FieldSeparator>Or continue with</FieldSeparator>
+```
+
+### Checkbox in horizontal Field
+
+Combine `orientation="horizontal"` with `Checkbox` and `FieldLabel` for an inline consent row.
+
+<ComponentPreview name="field" title="field.tsx" previewClassName="h-auto py-8">
+  <FieldCheckbox />
+</ComponentPreview>
+
+```tsx
+<Field orientation="horizontal">
+  <Checkbox id="terms" />
+  <FieldLabel htmlFor="terms">Accept terms and conditions</FieldLabel>
+</Field>
+```
+
+### Switch with FieldContent
+
+Use `FieldContent` to stack a `FieldTitle` and `FieldDescription` beside the `Switch`.
+
+<ComponentPreview name="field" title="field.tsx" previewClassName="h-auto py-8">
+  <FieldSwitch />
+</ComponentPreview>
+
+```tsx
+<Field orientation="horizontal">
+  <FieldContent>
+    <FieldTitle>Share across devices</FieldTitle>
+    <FieldDescription>Focused settings sync between devices.</FieldDescription>
+  </FieldContent>
+  <Switch id="sync" />
+</Field>
+```
+
+### Select
+
+Compose `Field` with `Select` for a labelled dropdown with a description.
+
+<ComponentPreview name="field" title="field.tsx" previewClassName="h-auto py-8">
+  <FieldSelect />
+</ComponentPreview>
+
+```tsx
+<Field>
+  <FieldLabel htmlFor="fruit">Favorite fruit</FieldLabel>
+  <Select>
+    <SelectTrigger id="fruit">
+      <SelectValue placeholder="Select a fruit" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectItem value="apple">Apple</SelectItem>
+      <SelectItem value="banana">Banana</SelectItem>
+      <SelectItem value="cherry">Cherry</SelectItem>
+    </SelectContent>
+  </Select>
+  <FieldDescription>Choose one from the list.</FieldDescription>
+</Field>
+```
+
+## In Context
+
+### Login form
+
+<ComponentPreview name="field" title="field.tsx">
+  <div className="mx-auto w-full max-w-sm">
+    <FieldGroup>
+      <Field>
+        <FieldLabel htmlFor="email">Email</FieldLabel>
+        <Input id="email" type="email" />
+      </Field>
+      <Field>
+        <FieldLabel htmlFor="password">Password</FieldLabel>
+        <Input id="password" type="password" />
+        <FieldDescription>At least 8 characters.</FieldDescription>
+      </Field>
+    </FieldGroup>
+  </div>
+</ComponentPreview>
+
+## API Reference
+
+### Field
+
+<PropsTable
+  rows={[
+    {
+      name: "orientation",
+      type: '"vertical" | "horizontal"',
+      defaultValue: '"vertical"',
+      description:
+        "Stack label above the control, or place it beside the control.",
+    },
+    {
+      name: "data-invalid",
+      type: "boolean",
+      defaultValue: "false",
+      description:
+        "Propagates invalid styling to the label and any descendant with data-slot=input.",
+    },
+    {
+      name: "data-disabled",
+      type: "boolean",
+      defaultValue: "false",
+      description: "Grays out label and description.",
+    },
+  ]}
+/>
+
+### FieldSet / FieldLegend / FieldGroup / FieldLabel / FieldDescription / FieldContent / FieldTitle
+
+Extend native `<fieldset>`, `<legend>`, `<div>`, `<label>`, and `<p>`.
+
+### FieldError
+
+<PropsTable
+  rows={[
+    {
+      name: "children",
+      type: "ReactNode",
+      defaultValue: "",
+      description: "Single error message to render.",
+    },
+    {
+      name: "errors",
+      type: "Array<{ message?: string } | undefined>",
+      defaultValue: "",
+      description:
+        "Array of field errors; renders unique messages joined. Children take priority.",
+    },
+  ]}
+/>
+
+### FieldSeparator
+
+Renders Frakment `Separator`. Accepts an optional `children` that renders as a centered label between two divider lines.
+
+## CSS Variables
+
+| Variable | Default | Purpose |
+| :-- | :-- | :-- |
+| `--field-gap` | theme spacing | Gap between label, control, description |
+
+## States
+
+| State | How |
+| :-- | :-- |
+| Default | — |
+| Invalid | `data-invalid="true"` on `Field` |
+| Disabled | `data-disabled="true"` |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `field-set`, `field-group`, `field`, `field-label`, `field-description`, `field-error`, `field-content` |
+| `data-invalid` | `true` |
+| `data-disabled` | `true` |
+| `data-orientation` | `vertical` \| `horizontal` |
+
+## Accessibility
+
+- `Field` does not add roles. It is a layout primitive that groups `FieldLabel` with its control.
+- Use `htmlFor` on `FieldLabel` and `id` on the control.
+- `FieldError` is linked automatically when the parent `Field` has `data-invalid`.
+
+## Best Practices
+
+- **One Field per control.** Do not nest fields.
+- **Use `FieldGroup` for multiple fields.** It normalizes vertical spacing.
+- **Horizontal orientation works for Checkbox and Switch.** Not for inputs.
+- **Pair label with description, not placeholder.** Placeholders disappear.
+## Related Components
+
+- [Input](/docs/components/input) — single-line text
+- [Label](/docs/components/label) — plain label
+- [Checkbox](/docs/components/checkbox) — boolean field
+

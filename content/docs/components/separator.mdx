@@ -1,0 +1,236 @@
+---
+title: Separator
+description: A visual divider between content sections.
+---
+
+import { Separator } from "@/components/ui/separator";
+import { SeparatorDemo } from "@/examples/separator-demo";
+
+<ComponentPreview
+  name="separator"
+  title="separator.tsx"
+  align="start"
+  previewClassName="h-auto"
+>
+  <div className="w-full max-w-md p-6">
+    <SeparatorDemo />
+  </div>
+</ComponentPreview>
+
+Separator renders a thin rule between sections. Horizontal by default; switch to vertical with `orientation="vertical"`.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add separator
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install radix-ui
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="separator" title="components/ui/separator.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="separator.tsx"
+import { Separator } from "@/components/ui/separator";
+```
+
+```tsx title="separator.tsx"
+<Separator />
+```
+
+## Anatomy
+
+```tsx title="separator.tsx"
+<Separator orientation="horizontal" decorative />
+```
+
+- **Separator** — a single rule. Horizontal by default, or vertical
+- `decorative` — when true (default), the rule is visual only and hidden from screen readers
+
+## Orientation
+
+Horizontal rules have `h-px w-full`. Vertical rules have `h-full w-px` — the parent must have a defined height.
+
+<ComponentPreview
+  name="separator"
+  title="separator.tsx"
+  align="start"
+  previewClassName="h-auto"
+>
+  <div className="flex w-full max-w-md flex-col gap-6 p-6">
+    <div className="flex flex-col gap-2">
+      <span className="text-xs font-medium text-muted-foreground">
+        horizontal
+      </span>
+      <Separator />
+    </div>
+    <div className="flex flex-col gap-2">
+      <span className="text-xs font-medium text-muted-foreground">
+        vertical (in a row)
+      </span>
+      <div className="flex h-6 items-center gap-4 text-sm">
+        <span>Left</span>
+        <Separator orientation="vertical" />
+        <span>Center</span>
+        <Separator orientation="vertical" />
+        <span>Right</span>
+      </div>
+    </div>
+  </div>
+</ComponentPreview>
+
+## With label
+
+To center a label on a separator, wrap it in a `relative` container and give the label a background that matches its parent.
+
+<ComponentPreview
+  name="separator"
+  title="separator.tsx"
+  align="start"
+  previewClassName="h-auto"
+>
+  <div className="w-full max-w-md p-6">
+    <div className="relative">
+      <div className="absolute inset-0 flex items-center">
+        <Separator className="w-full" />
+      </div>
+      <div className="relative flex justify-center">
+        <span className="bg-background px-2 text-xs uppercase tracking-wider text-muted-foreground">
+          or continue with
+        </span>
+      </div>
+    </div>
+  </div>
+</ComponentPreview>
+
+```tsx title="div.tsx"
+<div className="relative">
+  <div className="absolute inset-0 flex items-center">
+    <Separator className="w-full" />
+  </div>
+  <div className="relative flex justify-center">
+    <span className="bg-background px-2 text-xs uppercase tracking-wider text-muted-foreground">
+      or continue with
+    </span>
+  </div>
+</div>
+```
+
+## In context
+
+Use `Separator` to break groups in a list, or to delineate a header from content.
+
+<ComponentPreview
+  name="separator"
+  title="separator.tsx"
+  align="start"
+  previewClassName="h-auto"
+>
+  <div className="w-full max-w-md p-6">
+    <div className="space-y-3 text-sm">
+      <div className="font-medium">Recent activity</div>
+      <Separator />
+      <div className="flex justify-between">
+        <span className="text-muted-foreground">Deployed v1.2.3</span>
+        <span className="text-muted-foreground tabular-nums">2m ago</span>
+      </div>
+      <Separator />
+      <div className="flex justify-between">
+        <span className="text-muted-foreground">Ran migrations</span>
+        <span className="text-muted-foreground tabular-nums">14m ago</span>
+      </div>
+      <Separator />
+      <div className="flex justify-between">
+        <span className="text-muted-foreground">Merged PR #42</span>
+        <span className="text-muted-foreground tabular-nums">1h ago</span>
+      </div>
+    </div>
+  </div>
+</ComponentPreview>
+
+## Accessibility
+
+- `decorative` is `true` by default — the separator is not announced by screen readers. This is correct for visual dividers between content sections.
+- Set `decorative={false}` when the separator has semantic meaning — it will render with `role="separator"` and be announced.
+- For vertical separators, ensure the parent container has a defined height.
+
+## In Context
+
+### Menu divider
+
+<ComponentPreview name="separator" title="separator.tsx">
+  <div className="mx-auto w-full max-w-sm">
+    <div className="py-2 text-sm">Edit</div>
+    <div className="py-2 text-sm">Duplicate</div>
+    <Separator className="my-2" />
+    <div className="py-2 text-sm text-destructive">Delete</div>
+  </div>
+</ComponentPreview>
+
+### Vertical divider
+
+<ComponentPreview name="separator" title="separator.tsx">
+  <div className="mx-auto flex h-8 items-center gap-3 text-sm">
+    <span>Docs</span>
+    <Separator className="h-full" orientation="vertical" />
+    <span>Changelog</span>
+    <Separator className="h-full" orientation="vertical" />
+    <span>GitHub</span>
+  </div>
+</ComponentPreview>
+
+## API Reference
+
+### Separator
+
+Extends Radix `Separator.Root`.
+
+<PropsTable
+  rows={[
+    {
+      name: "orientation",
+      type: "horizontal | vertical",
+      default: "horizontal",
+      description: "Direction of the rule.",
+    },
+    {
+      name: "decorative",
+      type: "boolean",
+      default: "true",
+      description:
+        "When true, renders as a visual-only separator (role=presentation).",
+    },
+  ]}
+/>
+
+## Best Practices
+
+- **Use `orientation="vertical"` inside a row.** A horizontal separator in a flex row breaks rhythm.
+- **Keep spacing consistent.** `my-2` for inline dividers, `my-6` for sections.
+- **Do not use a separator for every field.** Whitespace often reads better than a line.
+- **Do not nest sections with separators.** Use a Card or a heading instead.

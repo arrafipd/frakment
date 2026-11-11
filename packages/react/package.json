@@ -1,0 +1,47 @@
+{
+  "name": "@frakment/react",
+  "version": "0.0.4",
+  "description": "React primitives for Frakment AI and chat interfaces",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arrafipd/frakment.git",
+    "directory": "packages/react"
+  },
+  "license": "MIT",
+  "author": "The Frakment Authors (https://github.com/arrafipd/frakment)",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./message-scroller": {
+      "types": "./dist/message-scroller/index.d.ts",
+      "import": "./dist/message-scroller/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup && node ../../node_modules/typescript/bin/tsc --emitDeclarationOnly --declaration --outDir dist --rootDir src --incremental false",
+    "dev": "tsup --watch"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "tsup": "^8.5.0",
+    "typescript": "5.9.3"
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

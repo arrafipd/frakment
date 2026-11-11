@@ -1,0 +1,139 @@
+---
+title: FAQ
+description: Common questions about Frakment.
+---
+
+Short answers to the questions that come up most often. Each section covers one area: design decisions, installation, usage, and tooling.
+
+## General
+
+### Why monochrome?
+
+A single lightness scale keeps every component consistent in both light and dark mode. You change one token, everything follows. Add color back per token if a project needs a brand hue - the semantic names stay the same.
+
+```css
+:root {
+  --primary: oklch(0.62 0.19 259);
+  --primary-foreground: oklch(0.98 0 0);
+}
+```
+
+### How is Frakment different from a component library?
+
+A library lives in `node_modules` and updates when you bump a version. Frakment copies source files into your project. You own them, edit them, and upgrade by re-running `npx frakment add`.
+
+| | Library | Frakment |
+| :-- | :-- | :-- |
+| Files | `node_modules` | Your repo |
+| Updates | `npm update` | `npx frakment add` |
+| Edits | Fought by updates | Yours to keep |
+| Control | Wrapper only | Full source |
+
+### What is the difference between a primitive and a composition?
+
+A primitive is one file with one concern (`button`, `input`). A composition wires primitives into a tutorial (`chat`, `terminal`, `plan`). Only primitives install via CLI. Compositions are recipes you follow.
+
+```bash
+# Primitive
+npx frakment add button
+
+# Composition (installed as primitives)
+npx frakment add code-block trace
+```
+
+### Do I need React 19?
+
+Yes. Frakment components target React 19 and use hooks that rely on its behavior. React 18 may work for isolated primitives but is not supported.
+
+## Installation
+
+### Why does `npx frakment init` need a `globals.css`?
+
+`init` injects the Frakment theme block into an existing Tailwind v4 entry. The file must exist and contain `@import "tailwindcss";` so Frakment can append tokens after your imports.
+
+### Why are engine packages separate?
+
+State logic (chat engine, message scroller) lives in `@frakment/ai` and `@frakment/react` so it can be patched with `npm update`. Styling lives in registry files you can edit. This separation keeps behavior stable across upgrades while leaving visual control to you.
+
+### Do I need both `npm install @frakment/ai` and `npx frakment add`?
+
+Only if you use AI-heavy components. `npx frakment add message-animated` installs `@frakment/ai` automatically as a dependency. Standalone primitives do not pull the engine.
+
+```bash
+# Standalone primitive - no engine
+npx frakment add button
+
+# AI primitive - pulls @frakment/ai
+npx frakment add message-animated
+```
+
+### How do I configure Tailwind v4?
+
+Frakment requires Tailwind v4. The theme block uses `@theme inline`, `@utility`, and `@custom-variant`. No `tailwind.config.js` is needed.
+
+```css title="globals.css"
+@import "tailwindcss";
+@import "./theme.css";
+```
+
+## Usage
+
+### Why can I not install `chain-of-thought` or `terminal`?
+
+Those are compositions. Install the primitives they compose:
+
+```bash
+npx frakment add code-block trace
+npx frakment add code-block trace
+```
+
+The docs page for each composition lists the exact primitive set.
+
+### How do I update a component after installing it?
+
+Re-run `npx frakment add <name> --overwrite`. The CLI replaces the file. Keep local edits in a diff before overwriting if you customized it.
+
+```bash
+npx frakment add button --overwrite
+```
+
+### Can I override a theme token?
+
+Yes. The theme block in `globals.css` defines every token under `:root` and `.dark`. Change a value, the entire system follows. See [Theming](/docs/guides/theming).
+
+### Where do I customize a single component?
+
+Edit the copied file directly. Frakment does not read from `node_modules` at runtime. Local edits survive until the next `--overwrite`.
+
+### Does Frakment ship dark mode?
+
+Yes. Every token has a `.dark` counterpart. Toggle by adding the `dark` class to `<html>`. See [Dark mode](/docs/guides/dark-mode).
+
+## Tooling
+
+### Does Frakment work with Tailwind v3?
+
+No. The theme block uses `@theme inline`, `@utility`, and `@custom-variant` - Tailwind v4 only.
+
+### Does it work outside Next.js?
+
+Yes. Installation guides cover Next.js, Vite, Astro, Remix, React Router, TanStack Router, Laravel, and Gatsby. Manual setup works for any React 19 + Tailwind v4 project.
+
+### Does it work with JavaScript?
+
+The components ship as TypeScript. See [JavaScript](/docs/getting-started/installation/manual) for the manual setup - remove type annotations after copy.
+
+### Can I use it with a monorepo?
+
+Yes. Point the CLI at the workspace that owns the UI package. Shared tokens go in the app's `globals.css`. See [Monorepo](/docs/advanced/monorepo).
+
+### Does Frakment work with agents?
+
+Yes. The `@frakment/mcp` package exposes an MCP server so agents can discover and install components. See [MCP](/docs/utilities/mcp).
+
+## Related
+
+- [About](/docs/resources/about) - principles and comparison
+- [Installation](/docs/getting-started/installation) - one command setup
+- [Theming](/docs/guides/theming) - tokens and colors
+- [Components](/docs/components) - the full registry

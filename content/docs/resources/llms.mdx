@@ -1,0 +1,109 @@
+---
+title: "llms.txt"
+description: "Machine-readable index of the Frakment documentation for LLM-driven tools and agents."
+---
+
+import { BotIcon, FileTextIcon, FilesIcon } from "lucide-react";
+
+<Callout type="info" title="What is llms.txt?">
+  `llms.txt` is a compact markdown index of this site, designed to be read by an
+  LLM before it fetches individual pages. Frakment publishes it at `/llms.txt`
+  and also serves a full bundle at `/llms-full.txt`.
+</Callout>
+
+Large language models work best with curated context. Sitemaps are built for crawlers; `llms.txt` is built for agents. It tells an LLM what exists, where it lives, and which subset is worth loading for a given task.
+
+## Why llms.txt?
+
+<div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+<FeatureCard
+  icon={BotIcon}
+  title="Agent-first"
+  description="Short, structured, and free of navigation chrome. The model reads what it needs and skips the rest."
+/>
+
+<FeatureCard
+  icon={FileTextIcon}
+  title="Plain markdown"
+  description="No HTML, no JSX. The index is served as text/plain so any LLM can parse it without preprocessing."
+/>
+
+<FeatureCard
+  icon={FilesIcon}
+  title="Two flavors"
+  description="The index gives a map. The full bundle gives every page in one fetch, for agents that want it all."
+/>
+
+</div>
+
+## Available endpoints
+
+| Endpoint               | Content-Type    | Purpose                                                   |
+| ---------------------- | --------------- | --------------------------------------------------------- |
+| `/llms.txt`            | `text/plain`    | Compact index: every doc URL plus a one-line description. |
+| `/llms-full.txt`       | `text/plain`    | Full documentation body for every page, in one response.  |
+| `/llms.md/content.md`  | `text/markdown` | Homepage content as plain markdown.                       |
+| `/llms.md/docs/<slug>` | `text/markdown` | Individual docs page as markdown.                         |
+
+## How to use it
+
+<Steps>
+  <Step>Fetch the index</Step>
+
+```bash
+curl https://frakment.vercel.app/llms.txt
+```
+
+<Step>Choose the relevant pages</Step>
+
+Read the index and pick the URLs that match the task. The index is small enough to fit in a single context window.
+
+<Step>Fetch the full bundle (optional)</Step>
+
+```bash
+curl https://frakment.vercel.app/llms-full.txt
+```
+
+Use this when the agent needs comprehensive context and is not sure which pages to fetch.
+
+</Steps>
+
+## When to use which
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="index-vs-full">
+  <AccordionTrigger>Index or full bundle?</AccordionTrigger>
+  <AccordionContent>
+    Use `/llms.txt` when the agent can do a second fetch after choosing URLs.
+    Use `/llms-full.txt` when the agent should reason about the entire
+    documentation in one shot.
+  </AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="sitemap-difference">
+  <AccordionTrigger>How is this different from a sitemap?</AccordionTrigger>
+  <AccordionContent>
+    A sitemap lists URLs for crawlers. `llms.txt` lists URLs with descriptions
+    and is written in markdown, so an LLM can parse it without a separate fetch
+    for each page.
+  </AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="mcp-vs-llms">
+  <AccordionTrigger>MCP or llms.txt?</AccordionTrigger>
+  <AccordionContent>
+    They complement each other. MCP gives the agent tool calls against the
+    registry. `llms.txt` gives the agent documentation about Frakment itself.
+    Use both: MCP for actions, llms.txt for orientation.
+  </AccordionContent>
+</AccordionItem>
+
+</Accordion>
+
+## Constraints
+
+- **Stable URLs.** The index links to canonical `/docs/...` paths. Do not cache outdated copies; refetch on session start.
+- **Rate limit.** The endpoints are cached at the CDN edge, but avoid hammering them from the same agent.
+- **Text only.** Both endpoints return plain text. Do not expect HTML or JSON from them.
