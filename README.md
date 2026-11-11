@@ -25,7 +25,6 @@ npx frakment@latest add button
 ```
 
 - **47 components** across base primitives, AI chat elements, and utility modules
-- **You own the source** — full code in your repo, fully editable
 - **Accessible by default** — ARIA-first, a11y tested
 - **Motion built in** — consistent transitions and micro-interactions out of the box
 
