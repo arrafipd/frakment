@@ -38,11 +38,13 @@ Node.js `>=22` · React `19` · Tailwind CSS `v4`
 
 ## Package manager
 
-npm workspaces are canonical. CI (`npm ci`) and the release workflow run on npm only.
+Both **npm** and **pnpm** are supported. CI runs every PR against both, and the workspace scripts detect the active package manager automatically.
 
-pnpm is supported for local development. `pnpm-workspace.yaml` is committed, every workspace-aware script detects the active package manager through `scripts/workspaces.mjs`, and `pnpm-lock.yaml` is gitignored to avoid dual-lockfile drift. Run `pnpm install && pnpm build` — no extra setup required.
+```bash
+npm ci && npm run build      # or: pnpm install && pnpm build
+```
 
-Yarn and Bun are not supported.
+See [CONTRIBUTING.md](./CONTRIBUTING.md#package-manager) for the full policy, lockfile rules, and troubleshooting.
 
 ## Contributing
 

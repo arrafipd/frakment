@@ -15,13 +15,55 @@ experiments belong in your local environment or your fork.
 
 ## Package manager
 
-The monorepo uses **npm workspaces** as the canonical package manager. CI (`npm ci`) and the release workflow run on npm only.
+The monorepo supports **npm** and **pnpm** equally for local development and CI. Use whichever you prefer.
 
-**pnpm is supported** for local development. `pnpm-workspace.yaml` is committed, and every workspace-aware script (`prebuild`, `pretest`, etc.) reads the active package manager through `scripts/workspaces.mjs`. Run `pnpm install && pnpm build` — no extra setup.
+### Install and build
 
-Do not commit `pnpm-lock.yaml` — it is gitignored to prevent dual-lockfile drift. CI always regenerates dependencies from `package-lock.json`.
+```bash
+# npm
+npm ci
+npm run build
 
-**Yarn and Bun are not supported.** Do not add `yarn.lock` or `bun.lockb`.
+# pnpm
+pnpm install
+pnpm build
+```
+
+Every workspace-aware script (`prebuild`, `precheck`, `predev`, `pretest`, `pretypecheck`, `release`) detects the active package manager through `scripts/workspaces.mjs` and dispatches to either `npm run <script> --workspaces` or `pnpm -r`. You do not need to configure anything.
+
+### Lockfiles
+
+Only `package-lock.json` is committed. `pnpm-lock.yaml` is gitignored on purpose:
+
+- **Single source of truth.** Two committed lockfiles drift apart when only one is regenerated. Dependency bumps, overrides, and engine constraints must match across both or contributors get inconsistent installs.
+- **Deterministic CI.** CI resolves dependencies from `package-lock.json` only, so every job sees the same graph regardless of which PM a contributor uses locally.
+
+If you use pnpm locally, `pnpm install` will create `pnpm-lock.yaml` in your working tree. Do not commit it. If you add a dependency, run `pnpm install` locally to install it, then `npm install` to update the committed `package-lock.json`, and commit only the npm lockfile change.
+
+### Overrides and build approvals
+
+pnpm 10+ reads two config blocks from `pnpm-workspace.yaml`, not from `package.json`:
+
+- **`overrides`** — pins transitive dependencies (the same pins declared in `package.json#overrides` for npm). Without mirroring them into `pnpm-workspace.yaml`, pnpm silently resolves unpatched versions.
+- **`allowBuilds`** — the map of packages allowed to run postinstall scripts (`esbuild`, `lefthook`, `ffmpeg-static`). pnpm 12 blocks postinstall by default.
+
+When you change `package.json#overrides`, mirror the change into `pnpm-workspace.yaml#overrides`. When you add a dependency that needs to run a postinstall script, add it to `allowBuilds` and verify `pnpm install` exits clean.
+
+### CI
+
+Every PR runs all six CI jobs against **both** package managers (matrix `[npm, pnpm]`). The `gitleaks` and theme-drift jobs are PM-neutral and run once.
+
+If `pnpm` CI fails, reproduce locally with:
+
+```bash
+pnpm install
+pnpm build
+pnpm run check
+```
+
+### Yarn and Bun
+
+Not supported. The workspace helper and lockfile policy target npm and pnpm only. Do not add `yarn.lock` or `bun.lockb`.
 
 ## Ground rules
 
