@@ -29,6 +29,16 @@ jobs:
           registry-url: https://registry.npmjs.org
       - run: npm install -g npm@11.11.0
       - run: npm ci
+      # changesets auto-detects pnpm from pnpm-workspace.yaml and spawns
+      # `pnpm publish` for each package. pnpm must be on PATH even though
+      # CI and build steps run on npm. The actual upload goes through
+      # libnpmpublish (same as npm publish), so the tarball, integrity,
+      # and provenance are identical.
+      - name: Enable pnpm (changesets spawns pnpm publish)
+        run: |
+          corepack enable
+          corepack prepare pnpm@12 --activate
+          pnpm --version
       - name: Create Release PR or Publish
         uses: changesets/action@v1.7.0
         with:
