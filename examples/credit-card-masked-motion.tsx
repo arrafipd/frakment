@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { FrakmentMark } from "@/components/brand";
 import { Button } from "@/components/ui/button";
 import {
   CreditCard,
@@ -27,7 +28,9 @@ export function CreditCardMaskedMotion() {
     <div className="flex w-full max-w-sm flex-col items-start gap-4">
       <CreditCard>
         <CreditCardHeader>
-          <CreditCardIssuer />
+          <CreditCardIssuer
+            logo={<FrakmentMark className="size-5 sm:size-6" />}
+          />
           <CreditCardBrand brand="visa" />
         </CreditCardHeader>
         <CreditCardNumber masked={masked} value="4242424242424242" />

@@ -63,7 +63,7 @@ import {
 ```tsx title="credit-card.tsx"
 <CreditCard>
   <CreditCardHeader>
-    <CreditCardIssuer />
+    <CreditCardIssuer>ACME Bank</CreditCardIssuer>
     <CreditCardBrand brand="visa" />
   </CreditCardHeader>
   <CreditCardNumber value="4242424242424242" />
@@ -80,7 +80,7 @@ Pass raw data to sub-components. `CreditCardNumber` handles brand detection and 
 ```tsx title="credit-card.tsx"
 <CreditCard>
   <CreditCardHeader>
-    <CreditCardIssuer />
+    <CreditCardIssuer>ACME Bank</CreditCardIssuer>
     <CreditCardBrand brand="visa" />
   </CreditCardHeader>
   <CreditCardNumber value="4242424242424242" />
@@ -175,7 +175,7 @@ Extends `React.ComponentProps<"div">`.
 
 <PropsTable
   rows={[
-    { name: "logo", type: "ReactNode", description: "Custom logo. Falls back to children, then the Frakment mark." },
+    { name: "logo", type: "ReactNode", description: "Custom logo. Falls back to children. Renders nothing when omitted." },
   ]}
 />
 

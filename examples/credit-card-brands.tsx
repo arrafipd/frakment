@@ -1,3 +1,4 @@
+import { FrakmentMark } from "@/components/brand";
 import {
   CreditCard,
   CreditCardBrand,
@@ -14,7 +15,9 @@ export function CreditCardBrands() {
     <div className="flex w-full max-w-sm flex-col gap-4">
       <CreditCard>
         <CreditCardHeader>
-          <CreditCardIssuer />
+          <CreditCardIssuer
+            logo={<FrakmentMark className="size-5 sm:size-6" />}
+          />
           <CreditCardBrand brand="visa" />
         </CreditCardHeader>
         <CreditCardNumber brand="visa" value="4242424242424242" />
@@ -25,7 +28,9 @@ export function CreditCardBrands() {
       </CreditCard>
       <CreditCard>
         <CreditCardHeader>
-          <CreditCardIssuer />
+          <CreditCardIssuer
+            logo={<FrakmentMark className="size-5 sm:size-6" />}
+          />
           <CreditCardBrand brand="mastercard" />
         </CreditCardHeader>
         <CreditCardNumber brand="mastercard" value="5555555555554444" />
@@ -36,7 +41,9 @@ export function CreditCardBrands() {
       </CreditCard>
       <CreditCard>
         <CreditCardHeader>
-          <CreditCardIssuer />
+          <CreditCardIssuer
+            logo={<FrakmentMark className="size-5 sm:size-6" />}
+          />
           <CreditCardBrand brand="amex" />
         </CreditCardHeader>
         <CreditCardNumber brand="amex" value="378282246310005" />
@@ -47,7 +54,9 @@ export function CreditCardBrands() {
       </CreditCard>
       <CreditCard>
         <CreditCardHeader>
-          <CreditCardIssuer />
+          <CreditCardIssuer
+            logo={<FrakmentMark className="size-5 sm:size-6" />}
+          />
           <CreditCardBrand brand="discover" />
         </CreditCardHeader>
         <CreditCardNumber brand="discover" value="6011111111111117" />

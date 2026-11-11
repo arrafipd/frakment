@@ -11,7 +11,6 @@ import {
 import { cva, type VariantProps } from "class-variance-authority";
 import { motion, useReducedMotion } from "motion/react";
 import type * as React from "react";
-import { FrakmentMark } from "@/components/brand";
 import {
   delayTight,
   durationSlow,
@@ -151,7 +150,7 @@ function CreditCardIssuer({
 }) {
   return (
     <div className={cn("flex items-center", className)} {...props}>
-      {children ?? logo ?? <FrakmentMark className="size-5 sm:size-6" />}
+      {children ?? logo ?? null}
     </div>
   );
 }
