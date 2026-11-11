@@ -103,7 +103,7 @@ export const baseMetadata: Metadata = {
       {
         sizes: "any",
         type: "image/svg+xml",
-        url: "/favicon.svg",
+        url: `${SITE.URL}/favicon.svg`,
       },
     ],
   },
