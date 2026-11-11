@@ -89,3 +89,7 @@ HANDOFF.md
 HANDOFF.archive/
 CLAUDE.md
 .cursor/
+
+# pnpm (contributor-only, npm is canonical)
+pnpm-lock.yaml
+.pnpm-store/

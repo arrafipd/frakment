@@ -36,6 +36,14 @@ Node.js `>=22` · React `19` · Tailwind CSS `v4`
 
 > **Pre-1.0** — APIs may change between `0.x` releases. Pin a version before upgrading.
 
+## Package manager
+
+npm workspaces are canonical. CI (`npm ci`) and the release workflow run on npm only.
+
+pnpm is supported for local development. `pnpm-workspace.yaml` is committed, every workspace-aware script detects the active package manager through `scripts/workspaces.mjs`, and `pnpm-lock.yaml` is gitignored to avoid dual-lockfile drift. Run `pnpm install && pnpm build` — no extra setup required.
+
+Yarn and Bun are not supported.
+
 ## Contributing
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md).

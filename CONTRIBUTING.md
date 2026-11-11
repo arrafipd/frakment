@@ -13,6 +13,16 @@ produced.
 (`.cursor/`, `CLAUDE.md`, `.claude/`), personal notes, and temporary
 experiments belong in your local environment or your fork.
 
+## Package manager
+
+The monorepo uses **npm workspaces** as the canonical package manager. CI (`npm ci`) and the release workflow run on npm only.
+
+**pnpm is supported** for local development. `pnpm-workspace.yaml` is committed, and every workspace-aware script (`prebuild`, `pretest`, etc.) reads the active package manager through `scripts/workspaces.mjs`. Run `pnpm install && pnpm build` — no extra setup.
+
+Do not commit `pnpm-lock.yaml` — it is gitignored to prevent dual-lockfile drift. CI always regenerates dependencies from `package-lock.json`.
+
+**Yarn and Bun are not supported.** Do not add `yarn.lock` or `bun.lockb`.
+
 ## Ground rules
 
 - **Shipped state only.** Docs describe what exists and works in the current `main`. No roadmap, no milestones, no "planned", no "in development", no "coming soon".

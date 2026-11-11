@@ -19,7 +19,7 @@ jobs:
   lint-and-format:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
 
@@ -115,6 +115,33 @@ jobs:
 
       - name: Audit package signatures
         run: npm audit signatures
+
+  pnpm-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Setup
+        uses: $/.github/actions/setup
+
+      - name: Install pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@12 --activate
+          pnpm --version
+
+      - name: Install
+        run: pnpm install
+
+      - name: Build
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+        run: pnpm build
+
+      - name: Check
+        run: pnpm run check
 
   gitleaks:
     runs-on: ubuntu-latest

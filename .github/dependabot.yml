@@ -1,5 +1,7 @@
 version: 2
 updates:
+  # Dependabot's "npm" ecosystem reads package.json and updates package-lock.json.
+  # This covers both npm and pnpm users (pnpm-lock.yaml is gitignored; pnpm resolves from package.json).
   - package-ecosystem: npm
     directory: /
     schedule:

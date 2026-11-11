@@ -1,3 +1,5 @@
+> Run these with npm or pnpm — both are supported. Examples below use npm; pnpm users can substitute `npm run` with `pnpm`.
+
 ## What
 
 <!-- Brief description of the change. -->

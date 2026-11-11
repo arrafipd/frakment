@@ -6,7 +6,7 @@ pre-commit:
   jobs:
     - name: registry-build
       glob: [ "registry/**", "examples/**", "frakment.json" ]
-      run: npm run registry:build
+      run: node scripts/build-registry.mjs
       stage_fixed: true
 
     - name: format
@@ -24,7 +24,7 @@ pre-commit:
 
     - name: registry-audit
       glob: [ "registry/**", "components/ui/**", "frakment.json" ]
-      run: npm run registry:audit
+      run: node scripts/audit-registry.mjs
 
     - name: secrets
       run: node scripts/scan-secrets.mjs
@@ -38,6 +38,6 @@ pre-push:
   parallel: false
   jobs:
     - name: build
-      run: npm run build
+      run: npx cross-env NEXT_WORKER_THREADS=1 next build
     - name: test
       run: npx vitest run
