@@ -6,13 +6,16 @@
   "scripts": {
     "assets:generate": "node scripts/generate-assets.mjs",
     "assets:install": "node scripts/install-assets.mjs",
+    "prebuild": "cd ../.. && node scripts/workspaces.mjs build",
     "build": "cross-env NEXT_WORKER_THREADS=1 next build",
+    "predev": "cd ../.. && node scripts/workspaces.mjs build",
     "dev": "next dev",
     "postinstall": "fumadocs-mdx",
     "registry:audit": "node scripts/audit-registry.mjs",
     "registry:build": "node scripts/build-registry.mjs",
     "registry:validate": "node scripts/validate-manifest.mjs",
     "start": "next start",
+    "pretest": "cd ../.. && node scripts/workspaces.mjs build",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit"
