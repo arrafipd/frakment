@@ -1,5 +1,5 @@
 import { DocsSidebar } from "@/components/docs-sidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/site/sidebar";
 import { source } from "@/lib/source";
 
 export default function DocsLayout({

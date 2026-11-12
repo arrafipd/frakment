@@ -12,7 +12,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from "@/components/site/sidebar";
 // NOTE: This component mirrors components/mobile-nav.tsx.'s structure.
 // Both render TOP_LEVEL_SECTIONS (flat) + tree.children grouped, filtered by
 // EXCLUDED_SECTIONS. If you change one, change the other — or better, hoist

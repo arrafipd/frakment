@@ -6,13 +6,12 @@ import type { LinkProps } from "next/link";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-
-import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from "@/components/site/popover";
+import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import { useFeedback } from "@/hooks/use-feedback";
 // NOTE: This component mirrors components/docs-sidebar.tsx.'s structure.

@@ -10,7 +10,7 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from "@/components/ui/context-menu";
+} from "@/components/site/context-menu";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { DownloadIcon } from "@/lib/icons";
 

@@ -26,11 +26,11 @@ import {
   AccordionItem,
   AccordionTrigger as AccordionTriggerBase,
 } from "@/components/ui/accordion";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@/components/site/alert";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Kbd } from "@/components/ui/kbd";
+import { Kbd } from "@/components/site/kbd";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { IconComponent } from "@/lib/icons";
 import { cn } from "@/lib/utils";

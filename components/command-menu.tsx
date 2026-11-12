@@ -3,8 +3,6 @@
 import type { Root as PageTreeRoot } from "fumadocs-core/page-tree";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-
-import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -12,7 +10,9 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
+} from "@/components/site/command";
+import { Kbd } from "@/components/site/kbd";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -21,7 +21,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Kbd } from "@/components/ui/kbd";
 import { Separator } from "@/components/ui/separator";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { useFeedback } from "@/hooks/use-feedback";

@@ -8,7 +8,7 @@ import { ArrowLeftIcon } from "@/components/animated-icons/arrow-left";
 import type { ArrowRightIconHandle } from "@/components/animated-icons/arrow-right";
 import { ArrowRightIcon } from "@/components/animated-icons/arrow-right";
 import { SiteButton } from "@/components/site/button";
-import { Kbd } from "@/components/ui/kbd";
+import { Kbd } from "@/components/site/kbd";
 import {
   Tooltip,
   TooltipContent,
