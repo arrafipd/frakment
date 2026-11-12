@@ -4,7 +4,7 @@ import { useTheme } from "next-themes";
 import { useCallback } from "react";
 import { toast } from "sonner";
 
-import { FrakmentMark } from "@/components/brand/frakment-mark";
+import { FrakmentMark } from "@/components/site/brand/frakment-mark";
 import {
   ContextMenu,
   ContextMenuContent,

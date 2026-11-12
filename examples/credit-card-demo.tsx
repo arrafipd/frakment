@@ -1,4 +1,4 @@
-﻿import { FrakmentMark } from "@/components/brand";
+import { FrakmentMark } from "@/components/site/brand";
 import {
   CreditCard,
   CreditCardBrand,

@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useCallback, useRef } from "react";
 
-import type { ArrowLeftIconHandle } from "@/components/animated-icons/arrow-left";
-import { ArrowLeftIcon } from "@/components/animated-icons/arrow-left";
-import type { ArrowRightIconHandle } from "@/components/animated-icons/arrow-right";
-import { ArrowRightIcon } from "@/components/animated-icons/arrow-right";
+import type { ArrowLeftIconHandle } from "@/components/site/animated-icons/arrow-left";
+import { ArrowLeftIcon } from "@/components/site/animated-icons/arrow-left";
+import type { ArrowRightIconHandle } from "@/components/site/animated-icons/arrow-right";
+import { ArrowRightIcon } from "@/components/site/animated-icons/arrow-right";
 import { SiteButton } from "@/components/site/button";
 import { Kbd } from "@/components/site/kbd";
 import {

@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-import { FrakmentMark } from "@/components/brand/frakment-mark";
+import { FrakmentMark } from "@/components/site/brand/frakment-mark";
 import { SITE } from "@/constants/site";
 
 export const GET = (request: Request) => {

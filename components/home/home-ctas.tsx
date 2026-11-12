@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useRef } from "react";
-import type { ArrowRightIconHandle } from "@/components/animated-icons/arrow-right";
+import type { ArrowRightIconHandle } from "@/components/site/animated-icons/arrow-right";
 import { SiteButton } from "@/components/site/button";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";

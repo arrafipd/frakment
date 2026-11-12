@@ -27,7 +27,7 @@ import {
   VueBrandIcon,
   YamlBrandIcon,
   YarnIcon,
-} from "@/components/icons";
+} from "@/components/site/icons";
 import {
   ChatCentered,
   ChevronRightIcon,

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
-import { Analytics } from "@/components/analytics";
-import { ThemeProvider } from "@/components/theme-provider";
+import { Analytics } from "@/components/site/analytics";
+import { ThemeProvider } from "@/components/site/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { fontVariables } from "@/lib/fonts";

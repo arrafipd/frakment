@@ -1,7 +1,7 @@
-import { CommandBox } from "@/components/command-box";
-import { HomeCtas } from "@/components/home-ctas";
-import HomeDemoStage from "@/components/home-demo-stage";
-import { PageTransition } from "@/components/page-transition";
+import { PageTransition } from "@/components/docs/page-transition";
+import { HomeCtas } from "@/components/home/home-ctas";
+import HomeDemoStage from "@/components/home/home-demo-stage";
+import { CommandBox } from "@/components/site/command-box";
 import { ROUTES } from "@/constants/routes";
 import { BreadcrumbJsonLd } from "@/seo/json-ld";
 

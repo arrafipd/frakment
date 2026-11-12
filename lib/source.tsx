@@ -4,7 +4,7 @@ import { loader } from "fumadocs-core/source";
 import type { ReactNode } from "react";
 
 import { docs } from "@/.source/server";
-import { NewDot } from "@/components/new-dot";
+import { NewDot } from "@/components/docs/new-dot";
 import { ROUTES } from "@/constants/routes";
 import { AGENT_DOCS_DIRECTIVE_MARKDOWN } from "@/lib/agent-discovery/directive";
 import { docsContentRoute, docsImageRoute, PAGES_NEW } from "@/lib/docs";

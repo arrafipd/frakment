@@ -1,4 +1,4 @@
-import { DocsSidebar } from "@/components/docs-sidebar";
+import { DocsSidebar } from "@/components/docs/docs-sidebar";
 import { SidebarProvider } from "@/components/site/sidebar";
 import { source } from "@/lib/source";
 

@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { ImageResponse } from "next/og";
 
-import { FrakmentMark } from "@/components/brand/frakment-mark";
+import { FrakmentMark } from "@/components/site/brand/frakment-mark";
 import { getPageImage, source } from "@/lib/source";
 
 export const revalidate = false;

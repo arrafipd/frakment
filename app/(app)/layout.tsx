@@ -1,6 +1,6 @@
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
-import { WebMcpTools } from "@/components/web-mcp-tools";
+import { SiteFooter } from "@/components/site/site-footer";
+import { SiteHeader } from "@/components/site/site-header";
+import { WebMcpTools } from "@/components/site/web-mcp-tools";
 import { AGENT_DOCS_DIRECTIVE_TEXT } from "@/lib/agent-discovery/directive";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {

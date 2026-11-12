@@ -2,10 +2,9 @@
 
 import { motion } from "motion/react";
 import { useRef } from "react";
-
-import { AgentsPopover } from "@/components/agents-popover";
-import { CopyButton } from "@/components/copy-button";
-import { getIconForPackageManager } from "@/components/icons";
+import { CopyButton } from "@/components/docs/copy-button";
+import { AgentsPopover } from "@/components/site/agents-popover";
+import { getIconForPackageManager } from "@/components/site/icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TextMorph } from "@/components/ui/text-morph";
 import frakment from "@/frakment.json";

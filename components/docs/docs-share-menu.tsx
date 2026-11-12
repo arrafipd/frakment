@@ -3,9 +3,9 @@
 import { useCallback, useMemo, useRef } from "react";
 import { toast } from "sonner";
 
-import type { ShareIconHandle } from "@/components/animated-icons/share";
-import { ShareIcon } from "@/components/animated-icons/share";
-import { LinkedInIcon, XIcon } from "@/components/icons";
+import type { ShareIconHandle } from "@/components/site/animated-icons/share";
+import { ShareIcon } from "@/components/site/animated-icons/share";
+import { LinkedInIcon, XIcon } from "@/components/site/icons";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

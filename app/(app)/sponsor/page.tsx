@@ -1,13 +1,12 @@
-﻿import type { Metadata } from "next";
-
-import { ExternalLinkButton } from "@/components/external-link-button";
-import { PageTransition } from "@/components/page-transition";
+import type { Metadata } from "next";
+import { PageTransition } from "@/components/docs/page-transition";
+import { ExternalLinkButton } from "@/components/site/external-link-button";
+import { UserAvatar } from "@/components/site/user-avatar";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { UserAvatar } from "@/components/user-avatar";
 import { LINK } from "@/constants/links";
 import { ROUTES } from "@/constants/routes";
 import { getContributors } from "@/lib/github";

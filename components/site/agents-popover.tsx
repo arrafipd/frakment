@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { CodeBlockCommand } from "@/components/code-block-command";
+import { CodeBlockCommand } from "@/components/docs/code-block-command";
 import {
   Drawer,
   DrawerContent,

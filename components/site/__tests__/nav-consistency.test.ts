@@ -4,9 +4,9 @@ import { describe, expect, it } from "vitest";
 
 const read = (p: string) => readFileSync(join(process.cwd(), p), "utf8");
 const consumers = [
-  "components/docs-sidebar.tsx",
-  "components/mobile-nav.tsx",
-  "components/command-menu.tsx",
+  "components/docs/docs-sidebar.tsx",
+  "components/site/mobile-nav.tsx",
+  "components/site/command-menu.tsx",
 ];
 describe("nav consistency", () => {
   it.each(consumers)("%s imports buildNavGroups", (f) => {

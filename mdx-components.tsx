@@ -2,24 +2,24 @@ import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 
-import { FrakmentMark } from "@/components/brand";
-import { BrandColorSwatch } from "@/components/brand-color-swatch";
-import { Callout } from "@/components/callout";
-import { ChangelogList } from "@/components/changelog-list";
-import { CodeBlockCommand } from "@/components/code-block-command";
-import { CodeCollapsibleWrapper } from "@/components/code-collapsible-wrapper";
-import { CodeTabs } from "@/components/code-tabs";
-import { ComponentPreview } from "@/components/component-preview";
-import { ComponentSource } from "@/components/component-source";
-import { ComponentsList } from "@/components/components-list";
-import { CopyButton } from "@/components/copy-button";
-import { FileTree, FileTreeFile, FileTreeFolder } from "@/components/file-tree";
-import { getIconForLanguageExtension } from "@/components/icons";
-import { IntroFeatureCard } from "@/components/intro-feature-card";
-import { MotionCurveCustom } from "@/components/motion-curve-custom";
-import { ComponentDefaultsGrid, MotionCurveGrid } from "@/components/motion-curve-grid";
-import { DocsBaseSwitcher } from "@/components/docs-base-switcher";
-import { PropsTable } from "@/components/props-table";
+import { FrakmentMark } from "@/components/site/brand";
+import { BrandColorSwatch } from "@/components/site/brand-color-swatch";
+import { Callout } from "@/components/docs/callout";
+import { ChangelogList } from "@/components/site/changelog-list";
+import { CodeBlockCommand } from "@/components/docs/code-block-command";
+import { CodeCollapsibleWrapper } from "@/components/docs/code-collapsible-wrapper";
+import { CodeTabs } from "@/components/docs/code-tabs";
+import { ComponentPreview } from "@/components/docs/component-preview";
+import { ComponentSource } from "@/components/docs/component-source";
+import { ComponentsList } from "@/components/site/components-list";
+import { CopyButton } from "@/components/docs/copy-button";
+import { FileTree, FileTreeFile, FileTreeFolder } from "@/components/docs/file-tree";
+import { getIconForLanguageExtension } from "@/components/site/icons";
+import { IntroFeatureCard } from "@/components/home/intro-feature-card";
+import { MotionCurveCustom } from "@/components/home/motion-curve-custom";
+import { ComponentDefaultsGrid, MotionCurveGrid } from "@/components/home/motion-curve-grid";
+import { DocsBaseSwitcher } from "@/components/docs/docs-base-switcher";
+import { PropsTable } from "@/components/docs/props-table";
 import {
   Accordion,
   AccordionContent,

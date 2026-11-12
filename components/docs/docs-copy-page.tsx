@@ -2,7 +2,8 @@
 
 import { useCallback } from "react";
 
-import { CopyButton } from "@/components/copy-button";
+import { CopyButton } from "@/components/docs/copy-button";
+import { SiteButton } from "@/components/site/button";
 import {
   ChatGptIcon,
   ClaudeIcon,
@@ -13,8 +14,7 @@ import {
   PerplexityIcon,
   SciraIcon,
   V0Icon,
-} from "@/components/icons";
-import { SiteButton } from "@/components/site/button";
+} from "@/components/site/icons";
 import {
   Popover,
   PopoverAnchor,

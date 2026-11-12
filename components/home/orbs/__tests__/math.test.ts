@@ -9,7 +9,7 @@ import {
   lookAngles,
   lookRotate,
   wanderAt,
-} from "@/components/orbs/core/math";
+} from "@/components/home/orbs/core/math";
 
 /**
  * Snapshot tests for the orbs math layer.

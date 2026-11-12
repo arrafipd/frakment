@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FrakmentMark } from "@/components/brand";
+import { FrakmentMark } from "@/components/site/brand";
 import { Button } from "@/components/ui/button";
 import {
   CreditCard,

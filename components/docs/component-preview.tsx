@@ -1,5 +1,5 @@
-import { ComponentPreviewTabs } from "@/components/component-preview-tabs";
-import { ComponentSource } from "@/components/component-source";
+import { ComponentPreviewTabs } from "@/components/docs/component-preview-tabs";
+import { ComponentSource } from "@/components/docs/component-source";
 import { getRegistryComponent } from "@/lib/registry";
 
 interface ComponentPreviewProps {
