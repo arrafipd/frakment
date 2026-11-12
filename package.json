@@ -28,7 +28,7 @@
     "release": "node scripts/workspaces.mjs build && changeset publish",
     "start": "npm run start -w @frakment/web",
     "pretest": "node scripts/workspaces.mjs build",
-    "test": "npm run test -w @frakment/web",
+    "test": "npm run test -w @frakment/web && vitest run --config vitest.config.ts",
     "test:watch": "npm run test:watch -w @frakment/web",
     "pretypecheck": "node scripts/workspaces.mjs build",
     "typecheck": "npm run typecheck -w @frakment/web",
