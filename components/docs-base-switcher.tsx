@@ -49,7 +49,7 @@ export function DocsBaseSwitcher({
       {BASES.filter((b) => source.getPage([section, b.name, component])).map(
         (b) => (
           <Link
-            className="text-muted-foreground after:bg-foreground hover:text-foreground data-[active=true]:text-foreground relative inline-flex items-center justify-center gap-1 pt-1 pb-0.5 text-base font-medium transition-colors after:absolute after:inset-x-0 after:bottom-[-4px] after:h-0.5 after:opacity-0 after:transition-opacity data-[active=true]:after:opacity-100"
+            className="text-muted-foreground after:bg-foreground hover:text-foreground data-[active=true]:text-foreground relative inline-flex items-center justify-center gap-1 pt-1 pb-0.5 text-base font-medium transition-colors after:absolute after:inset-x-0 after:-bottom-1 after:h-0.5 after:opacity-0 after:transition-opacity data-[active=true]:after:opacity-100"
             data-active={base === b.name}
             href={`/docs/${section}/${b.name}/${component}`}
             key={b.name}
