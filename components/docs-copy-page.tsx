@@ -14,6 +14,7 @@ import {
   SciraIcon,
   V0Icon,
 } from "@/components/icons";
+import { SiteButton } from "@/components/site/button";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -216,7 +217,7 @@ export const DocsCopyPage = ({
           className="bg-background/70 dark:bg-background/60 w-52 origin-center! rounded-lg p-1 shadow-none backdrop-blur-sm"
         >
           {MENU_ITEMS.map(([key, render]) => (
-            <Button
+            <SiteButton
               asChild
               className="*:[svg]:text-muted-foreground w-full justify-start text-base font-normal"
               key={key}
@@ -224,7 +225,7 @@ export const DocsCopyPage = ({
               variant="ghost"
             >
               {render(url)}
-            </Button>
+            </SiteButton>
           ))}
         </PopoverContent>
       </div>

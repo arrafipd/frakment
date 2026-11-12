@@ -5,7 +5,7 @@ import { useCallback, useRef } from "react";
 
 import type { HeartHandshakeIconHandle } from "@/components/animated-icons/heart-handshake";
 import { HeartHandshakeIcon } from "@/components/animated-icons/heart-handshake";
-import { Button } from "@/components/ui/button";
+import { SiteButton } from "@/components/site/button";
 import { ROUTES } from "@/constants/routes";
 
 export const SponsorLink = () => {
@@ -20,7 +20,7 @@ export const SponsorLink = () => {
   }, []);
 
   return (
-    <Button
+    <SiteButton
       asChild
       className="max-sm:size-8"
       onMouseEnter={handleMouseEnter}
@@ -35,6 +35,6 @@ export const SponsorLink = () => {
         />
         <span className="max-sm:sr-only">Sponsor</span>
       </Link>
-    </Button>
+    </SiteButton>
   );
 };

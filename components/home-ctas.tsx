@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useRef } from "react";
 import type { ArrowRightIconHandle } from "@/components/animated-icons/arrow-right";
+import { SiteButton } from "@/components/site/button";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
@@ -21,7 +22,7 @@ const GetStartedButton = () => {
   }, []);
 
   return (
-    <Button
+    <SiteButton
       asChild
       className="rounded-full px-4"
       onMouseEnter={handleMouseEnter}
@@ -30,7 +31,7 @@ const GetStartedButton = () => {
       <Link href={ROUTES.DOCS_INSTALLATION} transitionTypes={["nav-forward"]}>
         Get Started
       </Link>
-    </Button>
+    </SiteButton>
   );
 };
 

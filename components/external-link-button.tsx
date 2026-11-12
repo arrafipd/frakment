@@ -1,9 +1,8 @@
 "use client";
 
-import type { ButtonProps } from "@/components/ui/button";
-import { Button } from "@/components/ui/button";
+import { SiteButton, type SiteButtonProps } from "@/components/site/button";
 
-interface ExternalLinkButtonProps extends ButtonProps {
+interface ExternalLinkButtonProps extends SiteButtonProps {
   href: string;
 }
 
@@ -12,9 +11,9 @@ export const ExternalLinkButton = ({
   children,
   ...props
 }: ExternalLinkButtonProps) => (
-  <Button asChild {...props}>
+  <SiteButton asChild {...props}>
     <a href={href} rel="noopener noreferrer" target="_blank">
       {children}
     </a>
-  </Button>
+  </SiteButton>
 );

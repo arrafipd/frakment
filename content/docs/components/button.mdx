@@ -15,12 +15,11 @@ import { ButtonIcon } from "@/examples/button-icon";
 import { ButtonWithIcon } from "@/examples/button-with-icon";
 import { ButtonLoading } from "@/examples/button-loading";
 import { ButtonRounded } from "@/examples/button-rounded";
-import { ButtonRender } from "@/examples/button-render";
+import { ButtonAnchor } from "@/examples/button-anchor";
 import { ButtonGroupDemo } from "@/examples/button-group-demo";
 
 import { Button } from "@/components/ui/button";
-import { ArrowRightIcon, CheckIcon, ClockIcon, GitBranchIcon, PackageIcon, PlusIcon, SparklesIcon, TrashIcon, XIcon } from "lucide-react";
-import { Spinner } from "@/components/ui/spinner";
+import { CheckIcon, PlusIcon } from "lucide-react";
 
 <ComponentPreview name="button" title="button.tsx">
   <ButtonDemo />
@@ -49,7 +48,7 @@ npx frakment add button
       <Step>Install the following dependencies:</Step>
 
       ```bash
-      npm install class-variance-authority radix-ui
+      npm install class-variance-authority
       ```
 
       <Step>Copy and paste the following code into your project.</Step>
@@ -94,6 +93,21 @@ A button is a single element with an optional icon on either side of a text labe
 - **Icon** — sized to 16px by `[&_svg]:size-4`
 
 ## Variants
+
+| Variant | Use case |
+| :-- | :-- |
+| `default` | Primary action |
+| `secondary` | Secondary action |
+| `outline` | Bordered neutral |
+| `ghost` | Minimal, hover only |
+| `destructive` | Irreversible action |
+| `link` | Inline link styling |
+
+Set with the `variant` prop:
+
+```tsx
+<Button variant="outline">Cancel</Button>
+```
 
 ### Default
 
@@ -153,9 +167,16 @@ Use the `size` prop to control the dimensions of a text button.
 
 | Size      | Height | Padding |
 | :-------- | :----- | :------ |
+| `xs`      | 28px   | `px-2`  |
 | `sm`      | 32px   | `px-3`  |
 | `default` | 36px   | `px-4`  |
 | `lg`      | 40px   | `px-6`  |
+
+## Rounded
+
+<ComponentPreview name="button-rounded" title="button-rounded.tsx" src="examples/button-rounded.tsx">
+  <ButtonRounded />
+</ComponentPreview>
 
 ## Icon Size
 
@@ -180,7 +201,7 @@ Icon buttons use a separate size system. Each produces a square button sized to 
 
 | Size      | Dimensions |
 | :-------- | :--------- |
-| `icon-xs` | 24×24      |
+| `icon-xs` | 28×28      |
 | `icon-sm` | 32×32      |
 | `icon`    | 36×36      |
 | `icon-lg` | 40×40      |
@@ -211,19 +232,66 @@ Render a spinner beside the label and set `disabled` to indicate an in-progress 
   <ButtonLoading />
 </ComponentPreview>
 
-## As a Link
+## Links
 
-Use `asChild` to render the button as another element, such as a Next.js `Link`.
+Use `href` to render the button as a native anchor. The component renders an `<a>` element instead of a `<button>`, so `target`, `rel`, and `download` work as expected. All variants, sizes, and icon layouts work on links.
 
-<ComponentPreview name="button-render" title="button-render.tsx" src="examples/button-render.tsx">
-  <ButtonRender />
+```tsx
+<Button href="/docs">Read the docs</Button>
+<Button href="https://github.com" target="_blank" rel="noopener noreferrer">
+  GitHub
+</Button>
+```
+
+<ComponentPreview name="button-anchor" title="button-anchor.tsx" src="examples/button-anchor.tsx">
+  <ButtonAnchor />
 </ComponentPreview>
 
-## Rounded
+### Router links
 
-<ComponentPreview name="button-rounded" title="button-rounded.tsx" src="examples/button-rounded.tsx">
-  <ButtonRounded />
-</ComponentPreview>
+For client-side navigation, use the router link component directly and apply the button styles with `buttonVariants`. This preserves prefetching, scroll restoration, and route-level transitions that the router provides.
+
+Next.js App Router:
+
+```tsx
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
+
+<Link href="/pricing" className={buttonVariants({ variant: "outline", size: "sm" })}>
+  Pricing
+</Link>
+```
+
+React Router:
+
+```tsx
+import { Link } from "react-router";
+import { buttonVariants } from "@/components/ui/button";
+
+<Link to="/pricing" className={buttonVariants({ variant: "outline", size: "sm" })}>
+  Pricing
+</Link>
+```
+
+TanStack Router:
+
+```tsx
+import { Link } from "@tanstack/react-router";
+import { buttonVariants } from "@/components/ui/button";
+
+<Link to="/pricing" className={buttonVariants({ variant: "outline", size: "sm" })}>
+  Pricing
+</Link>
+```
+
+### Which approach to pick
+
+| Case | Approach |
+| --- | --- |
+| Static site, plain HTML, external URL | `<Button href="...">` |
+| Next.js App Router or Pages Router | `<Link className={buttonVariants()}>` |
+| React Router or TanStack Router | `<Link className={buttonVariants()}>` |
+| Triggers an action, not navigation | `<Button onClick={...}>` |
 
 ## Button Group
 
@@ -232,82 +300,6 @@ For grouped actions, see [Button Group](/docs/components/button-group). A quick 
 <ComponentPreview name="button-group-demo" title="button-group-demo.tsx" src="examples/button-group-demo.tsx">
   <ButtonGroupDemo />
 </ComponentPreview>
-
-## In Context
-
-### Toolbar
-
-<ComponentPreview name="button" title="button.tsx">
-  <div className="flex flex-wrap items-center justify-center gap-2 rounded-lg border border-border p-2">
-    <Button variant="ghost" size="sm">
-      <PlusIcon />
-      New
-    </Button>
-    <Button variant="ghost" size="sm">
-      <SparklesIcon />
-      Generate
-    </Button>
-    <Button variant="ghost" size="sm">
-      <PackageIcon />
-      Export
-    </Button>
-  </div>
-</ComponentPreview>
-
-### Deploy list
-
-<ComponentPreview name="button" title="button.tsx">
-  <div className="w-full max-w-md space-y-3">
-    <div className="flex items-center justify-between rounded-lg border border-border p-3">
-      <span className="text-sm font-medium">Deploy v1.2.0</span>
-      <Button size="sm" variant="outline">
-        <CheckIcon />
-        Success
-      </Button>
-    </div>
-    <div className="flex items-center justify-between rounded-lg border border-border p-3">
-      <span className="text-sm font-medium">Deploy v1.2.1</span>
-      <Button size="sm" variant="secondary">
-        <ClockIcon />
-        Building
-      </Button>
-    </div>
-    <div className="flex items-center justify-between rounded-lg border border-border p-3">
-      <span className="text-sm font-medium">Deploy v1.2.2</span>
-      <Button size="sm" variant="destructive">
-        <XIcon />
-        Failed
-      </Button>
-    </div>
-  </div>
-</ComponentPreview>
-
-## Variants
-
-| Variant | Use case |
-| :-- | :-- |
-| `default` | Primary action |
-| `secondary` | Secondary action |
-| `outline` | Bordered neutral |
-| `ghost` | Minimal, hover only |
-| `destructive` | Irreversible action |
-| `link` | Inline link styling |
-
-Set with the `variant` prop:
-
-```tsx
-<Button variant="outline">Cancel</Button>
-```
-
-## As Child
-
-`Button` renders a `<button>` by default. Use `asChild` to render a link:
-
-```tsx
-<Button asChild>
-  <a href="/docs">Read the docs</a>
-</Button>
-```
 
 ## API Reference
 
@@ -323,34 +315,53 @@ Set with the `variant` prop:
     },
     {
       name: "size",
-      type: "sm | default | lg | icon | icon-sm | icon-xs | icon-lg",
+      type: "xs | sm | default | lg | icon-xs | icon-sm | icon | icon-lg",
       default: "default",
       description: "The dimensions of the button.",
     },
-    {
-      name: "asChild",
-      type: "boolean",
-      default: "false",
-      description:
-        "When true, the button renders its child element instead of a native button.",
-    },
+    { name: "href", type: "string", description: "Renders a native anchor with this URL instead of a button. When set, button-only props (type, disabled, form*, name, value) are ignored." },
+    { name: "target", type: "string", description: "Anchor target (for example, _blank). Only applies when href is set." },
+    { name: "rel", type: "string", description: "Anchor rel attribute. Use noopener noreferrer with target=_blank. Only applies when href is set." },
+    { name: "download", type: "string | boolean", description: "Prompts the browser to download the linked URL. Only applies when href is set." },
+    { name: "ref", type: "Ref<HTMLButtonElement>", description: "Ref to the underlying button element. Ignored when href is set." },
+    { name: "anchorRef", type: "Ref<HTMLAnchorElement>", description: "Ref to the underlying anchor element. Only used when href is set." },
     {
       name: "disabled",
       type: "boolean",
       default: "false",
-      description: "Prevents interaction and applies a muted background style.",
+      description: "Prevents interaction and applies a muted background style. Ignored when href is set.",
     },
     {
       name: "onClick",
       type: "function",
-      description: "Called when the button is activated.",
+      description: "Called when the button is activated. Fires on both button and anchor modes.",
     },
     {
       name: "type",
       type: "button | submit | reset",
       default: "submit",
-      description: "The native button type.",
+      description: "The native button type. Defaults to submit per HTML spec. Set to button when not submitting a form. Ignored when href is set.",
     },
+  ]}
+/>
+
+### buttonVariants
+
+The `buttonVariants` helper returns the class string for any variant and size. Use it to apply button styles to a router link component.
+
+```tsx
+import { buttonVariants } from "@/components/ui/button";
+
+<a className={buttonVariants({ variant: "outline", size: "sm" })} href="/docs">
+  Read the docs
+</a>
+```
+
+<PropsTable
+  rows={[
+    { name: "variant", type: "default | secondary | outline | ghost | destructive | link", description: "The visual style." },
+    { name: "size", type: "xs | sm | default | lg | icon-xs | icon-sm | icon | icon-lg", description: "The dimensions." },
+    { name: "className", type: "string", description: "Additional classes merged with cn()." },
   ]}
 />
 
@@ -359,15 +370,16 @@ Set with the `variant` prop:
 - Set `type="button"` on buttons that are not intended to submit a form.
 - Provide an `aria-label` on icon-only buttons.
 - `disabled` removes the button from the tab order.
-- Default color tokens satisfy WCAG 2.1 AA contrast.
+- Color contrast is maintained by design tokens. Run your own contrast check for custom tokens.
 
 ## Best Practices
 
 - **Use one primary button per surface.**
 - **Prefer `size="sm"` inside toolbars.**
 - **Never rely on color alone.**
-- **Use `asChild` for links, not buttons.**
+- **Use `href` for static links, `buttonVariants` for router links.**
 - **Reserve `destructive` for irreversible actions.**
+
 ## Related Components
 
 - [Button Group](/docs/components/button-group) — visually group buttons

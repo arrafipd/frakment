@@ -30,6 +30,13 @@ describe("Button (a11y)", () => {
     expect(results).toHaveNoViolations();
   });
 
+  it("renders as an anchor when href is provided", () => {
+    render(<Button href="/docs">Read the docs</Button>);
+    const link = screen.getByRole("link", { name: "Read the docs" });
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveAttribute("href", "/docs");
+  });
+
   it("has no axe violations (disabled)", async () => {
     const { container } = render(<Button disabled>Disabled</Button>);
     const results = await axe(container, axeOptions);

@@ -6,8 +6,8 @@ import { MainNav } from "@/components/main-nav";
 import { MobileNav } from "@/components/mobile-nav";
 import { ModeSwitcher } from "@/components/mode-switcher";
 import { NavItemGithub } from "@/components/nav-item-github";
+import { SiteButton } from "@/components/site/button";
 import { SponsorLink } from "@/components/sponsor-link";
-import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
 import { source } from "@/lib/source";
@@ -27,7 +27,7 @@ export const SiteHeader = () => (
     <div className="container-wrapper 3xl:fixed:px-0 px-6">
       <div className="3xl:fixed:container flex h-(--header-height) items-center gap-2">
         <BrandContextMenu>
-          <Button
+          <SiteButton
             asChild
             className="text-foreground -ml-1.5 flex size-8 md:ml-0"
             size="icon"
@@ -41,7 +41,7 @@ export const SiteHeader = () => (
               <FrakmentMark className="size-5" />
               <span className="sr-only">{SITE.NAME}</span>
             </Link>
-          </Button>
+          </SiteButton>
         </BrandContextMenu>
         <MainNav className="hidden lg:flex" items={navItems} />
         <div className="ml-auto flex items-center gap-2 md:flex-1 md:justify-end">

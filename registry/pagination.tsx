@@ -1,10 +1,11 @@
+import type { VariantProps } from "class-variance-authority";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   MoreHorizontalIcon,
 } from "lucide-react";
 import type * as React from "react";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
@@ -38,29 +39,28 @@ function PaginationItem({ ...props }: React.ComponentProps<"li">) {
 
 type PaginationLinkProps = {
   isActive?: boolean;
-} & Pick<React.ComponentProps<typeof Button>, "size"> &
-  React.ComponentProps<"a">;
+} & Pick<VariantProps<typeof buttonVariants>, "size"> &
+  Omit<React.ComponentProps<"a">, "ref">;
 
 function PaginationLink({
   className,
   isActive,
   size = "icon",
+  href = "#",
   ...props
 }: PaginationLinkProps) {
   return (
-    <Button
-      asChild
-      className={cn(className)}
-      size={size}
-      variant={isActive ? "outline" : "ghost"}
-    >
-      <a
-        aria-current={isActive ? "page" : undefined}
-        data-active={isActive}
-        data-slot="pagination-link"
-        {...props}
-      />
-    </Button>
+    <a
+      aria-current={isActive ? "page" : undefined}
+      className={cn(
+        buttonVariants({ size, variant: isActive ? "outline" : "ghost" }),
+        className
+      )}
+      data-active={isActive}
+      data-slot="pagination-link"
+      href={href}
+      {...props}
+    />
   );
 }
 

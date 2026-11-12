@@ -19,7 +19,7 @@
       "description": "A monochrome button with six variants and six sizes.",
       "source": "registry/button.tsx",
       "target": "components/ui/button.tsx",
-      "dependencies": ["class-variance-authority@^0.7.1", "radix-ui@^1.8.1"],
+      "dependencies": ["class-variance-authority@^0.7.1"],
       "registryDependencies": [],
       "type": "registry:ui"
     },
@@ -436,7 +436,10 @@
       "description": "Navigation for splitting content across multiple pages.",
       "source": "registry/pagination.tsx",
       "target": "components/ui/pagination.tsx",
-      "dependencies": ["lucide-react@^1.69.0", "radix-ui@^1.8.1"],
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "lucide-react@^1.69.0"
+      ],
       "registryDependencies": ["button"],
       "type": "registry:ui"
     },

@@ -7,7 +7,7 @@ import type { ArrowLeftIconHandle } from "@/components/animated-icons/arrow-left
 import { ArrowLeftIcon } from "@/components/animated-icons/arrow-left";
 import type { ArrowRightIconHandle } from "@/components/animated-icons/arrow-right";
 import { ArrowRightIcon } from "@/components/animated-icons/arrow-right";
-import { Button } from "@/components/ui/button";
+import { SiteButton } from "@/components/site/button";
 import { Kbd } from "@/components/ui/kbd";
 import {
   Tooltip,
@@ -24,7 +24,7 @@ export const DocsNavLink = ({
   transitionTypes,
   size = "icon",
   ...props
-}: React.ComponentProps<typeof Button> & {
+}: React.ComponentProps<typeof SiteButton> & {
   href: string;
   children: React.ReactNode;
   className?: string;
@@ -42,7 +42,7 @@ export const DocsNavLink = ({
   }, []);
 
   const link = (
-    <Button
+    <SiteButton
       asChild
       className={cn("shadow-none", className)}
       onMouseEnter={handleMouseEnter}
@@ -60,7 +60,7 @@ export const DocsNavLink = ({
           <ArrowRightIcon ref={iconRef} />
         )}
       </Link>
-    </Button>
+    </SiteButton>
   );
 
   if (tooltip) {

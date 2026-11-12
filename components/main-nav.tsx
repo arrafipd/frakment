@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
+import { SiteButton } from "@/components/site/button";
 import { cn } from "@/lib/utils";
 
 export const MainNav = ({
@@ -18,7 +18,7 @@ export const MainNav = ({
   return (
     <nav className={cn("items-center gap-0.5", className)} {...props}>
       {items.map((item) => (
-        <Button asChild key={item.href} size="sm" variant="ghost">
+        <SiteButton asChild key={item.href} size="sm" variant="ghost">
           <Link
             className={cn(pathname === item.href && "text-primary")}
             href={item.href}
@@ -26,7 +26,7 @@ export const MainNav = ({
           >
             {item.label}
           </Link>
-        </Button>
+        </SiteButton>
       ))}
     </nav>
   );

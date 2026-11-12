@@ -6,6 +6,7 @@ date: "2026-11-12"
 
 import { HoloCardDemo } from "@/examples/holo-card-demo";
 import { CreditCardDemo } from "@/examples/credit-card-demo";
+import { ButtonAnchor } from "@/examples/button-anchor";
 
 Two library changes ship today. A new card with a procedural foil that reacts to pointer tilt and device motion, and a fix for the credit card that removes an internal import so it installs cleanly.
 
@@ -76,4 +77,28 @@ npx frakment@latest add credit-card
     <CreditCardExpiry value="1228" />
   </CreditCardFooter>
 </CreditCard>
+```
+
+### Button
+
+<ComponentPreview name="button-anchor" title="button-anchor.tsx" src="examples/button-anchor.tsx">
+  <ButtonAnchor />
+</ComponentPreview>
+
+Pass `href` to render the button as a native anchor. `<Button href="/docs">Read the docs</Button>` produces a link without a wrapper. For client-side navigation with Next.js, React Router, or TanStack Router, apply the button styles with `buttonVariants` and render the router link component. The `asChild` prop is removed from the published registry file. The `button` entry no longer depends on `radix-ui`, so `npx frakment add button` installs only `class-variance-authority`. Migrate existing usages by replacing `<Button asChild><a href="/x">Text</a></Button>` with `<Button href="/x">Text</Button>`. Use `anchorRef` to access the underlying anchor element; `ref` targets the `<button>` element only.
+
+#### Installation
+
+<Steps>
+  <Step>Update</Step>
+
+```bash
+npx frakment@latest add button
+```
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<Button href="/docs">Read the docs</Button>
 ```
