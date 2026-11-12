@@ -5,8 +5,13 @@ pre-commit:
   parallel: false
   jobs:
     - name: registry-build
-      glob: [ "registry/**", "examples/**", "frakment.json" ]
-      run: node scripts/build-registry.mjs
+      glob:
+        [
+          "apps/web/registry/**",
+          "apps/web/examples/**",
+          "apps/web/frakment.json",
+        ]
+      run: node apps/web/scripts/build-registry.mjs
       stage_fixed: true
 
     - name: format
@@ -19,12 +24,17 @@ pre-commit:
       run: npx ultracite check {staged_files}
 
     - name: typecheck
-      glob: "*.{ts,tsx}"
-      run: npx tsc --noEmit
+      glob: "apps/web/**/*.{ts,tsx}"
+      run: npm run typecheck
 
     - name: registry-audit
-      glob: [ "registry/**", "components/ui/**", "frakment.json" ]
-      run: node scripts/audit-registry.mjs
+      glob:
+        [
+          "apps/web/registry/**",
+          "apps/web/components/ui/**",
+          "apps/web/frakment.json",
+        ]
+      run: node apps/web/scripts/audit-registry.mjs
 
     - name: secrets
       run: node scripts/scan-secrets.mjs
@@ -38,6 +48,6 @@ pre-push:
   parallel: false
   jobs:
     - name: build
-      run: npx cross-env NEXT_WORKER_THREADS=1 next build
+      run: npm run build
     - name: test
-      run: npx vitest run
+      run: npm run test

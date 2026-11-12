@@ -1,36 +1,42 @@
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
-
-import { FrakmentMark } from "@/components/site/brand";
-import { BrandColorSwatch } from "@/components/site/brand-color-swatch";
 import { Callout } from "@/components/docs/callout";
-import { ChangelogList } from "@/components/site/changelog-list";
 import { CodeBlockCommand } from "@/components/docs/code-block-command";
 import { CodeCollapsibleWrapper } from "@/components/docs/code-collapsible-wrapper";
 import { CodeTabs } from "@/components/docs/code-tabs";
 import { ComponentPreview } from "@/components/docs/component-preview";
 import { ComponentSource } from "@/components/docs/component-source";
-import { ComponentsList } from "@/components/site/components-list";
 import { CopyButton } from "@/components/docs/copy-button";
-import { FileTree, FileTreeFile, FileTreeFolder } from "@/components/docs/file-tree";
-import { getIconForLanguageExtension } from "@/components/site/icons";
+import { DocsBaseSwitcher } from "@/components/docs/docs-base-switcher";
+import {
+  FileTree,
+  FileTreeFile,
+  FileTreeFolder,
+} from "@/components/docs/file-tree";
+import { PropsTable } from "@/components/docs/props-table";
 import { IntroFeatureCard } from "@/components/home/intro-feature-card";
 import { MotionCurveCustom } from "@/components/home/motion-curve-custom";
-import { ComponentDefaultsGrid, MotionCurveGrid } from "@/components/home/motion-curve-grid";
-import { DocsBaseSwitcher } from "@/components/docs/docs-base-switcher";
-import { PropsTable } from "@/components/docs/props-table";
+import {
+  ComponentDefaultsGrid,
+  MotionCurveGrid,
+} from "@/components/home/motion-curve-grid";
+import { Alert, AlertDescription, AlertTitle } from "@/components/site/alert";
+import { FrakmentMark } from "@/components/site/brand";
+import { BrandColorSwatch } from "@/components/site/brand-color-swatch";
+import { ChangelogList } from "@/components/site/changelog-list";
+import { ComponentsList } from "@/components/site/components-list";
+import { getIconForLanguageExtension } from "@/components/site/icons";
+import { Kbd } from "@/components/site/kbd";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger as AccordionTriggerBase,
 } from "@/components/ui/accordion";
-import { Alert, AlertDescription, AlertTitle } from "@/components/site/alert";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Kbd } from "@/components/site/kbd";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { IconComponent } from "@/lib/icons";
 import { cn } from "@/lib/utils";
@@ -78,9 +84,6 @@ export const mdxComponents = {
   ),
   BrandColorSwatch,
   Button,
-  ComponentDefaultsGrid,
-  MotionCurveCustom,
-  MotionCurveGrid,
   blockquote: ({ className, ...props }: React.ComponentProps<"blockquote">) => (
     <blockquote
       className={cn("border-border mt-6 border-l-4 pl-6 italic", className)}
@@ -92,6 +95,7 @@ export const mdxComponents = {
   CodeBlockCommand,
   CodeCollapsibleWrapper,
   CodeTabs,
+  ComponentDefaultsGrid,
   ComponentPreview,
   ComponentSource,
   ComponentsList,
@@ -148,6 +152,7 @@ export const mdxComponents = {
       </>
     );
   },
+  DocsBaseSwitcher,
   FeatureCard: ({
     icon: Icon,
     title,
@@ -382,10 +387,11 @@ export const mdxComponents = {
   li: ({ className, ...props }: React.ComponentProps<"li">) => (
     <li className={cn("mt-2", className)} {...props} />
   ),
+  MotionCurveCustom,
+  MotionCurveGrid,
   ol: ({ className, ...props }: React.ComponentProps<"ol">) => (
     <ol className={cn("my-6 ml-6 list-decimal", className)} {...props} />
   ),
-  DocsBaseSwitcher,
   PropsTable,
   p: ({ className, ...props }: React.ComponentProps<"p">) => (
     <p

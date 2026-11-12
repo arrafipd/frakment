@@ -181,9 +181,7 @@ async function main() {
 
     // merge: auto-detect (dari kode) ∪ manual (dari manifest)
     const manualDependencies = component.dependencies ?? [];
-    const manualPackageNames = new Set(
-      manualDependencies.map(packageName)
-    );
+    const manualPackageNames = new Set(manualDependencies.map(packageName));
     const dependencies = [
       ...new Set([
         ...[...autoExternal].filter(

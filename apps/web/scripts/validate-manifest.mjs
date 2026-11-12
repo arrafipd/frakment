@@ -2,7 +2,9 @@ import fs from "node:fs";
 import Ajv from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 
-const schema = JSON.parse(fs.readFileSync("public/schema/frakment.json", "utf8"));
+const schema = JSON.parse(
+  fs.readFileSync("public/schema/frakment.json", "utf8")
+);
 const manifest = JSON.parse(fs.readFileSync("frakment.json", "utf8"));
 
 const ajv = new Ajv({ allErrors: true, strict: false });
@@ -17,4 +19,6 @@ if (!validate(manifest)) {
   process.exit(1);
 }
 
-console.log(`OK Manifest valid (${manifest.components.length} components, ${manifest.skills?.length || 0} skills)`);
+console.log(
+  `OK Manifest valid (${manifest.components.length} components, ${manifest.skills?.length || 0} skills)`
+);

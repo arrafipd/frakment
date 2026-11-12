@@ -1,10 +1,14 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const MANIFEST = "frakment.json",
-  REGISTRY = "registry",
-  UI = "components/ui";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const rootDir = path.resolve(__dirname, "..");
+
+const MANIFEST = path.join(rootDir, "frakment.json"),
+  REGISTRY = path.join(rootDir, "registry"),
+  UI = path.join(rootDir, "components/ui");
 const pkgName = (d) => {
   if (d.startsWith("@")) {
     const i = d.indexOf("@", 1);
@@ -79,7 +83,7 @@ for (const c of manifest.components) {
 }
 console.log("\nAudit: public/r/*.json exists");
 for (const c of manifest.components) {
-  if (!fs.existsSync(path.join("public/r", c.name + ".json"))) {
+  if (!fs.existsSync(path.join(rootDir, "public/r", c.name + ".json"))) {
     fail(`${c.name}: public/r missing`);
   }
 }

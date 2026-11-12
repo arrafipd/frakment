@@ -10,11 +10,11 @@
 !.yarn/versions
 
 # testing
-/coverage
+/apps/web/coverage
 
 # next.js
-/.next/
-/out/
+/apps/web/.next/
+/apps/web/out/
 
 # production
 /build
@@ -44,7 +44,7 @@ next-env.d.ts
 # generated content
 .contentlayer
 .content-collections
-.source
+/apps/web/.source
 
 # Backup folders (auto-generated during refactor)
 .backup-*/
@@ -57,10 +57,10 @@ public/avatars/*.png
 .backup-*
 
 # Fumadocs generated source
-.source/
+/apps/web/.source/
 
 # Next.js build
-.next/
+/apps/web/.next/
 
 # Logs
 *.log
@@ -84,11 +84,6 @@ _node_modules_old
 # Dependencies (all workspaces)
 **/node_modules/
 
-# Maintainer ops - moved to arrafipd/frakment-dev
-HANDOFF.md
-HANDOFF.archive/
-CLAUDE.md
-.cursor/
 
 # pnpm (contributor-only, npm is canonical)
 pnpm-lock.yaml

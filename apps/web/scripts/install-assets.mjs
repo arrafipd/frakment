@@ -7,7 +7,9 @@ const isPnpm = userAgent.startsWith("pnpm/");
 const pkgPath = "package.json";
 
 if (!isPnpm) {
-  execSync("npm i --no-save ffmpeg-static && npm rebuild ffmpeg-static", { stdio: "inherit" });
+  execSync("npm i --no-save ffmpeg-static && npm rebuild ffmpeg-static", {
+    stdio: "inherit",
+  });
   process.exit(0);
 }
 
