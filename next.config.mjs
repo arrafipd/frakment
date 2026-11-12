@@ -84,6 +84,16 @@ const nextConfig = {
         permanent: true,
         source: `${ROUTES.DOCS}/:path*.mdx`,
       },
+      {
+        destination: `${ROUTES.DOCS}/components/web/button`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/button`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/react/button.md`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/button.md`,
+      },
     ];
   },
   transpilePackages: ["@frakment/ai", "@frakment/react"],

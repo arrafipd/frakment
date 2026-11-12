@@ -97,9 +97,13 @@ export function buildNavGroups(tree: PageTreeRoot): NavGroup[] {
     }
     const pages = (
       isComponentsFolder(item)
-        ? getAllPagesFromFolder(item).filter(
-            (p) => p.url !== ROUTES.DOCS_COMPONENTS
-          )
+        ? getAllPagesFromFolder(item)
+            .filter((p) => p.url !== ROUTES.DOCS_COMPONENTS)
+            .filter((p) => !p.url.startsWith("/docs/components/expo/"))
+            .map((p) => ({
+              ...p,
+              url: p.url.replace("/docs/components/web/", "/docs/components/"),
+            }))
         : getPagesFromFolder(item)
     )
       .map((p) => ({

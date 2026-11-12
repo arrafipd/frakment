@@ -18,6 +18,7 @@ import { getIconForLanguageExtension } from "@/components/icons";
 import { IntroFeatureCard } from "@/components/intro-feature-card";
 import { MotionCurveCustom } from "@/components/motion-curve-custom";
 import { ComponentDefaultsGrid, MotionCurveGrid } from "@/components/motion-curve-grid";
+import { DocsBaseSwitcher } from "@/components/docs-base-switcher";
 import { PropsTable } from "@/components/props-table";
 import {
   Accordion,
@@ -384,6 +385,7 @@ export const mdxComponents = {
   ol: ({ className, ...props }: React.ComponentProps<"ol">) => (
     <ol className={cn("my-6 ml-6 list-decimal", className)} {...props} />
   ),
+  DocsBaseSwitcher,
   PropsTable,
   p: ({ className, ...props }: React.ComponentProps<"p">) => (
     <p

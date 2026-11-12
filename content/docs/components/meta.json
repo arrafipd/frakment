@@ -8,7 +8,7 @@
     "badge",
     "breadcrumb",
     "bubble",
-    "button",
+    "web/button",
     "button-group",
     "card",
     "checkbox",
