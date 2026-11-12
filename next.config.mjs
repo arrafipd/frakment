@@ -90,6 +90,16 @@ const nextConfig = {
         source: `${ROUTES.DOCS}/components/button`,
       },
       {
+        destination: `${ROUTES.DOCS}/components/native/button`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/expo/button`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/native/button.md`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/expo/button.md`,
+      },
+      {
         destination: `${ROUTES.DOCS}/components/react/button.md`,
         permanent: false,
         source: `${ROUTES.DOCS}/components/button.md`,

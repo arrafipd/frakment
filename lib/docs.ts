@@ -99,7 +99,7 @@ export function buildNavGroups(tree: PageTreeRoot): NavGroup[] {
       isComponentsFolder(item)
         ? getAllPagesFromFolder(item)
             .filter((p) => p.url !== ROUTES.DOCS_COMPONENTS)
-            .filter((p) => !p.url.startsWith("/docs/components/expo/"))
+            .filter((p) => !p.url.startsWith("/docs/components/native/"))
             .map((p) => ({
               ...p,
               url: p.url.replace("/docs/components/web/", "/docs/components/"),

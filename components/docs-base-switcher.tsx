@@ -22,7 +22,7 @@ function WebIcon({ className }: { className?: string }) {
 
 const BASES = [
   { icon: WebIcon, name: "web", title: "Web" },
-  { icon: SiExpo, name: "expo", title: "Expo" },
+  { icon: SiExpo, name: "native", title: "Native" },
 ] as const;
 
 export function DocsBaseSwitcher({
