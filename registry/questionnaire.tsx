@@ -1,11 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { type Button, buttonVariants } from "@/components/ui/button";
+import type { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Questionnaire as QuestionnairePrimitive } from "@/lib/questionnaire";
-import { cn } from "@/lib/utils";
+import { buttonVariants, cn } from "@/lib/utils";
 
 function Questionnaire({
   className,

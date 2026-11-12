@@ -157,6 +157,20 @@ export function cn(...inputs: ClassValue[]) {
     logger.log("  - lib/animation.ts");
   }
 
+  if (existsSync(path.join(cwd, "lib/motion.ts"))) {
+    // skip, user may have customized this file
+  } else {
+    const s = ora("Creating lib/motion.ts").start();
+    await mkdir(path.join(cwd, "lib"), { recursive: true });
+    const motion = await readFile(
+      path.join(TEMPLATES_DIR, "lib/motion.ts"),
+      "utf-8"
+    );
+    await writeFile(path.join(cwd, "lib/motion.ts"), motion);
+    s.succeed("Created 1 file:");
+    logger.log("  - lib/motion.ts");
+  }
+
   const pkgPath = path.join(cwd, "package.json");
   const pkgRaw = await readFile(pkgPath, "utf-8");
   const pkg = JSON.parse(pkgRaw.replace(/^\uFEFF/u, ""));

@@ -1,7 +1,6 @@
 "use client";
 
 import { GithubIcon } from "@/components/icons";
-import { buttonVariants } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -11,7 +10,7 @@ import { LINK } from "@/constants/links";
 import { UTM_PARAMS } from "@/constants/site";
 import { useFeedback } from "@/hooks/use-feedback";
 import { addQueryParams } from "@/lib/url";
-import { cn } from "@/lib/utils";
+import { buttonVariants, cn } from "@/lib/utils";
 
 const formatStars = (count: number): string => {
   if (count >= 1000) {

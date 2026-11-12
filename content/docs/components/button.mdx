@@ -16,10 +16,11 @@ import { ButtonWithIcon } from "@/examples/button-with-icon";
 import { ButtonLoading } from "@/examples/button-loading";
 import { ButtonRounded } from "@/examples/button-rounded";
 import { ButtonAnchor } from "@/examples/button-anchor";
+import { ButtonMotionDefault } from "@/examples/button-motion-default";
+import { ButtonMotionReduced } from "@/examples/button-motion-reduced";
 import { ButtonGroupDemo } from "@/examples/button-group-demo";
 
 import { Button } from "@/components/ui/button";
-import { CheckIcon, PlusIcon } from "lucide-react";
 
 <ComponentPreview name="button" title="button.tsx">
   <ButtonDemo />
@@ -70,27 +71,6 @@ import { Button } from "@/components/ui/button";
 ```tsx title="button.tsx"
 <Button>Click me</Button>
 ```
-
-## Anatomy
-
-A button is a single element with an optional icon on either side of a text label.
-
-<ComponentPreview name="button" title="button.tsx">
-  <div className="flex flex-wrap items-center justify-center gap-3">
-    <Button>Text only</Button>
-    <Button>
-      <CheckIcon />
-      With icon
-    </Button>
-    <Button size="icon" aria-label="Add">
-      <PlusIcon />
-    </Button>
-  </div>
-</ComponentPreview>
-
-- **Surface** — background, border, and radius following the variant
-- **Text** — 14px, medium weight, nowrap
-- **Icon** — sized to 16px by `[&_svg]:size-4`
 
 ## Variants
 
@@ -157,7 +137,13 @@ Renders as inline text with an underline on hover.
   <ButtonLink />
 </ComponentPreview>
 
-## Size
+### Custom radius
+
+<ComponentPreview name="button-rounded" title="button-rounded.tsx" src="examples/button-rounded.tsx">
+  <ButtonRounded />
+</ComponentPreview>
+
+## Size & Icon Size
 
 Use the `size` prop to control the dimensions of a text button.
 
@@ -172,32 +158,7 @@ Use the `size` prop to control the dimensions of a text button.
 | `default` | 36px   | `px-4`  |
 | `lg`      | 40px   | `px-6`  |
 
-## Rounded
-
-<ComponentPreview name="button-rounded" title="button-rounded.tsx" src="examples/button-rounded.tsx">
-  <ButtonRounded />
-</ComponentPreview>
-
-## Icon Size
-
-Icon buttons use a separate size system. Each produces a square button sized to fit its icon.
-
-<ComponentPreview name="button" title="button.tsx">
-  <div className="flex flex-wrap items-center justify-center gap-3">
-    <Button size="icon-xs" variant="outline" aria-label="Extra small">
-      <PlusIcon />
-    </Button>
-    <Button size="icon-sm" variant="outline" aria-label="Small">
-      <PlusIcon />
-    </Button>
-    <Button size="icon" variant="outline" aria-label="Default">
-      <PlusIcon />
-    </Button>
-    <Button size="icon-lg" variant="outline" aria-label="Large">
-      <PlusIcon />
-    </Button>
-  </div>
-</ComponentPreview>
+Icon sizes use the same `size` prop. Pass `size="icon-xs"`, `"icon-sm"`, `"icon"`, or `"icon-lg"` for a square button that fits a single icon.
 
 | Size      | Dimensions |
 | :-------- | :--------- |
@@ -206,24 +167,64 @@ Icon buttons use a separate size system. Each produces a square button sized to 
 | `icon`    | 36×36      |
 | `icon-lg` | 40×40      |
 
-## Icons
+## Icons & With Icons
 
-### Icon Buttons
+Buttons accept an icon next to a label or render as a square icon-only button. Icons are sized to 16px by `[&_svg]:size-4`.
 
-Use `size="icon"` to render a square button containing only an icon. An `aria-label` is required.
-
-<ComponentPreview name="button-icon" title="button-icon.tsx" src="examples/button-icon.tsx">
-  <ButtonIcon />
+<ComponentPreview name="button" title="button.tsx">
+  <div className="flex flex-wrap items-center justify-center gap-2">
+    <ButtonWithIcon />
+    <ButtonIcon />
+  </div>
 </ComponentPreview>
 
-### With Icons
+## Motion
 
-Icons inside a button are automatically sized by `[&_svg]:size-4`.
+By default the button uses Tailwind's `transition-all` (150ms, `ease-in-out`). Pass `motion` to override the transition without editing the file.
 
-<ComponentPreview name="button-with-icon" title="button-with-icon.tsx" src="examples/button-with-icon.tsx">
-  <ButtonWithIcon />
+### Default
+
+<ComponentPreview name="button-motion-default" src="examples/button-motion-default.tsx" title="button-motion-default.tsx">
+  <ButtonMotionDefault />
 </ComponentPreview>
 
+### Without motion & Reduced motion
+
+Pass `motion="off"` to force the transition off. The default transition also disables automatically when `prefers-reduced-motion: reduce` is set. The first button is forced off; the second uses the default and respects the OS setting.
+
+<ComponentPreview name="button-motion-reduced" src="examples/button-motion-reduced.tsx" title="button-motion-reduced.tsx">
+  <ButtonMotionReduced />
+</ComponentPreview>
+
+### Value reference
+
+| Value | Result |
+| :-- | :-- |
+| omitted | Tailwind `transition-all` (150ms ease-in-out) |
+| `"off"` | `transition: none` |
+| `"150"` | 150ms ease-in-out |
+| `"200 cubic-bezier(0.16, 1, 0.3, 1)"` | 200ms custom easing |
+
+```tsx
+<Button motion="off">No transition</Button>
+<Button motion="300 ease-out">Slow reveal</Button>
+```
+
+### Using your own animation library
+
+Attach GSAP, Framer Motion, the Web Animations API, or any library that writes inline styles to the element. The component detects the external write and disables its own CSS transition automatically. No extra prop is required.
+
+```tsx
+const ref = useRef<HTMLButtonElement>(null);
+
+useEffect(() => {
+  gsap.to(ref.current, { scale: 1.1, duration: 0.3 });
+}, []);
+
+<Button ref={ref}>Animated by GSAP</Button>
+```
+
+CSS class changes such as hover styles do not trigger the guard. Only inline style writes from a library or a manual ref assignment do.
 ## Loading State
 
 Render a spinner beside the label and set `disabled` to indicate an in-progress action.
@@ -232,54 +233,47 @@ Render a spinner beside the label and set `disabled` to indicate an in-progress 
   <ButtonLoading />
 </ComponentPreview>
 
-## Links
+## Links & Router links
 
-Use `href` to render the button as a native anchor. The component renders an `<a>` element instead of a `<button>`, so `target`, `rel`, and `download` work as expected. All variants, sizes, and icon layouts work on links.
-
-```tsx
-<Button href="/docs">Read the docs</Button>
-<Button href="https://github.com" target="_blank" rel="noopener noreferrer">
-  GitHub
-</Button>
-```
+A button can navigate. Use `href` for a static anchor, or `buttonVariants` with a router link component for client-side navigation. The first button below is a static `<a>`; the second is a Next.js `<Link>` with button styles.
 
 <ComponentPreview name="button-anchor" title="button-anchor.tsx" src="examples/button-anchor.tsx">
   <ButtonAnchor />
 </ComponentPreview>
 
-### Router links
+Static link:
 
-For client-side navigation, use the router link component directly and apply the button styles with `buttonVariants`. This preserves prefetching, scroll restoration, and route-level transitions that the router provides.
+```tsx
+import { Button } from "@/components/ui/button";
 
-Next.js App Router:
+<Button href="/pricing" variant="outline">Pricing</Button>
+```
+
+Router link (Next.js App Router, React Router, TanStack Router):
 
 ```tsx
 import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/lib/utils";
 
-<Link href="/pricing" className={buttonVariants({ variant: "outline", size: "sm" })}>
+<Link href="/pricing" className={buttonVariants({ variant: "outline" })}>
   Pricing
 </Link>
 ```
-
-React Router:
 
 ```tsx
 import { Link } from "react-router";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/lib/utils";
 
-<Link to="/pricing" className={buttonVariants({ variant: "outline", size: "sm" })}>
+<Link to="/pricing" className={buttonVariants({ variant: "outline" })}>
   Pricing
 </Link>
 ```
 
-TanStack Router:
-
 ```tsx
 import { Link } from "@tanstack/react-router";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/lib/utils";
 
-<Link to="/pricing" className={buttonVariants({ variant: "outline", size: "sm" })}>
+<Link to="/pricing" className={buttonVariants({ variant: "outline" })}>
   Pricing
 </Link>
 ```
@@ -292,7 +286,6 @@ import { buttonVariants } from "@/components/ui/button";
 | Next.js App Router or Pages Router | `<Link className={buttonVariants()}>` |
 | React Router or TanStack Router | `<Link className={buttonVariants()}>` |
 | Triggers an action, not navigation | `<Button onClick={...}>` |
-
 ## Button Group
 
 For grouped actions, see [Button Group](/docs/components/button-group). A quick example:
@@ -331,6 +324,7 @@ For grouped actions, see [Button Group](/docs/components/button-group). A quick 
       default: "false",
       description: "Prevents interaction and applies a muted background style. Ignored when href is set.",
     },
+    { name: "motion", type: "string", description: "CSS transition override. Pass off to disable, or a duration like 150, 300, 300 ease-out, or a raw cubic-bezier(...). Default uses Tailwind transition-all. prefers-reduced-motion overrides every value." },
     {
       name: "onClick",
       type: "function",
@@ -350,7 +344,7 @@ For grouped actions, see [Button Group](/docs/components/button-group). A quick 
 The `buttonVariants` helper returns the class string for any variant and size. Use it to apply button styles to a router link component.
 
 ```tsx
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/lib/utils";
 
 <a className={buttonVariants({ variant: "outline", size: "sm" })} href="/docs">
   Read the docs

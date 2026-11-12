@@ -3,9 +3,7 @@
 import type { VariantProps } from "class-variance-authority";
 import { Slot } from "radix-ui";
 import type * as React from "react";
-
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { buttonVariants, cn } from "@/lib/utils";
 
 export interface SiteButtonProps
   extends React.ComponentProps<"button">,
