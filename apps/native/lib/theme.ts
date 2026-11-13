@@ -18,44 +18,43 @@ export interface ThemeColors {
   secondaryHover: string;
 }
 
-// Values match apps/web/styles/theme.css oklch → hex
-const LIGHT: ThemeColors = {
-  accent: "#f5f5f5",
-  accentForeground: "#171717",
-  background: "#ffffff",
-  border: "#e5e5e5",
-  destructive: "#ef4444",
-  destructiveForeground: "#ffffff",
-  destructiveHover: "#f05656", // destructive/90 over white
-  foreground: "#0a0a0a",
-  mutedForeground: "#666666",
-  primary: "#171717",
-  primaryForeground: "#fafafa",
-  primaryHover: "#2e2e2e", // primary/90 over white
-  secondary: "#f5f5f5",
-  secondaryForeground: "#171717",
-  secondaryHover: "#f7f7f7", // secondary/80 over white
+const lightColors: ThemeColors = {
+  accent: "rgba(245, 245, 245, 1)",
+  accentForeground: "rgba(23, 23, 23, 1)",
+  background: "rgba(255, 255, 255, 1)",
+  border: "rgba(229, 229, 229, 1)",
+  destructive: "rgba(239, 68, 68, 1)",
+  destructiveForeground: "rgba(255, 255, 255, 1)",
+  destructiveHover: "rgba(240, 86, 86, 1)",
+  foreground: "rgba(10, 10, 10, 1)",
+  mutedForeground: "rgba(102, 102, 102, 1)",
+  primary: "rgba(23, 23, 23, 1)",
+  primaryForeground: "rgba(250, 250, 250, 1)",
+  primaryHover: "rgba(46, 46, 46, 1)",
+  secondary: "rgba(245, 245, 245, 1)",
+  secondaryForeground: "rgba(23, 23, 23, 1)",
+  secondaryHover: "rgba(247, 247, 247, 1)",
 };
 
-const DARK: ThemeColors = {
-  accent: "#404040",
-  accentForeground: "#fafafa",
-  background: "#0a0a0a",
-  border: "rgba(255,255,255,0.1)",
-  destructive: "#f87171",
-  destructiveForeground: "#ffffff",
-  destructiveHover: "#e06666", // destructive/90 over #0a0a0a
-  foreground: "#fafafa",
-  mutedForeground: "#a3a3a3",
-  primary: "#e5e5e5",
-  primaryForeground: "#171717",
-  primaryHover: "#cfcfcf", // primary/90 over #0a0a0a
-  secondary: "#262626",
-  secondaryForeground: "#fafafa",
-  secondaryHover: "#212121", // secondary/80 over #0a0a0a
+const darkColors: ThemeColors = {
+  accent: "rgba(64, 64, 64, 1)",
+  accentForeground: "rgba(250, 250, 250, 1)",
+  background: "rgba(10, 10, 10, 1)",
+  border: "rgba(255, 255, 255, 0.1)",
+  destructive: "rgba(248, 113, 113, 1)",
+  destructiveForeground: "rgba(255, 255, 255, 1)",
+  destructiveHover: "rgba(224, 102, 102, 1)",
+  foreground: "rgba(250, 250, 250, 1)",
+  mutedForeground: "rgba(163, 163, 163, 1)",
+  primary: "rgba(229, 229, 229, 1)",
+  primaryForeground: "rgba(23, 23, 23, 1)",
+  primaryHover: "rgba(207, 207, 207, 1)",
+  secondary: "rgba(38, 38, 38, 1)",
+  secondaryForeground: "rgba(250, 250, 250, 1)",
+  secondaryHover: "rgba(33, 33, 33, 1)",
 };
 
 export function useThemeColors(): ThemeColors {
   const scheme = useColorScheme();
-  return scheme === "dark" ? DARK : LIGHT;
+  return scheme === "dark" ? darkColors : lightColors;
 }

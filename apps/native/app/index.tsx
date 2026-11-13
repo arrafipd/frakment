@@ -1,4 +1,11 @@
-import { ScrollView, Text, useColorScheme, View } from "react-native";
+import {
+  ArrowUpRightIcon,
+  CircleArrowUpIcon,
+  GitBranch,
+  GitFork,
+  PlusIcon,
+} from "lucide-react-native";
+import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Button, type ButtonVariant } from "@/components/ui/button";
@@ -15,7 +22,6 @@ const variants: ButtonVariant[] = [
 
 export default function Home() {
   const colors = useThemeColors();
-  const scheme = useColorScheme();
 
   return (
     <SafeAreaView
@@ -23,20 +29,15 @@ export default function Home() {
       style={{ backgroundColor: colors.background, flex: 1 }}
     >
       <ScrollView contentContainerStyle={{ gap: 32, padding: 24 }}>
-        <View style={{ gap: 4 }}>
-          <Text
-            style={{
-              color: colors.foreground,
-              fontSize: 24,
-              fontWeight: "700",
-            }}
-          >
-            Frakment Native
-          </Text>
-          <Text style={{ color: colors.mutedForeground, fontSize: 12 }}>
-            scheme: {scheme ?? "null"} | bg: {colors.background}
-          </Text>
-        </View>
+        <Text
+          style={{
+            color: colors.foreground,
+            fontSize: 24,
+            fontWeight: "700",
+          }}
+        >
+          Frakment Native
+        </Text>
 
         <View style={{ gap: 12 }}>
           <Text
@@ -65,10 +66,82 @@ export default function Home() {
           >
             Sizes
           </Text>
-          <View style={{ alignItems: "center", flexDirection: "row", gap: 8 }}>
+          <View
+            style={{
+              alignItems: "center",
+              flexDirection: "row",
+              gap: 8,
+            }}
+          >
             <Button size="sm">Small</Button>
             <Button>Default</Button>
             <Button size="lg">Large</Button>
+          </View>
+        </View>
+
+        <View style={{ gap: 12 }}>
+          <Text
+            style={{
+              color: colors.mutedForeground,
+              fontSize: 14,
+              fontWeight: "500",
+            }}
+          >
+            Icon only
+          </Text>
+          <View
+            style={{
+              alignItems: "center",
+              flexDirection: "row",
+              gap: 8,
+            }}
+          >
+            <Button accessibilityLabel="Add" size="icon-xs" variant="outline">
+              <PlusIcon color={colors.foreground} size={14} />
+            </Button>
+            <Button accessibilityLabel="Add" size="icon-sm" variant="outline">
+              <PlusIcon color={colors.foreground} size={16} />
+            </Button>
+            <Button accessibilityLabel="Add" size="icon" variant="outline">
+              <PlusIcon color={colors.foreground} size={18} />
+            </Button>
+            <Button accessibilityLabel="Add" size="icon-lg" variant="outline">
+              <PlusIcon color={colors.foreground} size={20} />
+            </Button>
+          </View>
+        </View>
+
+        <View style={{ gap: 12 }}>
+          <Text
+            style={{
+              color: colors.mutedForeground,
+              fontSize: 14,
+              fontWeight: "500",
+            }}
+          >
+            With icon
+          </Text>
+          <View
+            style={{
+              alignItems: "center",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              gap: 8,
+            }}
+          >
+            <Button variant="outline">
+              <GitBranch color={colors.foreground} size={16} /> New Branch
+            </Button>
+            <Button variant="outline">
+              Fork
+              <GitFork color={colors.foreground} size={16} />
+            </Button>
+            <Button accessibilityLabel="Submit" size="icon" variant="outline">
+              <ArrowUpRightIcon color={colors.foreground} size={16} />
+            </Button>
+            <Button accessibilityLabel="Submit" size="icon" variant="outline">
+              <CircleArrowUpIcon color={colors.foreground} size={16} />
+            </Button>
           </View>
         </View>
 

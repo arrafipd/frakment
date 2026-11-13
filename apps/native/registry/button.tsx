@@ -11,7 +11,6 @@ import {
 import { type ThemeColors, useThemeColors } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
-// Exact size in dp. lg = 50 (default 48 + 2).
 type SizeKey =
   | "xs"
   | "sm"
@@ -22,7 +21,7 @@ type SizeKey =
   | "icon"
   | "icon-lg";
 
-const SIZE_DIM: Record<SizeKey, { height: number; width?: number }> = {
+const sizeDim: Record<SizeKey, { height: number; width?: number }> = {
   default: { height: 48 },
   icon: { height: 48, width: 48 },
   "icon-lg": { height: 51, width: 51 },
@@ -31,6 +30,14 @@ const SIZE_DIM: Record<SizeKey, { height: number; width?: number }> = {
   lg: { height: 51 },
   sm: { height: 44 },
   xs: { height: 40 },
+};
+
+const shadowXs: ViewStyle = {
+  elevation: 1,
+  shadowColor: "rgba(0, 0, 0, 1)",
+  shadowOffset: { height: 1, width: 0 },
+  shadowOpacity: 0.05,
+  shadowRadius: 2,
 };
 
 const buttonVariants = cva(
@@ -52,6 +59,13 @@ const buttonVariants = cva(
   }
 );
 
+interface VariantStyle {
+  base: ViewStyle;
+  pressed: ViewStyle;
+  textBase: TextStyle;
+  textPressed: TextStyle;
+}
+
 export type ButtonVariant =
   | "default"
   | "secondary"
@@ -60,33 +74,11 @@ export type ButtonVariant =
   | "destructive"
   | "link";
 
-const SHADOW_XS: ViewStyle = {
-  elevation: 1,
-  shadowColor: "#000",
-  shadowOffset: { height: 1, width: 0 },
-  shadowOpacity: 0.05,
-  shadowRadius: 2,
-};
-
-interface VariantStyle {
-  base: ViewStyle;
-  pressed: ViewStyle;
-  textBase: TextStyle;
-  textPressed: TextStyle;
-}
-
 function getVariantStyle(variant: ButtonVariant, c: ThemeColors): VariantStyle {
   switch (variant) {
-    case "default":
-      return {
-        base: { backgroundColor: c.primary, ...SHADOW_XS },
-        pressed: { backgroundColor: c.primaryHover },
-        textBase: { color: c.primaryForeground },
-        textPressed: { color: c.primaryForeground },
-      };
     case "secondary":
       return {
-        base: { backgroundColor: c.secondary, ...SHADOW_XS },
+        base: { backgroundColor: c.secondary, ...shadowXs },
         pressed: { backgroundColor: c.secondaryHover },
         textBase: { color: c.secondaryForeground },
         textPressed: { color: c.secondaryForeground },
@@ -97,7 +89,7 @@ function getVariantStyle(variant: ButtonVariant, c: ThemeColors): VariantStyle {
           backgroundColor: "transparent",
           borderColor: c.border,
           borderWidth: 1,
-          ...SHADOW_XS,
+          ...shadowXs,
         },
         pressed: { backgroundColor: c.accent },
         textBase: { color: c.foreground },
@@ -112,7 +104,7 @@ function getVariantStyle(variant: ButtonVariant, c: ThemeColors): VariantStyle {
       };
     case "destructive":
       return {
-        base: { backgroundColor: c.destructive, ...SHADOW_XS },
+        base: { backgroundColor: c.destructive, ...shadowXs },
         pressed: { backgroundColor: c.destructiveHover },
         textBase: { color: c.destructiveForeground },
         textPressed: { color: c.destructiveForeground },
@@ -133,7 +125,7 @@ function getVariantStyle(variant: ButtonVariant, c: ThemeColors): VariantStyle {
       };
     default:
       return {
-        base: { backgroundColor: c.primary, ...SHADOW_XS },
+        base: { backgroundColor: c.primary, ...shadowXs },
         pressed: { backgroundColor: c.primaryHover },
         textBase: { color: c.primaryForeground },
         textPressed: { color: c.primaryForeground },
@@ -163,7 +155,7 @@ function Button({
   const colors = useThemeColors();
   const [pressed, setPressed] = React.useState(false);
   const vs = getVariantStyle(variant, colors);
-  const dim = SIZE_DIM[(size ?? "default") as SizeKey] ?? SIZE_DIM.default;
+  const dim = sizeDim[(size ?? "default") as SizeKey] ?? sizeDim.default;
 
   const containerStyle: ViewStyle = {
     height: dim.height,
@@ -199,10 +191,12 @@ function Button({
       style={containerStyle}
       {...props}
     >
-      {typeof children === "string" || typeof children === "number" ? (
-        <Text style={finalTextStyle}>{children}</Text>
-      ) : (
-        children
+      {React.Children.map(children, (child) =>
+        typeof child === "string" || typeof child === "number" ? (
+          <Text style={finalTextStyle}>{child}</Text>
+        ) : (
+          child
+        )
       )}
     </Pressable>
   );
