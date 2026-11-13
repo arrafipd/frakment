@@ -2,10 +2,6 @@
 
 import * as React from "react";
 
-// ============================================================
-// Types
-// ============================================================
-
 export type QuestionnaireItemStatus = "unanswered" | "answered" | "skipped";
 export type QuestionnaireShortcutMode = "letters" | "numbers";
 
@@ -71,10 +67,6 @@ export interface QuestionnaireNavigationState {
   status: QuestionnaireItemStatus | null;
   visible: boolean;
 }
-
-// ============================================================
-// Render helper — resolves asChild / render prop
-// ============================================================
 
 type StateMapping<S> = {
   [K in keyof S]?: (value: S[K]) => Record<string, string | undefined>;
@@ -158,10 +150,6 @@ function renderElement<Tag extends keyof React.JSX.IntrinsicElements, State>({
   );
 }
 
-// ============================================================
-// Shortcut utilities
-// ============================================================
-
 const LETTERS = Array.from({ length: 26 }, (_, i) =>
   String.fromCharCode(65 + i)
 );
@@ -194,10 +182,6 @@ function formatShortcut(
     undefined
   );
 }
-
-// ============================================================
-// Answer / DOM utilities
-// ============================================================
 
 interface AnswerControl {
   disabled: boolean;
@@ -272,10 +256,6 @@ function byDOMOrder(a: AnswerControl, b: AnswerControl): number {
   }
   return 0;
 }
-
-// ============================================================
-// Contexts
-// ============================================================
 
 interface ItemHandle {
   choices: { value: string; disabled?: boolean }[];
@@ -370,10 +350,6 @@ function useChoice(caller: string): ChoiceCtx {
   }
   return ctx;
 }
-
-// ============================================================
-// Choice hook
-// ============================================================
 
 function useChoiceHook({
   checked: controlledChecked,
@@ -504,10 +480,6 @@ function useChoiceHook({
   };
 }
 
-// ============================================================
-// Input hook
-// ============================================================
-
 function useInputHook({
   defaultValue,
   disabled: ownDisabled = false,
@@ -636,10 +608,6 @@ function useInputHook({
     },
   };
 }
-
-// ============================================================
-// Item hook
-// ============================================================
 
 function computeShortcuts(
   def: QuestionnaireItemDefinition,
@@ -1100,10 +1068,6 @@ function useItemHook({
   };
 }
 
-// ============================================================
-// Root hook
-// ============================================================
-
 function buildItemDefinitions(
   defs: readonly QuestionnaireItemDefinition[] | undefined
 ): {
@@ -1242,7 +1206,6 @@ function useRootHook({
     prevName.current = currentName;
     if (!changed) {
     }
-    // focus is applied by item's own registration effect
   }, [
     activeItem,
     currentName,
@@ -1491,10 +1454,6 @@ function useRootHook({
     state: { current, first: isFirst, last: isLast, total },
   };
 }
-
-// ============================================================
-// Components
-// ============================================================
 
 type RootProps = Omit<
   React.ComponentPropsWithRef<"form">,
@@ -2019,10 +1978,6 @@ function QuestionnaireSubmit({
     visible,
   });
 }
-
-// ============================================================
-// Export
-// ============================================================
 
 const Questionnaire = {
   Choice: QuestionnaireChoice,

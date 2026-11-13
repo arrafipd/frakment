@@ -73,7 +73,7 @@ export const ComponentSource = async ({
 
   if (!collapsible) {
     return (
-      <div className={cn("relative", className)}>
+      <div className={cn("relative mt-4", className)}>
         <ComponentCode
           code={code}
           highlightedCode={highlightedCode}
@@ -86,7 +86,7 @@ export const ComponentSource = async ({
 
   return (
     <CodeCollapsibleWrapper
-      className={className}
+      className={cn("mt-4", className)}
       navTriggerClassName={cn(!title && "top-3")}
     >
       <ComponentCode

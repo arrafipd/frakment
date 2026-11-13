@@ -43,15 +43,19 @@ The rest compile on React 18.3 but are only tested on React 19.
 
 ### `ref` as a prop
 
-React 19 allows `ref` without `forwardRef`. Frakment components use this in new files. Old files that still use `forwardRef` still compile, but the wrapper is redundant:
+React 19 allows `ref` without `forwardRef`. Frakment components use this in new files. Old files that still use `forwardRef` still compile, but the wrapper is redundant.
+
+React 18, with `forwardRef`:
 
 ```tsx
-// React 18 style
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => (
   <button ref={ref} {...props} />
 ));
+```
 
-// React 19 style
+React 19, `ref` as a prop:
+
+```tsx
 function Button({ ref, ...props }: ButtonProps & { ref?: React.Ref<HTMLButtonElement> }) {
   return <button ref={ref} {...props} />;
 }
@@ -62,7 +66,6 @@ function Button({ ref, ...props }: ButtonProps & { ref?: React.Ref<HTMLButtonEle
 `ref` callbacks can return a cleanup function. Returning a value in React 18 triggers a warning:
 
 ```tsx
-// React 19
 <div ref={(node) => {
   setup(node);
   return () => teardown(node);

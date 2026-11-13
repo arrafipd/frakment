@@ -56,18 +56,51 @@ export function Button({ variant = "default", size = "md", ...props }) {
 
 ## Components with more types
 
-Compound components use more patterns. Here is a Dialog example:
+Compound components use more patterns. Here is a Dialog example. The first snippet is the typed source; the second is the same component with JavaScript types stripped.
+
+TypeScript:
 
 ```tsx
-// Before (TypeScript)
 function DialogContent({
   className,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content>) {
   return <DialogPrimitive.Content className={className} {...props} />;
 }
+```
 
-// After (JavaScript)
+JavaScript:
+
+```tsx
+function DialogContent({ className, ...props }) {
+  return <DialogPrimitive.Content className={className} {...props} />;
+}
+```
+
+```jsx title="button.jsx (after)"
+export function Button({ variant = "default", size = "md", ...props }) {
+  return <button data-variant={variant} data-size={size} {...props} />;
+}
+```
+
+## Components with more types
+
+Compound components use more patterns. Here is a Dialog example:
+
+TypeScript:
+
+```tsx
+function DialogContent({
+  className,
+  ...props
+}: React.ComponentProps<typeof DialogPrimitive.Content>) {
+  return <DialogPrimitive.Content className={className} {...props} />;
+}
+```
+
+JavaScript:
+
+```tsx
 function DialogContent({ className, ...props }) {
   return <DialogPrimitive.Content className={className} {...props} />;
 }

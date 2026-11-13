@@ -297,9 +297,7 @@ function HoloCard({
             attach();
           }
         })
-        .catch(() => {
-          // iOS may reject silently without a user gesture.
-        });
+        .catch(() => {});
     } else {
       attach();
     }

@@ -144,9 +144,7 @@ function QuestionnaireChoice({
           <RadioGroup
             aria-hidden
             className="contents"
-            onValueChange={() => {
-              // noop — parent Choice handles interaction
-            }}
+            onValueChange={() => {}}
             value={checked ? "on" : ""}
           >
             <RadioGroupItem

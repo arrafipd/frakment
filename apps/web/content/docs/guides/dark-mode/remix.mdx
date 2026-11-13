@@ -39,7 +39,6 @@ export async function resolveTheme(
 ): Promise<"light" | "dark"> {
   if (theme === "dark" || theme === "light") return theme
 
-  // System preference from client hints (Safari, Chrome)
   const hint = request.headers.get("Sec-CH-Prefers-Color-Scheme")
   if (hint === "dark" || hint === "light") return hint
 
