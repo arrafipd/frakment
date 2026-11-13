@@ -12,12 +12,12 @@ import { createPortal } from "react-dom";
 
 import { cn } from "@/lib/utils";
 
-const SELECTION_KEYS = ["Enter", " "];
-const FIRST_KEYS = ["ArrowDown", "PageUp", "Home"];
-const LAST_KEYS = ["ArrowUp", "PageDown", "End"];
-const FIRST_LAST_KEYS = [...FIRST_KEYS, ...LAST_KEYS];
-const SUB_OPEN_KEYS = [...SELECTION_KEYS, "ArrowRight"];
-const SUB_CLOSE_KEYS = ["ArrowLeft"];
+const selectionKeys = ["Enter", " "];
+const firstKeys = ["ArrowDown", "PageUp", "Home"];
+const lastKeys = ["ArrowUp", "PageDown", "End"];
+const firstLastKeys = [...firstKeys, ...lastKeys];
+const subOpenKeys = [...selectionKeys, "ArrowRight"];
+const subCloseKeys = ["ArrowLeft"];
 
 function useControllableState<T>({
   prop,
@@ -464,7 +464,7 @@ function DropdownMenuContent({
     if (event.target !== content) {
       return;
     }
-    if (!FIRST_LAST_KEYS.includes(event.key)) {
+    if (!firstLastKeys.includes(event.key)) {
       return;
     }
     event.preventDefault();
@@ -472,7 +472,7 @@ function DropdownMenuContent({
     const candidates = items
       .map((i) => i.ref.current)
       .filter((n): n is HTMLElement => n !== null);
-    if (LAST_KEYS.includes(event.key)) {
+    if (lastKeys.includes(event.key)) {
       candidates.reverse();
     }
     focusFirst(candidates);
@@ -636,7 +636,7 @@ function DropdownMenuItem({
           if (isTypingAhead && event.key === " ") {
             return;
           }
-          if (SELECTION_KEYS.includes(event.key)) {
+          if (selectionKeys.includes(event.key)) {
             event.currentTarget.click();
             event.preventDefault();
           }
@@ -849,7 +849,7 @@ function DropdownMenuSubTrigger({
         if (isTypingAhead && event.key === " ") {
           return;
         }
-        if (SUB_OPEN_KEYS.includes(event.key)) {
+        if (subOpenKeys.includes(event.key)) {
           sub.onOpenChange(true);
           sub.content?.focus();
           event.preventDefault();
@@ -948,7 +948,7 @@ function DropdownMenuSubContent({
           const isKeyDownInside = event.currentTarget.contains(
             event.target as HTMLElement
           );
-          const isCloseKey = SUB_CLOSE_KEYS.includes(event.key);
+          const isCloseKey = subCloseKeys.includes(event.key);
           if (isKeyDownInside && isCloseKey) {
             sub.onOpenChange(false);
             sub.trigger?.focus();
