@@ -14,8 +14,8 @@ import {
 export function DropdownMenuBasic() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline">Open</Button>
+      <DropdownMenuTrigger as={Button} variant="outline">
+        Open
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuGroup>
