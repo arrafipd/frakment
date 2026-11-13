@@ -24,6 +24,16 @@
       "type": "registry:ui"
     },
     {
+      "name": "popover",
+      "title": "Popover",
+      "description": "A popup that displays content anchored to a trigger.",
+      "source": "registry/popover.tsx",
+      "target": "components/ui/popover.tsx",
+      "dependencies": ["@floating-ui/react-dom@^2.1.9"],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
       "name": "hover-card",
       "title": "Hover Card",
       "description": "Displays rich content in a portal when hovering over a trigger.",

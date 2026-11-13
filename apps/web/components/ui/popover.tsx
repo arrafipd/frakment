@@ -54,11 +54,13 @@ function setRef<T>(ref: React.Ref<T> | undefined, node: T | null) {
 }
 
 function useComposedRefs<T>(...refs: Array<React.Ref<T> | undefined>) {
+  const refsRef = React.useRef(refs);
+  refsRef.current = refs;
   return React.useCallback((node: T | null) => {
-    for (const ref of refs) {
+    for (const ref of refsRef.current) {
       setRef(ref, node);
     }
-  }, refs);
+  }, []);
 }
 
 function composeEventHandlers<E extends { defaultPrevented: boolean }>(
@@ -74,17 +76,18 @@ function composeEventHandlers<E extends { defaultPrevented: boolean }>(
 }
 
 interface PopoverContextValue {
+  anchor: HTMLElement | null;
   contentId: string;
   descriptionId: string;
   descriptionPresent: boolean;
   onOpenChange: (open: boolean) => void;
   onOpenToggle: () => void;
   open: boolean;
+  setAnchor: (node: HTMLElement | null) => void;
   setDescriptionCount: React.Dispatch<React.SetStateAction<number>>;
   setTitleCount: React.Dispatch<React.SetStateAction<number>>;
   titleId: string;
   titlePresent: boolean;
-  triggerRef: React.RefObject<HTMLButtonElement | null>;
 }
 
 const PopoverContext = React.createContext<PopoverContextValue | null>(null);
@@ -110,7 +113,7 @@ function Popover({
   defaultOpen,
   onOpenChange,
 }: PopoverProps) {
-  const triggerRef = React.useRef<HTMLButtonElement>(null);
+  const [anchor, setAnchor] = React.useState<HTMLElement | null>(null);
   const [titleCount, setTitleCount] = React.useState(0);
   const [descriptionCount, setDescriptionCount] = React.useState(0);
   const [open, setOpen] = useControllableState({
@@ -124,19 +127,21 @@ function Popover({
 
   const context = React.useMemo<PopoverContextValue>(
     () => ({
+      anchor,
       contentId,
       descriptionId,
       descriptionPresent: descriptionCount > 0,
       onOpenChange: setOpen,
       onOpenToggle: () => setOpen((prev) => !prev),
       open,
+      setAnchor,
       setDescriptionCount,
       setTitleCount,
       titleId,
       titlePresent: titleCount > 0,
-      triggerRef,
     }),
     [
+      anchor,
       contentId,
       descriptionCount,
       descriptionId,
@@ -154,52 +159,46 @@ function Popover({
   );
 }
 
-export interface PopoverTriggerProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  asChild?: boolean;
-}
+export type PopoverTriggerProps = Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  "ref"
+> & {
+  as?: React.ElementType;
+  ref?: React.Ref<HTMLButtonElement>;
+} & Record<string, unknown>;
 
-function PopoverTrigger({ onClick, ...props }: PopoverTriggerProps) {
-  const { open, contentId, onOpenToggle, triggerRef } =
+function PopoverTrigger({ as, onClick, ref, ...props }: PopoverTriggerProps) {
+  const { open, contentId, onOpenToggle, setAnchor } =
     usePopoverContext("PopoverTrigger");
-  return (
-    <button
-      aria-controls={open ? contentId : undefined}
-      aria-expanded={open}
-      aria-haspopup="dialog"
-      data-state={open ? "open" : "closed"}
-      ref={triggerRef}
-      type="button"
-      {...props}
-      onClick={composeEventHandlers(onClick, onOpenToggle)}
-    />
+  const composedRef = useComposedRefs<HTMLButtonElement>(
+    ref as React.Ref<HTMLButtonElement> | undefined,
+    setAnchor as unknown as React.Ref<HTMLButtonElement>
   );
-}
-
-export interface PopoverPortalProps {
-  children?: React.ReactNode;
-}
-
-function PopoverPortal({ children }: PopoverPortalProps) {
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-  if (!mounted) {
-    return null;
+  const Component = as ?? "button";
+  const finalProps: Record<string, unknown> = {
+    ...props,
+    "aria-controls": open ? contentId : undefined,
+    "aria-expanded": open,
+    "aria-haspopup": "dialog",
+    "data-state": open ? "open" : "closed",
+    onClick: composeEventHandlers(onClick, onOpenToggle),
+    ref: composedRef,
+  };
+  if (!(as || "type" in props)) {
+    finalProps.type = "button";
   }
-  return createPortal(children, document.body);
+  return React.createElement(Component, finalProps);
 }
 
 function useDismissablePopover({
   open,
   contentRef,
-  triggerRef,
+  anchor,
   onDismiss,
 }: {
   open: boolean;
   contentRef: React.RefObject<HTMLElement | null>;
-  triggerRef: React.RefObject<HTMLElement | null>;
+  anchor: HTMLElement | null;
   onDismiss: () => void;
 }) {
   React.useEffect(() => {
@@ -215,7 +214,7 @@ function useDismissablePopover({
           isPointerInsideReactTree = false;
           return;
         }
-        if (triggerRef.current?.contains(target)) {
+        if (anchor?.contains(target)) {
           isPointerInsideReactTree = false;
           return;
         }
@@ -241,7 +240,7 @@ function useDismissablePopover({
         capture: true,
       });
     };
-  }, [open, contentRef, triggerRef, onDismiss]);
+  }, [open, contentRef, anchor, onDismiss]);
 }
 
 export interface PopoverContentProps extends React.ComponentProps<"div"> {
@@ -262,20 +261,33 @@ function PopoverContent({
   ...props
 }: PopoverContentProps) {
   const {
+    anchor,
     contentId,
-    open,
-    onOpenChange,
-    titleId,
     descriptionId,
-    titlePresent,
     descriptionPresent,
-    triggerRef,
+    onOpenChange,
+    open,
+    titleId,
+    titlePresent,
   } = usePopoverContext("PopoverContent");
   const contentRef = React.useRef<HTMLDivElement>(null);
-  const composedRef = useComposedRefs<HTMLDivElement>(props.ref, contentRef);
+  const [present, setPresent] = React.useState(open);
 
-  const { refs, floatingStyles } = useFloating({
-    elements: { reference: triggerRef.current },
+  React.useEffect(() => {
+    if (open) {
+      setPresent(true);
+      return;
+    }
+    if (!present) {
+      return;
+    }
+    const timer = setTimeout(() => setPresent(false), 300);
+    return () => clearTimeout(timer);
+  }, [open, present]);
+
+  const lastTransform = React.useRef<string>("translate(0, -200%)");
+  const { floatingStyles, isPositioned, placement, refs } = useFloating({
+    elements: { reference: anchor },
     middleware: [
       offset({ alignmentAxis: alignOffset, mainAxis: sideOffset }),
       avoidCollisions && shift({ padding: 0 }),
@@ -286,17 +298,11 @@ function PopoverContent({
     whileElementsMounted: autoUpdate,
   });
 
-  React.useEffect(() => {
-    if (open && triggerRef.current) {
-      refs.setReference(triggerRef.current);
-    }
-  }, [open, refs, triggerRef]);
-
   useDismissablePopover({
+    anchor,
     contentRef,
     onDismiss: () => onOpenChange(false),
     open,
-    triggerRef,
   });
 
   React.useEffect(() => {
@@ -321,29 +327,46 @@ function PopoverContent({
     };
   }, [open]);
 
-  if (!open) {
+  if (!(open || present)) {
     return null;
   }
 
-  return (
+  if (isPositioned && floatingStyles.transform) {
+    lastTransform.current = floatingStyles.transform;
+  }
+
+  const [placedSide, placedAlign = "center"] = placement.split("-");
+
+  const node = (
     <div
-      aria-describedby={descriptionPresent ? descriptionId : undefined}
-      aria-labelledby={titlePresent ? titleId : undefined}
-      data-state={open ? "open" : "closed"}
-      id={contentId}
-      ref={(node) => {
-        refs.setFloating(node);
-        composedRef(node);
+      data-popper-wrapper=""
+      ref={refs.setFloating}
+      style={{
+        ...floatingStyles,
+        minWidth: "max-content",
+        transform: lastTransform.current,
       }}
-      role="dialog"
-      style={{ ...floatingStyles, ...props.style }}
-      {...props}
-      className={cn(
-        "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 z-50 w-72 rounded-md border p-4 shadow-md outline-none",
-        className
-      )}
-    />
+    >
+      <div
+        aria-describedby={descriptionPresent ? descriptionId : undefined}
+        aria-labelledby={titlePresent ? titleId : undefined}
+        data-align={placedAlign}
+        data-side={placedSide}
+        data-slot="popover-content"
+        data-state={open ? "open" : "closed"}
+        id={contentId}
+        ref={contentRef}
+        role="dialog"
+        {...props}
+        className={cn(
+          "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[side=bottom]:slide-out-to-top-2 data-[side=left]:slide-out-to-right-2 data-[side=right]:slide-out-to-left-2 data-[side=top]:slide-out-to-bottom-2 z-50 w-72 origin-(--radix-popover-content-transform-origin) rounded-md border p-4 shadow-md outline-none",
+          className
+        )}
+      />
+    </div>
   );
+
+  return createPortal(node, document.body);
 }
 
 function PopoverHeader({
@@ -390,18 +413,26 @@ function PopoverDescription({
   );
 }
 
-function PopoverClose({
-  onClick,
-  ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+export type PopoverCloseProps = Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  "ref"
+> & {
+  as?: React.ElementType;
+  ref?: React.Ref<HTMLButtonElement>;
+} & Record<string, unknown>;
+
+function PopoverClose({ as, onClick, ref, ...props }: PopoverCloseProps) {
   const { onOpenChange } = usePopoverContext("PopoverClose");
-  return (
-    <button
-      type="button"
-      {...props}
-      onClick={composeEventHandlers(onClick, () => onOpenChange(false))}
-    />
-  );
+  const Component = as ?? "button";
+  const finalProps: Record<string, unknown> = {
+    ...props,
+    onClick: composeEventHandlers(onClick, () => onOpenChange(false)),
+    ref,
+  };
+  if (!(as || "type" in props)) {
+    finalProps.type = "button";
+  }
+  return React.createElement(Component, finalProps);
 }
 
 export {
@@ -410,7 +441,6 @@ export {
   PopoverContent,
   PopoverDescription,
   PopoverHeader,
-  PopoverPortal,
   PopoverTitle,
   PopoverTrigger,
 };

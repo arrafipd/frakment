@@ -29,6 +29,7 @@
     "message-animated",
     "message-scroller",
     "pagination",
+    "web/popover",
     "progress",
     "radio-group",
     "select",

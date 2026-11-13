@@ -16,6 +16,13 @@
     },
     {
       "deprecated": false,
+      "description": "A popup that displays content anchored to a trigger.",
+      "name": "popover",
+      "title": "Popover",
+      "version": "0.0.0"
+    },
+    {
+      "deprecated": false,
       "description": "Displays rich content in a portal when hovering over a trigger.",
       "name": "hover-card",
       "title": "Hover Card",

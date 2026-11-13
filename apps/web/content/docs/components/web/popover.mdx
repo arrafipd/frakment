@@ -1,0 +1,158 @@
+---
+title: Popover
+description: A popup that displays content anchored to a trigger.
+---
+
+import { PopoverDemo } from "@/examples/popover-demo";
+import { PopoverBasic } from "@/examples/popover-basic";
+import { PopoverAlignments } from "@/examples/popover-alignments";
+import { PopoverForm } from "@/examples/popover-form";
+
+<DocsBaseSwitcher base="web" component="popover" className="mb-6" />
+
+<ComponentPreview name="popover" title="popover.tsx">
+  <PopoverDemo />
+</ComponentPreview>
+
+A floating panel anchored to a trigger. Opens on trigger click, closes on outside click or `Escape`. Position is resolved by Floating UI, so the panel flips and shifts automatically when it would overflow the viewport.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add popover
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+```bash
+npm install @floating-ui/react-dom
+```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="popover" title="components/ui/popover.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="popover.tsx"
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+```
+
+```tsx title="popover.tsx"
+<Popover>
+  <PopoverTrigger as={Button} variant="outline">Open</PopoverTrigger>
+  <PopoverContent>
+    Content
+  </PopoverContent>
+</Popover>
+```
+
+`PopoverTrigger` accepts `as` to render any component. Pass `as={Button}` for a styled trigger, or omit for a plain `<button>`.
+
+## Header and description
+
+<ComponentPreview name="popover-basic" title="popover-basic.tsx" src="examples/popover-basic.tsx">
+  <PopoverBasic />
+</ComponentPreview>
+
+`PopoverHeader`, `PopoverTitle`, and `PopoverDescription` wire `aria-labelledby` and `aria-describedby` onto the content automatically. Use them together so screen readers announce the panel correctly.
+
+## Alignments
+
+<ComponentPreview name="popover-alignments" title="popover-alignments.tsx" src="examples/popover-alignments.tsx">
+  <PopoverAlignments />
+</ComponentPreview>
+
+Pass `align` to control horizontal placement: `start`, `center` (default), or `end`. Pass `side` for `top`, `right`, `bottom` (default), or `left`.
+
+## Form
+
+<ComponentPreview name="popover-form" title="popover-form.tsx" src="examples/popover-form.tsx">
+  <PopoverForm />
+</ComponentPreview>
+
+Popover panels are not modal. They close on outside click, return focus to the trigger, and do not trap focus. For a focus-trapped experience, use `Dialog`.
+
+## API Reference
+
+### Popover
+
+<PropsTable
+  rows={[
+    { name: "open", type: "boolean", description: "Controlled open state. When omitted, the popover manages its own state." },
+    { name: "defaultOpen", type: "boolean", default: "false", description: "Uncontrolled initial open state." },
+    { name: "onOpenChange", type: "(open: boolean) => void", description: "Called when the popover opens or closes." },
+  ]}
+/>
+
+### PopoverTrigger
+
+<PropsTable
+  rows={[
+    { name: "as", type: "React.ElementType", description: "Renders a different root element or component. Defaults to button." },
+    { name: "className", type: "string", description: "Additional CSS classes." },
+  ]}
+/>
+
+### PopoverContent
+
+<PropsTable
+  rows={[
+    { name: "side", type: "top | right | bottom | left", default: "bottom", description: "Placement relative to the trigger." },
+    { name: "align", type: "start | center | end", default: "center", description: "Alignment along the cross axis." },
+    { name: "sideOffset", type: "number", default: "4", description: "Gap between trigger and content in pixels." },
+    { name: "alignOffset", type: "number", default: "0", description: "Shift along the cross axis in pixels." },
+    { name: "avoidCollisions", type: "boolean", default: "true", description: "Flip and shift to stay inside the viewport." },
+    { name: "className", type: "string", description: "Additional CSS classes." },
+  ]}
+/>
+
+### PopoverClose
+
+<PropsTable
+  rows={[
+    { name: "as", type: "React.ElementType", description: "Renders a different root element or component. Defaults to button." },
+  ]}
+/>
+
+## Accessibility
+
+- `PopoverTrigger` sets `aria-haspopup="dialog"`, `aria-expanded`, and `aria-controls` on the trigger.
+- `PopoverTitle` and `PopoverDescription` wire `aria-labelledby` and `aria-describedby` on the content when present.
+- `Escape` closes the popover. Outside click closes the popover.
+- Focus moves into the panel on open and returns to the trigger on close. Focus is not trapped.
+
+## Best Practices
+
+- **Pair a title with a description** when the panel shows form fields or structured content.
+- **Use `align="start"`** for panels that should align with the trigger's leading edge, common in toolbars.
+- **Keep content short.** Popover is not a modal. Long forms belong in `Dialog`.
+
+## Related Components
+
+- [Button](/docs/components/button): the default trigger
+- [Dialog](/docs/components/dialog): modal alternative with focus trap
+- [Dropdown Menu](/docs/components/dropdown-menu): menu alternative with keyboard navigation

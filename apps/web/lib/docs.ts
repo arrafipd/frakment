@@ -72,6 +72,7 @@ export const docsImageRoute = `${ROUTES.OG}${ROUTES.DOCS}`;
 // graduates from "new". Single source of truth for the "new" indicator.
 export const PAGES_NEW: ReadonlySet<string> = new Set([
   "/docs/modules/holo-card",
+  "/docs/components/popover",
 ]);
 
 export interface NavItem {

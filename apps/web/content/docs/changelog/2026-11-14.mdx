@@ -1,0 +1,145 @@
+---
+title: "November 14, 2026"
+description: "Popover primitive, first-party Separator and Button Group, and a polymorphic `as` prop on Button."
+date: "2026-11-14"
+---
+
+import { PopoverDemo } from "@/examples/popover-demo";
+import { NativeSeparatorDemo } from "@/examples/native/separator-demo";
+import { NativeButtonGroupDemo } from "@/examples/native/button-group-demo";
+
+This release adds **Popover**, moves **Separator** and **Button Group** off `radix-ui` to first-party primitives, and adds an `as` prop to **Button** for router links and custom components.
+
+- [Popover](#popover): Floating panel anchored to a trigger.
+- [Button `as` prop](#button-as-prop): Render router links and custom components.
+- [Separator](#separator): No more `radix-ui`.
+- [Button Group](#button-group): Own primitive replaces the Radix Slot.
+- [Native Separator & Button Group](#native-separator--button-group): Native ports.
+
+<hr className="my-16 border-border/40" />
+
+### Popover
+
+<ComponentPreview name="popover" title="popover.tsx">
+  <PopoverDemo />
+</ComponentPreview>
+
+**Popover** renders a floating panel anchored to a trigger. Position is resolved with Floating UI, so the panel flips and shifts automatically when it would overflow the viewport. Opens on trigger click, closes on outside click or `Escape`. Non-modal: focus returns to the trigger, no focus trap. `PopoverHeader`, `PopoverTitle`, and `PopoverDescription` wire `aria-labelledby` and `aria-describedby` for you.
+
+#### Installation
+
+<Steps>
+  <Step>Install</Step>
+
+```bash
+npx frakment add popover
+```
+
+<Step>Use it</Step>
+
+```tsx
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<Popover>
+  <PopoverTrigger as={Button} variant="outline">Open</PopoverTrigger>
+  <PopoverContent>Content</PopoverContent>
+</Popover>
+```
+
+See the [Popover docs](/docs/components/popover) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Button `as` prop
+
+Button accepts `as` to render a different root element or component. Pass `as={Link}` for router links, `as={CustomComponent}` for a wrapped surface, or omit to keep the default `<button>` / `<a>` behavior based on `href`.
+
+```tsx
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+
+<Button as={Link} href="/pricing" variant="outline">Pricing</Button>
+```
+
+No API breaking changes. `href` and `onClick` continue to work as before. See the [Button docs](/docs/components/button) for the updated router link guidance.
+
+<hr className="my-16 border-border/40" />
+
+### Separator
+
+Separator no longer depends on `radix-ui`. It renders as a `div` with `role="none"` by default, or `role="separator"` with `aria-orientation` when `decorative={false}`.
+
+**Changed:**
+
+- Removed `radix-ui` from `dependencies`. No npm install needed.
+- `decorative` prop now controls `role` directly.
+
+No API breaking changes. See the [Separator docs](/docs/components/separator).
+
+<hr className="my-16 border-border/40" />
+
+### Button Group
+
+Button Group now uses Frakment's own Slot primitive instead of the Radix Slot. All ten compositions (dropdown, input, input group, nested, select, separator, split, size, orientation, demo) continue to work without changes.
+
+**Changed:**
+
+- Removed `radix-ui` from `dependencies`.
+- New `registryDependency`: `slot`.
+
+See the [Button Group docs](/docs/components/button-group).
+
+<hr className="my-16 border-border/40" />
+
+### Native Separator & Button Group
+
+<ComponentPreview name="native/separator" src="../../apps/native/registry/separator.tsx" title="separator.tsx">
+  <NativeSeparatorDemo />
+</ComponentPreview>
+
+<ComponentPreview name="native/button-group" src="../../apps/native/registry/button-group.tsx" title="button-group.tsx">
+  <NativeButtonGroupDemo />
+</ComponentPreview>
+
+**Separator** and **Button Group** are now available for React Native via Expo. Separator renders as a `View` with a 1px line. Button Group lays out children in a row or column, strips the inner border and radius on adjacent children, and paints the separator variant with the `input` token so it matches the web composition.
+
+Both read colors from `useThemeColors()`, so light and dark mode track the device system preference.
+
+#### Installation
+
+<Steps>
+  <Step>Install Separator first</Step>
+
+Copy from the [Separator docs](/docs/components/native/separator). No CLI flag for native yet.
+
+<Step>Install Button Group</Step>
+
+Copy from the [Button Group docs](/docs/components/native/button-group).
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
+
+<Separator />
+
+<ButtonGroup>
+  <Button variant="outline">Archive</Button>
+  <Button variant="outline">Report</Button>
+</ButtonGroup>
+```

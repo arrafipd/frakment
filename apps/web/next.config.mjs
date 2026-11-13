@@ -99,6 +99,12 @@ const nextConfig = {
         permanent: false,
         source: `${ROUTES.DOCS}/components/button-group`,
       },
+
+      {
+        destination: `${ROUTES.DOCS}/components/web/popover`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/popover`,
+      },
       {
         destination: `${ROUTES.DOCS}/components/native/button`,
         permanent: false,
