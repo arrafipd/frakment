@@ -3,6 +3,220 @@ title: Button
 description: Displays a button for React Native apps running on Android and iOS via Expo.
 ---
 
+import { NativeButtonDemo } from "@/examples/native/button-demo";
+import { NativeButtonDefault } from "@/examples/native/button-default";
+import { NativeButtonSecondary } from "@/examples/native/button-secondary";
+import { NativeButtonOutline } from "@/examples/native/button-outline";
+import { NativeButtonGhost } from "@/examples/native/button-ghost";
+import { NativeButtonDestructive } from "@/examples/native/button-destructive";
+import { NativeButtonLink } from "@/examples/native/button-link";
+import { NativeButtonSize } from "@/examples/native/button-size";
+import { NativeButtonIcon } from "@/examples/native/button-icon";
+import { NativeButtonWithIcon } from "@/examples/native/button-with-icon";
+import { NativeButtonRounded } from "@/examples/native/button-rounded";
+
 <DocsBaseSwitcher base="native" component="button" className="mb-6" />
 
-Native components are React Native components that run on Android and iOS via Expo. Content for the Native variant will be documented here once the React Native components are published.
+<ComponentPreview
+  name="native/button"
+  src="../../apps/native/registry/button.tsx"
+  title="button.tsx"
+>
+  <NativeButtonDemo />
+</ComponentPreview>
+
+Buttons for React Native apps that run on Android and iOS via Expo. They share the design tokens and variants of the web Button, with interaction adapted for touch.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add button --expo
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install class-variance-authority clsx tailwind-merge
+      ```
+
+      <Step>Configure NativeWind in your Expo project.</Step>
+
+      Skip this step if your project already uses NativeWind v5. The project needs a `babel.config.js` with `babel-preset-expo`, a `metro.config.js` wrapped with `withNativewind`, and a `global.css` that imports `tailwindcss/theme.css`, `tailwindcss/utilities.css`, and `nativewind/theme`. Import `global.css` in the root layout.
+
+      <Step>Copy `lib/utils.ts` into your project.</Step>
+
+      <ComponentSource src="../../apps/native/lib/utils.ts" title="lib/utils.ts" />
+
+      <Step>Copy `lib/theme.ts` into your project.</Step>
+
+      <ComponentSource src="../../apps/native/lib/theme.ts" title="lib/theme.ts" />
+
+      <Step>Copy the button into your project.</Step>
+
+      <ComponentSource src="../../apps/native/registry/button.tsx" title="components/ui/button.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="button.tsx"
+import { Button } from "@/components/ui/button";
+```
+
+```tsx title="button.tsx"
+<Button onPress={() => console.log("pressed")}>Click me</Button>
+```
+
+## Variants
+
+### Default
+
+The primary variant, intended for the most important action on a screen.
+
+<ComponentPreview name="native/button-default" title="button-default.tsx" src="../../apps/native/examples/button-default.tsx">
+  <NativeButtonDefault />
+</ComponentPreview>
+
+### Secondary
+
+Intended for actions of lesser prominence.
+
+<ComponentPreview name="native/button-secondary" title="button-secondary.tsx" src="../../apps/native/examples/button-secondary.tsx">
+  <NativeButtonSecondary />
+</ComponentPreview>
+
+### Outline
+
+Renders with a border and a transparent background.
+
+<ComponentPreview name="native/button-outline" title="button-outline.tsx" src="../../apps/native/examples/button-outline.tsx">
+  <NativeButtonOutline />
+</ComponentPreview>
+
+### Ghost
+
+Renders without a border. Background applies only on press.
+
+<ComponentPreview name="native/button-ghost" title="button-ghost.tsx" src="../../apps/native/examples/button-ghost.tsx">
+  <NativeButtonGhost />
+</ComponentPreview>
+
+### Destructive
+
+Intended for destructive or irreversible actions.
+
+<ComponentPreview name="native/button-destructive" title="button-destructive.tsx" src="../../apps/native/examples/button-destructive.tsx">
+  <NativeButtonDestructive />
+</ComponentPreview>
+
+### Link
+
+Renders as inline text with an underline on press.
+
+<ComponentPreview name="native/button-link" title="button-link.tsx" src="../../apps/native/examples/button-link.tsx">
+  <NativeButtonLink />
+</ComponentPreview>
+
+### Custom radius
+
+Pass `className="rounded-full"` to render a pill button.
+
+<ComponentPreview name="native/button-rounded" title="button-rounded.tsx" src="../../apps/native/examples/button-rounded.tsx">
+  <NativeButtonRounded />
+</ComponentPreview>
+
+## Size
+
+Use the `size` prop to control the dimensions of a text button.
+
+The preview above renders at the web size scale. On iOS and Android the component applies the larger values in the table below, sized to meet touch target guidance.
+
+<ComponentPreview name="native/button-size" title="button-size.tsx" src="../../apps/native/examples/button-size.tsx">
+  <NativeButtonSize />
+</ComponentPreview>
+
+| Size | Height | Padding |
+| :--- | :----- | :------ |
+| `xs` | 40dp | `px-4` |
+| `sm` | 44dp | `px-5` |
+| `default` | 48dp | `px-6` |
+| `lg` | 51dp | `px-8` |
+
+### Icon size
+
+Icon buttons use a separate size system. Each produces a square button sized to fit its icon.
+
+| Size | Dimensions |
+| :--- | :--------- |
+| `icon-xs` | 40×40 |
+| `icon-sm` | 44×44 |
+| `icon` | 48×48 |
+| `icon-lg` | 51×51 |
+
+## Icons & With Icons
+
+Buttons accept an icon next to a label or render as a square icon-only button. Icons are sized by `[&_svg]:size-4`. Provide the icon as a child of the button.
+
+<ComponentPreview
+  name="native/button"
+  src="../../apps/native/registry/button.tsx"
+  title="button.tsx"
+>
+  <div className="flex flex-wrap items-center justify-center gap-2">
+    <NativeButtonWithIcon />
+    <NativeButtonIcon />
+  </div>
+</ComponentPreview>
+
+## API Reference
+
+### Button
+
+<PropsTable
+  rows={[
+    { name: "variant", type: "default | secondary | outline | ghost | destructive | link", default: "default", description: "The visual style of the button." },
+    { name: "size", type: "xs | sm | default | lg | icon-xs | icon-sm | icon | icon-lg", default: "default", description: "The dimensions of the button." },
+    { name: "disabled", type: "boolean", default: "false", description: "Prevents interaction. Passed to accessibilityState.disabled." },
+    { name: "onPressIn", type: "function", description: "Called when the press starts. Used by the component to track the pressed state." },
+    { name: "onPressOut", type: "function", description: "Called when the press ends." },
+    { name: "accessibilityLabel", type: "string", description: "Required for icon-only buttons. Read by screen readers." },
+    { name: "className", type: "string", description: "Additional NativeWind classes merged with the variant classes." },
+  ]}
+/>
+
+## Accessibility
+
+- The component sets `accessibilityRole="button"` on the underlying `Pressable`.
+- The `disabled` prop sets `accessibilityState={{ disabled: true }}`.
+- Provide `accessibilityLabel` on icon-only buttons.
+- Press feedback uses `onPressIn` and `onPressOut`, not hover.
+
+## Best Practices
+
+- **Use one primary button per screen.**
+- **Prefer `size="default"` or larger for touch-critical actions.**
+- **Never rely on color alone.**
+- **Provide `accessibilityLabel` on icon-only buttons.**
+- **Reserve `destructive` for irreversible actions.**
+
+## Platform notes
+
+- **Press, not hover.** Native devices have no hover state. The button renders its pressed state through `onPressIn` and `onPressOut`.
+- **No anchor mode.** React Native has no `<a>` element. Use the router link from `expo-router` for navigation, and style it with the exported `buttonVariants` helper.
+- **No `motion` prop.** The web Button exposes a `motion` prop for CSS transition overrides. Native does not need it because press feedback is instant and driven by the platform.
+- **Touch target.** Visual size equals tap area. The `default` and `lg` sizes meet the 44dp minimum guidance on iOS and the 48dp guidance on Android. For `xs` and `sm`, prefer a larger size for touch-critical actions.

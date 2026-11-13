@@ -1,0 +1,37 @@
+---
+title: "November 13, 2026"
+description: "Native button ships. Same design tokens, touch-adapted interaction."
+date: "2026-11-13"
+---
+
+import { NativeButtonDemo } from "@/examples/native/button-demo";
+
+The Frakment Button now has a native variant for React Native apps running on Android and iOS via Expo.
+
+- [Native Button](#native-button): First native component.
+
+<hr className="my-16 border-border/40" />
+
+### Native Button
+
+<ComponentPreview name="native/button" src="../../apps/native/registry/button.tsx" title="button.tsx">
+  <NativeButtonDemo />
+</ComponentPreview>
+
+The native Button shares the six variants and eight sizes of the web Button, with interaction adapted for touch: press feedback instead of hover, no anchor mode, no `motion` prop. Sizes use the native scale (40, 44, 48, 51 dp). Dark mode follows the device system preference through `useColorScheme`.
+
+#### Installation
+
+<Steps>
+  <Step>Install</Step>
+
+```bash
+npx frakment add button --expo
+```
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<Button onPress={() => console.log("pressed")}>Click me</Button>
+```
