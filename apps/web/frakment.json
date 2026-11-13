@@ -366,7 +366,7 @@
       "description": "A menu triggered by a button, with items, checkboxes, and submenus.",
       "source": "registry/dropdown-menu.tsx",
       "target": "components/ui/dropdown-menu.tsx",
-      "dependencies": ["lucide-react@^1.69.0", "radix-ui@^1.8.1"],
+      "dependencies": ["@floating-ui/react-dom@^2.1.9"],
       "registryDependencies": [],
       "type": "registry:ui"
     },

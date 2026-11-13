@@ -11,8 +11,8 @@ import {
 export function DropdownMenuAlignEnd() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline">Open</Button>
+      <DropdownMenuTrigger as={Button} variant="outline">
+        Open
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-32">
         <DropdownMenuItem>Profile</DropdownMenuItem>

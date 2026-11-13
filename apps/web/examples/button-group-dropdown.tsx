@@ -26,10 +26,8 @@ export function ButtonGroupDropdown() {
     <ButtonGroup>
       <Button variant="outline">Follow</Button>
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button className="pl-2!" variant="outline">
-            <ChevronDownIcon />
-          </Button>
+        <DropdownMenuTrigger as={Button} className="pl-2!" variant="outline">
+          <ChevronDownIcon />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-44">
           <DropdownMenuGroup>

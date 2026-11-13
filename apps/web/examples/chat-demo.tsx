@@ -318,16 +318,15 @@ export function ChatDemo() {
                 />
                 <InputGroupAddon align="block-end" className="pt-1">
                   <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <InputGroupButton
-                        aria-label="Add context"
-                        className="rounded-full"
-                        size="icon-sm"
-                        type="button"
-                        variant="outline"
-                      >
-                        <PlusIcon />
-                      </InputGroupButton>
+                    <DropdownMenuTrigger
+                      aria-label="Add context"
+                      as={InputGroupButton}
+                      className="rounded-full"
+                      size="icon-sm"
+                      type="button"
+                      variant="outline"
+                    >
+                      <PlusIcon />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
                       align="start"

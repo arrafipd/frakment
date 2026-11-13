@@ -86,14 +86,14 @@ export const DocsTableOfContents = ({
   if (variant === "dropdown") {
     return (
       <DropdownMenu onOpenChange={setOpen} open={open}>
-        <DropdownMenuTrigger asChild>
-          <Button
-            className={cn("h-8 md:h-7", className)}
-            size="sm"
-            variant="outline"
-          >
-            <MenuIcon /> On This Page
-          </Button>
+        <DropdownMenuTrigger
+          as={Button}
+          className={cn("h-8 md:h-7", className)}
+          size="sm"
+          variant="outline"
+        >
+          <MenuIcon />
+          On This Page
         </DropdownMenuTrigger>
         <DropdownMenuContent
           align="start"
@@ -101,13 +101,14 @@ export const DocsTableOfContents = ({
         >
           {toc.map((item) => (
             <DropdownMenuItem
-              asChild
+              as="a"
               className="data-[depth=3]:pl-6 data-[depth=4]:pl-8"
               data-depth={item.depth}
+              href={item.url}
               key={item.url}
               onClick={handleClose}
             >
-              <a href={item.url}>{item.title}</a>
+              {item.title}
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>

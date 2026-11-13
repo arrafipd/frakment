@@ -21,8 +21,8 @@ export function DropdownMenuCheckboxes() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline">Notifications</Button>
+      <DropdownMenuTrigger as={Button} variant="outline">
+        Notifications
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-48">
         <DropdownMenuGroup>

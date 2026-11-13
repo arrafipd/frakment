@@ -46,10 +46,13 @@ export function ButtonGroupDemo() {
       <ButtonGroup>
         <Button variant="outline">Snooze</Button>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button aria-label="More Options" size="icon" variant="outline">
-              <MoreHorizontalIcon />
-            </Button>
+          <DropdownMenuTrigger
+            aria-label="More Options"
+            as={Button}
+            size="icon"
+            variant="outline"
+          >
+            <MoreHorizontalIcon />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-40">
             <DropdownMenuGroup>

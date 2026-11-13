@@ -182,16 +182,15 @@ export function MessageScrollerDemo() {
                 </div>
                 <InputGroupAddon align="block-end" className="pt-1">
                   <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <InputGroupButton
-                        aria-label="Add files"
-                        className="rounded-full"
-                        size="icon-sm"
-                        type="button"
-                        variant="outline"
-                      >
-                        <PlusIcon />
-                      </InputGroupButton>
+                    <DropdownMenuTrigger
+                      aria-label="Add files"
+                      as={InputGroupButton}
+                      className="rounded-full"
+                      size="icon-sm"
+                      type="button"
+                      variant="outline"
+                    >
+                      <PlusIcon />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
                       align="start"

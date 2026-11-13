@@ -39,121 +39,68 @@ Help me understand how to use it. Be ready to explain concepts, give examples, o
 `
   )}`;
 
-const MENU_ITEMS: [string, (url: string) => React.ReactNode][] = [
-  [
-    "markdown",
-    (url) => (
-      <a href={`${url}.md`} rel="noopener noreferrer" target="_blank">
-        <MarkdownDocIcon />
-        View as Markdown
-      </a>
-    ),
-  ],
-  [
-    "v0",
-    (url) => (
-      <a
-        href={getPromptUrl("https://v0.dev", url)}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <V0Icon />
-        <span className="translate-x-[-2px]">Open in v0</span>
-      </a>
-    ),
-  ],
-  [
-    "cursor",
-    (url) => (
-      <a
-        href={getPromptUrl("https://cursor.com/link/prompt", url, "text")}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <CursorIcon />
-        Open in Cursor
-      </a>
-    ),
-  ],
-  [
-    "chatgpt",
-    (url) => (
-      <a
-        href={getPromptUrl("https://chatgpt.com", url)}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <ChatGptIcon />
-        Open in ChatGPT
-      </a>
-    ),
-  ],
-  [
-    "claude",
-    (url) => (
-      <a
-        href={getPromptUrl("https://claude.ai/new", url)}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <ClaudeIcon />
-        Open in Claude
-      </a>
-    ),
-  ],
-  [
-    "perplexity",
-    (url) => (
-      <a
-        href={getPromptUrl("https://perplexity.ai", url)}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <PerplexityIcon />
-        Open in Perplexity
-      </a>
-    ),
-  ],
-  [
-    "gemini",
-    (url) => (
-      <a
-        href={getPromptUrl("https://gemini.google.com/app", url)}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <GeminiIcon />
-        Open in Gemini
-      </a>
-    ),
-  ],
-  [
-    "grok",
-    (url) => (
-      <a
-        href={getPromptUrl("https://grok.com", url)}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <GrokIcon />
-        Open in Grok
-      </a>
-    ),
-  ],
-  [
-    "scira",
-    (url) => (
-      <a
-        className="m-0 p-0"
-        href={getPromptUrl("https://scira.ai/", url)}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <SciraIcon />
-        Open in Scira AI
-      </a>
-    ),
-  ],
+interface MenuItemData {
+  href: (url: string) => string;
+  icon: React.ReactNode;
+  key: string;
+  label: string;
+}
+
+const MENU_ITEMS: MenuItemData[] = [
+  {
+    href: (url) => `${url}.md`,
+    icon: <MarkdownDocIcon />,
+    key: "markdown",
+    label: "View as Markdown",
+  },
+  {
+    href: (url) => getPromptUrl("https://v0.dev", url),
+    icon: <V0Icon />,
+    key: "v0",
+    label: "Open in v0",
+  },
+  {
+    href: (url) => getPromptUrl("https://cursor.com/link/prompt", url, "text"),
+    icon: <CursorIcon />,
+    key: "cursor",
+    label: "Open in Cursor",
+  },
+  {
+    href: (url) => getPromptUrl("https://chatgpt.com", url),
+    icon: <ChatGptIcon />,
+    key: "chatgpt",
+    label: "Open in ChatGPT",
+  },
+  {
+    href: (url) => getPromptUrl("https://claude.ai/new", url),
+    icon: <ClaudeIcon />,
+    key: "claude",
+    label: "Open in Claude",
+  },
+  {
+    href: (url) => getPromptUrl("https://perplexity.ai", url),
+    icon: <PerplexityIcon />,
+    key: "perplexity",
+    label: "Open in Perplexity",
+  },
+  {
+    href: (url) => getPromptUrl("https://gemini.google.com/app", url),
+    icon: <GeminiIcon />,
+    key: "gemini",
+    label: "Open in Gemini",
+  },
+  {
+    href: (url) => getPromptUrl("https://grok.com", url),
+    icon: <GrokIcon />,
+    key: "grok",
+    label: "Open in Grok",
+  },
+  {
+    href: (url) => getPromptUrl("https://scira.ai/", url),
+    icon: <SciraIcon />,
+    key: "scira",
+    label: "Open in Scira AI",
+  },
 ];
 
 export const DocsCopyPage = ({
@@ -168,16 +115,6 @@ export const DocsCopyPage = ({
     return response.text();
   }, [markdownUrl]);
 
-  const trigger = (
-    <Button
-      className="peer -ml-0.5 size-8 md:size-7 md:text-[0.8rem]"
-      size="sm"
-      variant="secondary"
-    >
-      <ChevronDownIcon className="rotate-180 sm:rotate-0" />
-    </Button>
-  );
-
   return (
     <Popover>
       <div className="group/buttons bg-secondary relative flex rounded-lg *:data-[slot=button]:focus-visible:relative *:data-[slot=button]:focus-visible:z-10">
@@ -191,16 +128,28 @@ export const DocsCopyPage = ({
           Copy Page
         </CopyButton>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild className="hidden sm:flex">
-            {trigger}
+          <DropdownMenuTrigger
+            as={Button}
+            className="peer -ml-0.5 hidden size-8 sm:flex md:size-7 md:text-[0.8rem]"
+            size="sm"
+            variant="secondary"
+          >
+            <ChevronDownIcon className="rotate-180 sm:rotate-0" />
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
             className="animate-none! rounded-lg shadow-none"
           >
-            {MENU_ITEMS.map(([key, render]) => (
-              <DropdownMenuItem asChild key={key}>
-                {render(url)}
+            {MENU_ITEMS.map((item) => (
+              <DropdownMenuItem
+                as="a"
+                href={item.href(url)}
+                key={item.key}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                {item.icon}
+                {item.label}
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
@@ -210,21 +159,34 @@ export const DocsCopyPage = ({
           orientation="vertical"
         />
         <PopoverTrigger asChild className="flex sm:hidden">
-          {trigger}
+          <Button
+            className="peer -ml-0.5 size-8 md:size-7 md:text-[0.8rem]"
+            size="sm"
+            variant="secondary"
+          >
+            <ChevronDownIcon className="rotate-180 sm:rotate-0" />
+          </Button>
         </PopoverTrigger>
         <PopoverContent
           align="start"
           className="bg-background/70 dark:bg-background/60 w-52 origin-center! rounded-lg p-1 shadow-none backdrop-blur-sm"
         >
-          {MENU_ITEMS.map(([key, render]) => (
+          {MENU_ITEMS.map((item) => (
             <SiteButton
               asChild
               className="*:[svg]:text-muted-foreground w-full justify-start text-base font-normal"
-              key={key}
+              key={item.key}
               size="lg"
               variant="ghost"
             >
-              {render(url)}
+              <a
+                href={item.href(url)}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                {item.icon}
+                {item.label}
+              </a>
             </SiteButton>
           ))}
         </PopoverContent>

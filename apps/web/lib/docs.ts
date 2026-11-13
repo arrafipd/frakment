@@ -73,6 +73,7 @@ export const docsImageRoute = `${ROUTES.OG}${ROUTES.DOCS}`;
 export const PAGES_NEW: ReadonlySet<string> = new Set([
   "/docs/modules/holo-card",
   "/docs/components/popover",
+  "/docs/components/dropdown-menu",
 ]);
 
 export interface NavItem {

@@ -26,11 +26,9 @@ export function BreadcrumbDemo() {
         <BreadcrumbSeparator />
         <BreadcrumbItem>
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button size="sm" variant="ghost">
-                <BreadcrumbEllipsis />
-                <span className="sr-only">Toggle menu</span>
-              </Button>
+            <DropdownMenuTrigger as={Button} size="sm" variant="ghost">
+              <BreadcrumbEllipsis />
+              <span className="sr-only">Toggle menu</span>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
               <DropdownMenuGroup>

@@ -160,16 +160,15 @@ export function PromptInputDemo() {
               <PlusIcon />
             </InputGroupButton>
             <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <InputGroupButton
-                  aria-label={`Model: ${currentModel.name}`}
-                  className="ml-auto"
-                  size="sm"
-                  variant="outline"
-                >
-                  {currentModel.name}
-                  <ChevronDownIcon />
-                </InputGroupButton>
+              <DropdownMenuTrigger
+                aria-label={`Model: ${currentModel.name}`}
+                as={InputGroupButton}
+                className="ml-auto"
+                size="sm"
+                variant="outline"
+              >
+                {currentModel.name}
+                <ChevronDownIcon />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-48">
                 <DropdownMenuRadioGroup onValueChange={setModel} value={model}>
@@ -190,16 +189,15 @@ export function PromptInputDemo() {
               </DropdownMenuContent>
             </DropdownMenu>
             <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <InputGroupButton
-                  aria-label={`Effort: ${currentEffort.name}`}
-                  size="sm"
-                  variant="outline"
-                >
-                  <span className="text-muted-foreground">Effort</span>
-                  {currentEffort.name}
-                  <ChevronDownIcon />
-                </InputGroupButton>
+              <DropdownMenuTrigger
+                aria-label={`Effort: ${currentEffort.name}`}
+                as={InputGroupButton}
+                size="sm"
+                variant="outline"
+              >
+                <span className="text-muted-foreground">Effort</span>
+                {currentEffort.name}
+                <ChevronDownIcon />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-36">
                 <DropdownMenuGroup>

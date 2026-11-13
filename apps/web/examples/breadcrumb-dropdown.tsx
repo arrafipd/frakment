@@ -27,11 +27,13 @@ export function BreadcrumbDropdown() {
         </BreadcrumbSeparator>
         <BreadcrumbItem>
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button className="flex items-center gap-1" type="button">
-                Components
-                <ChevronDownIcon className="size-3.5" />
-              </button>
+            <DropdownMenuTrigger
+              as="button"
+              className="flex items-center gap-1"
+              type="button"
+            >
+              Components
+              <ChevronDownIcon className="size-3.5" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
               <DropdownMenuGroup>

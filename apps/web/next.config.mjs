@@ -105,6 +105,12 @@ const nextConfig = {
         permanent: false,
         source: `${ROUTES.DOCS}/components/popover`,
       },
+
+      {
+        destination: `${ROUTES.DOCS}/components/web/dropdown-menu`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/dropdown-menu`,
+      },
       {
         destination: `${ROUTES.DOCS}/components/native/button`,
         permanent: false,

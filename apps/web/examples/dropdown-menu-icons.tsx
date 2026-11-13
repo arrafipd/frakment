@@ -13,8 +13,8 @@ import {
 export function DropdownMenuIcons() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline">Open</Button>
+      <DropdownMenuTrigger as={Button} variant="outline">
+        Open
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem>
