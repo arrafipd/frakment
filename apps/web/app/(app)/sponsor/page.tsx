@@ -11,7 +11,7 @@ import { LINK } from "@/constants/links";
 import { ROUTES } from "@/constants/routes";
 import { getContributors } from "@/lib/github";
 import { ExternalLink, Heart, Star } from "@/lib/icons";
-import { SPONSORS } from "@/lib/sponsors";
+import { sponsors } from "@/lib/sponsors";
 import { createPageMetadata } from "@/seo/metadata";
 
 export const metadata: Metadata = createPageMetadata({
@@ -26,7 +26,6 @@ const MAX_CONTRIBUTORS = 30;
 
 const SponsorPage = async () => {
   const contributors = await getContributors();
-  const sponsors = SPONSORS;
 
   const visibleSponsors = sponsors.slice(0, MAX_SPONSORS);
   const extraSponsors = sponsors.length - visibleSponsors.length;

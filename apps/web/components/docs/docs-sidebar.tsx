@@ -17,7 +17,7 @@ import {
 // Both render TOP_LEVEL_SECTIONS (flat) + tree.children grouped, filtered by
 // EXCLUDED_SECTIONS. If you change one, change the other — or better, hoist
 // the shared logic into a helper.
-import { buildNavGroups, isActiveDocPath, PAGES_NEW } from "@/lib/docs";
+import { buildNavGroups, isActiveDocPath, pagesNew } from "@/lib/docs";
 import type { source } from "@/lib/source";
 
 const MENU_BUTTON_CLS =
@@ -91,7 +91,7 @@ export const DocsSidebar = ({
             key={group.label}
             label={group.label}
             pages={group.items.map((i) => ({
-              isNew: PAGES_NEW.has(i.href),
+              isNew: pagesNew.has(i.href),
               name: i.name,
               url: i.href,
             }))}

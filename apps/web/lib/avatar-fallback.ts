@@ -1,4 +1,4 @@
-const FEMALE_NAMES = new Set([
+const femaleNames = new Set([
   // Western
   "sarah",
   "emma",
@@ -225,7 +225,7 @@ const FEMALE_NAMES = new Set([
   "kate",
 ]);
 
-const MALE_NAMES = new Set([
+const maleNames = new Set([
   "james",
   "john",
   "robert",
@@ -418,10 +418,10 @@ export const guessGender = (name: string): "male" | "female" => {
   if (!first) {
     return "male";
   }
-  if (FEMALE_NAMES.has(first)) {
+  if (femaleNames.has(first)) {
     return "female";
   }
-  if (MALE_NAMES.has(first)) {
+  if (maleNames.has(first)) {
     return "male";
   }
   return "male";

@@ -30,7 +30,7 @@ import {
   TraceTitle,
 } from "@/components/ui/trace";
 import { createChat, getMessageText } from "@/lib/ai";
-import { MESSAGE_ANIMATIONS } from "@/lib/message-animations";
+import { messageAnimations } from "@/lib/message-animations";
 
 type ChatMessage = UIMessage<
   unknown,
@@ -94,7 +94,7 @@ export function ConfirmationDemo() {
               animate={shouldReduceMotion ? undefined : "animate"}
               initial={shouldReduceMotion ? undefined : "initial"}
               key={message.id}
-              variants={MESSAGE_ANIMATIONS["slide-up"].variants}
+              variants={messageAnimations["slide-up"].variants}
             >
               <Message align="end">
                 <MessageContent>
@@ -112,7 +112,7 @@ export function ConfirmationDemo() {
             animate={shouldReduceMotion ? undefined : "animate"}
             initial={shouldReduceMotion ? undefined : "initial"}
             key={message.id}
-            variants={MESSAGE_ANIMATIONS.fade.variants}
+            variants={messageAnimations.fade.variants}
           >
             <Message>
               <MessageContent className="gap-4">
@@ -142,7 +142,7 @@ export function ConfirmationDemo() {
                         animate={shouldReduceMotion ? undefined : "animate"}
                         initial={shouldReduceMotion ? undefined : "initial"}
                         key={part.toolCallId}
-                        variants={MESSAGE_ANIMATIONS["slide-up"].variants}
+                        variants={messageAnimations["slide-up"].variants}
                       >
                         <Item variant="outline">
                           <ItemMedia>

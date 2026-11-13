@@ -1,6 +1,6 @@
 import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
-import { AGENT_DOCS_DIRECTIVE_MARKDOWN } from "@/lib/agent-discovery/directive";
+import { agentDocsDirectiveMarkdown } from "@/lib/agent-discovery/directive";
 import { markdownResponse } from "@/lib/api";
 
 export const revalidate = false;
@@ -12,7 +12,7 @@ const homepageMarkdown = (origin: string): string => {
 
 ${SITE.DESCRIPTION.LONG}
 
-${AGENT_DOCS_DIRECTIVE_MARKDOWN}
+${agentDocsDirectiveMarkdown}
 
 ## Quick links
 

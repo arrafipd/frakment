@@ -1,4 +1,4 @@
-export const THEMES = [
+export const themes = [
   {
     name: "Default",
     value: "default",
@@ -28,4 +28,4 @@ export const THEMES = [
     value: "scaled",
   },
 ];
-export type Theme = (typeof THEMES)[number];
+export type Theme = (typeof themes)[number];

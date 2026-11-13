@@ -5,7 +5,7 @@ import {
   metaSchema,
 } from "fumadocs-mdx/config";
 import { rehypePrettyCode } from "rehype-pretty-code";
-import { DOCS_DIR } from "@/lib/docs";
+import { docsDir } from "@/lib/docs";
 import { transformers } from "@/lib/highlight-code";
 import { remarkFrakmentCommand } from "@/lib/remark-frakment-command";
 
@@ -34,7 +34,7 @@ export default defineConfig({
 });
 
 export const docs = defineDocs({
-  dir: DOCS_DIR,
+  dir: docsDir,
   docs: {
     postprocess: {
       includeProcessedMarkdown: true,

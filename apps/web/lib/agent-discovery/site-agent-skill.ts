@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
 
-export const SITE_AGENT_SKILL_MD = `# ${SITE.NAME}
+export const siteAgentSkillMd = `# ${SITE.NAME}
 
 ## Summary
 
@@ -59,7 +59,7 @@ Exposed tools: \`list_components\`, \`view_component\`, \`search_components\`, \
 
 export const siteAgentSkillDigest = (): string => {
   const hex = createHash("sha256")
-    .update(SITE_AGENT_SKILL_MD, "utf-8")
+    .update(siteAgentSkillMd, "utf-8")
     .digest("hex");
   return `sha256:${hex}`;
 };

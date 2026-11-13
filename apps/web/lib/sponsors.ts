@@ -3,7 +3,7 @@
  *
  * To add a sponsor:
  *   1. (Optional) Drop a logo at `public/sponsors/<name>.svg` (transparent bg).
- *   2. Add an entry to the SPONSORS array below.
+ *   2. Add an entry to the sponsors array below.
  *   3. Commit & deploy.
  */
 
@@ -16,7 +16,7 @@ export interface Sponsor {
   url: string;
 }
 
-export const SPONSORS: Sponsor[] = [
+export const sponsors: Sponsor[] = [
   // Add sponsors here. Example:
   // { name: "Acme Corp", url: "https://acme.com", logo: "/sponsors/acme.svg" },
 ];

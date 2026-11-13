@@ -69,7 +69,7 @@ function ShuffleText({ text, duration }: { text: string; duration: number }) {
     }
     const to = text;
     const len = to.length;
-    const POOL = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*";
+    const pool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*";
     const start = performance.now();
     let raf = 0;
     const tick = (now: number) => {
@@ -82,7 +82,7 @@ function ShuffleText({ text, duration }: { text: string; duration: number }) {
         } else if (to[i] === " ") {
           out += " ";
         } else {
-          out += POOL[Math.floor(Math.random() * POOL.length)];
+          out += pool[Math.floor(Math.random() * pool.length)];
         }
       }
       setDisplay(out);

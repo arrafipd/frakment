@@ -6,17 +6,17 @@ import type { ReactNode } from "react";
 import { docs } from "@/.source/server";
 import { NewDot } from "@/components/docs/new-dot";
 import { ROUTES } from "@/constants/routes";
-import { AGENT_DOCS_DIRECTIVE_MARKDOWN } from "@/lib/agent-discovery/directive";
-import { docsContentRoute, docsImageRoute, PAGES_NEW } from "@/lib/docs";
+import { agentDocsDirectiveMarkdown } from "@/lib/agent-discovery/directive";
+import { docsContentRoute, docsImageRoute, pagesNew } from "@/lib/docs";
 
 const baseSource = loader({
   baseUrl: ROUTES.DOCS,
   source: docs.toFumadocsSource(),
 });
 
-// Decorate page names with a "new" dot indicator when the URL is in PAGES_NEW.
+// Decorate page names with a "new" dot indicator when the URL is in pagesNew.
 const decorateName = (name: ReactNode, url: string): ReactNode =>
-  PAGES_NEW.has(url) ? (
+  pagesNew.has(url) ? (
     <>
       {name}
       <NewDot className="ml-auto" />
@@ -76,7 +76,7 @@ export const getLLMText = async (page: InferPageType<typeof source>) => {
 
   const sections = [
     page.data.description,
-    AGENT_DOCS_DIRECTIVE_MARKDOWN,
+    agentDocsDirectiveMarkdown,
     processed,
   ].filter(Boolean);
 

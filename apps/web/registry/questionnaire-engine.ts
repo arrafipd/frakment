@@ -150,17 +150,17 @@ function renderElement<Tag extends keyof React.JSX.IntrinsicElements, State>({
   );
 }
 
-const LETTERS = Array.from({ length: 26 }, (_, i) =>
+const letters = Array.from({ length: 26 }, (_, i) =>
   String.fromCharCode(65 + i)
 );
-const NUMBERS = Array.from({ length: 9 }, (_, i) => String(i + 1));
+const numbers = Array.from({ length: 9 }, (_, i) => String(i + 1));
 
 function shortcutsFor(mode: QuestionnaireShortcutMode | null): string[] {
   if (mode === "letters") {
-    return LETTERS;
+    return letters;
   }
   if (mode === "numbers") {
-    return NUMBERS;
+    return numbers;
   }
   return [];
 }

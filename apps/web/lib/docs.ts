@@ -4,9 +4,9 @@ import type { PageTreeFolder } from "@/lib/page-tree";
 import { getAllPagesFromFolder, getPagesFromFolder } from "@/lib/page-tree";
 import { formatLabelFromSlug } from "@/lib/utils";
 
-export const DOCS_DIR = `content${ROUTES.DOCS}`;
+export const docsDir = `content${ROUTES.DOCS}`;
 
-export const EXCLUDED_SECTIONS = new Set([
+export const excludedSections = new Set([
   "getting-started",
   "guides",
   "skills",
@@ -27,7 +27,7 @@ export interface SectionGroup {
 // SINGLE SOURCE OF TRUTH for top-level docs sections.
 // Used by docs-sidebar.tsx, command-menu.tsx, and (via navItems in
 // site-header) mobile-nav.tsx. Add new sections here, not in the consumers.
-export const SECTION_GROUPS: SectionGroup[] = [
+export const sectionGroups: SectionGroup[] = [
   {
     label: "Get Started",
     sections: [
@@ -48,20 +48,20 @@ export const SECTION_GROUPS: SectionGroup[] = [
 ];
 
 // Flat fallback for consumers that still expect a single array.
-export const TOP_LEVEL_SECTIONS: TopLevelSection[] = SECTION_GROUPS.flatMap(
+export const topLevelSections: TopLevelSection[] = sectionGroups.flatMap(
   (g) => g.sections
 );
 
 export const isComponentsFolder = (folder: PageTreeFolder) =>
   folder.$id === "components" || folder.name === "Components";
 
-const TITLE_OVERRIDES: Record<string, string> = {
+const titleOverrides: Record<string, string> = {
   json: "JSON",
   "qr-code": "QR Code",
 };
 
 export const formatTitleFromSlug = (slug: string): string =>
-  TITLE_OVERRIDES[slug] ?? formatLabelFromSlug(slug);
+  titleOverrides[slug] ?? formatLabelFromSlug(slug);
 
 export const homeContentRoute = `${ROUTES.LLMS_MD}/content.md`;
 export const docsContentRoute = `${ROUTES.LLMS_MD}${ROUTES.DOCS}`;
@@ -70,7 +70,7 @@ export const docsImageRoute = `${ROUTES.OG}${ROUTES.DOCS}`;
 // Pages marked "new" — get a blue dot in sidebar + mobile nav.
 // Add the URL here when releasing a new component or page; remove once it
 // graduates from "new". Single source of truth for the "new" indicator.
-export const PAGES_NEW: ReadonlySet<string> = new Set([
+export const pagesNew: ReadonlySet<string> = new Set([
   "/docs/modules/holo-card",
   "/docs/components/popover",
   "/docs/components/dropdown-menu",
@@ -85,7 +85,7 @@ export interface NavGroup {
   label: string;
 }
 export function buildNavGroups(tree: PageTreeRoot): NavGroup[] {
-  const groups: NavGroup[] = SECTION_GROUPS.map((g) => ({
+  const groups: NavGroup[] = sectionGroups.map((g) => ({
     items: g.sections.map((x) => ({ href: x.href, name: x.name })),
     label: g.label,
   }));
@@ -94,7 +94,7 @@ export function buildNavGroups(tree: PageTreeRoot): NavGroup[] {
     if (item.type !== "folder") {
       continue;
     }
-    if (EXCLUDED_SECTIONS.has(item.$id ?? "")) {
+    if (excludedSections.has(item.$id ?? "")) {
       continue;
     }
     const pages = (

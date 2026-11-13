@@ -20,7 +20,7 @@ const TraceLineContext = React.createContext<{
   status?: "running" | "error" | "pending";
 }>({});
 
-const SPRING_SHARP = {
+const springSharp = {
   damping: 32,
   mass: 0.7,
   stiffness: 420,
@@ -180,7 +180,7 @@ function TraceCollapsibleTrigger({
         aria-hidden
         className="flex shrink-0 items-center justify-center"
         initial={false}
-        transition={shouldReduce ? { duration: 0 } : SPRING_SHARP}
+        transition={shouldReduce ? { duration: 0 } : springSharp}
       >
         <ChevronRightIcon className="text-muted-foreground size-3.5" />
       </motion.span>

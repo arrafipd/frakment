@@ -2,15 +2,15 @@
 // Remark plugin: transforms fenced `npx frakment ...` code blocks into
 // <CodeBlockCommand /> JSX so the site renders package manager tabs.
 
-const LANGUAGES = new Set(["bash", "sh", "shell", "zsh", "console", "npm"]);
-const CMD = /^npx\s+frakment(?:@latest|@[0-9.]+)?\s+.+/u;
+const languages = new Set(["bash", "sh", "shell", "zsh", "console", "npm"]);
+const cmd = /^npx\s+frakment(?:@latest|@[0-9.]+)?\s+.+/u;
 
 const isFrakmentCommand = (value) => {
   const firstLine = value.trim().split("\n")[0]?.trim();
   if (!firstLine) {
     return false;
   }
-  return CMD.test(firstLine);
+  return cmd.test(firstLine);
 };
 
 const buildVariants = (value) => {
@@ -45,7 +45,7 @@ export const remarkFrakmentCommand = () => (tree) => {
     if (!code) {
       return;
     }
-    if (code.lang && !LANGUAGES.has(code.lang)) {
+    if (code.lang && !languages.has(code.lang)) {
       return;
     }
     if (typeof code.value !== "string") {

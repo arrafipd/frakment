@@ -1,11 +1,11 @@
-import { COMPONENT_DEFAULTS, TOKENS } from "@/lib/animation-curves";
+import { componentDefaults, tokens } from "@/lib/animation-curves";
 
 import { MotionCurvePreview } from "./motion-curve-preview";
 
 export function ComponentDefaultsGrid() {
   return (
     <div className="not-prose my-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
-      {COMPONENT_DEFAULTS.map((entry) => (
+      {componentDefaults.map((entry) => (
         <MotionCurvePreview
           copyable={false}
           entry={entry}
@@ -20,7 +20,7 @@ export function ComponentDefaultsGrid() {
 export function MotionCurveGrid() {
   return (
     <div className="not-prose my-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
-      {TOKENS.map((entry) => (
+      {tokens.map((entry) => (
         <MotionCurvePreview entry={entry} key={entry.name} />
       ))}
     </div>

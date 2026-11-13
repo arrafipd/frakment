@@ -14,10 +14,9 @@ import {
 import { Trace, TraceIcon, TraceLine } from "@/components/ui/trace";
 import { cn } from "@/lib/utils";
 
-const MAGNIFY = 5;
-const SPREAD = 2.4;
-const EASE = 18;
-const DAY = 86_400_000;
+const magnify = 5;
+const spread = 2.4;
+const ease = 18;
 
 export type DayStatus = "up" | "degraded" | "down" | "none";
 
@@ -48,7 +47,7 @@ export interface PulseProps {
   title?: string;
 }
 
-const DEFAULT_SERVICES: PulseService[] = [
+const defaultServices: PulseService[] = [
   {
     incidents: {
       19: {
@@ -196,7 +195,7 @@ function swell(count: number, focus: number | null, out: Float64Array) {
     out[i] =
       focus === null
         ? 1
-        : 1 + MAGNIFY * Math.exp(-(((i - focus) / SPREAD) ** 2));
+        : 1 + magnify * Math.exp(-(((i - focus) / spread) ** 2));
   }
   return out;
 }
@@ -233,7 +232,7 @@ function describeDay(list: { service: string; incident: Incident }[]) {
   return `${first.service} ${how} for ${first.incident.minutes} min${more}`;
 }
 
-const BAR_COLOR: Record<DayStatus, string> = {
+const barColor: Record<DayStatus, string> = {
   degraded: "bg-amber-400 dark:bg-amber-300",
   down: "bg-rose-500 dark:bg-rose-400",
   none: "bg-muted",
@@ -242,7 +241,7 @@ const BAR_COLOR: Record<DayStatus, string> = {
 
 type PulseStatusType = "up" | "degraded" | "down";
 
-const PULSE_STATUS_CONFIG = {
+const pulseStatusConfig = {
   degraded: {
     color: "text-amber-600 dark:text-amber-400",
     icon: TriangleAlertIcon,
@@ -273,7 +272,7 @@ function PulseStatus({
   className,
   ...props
 }: PulseStatusProps) {
-  const config = PULSE_STATUS_CONFIG[status];
+  const config = pulseStatusConfig[status];
   const Icon = config.icon;
   const text =
     label ??
@@ -302,7 +301,7 @@ function PulseStatus({
 
 function Pulse({
   title = "System status",
-  services = DEFAULT_SERVICES,
+  services = defaultServices,
   days = 90,
   endDate = "2026-10-14",
   className,
@@ -325,7 +324,7 @@ function Pulse({
 
   const end = Date.parse(`${endDate}T00:00:00Z`);
   const dateOf = useCallback(
-    (day: number) => end - (days - 1 - day) * DAY,
+    (day: number) => end - (days - 1 - day) * day,
     [end, days]
   );
   const uptimes = useMemo(
@@ -353,7 +352,7 @@ function Pulse({
       s.raf = 0;
       const dt = s.last ? Math.min((now - s.last) / 1000, 1 / 30) : 1 / 60;
       s.last = now;
-      const k = 1 - Math.exp(-EASE * dt);
+      const k = 1 - Math.exp(-ease * dt);
       let moving = false;
       for (let i = 0; i < s.weights.length; i++) {
         const gap = s.target[i] - s.weights[i];
@@ -557,7 +556,7 @@ function Pulse({
                     <div
                       className={cn(
                         "min-w-0 basis-0 rounded-[2px] transition-opacity duration-150 ease-out",
-                        BAR_COLOR[status],
+                        barColor[status],
                         shownDay !== null && !lit && "opacity-60"
                       )}
                       key={day}

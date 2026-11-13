@@ -285,13 +285,14 @@ function HoloCard({
       });
     };
 
-    const DOE = window.DeviceOrientationEvent as
+    const doe = window.DeviceOrientationEvent as
       | (typeof DeviceOrientationEvent & {
           requestPermission?: () => Promise<"granted" | "denied">;
         })
       | undefined;
-    if (typeof DOE?.requestPermission === "function") {
-      void DOE.requestPermission()
+    if (typeof doe?.requestPermission === "function") {
+      void doe
+        .requestPermission()
         .then((r) => {
           if (r === "granted") {
             attach();

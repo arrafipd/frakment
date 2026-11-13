@@ -36,7 +36,7 @@ const creditCardVariants = cva(
   }
 );
 
-const BRAND_ICONS = {
+const brandIcons = {
   amex: SiAmericanexpress,
   diners: SiDinersclub,
   discover: SiDiscover,
@@ -110,7 +110,7 @@ export function formatExpiry(expiry: string): string {
 }
 
 function BrandLogo({ brand }: { brand: CardBrand }) {
-  const Icon = BRAND_ICONS[brand];
+  const Icon = brandIcons[brand];
   return <Icon aria-label={brand} className="size-6 sm:size-8" />;
 }
 

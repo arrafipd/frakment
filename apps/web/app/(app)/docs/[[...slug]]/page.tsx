@@ -12,7 +12,7 @@ import { PageTransition } from "@/components/docs/page-transition";
 import { Badge } from "@/components/ui/badge";
 import { ROUTES } from "@/constants/routes";
 import { getChangelogPages } from "@/lib/changelog";
-import { formatTitleFromSlug, TOP_LEVEL_SECTIONS } from "@/lib/docs";
+import { formatTitleFromSlug, topLevelSections } from "@/lib/docs";
 import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon } from "@/lib/icons";
 import { getPageImage, getPageMarkdownUrl, source } from "@/lib/source";
 import { absoluteUrl } from "@/lib/utils";
@@ -38,13 +38,13 @@ const getChangelogNeighbours = (url: string) => {
 };
 
 const getTopLevelNeighbours = (pageUrl: string) => {
-  const idx = TOP_LEVEL_SECTIONS.findIndex((s) => s.href === pageUrl);
+  const idx = topLevelSections.findIndex((s) => s.href === pageUrl);
   if (idx === -1) {
     return { next: null, previous: null };
   }
-  const prev = idx > 0 ? TOP_LEVEL_SECTIONS[idx - 1] : null;
+  const prev = idx > 0 ? topLevelSections[idx - 1] : null;
   const next =
-    idx < TOP_LEVEL_SECTIONS.length - 1 ? TOP_LEVEL_SECTIONS[idx + 1] : null;
+    idx < topLevelSections.length - 1 ? topLevelSections[idx + 1] : null;
   return {
     next: next ? { name: next.name, url: next.href } : null,
     previous: prev ? { name: prev.name, url: prev.href } : null,

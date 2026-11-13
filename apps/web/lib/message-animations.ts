@@ -1,6 +1,6 @@
 import { durationFast, easeOutExpo } from "@/lib/animation";
 
-export const MESSAGE_ANIMATIONS = {
+export const messageAnimations = {
   fade: {
     transition: { duration: durationFast },
     variants: {
@@ -24,4 +24,4 @@ export const MESSAGE_ANIMATIONS = {
   },
 } as const;
 
-export type MessageAnimation = keyof typeof MESSAGE_ANIMATIONS;
+export type MessageAnimation = keyof typeof messageAnimations;

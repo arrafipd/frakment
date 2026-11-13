@@ -7,7 +7,7 @@ export interface ComponentDefault {
   type: "tween" | "spring";
 }
 
-export const COMPONENT_DEFAULTS: ComponentDefault[] = [
+export const componentDefaults: ComponentDefault[] = [
   {
     bezier: [0.32, 0.72, 0, 1],
     duration: 0.45,
@@ -50,7 +50,7 @@ export interface CurveEntry {
   name: string;
 }
 
-export const TOKENS: CurveEntry[] = [
+export const tokens: CurveEntry[] = [
   { bezier: [0, 0, 1, 1], name: "linear" },
   { bezier: [0.25, 0.1, 0.25, 1], name: "ease" },
   { bezier: [0.42, 0, 1, 1], name: "easeIn" },
