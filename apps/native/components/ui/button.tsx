@@ -158,6 +158,7 @@ function Button({
   const dim = sizeDim[(size ?? "default") as SizeKey] ?? sizeDim.default;
 
   const containerStyle: ViewStyle = {
+    borderRadius: 8,
     height: dim.height,
     ...(dim.width === undefined ? null : { width: dim.width }),
     ...vs.base,

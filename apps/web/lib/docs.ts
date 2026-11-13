@@ -138,3 +138,24 @@ export function buildNavGroups(tree: PageTreeRoot): NavGroup[] {
   }
   return groups;
 }
+
+export function normalizeActivePath(path: string | null | undefined): string {
+  if (!path) {
+    return "";
+  }
+  return path
+    .replace(/\/+$/u, "")
+    .replace(/\/web\//gu, "/")
+    .replace(/\/native\//gu, "/")
+    .replace(/\/([^/]+)\/native$/u, "/$1");
+}
+
+export function isActiveDocPath(
+  itemHref: string,
+  currentPath: string | null | undefined
+): boolean {
+  if (!currentPath) {
+    return false;
+  }
+  return normalizeActivePath(itemHref) === normalizeActivePath(currentPath);
+}

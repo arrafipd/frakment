@@ -1,0 +1,16 @@
+{
+  "dependencies": [],
+  "deprecated": false,
+  "description": "Merges its props onto its single child element.",
+  "files": [
+    {
+      "content": "\"use client\";\n\nimport * as React from \"react\";\n\nexport interface SlotProps extends React.HTMLAttributes<HTMLElement> {\n  children?: React.ReactNode;\n  ref?: React.Ref<HTMLElement>;\n}\n\nfunction setRef(\n  ref: React.Ref<HTMLElement> | undefined,\n  node: HTMLElement | null\n) {\n  if (!ref) {\n    return;\n  }\n  if (typeof ref === \"function\") {\n    ref(node);\n  } else {\n    (ref as React.MutableRefObject<HTMLElement | null>).current = node;\n  }\n}\n\nfunction mergeRefs(...refs: Array<React.Ref<HTMLElement> | undefined>) {\n  return (node: HTMLElement | null) => {\n    for (const ref of refs) {\n      setRef(ref, node);\n    }\n  };\n}\n\nfunction Slot({ children, ref, ...slotProps }: SlotProps) {\n  if (!React.isValidElement(children)) {\n    return null;\n  }\n  const childProps = children.props as SlotProps;\n  const merged: Record<string, unknown> = { ...slotProps, ...childProps };\n  for (const key of Object.keys(slotProps)) {\n    const slotValue = (slotProps as Record<string, unknown>)[key];\n    const childValue = (childProps as Record<string, unknown>)[key];\n    if (typeof slotValue === \"function\" && typeof childValue === \"function\") {\n      merged[key] = (...args: unknown[]) => {\n        (childValue as (...a: unknown[]) => unknown)(...args);\n        (slotValue as (...a: unknown[]) => unknown)(...args);\n      };\n    }\n  }\n  merged.className =\n    [slotProps.className, childProps.className].filter(Boolean).join(\" \") ||\n    undefined;\n  merged.style = { ...slotProps.style, ...childProps.style };\n  merged.ref = mergeRefs(ref, childProps.ref);\n  return React.cloneElement(\n    children as React.ReactElement<Record<string, unknown>>,\n    merged\n  );\n}\n\nexport { Slot };\n",
+      "path": "components/ui/slot.tsx"
+    }
+  ],
+  "name": "slot",
+  "registryDependencies": [],
+  "title": "Slot",
+  "version": "0.0.0",
+  "integrity": "sha256:2ed02fb3c00bd4c56a4da68a9550427579a21df482184549a3e6cd8a1c21c196"
+}

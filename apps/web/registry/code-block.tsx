@@ -113,7 +113,7 @@ function CodeBlockCopyButton({
         )}
         data-copied={copied || undefined}
         data-slot="code-block-copy-button"
-        onClick={(event) => {
+        onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
           onClick?.(event);
           navigator.clipboard
             .writeText(value)

@@ -1,18 +1,30 @@
 ---
 title: Introduction
-description: Composable, accessible components for React interfaces, with AI and motion built in.
+description: Composable, accessible components for React and React Native, with motion and AI built in.
 ---
 
-import { MessageSquareIcon, ListTreeIcon, CodeIcon, SparklesIcon, GitBranchIcon, GaugeIcon } from "lucide-react";
+import { MessageSquareIcon, ListTreeIcon, CodeIcon, SparklesIcon, ZapIcon, BotIcon } from "lucide-react";
 
-**Frakment** is a component registry for React interfaces. Every component is standalone, depends only on a small set of well-known libraries, and ships as open source you can read, copy, and modify.
+**Frakment** is a component registry for React and React Native. Every component is our own primitive, with styling and motion built in. One file you can read, copy, and modify, on web and native alike.
 
-<Callout type="info" title="AI and motion, built in">
+## Why Frakment
 
-Components designed for agent surfaces ship with AI support and motion already resolved per file. Baseline primitives stay motion-ready without extra setup.
+Most component registries still pull in a dependency chain. Radix primitives for behavior, Motion or Framer Motion for animation, CVA for variants, a theming layer you wire up yourself. Copy-pasting the file does not free you from maintaining the ecosystem around it.
 
-</Callout>
+Frakment ships the whole stack in one file. The component is the primitive, the styling, and the motion. There is no `useButton()` to import, no `transition` class to add, no animation library to install.
+Motion is per component, not a global system. An accordion expands at a different rate than a dialog enters, because the default is chosen for that component. You override it with a single prop, or edit the file for full control. There is no shared `easeInOut` token, no global duration map.
 
+The same model applies on both platforms. Web uses CSS transitions with a per-component default. Native uses inline style with state today, and will adopt Reanimated for tweened motion. The API stays the same on both.
+## Where Frakment is today
+
+### Web
+
+The web registry ships 48 components. `Button` is fully on the Frakment stack: our own primitive, our own motion, no external behavior library. The remaining 27 interactive primitives (accordion, dialog, dropdown, tabs, and so on) still use `radix-ui` for behavior and Motion v14 for animation. They work today and are documented. The migration is incremental.
+### Native
+
+The native registry ships 1 component: `Button`. The primitive is React Native's `Pressable`, styled with NativeWind and CVA. Pressed state is handled with `useState`, not a motion library yet. Motion on native is next.
+
+The direction is zero external runtime dependencies on primitives and motion, on both platforms. `Button` establishes the pattern that the rest will follow: our own primitive, our own motion, one file.
 ## What's included
 
 <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-3">
@@ -20,54 +32,53 @@ Components designed for agent surfaces ship with AI support and motion already r
 <IntroFeatureCard
   icon={MessageSquareIcon}
   title="Chat surfaces"
-  description="Bubble and Message for user and assistant turns, with variants, reactions, and alignment."
+  description="Bubble and Message for user and assistant turns, with variants, reactions, and alignment. Web."
 />
 
 <IntroFeatureCard
   icon={ListTreeIcon}
   title="Agent traces"
-  description="Trace and Chain of Thought for collapsible, streaming step lists with status and shimmer."
+  description="Trace for collapsible, streaming step lists with status and shimmer. Web."
 />
-
 <IntroFeatureCard
   icon={CodeIcon}
   title="Code output"
-  description="Code Block with header, copy, line numbers, and per-line diff highlighting."
+  description="Code Block with header, copy, line numbers, and per-line diff highlighting. Web."
 />
 
 <IntroFeatureCard
   icon={SparklesIcon}
   title="Status and markers"
-  description="Marker, Spinner, and Pulse for inline status, loading, and service health."
+  description="Marker, Spinner, and Pulse for inline status, loading, and service health. Web."
+/>
+<IntroFeatureCard
+  icon={ZapIcon}
+  title="Button, everywhere"
+  description="Same component on web and native. Our own primitive, per-component motion on web, motion on native next."
 />
 
 <IntroFeatureCard
-  icon={GitBranchIcon}
-  title="Composable by default"
-  description="Every component follows the same shape: a root, a content slot, and cva variants."
-/>
-
-<IntroFeatureCard
-  icon={GaugeIcon}
-  title="Standalone primitives"
-  description="No hidden dependency chain. Each component is self-contained and copy-pasteable."
+  icon={BotIcon}
+  title="AI-native"
+  description="llms.txt, MCP server, and Skills give agents a first-class way to read, install, and extend components."
 />
 
 </div>
-
 ## Quick example
 
 <CodeTabs>
   <TabsList>
-    <TabsTrigger value="chat">Chat turn</TabsTrigger>
-    <TabsTrigger value="trace">Agent trace</TabsTrigger>
+    <TabsTrigger value="web">Web</TabsTrigger>
+    <TabsTrigger value="native">Native</TabsTrigger>
   </TabsList>
+  <TabsContent value="web">
 
-  <TabsContent value="chat">
-
-```tsx title="bubble.tsx"
+```tsx title="example.tsx"
+import { Button } from "@/components/ui/button";
 import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import { Message, MessageContent } from "@/components/ui/message";
+
+<Button motion="200ms ease-out">Save changes</Button>;
 
 <Message align="end">
   <MessageContent>
@@ -80,65 +91,110 @@ import { Message, MessageContent } from "@/components/ui/message";
 
   </TabsContent>
 
-  <TabsContent value="trace">
+  <TabsContent value="native">
 
 ```tsx title="example.tsx"
-import {
-  ChainOfThought,
-  ChainOfThoughtHeader,
-  ChainOfThoughtContent,
-  ChainOfThoughtStep,
-} from "@/components/ui/chain-of-thought";
+import { Button } from "@/components/ui/button";
 
-<ChainOfThought defaultOpen>
-  <ChainOfThoughtHeader>Researched in 3 steps</ChainOfThoughtHeader>
-  <ChainOfThoughtContent>
-    <ChainOfThoughtStep>Read the build log</ChainOfThoughtStep>
-    <ChainOfThoughtStep>Checked bundle size</ChainOfThoughtStep>
-    <ChainOfThoughtStep>Profiled 3 endpoints</ChainOfThoughtStep>
-  </ChainOfThoughtContent>
-</ChainOfThought>;
+<Button>Save changes</Button>;
+<Button variant="outline">Cancel</Button>;
 ```
 
   </TabsContent>
 </CodeTabs>
 
+Native `Button` uses React Native's `Pressable` and inline style. Motion is web-only for now.
+
 ## Principles
 
-### Zero hidden dependencies
+### One file, one export
 
-Every component depends only on `radix-ui`, `class-variance-authority`, and `lucide-react`. There is no hidden dependency chain you need to install or keep in sync.
+Every component ships as a single source file, on web and native. No sidecar hook, no sidecar animation config, no sidecar theme file. The exports inside that file follow the same shape across the registry.
 
-### Composable by design
+### No hidden dependency chain
 
-All components follow the same shape: a root (`Bubble`), a content slot (`BubbleContent`), and variants via `cva`. This is predictable for you, and for LLMs reading the code.
+Web components depend only on `class-variance-authority`, `lucide-react`, and, for components still on Radix, `radix-ui` plus `motion`. Native components depend on `class-variance-authority`, `lucide-react-native`, NativeWind, and React Native. When migration completes, both shrink to CVA plus the platform runtime.
+### Motion is per component
 
-### Distribution via CLI and registry
+Defaults are chosen per component, not from a global token set. There is no shared `easeInOut`, no shared `durationSlow`, no shared `springSoft`. The component knows its own motion, on whatever platform it runs.
 
-A flat-file registry (`public/r/*.json`) and a CLI (`npx frakment add`) make it easy to distribute components across projects. Each component is a JSON manifest with its source, npm dependencies, and registry dependencies.
+### Accessible by default
 
-### Considered defaults
+Web components handle keyboard navigation, focus management, and `aria` wiring. Native components handle `accessibilityRole`, `accessibilityState`, and touch target sizing. Both meet WCAG 2.1 AA on the component itself.
 
-The defaults are opinionated so you don't have to build the basics yourself. Components are designed for real product use — chat surfaces, agent traces, forms, and code output alike.
+### Copy-paste first, npm optional
 
-### AI and motion, built in
+The primary distribution is copy-paste. The CLI automates it for web. Native is manual copy from the docs for now. npm packages are optional on both and secondary.
 
-Components that need agent surfaces or animated states ship with AI support and motion resolved per file. The registry also publishes \ llms.txt, `an agent catalog endpoint, and an MCP server so AI tools can read and extend the source directly.`
+### AI-native
 
+The registry publishes `llms.txt`, an MCP server, and Skills so agents can read the source directly, install components, and reason about composition. Docs are the source on both platforms.
+
+## Motion model
+
+Motion is a first-class layer, not an add-on. Components that animate ship with a default tuned for their behavior. An accordion expands at one rate, a dialog enters at another. The default is opinionated. You should not have to configure it to get something that feels right.
+
+### Web
+
+Web motion is CSS. Override the default through a single prop.
+```tsx title="example.tsx"
+<Button motion="300ms cubic-bezier(0.32, 0.72, 0, 1)">Save</Button>;
+<Button motion="200ms ease-out">Save</Button>;
+<Button motion="off">Save</Button>;
+```
+
+`motion` accepts CSS transition shorthand: a duration (`200ms`, `0.4s`), optionally followed by an easing (`ease-out`, `cubic-bezier(...)`). `off` disables motion for that instance.
+
+`prefers-reduced-motion` wins unconditionally. If the user has it on, motion is disabled regardless of what the prop says. This is not configurable.
+
+### Native
+
+Native motion is in progress. Current native `Button` uses instant state changes on press, no tweened animation. The plan is to adopt Reanimated 4 with the same per-component default model. When that lands, motion will be resolved inside the component from its own default.
+## Distribution
+
+Frakment components distribute three ways on web. Native is manual for now.
+
+### Web
+
+- CLI: `npx frakment add button` copies the component into `components/ui/`, resolves `registryDependencies`, and verifies the file hash.
+- Manual: copy from the source tab on any component page. The code shown is the file you get.
+- npm: install `@frakment/<component>` (optional, in progress). Useful if you want pinned versions.
+
+### Native
+
+Copy the source from the docs. The CLI does not install native components yet. A native CLI flag is on the roadmap.
+
+Under the hood, the registry is a flat directory of JSON manifests (`public/r/*.json`). Each manifest includes the component source, its npm dependencies, and its `registryDependencies`. The CLI reads these. So does the docs site. So does the MCP server.
+
+`--dry-run` prints what the CLI would do without writing. `--skip-dependencies` installs only the component, no registry dependencies.
+
+## AI-native
+
+Frakment publishes three things specifically for agents.
+
+- `llms.txt` describes every component, its install command, and its props.
+- MCP server (`@frakment/mcp`) lets Claude, Cursor, and other MCP clients query the registry, install components, and read source without leaving the chat.
+- Skills (`public/skills/frakment-usage/SKILL.md`) teaches an agent the registry's conventions: how to install, how to compose, what not to do.
+
+The docs are also the source. The code block on every component page is the actual file you would copy.
 ## Component catalog
 
-| Category | Components                                                                                                                                                 |
-| :------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Chat     | [Bubble](/docs/components/bubble), [Message](/docs/components/message)                                                                                   |
-| Agent    | [Trace](/docs/components/trace), [Chain of Thought](/docs/ai-elements/chain-of-thought)                                                                   |
-| Code     | [Code Block](/docs/components/code-block)                                                                                                                  |
-| Status   | [Marker](/docs/components/marker), [Spinner](/docs/components/spinner), [Pulse](/docs/modules/pulse) |
-| Layout   | [Item](/docs/components/item), [Separator](/docs/components/separator)                                                                                     |
-| Identity | [Avatar](/docs/components/avatar)                                                                                                                          |
-| Actions  | [Button](/docs/components/button), [Badge](/docs/components/badge)                                                                                         |
+| Category | Web | Native |
+| :------- | :-- | :----- |
+| Chat | Bubble, Message | |
+| Agent | Trace, Chain of Thought | |
+| Code | Code Block | |
+| Status | Marker, Spinner, Pulse | |
+| Layout | Item, Separator | |
+| Identity | Avatar | |
+| Actions | Button, Badge | Button |
+| Forms and navigation | Browse all | |
+
+For the full list, see the [Components](/docs/components) page.
 
 ## Next steps
 
-- [Installation](/docs/getting-started/installation) — set up Frakment in your project
-- [Theming](/docs/guides/theming) — customize CSS variables and dark mode
-- [Components](/docs/components/avatar) — start with a primitive
+- [Installation](/docs/getting-started/installation): set up Frakment in your project
+- [Theming](/docs/guides/theming): customize CSS variables and dark mode
+- [Animations](/docs/guides/animations): how motion works per component
+- [Components](/docs/components): browse the full registry

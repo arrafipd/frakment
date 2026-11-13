@@ -1,0 +1,118 @@
+---
+title: Separator
+description: A visual divider for React Native apps running on Android and iOS via Expo.
+---
+
+import { NativeSeparatorDemo } from "@/examples/native/separator-demo";
+import { NativeSeparatorVertical } from "@/examples/native/separator-vertical";
+import { NativeSeparatorDecorative } from "@/examples/native/separator-decorative";
+
+<DocsBaseSwitcher base="native" component="separator" className="mb-6" />
+
+<ComponentPreview
+  name="native/separator"
+  src="../../apps/native/registry/separator.tsx"
+  title="separator.tsx"
+>
+  <NativeSeparatorDemo />
+</ComponentPreview>
+
+A `View`-based divider. Horizontal by default, vertical with `orientation="vertical"`. The color comes from `useThemeColors().border`, so it tracks light and dark mode without extra configuration.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Configure NativeWind in your Expo project.</Step>
+
+      Skip this step if your project already uses NativeWind v5. The project needs a `babel.config.js` with `babel-preset-expo`, a `metro.config.js` wrapped with `withNativewind`, and a `global.css` that imports `tailwindcss/theme.css`, `tailwindcss/utilities.css`, and `nativewind/theme`. Import `global.css` in the root layout.
+
+      <Step>Copy `lib/theme.ts` into your project.</Step>
+
+      The component reads `useThemeColors().border`. Copy the theme module before the separator.
+
+      <ComponentSource src="../../apps/native/lib/theme.ts" title="lib/theme.ts" />
+
+      <Step>Copy the separator into your project.</Step>
+
+      <ComponentSource src="../../apps/native/registry/separator.tsx" title="components/ui/separator.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="separator.tsx"
+import { Separator } from "@/components/ui/separator";
+```
+
+```tsx title="separator.tsx"
+<Separator />;
+```
+
+## Vertical
+
+<ComponentPreview name="native/separator-vertical" title="separator-vertical.tsx" src="../../apps/native/examples/separator-vertical.tsx">
+  <NativeSeparatorVertical />
+</ComponentPreview>
+
+Pass `orientation="vertical"`. The divider sets width to 1px and stretches to fill its parent height. Use it inside a `flex-row` container.
+
+```tsx
+<View className="h-6 flex-row items-center gap-4">
+  <Text>Docs</Text>
+  <Separator orientation="vertical" />
+  <Text>Source</Text>
+</View>
+```
+
+## Decorative
+
+<ComponentPreview name="native/separator-decorative" title="separator-decorative.tsx" src="../../apps/native/examples/separator-decorative.tsx">
+  <NativeSeparatorDecorative />
+</ComponentPreview>
+
+Default `decorative` is `true`, matching web behavior. Pass `decorative={false}` to expose the divider to assistive tech. Native does not render a visible difference. Only the accessibility hint changes.
+
+## API Reference
+
+<PropsTable
+  rows={[
+    { name: "orientation", type: "horizontal | vertical", default: "horizontal", description: "Divider direction." },
+    { name: "decorative", type: "boolean", default: "true", description: "Hides the divider from the accessibility tree when true." },
+    { name: "className", type: "string", description: "Additional NativeWind classes." },
+    { name: "style", type: "ViewStyle", description: "Inline style override, merged after the computed divider style." },
+  ]}
+/>
+
+## Accessibility
+
+- Default `decorative` is `true`, so the divider is hidden from screen readers. Set `decorative={false}` when the divider carries structural meaning.
+- The divider has no text content. No `accessibilityLabel` is needed.
+- Native does not expose `aria-orientation`. Orientation is visual only.
+
+## Best Practices
+
+- **Prefer the default horizontal divider.** Vertical dividers are harder to hit with a finger and rarely needed in touch layouts.
+- **Do not use a separator as a margin trick.** Use `gap` or `padding` on the parent `View` instead.
+- **Keep separators one-pixel.** The 1px width and height match the web component. Scaling beyond 1px reads as a border, not a divider.
+
+## Platform notes
+
+- **No `<hr>` element.** React Native renders the separator as a `View` with a 1px height or width.
+- **No `motion` prop.** The separator does not animate. Web also does not animate it, so behavior matches.
+- **Color comes from the theme.** The web version uses the `border` CSS variable. Native reads `useThemeColors().border`, so the resolved color matches across platforms.
+
+## Related Components
+
+- [Button Group](/docs/components/native/button-group): uses Separator between buttons
+- [Button](/docs/components/native/button): the base button
+- [Theming](/docs/guides/theming): customize colors

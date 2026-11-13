@@ -1,0 +1,160 @@
+---
+title: Button Group
+description: Groups related buttons into a single visual unit for React Native apps running on Android and iOS via Expo.
+---
+
+import { NativeButtonGroupDemo } from "@/examples/native/button-group-demo";
+import { NativeButtonGroupOrientation } from "@/examples/native/button-group-orientation";
+import { NativeButtonGroupSize } from "@/examples/native/button-group-size";
+import { NativeButtonGroupSeparator } from "@/examples/native/button-group-separator";
+import { NativeButtonGroupText } from "@/examples/native/button-group-text";
+
+<DocsBaseSwitcher base="native" component="button-group" className="mb-6" />
+
+<ComponentPreview
+  name="native/button-group"
+  src="../../apps/native/registry/button-group.tsx"
+  title="button-group.tsx"
+>
+  <NativeButtonGroupDemo />
+</ComponentPreview>
+
+A `View` wrapper that lays out children in a row (`horizontal`, default) or a column (`vertical`). Each direct child is cloned to strip the shared border and radius on the inner edges, so adjacent buttons read as a single unit. Outer corners keep their full radius.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+```bash
+npm install class-variance-authority clsx tailwind-merge lucide-react-native
+```
+
+      <Step>Configure NativeWind in your Expo project.</Step>
+
+      Skip this step if your project already uses NativeWind v5. The project needs a `babel.config.js` with `babel-preset-expo`, a `metro.config.js` wrapped with `withNativewind`, and a `global.css` that imports `tailwindcss/theme.css`, `tailwindcss/utilities.css`, and `nativewind/theme`. Import `global.css` in the root layout.
+
+      <Step>Copy `lib/utils.ts` into your project.</Step>
+
+      <ComponentSource src="../../apps/native/lib/utils.ts" title="lib/utils.ts" />
+
+      <Step>Copy `lib/theme.ts` into your project.</Step>
+
+      <ComponentSource src="../../apps/native/lib/theme.ts" title="lib/theme.ts" />
+
+      <Step>Copy `separator` into your project.</Step>
+
+      Button Group imports Separator. Install it first from the [Separator](/docs/components/native/separator) page.
+
+      <Step>Copy the button group into your project.</Step>
+
+      <ComponentSource src="../../apps/native/registry/button-group.tsx" title="components/ui/button-group.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="button-group.tsx"
+import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
+```
+
+```tsx title="button-group.tsx"
+<ButtonGroup>
+  <Button variant="outline">Archive</Button>
+  <Button variant="outline">Report</Button>
+</ButtonGroup>
+```
+
+## Orientation
+
+<ComponentPreview name="native/button-group-orientation" title="button-group-orientation.tsx" src="../../apps/native/examples/button-group-orientation.tsx">
+  <NativeButtonGroupOrientation />
+</ComponentPreview>
+
+Pass `orientation="vertical"`. Children stack in a column. Inner edges lose their border and radius the same way they do in a horizontal group, so the column reads as a single unit.
+
+## Size
+
+<ComponentPreview name="native/button-group-size" title="button-group-size.tsx" src="../../apps/native/examples/button-group-size.tsx">
+  <NativeButtonGroupSize />
+</ComponentPreview>
+
+Buttons keep their own `size`. The group does not enforce size, so mixing `sm`, `default`, and `lg` inside the same group is allowed.
+
+## Separator
+
+<ComponentPreview name="native/button-group-separator" title="button-group-separator.tsx" src="../../apps/native/examples/button-group-separator.tsx">
+  <NativeButtonGroupSeparator />
+</ComponentPreview>
+
+`ButtonGroupSeparator` wraps `Separator` with `alignSelf: "stretch"`, so it fills the group height without additional style. Use it when the visual separation between adjacent actions matters more than the tight border merge.
+
+## Button Group Text
+
+<ComponentPreview name="native/button-group-text" title="button-group-text.tsx" src="../../apps/native/examples/button-group-text.tsx">
+  <NativeButtonGroupText />
+</ComponentPreview>
+
+`ButtonGroupText` renders a bordered surface for a label or an icon. String children are wrapped in a `Text` with the group foreground color. Non-string children render as-is.
+
+## API Reference
+
+### ButtonGroup
+
+<PropsTable
+  rows={[
+    { name: "orientation", type: "horizontal | vertical", default: "horizontal", description: "Layout direction of the group." },
+    { name: "className", type: "string", description: "Additional NativeWind classes merged with the group classes." },
+    { name: "style", type: "ViewStyle", description: "Inline style override, merged after the computed group style." },
+  ]}
+/>
+
+### ButtonGroupText
+
+<PropsTable
+  rows={[
+    { name: "children", type: "ReactNode", description: "String or number children are wrapped in Text with the group foreground color. Other children render as-is." },
+    { name: "className", type: "string", description: "Additional NativeWind classes." },
+    { name: "style", type: "ViewStyle", description: "Inline style override." },
+  ]}
+/>
+
+### ButtonGroupSeparator
+
+Wraps `Separator` with `alignSelf: "stretch"`. Accepts every `Separator` prop.
+
+## Accessibility
+
+- Each child button keeps its own `accessibilityRole="button"` and `accessibilityState`. The group does not override them.
+- Icon-only children should set `accessibilityLabel`. The group does not synthesize one.
+- Visual size equals tap area. Groups of `xs` and `sm` buttons fall below the 44dp iOS minimum. Prefer `default` or `lg` for touch-critical actions.
+
+## Best Practices
+
+- **Group actions that belong to the same task.** Archive and Report belong together. Archive and Delete do not.
+- **Keep group size uniform.** Mixing `sm` and `lg` inside a group reads as a bug, not a feature.
+- **Use `ButtonGroupSeparator` sparingly.** The default border merge is enough for most cases.
+- **Nested groups need the outer `ButtonGroup`.** The outer wrapper adds the gap between inner groups and keeps the composition readable.
+
+## Platform notes
+
+- **Border merge is inline.** Native does not have CSS child selectors. `ButtonGroup` clones its direct children and sets `borderRadius` and `borderWidth` on the inner edges. This works for `Button`, `ButtonGroupText`, and any child that accepts a `style` prop.
+- **Dropdown, Input, Input Group, and Select demos are web-only for now.** The web Button Group page shows those compositions. Native ports are pending. The `ButtonGroup` API is identical and works with any child that renders a tappable surface.
+- **The hero example uses three nested groups.** The web hero includes a dropdown trigger inside the third group. Native renders a plain button there because DropdownMenu is not ported yet. The nesting and group composition are otherwise identical.
+
+## Related Components
+
+- [Button](/docs/components/native/button): the base button used inside groups
+- [Separator](/docs/components/native/separator): the divider used between buttons
+- [Theming](/docs/guides/theming): customize colors and borders

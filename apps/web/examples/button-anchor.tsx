@@ -3,7 +3,6 @@
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { buttonVariants } from "@/lib/utils";
 
 export function ButtonAnchor() {
   return (
@@ -11,12 +10,9 @@ export function ButtonAnchor() {
       <Button href="/docs" variant="secondary">
         Static link
       </Button>
-      <Link
-        className={buttonVariants({ variant: "outline" })}
-        href="/docs/components/button"
-      >
+      <Button as={Link} href="/docs/components/button" variant="outline">
         Router link
-      </Link>
+      </Button>
     </div>
   );
 }

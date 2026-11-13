@@ -9,6 +9,7 @@ export interface ThemeColors {
   destructiveForeground: string;
   destructiveHover: string;
   foreground: string;
+  input: string;
   mutedForeground: string;
   primary: string;
   primaryForeground: string;
@@ -27,6 +28,7 @@ const lightColors: ThemeColors = {
   destructiveForeground: "rgba(255, 255, 255, 1)",
   destructiveHover: "rgba(240, 86, 86, 1)",
   foreground: "rgba(10, 10, 10, 1)",
+  input: "rgba(227, 227, 227, 1)",
   mutedForeground: "rgba(102, 102, 102, 1)",
   primary: "rgba(23, 23, 23, 1)",
   primaryForeground: "rgba(250, 250, 250, 1)",
@@ -45,6 +47,7 @@ const darkColors: ThemeColors = {
   destructiveForeground: "rgba(255, 255, 255, 1)",
   destructiveHover: "rgba(224, 102, 102, 1)",
   foreground: "rgba(250, 250, 250, 1)",
+  input: "rgba(255, 255, 255, 0.15)",
   mutedForeground: "rgba(163, 163, 163, 1)",
   primary: "rgba(229, 229, 229, 1)",
   primaryForeground: "rgba(23, 23, 23, 1)",

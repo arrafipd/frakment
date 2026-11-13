@@ -90,6 +90,16 @@ const nextConfig = {
         source: `${ROUTES.DOCS}/components/button`,
       },
       {
+        destination: `${ROUTES.DOCS}/components/web/separator`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/separator`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/button-group`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/button-group`,
+      },
+      {
         destination: `${ROUTES.DOCS}/components/native/button`,
         permanent: false,
         source: `${ROUTES.DOCS}/components/expo/button`,

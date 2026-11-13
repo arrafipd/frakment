@@ -4,7 +4,7 @@ import type { Root as PageTreeRoot } from "fumadocs-core/page-tree";
 import { motion } from "motion/react";
 import type { LinkProps } from "next/link";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import {
   Popover,
@@ -18,7 +18,7 @@ import { useFeedback } from "@/hooks/use-feedback";
 // Both render TOP_LEVEL_SECTIONS (flat) + tree.children grouped, filtered by
 // EXCLUDED_SECTIONS. If you change one, change the other - or better, hoist
 // the shared logic into a helper.
-import { buildNavGroups, PAGES_NEW } from "@/lib/docs";
+import { buildNavGroups, isActiveDocPath, PAGES_NEW } from "@/lib/docs";
 import { cn } from "@/lib/utils";
 
 const MobileLink = ({
@@ -57,10 +57,12 @@ const MobileNavGroup = ({
   label,
   pages,
   setOpen,
+  pathname,
 }: {
   label: React.ReactNode;
   pages: { url: string; name: React.ReactNode; isNew?: boolean }[];
   setOpen: (open: boolean) => void;
+  pathname: string;
 }) => {
   if (pages.length === 0) {
     return null;
@@ -70,7 +72,16 @@ const MobileNavGroup = ({
       <div className="text-muted-foreground text-sm font-medium">{label}</div>
       <div className="flex flex-col gap-3">
         {pages.map((page) => (
-          <MobileLink href={page.url} key={page.url} onOpenChange={setOpen}>
+          <MobileLink
+            className={
+              isActiveDocPath(page.url, pathname)
+                ? "text-primary font-semibold"
+                : undefined
+            }
+            href={page.url}
+            key={page.url}
+            onOpenChange={setOpen}
+          >
             <span className="inline-flex items-center gap-2">
               {page.name}
               {page.isNew ? (
@@ -94,6 +105,7 @@ export const MobileNav = ({
   tree: PageTreeRoot;
   className?: string;
 }) => {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   useEffect(() => {
     if (!open) {
@@ -184,6 +196,7 @@ export const MobileNav = ({
                 name: i.name,
                 url: i.href,
               }))}
+              pathname={pathname}
               setOpen={setOpen}
             />
           ))}

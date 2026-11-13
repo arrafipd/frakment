@@ -335,6 +335,13 @@
       "name": "holo-card",
       "title": "Holo Card",
       "version": "0.0.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Merges its props onto its single child element.",
+      "name": "slot",
+      "title": "Slot",
+      "version": "0.0.0"
     }
   ],
   "homepage": "https://github.com/arrafipd/frakment",

@@ -3,14 +3,26 @@ title: Installation
 description: How to install Frakment in your project.
 ---
 
+import { DocsBaseSwitcher } from "@/components/docs/docs-base-switcher";
 import { RemixBrandIcon, ReactRouterBrandIcon, TanStackBrandIcon, LaravelBrandIcon, GatsbyBrandIcon } from "@/components/site/icons";
+
+<DocsBaseSwitcher
+  base="web"
+  customBases={[
+    { href: "/docs/getting-started/installation", name: "web", title: "Web" },
+    { href: "/docs/getting-started/installation/native", name: "native", title: "Native" },
+  ]}
+  className="mb-6"
+/>
 
 Frakment is a set of components you install into your own project. There are two paths: use the CLI to fetch components from the registry, or copy the source files manually.
 
 **What you'll get from this guide:**
 
-- A working `components.json` and `lib/utils.ts`
-- CSS variables for theming
+- A working `components.json` with registry URL and import aliases
+- Theme CSS variables injected into your globals
+- `lib/utils.ts`, `lib/motion.ts`, and `lib/animation.ts`
+- Six dependencies installed: `clsx`, `tailwind-merge`, `class-variance-authority`, `radix-ui`, `lucide-react`, `motion`
 - Your first component installed and rendering
 
 ## Prerequisites
@@ -75,6 +87,7 @@ After `frakment init`, your project will have:
     <FileTreeFolder name="lib" defaultOpen>
       <FileTreeFile name="utils.ts" />
       <FileTreeFile name="animation.ts" />
+      <FileTreeFile name="motion.ts" />
     </FileTreeFolder>
   </FileTreeFolder>
 </FileTree>
@@ -82,7 +95,21 @@ After `frakment init`, your project will have:
 - **`components.json`** - registry URL, import aliases, Tailwind CSS path. Read by the CLI on every `add`.
 - **`app/globals.css`** - theme tokens (colors, radii, spacing) injected between `/* ==== FRAKMENT THEME START/END ==== */` markers, plus `.dark` variant and 9 utility classes.
 - **`lib/utils.ts`** - `cn()` helper for merging Tailwind classes.
-- **`lib/animation.ts`** - Motion tokens (`easeInOut`, `easeInOutQuad`, `easeOutExpo`, `easeSmoothOut`, `springSoft`, `durationFast`, `durationNormal`, `durationSlow`, `delayTight`) plus the `parseAnimation()` parser for the `animation` string prop. Import tokens when building your own animated components so timing matches the rest of the library.
+- **`lib/motion.ts`** - The per-component motion API. `parseMotion()` parses the `motion?: string` prop into duration and easing. `getTransition()` turns that into a CSS transition. `useReducedMotion()` and `useMotionGuard()` handle reduced motion and style overrides.
+- **`lib/animation.ts`** - Motion tokens (`easeInOut`, `easeInOutQuad`, `easeOutExpo`, `easeSmoothOut`, `springSoft`, `durationFast`, `durationNormal`, `durationSlow`, `delayTight`) and the `parseAnimation()` parser. Still used by components that have not yet migrated to `lib/motion.ts`.
+
+### Dependencies
+
+`frakment init` checks your `package.json` and installs any missing package:
+
+- `clsx`
+- `tailwind-merge`
+- `class-variance-authority`
+- `radix-ui`
+- `lucide-react`
+- `motion`
+
+These are the current runtime dependencies. `radix-ui` and `motion` are being removed incrementally as components move to Frakment-owned primitives and `lib/motion.ts`.
 
 The theme block includes `.dark` and `@custom-variant dark`. As soon as your app toggles `.dark` on `<html>` (via `next-themes`, a custom button, or anything else), components switch automatically - no extra config needed. See [Theming](/docs/guides/theming) for the full wiring.
 

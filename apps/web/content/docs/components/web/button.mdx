@@ -190,9 +190,9 @@ By default the button uses Tailwind's `transition-all` (150ms, `ease-in-out`). P
   <ButtonMotionDefault />
 </ComponentPreview>
 
-### Without motion & Reduced motion
+### Reduced motion
 
-Pass `motion="off"` to force the transition off. The default transition also disables automatically when `prefers-reduced-motion: reduce` is set. The first button is forced off; the second uses the default and respects the OS setting.
+`prefers-reduced-motion: reduce` disables the transition automatically. The first button below opts out with `className="transition-none"`. The second uses the default and respects the OS setting.
 
 <ComponentPreview name="button-motion-reduced" src="examples/button-motion-reduced.tsx" title="button-motion-reduced.tsx">
   <ButtonMotionReduced />
@@ -203,18 +203,18 @@ Pass `motion="off"` to force the transition off. The default transition also dis
 | Value | Result |
 | :-- | :-- |
 | omitted | Tailwind `transition-all` (150ms ease-in-out) |
-| `"off"` | `transition: none` |
 | `"150"` | 150ms ease-in-out |
 | `"200 cubic-bezier(0.16, 1, 0.3, 1)"` | 200ms custom easing |
 
 ```tsx
-<Button motion="off">No transition</Button>
 <Button motion="300 ease-out">Slow reveal</Button>
 ```
 
+To remove the default transition without a motion value, pass `className="transition-none"`. This is not a `motion` prop value — it is a Tailwind utility that wins over the base class.
+
 ### Using your own animation library
 
-Attach GSAP, Framer Motion, the Web Animations API, or any library that writes inline styles to the element. The component detects the external write and disables its own CSS transition automatically. No extra prop is required.
+Attach GSAP, Framer Motion, the Web Animations API, or any library that writes inline styles to the element. The component detects the first external write and disables its own CSS transition automatically. No extra prop is required.
 
 ```tsx
 const ref = useRef<HTMLButtonElement>(null);
@@ -227,6 +227,7 @@ useEffect(() => {
 ```
 
 CSS class changes such as hover styles do not trigger the guard. Only inline style writes from a library or a manual ref assignment do.
+
 ## Loading State
 
 Render a spinner beside the label and set `disabled` to indicate an in-progress action.
@@ -237,7 +238,7 @@ Render a spinner beside the label and set `disabled` to indicate an in-progress 
 
 ## Links & Router links
 
-A button can navigate. Use `href` for a static anchor, or `buttonVariants` with a router link component for client-side navigation. The first button below is a static `<a>`; the second is a Next.js `<Link>` with button styles.
+A button can navigate. Use `href` for a static anchor, or `as` to render a router link. The first button below is a static `<a>`; the second is a Next.js `<Link>` rendered with button styles.
 
 <ComponentPreview name="button-anchor" title="button-anchor.tsx" src="examples/button-anchor.tsx">
   <ButtonAnchor />
@@ -251,33 +252,19 @@ import { Button } from "@/components/ui/button";
 <Button href="/pricing" variant="outline">Pricing</Button>
 ```
 
-Router link (Next.js App Router, React Router, TanStack Router):
+Router link:
 
 ```tsx
 import Link from "next/link";
-import { buttonVariants } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
-<Link href="/pricing" className={buttonVariants({ variant: "outline" })}>
-  Pricing
-</Link>
+<Button as={Link} href="/pricing" variant="outline">Pricing</Button>
 ```
 
-```tsx
-import { Link } from "react-router";
-import { buttonVariants } from "@/lib/utils";
-
-<Link to="/pricing" className={buttonVariants({ variant: "outline" })}>
-  Pricing
-</Link>
-```
+Custom component:
 
 ```tsx
-import { Link } from "@tanstack/react-router";
-import { buttonVariants } from "@/lib/utils";
-
-<Link to="/pricing" className={buttonVariants({ variant: "outline" })}>
-  Pricing
-</Link>
+<Button as={MyLink} to="/pricing" variant="outline">Pricing</Button>
 ```
 
 ### Which approach to pick
@@ -285,9 +272,10 @@ import { buttonVariants } from "@/lib/utils";
 | Case | Approach |
 | --- | --- |
 | Static site, plain HTML, external URL | `<Button href="...">` |
-| Next.js App Router or Pages Router | `<Link className={buttonVariants()}>` |
-| React Router or TanStack Router | `<Link className={buttonVariants()}>` |
+| Next.js, React Router, TanStack Router | `<Button as={Link} href="...">` |
+| Custom component with its own props | `<Button as={CustomComponent}>` |
 | Triggers an action, not navigation | `<Button onClick={...}>` |
+
 ## Button Group
 
 For grouped actions, see [Button Group](/docs/components/button-group). A quick example:
@@ -326,7 +314,12 @@ For grouped actions, see [Button Group](/docs/components/button-group). A quick 
       default: "false",
       description: "Prevents interaction and applies a muted background style. Ignored when href is set.",
     },
-    { name: "motion", type: "string", description: "CSS transition override. Pass off to disable, or a duration like 150, 300, 300 ease-out, or a raw cubic-bezier(...). Default uses Tailwind transition-all. prefers-reduced-motion overrides every value." },
+    { name: "motion", type: "string", description: "CSS transition override. A duration like 150, 300, 300 ease-out, or a raw cubic-bezier(...). Default uses Tailwind transition-all. prefers-reduced-motion overrides every value." },
+    {
+      name: "as",
+      type: "React.ElementType",
+      description: "Renders a different root element or component. Accepts HTML tag names or React components. Defaults to button, or a when href is set.",
+    },
     {
       name: "onClick",
       type: "function",
@@ -373,7 +366,7 @@ import { buttonVariants } from "@/lib/utils";
 - **Use one primary button per surface.**
 - **Prefer `size="sm"` inside toolbars.**
 - **Never rely on color alone.**
-- **Use `href` for static links, `buttonVariants` for router links.**
+- **Use `href` for static links, `as={Link}` for router links.**
 - **Reserve `destructive` for irreversible actions.**
 
 ## Related Components

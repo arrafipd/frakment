@@ -1,12 +1,10 @@
 {
-  "dependencies": [
-    "radix-ui@^1.8.1"
-  ],
+  "dependencies": [],
   "deprecated": false,
   "description": "A visual divider between content sections.",
   "files": [
     {
-      "content": "\"use client\";\n\nimport { Separator as SeparatorPrimitive } from \"radix-ui\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst Separator = ({\n  className,\n  orientation = \"horizontal\",\n  decorative = true,\n  ...props\n}: React.ComponentProps<typeof SeparatorPrimitive.Root>) => (\n  <SeparatorPrimitive.Root\n    className={cn(\n      \"bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px\",\n      className\n    )}\n    data-slot=\"separator\"\n    decorative={decorative}\n    orientation={orientation}\n    {...props}\n  />\n);\n\nexport { Separator };\n",
+      "content": "\"use client\";\n\nimport type * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nexport interface SeparatorProps extends React.HTMLAttributes<HTMLDivElement> {\n  decorative?: boolean;\n  orientation?: \"horizontal\" | \"vertical\";\n}\n\nfunction Separator({\n  className,\n  orientation = \"horizontal\",\n  decorative = true,\n  ...props\n}: SeparatorProps) {\n  return (\n    <div\n      aria-orientation={decorative ? undefined : orientation}\n      className={cn(\n        \"bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px\",\n        className\n      )}\n      data-orientation={orientation}\n      data-slot=\"separator\"\n      role={decorative ? \"none\" : \"separator\"}\n      {...props}\n    />\n  );\n}\n\nexport { Separator };\n",
       "path": "components/ui/separator.tsx"
     }
   ],
@@ -14,5 +12,5 @@
   "registryDependencies": [],
   "title": "Separator",
   "version": "0.0.0",
-  "integrity": "sha256:336f8f4928a3b7dcb235af0d869a59417c9c9bb93d3561dad026d76cddf67995"
+  "integrity": "sha256:4b2f48c66be466b6c3301821a570b56ec39a36312e331f7562cc51fdd722e5a8"
 }

@@ -1,0 +1,73 @@
+---
+title: Installation
+description: How to install Frakment components in a React Native project via Expo.
+---
+
+import { DocsBaseSwitcher } from "@/components/docs/docs-base-switcher";
+
+<DocsBaseSwitcher
+  base="native"
+  customBases={[
+    { href: "/docs/getting-started/installation", name: "web", title: "Web" },
+    { href: "/docs/getting-started/installation/native", name: "native", title: "Native" },
+  ]}
+  className="mb-6"
+/>
+
+Frakment native components are installed by copying source files into your Expo project. A CLI for native is not available yet.
+
+## Prerequisites
+
+- Node.js 18 or newer
+- Expo SDK 58 or newer
+- React Native 0.88
+- NativeWind 5.0.0-rc or newer
+- react-native-css 3.1.0-rc or newer
+- react-native-reanimated 4.7 or newer
+- react-native-safe-area-context 5.10 or newer
+- react-native-svg 15.16 or newer
+- react-native-gesture-handler 3.3 or newer
+- lucide-react-native
+
+Components target Expo SDK 58 and React Native 0.88. Older versions may need manual adjustments.
+
+## Setup
+
+### Install dependencies
+
+```bash
+npx expo install nativewind@5.0.0-rc.1 react-native-css@3.1.0-rc.1 react-native-reanimated react-native-safe-area-context react-native-svg react-native-gesture-handler react-native-worklets
+npm install class-variance-authority clsx tailwind-merge lucide-react-native
+```
+
+### Configure NativeWind
+
+Follow the NativeWind 5 setup guide. Wrap your `metro.config.js` with `withNativeWind` and make sure `global.css` has no `preflight.css` or `layer()` blocks.
+
+### Copy the lib files
+
+Copy `theme.ts` and `utils.ts` from the docs into `lib/` in your project. `theme.ts` defines `useThemeColors()` and the `ThemeColors` type used by every native component.
+
+## Install a component
+
+Copy the source from the component page. For example, `button.tsx` from [Button](/docs/components/native/button).
+
+Each native component ships as a single file with its own primitive, styling, and motion setup.
+
+```tsx title="example.tsx"
+import { Button } from "@/components/ui/button";
+
+<Button>Save changes</Button>;
+```
+
+## Known limits
+
+- CLI install for native is not available yet.
+- npm packages for native components are not published yet.
+- Motion on native is in progress. Current components use instant state changes, not tweened animation.
+
+## Next
+
+- [Button](/docs/components/native/button): the first native component
+- [Theming](/docs/guides/theming): customize tokens
+- [Components](/docs/components): browse the catalog

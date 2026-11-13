@@ -294,7 +294,7 @@
       "description": "A visual divider between content sections.",
       "source": "registry/separator.tsx",
       "target": "components/ui/separator.tsx",
-      "dependencies": ["radix-ui@^1.8.1"],
+      "dependencies": [],
       "type": "registry:ui"
     },
     {
@@ -416,8 +416,8 @@
       "description": "Groups related buttons into a single visual unit.",
       "source": "registry/button-group.tsx",
       "target": "components/ui/button-group.tsx",
-      "dependencies": ["class-variance-authority@^0.7.1", "radix-ui@^1.8.1"],
-      "registryDependencies": ["separator"],
+      "dependencies": ["class-variance-authority@^0.7.1"],
+      "registryDependencies": ["slot", "separator"],
       "type": "registry:ui"
     },
     {
@@ -529,6 +529,15 @@
       "target": "components/ui/holo-card.tsx",
       "dependencies": [],
       "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "slot",
+      "title": "Slot",
+      "description": "Merges its props onto its single child element.",
+      "source": "registry/slot.tsx",
+      "target": "components/ui/slot.tsx",
+      "dependencies": [],
       "type": "registry:ui"
     }
   ],

@@ -11,19 +11,23 @@ import {
 } from "@/lib/motion";
 import { buttonVariants, cn } from "@/lib/utils";
 
-export interface ButtonProps
-  extends Omit<React.ComponentProps<"button">, "ref">,
-    VariantProps<typeof buttonVariants> {
+export interface ButtonBaseProps extends VariantProps<typeof buttonVariants> {
   anchorRef?: React.Ref<HTMLAnchorElement>;
+  as?: React.ElementType;
+  children?: React.ReactNode;
+  className?: string;
   download?: string | boolean;
   href?: string;
   motion?: string;
-  ref?: React.Ref<HTMLButtonElement>;
   rel?: string;
   target?: React.HTMLAttributeAnchorTarget;
 }
 
+// biome-ignore lint/suspicious/noExplicitAny: loose polymorphic props for the `as` escape hatch
+export type ButtonProps = ButtonBaseProps & Record<string, any>;
+
 function Button({
+  as,
   className,
   variant,
   size,
@@ -43,13 +47,13 @@ function Button({
 
   const motionEnabled = motion !== undefined && !reduce;
 
-  let resolvedStyle = style;
+  let resolvedStyle = style as React.CSSProperties | undefined;
   if (reduce) {
-    resolvedStyle = { ...style, transition: "none" };
+    resolvedStyle = { ...resolvedStyle, transition: "none" };
   } else if (motion !== undefined) {
     const transition = getTransition(parseMotion(motion));
     if (transition) {
-      resolvedStyle = { ...style, transition };
+      resolvedStyle = { ...resolvedStyle, transition };
     }
   }
 
@@ -57,25 +61,25 @@ function Button({
   const yielded = useMotionGuard(internalRef, motionEnabled, styleFingerprint);
 
   if (yielded && !reduce) {
-    resolvedStyle = { ...style, transition: "none" };
+    resolvedStyle = { ...resolvedStyle, transition: "none" };
   }
 
   const setRef = React.useCallback(
     (el: HTMLElement | null) => {
       internalRef.current = el;
-      if (href !== undefined) {
+      if (href !== undefined && anchorRef) {
         if (typeof anchorRef === "function") {
           anchorRef(el as HTMLAnchorElement | null);
-        } else if (anchorRef) {
+        } else {
           (
             anchorRef as React.MutableRefObject<HTMLAnchorElement | null>
           ).current = el as HTMLAnchorElement | null;
         }
-      } else if (typeof ref === "function") {
-        ref(el as HTMLButtonElement | null);
-      } else if (ref) {
-        (ref as React.MutableRefObject<HTMLButtonElement | null>).current =
-          el as HTMLButtonElement | null;
+      }
+      if (typeof ref === "function") {
+        (ref as (el: HTMLElement | null) => void)(el);
+      } else if (ref && typeof ref === "object") {
+        (ref as React.MutableRefObject<HTMLElement | null>).current = el;
       }
     },
     [href, ref, anchorRef]
@@ -89,6 +93,29 @@ function Button({
     "data-variant": variant,
   } as const;
 
+  if (as !== undefined) {
+    const allProps: Record<string, unknown> = {
+      ...attrs,
+      ...props,
+      className: classes,
+      ref: setRef,
+      style: resolvedStyle,
+    };
+    if (href !== undefined) {
+      allProps.href = href;
+    }
+    if (download !== undefined) {
+      allProps.download = download;
+    }
+    if (rel !== undefined) {
+      allProps.rel = rel;
+    }
+    if (target !== undefined) {
+      allProps.target = target;
+    }
+    return React.createElement(as, allProps, children);
+  }
+
   if (href !== undefined) {
     const {
       type: _t,
@@ -101,8 +128,8 @@ function Button({
       formTarget: _ft,
       name: _n,
       value: _v,
-      ...rest
-    } = props;
+      ...anchorRest
+    } = props as React.ButtonHTMLAttributes<HTMLButtonElement>;
     return (
       <a
         className={classes}
@@ -113,7 +140,7 @@ function Button({
         style={resolvedStyle}
         target={target}
         {...attrs}
-        {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+        {...(anchorRest as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
       >
         {children}
       </a>
@@ -126,7 +153,7 @@ function Button({
       ref={setRef}
       style={resolvedStyle}
       {...attrs}
-      {...props}
+      {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
     >
       {children}
     </button>

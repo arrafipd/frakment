@@ -1,14 +1,18 @@
 import {
+  ArrowLeftIcon,
   ArrowUpRightIcon,
   CircleArrowUpIcon,
   GitBranch,
   GitFork,
+  MinusIcon,
   PlusIcon,
 } from "lucide-react-native";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Button, type ButtonVariant } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
+import { Separator } from "@/components/ui/separator";
 import { useThemeColors } from "@/lib/theme";
 
 const variants: ButtonVariant[] = [
@@ -156,6 +160,71 @@ export default function Home() {
             Disabled
           </Text>
           <Button disabled>Disabled</Button>
+        </View>
+
+        <View style={{ gap: 12 }}>
+          <Text
+            style={{
+              color: colors.mutedForeground,
+              fontSize: 14,
+              fontWeight: "500",
+            }}
+          >
+            Separator
+          </Text>
+          <Separator />
+          <View
+            style={{
+              alignItems: "center",
+              flexDirection: "row",
+              gap: 12,
+              height: 24,
+            }}
+          >
+            <Text style={{ color: colors.foreground }}>Docs</Text>
+            <Separator orientation="vertical" />
+            <Text style={{ color: colors.foreground }}>Source</Text>
+            <Separator orientation="vertical" />
+            <Text style={{ color: colors.foreground }}>Design</Text>
+          </View>
+        </View>
+
+        <View style={{ gap: 12 }}>
+          <Text
+            style={{
+              color: colors.mutedForeground,
+              fontSize: 14,
+              fontWeight: "500",
+            }}
+          >
+            Button Group
+          </Text>
+          <ButtonGroup>
+            <ButtonGroup>
+              <Button
+                accessibilityLabel="Go Back"
+                size="icon"
+                variant="outline"
+              >
+                <ArrowLeftIcon color={colors.foreground} size={16} />
+              </Button>
+            </ButtonGroup>
+            <ButtonGroup>
+              <Button variant="outline">Archive</Button>
+              <Button variant="outline">Report</Button>
+            </ButtonGroup>
+            <ButtonGroup>
+              <Button variant="outline">Snooze</Button>
+            </ButtonGroup>
+          </ButtonGroup>
+          <ButtonGroup orientation="vertical">
+            <Button accessibilityLabel="Add" size="icon" variant="outline">
+              <PlusIcon color={colors.foreground} size={16} />
+            </Button>
+            <Button accessibilityLabel="Remove" size="icon" variant="outline">
+              <MinusIcon color={colors.foreground} size={16} />
+            </Button>
+          </ButtonGroup>
         </View>
       </ScrollView>
     </SafeAreaView>

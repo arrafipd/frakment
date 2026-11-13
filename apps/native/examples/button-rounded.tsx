@@ -6,11 +6,11 @@ import { Button } from "@/components/ui/button";
 export function ButtonRoundedExample() {
   return (
     <View className="flex-row gap-2">
-      <Button className="rounded-full">Get Started</Button>
+      <Button style={{ borderRadius: 9999 }}>Get Started</Button>
       <Button
         accessibilityLabel="Submit"
-        className="rounded-full"
         size="icon"
+        style={{ borderRadius: 9999 }}
         variant="outline"
       >
         <ArrowUpIcon />

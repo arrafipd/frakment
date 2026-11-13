@@ -1,0 +1,191 @@
+---
+title: Button Group
+description: Groups related buttons into a single visual unit.
+---
+
+import { ButtonGroupDemo } from "@/examples/button-group-demo";
+import { ButtonGroupOrientation } from "@/examples/button-group-orientation";
+import { ButtonGroupSize } from "@/examples/button-group-size";
+import { ButtonGroupSplit } from "@/examples/button-group-split";
+import { ButtonGroupSeparatorDemo } from "@/examples/button-group-separator";
+import { ButtonGroupDropdown } from "@/examples/button-group-dropdown";
+import { ButtonGroupInput } from "@/examples/button-group-input";
+import { ButtonGroupInputGroup } from "@/examples/button-group-input-group";
+import { ButtonGroupNested } from "@/examples/button-group-nested";
+import { ButtonGroupSelect } from "@/examples/button-group-select";
+
+<DocsBaseSwitcher base="web" component="button-group" className="mb-6" />
+
+<ComponentPreview name="button-group" title="button-group.tsx">
+  <ButtonGroupDemo />
+</ComponentPreview>
+
+Groups adjacent buttons into a single visual unit. Buttons inside a group share borders and outer corners so they read as one control. Works with `Button`, `Input`, `Select`, `DropdownMenu`, and anything that renders `[data-slot]`.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add button-group
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+```bash
+npm install class-variance-authority
+```
+
+      <Step>Install registry dependencies.</Step>
+
+      Button Group imports `Slot` and `Separator`. Install both first.
+
+      <ComponentSource name="slot" title="components/ui/slot.tsx" />
+
+      <ComponentSource name="separator" title="components/ui/separator.tsx" />
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="button-group" title="components/ui/button-group.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="button-group.tsx"
+import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
+```
+
+```tsx title="button-group.tsx"
+<ButtonGroup>
+  <Button variant="outline">Archive</Button>
+  <Button variant="outline">Report</Button>
+  <Button variant="outline">Snooze</Button>
+</ButtonGroup>
+```
+
+## Orientation
+
+<ComponentPreview name="button-group-orientation" title="button-group-orientation.tsx" src="examples/button-group-orientation.tsx">
+  <ButtonGroupOrientation />
+</ComponentPreview>
+
+Pass `orientation="vertical"`. Borders and radii adjust so the group reads as one column.
+
+## Size
+
+<ComponentPreview name="button-group-size" title="button-group-size.tsx" src="examples/button-group-size.tsx">
+  <ButtonGroupSize />
+</ComponentPreview>
+
+Buttons inside a group keep their own `size`. The group does not enforce a size, so you can mix and match.
+
+## Split
+
+<ComponentPreview name="button-group-split" title="button-group-split.tsx" src="examples/button-group-split.tsx">
+  <ButtonGroupSplit />
+</ComponentPreview>
+
+`ButtonGroupSeparator` adds a thin divider between adjacent buttons. Use it when the visual separation between actions matters more than the tight border merge.
+
+## Separator
+
+<ComponentPreview name="button-group-separator" title="button-group-separator.tsx" src="examples/button-group-separator.tsx">
+  <ButtonGroupSeparatorDemo />
+</ComponentPreview>
+
+## Dropdown
+
+<ComponentPreview name="button-group-dropdown" title="button-group-dropdown.tsx" src="examples/button-group-dropdown.tsx">
+  <ButtonGroupDropdown />
+</ComponentPreview>
+
+`DropdownMenuTrigger` with `asChild` inside a `ButtonGroup` renders as a button that visually joins the group.
+
+## Input
+
+<ComponentPreview name="button-group-input" title="button-group-input.tsx" src="examples/button-group-input.tsx">
+  <ButtonGroupInput />
+</ComponentPreview>
+
+## Input Group
+
+<ComponentPreview name="button-group-input-group" title="button-group-input-group.tsx" src="examples/button-group-input-group.tsx">
+  <ButtonGroupInputGroup />
+</ComponentPreview>
+
+## Nested
+
+<ComponentPreview name="button-group-nested" title="button-group-nested.tsx" src="examples/button-group-nested.tsx">
+  <ButtonGroupNested />
+</ComponentPreview>
+
+`ButtonGroup` can be nested. Inner groups opt out of the outer group border merging via the `data-slot` attribute.
+
+## Select
+
+<ComponentPreview name="button-group-select" title="button-group-select.tsx" src="examples/button-group-select.tsx">
+  <ButtonGroupSelect />
+</ComponentPreview>
+
+`SelectTrigger` inside a group widens with `w-fit` unless you set a width, so the trigger never pushes adjacent buttons off the group.
+
+## API Reference
+
+### ButtonGroup
+
+<PropsTable
+  rows={[
+    { name: "orientation", type: "horizontal | vertical", default: "horizontal", description: "Direction of the group." },
+    { name: "className", type: "string", description: "Additional CSS classes merged with cn()." },
+    { name: "props", type: "React.ComponentProps<div>", description: "Forwarded to the root div." },
+  ]}
+/>
+
+### ButtonGroupText
+
+<PropsTable
+  rows={[
+    { name: "asChild", type: "boolean", default: "false", description: "Merge props onto the single child instead of rendering a div." },
+    { name: "className", type: "string", description: "Additional CSS classes." },
+  ]}
+/>
+
+### ButtonGroupSeparator
+
+Wraps `Separator` with group-aware styling. Accepts every `Separator` prop. See [Separator](/docs/components/separator) for the base API.
+
+## Accessibility
+
+- `ButtonGroup` sets `role="group"` and `data-orientation` on the root div, so screen readers announce the grouped context.
+- Children keep their own roles and labels. The group does not override them.
+- Icon-only buttons inside the group still need an `aria-label` on the button itself, not on the group.
+
+## Best Practices
+
+- **Group actions that belong to the same task.** Archive and Report belong together. Archive and Delete do not.
+- **Keep group size uniform.** Mixing `sm` and `lg` inside a group reads as a bug, not a feature.
+- **Use `ButtonGroupSeparator` sparingly.** The default border merge is enough for most cases.
+- **Nested groups need an outer ButtonGroup.** The outer wrapper adds the gap and keeps the composition readable.
+
+## Related Components
+
+- [Button](/docs/components/button): the base button used inside groups
+- [Separator](/docs/components/separator): the divider used between buttons
+- [Slot](/docs/components/slot): the primitive behind `asChild`
+- [Theming](/docs/guides/theming): customize colors and borders

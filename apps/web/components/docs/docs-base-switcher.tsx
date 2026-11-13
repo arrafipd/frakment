@@ -17,19 +17,37 @@ const BASES: ReadonlyArray<{
   { icon: SiExpo, name: "native", title: "Native" },
 ];
 
+export interface CustomBase {
+  href: string;
+  name: "web" | "native";
+  title: string;
+}
+
 export function DocsBaseSwitcher({
   base,
   component,
   section = "components",
+  customBases,
   className,
 }: {
   base: string;
-  component: string;
-  section?: "components";
+  component?: string;
+  section?: string;
+  customBases?: readonly CustomBase[];
   className?: string;
 }) {
-  const activeBase = BASES.find((b) => b.name === base);
-  const ActiveIcon = activeBase?.icon;
+  const list = customBases
+    ? customBases.map((b) => ({ href: b.href, name: b.name, title: b.title }))
+    : BASES.filter(
+        (b) => component && source.getPage([section, b.name, component])
+      ).map((b) => ({
+        href: `/docs/${section}/${b.name}/${component}`,
+        name: b.name,
+        title: b.title,
+      }));
+
+  const activeMeta = BASES.find((b) => b.name === base);
+  const ActiveIcon = activeMeta?.icon;
 
   return (
     <div
@@ -38,18 +56,16 @@ export function DocsBaseSwitcher({
         className
       )}
     >
-      {BASES.filter((b) => source.getPage([section, b.name, component])).map(
-        (b) => (
-          <Link
-            className="text-muted-foreground after:bg-foreground hover:text-foreground data-[active=true]:text-foreground relative inline-flex items-center justify-center gap-1 pt-1 pb-0.5 text-base font-medium transition-colors after:absolute after:inset-x-0 after:-bottom-1 after:h-0.5 after:opacity-0 after:transition-opacity data-[active=true]:after:opacity-100"
-            data-active={base === b.name}
-            href={`/docs/${section}/${b.name}/${component}`}
-            key={b.name}
-          >
-            {b.title}
-          </Link>
-        )
-      )}
+      {list.map((b) => (
+        <Link
+          className="text-muted-foreground after:bg-foreground hover:text-foreground data-[active=true]:text-foreground relative inline-flex items-center justify-center gap-1 pt-1 pb-0.5 text-base font-medium transition-colors after:absolute after:inset-x-0 after:-bottom-1 after:h-0.5 after:opacity-0 after:transition-opacity data-[active=true]:after:opacity-100"
+          data-active={base === b.name}
+          href={b.href}
+          key={b.name}
+        >
+          {b.title}
+        </Link>
+      ))}
       {ActiveIcon && (
         <div className="text-muted-foreground ml-auto shrink-0 opacity-80">
           <ActiveIcon size={16} />
