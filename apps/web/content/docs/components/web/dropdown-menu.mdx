@@ -21,7 +21,7 @@ import { Button } from "@/components/ui/button";
   <DropdownMenuBasic />
 </ComponentPreview>
 
-Dropdown Menu is a compound Radix primitive. It supports plain items, groups with labels, separators, nested submenus, checkbox / radio items, icons, and destructive variants.
+Dropdown Menu is a compound primitive built on Floating UI for positioning. It supports plain items, groups with labels, separators, nested submenus, checkbox / radio items, icons, and destructive variants.
 
 ## Installation
 
@@ -44,7 +44,7 @@ npx frakment add dropdown-menu
       <Step>Install the following dependencies:</Step>
 
       ```bash
-      npm install radix-ui
+      npm install @floating-ui/react-dom
       ```
 
       <Step>Copy and paste the following code into your project.</Step>
@@ -194,24 +194,38 @@ Content aligns to the right edge of the trigger.
 
 ## API Reference
 
-All parts extend their corresponding Radix `DropdownMenu` primitives.
+Each part is a first-class Frakment export. None of them wrap an external primitive library.
+
+### DropdownMenu
+
+<PropsTable
+  rows={[
+    { name: "open", type: "boolean", description: "Controlled open state. When omitted, the menu manages its own state." },
+    { name: "defaultOpen", type: "boolean", default: "false", description: "Uncontrolled initial open state." },
+    { name: "onOpenChange", type: "(open: boolean) => void", description: "Called when the menu opens or closes." },
+  ]}
+/>
+
+### DropdownMenuTrigger
+
+<PropsTable
+  rows={[
+    { name: "as", type: "React.ElementType", description: "Renders a different root element or component. Defaults to button." },
+    { name: "disabled", type: "boolean", default: "false", description: "Prevents opening the menu." },
+  ]}
+/>
 
 ### DropdownMenuContent
 
 <PropsTable
   rows={[
-    {
-      name: "sideOffset",
-      type: "number",
-      defaultValue: "4",
-      description: "Gap between trigger and content (px).",
-    },
-    {
-      name: "align",
-      type: '"start" | "center" | "end"',
-      defaultValue: '"start"',
-      description: "Horizontal alignment relative to the trigger.",
-    },
+    { name: "side", type: "top | right | bottom | left", default: "bottom", description: "Placement relative to the trigger." },
+    { name: "align", type: "start | center | end", default: "start", description: "Alignment along the cross axis." },
+    { name: "sideOffset", type: "number", default: "4", description: "Gap between trigger and content in pixels." },
+    { name: "alignOffset", type: "number", default: "0", description: "Shift along the cross axis in pixels." },
+    { name: "avoidCollisions", type: "boolean", default: "true", description: "Flip and shift to stay inside the viewport." },
+    { name: "collisionPadding", type: "number", default: "0", description: "Padding in pixels from the viewport edge." },
+    { name: "className", type: "string", description: "Additional CSS classes." },
   ]}
 />
 
@@ -219,24 +233,74 @@ All parts extend their corresponding Radix `DropdownMenu` primitives.
 
 <PropsTable
   rows={[
-    {
-      name: "variant",
-      type: '"default" | "destructive"',
-      defaultValue: '"default"',
-      description: "Use `destructive` for irreversible actions.",
-    },
-    {
-      name: "disabled",
-      type: "boolean",
-      defaultValue: "false",
-      description: "Prevents selection and dims the item.",
-    },
+    { name: "as", type: "React.ElementType", description: "Renders a different root element or component. Defaults to div with role=menuitem." },
+    { name: "variant", type: "default | destructive", default: "default", description: "Use destructive for irreversible actions." },
+    { name: "disabled", type: "boolean", default: "false", description: "Prevents selection and dims the item." },
+    { name: "inset", type: "boolean", default: "false", description: "Adds left padding to align with items that have an indicator." },
+    { name: "onSelect", type: "(event: Event) => void", description: "Called when the item is selected. Call event.preventDefault() to keep the menu open." },
+    { name: "textValue", type: "string", description: "Override for typeahead matching. Defaults to textContent." },
+  ]}
+/>
+
+### DropdownMenuCheckboxItem
+
+<PropsTable
+  rows={[
+    { name: "checked", type: "boolean | indeterminate", default: "false", description: "Current checked state." },
+    { name: "onCheckedChange", type: "(checked: boolean) => void", description: "Called when the item is toggled." },
+  ]}
+/>
+
+### DropdownMenuRadioGroup
+
+<PropsTable
+  rows={[
+    { name: "value", type: "string", description: "Currently selected value." },
+    { name: "onValueChange", type: "(value: string) => void", description: "Called when a radio item is selected." },
+  ]}
+/>
+
+### DropdownMenuRadioItem
+
+<PropsTable
+  rows={[
+    { name: "value", type: "string", description: "Value this item represents. Required." },
+  ]}
+/>
+
+### DropdownMenuSub
+
+<PropsTable
+  rows={[
+    { name: "open", type: "boolean", description: "Controlled open state for the submenu." },
+    { name: "defaultOpen", type: "boolean", default: "false", description: "Uncontrolled initial open state." },
+    { name: "onOpenChange", type: "(open: boolean) => void", description: "Called when the submenu opens or closes." },
+  ]}
+/>
+
+### DropdownMenuSubTrigger
+
+<PropsTable
+  rows={[
+    { name: "disabled", type: "boolean", default: "false", description: "Prevents opening the submenu." },
+    { name: "inset", type: "boolean", default: "false", description: "Adds left padding for alignment." },
+  ]}
+/>
+
+### DropdownMenuSubContent
+
+<PropsTable
+  rows={[
+    { name: "align", type: "start | end", default: "start", description: "Alignment of the submenu relative to the trigger." },
+    { name: "sideOffset", type: "number", default: "4", description: "Gap between sub-trigger and content in pixels." },
+    { name: "alignOffset", type: "number", default: "0", description: "Shift along the cross axis in pixels." },
+    { name: "avoidCollisions", type: "boolean", default: "true", description: "Flip and shift to stay inside the viewport." },
   ]}
 />
 
 ### Other parts
 
-`DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuGroup`, `DropdownMenuLabel`, `DropdownMenuSeparator`, `DropdownMenuShortcut`, `DropdownMenuSub`, `DropdownMenuSubTrigger`, `DropdownMenuSubContent`, `DropdownMenuPortal`, `DropdownMenuCheckboxItem`, `DropdownMenuRadioGroup`, `DropdownMenuRadioItem` — all extend their Radix counterparts.
+`DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuGroup`, `DropdownMenuLabel`, `DropdownMenuSeparator`, `DropdownMenuShortcut`, `DropdownMenuSub`, `DropdownMenuSubTrigger`, `DropdownMenuSubContent`, `DropdownMenuPortal`, `DropdownMenuCheckboxItem`, `DropdownMenuRadioGroup`, `DropdownMenuRadioItem` — all ship in the same file and share the `data-slot` convention.
 
 Adds `data-slot="dropdown-menu-*"` markers for styling hooks.
 
@@ -291,7 +355,7 @@ const [open, setOpen] = React.useState(false)
 - **Keep labels verb-based.** "Delete", not "Deletion".
 ## Related Components
 
-- [Select](/docs/components/select) — single-value picker with keyboard search
-- [Context Menu](/docs/components/dropdown-menu) — right-click equivalent
-- [Command](/docs/components/dropdown-menu) — searchable menu
+- [Select](/docs/components/select): single-value picker with keyboard search
+- [Popover](/docs/components/popover): floating panel anchored to a trigger
+- [Button Group](/docs/components/button-group): groups adjacent buttons into one unit
 
