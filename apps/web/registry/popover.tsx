@@ -271,21 +271,6 @@ function PopoverContent({
     titlePresent,
   } = usePopoverContext("PopoverContent");
   const contentRef = React.useRef<HTMLDivElement>(null);
-  const [present, setPresent] = React.useState(open);
-
-  React.useEffect(() => {
-    if (open) {
-      setPresent(true);
-      return;
-    }
-    if (!present) {
-      return;
-    }
-    const timer = setTimeout(() => setPresent(false), 300);
-    return () => clearTimeout(timer);
-  }, [open, present]);
-
-  const lastTransform = React.useRef<string>("translate(0, -200%)");
   const { floatingStyles, isPositioned, placement, refs } = useFloating({
     elements: { reference: anchor },
     middleware: [
@@ -327,12 +312,8 @@ function PopoverContent({
     };
   }, [open]);
 
-  if (!(open || present)) {
+  if (!open) {
     return null;
-  }
-
-  if (isPositioned && floatingStyles.transform) {
-    lastTransform.current = floatingStyles.transform;
   }
 
   const [placedSide, placedAlign = "center"] = placement.split("-");
@@ -344,7 +325,9 @@ function PopoverContent({
       style={{
         ...floatingStyles,
         minWidth: "max-content",
-        transform: lastTransform.current,
+        transform: isPositioned
+          ? floatingStyles.transform
+          : "translate(0, -200%)",
       }}
     >
       <div

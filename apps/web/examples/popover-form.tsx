@@ -5,6 +5,7 @@ import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
   Popover,
+  PopoverClose,
   PopoverContent,
   PopoverDescription,
   PopoverHeader,
@@ -39,6 +40,12 @@ export function PopoverForm() {
             <Input defaultValue="25px" id="form-height" />
           </Field>
         </FieldGroup>
+        <div className="mt-4 flex justify-end gap-2">
+          <PopoverClose as={Button} size="sm" variant="ghost">
+            Cancel
+          </PopoverClose>
+          <Button size="sm">Save</Button>
+        </div>
       </PopoverContent>
     </Popover>
   );
