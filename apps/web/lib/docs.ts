@@ -77,6 +77,8 @@ export const pagesNew: ReadonlySet<string> = new Set([
   "/docs/components/accordion",
   "/docs/components/collapsible",
   "/docs/components/breadcrumb",
+  "/docs/components/input",
+  "/docs/components/input-group",
   "/docs/components/input-otp",
 ]);
 

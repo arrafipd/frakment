@@ -141,6 +141,21 @@ const nextConfig = {
         source: `${ROUTES.DOCS}/components/breadcrumb`,
       },
       {
+        destination: `${ROUTES.DOCS}/components/web/input-otp`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/input-otp`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/input-group`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/input-group`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/input`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/input`,
+      },
+      {
         destination: `${ROUTES.DOCS}/components/web/collapsible`,
         permanent: false,
         source: `${ROUTES.DOCS}/components/collapsible`,
