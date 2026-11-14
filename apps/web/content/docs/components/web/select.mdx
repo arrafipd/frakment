@@ -1,0 +1,244 @@
+---
+title: Select
+description: A listbox for picking a single value from a group of options.
+---
+
+import { SelectDemo } from "@/examples/select-demo";
+import { SelectGroups } from "@/examples/select-groups";
+import { SelectDisabled } from "@/examples/select-disabled";
+import { SelectInvalid } from "@/examples/select-invalid";
+import { SelectScrollable } from "@/examples/select-scrollable";
+import { SelectAlignItem } from "@/examples/select-align-item";
+
+<DocsBaseSwitcher base="web" component="select" className="mb-6" />
+
+<ComponentPreview name="select" title="select.tsx">
+  <SelectDemo />
+</ComponentPreview>
+
+A select lets the user pick one option from a list. The listbox anchors to the trigger and aligns the selected item with the trigger label, matching native select behavior.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add select
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+```bash
+npm install @floating-ui/react-dom lucide-react
+```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="select" title="components/ui/select.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="select.tsx"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+```
+
+```tsx title="select.tsx"
+<Select>
+  <SelectTrigger>
+    <SelectValue placeholder="Pick a fruit" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="apple">Apple</SelectItem>
+    <SelectItem value="banana">Banana</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+## Groups
+
+<ComponentPreview name="select-groups" title="select-groups.tsx" src="examples/select-groups.tsx">
+  <SelectGroups />
+</ComponentPreview>
+
+Wrap items in `SelectGroup` and render a heading with `SelectLabel`. Screen readers announce each group as a labeled list.
+## Disabled
+
+<ComponentPreview name="select-disabled" title="select-disabled.tsx" src="examples/select-disabled.tsx">
+  <SelectDisabled />
+</ComponentPreview>
+
+`disabled` on `Select` locks the trigger and prevents opening. Disabled items stay visible in the list for context but cannot be selected.
+
+## Invalid
+
+<ComponentPreview name="select-invalid" title="select-invalid.tsx" src="examples/select-invalid.tsx">
+  <SelectInvalid />
+</ComponentPreview>
+
+Set `aria-invalid` on `SelectTrigger` to apply the destructive border and focus ring.
+
+## Position
+
+By default the listbox uses `item-aligned` placement. The selected item overlaps the trigger so the list reads like a native select. Pass `position="popper"` to anchor the listbox under the trigger instead.
+
+```tsx
+<SelectContent position="popper" align="start" sideOffset={4}>
+  <SelectItem value="apple">Apple</SelectItem>
+</SelectContent>
+```
+
+`side`, `align`, `sideOffset`, and `alignOffset` only apply when `position="popper"`.
+
+## Align item
+
+<ComponentPreview name="select-align-item" title="select-align-item.tsx" src="examples/select-align-item.tsx">
+  <SelectAlignItem />
+</ComponentPreview>
+
+Toggle between `item-aligned` (default) and `popper` placement at runtime. Item-aligned overlaps the selected item with the trigger so the list reads like a native select. Popper anchors the list below the trigger.
+
+## Scrollable
+
+<ComponentPreview name="select-scrollable" title="select-scrollable.tsx" src="examples/select-scrollable.tsx">
+  <SelectScrollable />
+</ComponentPreview>
+
+Long lists scroll inside the listbox. The viewport caps its height and keeps the selected item visible while scrolling.
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `Space` / `Enter` | Open the listbox when the trigger is focused. Select the focused item when the listbox is open. |
+| `ArrowUp` / `ArrowDown` | Move focus to the previous / next item. |
+| `Home` / `End` | Move focus to the first / last item. |
+| `a`–`z` | Type-ahead. Jumps to the next item whose label starts with the typed prefix. |
+| `Esc` | Close the listbox and return focus to the trigger. |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `select-trigger`, `select-value`, `select-content`, `select-viewport`, `select-group`, `select-label`, `select-item`, `select-item-text`, `select-separator` |
+| `data-state` | `open` \| `closed` on the trigger and content. `checked` \| `unchecked` on items. |
+| `data-highlighted` | Present on the focused item. |
+| `data-disabled` | Present on disabled trigger and items. |
+| `data-placeholder` | Present on the trigger when no value is selected. |
+| `data-side` / `data-align` | Placement used by popper and item-aligned modes. |
+
+## API Reference
+
+### Select
+
+<PropsTable
+  rows={[
+    { name: "value", type: "string", description: "Controlled selected value." },
+    { name: "defaultValue", type: "string", description: "Uncontrolled initial value." },
+    { name: "onValueChange", type: "(value: string) => void", description: "Called when the selection changes." },
+    { name: "open", type: "boolean", description: "Controlled open state. When omitted, the component manages its own." },
+    { name: "defaultOpen", type: "boolean", default: "false", description: "Uncontrolled initial open state." },
+    { name: "onOpenChange", type: "(open: boolean) => void", description: "Called when the select opens or closes." },
+    { name: "disabled", type: "boolean", default: "false", description: "Disables the trigger." },
+    { name: "required", type: "boolean", default: "false", description: "Marks the field as required in a form." },
+    { name: "name", type: "string", description: "Name submitted with the form." },
+    { name: "form", type: "string", description: "ID of the form to associate with." },
+    { name: "autoComplete", type: "string", description: "Native autocomplete hint." },
+  ]}
+/>
+
+### SelectTrigger
+
+<PropsTable
+  rows={[
+    { name: "as", type: "React.ElementType", description: "Renders a different root element or component. Defaults to button." },
+    { name: "size", type: "sm | default", default: "default", description: "Trigger height." },
+    { name: "disabled", type: "boolean", default: "false", description: "Disables the trigger in addition to the root disabled prop." },
+  ]}
+/>
+
+### SelectValue
+
+<PropsTable
+  rows={[
+    { name: "placeholder", type: "React.ReactNode", description: "Rendered when no value is selected." },
+  ]}
+/>
+### SelectContent
+
+<PropsTable
+  rows={[
+    { name: "position", type: "item-aligned | popper", default: "item-aligned", description: "Placement strategy for the listbox." },
+    { name: "side", type: "top | right | bottom | left", default: "bottom", description: "Placement relative to the trigger. Popper only." },
+    { name: "align", type: "start | center | end", default: "start", description: "Cross-axis alignment. Popper only." },
+    { name: "sideOffset", type: "number", default: "4", description: "Gap between trigger and content in pixels. Popper only." },
+    { name: "alignOffset", type: "number", default: "0", description: "Shift along the cross axis in pixels. Popper only." },
+    { name: "avoidCollisions", type: "boolean", default: "true", description: "Flip and shift to stay inside the viewport. Popper only." },
+    { name: "collisionPadding", type: "number", default: "10", description: "Minimum distance from the viewport edge. Popper only." },
+    { name: "onEscapeKeyDown", type: "(event: KeyboardEvent) => void", description: "Called when Escape is pressed. Call event.preventDefault() to keep the listbox open." },
+  ]}
+/>
+
+### SelectItem
+
+<PropsTable
+  rows={[
+    { name: "value", type: "string", description: "Value submitted when this item is selected. Required." },
+    { name: "disabled", type: "boolean", default: "false", description: "Keeps the item visible but unselectable." },
+    { name: "textValue", type: "string", description: "Plain text used for type-ahead matching. Use when children are not plain text." },
+  ]}
+/>
+
+### SelectGroup and SelectLabel
+
+`SelectGroup` clusters items under a heading rendered by `SelectLabel`.
+
+### SelectSeparator
+
+Renders a horizontal rule between groups or items.
+
+### SelectScrollUpButton and SelectScrollDownButton
+
+Render inside `SelectContent` to auto-scroll when the pointer reaches the edge of a long list.
+
+## Accessibility
+
+- `SelectTrigger` exposes `role="combobox"`, `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls`. Do not set them manually.
+- Pair the trigger with a `Label` or `FieldLabel` using `htmlFor` so screen readers announce the field name.
+- Disabled items stay visible but are skipped by keyboard navigation and type-ahead.
+- `Escape` closes the listbox. Outside pointer down also closes it.
+- Focus moves to the selected item on open and returns to the trigger on close.
+
+## Best Practices
+
+- Use select for five or more options. Fewer options belong in a radio group.
+- Always provide a placeholder. `SelectValue placeholder` keeps the empty state legible.
+- Group long lists. `SelectGroup` and `SelectLabel` help users scan by category.
+- Prefer `popper` for toolbars. The anchored list feels native inside forms; popper reads better alongside inline controls.
+
+## Related Components
+
+- [Dropdown Menu](/docs/components/web/dropdown-menu): action menu with arbitrary content
+- [Radio Group](/docs/components/radio-group): visible options
+- [Field](/docs/components/field): form field wrapper with label and description

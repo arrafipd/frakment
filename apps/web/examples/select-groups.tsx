@@ -6,30 +6,32 @@ import {
   SelectGroup,
   SelectItem,
   SelectLabel,
+  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 
 export function SelectGroups() {
   return (
-    <div className="max-w-sm">
-      <Select>
-        <SelectTrigger>
-          <SelectValue placeholder="Select a timezone" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>North America</SelectLabel>
-            <SelectItem value="est">Eastern (EST)</SelectItem>
-            <SelectItem value="pst">Pacific (PST)</SelectItem>
-          </SelectGroup>
-          <SelectGroup>
-            <SelectLabel>Europe</SelectLabel>
-            <SelectItem value="cet">Central (CET)</SelectItem>
-            <SelectItem value="gmt">Greenwich (GMT)</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-    </div>
+    <Select>
+      <SelectTrigger className="w-full max-w-48">
+        <SelectValue placeholder="Select a fruit" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Fruits</SelectLabel>
+          <SelectItem value="apple">Apple</SelectItem>
+          <SelectItem value="banana">Banana</SelectItem>
+          <SelectItem value="blueberry">Blueberry</SelectItem>
+        </SelectGroup>
+        <SelectSeparator />
+        <SelectGroup>
+          <SelectLabel>Vegetables</SelectLabel>
+          <SelectItem value="carrot">Carrot</SelectItem>
+          <SelectItem value="broccoli">Broccoli</SelectItem>
+          <SelectItem value="spinach">Spinach</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   );
 }

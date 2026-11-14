@@ -1,16 +1,18 @@
 ---
 title: "November 14, 2026"
-description: "Popover primitive, first-party Separator and Button Group, and a polymorphic `as` prop on Button."
+description: "Popover, Select, first-party Separator and Button Group, and a polymorphic `as` prop on Button."
 date: "2026-11-14"
 ---
 
 import { PopoverDemo } from "@/examples/popover-demo";
+import { SelectDemo } from "@/examples/select-demo";
 import { NativeSeparatorDemo } from "@/examples/native/separator-demo";
 import { NativeButtonGroupDemo } from "@/examples/native/button-group-demo";
 
-This release adds **Popover**, moves **Separator** and **Button Group** off `radix-ui` to first-party primitives, and adds an `as` prop to **Button** for router links and custom components.
+This release adds **Popover**, migrates **Select** and **Separator** off `radix-ui`, ships first-party **Button Group**, and adds an `as` prop to **Button** for router links and custom components.
 
 - [Popover](#popover): Floating panel anchored to a trigger.
+- [Select](#select): Floating UI listbox with item-aligned and popper modes.
 - [Button `as` prop](#button-as-prop): Render router links and custom components.
 - [Separator](#separator): No more `radix-ui`.
 - [Button Group](#button-group): Own primitive replaces the Radix Slot.
@@ -99,6 +101,26 @@ Button Group now uses Frakment's own Slot primitive instead of the Radix Slot. A
 - New `registryDependency`: `slot`.
 
 See the [Button Group docs](/docs/components/button-group).
+
+<hr className="my-16 border-border/40" />
+
+### Select
+
+<ComponentPreview name="select" title="select.tsx">
+  <SelectDemo />
+</ComponentPreview>
+
+**Select** no longer depends on `radix-ui`. The listbox runs on Floating UI with two placement modes: `item-aligned` (default, overlaps the selected item with the trigger) and `popper` (anchors below the trigger). Keyboard navigation, type-ahead, and form submission follow the native select contract.
+
+**Changed:**
+
+- Removed `radix-ui` from `dependencies`. Added `@floating-ui/react-dom`.
+- New `position` prop on `SelectContent`: `item-aligned` (default) or `popper`.
+- Controlled `open` and `value` now honor the prop instead of the initial state.
+- New `SelectScrollUpButton` and `SelectScrollDownButton` for long lists.
+- Scroll inside the listbox is locked; the page beneath does not scroll while open.
+
+No API breaking changes. See the [Select docs](/docs/components/web/select).
 
 <hr className="my-16 border-border/40" />
 

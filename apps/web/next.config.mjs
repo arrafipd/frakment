@@ -112,6 +112,11 @@ const nextConfig = {
         source: `${ROUTES.DOCS}/components/dropdown-menu`,
       },
       {
+        destination: `${ROUTES.DOCS}/components/web/select`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/select`,
+      },
+      {
         destination: `${ROUTES.DOCS}/components/native/button`,
         permanent: false,
         source: `${ROUTES.DOCS}/components/expo/button`,

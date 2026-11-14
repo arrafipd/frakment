@@ -189,7 +189,7 @@
       "description": "A dropdown for selecting a single value from a list.",
       "source": "registry/select.tsx",
       "target": "components/ui/select.tsx",
-      "dependencies": ["lucide-react@^1.69.0", "radix-ui@^1.8.1"],
+      "dependencies": ["@floating-ui/react-dom@^2.1.9", "lucide-react@^1.69.0"],
       "registryDependencies": [],
       "type": "registry:ui"
     },

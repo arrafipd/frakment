@@ -32,7 +32,7 @@
     "web/popover",
     "progress",
     "radio-group",
-    "select",
+    "web/select",
     "web/separator",
     "sheet",
     "slider",

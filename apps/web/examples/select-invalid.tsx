@@ -1,8 +1,10 @@
 "use client";
 
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -10,16 +12,21 @@ import {
 
 export function SelectInvalid() {
   return (
-    <div className="w-fit">
+    <Field className="w-full max-w-48" data-invalid>
+      <FieldLabel>Fruit</FieldLabel>
       <Select>
         <SelectTrigger aria-invalid>
-          <SelectValue placeholder="Select a value" />
+          <SelectValue placeholder="Select a fruit" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="a">Option A</SelectItem>
-          <SelectItem value="b">Option B</SelectItem>
+          <SelectGroup>
+            <SelectItem value="apple">Apple</SelectItem>
+            <SelectItem value="banana">Banana</SelectItem>
+            <SelectItem value="blueberry">Blueberry</SelectItem>
+          </SelectGroup>
         </SelectContent>
       </Select>
-    </div>
+      <FieldError>Please select a fruit.</FieldError>
+    </Field>
   );
 }
