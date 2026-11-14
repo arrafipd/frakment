@@ -150,6 +150,7 @@ Popover panels are not modal. They close on outside click, return focus to the t
     { name: "sideOffset", type: "number", default: "4", description: "Gap between trigger and content in pixels." },
     { name: "alignOffset", type: "number", default: "0", description: "Shift along the cross axis in pixels." },
     { name: "avoidCollisions", type: "boolean", default: "true", description: "Flip and shift to stay inside the viewport." },
+    { name: "motion", type: "string", description: "Motion string for the entrance reveal. Pass off to disable." },
     { name: "className", type: "string", description: "Additional CSS classes." },
   ]}
 />
@@ -161,6 +162,16 @@ Popover panels are not modal. They close on outside click, return focus to the t
     { name: "as", type: "React.ElementType", description: "Renders a different root element or component. Defaults to button." },
   ]}
 />
+
+## Motion
+
+The panel fades and scales in through Frakment's motion engine. Pass `motion` on `PopoverContent`:
+
+```tsx
+<PopoverContent motion="200 ease-out">Content</PopoverContent>
+```
+
+`motion` accepts `"off"`, `"150"`, `"150 ease-out"`, or `"150 cubic-bezier(0.4, 0, 0.2, 1)"`. The default is a 150ms smooth-out curve. `prefers-reduced-motion` wins and the panel appears instantly.
 
 ## Accessibility
 

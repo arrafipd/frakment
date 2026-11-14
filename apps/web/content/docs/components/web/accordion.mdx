@@ -10,6 +10,8 @@ import { AccordionDisabled } from "@/examples/accordion-disabled";
 import { AccordionBorders } from "@/examples/accordion-borders";
 import { AccordionCard } from "@/examples/accordion-card";
 
+<DocsBaseSwitcher base="web" component="accordion" className="mb-6" />
+
 <ComponentPreview name="accordion" title="accordion.tsx">
   <AccordionDemo />
 </ComponentPreview>
@@ -24,21 +26,21 @@ Accordion reveals related content in place, one section at a time. It keeps long
     <TabsTrigger value="manual">Manual</TabsTrigger>
   </TabsList>
 
-<TabsContent value="cli">
+  <TabsContent value="cli">
 
-~~~bash
+```bash
 npx frakment add accordion
-~~~
+```
 
-</TabsContent>
+  </TabsContent>
 
   <TabsContent value="manual">
     <Steps className="mb-0 pt-2">
       <Step>Install the following dependencies:</Step>
 
-      ~~~bash
-      npm install radix-ui lucide-react
-      ~~~
+```bash
+npm install lucide-react
+```
 
       <Step>Copy and paste the following code into your project.</Step>
 
@@ -52,16 +54,16 @@ npx frakment add accordion
 
 ## Usage
 
-~~~tsx title="accordion.tsx"
+```tsx title="accordion.tsx"
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-~~~
+```
 
-~~~tsx title="accordion.tsx"
+```tsx title="accordion.tsx"
 <Accordion collapsible defaultValue="shipping" type="single">
   <AccordionItem value="shipping">
     <AccordionTrigger>What are your shipping options?</AccordionTrigger>
@@ -70,15 +72,6 @@ import {
     </AccordionContent>
   </AccordionItem>
 </Accordion>
-~~~
-
-## Composition
-
-```text
-Accordion
-└── AccordionItem
-    ├── AccordionTrigger
-    └── AccordionContent
 ```
 
 ## Examples
@@ -123,7 +116,7 @@ Nest an accordion inside a card for grouped, framed content.
   <AccordionCard />
 </ComponentPreview>
 
-## In Context
+## In context
 
 ### FAQ section
 
@@ -146,29 +139,20 @@ Nest an accordion inside a card for grouped, framed content.
   </Accordion>
 </ComponentPreview>
 
-## Animation
+## Motion
 
-Accordion accepts an `animation` prop on the root, inherited by every content item. Pass a per-item override on `AccordionContent` to diverge from the root setting.
+Accordion accepts a `motion` prop on the root, inherited by every content item. Pass a per-item override on `AccordionContent` to diverge from the root setting. Pass `motion="off"` or `motion={false}` to disable the reveal.
 
 ```tsx
-<Accordion animation="spring(300, 25)" collapsible type="single">
+<Accordion collapsible motion="200 ease-out" type="single">
   <AccordionItem value="a">
     <AccordionTrigger>Question</AccordionTrigger>
-    <AccordionContent animation="easeInOut 200ms">Answer</AccordionContent>
+    <AccordionContent motion="300 cubic-bezier(0.4, 0, 0.2, 1)">Answer</AccordionContent>
   </AccordionItem>
 </Accordion>
 ```
 
-| Form | Example |
-| :-- | :-- |
-| Named easing | `"easeInOut"`, `"easeOutExpo"`, `"easeSmoothOut"` |
-| Named easing + duration | `"easeInOut 300ms"`, `"easeOutExpo 0.5"` |
-| Custom curve | `"cubic-bezier(0.4, 0, 0.2, 1) 300ms"` |
-| Spring | `"spring(300, 25)"` |
-| Inertia | `"inertia(0.2, 400)"` |
-| Keyframes | `"keyframes([0, 1.2, 1], [0, 0.5, 1]) 500ms"` |
-
-Any form supports `delay(...)` and `repeat(n | infinite)`. Pass `animation={false}` to disable the reveal transition.
+`motion` follows the same string syntax as every other Frakment component: `"off"`, `"150"`, `"150 ease-out"`, or `"150 cubic-bezier(0.4, 0, 0.2, 1)"`. The default is a 450ms smooth-out curve. `prefers-reduced-motion` always wins — the reveal is instant when the user has reduced motion enabled.
 
 ## API Reference
 
@@ -176,33 +160,14 @@ Any form supports `delay(...)` and `repeat(n | infinite)`. Pass `animation={fals
 
 <PropsTable
   rows={[
-    {
-      name: "type",
-      type: "single | multiple",
-      description: "Whether one or several items can be open at once.",
-    },
-    {
-      name: "defaultValue",
-      type: "string | string[]",
-      description: "Item value(s) open on first render.",
-    },
-    {
-      name: "collapsible",
-      type: "boolean",
-      default: "false",
-      description: "When single, allow closing the open item.",
-    },
-    {
-      name: "disabled",
-      type: "boolean",
-      default: "false",
-      description: "Prevent all interaction.",
-    },
-    {
-      name: "animation",
-      type: "false | string",
-      description: "Motion DSL string controlling the open/close reveal. Accepts named easings, cubic-bezier, spring, inertia, keyframes, and delay/repeat options. Pass false to disable.",
-    },
+    { name: "type", type: "single | multiple", description: "Whether one or several items can be open at once." },
+    { name: "defaultValue", type: "string | string[]", description: "Item value(s) open on first render." },
+    { name: "value", type: "string | string[]", description: "Controlled open value(s)." },
+    { name: "onValueChange", type: "(value: string) => void | (value: string[]) => void", description: "Called when the open value changes. Single type receives a string, multiple receives a string array." },
+    { name: "collapsible", type: "boolean", default: "false", description: "When single, allow closing the open item." },
+    { name: "disabled", type: "boolean", default: "false", description: "Prevent all interaction." },
+    { name: "motion", type: "string", description: "Motion string for the open/close reveal. Inherited by every item. Pass off to disable." },
+    { name: "orientation", type: "horizontal | vertical", default: "vertical", description: "Arrow-key direction. Horizontal uses Left and Right." },
   ]}
 />
 
@@ -210,25 +175,27 @@ Any form supports `delay(...)` and `repeat(n | infinite)`. Pass `animation={fals
 
 <PropsTable
   rows={[
-    {
-      name: "value",
-      type: "string",
-      description: "Unique identifier for the item.",
-    },
-    {
-      name: "disabled",
-      type: "boolean",
-      default: "false",
-      description: "Prevent the item from opening.",
-    },
+    { name: "value", type: "string", description: "Unique identifier for the item. Required." },
+    { name: "disabled", type: "boolean", default: "false", description: "Prevent the item from opening." },
+  ]}
+/>
+
+### AccordionContent
+
+<PropsTable
+  rows={[
+    { name: "motion", type: "string | false", description: "Per-item override for the reveal motion. Pass false to disable." },
   ]}
 />
 
 ## Controlled
 
 ```tsx
-const [value, setValue] = React.useState("item-1")
-<Accordion type="single" value={value} onValueChange={setValue}>{/* ... */}</Accordion>
+const [value, setValue] = React.useState("item-1");
+
+<Accordion onValueChange={setValue} type="single" value={value}>
+  {/* ... */}
+</Accordion>
 ```
 
 ## Keyboard
@@ -236,24 +203,25 @@ const [value, setValue] = React.useState("item-1")
 | Key | Action |
 | :-- | :-- |
 | `Space` / `Enter` | Toggle the focused item |
-| `↑` / `↓` | Move between triggers |
+| `↑` / `↓` | Move between triggers (vertical orientation) |
+| `←` / `→` | Move between triggers (horizontal orientation) |
 | `Home` / `End` | First / last trigger |
 
 ## Data Attributes
 
 | Attribute | Values |
 | :-- | :-- |
-| `data-slot` | `accordion`, `accordion-item`, `accordion-trigger`, `accordion-content` |
+| `data-slot` | `accordion`, `accordion-item`, `accordion-header`, `accordion-trigger`, `accordion-content` |
 | `data-state` | `open` \| `closed` |
-| `data-orientation` | `vertical` |
-| `data-disabled` | `true` |
+| `data-orientation` | `vertical` \| `horizontal` |
+| `data-disabled` | Present on disabled root, item, trigger, and content |
 
 ## Accessibility
 
-- Built on Radix Accordion, which follows the WAI-ARIA disclosure pattern.
-- Triggers expose `aria-expanded` and `aria-controls` automatically.
-- Keyboard: `Enter` and `Space` toggle an item; `ArrowUp` and `ArrowDown` move focus.
-- Use descriptive trigger text, not icon-only headers.
+- Follows the WAI-ARIA disclosure pattern. Triggers expose `aria-expanded` and `aria-controls`; content is labeled with `aria-labelledby` and carries `role="region"`.
+- `AccordionTrigger` renders inside an `AccordionHeader` (`<h3>`). Keep trigger text descriptive so the landmark is announced correctly.
+- Keyboard: `Enter` and `Space` toggle an item; arrow keys move focus between triggers; `Home` and `End` jump to the first or last trigger.
+- Content stays in the DOM and is marked inert while closed, so screen readers skip it and Tab does not enter it.
 
 ## Best Practices
 
@@ -261,9 +229,8 @@ const [value, setValue] = React.useState("item-1")
 - **Use `type="single"` for FAQ-style lists.**
 - **Use `type="multiple"` for settings panels.**
 - **Reserve `defaultValue` for one item.**
+
 ## Related Components
 
-- [Collapsible](/docs/components/collapsible) — single expandable panel
-- [Tabs](/docs/components/tabs) — content panes
-
-
+- [Collapsible](/docs/components/collapsible): single expandable panel
+- [Tabs](/docs/components/tabs): content panes

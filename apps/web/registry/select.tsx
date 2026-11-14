@@ -12,7 +12,10 @@ import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import * as React from "react";
 import { createPortal } from "react-dom";
 
+import { getTransition, parseMotion, useReducedMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+
+const defaultSelectMotion = "150 cubic-bezier(0.16, 1, 0.3, 1)";
 
 const contentMargin = 10;
 const openKeys = [" ", "Enter", "ArrowUp", "ArrowDown"];
@@ -728,7 +731,7 @@ function useSelectContentContext(
 }
 
 const defaultContentClassName =
-  "bg-popover text-popover-foreground ring-foreground/10 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 relative z-50 max-h-(--frakment-select-content-available-height) min-w-(--frakment-select-trigger-width) origin-(--frakment-select-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-lg shadow-md ring-1";
+  "bg-popover text-popover-foreground ring-foreground/10 relative z-50 max-h-(--frakment-select-content-available-height) min-w-(--frakment-select-trigger-width) overflow-x-hidden overflow-y-auto rounded-lg shadow-md ring-1";
 
 const defaultViewportClassName =
   "p-1 data-[position=popper]:w-full data-[position=popper]:min-w-(--frakment-select-trigger-width)";
@@ -738,6 +741,7 @@ export type SelectContentProps = React.ComponentProps<"div"> & {
   alignOffset?: number;
   avoidCollisions?: boolean;
   collisionPadding?: number;
+  motion?: string;
 
   onEscapeKeyDown?: (event: KeyboardEvent) => void;
   onPointerDownOutside?: (event: Event) => void;
@@ -786,6 +790,7 @@ function SelectContentImpl({
   children,
   className,
   collisionPadding = contentMargin,
+  motion,
   onEscapeKeyDown,
   onPointerDownOutside,
   position = "item-aligned",
@@ -807,6 +812,29 @@ function SelectContentImpl({
     React.useState<HTMLSpanElement | null>(null);
   const [isPositioned, setIsPositioned] = React.useState(false);
   const firstValidItemFoundRef = React.useRef(false);
+
+  const [entered, setEntered] = React.useState(false);
+  React.useLayoutEffect(() => {
+    if (!isPositioned) {
+      return;
+    }
+    const frame = requestAnimationFrame(() => setEntered(true));
+    return () => cancelAnimationFrame(frame);
+  }, [isPositioned]);
+
+  const reduce = useReducedMotion();
+  const motionValue = motion ?? defaultSelectMotion;
+  const motionTransition =
+    reduce || motion === "off"
+      ? "none"
+      : getTransition(parseMotion(motionValue));
+  const originBySide: Record<string, string> = {
+    bottom: "top center",
+    left: "center right",
+    right: "center left",
+    top: "bottom center",
+  };
+  const transformOrigin = originBySide[side] ?? "center";
 
   React.useEffect(() => {
     const content = contentRef.current;
@@ -1062,7 +1090,11 @@ function SelectContentImpl({
   const contentStyle: React.CSSProperties = {
     display: "flex",
     flexDirection: "column",
+    opacity: entered ? 1 : 0,
     outline: "none",
+    transform: entered ? "scale(1)" : "scale(0.95)",
+    transformOrigin,
+    transition: motionTransition ?? "none",
     ...style,
   };
 

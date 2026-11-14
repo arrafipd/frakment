@@ -197,6 +197,7 @@ Long lists scroll inside the listbox. The viewport caps its height and keeps the
     { name: "avoidCollisions", type: "boolean", default: "true", description: "Flip and shift to stay inside the viewport. Popper only." },
     { name: "collisionPadding", type: "number", default: "10", description: "Minimum distance from the viewport edge. Popper only." },
     { name: "onEscapeKeyDown", type: "(event: KeyboardEvent) => void", description: "Called when Escape is pressed. Call event.preventDefault() to keep the listbox open." },
+    { name: "motion", type: "string", description: "Motion string for the entrance reveal. Pass off to disable." },
   ]}
 />
 
@@ -221,6 +222,16 @@ Renders a horizontal rule between groups or items.
 ### SelectScrollUpButton and SelectScrollDownButton
 
 Render inside `SelectContent` to auto-scroll when the pointer reaches the edge of a long list.
+
+## Motion
+
+The listbox fades and scales in through Frakment's motion engine. Pass `motion` on `SelectContent`:
+
+```tsx
+<SelectContent motion="200 ease-out">Content</SelectContent>
+```
+
+`motion` accepts `"off"`, `"150"`, `"150 ease-out"`, or `"150 cubic-bezier(0.4, 0, 0.2, 1)"`. The default is a 150ms smooth-out curve. `prefers-reduced-motion` wins and the listbox appears instantly.
 
 ## Accessibility
 

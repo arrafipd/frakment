@@ -353,11 +353,7 @@
       "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
       "source": "registry/accordion.tsx",
       "target": "components/ui/accordion.tsx",
-      "dependencies": [
-        "lucide-react@^1.69.0",
-        "motion@^14.9.0",
-        "radix-ui@^1.8.1"
-      ],
+      "dependencies": ["lucide-react@^1.69.0"],
       "registryDependencies": [],
       "type": "registry:ui"
     },

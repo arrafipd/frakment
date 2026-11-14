@@ -2,7 +2,7 @@
   "title": "Components",
   "root": true,
   "pages": [
-    "accordion",
+    "web/accordion",
     "attachment",
     "web/avatar",
     "web/badge",

@@ -10,7 +10,10 @@ import {
 import * as React from "react";
 import { createPortal } from "react-dom";
 
+import { getTransition, parseMotion, useReducedMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+
+const defaultPopoverMotion = "150 cubic-bezier(0.16, 1, 0.3, 1)";
 
 function useControllableState<T>({
   prop,
@@ -247,6 +250,7 @@ export interface PopoverContentProps extends React.ComponentProps<"div"> {
   align?: "start" | "center" | "end";
   alignOffset?: number;
   avoidCollisions?: boolean;
+  motion?: string;
   side?: "top" | "right" | "bottom" | "left";
   sideOffset?: number;
 }
@@ -256,8 +260,10 @@ function PopoverContent({
   alignOffset = 0,
   avoidCollisions = true,
   className,
+  motion,
   side = "bottom",
   sideOffset = 4,
+  style,
   ...props
 }: PopoverContentProps) {
   const {
@@ -271,6 +277,8 @@ function PopoverContent({
     titlePresent,
   } = usePopoverContext("PopoverContent");
   const contentRef = React.useRef<HTMLDivElement>(null);
+  const [present, setPresent] = React.useState(open);
+  const exitTimerRef = React.useRef<number | undefined>(undefined);
   const { floatingStyles, isPositioned, placement, refs } = useFloating({
     elements: { reference: anchor },
     middleware: [
@@ -282,6 +290,63 @@ function PopoverContent({
     strategy: "fixed",
     whileElementsMounted: autoUpdate,
   });
+
+  const [entered, setEntered] = React.useState(false);
+  React.useEffect(() => {
+    if (!open) {
+      setEntered(false);
+      return;
+    }
+    if (!isPositioned) {
+      return;
+    }
+    let id2: number | undefined;
+    const id1 = requestAnimationFrame(() => {
+      id2 = requestAnimationFrame(() => setEntered(true));
+    });
+    return () => {
+      cancelAnimationFrame(id1);
+      if (id2 !== undefined) {
+        cancelAnimationFrame(id2);
+      }
+    };
+  }, [open, isPositioned]);
+
+  React.useEffect(
+    () => () => {
+      if (exitTimerRef.current !== undefined) {
+        window.clearTimeout(exitTimerRef.current);
+      }
+    },
+    []
+  );
+
+  const reduce = useReducedMotion();
+  const motionValue = motion ?? defaultPopoverMotion;
+  const motionTransition =
+    reduce || motion === "off"
+      ? "none"
+      : getTransition(parseMotion(motionValue));
+
+  React.useEffect(() => {
+    if (open) {
+      if (exitTimerRef.current !== undefined) {
+        window.clearTimeout(exitTimerRef.current);
+        exitTimerRef.current = undefined;
+      }
+      setPresent(true);
+      return;
+    }
+    if (!present) {
+      return;
+    }
+    const parsed = reduce || motion === "off" ? null : parseMotion(motionValue);
+    const duration = parsed && !parsed.disabled ? parsed.duration : 0;
+    exitTimerRef.current = window.setTimeout(() => {
+      setPresent(false);
+      exitTimerRef.current = undefined;
+    }, duration + 50);
+  }, [open, present, reduce, motion, motionValue]);
 
   useDismissablePopover({
     anchor,
@@ -312,11 +377,26 @@ function PopoverContent({
     };
   }, [open]);
 
-  if (!open) {
+  if (!present) {
     return null;
   }
 
   const [placedSide, placedAlign = "center"] = placement.split("-");
+
+  const originBySide: Record<string, string> = {
+    bottom: "top center",
+    left: "center right",
+    right: "center left",
+    top: "bottom center",
+  };
+
+  const innerStyle: React.CSSProperties = {
+    opacity: entered ? 1 : 0,
+    transform: entered ? "scale(1)" : "scale(0.95)",
+    transformOrigin: originBySide[placedSide] ?? "center",
+    transition: motionTransition ?? "none",
+    ...style,
+  };
 
   const node = (
     <div
@@ -340,9 +420,10 @@ function PopoverContent({
         id={contentId}
         ref={contentRef}
         role="dialog"
+        style={innerStyle}
         {...props}
         className={cn(
-          "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[side=bottom]:slide-out-to-top-2 data-[side=left]:slide-out-to-right-2 data-[side=right]:slide-out-to-left-2 data-[side=top]:slide-out-to-bottom-2 z-50 w-72 origin-(--radix-popover-content-transform-origin) rounded-md border p-4 shadow-md outline-none",
+          "bg-popover text-popover-foreground z-50 w-72 rounded-md border p-4 shadow-md outline-none",
           className
         )}
       />

@@ -131,6 +131,11 @@ const nextConfig = {
         source: `${ROUTES.DOCS}/components/avatar`,
       },
       {
+        destination: `${ROUTES.DOCS}/components/web/accordion`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/accordion`,
+      },
+      {
         destination: `${ROUTES.DOCS}/components/native/button`,
         permanent: false,
         source: `${ROUTES.DOCS}/components/expo/button`,

@@ -10,7 +10,10 @@ import {
 import * as React from "react";
 import { createPortal } from "react-dom";
 
+import { parseMotion, useReducedMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+
+const defaultDropdownMotion = "150 cubic-bezier(0.16, 1, 0.3, 1)";
 
 const selectionKeys = ["Enter", " "];
 const firstKeys = ["ArrowDown", "PageUp", "Home"];
@@ -328,6 +331,7 @@ export interface DropdownMenuContentProps extends React.ComponentProps<"div"> {
   alignOffset?: number;
   avoidCollisions?: boolean;
   collisionPadding?: number;
+  motion?: string;
   side?: "top" | "right" | "bottom" | "left";
   sideOffset?: number;
 }
@@ -338,12 +342,15 @@ function DropdownMenuContent({
   avoidCollisions = true,
   className,
   collisionPadding = 0,
+  motion,
   side = "bottom",
   sideOffset = 4,
   onKeyDown,
+  style,
   ...props
 }: DropdownMenuContentProps) {
   const ctx = useDropdownMenuContext("DropdownMenuContent");
+  const [present, setPresent] = React.useState(ctx.open);
   const { refs, floatingStyles, isPositioned } = useFloating({
     elements: { reference: ctx.triggerRef.current },
     middleware: [
@@ -360,6 +367,48 @@ function DropdownMenuContent({
       refs.setReference(ctx.triggerRef.current);
     }
   }, [ctx.open, refs, ctx.triggerRef]);
+
+  const reduce = useReducedMotion();
+  const motionValue = motion ?? defaultDropdownMotion;
+  const instant = reduce || motion === "off";
+  const parsed = instant ? null : parseMotion(motionValue);
+
+  React.useLayoutEffect(() => {
+    if (ctx.open) {
+      setPresent(true);
+    }
+    const el = ctx.contentRef.current;
+    if (!(el && present)) {
+      return;
+    }
+    const duration = parsed && !parsed.disabled ? parsed.duration : 0;
+    const easing = parsed?.easing ?? "ease-out";
+    if (ctx.open && isPositioned && !instant) {
+      const anim = el.animate(
+        [
+          { opacity: 0, transform: "scale(0.95)" },
+          { opacity: 1, transform: "scale(1)" },
+        ],
+        { duration, easing, fill: "both" }
+      );
+      return () => anim.cancel();
+    }
+    if (!ctx.open) {
+      if (instant) {
+        setPresent(false);
+        return;
+      }
+      const anim = el.animate(
+        [
+          { opacity: 1, transform: "scale(1)" },
+          { opacity: 0, transform: "scale(0.95)" },
+        ],
+        { duration, easing, fill: "both" }
+      );
+      anim.onfinish = () => setPresent(false);
+      return () => anim.cancel();
+    }
+  }, [ctx.open, present, isPositioned, instant, parsed]);
 
   React.useEffect(() => {
     if (!ctx.open) {
@@ -419,7 +468,7 @@ function DropdownMenuContent({
     };
   }, [ctx.open, ctx.contentRef, ctx.triggerRef, ctx.onOpenChange]);
 
-  if (!ctx.open) {
+  if (!present) {
     return null;
   }
 
@@ -502,6 +551,7 @@ function DropdownMenuContent({
         }}
         ref={ctx.contentRef as unknown as React.Ref<HTMLDivElement>}
         role="menu"
+        style={style}
         tabIndex={-1}
         {...props}
         className={cn(

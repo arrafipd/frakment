@@ -77,6 +77,7 @@ export const pagesNew: ReadonlySet<string> = new Set([
   "/docs/components/select",
   "/docs/components/badge",
   "/docs/components/avatar",
+  "/docs/components/accordion",
 ]);
 
 export interface NavItem {
