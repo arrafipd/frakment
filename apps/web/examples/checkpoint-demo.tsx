@@ -3,10 +3,14 @@
 import { useChat } from "@ai-sdk/react";
 import type { UIMessage } from "ai";
 import { motion, useReducedMotion } from "motion/react";
-import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import { Button } from "@/components/ui/button";
 import { Marker, MarkerContent } from "@/components/ui/marker";
-import { Message, MessageContent } from "@/components/ui/message";
+import {
+  Bubble,
+  BubbleContent,
+  Message,
+  MessageContent,
+} from "@/components/ui/message";
 import { createChat, getMessageText } from "@/lib/ai";
 import { messageAnimations } from "@/lib/message-animations";
 

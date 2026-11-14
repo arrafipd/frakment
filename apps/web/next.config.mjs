@@ -166,6 +166,26 @@ const nextConfig = {
         source: `${ROUTES.DOCS}/components/label`,
       },
       {
+        destination: `${ROUTES.DOCS}/components/web/message`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/message`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/message`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/bubble`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/message`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/message-scroller`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/message`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/message-animated`,
+      },
+      {
         destination: `${ROUTES.DOCS}/components/native/button`,
         permanent: false,
         source: `${ROUTES.DOCS}/components/expo/button`,
@@ -182,7 +202,7 @@ const nextConfig = {
       },
     ];
   },
-  transpilePackages: ["@frakment/ai", "@frakment/react"],
+  transpilePackages: ["@frakment/ai"],
 };
 
 const withMDX = createMDX({});

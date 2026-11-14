@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import {
+  Bubble,
+  BubbleContent,
   Message,
   MessageAvatar,
   MessageContent,

@@ -9,10 +9,11 @@ import {
   ThumbsUpIcon,
 } from "lucide-react";
 import * as React from "react";
-import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import { Button } from "@/components/ui/button";
 import { Markdown } from "@/components/ui/markdown";
 import {
+  Bubble,
+  BubbleContent,
   Message,
   MessageContent,
   MessageFooter,

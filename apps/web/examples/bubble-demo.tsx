@@ -3,7 +3,7 @@ import {
   BubbleContent,
   BubbleGroup,
   BubbleReactions,
-} from "@/components/ui/bubble";
+} from "@/components/ui/message";
 
 export function BubbleDemo() {
   return (

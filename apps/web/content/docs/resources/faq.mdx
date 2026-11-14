@@ -53,7 +53,7 @@ Yes. Frakment components target React 19 and use hooks that rely on its behavior
 
 ### Why are engine packages separate?
 
-State logic (chat engine, message scroller) lives in `@frakment/ai` and `@frakment/react` so it can be patched with `npm update`. Styling lives in registry files you can edit. This separation keeps behavior stable across upgrades while leaving visual control to you.
+Chat engine state lives in `@frakment/ai` so it can be patched with `npm update`. Styling and scroll behavior ship in registry files you can edit. This separation keeps behavior stable across upgrades while leaving visual control to you.
 
 ### Do I need both `npm install @frakment/ai` and `npx frakment add`?
 

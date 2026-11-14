@@ -14,7 +14,6 @@ Each remains under its original license.
 
 - `@ai-sdk/react` ^4.0.167
 - `@frakment/ai` workspace:*
-- `@frakment/react` workspace:*
 - `@icons-pack/react-simple-icons` ^13.15.1
 - `@number-flow/react` ^0.6.2
 - `@phosphor-icons/react` ^2.1.10

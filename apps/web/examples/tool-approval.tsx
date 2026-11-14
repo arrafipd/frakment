@@ -8,7 +8,6 @@ import {
 } from "ai";
 import { CircleCheckIcon, LoaderCircleIcon, TerminalIcon } from "lucide-react";
 import * as React from "react";
-import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import { Button } from "@/components/ui/button";
 import {
   Item,
@@ -18,7 +17,12 @@ import {
   ItemMedia,
   ItemTitle,
 } from "@/components/ui/item";
-import { Message, MessageContent } from "@/components/ui/message";
+import {
+  Bubble,
+  BubbleContent,
+  Message,
+  MessageContent,
+} from "@/components/ui/message";
 import {
   Trace,
   TraceCollapsible,

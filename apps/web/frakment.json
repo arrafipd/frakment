@@ -104,16 +104,6 @@
       "type": "registry:ui"
     },
     {
-      "name": "message-scroller",
-      "title": "Message Scroller",
-      "description": "Scroll container for chat transcripts. Anchors turns, follows streamed replies, restores position, and tracks visibility.",
-      "source": "registry/message-scroller.tsx",
-      "target": "components/ui/message-scroller.tsx",
-      "dependencies": ["@frakment/react@^0.0.2", "lucide-react@^1.69.0"],
-      "registryDependencies": ["button"],
-      "type": "registry:ui"
-    },
-    {
       "name": "input",
       "title": "Input",
       "description": "A single-line text input.",
@@ -204,25 +194,6 @@
       "type": "registry:ui"
     },
     {
-      "name": "message-animated",
-      "title": "Message Animated",
-      "description": "An animated chat message that fades in and pins to the message scroller.",
-      "source": "registry/message-animated.tsx",
-      "target": "components/ui/message-animated.tsx",
-      "dependencies": ["@frakment/ai@^0.0.4", "ai@^7.0.159", "motion@^14.9.0"],
-      "registryDependencies": ["bubble", "message-scroller"],
-      "type": "registry:ui"
-    },
-    {
-      "name": "bubble",
-      "title": "Bubble",
-      "description": "Chat bubble surface with variants, alignment, and optional reactions.",
-      "source": "registry/bubble.tsx",
-      "target": "components/ui/bubble.tsx",
-      "dependencies": ["class-variance-authority@^0.7.1", "radix-ui@^1.8.1"],
-      "type": "registry:ui"
-    },
-    {
       "name": "code-block",
       "title": "Code Block",
       "description": "A scrollable code container with header, copy button, line numbers, and diff highlighting.",
@@ -241,7 +212,12 @@
       "description": "A chat message layout with alignment, avatar, header, and footer.",
       "source": "registry/message.tsx",
       "target": "components/ui/message.tsx",
-      "type": "registry:ui"
+      "type": "registry:ui",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "lucide-react@^1.69.0"
+      ],
+      "registryDependencies": ["button"]
     },
     {
       "name": "avatar",

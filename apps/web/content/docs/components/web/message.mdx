@@ -1,0 +1,292 @@
+---
+title: Message
+description: Chat primitives for message layout, bubbles, scroll behavior, and streamed reply animations.
+---
+
+import { MessageDemo } from "@/examples/message-demo";
+import { BubbleDemo } from "@/examples/bubble-demo";
+import { MessageScrollerDemo } from "@/examples/message-scroller-demo";
+import { MessageAnimatedDemo } from "@/examples/message-animated-demo";
+import { Message, MessageAvatar, MessageContent, MessageFooter, MessageGroup, MessageHeader } from "@/components/ui/message";
+import { Bubble, BubbleContent } from "@/components/ui/message";
+import { MessageScroller, MessageScrollerButton, MessageScrollerContent, MessageScrollerItem, MessageScrollerProvider, MessageScrollerViewport } from "@/components/ui/message";
+
+<DocsBaseSwitcher base="web" component="message" className="mb-6" />
+
+<ComponentPreview name="message" title="message.tsx" previewClassName="h-auto py-8">
+  <MessageDemo />
+</ComponentPreview>
+
+Message ships every primitive a chat UI needs. Layout primitives (`Message`, `MessageGroup`) handle alignment and avatar placement. `Bubble` provides the rounded visual box with variant colors. `MessageScroller` anchors the viewport, follows streamed replies, and restores position on refresh. `MessageAnimated` fades in an incoming `UIMessage` with one line.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add message
+```
+
+</TabsContent>
+
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install class-variance-authority lucide-react
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="message" title="components/ui/message.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+
+## Usage
+
+```tsx title="message.tsx"
+import { Bubble, BubbleContent, Message, MessageAvatar, MessageContent, MessageGroup } from "@/components/ui/message";
+```
+
+```tsx
+<MessageGroup>
+  <Message align="start">
+    <MessageAvatar>AI</MessageAvatar>
+    <MessageContent>
+      <Bubble variant="muted">
+        <BubbleContent>Hello from the assistant.</BubbleContent>
+      </Bubble>
+    </MessageContent>
+  </Message>
+  <Message align="end">
+    <MessageContent>
+      <Bubble variant="default">
+        <BubbleContent>Hi! How can I help?</BubbleContent>
+      </Bubble>
+    </MessageContent>
+  </Message>
+</MessageGroup>
+```
+
+
+## Anatomy
+
+```tsx
+<MessageScrollerProvider>
+  <MessageScroller>
+    <MessageScrollerViewport>
+      <MessageScrollerContent>
+        <MessageScrollerItem messageId="1">
+          <Message align="start">
+            <MessageAvatar />
+            <MessageContent>
+              <MessageHeader />
+              <Bubble>
+                <BubbleContent />
+                <BubbleReactions />
+              </Bubble>
+              <MessageFooter />
+            </MessageContent>
+          </Message>
+        </MessageScrollerItem>
+      </MessageScrollerContent>
+    </MessageScrollerViewport>
+    <MessageScrollerButton direction="end" />
+  </MessageScroller>
+</MessageScrollerProvider>
+```
+
+**Scroll container**
+
+- **MessageScrollerProvider** - owns scroll state, item registry, visibility, and reduced-motion awareness
+- **MessageScroller** - relative container with `overflow-hidden`
+- **MessageScrollerViewport** - scrollable area; pass `preserveScrollOnPrepend` to keep position when prepending
+- **MessageScrollerContent** - content wrapper that expands as messages arrive
+- **MessageScrollerItem** - one message; pass `messageId` for anchors and `scrollAnchor` for turn anchoring
+- **MessageScrollerButton** - scroll-to-end/start button; `direction="end"` (default) or `"start"`
+
+**Message layout**
+
+- **MessageGroup** - vertical stack of messages
+- **Message** - one row; `align="start" | "end"` for side
+- **MessageAvatar** - avatar slot; auto-positions when a footer is present
+- **MessageContent** - content column between avatar and bubble
+- **MessageHeader** - small text above the bubble (name, timestamp)
+- **MessageFooter** - small text below the bubble (actions, timestamp)
+
+**Bubble**
+
+- **BubbleGroup** - vertical stack of bubbles inside a Message
+- **Bubble** - rounded visual box; `variant` + `align`
+- **BubbleContent** - inner text box; accepts `as` for anchor or router link
+- **BubbleReactions** - absolute-positioned reaction strip; `align="start" | "end"`, `side="top" | "bottom"`
+
+**Animated**
+
+- **MessageAnimated** - reads a `UIMessage`, extracts text parts, fades the bubble in on mount
+
+## Examples
+
+### Bubble variants
+
+`Bubble` supports seven variants: `default`, `secondary`, `destructive`, `outline`, `ghost`, `muted`, and `tinted`.
+
+<ComponentPreview name="bubble-demo" title="bubble-demo.tsx" src="examples/bubble-demo.tsx" previewClassName="h-auto py-8">
+  <BubbleDemo />
+</ComponentPreview>
+
+
+### Scroll behavior
+
+`MessageScroller` anchors the viewport, follows streamed replies, and shows a scroll-to-end button when the user scrolls up. Pass `messageId` on each `MessageScrollerItem` to support `scrollToMessage`.
+
+<ComponentPreview name="message-scroller-demo" title="message-scroller-demo.tsx" src="examples/message-scroller-demo.tsx" previewClassName="h-auto py-6">
+  <MessageScrollerDemo />
+</ComponentPreview>
+
+### Streamed reply animation
+
+`MessageAnimated` reads a `UIMessage`, extracts its text parts, and fades the bubble in. Pass `motion` to override the transition.
+
+<ComponentPreview name="message-animated-demo" title="message-animated-demo.tsx" src="examples/message-animated-demo.tsx" previewClassName="h-auto py-8">
+  <MessageAnimatedDemo />
+</ComponentPreview>
+
+## API Reference
+
+All layout primitives (**MessageGroup**, **Message**, **MessageAvatar**, **MessageContent**, **MessageHeader**, **MessageFooter**, **BubbleGroup**, **MessageScroller**, **MessageScrollerViewport**, **MessageScrollerContent**) accept standard `div` attributes and `className`.
+
+### Message
+
+<PropsTable
+  rows={[
+    { name: 'align', type: "start | end", defaultValue: "start", description: "Side of the row the message content sits on." },
+  ]}
+/>
+
+### Bubble
+
+<PropsTable
+  rows={[
+    { name: 'variant', type: "default | secondary | destructive | outline | ghost | muted | tinted", defaultValue: "default", description: "Visual style." },
+    { name: 'align', type: "start | end", defaultValue: "start", description: "Self-align inside a Message row." },
+  ]}
+/>
+
+### BubbleContent
+
+<PropsTable
+  rows={[
+    { name: 'as', type: "React.ElementType", description: "Render as a different element or component. Defaults to div. Use as='a' or as={Link} for clickable bubbles." },
+  ]}
+/>
+
+### BubbleReactions
+
+<PropsTable
+  rows={[
+    { name: 'align', type: "start | end", defaultValue: "end", description: "Horizontal anchor side." },
+    { name: 'side', type: "top | bottom", defaultValue: "bottom", description: "Vertical anchor side." },
+  ]}
+/>
+
+### MessageScrollerProvider
+
+<PropsTable
+  rows={[
+    { name: 'autoScroll', type: "boolean", defaultValue: "true", description: "Follow new messages automatically when the user is at the end." },
+    { name: 'defaultScrollPosition', type: "start | end | last-anchor", defaultValue: "end", description: "Initial scroll position on mount." },
+    { name: 'scrollEdgeThreshold', type: "number", defaultValue: "16", description: "Pixels from the edge to consider scrollable." },
+    { name: 'scrollMargin', type: "number", defaultValue: "0", description: "Offset from the viewport edge." },
+    { name: 'scrollPreviousItemPeek', type: "number", defaultValue: "40", description: "Amount of the previous item kept visible when jumping to a message." },
+  ]}
+/>
+
+### MessageScrollerViewport
+
+<PropsTable
+  rows={[
+    { name: 'preserveScrollOnPrepend', type: "boolean", description: "Preserve the current scroll offset when items are prepended (e.g. loading older messages)." },
+  ]}
+/>
+
+### MessageScrollerItem
+
+<PropsTable
+  rows={[
+    { name: 'messageId', type: "string", description: "Anchor id used by scrollToMessage and visibility tracking." },
+    { name: 'scrollAnchor', type: "boolean", defaultValue: "false", description: "Mark this item as the anchor for prepend-scroll preservation." },
+  ]}
+/>
+
+### MessageScrollerButton
+
+<PropsTable
+  rows={[
+    { name: 'direction', type: "start | end", defaultValue: "end", description: "Jump to the start or end of the transcript." },
+    { name: 'behavior', type: "smooth | auto | instant", defaultValue: "smooth", description: "Scroll behavior." },
+    { name: 'render', type: "React.ReactElement", description: "Render prop; the target element gets data-active and onClick merged." },
+    { name: 'variant', type: "Button variant", defaultValue: "secondary", description: "Passed through to the rendered button." },
+    { name: 'size', type: "Button size", defaultValue: "icon-sm", description: "Passed through to the rendered button." },
+  ]}
+/>
+
+### MessageAnimated
+
+<PropsTable
+  rows={[
+    { name: 'message', type: "UIMessage", description: "The message to render. Text parts are concatenated." },
+    { name: 'motion', type: "string", description: "CSS transition override; e.g. 200 ease-out or 300 cubic-bezier(...)." },
+    { name: 'scrollAnchor', type: "boolean", defaultValue: "false", description: "Forwarded to the underlying MessageScrollerItem." },
+  ]}
+/>
+
+## Hooks
+
+The three hooks must be called inside `<MessageScrollerProvider>`. They return values from the nearest provider context.
+
+### useMessageScroller()
+
+Returns imperative scroll methods:
+
+- `scrollToEnd(opts?)` - scroll the viewport to the bottom; returns `true` if the viewport exists.
+- `scrollToStart(opts?)` - scroll to the top.
+- `scrollToMessage(messageId, opts?)` - scroll a specific item into view by its `messageId`.
+
+Each method accepts `{ behavior?: ScrollBehavior, align?: ScrollAlign, scrollMargin?: number }`.
+
+### useMessageScrollerScrollable()
+
+Returns `{ start: boolean, end: boolean }` - whether the viewport can scroll further in each direction. Useful to render custom scroll buttons or fade edges.
+
+### useMessageScrollerVisibility()
+
+Returns `{ currentAnchorId: string | null, visibleMessageIds: string[] }`. `currentAnchorId` is the topmost visible item; `visibleMessageIds` lists every item currently inside the viewport.
+
+## Accessibility
+
+- `MessageScrollerButton` renders a native `<button>` with an `sr-only` label (Scroll to end / Scroll to start).
+- `MessageScrollerViewport` uses `overscroll-contain` so nested scroll contexts do not chain to the page.
+- `MessageScrollerItem` sets `content-visibility: auto` for off-screen performance; screen readers still announce off-screen items when navigating.
+- `Bubble` renders a plain `<div>`. Use `BubbleContent` with `as="a"` or `as={Link}` for clickable bubbles; do not nest interactive content inside a non-interactive bubble.
+
+## Best Practices
+
+- **Always wrap the scroller in `MessageScrollerProvider`.** The provider owns the scroll context; children throw if the context is missing.
+- **Pass `messageId` on every `MessageScrollerItem`.** Without it, `scrollToMessage` and visibility tracking cannot find the item.
+- **Use `MessageAnimated` for streamed replies.** It expects a `UIMessage` from the AI SDK and handles text extraction and fade-in.
+- **Reduce motion is honored automatically.** When the OS requests reduced motion, transitions are disabled; `motion` values are ignored.
+- **Prefer `Bubble` variants over custom colors.** The seven built-in variants cover the common message types.

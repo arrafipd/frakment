@@ -24,3 +24,43 @@ import { LabelDemo } from "@/examples/label-demo";
 npx frakment@latest add label
 ```
 
+
+<hr className="my-16 border-border/40" />
+
+### Message consolidation
+
+**Message**, **Bubble**, **MessageScroller**, and **MessageAnimated** now ship as a single registry component. `npx frakment add message` installs all four primitives: layout (`Message`, `MessageGroup`, `MessageContent`), bubble (`Bubble`, `BubbleContent`, `BubbleReactions`), scroll behavior (`MessageScroller*` + three hooks), and animated message (`MessageAnimated`).
+
+The scroll engine is inlined. The `@frakment/react` package is no longer published. Imports from `@frakment/react/message-scroller` must migrate to `@/components/ui/message` after running `npx frakment@latest add message`.
+
+No runtime dependencies beyond `class-variance-authority` and `lucide-react`. The `radix-ui` and `ai` dependencies are removed from the bubble and animated parts.
+
+**Migration from the old registry names**
+
+- `npx frakment add bubble` → `npx frakment add message`
+- `npx frakment add message-scroller` → `npx frakment add message`
+- `npx frakment add message-animated` → `npx frakment add message`
+- `import ... from "@/components/ui/bubble"` → `import ... from "@/components/ui/message"`
+
+The `BubbleContent` `asChild` prop is replaced by `as`. Pass `as={Link}` or `as="a" for clickable bubbles.
+
+#### Installation
+
+```bash
+npx frakment@latest add message
+```
+
+#### Minimal usage
+
+```tsx
+<MessageScrollerProvider>
+  <MessageScroller>
+    <MessageScrollerViewport>
+      <MessageScrollerContent>
+        <MessageAnimated message={message} scrollAnchor={message.role === "user"} />
+      </MessageScrollerContent>
+    </MessageScrollerViewport>
+    <MessageScrollerButton />
+  </MessageScroller>
+</MessageScrollerProvider>
+```
