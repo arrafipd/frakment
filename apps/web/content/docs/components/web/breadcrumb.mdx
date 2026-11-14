@@ -10,6 +10,10 @@ import { BreadcrumbDropdown } from "@/examples/breadcrumb-dropdown";
 import { BreadcrumbEllipsisDemo } from "@/examples/breadcrumb-ellipsis";
 import { BreadcrumbLinkDemo } from "@/examples/breadcrumb-link";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { BreadcrumbDocsPath } from "@/examples/breadcrumb-docs-path";
+import { BreadcrumbPageHeader } from "@/examples/breadcrumb-page-header";
+
+<DocsBaseSwitcher base="web" component="breadcrumb" className="mb-6" />
 
 <ComponentPreview name="breadcrumb" title="breadcrumb.tsx">
   <BreadcrumbDemo />
@@ -38,7 +42,7 @@ npx frakment add breadcrumb
       <Step>Install the following dependency:</Step>
 
       ~~~bash
-      npm install radix-ui
+      npm install lucide-react
       ~~~
 
       <Step>Copy and paste the following code into your project.</Step>
@@ -89,7 +93,7 @@ Breadcrumb
 
 ### Basic
 
-<ComponentPreview name="breadcrumb" title="breadcrumb.tsx">
+<ComponentPreview name="breadcrumb-basic" src="examples/breadcrumb-basic.tsx" title="breadcrumb-basic.tsx">
   <BreadcrumbBasic />
 </ComponentPreview>
 
@@ -97,15 +101,15 @@ Breadcrumb
 
 Pass any node as children to replace the chevron.
 
-<ComponentPreview name="breadcrumb" title="breadcrumb.tsx">
+<ComponentPreview name="breadcrumb-separator" src="examples/breadcrumb-separator.tsx" title="breadcrumb-separator.tsx">
   <BreadcrumbSeparatorDemo />
 </ComponentPreview>
 
 ### With router link
 
-Set `asChild` on `BreadcrumbLink` to render a router component.
+Pass `as` on `BreadcrumbLink` to render a router component.
 
-<ComponentPreview name="breadcrumb" title="breadcrumb.tsx">
+<ComponentPreview name="breadcrumb-link" src="examples/breadcrumb-link.tsx" title="breadcrumb-link.tsx">
   <BreadcrumbLinkDemo />
 </ComponentPreview>
 
@@ -113,7 +117,7 @@ Set `asChild` on `BreadcrumbLink` to render a router component.
 
 Collapse the middle of a long path with `BreadcrumbEllipsis`.
 
-<ComponentPreview name="breadcrumb" title="breadcrumb.tsx">
+<ComponentPreview name="breadcrumb-ellipsis" src="examples/breadcrumb-ellipsis.tsx" title="breadcrumb-ellipsis.tsx">
   <BreadcrumbEllipsisDemo />
 </ComponentPreview>
 
@@ -121,7 +125,7 @@ Collapse the middle of a long path with `BreadcrumbEllipsis`.
 
 Open a `DropdownMenu` from an intermediate level to show siblings.
 
-<ComponentPreview name="breadcrumb" title="breadcrumb.tsx">
+<ComponentPreview name="breadcrumb-dropdown" src="examples/breadcrumb-dropdown.tsx" title="breadcrumb-dropdown.tsx">
   <BreadcrumbDropdown />
 </ComponentPreview>
 
@@ -129,32 +133,14 @@ Open a `DropdownMenu` from an intermediate level to show siblings.
 
 ### Docs path
 
-<ComponentPreview name="breadcrumb" title="breadcrumb.tsx">
-  <Breadcrumb>
-    <BreadcrumbList>
-      <BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem>
-      <BreadcrumbSeparator />
-      <BreadcrumbItem><BreadcrumbLink href="/docs">Docs</BreadcrumbLink></BreadcrumbItem>
-      <BreadcrumbSeparator />
-      <BreadcrumbItem><BreadcrumbPage>Button</BreadcrumbPage></BreadcrumbItem>
-    </BreadcrumbList>
-  </Breadcrumb>
+<ComponentPreview name="breadcrumb-docs-path" src="examples/breadcrumb-docs-path.tsx" title="breadcrumb-docs-path.tsx">
+  <BreadcrumbDocsPath />
 </ComponentPreview>
 
 ### In a page header
 
-<ComponentPreview name="breadcrumb" title="breadcrumb.tsx">
-  <div className="mx-auto w-full max-w-sm rounded-lg border border-border p-4">
-    <Breadcrumb>
-      <BreadcrumbList>
-        <BreadcrumbItem><BreadcrumbLink href="/projects">Projects</BreadcrumbLink></BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem><BreadcrumbLink href="/projects/ai">AI</BreadcrumbLink></BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem><BreadcrumbPage>Chat</BreadcrumbPage></BreadcrumbItem>
-      </BreadcrumbList>
-    </Breadcrumb>
-  </div>
+<ComponentPreview name="breadcrumb-page-header" src="examples/breadcrumb-page-header.tsx" title="breadcrumb-page-header.tsx">
+  <BreadcrumbPageHeader />
 </ComponentPreview>
 
 ## API Reference
@@ -164,7 +150,8 @@ Open a `DropdownMenu` from an intermediate level to show siblings.
 <PropsTable
   rows={[
     { name: "href", type: "string", description: "Destination URL." },
-    { name: "asChild", type: "boolean", default: "false", description: "Merge into the child element, e.g. a router Link." },
+    { name: "as", type: "React.ElementType", description: "Renders a different root element or component. Defaults to a." },
+    { name: "asChild", type: "boolean", default: "false", description: "Deprecated. Use as instead. Kept for backward compatibility." },
   ]}
 />
 

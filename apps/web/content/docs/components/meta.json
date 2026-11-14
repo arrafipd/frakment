@@ -6,7 +6,7 @@
     "attachment",
     "web/avatar",
     "web/badge",
-    "breadcrumb",
+    "web/breadcrumb",
     "bubble",
     "web/button",
     "web/button-group",

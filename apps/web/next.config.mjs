@@ -136,6 +136,11 @@ const nextConfig = {
         source: `${ROUTES.DOCS}/components/accordion`,
       },
       {
+        destination: `${ROUTES.DOCS}/components/web/breadcrumb`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/breadcrumb`,
+      },
+      {
         destination: `${ROUTES.DOCS}/components/web/collapsible`,
         permanent: false,
         source: `${ROUTES.DOCS}/components/collapsible`,

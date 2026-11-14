@@ -1,6 +1,6 @@
 ---
 title: "November 14, 2026"
-description: "Popover, Select, Badge, Avatar, Accordion, Collapsible, first-party Separator and Button Group, and a polymorphic `as` prop across Button, Badge, Collapsible, and Button Group Text."
+description: "Popover, Select, Badge, Avatar, Accordion, Collapsible, Input, Input Group, Breadcrumb, Input OTP, first-party Separator and Button Group, and a polymorphic `as` prop across Button, Badge, Collapsible, Breadcrumb, and Button Group Text."
 date: "2026-11-14"
 ---
 
@@ -11,8 +11,10 @@ import { AvatarDemo } from "@/examples/avatar-demo";
 import { NativeSeparatorDemo } from "@/examples/native/separator-demo";
 import { NativeButtonGroupDemo } from "@/examples/native/button-group-demo";
 import { CollapsibleDemo } from "@/examples/collapsible-demo";
+import { BreadcrumbDemo } from "@/examples/breadcrumb-demo";
+import { InputOTPDemo } from "@/examples/input-otp-demo";
 
-This release adds **Popover**, migrates **Select**, **Separator**, **Badge**, **Avatar**, **Accordion**, and **Collapsible** off `radix-ui`, ships first-party **Button Group**, and standardizes the polymorphic `as` prop across **Button**, **Badge**, **Collapsible**, and **Button Group Text**.
+This release adds **Popover**, migrates **Select**, **Separator**, **Badge**, **Avatar**, **Accordion**, **Collapsible**, **Breadcrumb**, and **Input OTP** off `radix-ui` and `input-otp`, ships first-party **Button Group**, and standardizes the polymorphic `as` prop across **Button**, **Badge**, **Collapsible**, **Breadcrumb**, and **Button Group Text**.
 
 > **Correction (Nov 13, 2026)**: the November 13 changelog's minimal Button example used `console.log("pressed")` as a placeholder handler. Corrected to an empty handler. The canonical example lives on the [Native Button docs](/docs/components/native/button).
 
@@ -203,6 +205,42 @@ See the [Collapsible docs](/docs/components/web/collapsible).
 - `ButtonGroupText` accepts `as`. `asChild` is deprecated and kept for backward compatibility.
 
 See the [Badge](/docs/components/web/badge), [Collapsible](/docs/components/web/collapsible), and [Button Group](/docs/components/web/button-group) docs.
+
+<hr className="my-16 border-border/40" />
+
+### Breadcrumb
+
+<ComponentPreview name="breadcrumb" title="breadcrumb.tsx">
+  <BreadcrumbDemo />
+</ComponentPreview>
+
+**Breadcrumb** no longer depends on `radix-ui`. The link part accepts a single `as` prop instead of `asChild`.
+
+**Changed:**
+
+- Removed `radix-ui` from `dependencies`.
+- New `registryDependency`: `slot`.
+- `BreadcrumbLink` accepts `as` for router links. `asChild` is deprecated and kept for backward compatibility.
+
+See the [Breadcrumb docs](/docs/components/web/breadcrumb).
+
+<hr className="my-16 border-border/40" />
+
+### Input OTP
+
+<ComponentPreview name="input-otp" title="input-otp.tsx">
+  <InputOTPDemo />
+</ComponentPreview>
+
+**Input OTP** no longer depends on `input-otp`. The field renders a real hidden `<input>` so paste, backspace, arrow navigation, and form submission work natively. Each slot is a styled sibling driven by the input value.
+
+**Changed:**
+
+- Removed `input-otp` from `dependencies`.
+- Exports `digits`, `chars`, and `alphanumeric` regex patterns instead of `REGEXP_*` constants.
+- Pattern filtering runs on `onChange` so pasted values are sanitized against the pattern.
+
+See the [Input OTP docs](/docs/components/input-otp).
 
 <hr className="my-16 border-border/40" />
 

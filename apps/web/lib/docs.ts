@@ -71,14 +71,13 @@ export const docsImageRoute = `${ROUTES.OG}${ROUTES.DOCS}`;
 // Add the URL here when releasing a new component or page; remove once it
 // graduates from "new". Single source of truth for the "new" indicator.
 export const pagesNew: ReadonlySet<string> = new Set([
-  "/docs/modules/holo-card",
-  "/docs/components/popover",
-  "/docs/components/dropdown-menu",
   "/docs/components/select",
   "/docs/components/badge",
   "/docs/components/avatar",
   "/docs/components/accordion",
   "/docs/components/collapsible",
+  "/docs/components/breadcrumb",
+  "/docs/components/input-otp",
 ]);
 
 export interface NavItem {

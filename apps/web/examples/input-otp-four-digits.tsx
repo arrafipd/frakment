@@ -1,7 +1,7 @@
 "use client";
 
-import { REGEXP_ONLY_DIGITS } from "input-otp";
 import {
+  digits,
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
@@ -9,7 +9,7 @@ import {
 
 export function InputOTPFourDigits() {
   return (
-    <InputOTP maxLength={4} pattern={REGEXP_ONLY_DIGITS}>
+    <InputOTP maxLength={4} pattern={digits}>
       <InputOTPGroup>
         <InputOTPSlot index={0} />
         <InputOTPSlot index={1} />

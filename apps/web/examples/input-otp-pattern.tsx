@@ -1,8 +1,8 @@
 "use client";
 
-import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { Field, FieldLabel } from "@/components/ui/field";
 import {
+  digits,
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
@@ -12,7 +12,7 @@ export function InputOTPPattern() {
   return (
     <Field className="w-fit">
       <FieldLabel htmlFor="digits-only">Digits Only</FieldLabel>
-      <InputOTP id="digits-only" maxLength={6} pattern={REGEXP_ONLY_DIGITS}>
+      <InputOTP id="digits-only" maxLength={6} pattern={digits}>
         <InputOTPGroup>
           <InputOTPSlot index={0} />
           <InputOTPSlot index={1} />

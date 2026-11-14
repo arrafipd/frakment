@@ -4,6 +4,7 @@ description: Accessible one-time password input with configurable length and pat
 ---
 
 import { InputOTPDemo } from "@/examples/input-otp-demo";
+import { InputOTPVerification } from "@/examples/input-otp-verification";
 import { InputOTPPattern } from "@/examples/input-otp-pattern";
 import { InputOTPWithSeparator } from "@/examples/input-otp-separator";
 import { InputOTPControlled } from "@/examples/input-otp-controlled";
@@ -41,7 +42,7 @@ npx frakment add input-otp
       <Step>Install the following dependency:</Step>
 
       ~~~bash
-      npm install input-otp
+      npm install lucide-react
       ~~~
 
       <Step>Copy and paste the following code into your project.</Step>
@@ -81,28 +82,19 @@ import {
 </InputOTP>
 ~~~
 
-## Composition
-
-```text
-InputOTP
-├── InputOTPGroup
-│   └── InputOTPSlot
-└── InputOTPSeparator
-```
-
 ## Examples
 
 ### Pattern
 
-`REGEXP_ONLY_DIGITS` restricts input to numbers.
+`digits` restricts input to numbers.
 
-<ComponentPreview name="input-otp" title="input-otp.tsx">
+<ComponentPreview name="input-otp-pattern" src="examples/input-otp-pattern.tsx" title="input-otp-pattern.tsx">
   <InputOTPPattern />
 </ComponentPreview>
 
 ### With separator
 
-<ComponentPreview name="input-otp" title="input-otp.tsx">
+<ComponentPreview name="input-otp-separator" src="examples/input-otp-separator.tsx" title="input-otp-separator.tsx">
   <InputOTPWithSeparator />
 </ComponentPreview>
 
@@ -110,7 +102,7 @@ InputOTP
 
 Drive the value from your own state.
 
-<ComponentPreview name="input-otp" title="input-otp.tsx" previewClassName="h-auto py-8">
+<ComponentPreview name="input-otp-controlled" src="examples/input-otp-controlled.tsx" title="input-otp-controlled.tsx" previewClassName="h-auto py-8">
   <InputOTPControlled />
 </ComponentPreview>
 
@@ -118,27 +110,27 @@ Drive the value from your own state.
 
 Set `aria-invalid` on slots to mark them invalid.
 
-<ComponentPreview name="input-otp" title="input-otp.tsx">
+<ComponentPreview name="input-otp-invalid" src="examples/input-otp-invalid.tsx" title="input-otp-invalid.tsx">
   <InputOTPInvalid />
 </ComponentPreview>
 
 ### Alphanumeric
 
-`REGEXP_ONLY_DIGITS_AND_CHARS` allows letters and numbers.
+`alphanumeric` allows letters and numbers.
 
-<ComponentPreview name="input-otp" title="input-otp.tsx">
+<ComponentPreview name="input-otp-alphanumeric" src="examples/input-otp-alphanumeric.tsx" title="input-otp-alphanumeric.tsx">
   <InputOTPAlphanumeric />
 </ComponentPreview>
 
 ### Disabled
 
-<ComponentPreview name="input-otp" title="input-otp.tsx">
+<ComponentPreview name="input-otp-disabled" src="examples/input-otp-disabled.tsx" title="input-otp-disabled.tsx">
   <InputOTPDisabled />
 </ComponentPreview>
 
 ### Four digits
 
-<ComponentPreview name="input-otp" title="input-otp.tsx">
+<ComponentPreview name="input-otp-four-digits" src="examples/input-otp-four-digits.tsx" title="input-otp-four-digits.tsx">
   <InputOTPFourDigits />
 </ComponentPreview>
 
@@ -146,23 +138,8 @@ Set `aria-invalid` on slots to mark them invalid.
 
 ### Verification code
 
-<ComponentPreview name="input-otp" title="input-otp.tsx">
-  <div className="mx-auto flex w-full max-w-sm flex-col gap-2">
-    <Label>Verification code</Label>
-    <InputOTP maxLength={6}>
-      <InputOTPGroup>
-        <InputOTPSlot index={0} />
-        <InputOTPSlot index={1} />
-        <InputOTPSlot index={2} />
-      </InputOTPGroup>
-      <InputOTPSeparator />
-      <InputOTPGroup>
-        <InputOTPSlot index={3} />
-        <InputOTPSlot index={4} />
-        <InputOTPSlot index={5} />
-      </InputOTPGroup>
-    </InputOTP>
-  </div>
+<ComponentPreview name="input-otp-verification" src="examples/input-otp-verification.tsx" title="input-otp-verification.tsx">
+  <InputOTPVerification />
 </ComponentPreview>
 
 ## API Reference
@@ -232,6 +209,7 @@ const [value, setValue] = React.useState("")
 - **Group visually, not semantically.** 3 + 3 reads better than 6 in one row.
 - **Auto-focus the first slot on mount.** Reduces taps on mobile.
 - **Paste support is required.** Users copy codes from messages; paste should fill every slot.
+
 ## Related Components
 
 - [Input](/docs/components/input) — plain text

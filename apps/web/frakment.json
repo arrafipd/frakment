@@ -413,8 +413,8 @@
       "description": "Displays the path to the current resource using a hierarchy of links.",
       "source": "registry/breadcrumb.tsx",
       "target": "components/ui/breadcrumb.tsx",
-      "dependencies": ["lucide-react@^1.69.0", "radix-ui@^1.8.1"],
-      "registryDependencies": [],
+      "dependencies": ["lucide-react@^1.69.0"],
+      "registryDependencies": ["slot"],
       "type": "registry:ui"
     },
     {
@@ -433,7 +433,7 @@
       "description": "Accessible one-time password input with configurable length and pattern.",
       "source": "registry/input-otp.tsx",
       "target": "components/ui/input-otp.tsx",
-      "dependencies": ["input-otp@^1.5.0", "lucide-react@^1.69.0"],
+      "dependencies": ["lucide-react@^1.69.0"],
       "registryDependencies": [],
       "type": "registry:ui"
     },
