@@ -19,17 +19,18 @@ export function CollapsibleDemo() {
     >
       <div className="flex items-center justify-between gap-4 px-4">
         <h4 className="text-sm font-semibold">Order #4189</h4>
-        <CollapsibleTrigger asChild>
-          <Button className="size-8" size="icon" variant="ghost">
-            <ChevronDownIcon
-              className={
-                open
-                  ? "rotate-180 transition-transform"
-                  : "transition-transform"
-              }
-            />
-            <span className="sr-only">Toggle details</span>
-          </Button>
+        <CollapsibleTrigger
+          as={Button}
+          className="size-8"
+          size="icon"
+          variant="ghost"
+        >
+          <ChevronDownIcon
+            className={
+              open ? "rotate-180 transition-transform" : "transition-transform"
+            }
+          />
+          <span className="sr-only">Toggle details</span>
         </CollapsibleTrigger>
       </div>
       <div className="flex items-center justify-between rounded-md border px-4 py-2 text-sm">

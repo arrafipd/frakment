@@ -124,6 +124,17 @@ For security issues, do **not** open a public issue. See [SECURITY.md](./SECURIT
 
 Rich but simple. One sentence per paragraph. Every component page follows the same shape.
 
+### ComponentPreview pattern
+
+Every component page follows the same preview pattern:
+
+- **Hero** (top of page): `<ComponentPreview name="<component>" title="<component>.tsx">` — no `src` prop. The Code tab shows the registry source (`registry/<component>.tsx`).
+- **Every other preview**: `<ComponentPreview name="<slug>" title="<slug>.tsx" src="examples/<slug>.tsx">` — the Code tab shows the demo file, not the registry.
+
+The registry source appears **once** per page (hero). Every other preview's Code tab must show usage, not implementation. `name` without `src` falls back to registry source; use it only for the hero.
+
+Demo files live at `examples/<slug>.tsx` and export a named component (`<Slug>`). Import them in the MDX and pass as children.
+
 ### Component naming
 
 - **Lowercase in prose.** Write "a button", "the badge", "spinners" — not "a Button" or "the Badge".

@@ -15,6 +15,7 @@ import { ButtonLink } from "@/examples/button-link";
 import { ButtonSize } from "@/examples/button-size";
 import { ButtonIcon } from "@/examples/button-icon";
 import { ButtonWithIcon } from "@/examples/button-with-icon";
+import { ButtonIconsCombo } from "@/examples/button-icons-combo";
 import { ButtonLoading } from "@/examples/button-loading";
 import { ButtonRounded } from "@/examples/button-rounded";
 import { ButtonAnchor } from "@/examples/button-anchor";
@@ -173,11 +174,8 @@ Icon sizes use the same `size` prop. Pass `size="icon-xs"`, `"icon-sm"`, `"icon"
 
 Buttons accept an icon next to a label or render as a square icon-only button. Icons are sized to 16px by `[&_svg]:size-4`.
 
-<ComponentPreview name="button" title="button.tsx">
-  <div className="flex flex-wrap items-center justify-center gap-2">
-    <ButtonWithIcon />
-    <ButtonIcon />
-  </div>
+<ComponentPreview name="button-icons-combo" title="button-icons-combo.tsx" src="examples/button-icons-combo.tsx">
+  <ButtonIconsCombo />
 </ComponentPreview>
 
 ## Motion

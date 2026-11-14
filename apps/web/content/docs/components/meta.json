@@ -13,7 +13,7 @@
     "card",
     "checkbox",
     "code-block",
-    "collapsible",
+    "web/collapsible",
     "dialog",
     "web/dropdown-menu",
     "empty",

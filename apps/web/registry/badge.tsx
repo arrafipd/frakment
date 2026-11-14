@@ -1,7 +1,6 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import type * as React from "react";
 
-import { Slot } from "@/components/ui/slot";
 import { cn } from "@/lib/utils";
 
 const badgeVariants = cva(
@@ -26,7 +25,6 @@ const badgeVariants = cva(
 
 type BadgeProps = Omit<React.ComponentProps<"span">, "ref"> &
   VariantProps<typeof badgeVariants> & {
-    asChild?: boolean;
     as?: React.ElementType;
     iconOnly?: boolean;
     ref?: React.Ref<HTMLSpanElement>;
@@ -35,12 +33,11 @@ type BadgeProps = Omit<React.ComponentProps<"span">, "ref"> &
 function Badge({
   className,
   variant = "default",
-  asChild = false,
   as,
   iconOnly = false,
   ...props
 }: BadgeProps) {
-  const Comp = as ?? (asChild ? Slot : "span");
+  const Comp = as ?? "span";
 
   return (
     <Comp

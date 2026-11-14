@@ -36,16 +36,15 @@ function Item({ item }: { item: FileTreeItem }) {
   if ("items" in item) {
     return (
       <Collapsible>
-        <CollapsibleTrigger asChild>
-          <Button
-            className="group w-full justify-start"
-            size="sm"
-            variant="ghost"
-          >
-            <ChevronRightIcon className="transition-transform group-data-[state=open]/collapsible:rotate-90" />
-            <FolderIcon />
-            {item.name}
-          </Button>
+        <CollapsibleTrigger
+          as={Button}
+          className="group w-full justify-start"
+          size="sm"
+          variant="ghost"
+        >
+          <ChevronRightIcon className="transition-transform group-data-[state=open]/collapsible:rotate-90" />
+          <FolderIcon />
+          {item.name}
         </CollapsibleTrigger>
         <CollapsibleContent className="mt-1 ml-5">
           <div className="flex flex-col gap-1">

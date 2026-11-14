@@ -14,7 +14,7 @@ import {
   TraceCollapsibleTrigger,
 } from "../trace";
 
-describe("Collapsible animation prop", () => {
+describe("Collapsible motion prop", () => {
   it("renders default", () => {
     const { container } = render(
       <Collapsible>
@@ -28,7 +28,7 @@ describe("Collapsible animation prop", () => {
   });
   it("accepts spring DSL", () => {
     const { container } = render(
-      <Collapsible animation="spring(300, 25)">
+      <Collapsible motion="spring(300, 25)">
         <CollapsibleTrigger>t</CollapsibleTrigger>
         <CollapsibleContent>c</CollapsibleContent>
       </Collapsible>
@@ -39,7 +39,7 @@ describe("Collapsible animation prop", () => {
   });
   it("accepts false", () => {
     const { container } = render(
-      <Collapsible animation={false}>
+      <Collapsible motion="off">
         <CollapsibleTrigger>t</CollapsibleTrigger>
         <CollapsibleContent>c</CollapsibleContent>
       </Collapsible>

@@ -161,7 +161,8 @@ Buttons inside a group keep their own `size`. The group does not enforce a size,
 
 <PropsTable
   rows={[
-    { name: "asChild", type: "boolean", default: "false", description: "Merge props onto the single child instead of rendering a div." },
+    { name: "as", type: "React.ElementType", description: "Renders a different root element or component. Defaults to div." },
+    { name: "asChild", type: "boolean", default: "false", description: "Deprecated. Use as instead. Kept for backward compatibility." },
     { name: "className", type: "string", description: "Additional CSS classes." },
   ]}
 />
@@ -187,5 +188,5 @@ Wraps `Separator` with group-aware styling. Accepts every `Separator` prop. See 
 
 - [Button](/docs/components/button): the base button used inside groups
 - [Separator](/docs/components/separator): the divider used between buttons
-- [Slot](/docs/components/slot): the primitive behind `asChild`
+- [Slot](/docs/components/slot): the primitive behind `as`
 - [Theming](/docs/guides/theming): customize colors and borders

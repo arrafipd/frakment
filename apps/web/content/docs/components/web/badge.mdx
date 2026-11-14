@@ -8,6 +8,13 @@ import { BadgeVariants } from "@/examples/badge-variants";
 import { BadgeWithIconLeft } from "@/examples/badge-with-icon-left";
 import { BadgeWithSpinner } from "@/examples/badge-with-spinner";
 import { BadgeAsLink } from "@/examples/badge-as-link";
+import { BadgeAnatomy } from "@/examples/badge-anatomy";
+import { BadgeIconOnly } from "@/examples/badge-icon-only";
+import { BadgeCounts } from "@/examples/badge-counts";
+import { BadgeCustomColors } from "@/examples/badge-custom-colors";
+import { BadgeDeployList } from "@/examples/badge-deploy-list";
+import { BadgeIssueList } from "@/examples/badge-issue-list";
+import { BadgeInlineText } from "@/examples/badge-inline-text";
 import { Button } from "@/components/ui/button";
 
 import { Badge } from "@/components/ui/badge";
@@ -68,18 +75,8 @@ import { Badge } from "@/components/ui/badge";
 
 A badge is a single-part component. It has a bordered surface and a text label. Icons placed inside are automatically sized.
 
-<ComponentPreview name="badge" title="badge.tsx">
-  <div className="flex flex-wrap items-center justify-center gap-3">
-    <Badge>Text only</Badge>
-    <Badge>
-      <CheckIcon />
-      With icon
-    </Badge>
-    <Badge variant="outline">
-      <PackageIcon />
-      v1.2.0
-    </Badge>
-  </div>
+<ComponentPreview name="badge-anatomy" title="badge-anatomy.tsx" src="examples/badge-anatomy.tsx">
+  <BadgeAnatomy />
 </ComponentPreview>
 
 - **Surface** — background and border, following the variant
@@ -117,18 +114,8 @@ import { CheckIcon } from "lucide-react";
 
 A badge with just an icon. Provide an `aria-label` so screen readers can announce the intent.
 
-<ComponentPreview name="badge" title="badge.tsx">
-  <div className="flex flex-wrap items-center justify-center gap-3">
-    <Badge aria-label="Verified" iconOnly>
-      <CheckIcon />
-    </Badge>
-    <Badge variant="secondary" aria-label="Pending" iconOnly>
-      <ClockIcon />
-    </Badge>
-    <Badge variant="destructive" aria-label="Failed" iconOnly>
-      <XIcon />
-    </Badge>
-  </div>
+<ComponentPreview name="badge-icon-only" title="badge-icon-only.tsx" src="examples/badge-icon-only.tsx">
+  <BadgeIconOnly />
 </ComponentPreview>
 
 ```tsx title="badge.tsx"
@@ -168,15 +155,8 @@ Use `as` to render the badge as an anchor. Hover states (`[a&]:hover:*`) apply o
 
 Badges are often used to display counts. Pair `secondary` with a number for compact lists, or use icons to indicate the count type.
 
-<ComponentPreview name="badge" title="badge.tsx">
-  <div className="flex flex-wrap items-center justify-center gap-3">
-    <Badge variant="secondary">12 issues</Badge>
-    <Badge variant="secondary">
-      <StarIcon />
-      2.4k
-    </Badge>
-    <Badge variant="outline">+8</Badge>
-  </div>
+<ComponentPreview name="badge-counts" title="badge-counts.tsx" src="examples/badge-counts.tsx">
+  <BadgeCounts />
 </ComponentPreview>
 
 ```tsx title="badge.tsx"
@@ -191,21 +171,8 @@ Badges are often used to display counts. Pair `secondary` with a number for comp
 
 Override the surface colors with custom classes. Pass `bg-*` and `text-*` utilities to `className`.
 
-<ComponentPreview name="badge" title="badge.tsx">
-  <div className="flex flex-wrap items-center justify-center gap-3">
-    <Badge className="border-transparent bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-100">
-      Success
-    </Badge>
-    <Badge className="border-transparent bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-100">
-      Warning
-    </Badge>
-    <Badge className="border-transparent bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-100">
-      Danger
-    </Badge>
-    <Badge className="border-transparent bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100">
-      Info
-    </Badge>
-  </div>
+<ComponentPreview name="badge-custom-colors" title="badge-custom-colors.tsx" src="examples/badge-custom-colors.tsx">
+  <BadgeCustomColors />
 </ComponentPreview>
 
 ```tsx title="badge.tsx"
@@ -222,30 +189,8 @@ Badges are designed to be composed. They sit inside headings, table cells, list 
 
 ### Deploy list
 
-<ComponentPreview name="badge" title="badge.tsx">
-  <div className="w-full max-w-md space-y-3">
-    <div className="flex items-center justify-between rounded-lg border border-border p-3">
-      <span className="text-sm font-medium">Deploy v1.2.0</span>
-      <Badge>
-        <CheckIcon />
-        Success
-      </Badge>
-    </div>
-    <div className="flex items-center justify-between rounded-lg border border-border p-3">
-      <span className="text-sm font-medium">Deploy v1.2.1</span>
-      <Badge variant="secondary">
-        <Spinner borderWidth={1} />
-        Building
-      </Badge>
-    </div>
-    <div className="flex items-center justify-between rounded-lg border border-border p-3">
-      <span className="text-sm font-medium">Deploy v1.2.2</span>
-      <Badge variant="destructive">
-        <XIcon />
-        Failed
-      </Badge>
-    </div>
-  </div>
+<ComponentPreview name="badge-deploy-list" title="badge-deploy-list.tsx" src="examples/badge-deploy-list.tsx">
+  <BadgeDeployList />
 </ComponentPreview>
 
 ```tsx title="div.tsx"
@@ -260,59 +205,16 @@ Badges are designed to be composed. They sit inside headings, table cells, list 
 
 ### Issue list
 
-<ComponentPreview name="badge" title="badge.tsx">
-  <div className="w-full max-w-md space-y-2">
-    <div className="flex items-start justify-between gap-3 rounded-lg border border-border p-3">
-      <div>
-        <p className="text-sm font-medium">Registry fails to install</p>
-        <p className="text-xs text-muted-foreground">
-          {"#142 · opened 2 days ago"}
-        </p>
-      </div>
-      <Badge variant="destructive">Bug</Badge>
-    </div>
-    <div className="flex items-start justify-between gap-3 rounded-lg border border-border p-3">
-      <div>
-        <p className="text-sm font-medium">Add dark mode toggle</p>
-        <p className="text-xs text-muted-foreground">
-          {"#141 · opened 3 days ago"}
-        </p>
-      </div>
-      <Badge variant="outline">Feature</Badge>
-    </div>
-    <div className="flex items-start justify-between gap-3 rounded-lg border border-border p-3">
-      <div>
-        <p className="text-sm font-medium">Update installation docs</p>
-        <p className="text-xs text-muted-foreground">
-          {"#140 · opened 5 days ago"}
-        </p>
-      </div>
-      <Badge variant="secondary">Docs</Badge>
-    </div>
-  </div>
+<ComponentPreview name="badge-issue-list" title="badge-issue-list.tsx" src="examples/badge-issue-list.tsx">
+  <BadgeIssueList />
 </ComponentPreview>
 
 ### Inline with text
 
 Badges can sit next to headings or inline text to mark status without breaking flow.
 
-<ComponentPreview name="badge" title="badge.tsx">
-  <div className="flex flex-col items-center gap-4">
-    <h2 className="flex items-center gap-2 text-lg font-semibold">
-      Frakment
-      <Badge>
-        <SparklesIcon />
-        v1.0
-      </Badge>
-    </h2>
-    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-      {"Status"}
-      <Badge variant="outline">
-        <CircleAlertIcon />
-        {"Beta"}
-      </Badge>
-    </div>
-  </div>
+<ComponentPreview name="badge-inline-text" title="badge-inline-text.tsx" src="examples/badge-inline-text.tsx">
+  <BadgeInlineText />
 </ComponentPreview>
 
 ## API Reference
@@ -339,14 +241,7 @@ Badges can sit next to headings or inline text to mark status without breaking f
       default: "false",
       description:
         "Renders a square badge with no horizontal padding. Use when the badge wraps only an icon.",
-    },
-    {
-      name: "asChild",
-      type: "boolean",
-      default: "false",
-      description:
-        "Deprecated. Use as instead. Kept for backward compatibility.",
-    },
+    },
     {
       name: "className",
       type: "string",

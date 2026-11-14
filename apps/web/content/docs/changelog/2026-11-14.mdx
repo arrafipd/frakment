@@ -1,6 +1,6 @@
 ---
 title: "November 14, 2026"
-description: "Popover, Select, Badge, Avatar, first-party Separator and Button Group, and a polymorphic `as` prop on Button."
+description: "Popover, Select, Badge, Avatar, Accordion, Collapsible, first-party Separator and Button Group, and a polymorphic `as` prop across Button, Badge, Collapsible, and Button Group Text."
 date: "2026-11-14"
 ---
 
@@ -10,14 +10,18 @@ import { BadgeDemo } from "@/examples/badge-demo";
 import { AvatarDemo } from "@/examples/avatar-demo";
 import { NativeSeparatorDemo } from "@/examples/native/separator-demo";
 import { NativeButtonGroupDemo } from "@/examples/native/button-group-demo";
+import { CollapsibleDemo } from "@/examples/collapsible-demo";
 
-This release adds **Popover**, migrates **Select**, **Separator**, **Badge**, and **Avatar** off `radix-ui`, ships first-party **Button Group**, and adds an `as` prop to **Button** and **Badge** for router links and custom components.
+This release adds **Popover**, migrates **Select**, **Separator**, **Badge**, **Avatar**, **Accordion**, and **Collapsible** off `radix-ui`, ships first-party **Button Group**, and standardizes the polymorphic `as` prop across **Button**, **Badge**, **Collapsible**, and **Button Group Text**.
+
+> **Correction (Nov 13, 2026)**: the November 13 changelog's minimal Button example used `console.log("pressed")` as a placeholder handler. Corrected to an empty handler. The canonical example lives on the [Native Button docs](/docs/components/native/button).
 
 - [Popover](#popover): Floating panel anchored to a trigger.
 - [Select](#select): Floating UI listbox with item-aligned and popper modes.
 - [Badge](#badge): Smaller height, `as` prop, `iconOnly` mode.
 - [Avatar](#avatar): Own primitive, destructive error fallback, soft destructive token.
 - [Button `as` prop](#button-as-prop): Render router links and custom components.
+- [`as` prop rollout](#as-prop-rollout-badge-collapsible-button-group-text): Removes `asChild` from Badge and Collapsible Trigger, adds `as` to Button Group Text.
 - [Separator](#separator): No more `radix-ui`.
 - [Button Group](#button-group): Own primitive replaces the Radix Slot.
 - [Native Separator & Button Group](#native-separator--button-group): Native ports.
@@ -165,6 +169,40 @@ See the [Badge docs](/docs/components/web/badge).
 - `--destructive` in light mode drops chroma from `0.245` to `0.18` for a softer surface across Button, Badge, and Input.
 
 See the [Avatar docs](/docs/components/web/avatar).
+
+<hr className="my-16 border-border/40" />
+
+### Collapsible
+
+<ComponentPreview name="collapsible" title="collapsible.tsx">
+  <CollapsibleDemo />
+</ComponentPreview>
+
+**Collapsible** no longer depends on `radix-ui` or `motion/react`. The reveal runs through Frakment's motion engine, and the height animates via CSS grid rows.
+
+**Changed:**
+
+- Removed `radix-ui` and `motion` from `dependencies`.
+- New `motion` prop accepts `"off"`, `"150"`, `"150 ease-out"`, or `"150 cubic-bezier(...)"`. Default is a 450ms smooth-out curve.
+- Per-content override on `CollapsibleContent`.
+- Height animates via CSS grid rows (`0fr` to `1fr`).
+- `CollapsibleTrigger` accepts `as` for custom trigger elements. `asChild` stays for backward compatibility.
+
+See the [Collapsible docs](/docs/components/web/collapsible).
+
+<hr className="my-16 border-border/40" />
+
+### `as` prop rollout (Badge, Collapsible, Button Group Text)
+
+**Badge**, **Collapsible Trigger**, and **Button Group Text** now accept a single polymorphic `as` prop instead of `asChild`. Pass `as={Link}` to render a router link, `as={Button}` to slot a custom surface, or omit to keep the default element.
+
+**Changed:**
+
+- `Badge` accepts `as`. `asChild` is removed; use `as={Link}` for anchors or `as={Custom}` for other elements.
+- `CollapsibleTrigger` accepts `as`. `asChild` is removed.
+- `ButtonGroupText` accepts `as`. `asChild` is deprecated and kept for backward compatibility.
+
+See the [Badge](/docs/components/web/badge), [Collapsible](/docs/components/web/collapsible), and [Button Group](/docs/components/web/button-group) docs.
 
 <hr className="my-16 border-border/40" />
 

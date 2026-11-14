@@ -403,7 +403,7 @@
       "description": "An interactive component which expands and collapses a panel.",
       "source": "registry/collapsible.tsx",
       "target": "components/ui/collapsible.tsx",
-      "dependencies": ["motion@^14.9.0", "radix-ui@^1.8.1"],
+      "dependencies": [],
       "registryDependencies": [],
       "type": "registry:ui"
     },
