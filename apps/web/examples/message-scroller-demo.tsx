@@ -134,7 +134,6 @@ export function MessageScrollerDemo() {
       return;
     }
     if (pairIndex >= 4) {
-      reset();
       return;
     }
     const userTurn = SCRIPT[pairIndex * 2];
@@ -280,7 +279,7 @@ export function MessageScrollerDemo() {
                   </DropdownMenu>
                   <InputGroupButton
                     className="ml-auto rounded-full"
-                    disabled={busy}
+                    disabled={!nextUser || busy}
                     size="icon-sm"
                     type="submit"
                     variant="default"

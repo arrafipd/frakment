@@ -294,6 +294,7 @@ interface ScrollerContextValue {
   scrollToStart: (opts?: ScrollOptions) => boolean;
   setContentPresent: (present: boolean) => void;
   setPreserveScrollOnPrepend: (v: boolean) => void;
+  setViewportPresent: (present: boolean) => void;
   viewportRef: React.RefObject<HTMLDivElement | null>;
   visibility: VisibilityState;
 }
@@ -323,6 +324,7 @@ function ScrollerProvider({
   const itemElements = React.useRef<Map<string, HTMLDivElement>>(new Map());
   const preserveScrollOnPrependRef = React.useRef(false);
   const [contentPresent, setContentPresent] = React.useState(false);
+  const [viewportPresent, setViewportPresent] = React.useState(false);
   const [scrollable, setScrollable] = React.useState<Scrollable>({
     end: false,
     start: false,
@@ -434,7 +436,7 @@ function ScrollerProvider({
     computeScrollable();
     computeVisibility();
     return () => vp.removeEventListener("scroll", onScroll);
-  }, [onScroll, computeScrollable, computeVisibility]);
+  }, [onScroll, computeScrollable, computeVisibility, viewportPresent]);
 
   React.useEffect(() => {
     if (!contentPresent) {
@@ -468,10 +470,11 @@ function ScrollerProvider({
       if (distance <= scrollEdgeThreshold) {
         vp.scrollTop = vp.scrollHeight;
       }
+      computeScrollable();
     });
     observer.observe(content);
     return () => observer.disconnect();
-  }, [autoScroll, scrollEdgeThreshold]);
+  }, [autoScroll, scrollEdgeThreshold, computeScrollable, viewportPresent]);
 
   const value: ScrollerContextValue = {
     autoScroll,
@@ -489,6 +492,7 @@ function ScrollerProvider({
     scrollToStart,
     setContentPresent,
     setPreserveScrollOnPrepend,
+    setViewportPresent,
     viewportRef,
     visibility,
   };
@@ -528,6 +532,13 @@ function ScrollerViewport({
       ctx.setPreserveScrollOnPrepend(preserveScrollOnPrepend);
     }
   }, [preserveScrollOnPrepend, ctx]);
+
+  const ctxRef = React.useRef(ctx);
+  ctxRef.current = ctx;
+  React.useEffect(() => {
+    ctxRef.current.setViewportPresent(true);
+    return () => ctxRef.current.setViewportPresent(false);
+  }, []);
 
   return (
     <div onScroll={onScroll} ref={setRef} {...props}>
@@ -734,7 +745,7 @@ function MessageScrollerButton({
   return (
     <ScrollerButton
       className={cn(
-        "border-border bg-background text-foreground hover:bg-muted hover:text-foreground absolute inset-s-1/2 -translate-x-1/2 transition-[translate,scale,opacity] duration-200 data-[active=false]:pointer-events-none data-[active=false]:scale-95 data-[active=false]:opacity-0 data-[active=false]:duration-400 data-[active=false]:ease-[cubic-bezier(0.7,0,0.84,0)] data-[active=true]:translate-y-0 data-[active=true]:scale-100 data-[active=true]:opacity-100 data-[active=true]:ease-[cubic-bezier(0.23,1,0.32,1)] data-[direction=end]:bottom-4 data-[direction=end]:data-[active=false]:translate-y-full data-[direction=start]:top-4 data-[direction=start]:data-[active=false]:-translate-y-full rtl:translate-x-1/2 data-[direction=start]:[&_svg]:rotate-180",
+        "border-border bg-muted text-foreground hover:bg-muted/80 hover:text-foreground absolute inset-s-1/2 -translate-x-1/2 rounded-full transition-[translate,scale,opacity] duration-200 data-[active=false]:pointer-events-none data-[active=false]:scale-95 data-[active=false]:opacity-0 data-[active=false]:duration-400 data-[active=false]:ease-[cubic-bezier(0.7,0,0.84,0)] data-[active=true]:translate-y-0 data-[active=true]:scale-100 data-[active=true]:opacity-100 data-[active=true]:ease-[cubic-bezier(0.23,1,0.32,1)] data-[direction=end]:bottom-4 data-[direction=end]:data-[active=false]:translate-y-full data-[direction=start]:top-4 data-[direction=start]:data-[active=false]:-translate-y-full rtl:translate-x-1/2 data-[direction=start]:[&_svg]:rotate-180",
         className
       )}
       data-direction={direction}
@@ -742,11 +753,7 @@ function MessageScrollerButton({
       data-slot="message-scroller-button"
       data-variant={variant}
       direction={direction}
-      render={
-        render ?? (
-          <Button className="rounded-full" size={size} variant={variant} />
-        )
-      }
+      render={render ?? <Button size={size} variant={variant} />}
       {...props}
     >
       {children ?? (

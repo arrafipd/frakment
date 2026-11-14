@@ -10,6 +10,18 @@ import { MessageAnimatedDemo } from "@/examples/message-animated-demo";
 import { Message, MessageAvatar, MessageContent, MessageFooter, MessageGroup, MessageHeader } from "@/components/ui/message";
 import { Bubble, BubbleContent } from "@/components/ui/message";
 import { MessageScroller, MessageScrollerButton, MessageScrollerContent, MessageScrollerItem, MessageScrollerProvider, MessageScrollerViewport } from "@/components/ui/message";
+import { BubbleAlignmentDemo } from "@/examples/bubble-alignment-demo";
+import { BubbleCollapsibleDemo } from "@/examples/bubble-collapsible-demo";
+import { BubbleGroupDemo } from "@/examples/bubble-group-demo";
+import { BubblePopoverDemo } from "@/examples/bubble-popover-demo";
+import { BubbleReactionsDemo } from "@/examples/bubble-reactions-demo";
+import { BubbleTooltipDemo } from "@/examples/bubble-tooltip-demo";
+import { BubbleVariantsDemo } from "@/examples/bubble-variants-demo";
+import { MessageActionsDemo } from "@/examples/message-actions-demo";
+import { MessageAttachmentDemo } from "@/examples/message-attachment-demo";
+import { MessageAvatarDemo } from "@/examples/message-avatar-demo";
+import { MessageGroupDemo } from "@/examples/message-group-demo";
+import { MessageHeaderFooterDemo } from "@/examples/message-header-footer-demo";
 
 <DocsBaseSwitcher base="web" component="message" className="mb-6" />
 
@@ -140,14 +152,102 @@ import { Bubble, BubbleContent, Message, MessageAvatar, MessageContent, MessageG
 
 ## Examples
 
+### With avatar
+
+Wrap `<Avatar>` inside `MessageAvatar` to show identity next to the bubble.
+
+<ComponentPreview name="message-avatar-demo" title="message-avatar-demo.tsx" src="examples/message-avatar-demo.tsx" previewClassName="h-auto py-6">
+  <MessageAvatarDemo />
+</ComponentPreview>
+
+### Message group
+
+`MessageGroup` stacks consecutive messages from the same speaker with a shared avatar position.
+
+<ComponentPreview name="message-group-demo" title="message-group-demo.tsx" src="examples/message-group-demo.tsx" previewClassName="h-auto py-6">
+  <MessageGroupDemo />
+</ComponentPreview>
+
+### Header and footer
+
+`MessageHeader` labels the sender above the bubble. `MessageFooter` carries status, actions, or timestamps below.
+
+<ComponentPreview name="message-header-footer-demo" title="message-header-footer-demo.tsx" src="examples/message-header-footer-demo.tsx" previewClassName="h-auto py-6">
+  <MessageHeaderFooterDemo />
+</ComponentPreview>
+
+### Message actions
+
+Put copy, like, dislike, and retry buttons in `MessageFooter`. Error states use the destructive text token.
+
+<ComponentPreview name="message-actions-demo" title="message-actions-demo.tsx" src="examples/message-actions-demo.tsx" previewClassName="h-auto py-6">
+  <MessageActionsDemo />
+</ComponentPreview>
+
+### Attachments
+
+`Attachment` renders media or files inside a message. Vertical for images, horizontal for files with title, description, and actions.
+
+<ComponentPreview name="message-attachment-demo" title="message-attachment-demo.tsx" src="examples/message-attachment-demo.tsx" previewClassName="h-auto py-6">
+  <MessageAttachmentDemo />
+</ComponentPreview>
+
 ### Bubble variants
 
 `Bubble` supports seven variants: `default`, `secondary`, `destructive`, `outline`, `ghost`, `muted`, and `tinted`.
 
-<ComponentPreview name="bubble-demo" title="bubble-demo.tsx" src="examples/bubble-demo.tsx" previewClassName="h-auto py-8">
-  <BubbleDemo />
+<ComponentPreview name="bubble-variants-demo" title="bubble-variants-demo.tsx" src="examples/bubble-variants-demo.tsx" previewClassName="h-auto py-8">
+  <BubbleVariantsDemo />
 </ComponentPreview>
 
+
+### Bubble alignment
+
+`align="end"` anchors a bubble to the right; the default `align="start"` sits left.
+
+<ComponentPreview name="bubble-alignment-demo" title="bubble-alignment-demo.tsx" src="examples/bubble-alignment-demo.tsx" previewClassName="h-auto py-6">
+  <BubbleAlignmentDemo />
+</ComponentPreview>
+
+### Bubble group
+
+`BubbleGroup` stacks consecutive bubbles from the same speaker with consistent alignment.
+
+<ComponentPreview name="bubble-group-demo" title="bubble-group-demo.tsx" src="examples/bubble-group-demo.tsx" previewClassName="h-auto py-6">
+  <BubbleGroupDemo />
+</ComponentPreview>
+
+### Bubble reactions
+
+`BubbleReactions` sits on the edge of a bubble. Use `align="start"` for a top-right pin, `side="top"` for the lower edge. Children can be emoji or interactive buttons.
+
+<ComponentPreview name="bubble-reactions-demo" title="bubble-reactions-demo.tsx" src="examples/bubble-reactions-demo.tsx" previewClassName="h-auto py-6">
+  <BubbleReactionsDemo />
+</ComponentPreview>
+
+### Collapsible bubble
+
+Long content can collapse into a preview. The trigger lives inside the bubble itself.
+
+<ComponentPreview name="bubble-collapsible-demo" title="bubble-collapsible-demo.tsx" src="examples/bubble-collapsible-demo.tsx" previewClassName="h-auto py-6">
+  <BubbleCollapsibleDemo />
+</ComponentPreview>
+
+### Tooltip in reactions
+
+Place a `Tooltip` inside `BubbleReactions` to add hover context to actions.
+
+<ComponentPreview name="bubble-tooltip-demo" title="bubble-tooltip-demo.tsx" src="examples/bubble-tooltip-demo.tsx" previewClassName="h-auto py-6">
+  <BubbleTooltipDemo />
+</ComponentPreview>
+
+### Popover in reactions
+
+Show inline error detail from a bubble without leaving the conversation.
+
+<ComponentPreview name="bubble-popover-demo" title="bubble-popover-demo.tsx" src="examples/bubble-popover-demo.tsx" previewClassName="h-auto py-6">
+  <BubblePopoverDemo />
+</ComponentPreview>
 
 ### Scroll behavior
 
