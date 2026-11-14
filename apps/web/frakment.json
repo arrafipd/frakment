@@ -159,7 +159,7 @@
       "description": "A text label for form controls.",
       "source": "registry/label.tsx",
       "target": "components/ui/label.tsx",
-      "dependencies": ["radix-ui@^1.8.1"],
+      "dependencies": [],
       "registryDependencies": [],
       "type": "registry:ui"
     },

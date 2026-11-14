@@ -23,7 +23,7 @@
     "web/input-group",
     "web/input-otp",
     "item",
-    "label",
+    "web/label",
     "marker",
     "message",
     "message-animated",

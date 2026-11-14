@@ -6,15 +6,16 @@ description: An accessible label associated with a form control.
 import { LabelDemo } from "@/examples/label-demo";
 import { LabelRequired } from "@/examples/label-required";
 import { LabelDisabled } from "@/examples/label-disabled";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
+import { LabelWithInput } from "@/examples/label-with-input";
+import { LabelWithCheckbox } from "@/examples/label-with-checkbox";
+
+<DocsBaseSwitcher base="web" component="label" className="mb-6" />
 
 <ComponentPreview name="label" title="label.tsx">
   <LabelDemo />
 </ComponentPreview>
 
-Label renders a Radix `<Label>` primitive that forwards clicks to its associated control via `htmlFor`. Disabled styling is inherited automatically when the wrapped control is disabled.
+Label renders a native `<label>` that forwards clicks to its associated control via `htmlFor`. Disabled styling is inherited automatically when the wrapped control is disabled.
 
 ## Installation
 
@@ -34,12 +35,6 @@ npx frakment add label
 
   <TabsContent value="manual">
     <Steps className="mb-0 pt-2">
-      <Step>Install the following dependencies:</Step>
-
-      ```bash
-      npm install radix-ui
-      ```
-
       <Step>Copy and paste the following code into your project.</Step>
 
       <ComponentSource name="label" title="components/ui/label.tsx" />
@@ -67,7 +62,7 @@ import { Label } from "@/components/ui/label";
 
 Append a `*` (or any indicator) inline to signal a required field.
 
-<ComponentPreview name="label" title="label.tsx">
+<ComponentPreview name="label-required" title="label-required.tsx" src="examples/label-required.tsx">
   <LabelRequired />
 </ComponentPreview>
 
@@ -79,9 +74,9 @@ Append a `*` (or any indicator) inline to signal a required field.
 
 ### Disabled
 
-When the associated control is disabled, dim the label with `opacity-50` — matching the control.
+When the associated control is disabled, dim the label with `opacity-50` to match the control.
 
-<ComponentPreview name="label" title="label.tsx">
+<ComponentPreview name="label-disabled" title="label-disabled.tsx" src="examples/label-disabled.tsx">
   <LabelDisabled />
 </ComponentPreview>
 
@@ -94,27 +89,21 @@ When the associated control is disabled, dim the label with `opacity-50` — mat
 
 ### With input
 
-<ComponentPreview name="label" title="label.tsx">
-  <div className="mx-auto flex w-full max-w-sm flex-col gap-2">
-    <Label htmlFor="name">Name</Label>
-    <Input id="name" placeholder="Your name" />
-  </div>
+<ComponentPreview name="label-with-input" title="label-with-input.tsx" src="examples/label-with-input.tsx">
+  <LabelWithInput />
 </ComponentPreview>
 
 ### With checkbox
 
-<ComponentPreview name="label" title="label.tsx">
-  <div className="mx-auto flex items-center gap-2">
-    <Checkbox id="terms" />
-    <Label htmlFor="terms">Accept terms</Label>
-  </div>
+<ComponentPreview name="label-with-checkbox" title="label-with-checkbox.tsx" src="examples/label-with-checkbox.tsx">
+  <LabelWithCheckbox />
 </ComponentPreview>
 
 ## API Reference
 
 ### Label
 
-Extends Radix `Label.Root`.
+Renders a native `<label>` element. Accepts all native label attributes.
 
 <PropsTable
   rows={[
@@ -125,11 +114,10 @@ Extends Radix `Label.Root`.
 
 ## Accessibility
 
-- `Label` renders a native `<label>`. Always link it to the control via `htmlFor` matching the control's `id`.
+- `Label` renders a native `<label>`. Always link it to the control via `htmlFor` matching the `id` of the control.
 - Clicking the label focuses or toggles the associated control. This is the primary benefit for touch users.
 - Do not nest interactive content inside `Label`. A link or button inside a label breaks its click behavior.
 - When marking a field required, add `aria-required="true"` on the control, not the label alone.
-
 ## Best Practices
 
 - **Always link via `htmlFor`.** An unlinked label is decorative; screen readers ignore it.
@@ -140,14 +128,13 @@ Extends Radix `Label.Root`.
 
 ## Anatomy
 
-<ComponentPreview name="label" title="label.tsx">
-  <div className="flex flex-col gap-3">
-    <Label htmlFor="a">Field label</Label>
-    <Label htmlFor="b">
-      <span className="text-destructive">*</span> Required field
-    </Label>
-  </div>
-</ComponentPreview>
+```tsx
+<Label htmlFor="field">Field label</Label>
 
-- **Text** — 14px, medium weight
-- **Required marker** — a `*` in `destructive` color, applied manually
+<Label htmlFor="required">
+  <span className="text-destructive">*</span> Required field
+</Label>
+```
+
+- **Text**: 14px, medium weight
+- **Required marker**: a `*` in `destructive` color, applied manually
