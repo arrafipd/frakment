@@ -475,9 +475,9 @@ Add `"<name>"` to `content/docs/{category}/meta.json` under `pages`, alphabetica
 
 ### 6. New badge
 
-Add `"/docs/{category}/<name>"` to `PAGES_NEW` in `lib/docs.ts`. This drives the blue dot in the sidebar and mobile nav.
+Add `"/docs/{category}/<name>"` to `pagesNew` in `lib/docs.ts`. This drives the blue dot in the sidebar and mobile nav.
 
-`PAGES_NEW` is a rotating batch, not a cumulative list. When you ship a new batch, replace the entire set with only the components from that batch. Entries from the previous batch graduate and their dots disappear.
+`pagesNew` is a rotating set of the components shipped on the current working day, not a cumulative list. A new calendar day of shipped work starts a new batch: replace the entire set with only the components shipped that day. Components from previous days graduate and their dots disappear.
 
 ### 7. Changelog
 
@@ -503,7 +503,7 @@ npm run build
 | :-- | :-- |
 | `frakment.json` entry | CLI returns 404 |
 | `meta.json` entry | Page not in sidebar, mobile nav, or command menu |
-| `PAGES_NEW` entry | Page linked everywhere, no new badge |
+| `pagesNew` entry | Page linked everywhere, no new badge |
 | `changelog/meta.json` entry | Release missing from changelog |
 | `npm run registry:build` not run | `public/r/<name>.json` missing |
 
@@ -514,7 +514,7 @@ npm run build
 - [ ] `examples/<name>-demo.tsx` exists and renders
 - [ ] Docs page follows [Docs style](#docs-style)
 - [ ] `meta.json` has the entry
-- [ ] `PAGES_NEW` has the entry
+- [ ] `pagesNew` has the entry
 - [ ] Changelog file exists + `changelog/meta.json` has the entry
 - [ ] `npm run registry:build` ran and `public/r/<name>.json` in diff
 - [ ] `npm run build` passes

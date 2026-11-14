@@ -1,0 +1,26 @@
+---
+title: "November 15, 2026"
+description: "Label ships as a native element, dropping the radix-ui dependency."
+date: "2026-11-15"
+---
+
+import { LabelDemo } from "@/examples/label-demo";
+
+**Label** now ships as a native `<label>` with no runtime dependency. The `radix-ui` package is no longer required to install it.
+
+<hr className="my-16 border-border/40" />
+
+### Label
+
+<ComponentPreview name="label" title="label.tsx">
+  <LabelDemo />
+</ComponentPreview>
+
+**Label** renders a native `<label>` that forwards clicks to its associated control via `htmlFor`. Behavior is unchanged for consumers using `htmlFor` and `className`. The mousedown guard that prevents double-click text selection is preserved. The `as` prop is intentionally not added: a polymorphic label would lose the `htmlFor` association.
+
+#### Installation
+
+```bash
+npx frakment@latest add label
+```
+
