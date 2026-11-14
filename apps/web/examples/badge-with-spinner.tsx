@@ -5,12 +5,12 @@ export function BadgeWithSpinner() {
   return (
     <div className="flex flex-wrap gap-2">
       <Badge variant="destructive">
-        <Spinner data-icon="inline-start" />
+        <Spinner borderWidth={1} />
         Deleting
       </Badge>
       <Badge variant="secondary">
         Generating
-        <Spinner data-icon="inline-end" />
+        <Spinner borderWidth={1} />
       </Badge>
     </div>
   );

@@ -9,8 +9,8 @@
       "description": "A small label for statuses, categories, or counts.",
       "source": "registry/badge.tsx",
       "target": "components/ui/badge.tsx",
-      "dependencies": ["class-variance-authority@^0.7.1", "radix-ui@^1.8.1"],
-      "registryDependencies": [],
+      "dependencies": ["class-variance-authority@^0.7.1"],
+      "registryDependencies": ["slot"],
       "type": "registry:ui"
     },
     {

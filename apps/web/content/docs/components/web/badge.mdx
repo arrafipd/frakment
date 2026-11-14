@@ -41,7 +41,7 @@ npx frakment add badge
       <Step>Install the following dependencies:</Step>
 
       ```bash
-      npm install class-variance-authority radix-ui
+      npm install class-variance-authority
       ```
 
       <Step>Copy and paste the following code into your project.</Step>
@@ -119,20 +119,20 @@ A badge with just an icon. Provide an `aria-label` so screen readers can announc
 
 <ComponentPreview name="badge" title="badge.tsx">
   <div className="flex flex-wrap items-center justify-center gap-3">
-    <Badge aria-label="Verified">
+    <Badge aria-label="Verified" iconOnly>
       <CheckIcon />
     </Badge>
-    <Badge variant="secondary" aria-label="Pending">
+    <Badge variant="secondary" aria-label="Pending" iconOnly>
       <ClockIcon />
     </Badge>
-    <Badge variant="destructive" aria-label="Failed">
+    <Badge variant="destructive" aria-label="Failed" iconOnly>
       <XIcon />
     </Badge>
   </div>
 </ComponentPreview>
 
 ```tsx title="badge.tsx"
-<Badge aria-label="Verified">
+<Badge aria-label="Verified" iconOnly>
   <CheckIcon />
 </Badge>
 ```
@@ -146,26 +146,22 @@ Render a spinner beside the label to indicate an in-progress state.
 </ComponentPreview>
 
 ```tsx title="example.tsx"
-
-
 <Badge variant="secondary">
-  <Spinner />
+  <Spinner borderWidth={1} />
   Generating
 </Badge>;
 ```
 
 ## Link
 
-Use `asChild` to render the badge as an anchor. Hover states (`[a&]:hover:*`) apply only when the badge renders as an interactive element.
+Use `as` to render the badge as an anchor. Hover states (`[a&]:hover:*`) apply only when the badge renders as an interactive element.
 
 <ComponentPreview name="badge-as-link" title="badge-as-link.tsx" src="examples/badge-as-link.tsx">
   <BadgeAsLink />
 </ComponentPreview>
 
 ```tsx title="badge.tsx"
-<Badge asChild>
-  <a href="/changelog">View release</a>
-</Badge>
+<Badge as="a" href="/changelog">View release</Badge>
 ```
 
 ## Counts
@@ -238,7 +234,7 @@ Badges are designed to be composed. They sit inside headings, table cells, list 
     <div className="flex items-center justify-between rounded-lg border border-border p-3">
       <span className="text-sm font-medium">Deploy v1.2.1</span>
       <Badge variant="secondary">
-        <Spinner />
+        <Spinner borderWidth={1} />
         Building
       </Badge>
     </div>
@@ -332,11 +328,24 @@ Badges can sit next to headings or inline text to mark status without breaking f
       description: "The visual style of the badge.",
     },
     {
+      name: "as",
+      type: "React.ElementType",
+      description:
+        "Renders a different root element or component. Defaults to span.",
+    },
+    {
+      name: "iconOnly",
+      type: "boolean",
+      default: "false",
+      description:
+        "Renders a square badge with no horizontal padding. Use when the badge wraps only an icon.",
+    },
+    {
       name: "asChild",
       type: "boolean",
       default: "false",
       description:
-        "When true, the badge renders its child element instead of a span. Useful for composing with anchor or link elements.",
+        "Deprecated. Use as instead. Kept for backward compatibility.",
     },
     {
       name: "className",
@@ -358,7 +367,7 @@ Badges can sit next to headings or inline text to mark status without breaking f
 
 ## Accessibility
 
-- Badges are not interactive unless `asChild` wraps an interactive element such as `<a>` or `<button>`. Do not attach `onClick` handlers to a plain `<Badge>` — use `<Button>` instead.
+- Badges are not interactive unless `as` wraps an interactive element such as `<a>` or `<button>`. Do not attach `onClick` handlers to a plain `<Badge>` — use `<Button>` instead.
 - When a badge conveys essential information, ensure that information is also present in the surrounding text so screen reader users are not forced to encounter it as a standalone fragment.
 - For icon-only badges, provide an `aria-label` so screen readers can announce the intent. Without it, the badge is read as "graphic" or skipped entirely.
 - Color alone must not convey state. The `destructive` variant pairs color with text or an icon. When adding custom colors, always include a text label or an icon with an accessible name.
@@ -367,7 +376,7 @@ Badges can sit next to headings or inline text to mark status without breaking f
 
 ## Best Practices
 
-- **Use badges for metadata, not actions.** If a badge needs to be clickable, wrap it with `asChild` and an `<a>`, or use a `<Button>` instead.
+- **Use badges for metadata, not actions.** If a badge needs to be clickable, wrap it with `as="a"` and an `href`, or use a `<Button>` instead.
 - **Keep labels short.** Badges are compact by design. Anything longer than 3 words should be a tag, not a badge.
 - **Prefer monochrome by default.** Reserve custom colors for status indicators that must be readable at a glance.
 - **Pair color with icon or text.** Never rely on color alone to convey state — this is a WCAG requirement and also helps users with color vision deficiencies.

@@ -75,6 +75,7 @@ export const pagesNew: ReadonlySet<string> = new Set([
   "/docs/components/popover",
   "/docs/components/dropdown-menu",
   "/docs/components/web/select",
+  "/docs/components/web/badge",
 ]);
 
 export interface NavItem {

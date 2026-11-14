@@ -6,11 +6,15 @@ const jiti = createJiti(import.meta.url);
 const { LINK } = await jiti.import("./constants/links");
 const { ROUTES } = await jiti.import("./constants/routes");
 
+const isDev = process.env.NODE_ENV !== "production";
+const scriptSrc = isDev
+  ? "'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com"
+  : "'self' 'unsafe-inline' https://va.vercel-scripts.com";
+
 const securityHeaders = [
   {
     key: "Content-Security-Policy",
-    value:
-      "default-src 'self'; base-uri 'self'; connect-src 'self' https://vitals.vercel-insights.com; font-src 'self' data:; form-action 'self'; frame-ancestors 'none'; img-src 'self' https: data: blob:; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'",
+    value: `default-src 'self'; base-uri 'self'; connect-src 'self' https://vitals.vercel-insights.com; font-src 'self' data:; form-action 'self'; frame-ancestors 'none'; img-src 'self' https: data: blob:; object-src 'none'; script-src ${scriptSrc}; style-src 'self' 'unsafe-inline'`,
   },
   {
     key: "Permissions-Policy",
@@ -115,6 +119,11 @@ const nextConfig = {
         destination: `${ROUTES.DOCS}/components/web/select`,
         permanent: false,
         source: `${ROUTES.DOCS}/components/select`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/badge`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/badge`,
       },
       {
         destination: `${ROUTES.DOCS}/components/native/button`,

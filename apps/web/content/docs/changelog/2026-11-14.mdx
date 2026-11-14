@@ -1,18 +1,20 @@
 ---
 title: "November 14, 2026"
-description: "Popover, Select, first-party Separator and Button Group, and a polymorphic `as` prop on Button."
+description: "Popover, Select, Badge, first-party Separator and Button Group, and a polymorphic `as` prop on Button."
 date: "2026-11-14"
 ---
 
 import { PopoverDemo } from "@/examples/popover-demo";
 import { SelectDemo } from "@/examples/select-demo";
+import { BadgeDemo } from "@/examples/badge-demo";
 import { NativeSeparatorDemo } from "@/examples/native/separator-demo";
 import { NativeButtonGroupDemo } from "@/examples/native/button-group-demo";
 
-This release adds **Popover**, migrates **Select** and **Separator** off `radix-ui`, ships first-party **Button Group**, and adds an `as` prop to **Button** for router links and custom components.
+This release adds **Popover**, migrates **Select**, **Separator**, and **Badge** off `radix-ui`, ships first-party **Button Group**, and adds an `as` prop to **Button** and **Badge** for router links and custom components.
 
 - [Popover](#popover): Floating panel anchored to a trigger.
 - [Select](#select): Floating UI listbox with item-aligned and popper modes.
+- [Badge](#badge): Smaller height, `as` prop, `iconOnly` mode.
 - [Button `as` prop](#button-as-prop): Render router links and custom components.
 - [Separator](#separator): No more `radix-ui`.
 - [Button Group](#button-group): Own primitive replaces the Radix Slot.
@@ -121,6 +123,27 @@ See the [Button Group docs](/docs/components/button-group).
 - Scroll inside the listbox is locked; the page beneath does not scroll while open.
 
 No API breaking changes. See the [Select docs](/docs/components/web/select).
+
+<hr className="my-16 border-border/40" />
+
+### Badge
+
+<ComponentPreview name="badge" title="badge.tsx">
+  <BadgeDemo />
+</ComponentPreview>
+
+**Badge** no longer depends on `radix-ui`. The surface height drops from `h-6` to `h-5` to match the shadcn/ui baseline, and the primitive gains an `as` prop and an `iconOnly` mode.
+
+**Changed:**
+
+- Removed `radix-ui` from `dependencies`.
+- New `registryDependency`: `slot`.
+- Height `h-6` → `h-5`, horizontal padding `px-2.5` → `px-2`, icon size `size-3.5` → `size-3`.
+- New `as` prop for router links and custom components. `asChild` stays for backward compatibility.
+- New `iconOnly` prop renders a square badge with no horizontal padding. Use when the badge wraps only an icon.
+- Spinner inside a badge now renders at `size-2.5` with a 1px ring.
+
+See the [Badge docs](/docs/components/web/badge).
 
 <hr className="my-16 border-border/40" />
 
