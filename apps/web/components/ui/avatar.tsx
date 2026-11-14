@@ -1,57 +1,154 @@
 "use client";
 
-import { Avatar as AvatarPrimitive } from "radix-ui";
-import type * as React from "react";
+import * as React from "react";
 
 import { cn } from "@/lib/utils";
+
+type ImageLoadingStatus = "idle" | "loading" | "loaded" | "error";
+
+function useImageLoadingStatus(
+  src: string | undefined,
+  referrerPolicy: React.HTMLAttributeReferrerPolicy | undefined
+): ImageLoadingStatus {
+  const [status, setStatus] = React.useState<ImageLoadingStatus>("idle");
+
+  React.useEffect(() => {
+    if (!src) {
+      setStatus("error");
+      return;
+    }
+    let isMounted = true;
+    const image = new window.Image();
+    const update = (next: ImageLoadingStatus) => () => {
+      if (isMounted) {
+        setStatus(next);
+      }
+    };
+    setStatus("loading");
+    image.onload = update("loaded");
+    image.onerror = update("error");
+    if (referrerPolicy) {
+      image.referrerPolicy = referrerPolicy;
+    }
+    image.src = src;
+    return () => {
+      isMounted = false;
+    };
+  }, [src, referrerPolicy]);
+
+  return status;
+}
+
+interface AvatarContextValue {
+  imageLoadingStatus: ImageLoadingStatus;
+  onImageLoadingStatusChange: (status: ImageLoadingStatus) => void;
+}
+
+const AvatarContext = React.createContext<AvatarContextValue | null>(null);
+
+function useAvatarContext(component: string): AvatarContextValue {
+  const ctx = React.useContext(AvatarContext);
+  if (!ctx) {
+    throw new Error(`${component} must be used within Avatar`);
+  }
+  return ctx;
+}
+
+type AvatarProps = React.ComponentProps<"span"> & {
+  size?: "default" | "sm" | "lg";
+};
 
 function Avatar({
   className,
   size = "default",
+  children,
   ...props
-}: React.ComponentProps<typeof AvatarPrimitive.Root> & {
-  size?: "default" | "sm" | "lg";
-}) {
+}: AvatarProps) {
+  const [imageLoadingStatus, setImageLoadingStatus] =
+    React.useState<ImageLoadingStatus>("idle");
+  const ctxValue = React.useMemo<AvatarContextValue>(
+    () => ({
+      imageLoadingStatus,
+      onImageLoadingStatusChange: setImageLoadingStatus,
+    }),
+    [imageLoadingStatus]
+  );
   return (
-    <AvatarPrimitive.Root
-      className={cn(
-        "group/avatar after:border-border relative flex size-8 shrink-0 rounded-full select-none after:absolute after:inset-0 after:rounded-full after:border after:mix-blend-darken data-[size=lg]:size-10 data-[size=sm]:size-6 dark:after:mix-blend-lighten",
-        className
-      )}
-      data-size={size}
-      data-slot="avatar"
-      {...props}
-    />
+    <AvatarContext.Provider value={ctxValue}>
+      <span
+        className={cn(
+          "group/avatar after:border-border relative flex size-8 shrink-0 rounded-full select-none after:absolute after:inset-0 after:rounded-full after:border after:mix-blend-darken data-[size=lg]:size-10 data-[size=sm]:size-6 dark:after:mix-blend-lighten",
+          className
+        )}
+        data-size={size}
+        data-slot="avatar"
+        {...props}
+      >
+        {children}
+      </span>
+    </AvatarContext.Provider>
   );
 }
 
+type AvatarImageProps = React.ComponentProps<"img"> & {
+  onLoadingStatusChange?: (status: ImageLoadingStatus) => void;
+};
+
 function AvatarImage({
+  alt,
   className,
+  onLoadingStatusChange,
+  referrerPolicy,
+  src,
   ...props
-}: React.ComponentProps<typeof AvatarPrimitive.Image>) {
+}: AvatarImageProps) {
+  const { onImageLoadingStatusChange } = useAvatarContext("AvatarImage");
+  const isStringSrc = typeof src === "string";
+  const imageLoadingStatus = useImageLoadingStatus(
+    isStringSrc ? src : undefined,
+    referrerPolicy
+  );
+
+  React.useEffect(() => {
+    onImageLoadingStatusChange(imageLoadingStatus);
+  }, [imageLoadingStatus, onImageLoadingStatusChange]);
+
+  React.useEffect(() => {
+    onLoadingStatusChange?.(imageLoadingStatus);
+  }, [imageLoadingStatus, onLoadingStatusChange]);
+
+  if (isStringSrc && imageLoadingStatus !== "loaded") {
+    return null;
+  }
+
   return (
-    <AvatarPrimitive.Image
+    <img
+      alt={alt}
       className={cn(
         "aspect-square size-full rounded-full object-cover",
         className
       )}
       data-slot="avatar-image"
+      referrerPolicy={referrerPolicy}
+      src={src}
       {...props}
     />
   );
 }
 
-function AvatarFallback({
-  className,
-  ...props
-}: React.ComponentProps<typeof AvatarPrimitive.Fallback>) {
+function AvatarFallback({ className, ...props }: React.ComponentProps<"span">) {
+  const { imageLoadingStatus } = useAvatarContext("AvatarFallback");
+  if (imageLoadingStatus === "loaded") {
+    return null;
+  }
   return (
-    <AvatarPrimitive.Fallback
+    <span
       className={cn(
-        "bg-muted text-muted-foreground flex size-full items-center justify-center rounded-full text-sm group-data-[size=sm]/avatar:text-xs",
+        "bg-muted text-muted-foreground data-[status=error]:bg-destructive flex size-full items-center justify-center rounded-full text-sm group-data-[size=sm]/avatar:text-xs data-[status=error]:text-white",
         className
       )}
       data-slot="avatar-fallback"
+      data-status={imageLoadingStatus}
       {...props}
     />
   );
@@ -109,4 +206,5 @@ export {
   AvatarGroup,
   AvatarGroupCount,
   AvatarImage,
+  type AvatarImageProps,
 };

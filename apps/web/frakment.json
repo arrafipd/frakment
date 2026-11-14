@@ -276,8 +276,9 @@
           "target": "public/avatars/female-l-3.avif"
         }
       ],
-      "dependencies": ["radix-ui@^1.8.1"],
-      "type": "registry:ui"
+      "dependencies": [],
+      "type": "registry:ui",
+      "registryDependencies": []
     },
     {
       "name": "marker",

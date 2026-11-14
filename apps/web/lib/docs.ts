@@ -74,8 +74,9 @@ export const pagesNew: ReadonlySet<string> = new Set([
   "/docs/modules/holo-card",
   "/docs/components/popover",
   "/docs/components/dropdown-menu",
-  "/docs/components/web/select",
-  "/docs/components/web/badge",
+  "/docs/components/select",
+  "/docs/components/badge",
+  "/docs/components/avatar",
 ]);
 
 export interface NavItem {

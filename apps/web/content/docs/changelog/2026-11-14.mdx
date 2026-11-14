@@ -1,20 +1,22 @@
 ---
 title: "November 14, 2026"
-description: "Popover, Select, Badge, first-party Separator and Button Group, and a polymorphic `as` prop on Button."
+description: "Popover, Select, Badge, Avatar, first-party Separator and Button Group, and a polymorphic `as` prop on Button."
 date: "2026-11-14"
 ---
 
 import { PopoverDemo } from "@/examples/popover-demo";
 import { SelectDemo } from "@/examples/select-demo";
 import { BadgeDemo } from "@/examples/badge-demo";
+import { AvatarDemo } from "@/examples/avatar-demo";
 import { NativeSeparatorDemo } from "@/examples/native/separator-demo";
 import { NativeButtonGroupDemo } from "@/examples/native/button-group-demo";
 
-This release adds **Popover**, migrates **Select**, **Separator**, and **Badge** off `radix-ui`, ships first-party **Button Group**, and adds an `as` prop to **Button** and **Badge** for router links and custom components.
+This release adds **Popover**, migrates **Select**, **Separator**, **Badge**, and **Avatar** off `radix-ui`, ships first-party **Button Group**, and adds an `as` prop to **Button** and **Badge** for router links and custom components.
 
 - [Popover](#popover): Floating panel anchored to a trigger.
 - [Select](#select): Floating UI listbox with item-aligned and popper modes.
 - [Badge](#badge): Smaller height, `as` prop, `iconOnly` mode.
+- [Avatar](#avatar): Own primitive, destructive error fallback, soft destructive token.
 - [Button `as` prop](#button-as-prop): Render router links and custom components.
 - [Separator](#separator): No more `radix-ui`.
 - [Button Group](#button-group): Own primitive replaces the Radix Slot.
@@ -144,6 +146,25 @@ No API breaking changes. See the [Select docs](/docs/components/web/select).
 - Spinner inside a badge now renders at `size-2.5` with a 1px ring.
 
 See the [Badge docs](/docs/components/web/badge).
+
+<hr className="my-16 border-border/40" />
+
+### Avatar
+
+<ComponentPreview name="avatar" title="avatar.tsx">
+  <AvatarDemo />
+</ComponentPreview>
+
+**Avatar** no longer depends on `radix-ui`. The image loading state lives in a small context hook, so `AvatarImage` and `AvatarFallback` share it. A failed load auto-styles the fallback with the destructive token — distinguishable from a missing image without extra state.
+
+**Changed:**
+
+- Removed `radix-ui` from `dependencies`.
+- New `data-status` attribute on `AvatarFallback`: `idle`, `loading`, `loaded`, `error`.
+- Failed `AvatarImage` loads auto-render the fallback with `bg-destructive` and `text-white`.
+- `--destructive` in light mode drops chroma from `0.245` to `0.18` for a softer surface across Button, Badge, and Input.
+
+See the [Avatar docs](/docs/components/web/avatar).
 
 <hr className="my-16 border-border/40" />
 

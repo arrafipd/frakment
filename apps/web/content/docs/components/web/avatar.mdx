@@ -1,0 +1,352 @@
+---
+title: Avatar
+description: A circular user image with fallback, badge, and stacking group.
+---
+
+import {
+  Avatar,
+  AvatarBadge,
+  AvatarFallback,
+  AvatarGroup,
+  AvatarGroupCount,
+  AvatarImage,
+} from "@/components/ui/avatar";
+import { AvatarDemo } from "@/examples/avatar-demo";
+import { AvatarGroupDemo } from "@/examples/avatar-group";
+import {
+  Message,
+  MessageAvatar,
+  MessageContent,
+  MessageHeader,
+} from "@/components/ui/message";
+import { Bubble, BubbleContent } from "@/components/ui/bubble";
+
+<ComponentPreview
+  name="avatar"
+  title="avatar.tsx"
+  previewClassName="h-auto p-10"
+>
+  <AvatarDemo />
+</ComponentPreview>
+
+Avatar renders a circular user image with a text fallback when the image fails to load or is missing. A small composable API covers badges, groups, and counts.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add avatar
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="avatar" title="components/ui/avatar.tsx" />
+
+      <Step>Copy the demo avatars into your project.</Step>
+
+      <div className="text-sm text-muted-foreground">
+
+        The CLI copies five AVIF avatars into `public/avatars/`:
+        `female-l-1`, `female-l-2`, `female-l-3`, `male-l`, `male-r`.
+        The `-l` suffix faces left, `-r` faces right. Use one direction
+        consistently within a single row or group.
+
+</div>
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="avatar.tsx"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+```
+
+```tsx title="avatar.tsx"
+<Avatar>
+  <AvatarImage src="/avatars/me.avif" alt="@me" />
+  <AvatarFallback>{"ME"}</AvatarFallback>
+</Avatar>
+```
+
+Pass `grayscale` through `className` to desaturate. Demo assets follow a `-l` (facing left) and `-r` (facing right) convention — pick one per row.
+
+## Group
+
+**AvatarGroup** overlaps avatars with a 2px background ring between each one, keeping the stack readable. Place **AvatarGroupCount** as the last child to show how many more are hidden, and **AvatarBadge** inside an **Avatar** to indicate presence. Swap to right-to-left stacking with `className="flex-row-reverse"`.
+
+<ComponentPreview name="avatar-group" title="avatar-group.tsx" src="examples/avatar-group.tsx">
+  <AvatarGroupDemo />
+</ComponentPreview>
+
+### With count
+
+<ComponentPreview name="avatar" title="avatar.tsx">
+  <AvatarGroup>
+    <Avatar>
+      <AvatarImage src="/avatars/female-l-1.avif" alt="@anna" />
+      <AvatarFallback>{"AN"}</AvatarFallback>
+    </Avatar>
+    <Avatar>
+      <AvatarImage src="/avatars/female-l-2.avif" alt="@sara" />
+      <AvatarFallback>{"SA"}</AvatarFallback>
+    </Avatar>
+    <Avatar>
+      <AvatarImage src="/avatars/female-l-3.avif" alt="@liv" />
+      <AvatarFallback>{"LV"}</AvatarFallback>
+    </Avatar>
+    <Avatar>
+      <AvatarImage src="/avatars/male-l.avif" alt="@max" />
+      <AvatarFallback>{"MX"}</AvatarFallback>
+    </Avatar>
+    <AvatarGroupCount>{"+3"}</AvatarGroupCount>
+  </AvatarGroup>
+</ComponentPreview>
+
+```tsx title="avatargroup.tsx"
+<AvatarGroup>
+  <Avatar>
+    <AvatarImage src="/avatars/anna.avif" alt="@anna" />
+    <AvatarFallback>{"AN"}</AvatarFallback>
+  </Avatar>
+  <Avatar>
+    <AvatarImage src="/avatars/sara.avif" alt="@sara" />
+    <AvatarFallback>{"SA"}</AvatarFallback>
+  </Avatar>
+  <Avatar>
+    <AvatarImage src="/avatars/liv.avif" alt="@liv" />
+    <AvatarFallback>{"LV"}</AvatarFallback>
+  </Avatar>
+  <AvatarGroupCount>{"+3"}</AvatarGroupCount>
+</AvatarGroup>
+```
+
+### With badge
+
+Place **AvatarBadge** as the last child of an **Avatar**. Its position is automatic (bottom-right). Put the status in `sr-only` text inside the badge so screen readers announce it.
+
+<ComponentPreview name="avatar" title="avatar.tsx">
+  <AvatarGroup>
+    <Avatar>
+      <AvatarImage alt="@anna" src="/avatars/female-l-1.avif" />
+      <AvatarFallback>{"AN"}</AvatarFallback>
+      <AvatarBadge className="bg-green-600 dark:bg-green-800">
+        <span className="sr-only">{"Online"}</span>
+      </AvatarBadge>
+    </Avatar>
+    <Avatar>
+      <AvatarImage alt="@sara" src="/avatars/female-l-2.avif" />
+      <AvatarFallback>{"SA"}</AvatarFallback>
+      <AvatarBadge className="bg-yellow-500 dark:bg-yellow-700">
+        <span className="sr-only">{"Away"}</span>
+      </AvatarBadge>
+    </Avatar>
+    <Avatar>
+      <AvatarImage alt="@max" src="/avatars/male-l.avif" />
+      <AvatarFallback>{"MX"}</AvatarFallback>
+    </Avatar>
+    <AvatarGroupCount>{"+5"}</AvatarGroupCount>
+  </AvatarGroup>
+</ComponentPreview>
+
+## With image and fallback
+
+Pass `src` and `alt` on **AvatarImage**. **AvatarFallback** renders while the image loads, when it fails, or when no image is supplied. A failed load auto-styles the fallback with the destructive token. Without `AvatarImage`, the fallback keeps the muted surface.
+
+<ComponentPreview name="avatar" title="avatar.tsx" previewClassName="h-auto">
+  <div className="flex flex-row flex-wrap items-center gap-6">
+    <AvatarGroup>
+      <Avatar>
+        <AvatarImage alt="@anna" src="/avatars/female-l-1.avif" />
+        <AvatarFallback>{"AN"}</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage alt="@sara" src="/avatars/female-l-2.avif" />
+        <AvatarFallback>{"SA"}</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage alt="@liv" src="/avatars/female-l-3.avif" />
+        <AvatarFallback>{"LV"}</AvatarFallback>
+      </Avatar>
+    </AvatarGroup>
+    <AvatarGroup>
+      <Avatar>
+        <AvatarImage alt="@anna" src="/avatars/missing-a.avif" />
+        <AvatarFallback>{"AN"}</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage alt="@sara" src="/avatars/missing-b.avif" />
+        <AvatarFallback>{"SA"}</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage alt="@liv" src="/avatars/missing-c.avif" />
+        <AvatarFallback>{"LV"}</AvatarFallback>
+      </Avatar>
+    </AvatarGroup>
+    <AvatarGroup>
+      <Avatar>
+        <AvatarFallback>{"JD"}</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarFallback>{"AI"}</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarFallback>{"?"}</AvatarFallback>
+      </Avatar>
+    </AvatarGroup>
+  </div>
+</ComponentPreview>
+
+## Sizes
+
+Three sizes are available via the `size` prop. The default is 32px, `sm` is 24px, `lg` is 40px. Pass `size` on each **Avatar** in a group and the trailing **AvatarGroupCount** follows.
+
+<ComponentPreview name="avatar" title="avatar.tsx" previewClassName="h-auto">
+  <div className="flex flex-row flex-wrap items-center gap-6">
+    <AvatarGroup>
+      <Avatar size="sm">
+        <AvatarImage alt="@anna" src="/avatars/female-l-1.avif" />
+        <AvatarFallback>{"AN"}</AvatarFallback>
+      </Avatar>
+      <Avatar size="sm">
+        <AvatarImage alt="@sara" src="/avatars/female-l-2.avif" />
+        <AvatarFallback>{"SA"}</AvatarFallback>
+      </Avatar>
+      <Avatar size="sm">
+        <AvatarImage alt="@liv" src="/avatars/female-l-3.avif" />
+        <AvatarFallback>{"LV"}</AvatarFallback>
+      </Avatar>
+      <AvatarGroupCount>{"+3"}</AvatarGroupCount>
+    </AvatarGroup>
+    <AvatarGroup>
+      <Avatar>
+        <AvatarImage alt="@anna" src="/avatars/female-l-1.avif" />
+        <AvatarFallback>{"AN"}</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage alt="@sara" src="/avatars/female-l-2.avif" />
+        <AvatarFallback>{"SA"}</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage alt="@liv" src="/avatars/female-l-3.avif" />
+        <AvatarFallback>{"LV"}</AvatarFallback>
+      </Avatar>
+      <AvatarGroupCount>{"+3"}</AvatarGroupCount>
+    </AvatarGroup>
+    <AvatarGroup>
+      <Avatar size="lg">
+        <AvatarImage alt="@anna" src="/avatars/female-l-1.avif" />
+        <AvatarFallback>{"AN"}</AvatarFallback>
+      </Avatar>
+      <Avatar size="lg">
+        <AvatarImage alt="@sara" src="/avatars/female-l-2.avif" />
+        <AvatarFallback>{"SA"}</AvatarFallback>
+      </Avatar>
+      <Avatar size="lg">
+        <AvatarImage alt="@liv" src="/avatars/female-l-3.avif" />
+        <AvatarFallback>{"LV"}</AvatarFallback>
+      </Avatar>
+      <AvatarGroupCount>{"+3"}</AvatarGroupCount>
+    </AvatarGroup>
+  </div>
+</ComponentPreview>
+
+## In context
+
+Pair **Avatar** with [Message](/docs/components/message) and [Bubble](/docs/components/bubble) for a chat layout.
+
+<ComponentPreview name="avatar" title="avatar.tsx" previewClassName="h-auto">
+  <div className="w-full max-w-md space-y-3 p-6">
+    <Message>
+      <MessageAvatar>
+        <Avatar>
+          <AvatarImage alt="@ai" src="/avatars/male-r.avif" />
+          <AvatarFallback>{"R"}</AvatarFallback>
+        </Avatar>
+      </MessageAvatar>
+      <MessageContent>
+        <MessageHeader>{"Assistant"}</MessageHeader>
+        <Bubble>
+          <BubbleContent>{"Reading your build log now."}</BubbleContent>
+        </Bubble>
+      </MessageContent>
+    </Message>
+    <Message align="end">
+      <MessageAvatar>
+        <Avatar>
+          <AvatarImage alt="@me" src="/avatars/female-l-1.avif" />
+          <AvatarFallback>{"ME"}</AvatarFallback>
+        </Avatar>
+      </MessageAvatar>
+      <MessageContent>
+        <Bubble align="end" variant="muted">
+          <BubbleContent>{"Thanks!"}</BubbleContent>
+        </Bubble>
+      </MessageContent>
+    </Message>
+  </div>
+</ComponentPreview>
+
+## API Reference
+
+### Avatar
+
+<PropsTable
+  rows={[
+    {
+      name: "size",
+      type: "sm | default | lg",
+      default: "default",
+      description: "Controls the diameter of the avatar (24px / 32px / 40px).",
+    },
+  ]}
+/>
+
+### AvatarImage
+
+Renders the avatar image. Requires `src` and `alt`. Applies `object-cover` and `rounded-full`. Hidden until the image finishes loading, so the fallback shows first.
+
+### AvatarFallback
+
+Renders children when the image is missing, still loading, or fails. Use 2–3 character initials.
+
+### AvatarBadge
+
+Extends `React.ComponentProps<"span">`. Positioned absolutely at the bottom-right. Pass a background color with `className` (e.g., `bg-green-600`).
+
+### AvatarGroup / AvatarGroupCount
+
+Extend `React.ComponentProps<"div">`. Group applies `-space-x-2` and a 2px background ring per avatar. Count inherits the size of the group's avatars via `has-data-[size=lg]`.
+
+## Accessibility
+
+- Always pass `alt` on **AvatarImage** — describe the person, not the file. Use `@username` for handles.
+- **AvatarFallback** initials act as a visual label but are not read as a name. If the avatar has semantic meaning, wrap the group in a container with `aria-label`.
+- **AvatarBadge** is decorative. Convey the status in text when it matters (e.g., "Online").
+- **AvatarGroup** should have an accessible label like `aria-label="3 participants"` when it summarizes a list.
+
+## Best Practices
+
+- **Always include a fallback.** `AvatarFallback` renders when the image fails or is missing.
+- **Size by context.** 24px in lists, 40px in headers, 64px in profiles.
+- **Add an accessible name.** Wrap in a button with `aria-label` when clickable.
+- **Do not rely on the image alone.** Pair with the user's name or a tooltip.

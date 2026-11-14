@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { isComponentsFolder, pagesNew } from "@/lib/docs";
+import { isComponentsFolder, normalizeActivePath, pagesNew } from "@/lib/docs";
 import type { PageTreeFolder, PageTreePage } from "@/lib/page-tree";
 import { getAllPagesFromFolder, getPagesFromFolder } from "@/lib/page-tree";
 import { source } from "@/lib/source";
@@ -35,9 +35,9 @@ const applyFilter = (pages: PageTreePage[], filter: Filter): PageTreePage[] => {
     return pages;
   }
   if (filter === "new") {
-    return pages.filter((page) => pagesNew.has(page.url));
+    return pages.filter((page) => pagesNew.has(normalizeActivePath(page.url)));
   }
-  return pages.filter((page) => !pagesNew.has(page.url));
+  return pages.filter((page) => !pagesNew.has(normalizeActivePath(page.url)));
 };
 
 export const ComponentsList = ({
