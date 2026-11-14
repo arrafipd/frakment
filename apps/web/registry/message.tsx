@@ -451,6 +451,28 @@ function ScrollerProvider({
     }
   }, [contentPresent, defaultScrollPosition]);
 
+  React.useEffect(() => {
+    if (!autoScroll) {
+      return;
+    }
+    const vp = viewportRef.current;
+    const content = contentRef.current;
+    if (!(vp && content)) {
+      return;
+    }
+    if (typeof ResizeObserver === "undefined") {
+      return;
+    }
+    const observer = new ResizeObserver(() => {
+      const distance = vp.scrollHeight - vp.clientHeight - vp.scrollTop;
+      if (distance <= scrollEdgeThreshold) {
+        vp.scrollTop = vp.scrollHeight;
+      }
+    });
+    observer.observe(content);
+    return () => observer.disconnect();
+  }, [autoScroll, scrollEdgeThreshold]);
+
   const value: ScrollerContextValue = {
     autoScroll,
     contentRef,

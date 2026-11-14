@@ -27,22 +27,12 @@ const SCRIPT: Array<{ role: "user" | "assistant"; text: string }> = [
   },
 ];
 
-const INITIAL: DemoMessage[] = [
-  {
-    id: "u-0",
-    parts: [{ text: SCRIPT[0].text, type: "text" }],
-    role: "user",
-  },
-];
-
 export function MessageAnimatedDemo() {
-  const [messages, setMessages] = React.useState<DemoMessage[]>(INITIAL);
+  const [messages, setMessages] = React.useState<DemoMessage[]>([]);
   const [busy, setBusy] = React.useState(false);
-  const [step, setStep] = React.useState(1);
 
   const reset = () => {
-    setMessages(INITIAL);
-    setStep(1);
+    setMessages([]);
     setBusy(false);
   };
 
@@ -50,47 +40,43 @@ export function MessageAnimatedDemo() {
     if (busy) {
       return;
     }
-    if (step >= SCRIPT.length) {
+    if (messages.length >= 2) {
       reset();
       return;
     }
     setBusy(true);
-    const next = SCRIPT[step];
-    const id = `${next.role === "user" ? "u" : "a"}-${step}`;
-    if (next.role === "user") {
-      setMessages((m) => [
-        ...m,
-        { id, parts: [{ text: next.text, type: "text" }], role: "user" },
-      ]);
-      setStep((s) => s + 1);
-      await new Promise((r) => setTimeout(r, 300));
-    } else {
-      setMessages((m) => [
-        ...m,
-        { id, parts: [{ text: "", type: "text" }], role: "assistant" },
-      ]);
-      const tokens = next.text.split(/(\s+)/);
-      let acc = "";
-      for (const token of tokens) {
-        await new Promise((r) => setTimeout(r, 25));
-        acc += token;
-        const snapshot = acc;
-        setMessages((m) =>
-          m.map((msg) =>
-            msg.id === id
-              ? { ...msg, parts: [{ text: snapshot, type: "text" }] }
-              : msg
-          )
-        );
-      }
-      setStep((s) => s + 1);
+    setMessages([
+      {
+        id: "u-0",
+        parts: [{ text: SCRIPT[0].text, type: "text" }],
+        role: "user",
+      },
+    ]);
+    await new Promise((r) => setTimeout(r, 400));
+    setMessages((m) => [
+      ...m,
+      { id: "a-0", parts: [{ text: "", type: "text" }], role: "assistant" },
+    ]);
+    const tokens = SCRIPT[1].text.split(/(\s+)/);
+    let acc = "";
+    for (const token of tokens) {
+      await new Promise((r) => setTimeout(r, 25));
+      acc += token;
+      const snapshot = acc;
+      setMessages((m) =>
+        m.map((msg) =>
+          msg.id === "a-0"
+            ? { ...msg, parts: [{ text: snapshot, type: "text" }] }
+            : msg
+        )
+      );
     }
     setBusy(false);
   };
 
   const label = busy
     ? "Streaming..."
-    : step >= SCRIPT.length
+    : messages.length >= 2
       ? "Reset"
       : "Send message";
 
