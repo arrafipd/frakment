@@ -1,0 +1,190 @@
+---
+title: Switch
+description: A toggle control for a single on/off setting.
+---
+
+import { SwitchDemo } from "@/examples/switch-demo";
+import { SwitchChecked } from "@/examples/switch-checked";
+import { SwitchDisabled } from "@/examples/switch-disabled";
+import { SwitchWithDescription } from "@/examples/switch-with-description";
+import { SwitchSettingsRow } from "@/examples/switch-settings-row";
+import { SwitchFeatureFlag } from "@/examples/switch-feature-flag";
+import { SwitchAnatomy } from "@/examples/switch-anatomy";
+
+<DocsBaseSwitcher base="web" component="switch" className="mb-6" />
+
+<ComponentPreview name="switch" title="switch.tsx">
+  <SwitchDemo />
+</ComponentPreview>
+
+Switch is a native toggle button with `role="switch"` and `aria-checked`, styled with Frakment tokens. Pair it with `Label` (via `htmlFor`) for accessible click-through, or wrap it in `Field` for larger settings rows.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add switch
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>No npm dependencies required.</Step>
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="switch" title="components/ui/switch.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="switch.tsx"
+import { Switch } from "@/components/ui/switch";
+```
+
+```tsx
+<Switch />
+```
+
+## Examples
+
+### Checked
+
+Use `defaultChecked` for uncontrolled initial state, or `checked` / `onCheckedChange` for a controlled switch.
+
+<ComponentPreview name="switch-checked" title="switch-checked.tsx" src="examples/switch-checked.tsx">
+  <SwitchChecked />
+</ComponentPreview>
+
+### Disabled
+
+<ComponentPreview name="switch-disabled" title="switch-disabled.tsx" src="examples/switch-disabled.tsx">
+  <SwitchDisabled />
+</ComponentPreview>
+
+### With description
+
+Compose with `Field` and `FieldContent` (see Field docs) — or lay out manually as below.
+
+<ComponentPreview name="switch-with-description" title="switch-with-description.tsx" src="examples/switch-with-description.tsx" previewClassName="h-auto py-8">
+  <SwitchWithDescription />
+</ComponentPreview>
+
+### Settings row
+
+<ComponentPreview name="switch-settings-row" title="switch-settings-row.tsx" src="examples/switch-settings-row.tsx" previewClassName="h-auto py-8">
+  <SwitchSettingsRow />
+</ComponentPreview>
+
+### Feature flag
+
+<ComponentPreview name="switch-feature-flag" title="switch-feature-flag.tsx" src="examples/switch-feature-flag.tsx" previewClassName="h-auto py-8">
+  <SwitchFeatureFlag />
+</ComponentPreview>
+
+## Anatomy
+
+<ComponentPreview name="switch-anatomy" title="switch-anatomy.tsx" src="examples/switch-anatomy.tsx" previewClassName="h-auto py-8">
+  <SwitchAnatomy />
+</ComponentPreview>
+
+- **Track** — 32×18 pill, `bg-input` off, `bg-primary` on
+- **Thumb** — 16px circle that slides 14px between ends
+- **Label** — separate element, linked with `htmlFor`
+
+## API Reference
+
+### Switch
+
+Renders a native `<button>` with `role="switch"` and `aria-checked`.
+
+<PropsTable
+  rows={[
+    { name: "checked", type: "boolean", description: "Controlled state." },
+    { name: "defaultChecked", type: "boolean", defaultValue: "false", description: "Uncontrolled initial state." },
+    { name: "onCheckedChange", type: "(checked: boolean) => void", description: "Fires on toggle." },
+    { name: "disabled", type: "boolean", defaultValue: "false", description: "Removes the switch from the tab order." },
+    { name: "size", type: "sm | default", defaultValue: "default", description: "Track and thumb dimensions." },
+    { name: "motion", type: "string", description: "CSS transition override for the thumb; e.g. 200 ease-out or 300 cubic-bezier(...). Respects prefers-reduced-motion." },
+  ]}
+/>
+
+## Controlled
+
+```tsx
+const [checked, setChecked] = React.useState(false);
+<Switch checked={checked} onCheckedChange={setChecked} />
+```
+
+## States
+
+| State | How |
+| :-- | :-- |
+| Off | default |
+| On | `checked` or `defaultChecked` |
+| Disabled | `disabled` prop |
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `Space` | Toggle |
+| `Enter` | Toggle |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `switch`, `switch-thumb` |
+| `data-state` | `checked` \| `unchecked` |
+| `data-size` | `default` \| `sm` |
+
+## Motion
+
+The thumb slides with a CSS `transition-transform` by default. Override with `motion` without editing the file:
+
+```tsx
+<Switch motion="300 cubic-bezier(0.34, 1.56, 0.64, 1)" />
+```
+
+| Value | Result |
+| :-- | :-- |
+| omitted | Tailwind default transition |
+| `"200"` | 200ms ease-in-out |
+| `"300 cubic-bezier(...)"` | 300ms custom easing |
+| `"off"` | no transition |
+
+When `prefers-reduced-motion` is set, the transition is disabled regardless of the value. Third-party animation libraries that write inline styles to the thumb automatically suppress the internal CSS transition.
+
+## Accessibility
+
+- Renders `<button role="switch">` with `aria-checked` managed automatically. Do not add `role` manually.
+- Pair with a `<Label>` or `FieldLabel` using `htmlFor`.
+- The visual state (on/off) is conveyed by position and color. The accessible state is conveyed by `aria-checked`.
+- `disabled` removes the switch from the tab order.
+
+## Best Practices
+
+- **Use Switch for instant toggles.** If the change requires a Save button, use Checkbox.
+- **Do not use "On" / "Off" labels.** The state is visible in the track.
+- **Keep the label short.** A phrase, not a sentence.
+- **Group related switches** under a heading rather than scattering them.
+- **Do not use Switch for a destructive action.** Use a Dialog confirmation.
+
+## Related Components
+
+- [Label](/docs/components/web/label) — paired text
+- [Field](/docs/components/web/field) — settings row layout

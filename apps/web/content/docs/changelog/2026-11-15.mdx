@@ -64,3 +64,38 @@ npx frakment@latest add message
   </MessageScroller>
 </MessageScrollerProvider>
 ```
+
+<hr className="my-16 border-border/40" />
+
+### Marker, Attachment, Switch, Progress
+
+Four more components drop `radix-ui` and ship as native primitives. **Marker** and **Attachment** replace the `asChild` prop with `as` for polymorphic rendering. **Switch** and **Progress** expose a `motion` prop so you can override the CSS transition without editing the file.
+
+All four now render with `role=switch` / `role=progressbar` / native `<div>` + `aria-*` attributes directly, so the shipped file has no external primitive dependency. `prefers-reduced-motion` disables transitions automatically, and third-party animation libraries that write inline styles suppress the internal transition via `useMotionGuard`.
+
+```bash
+npx frakment@latest add marker attachment switch progress
+```
+
+#### Motion prop
+
+```tsx
+<Switch motion="300 cubic-bezier(0.34, 1.56, 0.64, 1)" />
+<Progress motion="500 ease-out" value={60} />
+```
+
+#### `as` prop (R16)
+
+```tsx
+<Marker as="a" href="/branch">View branch</Marker>
+<Attachment>
+  <AttachmentTrigger as="a" href="/report.pdf" aria-label="Open report" />
+</Attachment>
+```
+
+`asChild` on `AttachmentTrigger` is no longer supported. Migrate to `as`:
+
+```diff
+- <AttachmentTrigger asChild><a href="..." /></AttachmentTrigger>
++ <AttachmentTrigger as="a" href="..." />
+```

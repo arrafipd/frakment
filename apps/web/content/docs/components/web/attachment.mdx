@@ -1,0 +1,238 @@
+---
+title: Attachment
+description: Displays file attachments with state, size, media, and overlay actions.
+---
+
+import { AttachmentDemo } from "@/examples/attachment-demo";
+import { AttachmentGroupDemo } from "@/examples/attachment-group";
+import { AttachmentGroupContext } from "@/examples/attachment-group-context";
+import { AttachmentImage } from "@/examples/attachment-image";
+import { AttachmentSizes } from "@/examples/attachment-sizes";
+import { AttachmentStates } from "@/examples/attachment-states";
+import { AttachmentTriggerDemo } from "@/examples/attachment-trigger";
+import { AttachmentUploadQueue } from "@/examples/attachment-upload-queue";
+
+<DocsBaseSwitcher base="web" component="attachment" className="mb-6" />
+
+<ComponentPreview name="attachment" title="attachment.tsx">
+  <AttachmentDemo />
+</ComponentPreview>
+
+Attachment renders a compact file card with media, title, description, and actions. It supports upload states, size variants, image thumbnails, and an overlay trigger that makes the entire card interactive.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add attachment
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependency:</Step>
+
+      ```bash
+      npm install class-variance-authority
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="attachment" title="components/ui/attachment.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="attachment.tsx"
+import {
+  Attachment,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentMedia,
+  AttachmentTitle,
+} from "@/components/ui/attachment";
+```
+
+```tsx
+<Attachment>
+  <AttachmentMedia>
+    <FileTextIcon />
+  </AttachmentMedia>
+  <AttachmentContent>
+    <AttachmentTitle>report.pdf</AttachmentTitle>
+    <AttachmentDescription>PDF · 2.4 MB</AttachmentDescription>
+  </AttachmentContent>
+</Attachment>
+```
+
+## Composition
+
+```text
+Attachment
+├── AttachmentMedia
+├── AttachmentContent
+│   ├── AttachmentTitle
+│   └── AttachmentDescription
+└── AttachmentActions
+```
+
+## Examples
+
+### States
+
+Control the visual state with the `state` prop. States affect color, shimmer, and action visibility.
+
+<ComponentPreview name="attachment-states" title="attachment-states.tsx" src="examples/attachment-states.tsx" previewClassName="h-auto py-6">
+  <AttachmentStates />
+</ComponentPreview>
+
+### Images
+
+Pass `variant="image"` to **AttachmentMedia** to render a thumbnail. Combine with `orientation="vertical"` for a taller card.
+
+<ComponentPreview name="attachment-image" title="attachment-image.tsx" src="examples/attachment-image.tsx" previewClassName="h-auto py-6">
+  <AttachmentImage />
+</ComponentPreview>
+
+### Group
+
+Wrap multiple attachments in **AttachmentGroup** for horizontal snap scrolling. Cards keep their intrinsic width and snap on touch devices.
+
+<ComponentPreview name="attachment-group" title="attachment-group.tsx" src="examples/attachment-group.tsx" previewClassName="h-auto py-6">
+  <AttachmentGroupDemo />
+</ComponentPreview>
+
+### Sizes
+
+Use the `size` prop to change density. `sm` and `xs` reduce the media slot, padding, and description.
+
+<ComponentPreview name="attachment-sizes" title="attachment-sizes.tsx" src="examples/attachment-sizes.tsx" previewClassName="h-auto py-6">
+  <AttachmentSizes />
+</ComponentPreview>
+
+### Trigger
+
+**AttachmentTrigger** fills the card so the entire surface is clickable while actions stay independently interactive. Pass `as` to render a different element, or wrap it in `DialogTrigger asChild` for a preview dialog.
+
+<ComponentPreview name="attachment-trigger" title="attachment-trigger.tsx" src="examples/attachment-trigger.tsx" previewClassName="h-auto py-6">
+  <AttachmentTriggerDemo />
+</ComponentPreview>
+
+```tsx title="attachment.tsx"
+<Attachment>
+  <AttachmentMedia>
+    <FileSearchIcon />
+  </AttachmentMedia>
+  <AttachmentContent>
+    <AttachmentTitle>research-summary.pdf</AttachmentTitle>
+    <AttachmentDescription>Open preview dialog</AttachmentDescription>
+  </AttachmentContent>
+  <AttachmentActions>
+    <AttachmentAction aria-label="Remove">
+      <XIcon />
+    </AttachmentAction>
+  </AttachmentActions>
+  <DialogTrigger asChild>
+    <AttachmentTrigger aria-label="Preview research-summary.pdf" />
+  </DialogTrigger>
+</Attachment>
+```
+
+## In Context
+
+### Upload queue
+
+<ComponentPreview name="attachment-upload-queue" title="attachment-upload-queue.tsx" src="examples/attachment-upload-queue.tsx" previewClassName="h-auto py-6">
+  <AttachmentUploadQueue />
+</ComponentPreview>
+
+### Attachment group
+
+<ComponentPreview name="attachment-group-context" title="attachment-group-context.tsx" src="examples/attachment-group-context.tsx" previewClassName="h-auto py-6">
+  <AttachmentGroupContext />
+</ComponentPreview>
+
+## API Reference
+
+### Attachment
+
+<PropsTable
+  rows={[
+    { name: "state", type: "idle | uploading | processing | error | done", defaultValue: "idle", description: "Visual state of the attachment." },
+    { name: "size", type: "default | sm | xs", defaultValue: "default", description: "Density of the card." },
+    { name: "orientation", type: "horizontal | vertical", defaultValue: "horizontal", description: "Layout direction of media and content." },
+  ]}
+/>
+
+### AttachmentGroup
+
+Extends `React.ComponentProps<"div">`. Stacks multiple attachments with horizontal snap scrolling.
+
+### AttachmentMedia
+
+<PropsTable
+  rows={[
+    { name: "variant", type: "icon | image", defaultValue: "icon", description: "Renders a thumbnail instead of an icon when set to image." },
+  ]}
+/>
+
+### AttachmentContent / AttachmentTitle / AttachmentDescription
+
+Extend `React.ComponentProps<"div">` / `"span"`. **AttachmentTitle** truncates overflow. **AttachmentDescription** renders in a muted color.
+
+### AttachmentAction
+
+Extends `React.ComponentProps<typeof Button>`. Requires `aria-label` since it renders as an icon-only button. Defaults to `variant="ghost"` and `size="icon-xs"`.
+
+### AttachmentTrigger
+
+<PropsTable
+  rows={[
+    { name: "as", type: "React.ElementType", description: "Render as a different element or component. Accepts HTML tag names or React components. Defaults to button." },
+    { name: "aria-label", type: "string", description: "Required. Describes the target action (e.g. Preview report.pdf)." },
+  ]}
+/>
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `attachment`, `attachment-media`, `attachment-content`, `attachment-title`, `attachment-description`, `attachment-actions`, `attachment-action`, `attachment-trigger`, `attachment-group` |
+| `data-state` | `idle` \| `uploading` \| `processing` \| `error` \| `done` |
+| `data-size` | `default` \| `sm` \| `xs` |
+| `data-orientation` | `horizontal` \| `vertical` |
+| `data-variant` | `icon` \| `image` |
+
+## Accessibility
+
+- **AttachmentTrigger** is an absolute overlay. Give it an `aria-label` describing the target action, such as "Preview report.pdf".
+- **AttachmentAction** buttons are icon-only. Every action must have an `aria-label` so screen readers can announce its intent.
+- Do not attach click handlers to the card itself. Use **AttachmentTrigger** with `as` (or inside a `DialogTrigger asChild`) so the click target is a real anchor or button.
+- Pair color with icon or text. The error state uses `file-warning` and a description — never rely on color alone.
+- When `state="uploading"`, render **Spinner** inside **AttachmentMedia** and include the progress in **AttachmentDescription** so the state is announced.
+
+## Best Practices
+
+- **Use `state` for lifecycle, not decoration.** Every state maps to a real upload phase — idle, uploading, processing, error, done.
+- **Keep file names visible.** **AttachmentTitle** truncates with ellipsis; do not replace it with an icon-only card.
+- **Use `orientation="vertical"` for image attachments.** Horizontal orientation reserves less vertical space but hides the image.
+- **Prefer `AttachmentGroup` for lists.** It normalizes spacing and snap behavior between cards.
+- **Wrap with `as` for links.** A plain overlay without `as` is a button with no semantic role; pass `as="a"` for anchors or use a `DialogTrigger asChild` wrapper.
+
+## Related Components
+
+- [Message](/docs/components/web/message) — bubble attachments
+- [Spinner](/docs/components/web/spinner) — uploading state

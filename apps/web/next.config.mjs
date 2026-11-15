@@ -114,6 +114,26 @@ const nextConfig = {
         source: `${ROUTES.DOCS}/components/pagination`,
       },
       {
+        destination: `${ROUTES.DOCS}/components/web/marker`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/marker`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/attachment`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/attachment`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/switch`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/switch`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/progress`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/progress`,
+      },
+      {
         destination: `${ROUTES.DOCS}/components/web/button-group`,
         permanent: false,
         source: `${ROUTES.DOCS}/components/button-group`,
