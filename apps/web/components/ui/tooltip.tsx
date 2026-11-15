@@ -28,7 +28,7 @@ interface TooltipContextValue {
   onTriggerLeave: () => void;
   open: boolean;
   setOpen: (open: boolean) => void;
-  triggerRef: React.RefObject<HTMLButtonElement | null>;
+  triggerRef: React.RefObject<HTMLElement | null>;
 }
 
 const TooltipContext = React.createContext<TooltipContextValue | null>(null);
@@ -287,7 +287,7 @@ function Tooltip({
 type TooltipTriggerProps = Omit<React.ComponentProps<"button">, "ref"> & {
   as?: React.ElementType;
   asChild?: boolean;
-  ref?: React.Ref<HTMLButtonElement>;
+  ref?: React.Ref<HTMLElement>;
 } & Record<string, unknown>;
 
 function TooltipTrigger({
@@ -304,13 +304,12 @@ function TooltipTrigger({
   const ctx = useTooltipContext("TooltipTrigger");
 
   const setRef = React.useCallback(
-    (node: HTMLButtonElement | null) => {
+    (node: HTMLElement | null) => {
       ctx.triggerRef.current = node;
       if (typeof ref === "function") {
         ref(node);
       } else if (ref) {
-        (ref as React.MutableRefObject<HTMLButtonElement | null>).current =
-          node;
+        (ref as React.MutableRefObject<HTMLElement | null>).current = node;
       }
     },
     [ctx.triggerRef, ref]

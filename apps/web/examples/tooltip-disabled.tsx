@@ -8,12 +8,10 @@ import {
 export function TooltipDisabled() {
   return (
     <Tooltip>
-      <TooltipTrigger asChild>
-        <span className="inline-block w-fit">
-          <Button disabled variant="outline">
-            Disabled
-          </Button>
-        </span>
+      <TooltipTrigger as="span" className="inline-block w-fit">
+        <Button disabled variant="outline">
+          Disabled
+        </Button>
       </TooltipTrigger>
       <TooltipContent>This feature is currently unavailable</TooltipContent>
     </Tooltip>

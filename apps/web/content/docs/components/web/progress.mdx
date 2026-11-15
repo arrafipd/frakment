@@ -120,6 +120,17 @@ The indicator uses a CSS `transition-transform` (500ms ease-out) by default. Ove
 
 When `prefers-reduced-motion` is set, the transition is disabled regardless of the value. Third-party animation libraries that write inline styles to the indicator automatically suppress the internal CSS transition.
 
+### Live updates (slider, input)
+
+When the value changes rapidly — drag slider, typing, real-time upload — pass `motion="off"` so the fill updates instantly instead of trailing 500ms behind.
+
+```tsx
+const [value, setValue] = React.useState(50);
+
+<Progress motion="off" value={value} />
+<Slider onValueChange={(v) => setValue(v[0])} value={[value]} />
+```
+
 ## Accessibility
 
 - Renders `<div role="progressbar">` with `aria-valuenow`, `aria-valuemin`, and `aria-valuemax` managed automatically.

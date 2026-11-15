@@ -184,6 +184,17 @@ Wraps `Separator` with group-aware styling. Accepts every `Separator` prop. See 
 - **Use `ButtonGroupSeparator` sparingly.** The default border merge is enough for most cases.
 - **Nested groups need an outer ButtonGroup.** The outer wrapper adds the gap and keeps the composition readable.
 
+## Custom radius
+
+Override `--radius` on the wrapper to square off or fully round the group. All children inherit the variable.
+
+```tsx
+<ButtonGroup className="[--radius:9999rem]">
+  <Button variant="outline">Back</Button>
+  <Button variant="outline">Next</Button>
+</ButtonGroup>
+```
+
 ## Related Components
 
 - [Button](/docs/components/button): the base button used inside groups

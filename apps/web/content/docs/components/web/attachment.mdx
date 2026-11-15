@@ -115,6 +115,16 @@ Wrap multiple attachments in **AttachmentGroup** for horizontal snap scrolling. 
   <AttachmentGroupDemo />
 </ComponentPreview>
 
+### Scroll hint
+
+Add `scroll-fade-e` to `AttachmentGroup` so the right edge fades when more cards are off-screen. Use `scroll-fade-none` to opt out.
+
+```tsx
+<AttachmentGroup className="scroll-fade-e">
+  {/* Attachment cards */}
+</AttachmentGroup>
+```
+
 ### Sizes
 
 Use the `size` prop to change density. `sm` and `xs` reduce the media slot, padding, and description.
