@@ -69,12 +69,22 @@ import {
 </Popover>
 ```
 
-See the [Popover docs](/docs/components/popover) for the full API reference.
+See the [Popover docs](/docs/components/web/popover) for the full API reference.
 
 <hr className="my-16 border-border/40" />
 
 ### Button `as` prop
 
+
+<ComponentPreview name="
+button
+" title="
+button.tsx
+">
+  <
+ButtonDemo
+ />
+</ComponentPreview>
 Button accepts `as` to render a different root element or component. Pass `as={Link}` for router links, `as={CustomComponent}` for a wrapped surface, or omit to keep the default `<button>` / `<a>` behavior based on `href`.
 
 ```tsx
@@ -84,12 +94,22 @@ import { Button } from "@/components/ui/button";
 <Button as={Link} href="/pricing" variant="outline">Pricing</Button>
 ```
 
-No API breaking changes. `href` and `onClick` continue to work as before. See the [Button docs](/docs/components/button) for the updated router link guidance.
+No API breaking changes. `href` and `onClick` continue to work as before. See the [Button docs](/docs/components/web/button) for the updated router link guidance.
 
 <hr className="my-16 border-border/40" />
 
 ### Separator
 
+
+<ComponentPreview name="
+separator
+" title="
+separator.tsx
+">
+  <
+SeparatorDemo
+ />
+</ComponentPreview>
 Separator no longer depends on `radix-ui`. It renders as a `div` with `role="none"` by default, or `role="separator"` with `aria-orientation` when `decorative={false}`.
 
 **Changed:**
@@ -97,12 +117,22 @@ Separator no longer depends on `radix-ui`. It renders as a `div` with `role="non
 - Removed `radix-ui` from `dependencies`. No npm install needed.
 - `decorative` prop now controls `role` directly.
 
-No API breaking changes. See the [Separator docs](/docs/components/separator).
+No API breaking changes. See the [Separator docs](/docs/components/web/separator).
 
 <hr className="my-16 border-border/40" />
 
 ### Button Group
 
+
+<ComponentPreview name="
+button-group
+" title="
+button-group.tsx
+">
+  <
+ButtonGroupDemo
+ />
+</ComponentPreview>
 Button Group now uses Frakment's own Slot primitive instead of the Radix Slot. All ten compositions (dropdown, input, input group, nested, select, separator, split, size, orientation, demo) continue to work without changes.
 
 **Changed:**
@@ -110,7 +140,7 @@ Button Group now uses Frakment's own Slot primitive instead of the Radix Slot. A
 - Removed `radix-ui` from `dependencies`.
 - New `registryDependency`: `slot`.
 
-See the [Button Group docs](/docs/components/button-group).
+See the [Button Group docs](/docs/components/web/button-group).
 
 <hr className="my-16 border-border/40" />
 
@@ -240,7 +270,7 @@ See the [Breadcrumb docs](/docs/components/web/breadcrumb).
 - Exports `digits`, `chars`, and `alphanumeric` regex patterns instead of `REGEXP_*` constants.
 - Pattern filtering runs on `onChange` so pasted values are sanitized against the pattern.
 
-See the [Input OTP docs](/docs/components/input-otp).
+See the [Input OTP docs](/docs/components/web/input-otp).
 
 <hr className="my-16 border-border/40" />
 
@@ -277,6 +307,9 @@ Copy from the [Button Group docs](/docs/components/native/button-group).
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
+import { ButtonDemo } from "@/examples/button-demo";
+import { ButtonGroupDemo } from "@/examples/button-group-demo";
+import { SeparatorDemo } from "@/examples/separator-demo";
 
 <Separator />
 
