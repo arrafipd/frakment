@@ -8,8 +8,9 @@ import { CardSmall } from "@/examples/card-small";
 import { CardSpacing } from "@/examples/card-spacing";
 import { CardEdgeToEdge } from "@/examples/card-edge-to-edge";
 import { CardImage } from "@/examples/card-image";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { CardProjectList } from "@/examples/card-project-list";
+
+<DocsBaseSwitcher base="web" component="card" className="mb-6" />
 
 <ComponentPreview name="card" title="card.tsx" previewClassName="h-auto py-8">
   <CardDemo />
@@ -47,6 +48,34 @@ npx frakment add card
   </TabsContent>
 </CodeTabs>
 
+## Usage
+
+```tsx title="card.tsx"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+```
+
+```tsx
+<Card>
+  <CardHeader>
+    <CardTitle>Frakment</CardTitle>
+    <CardDescription>Registry primitives for React.</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <p>Copy-paste, not install.</p>
+  </CardContent>
+  <CardFooter>
+    <Button>Open</Button>
+  </CardFooter>
+</Card>
+```
+
 ## Composition
 
 ```text
@@ -65,7 +94,7 @@ Card
 
 Pass `size="sm"` for tighter padding (12px) and smaller title.
 
-<ComponentPreview name="card" title="card.tsx" previewClassName="h-auto py-8">
+<ComponentPreview name="card-small" title="card-small.tsx" src="examples/card-small.tsx" previewClassName="h-auto py-8">
   <CardSmall />
 </ComponentPreview>
 
@@ -84,7 +113,7 @@ Pass `size="sm"` for tighter padding (12px) and smaller title.
 
 Override `--card-spacing` via an inline arbitrary class — the entire card (header, content, footer) adapts.
 
-<ComponentPreview name="card" title="card.tsx" previewClassName="h-auto py-8">
+<ComponentPreview name="card-spacing" title="card-spacing.tsx" src="examples/card-spacing.tsx" previewClassName="h-auto py-8">
   <CardSpacing />
 </ComponentPreview>
 
@@ -96,7 +125,7 @@ Override `--card-spacing` via an inline arbitrary class — the entire card (hea
 
 Negate `--card-spacing` on `CardContent` (`-mb-(--card-spacing)`, `-mx-(--card-spacing)`) for full-bleed sections like scrollable terms.
 
-<ComponentPreview name="card" title="card.tsx" previewClassName="h-auto py-8">
+<ComponentPreview name="card-edge-to-edge" title="card-edge-to-edge.tsx" src="examples/card-edge-to-edge.tsx" previewClassName="h-auto py-8">
   <CardEdgeToEdge />
 </ComponentPreview>
 
@@ -110,40 +139,38 @@ Negate `--card-spacing` on `CardContent` (`-mb-(--card-spacing)`, `-mx-(--card-s
 
 Any `<img>` as the first child gets `pt-0` + rounded top automatically — no extra classes needed on the image itself.
 
-<ComponentPreview name="card" title="card.tsx" previewClassName="h-auto py-8">
+<ComponentPreview name="card-image" title="card-image.tsx" src="examples/card-image.tsx" previewClassName="h-auto py-8">
   <CardImage />
 </ComponentPreview>
 
 ```tsx
 <Card className="pt-0">
-  <img src="..." alt="..." className="aspect-video w-full object-cover" />
+  <img alt="..." className="aspect-video w-full object-cover" src="..." />
   <CardHeader>...</CardHeader>
 </Card>
 ```
 
-## API Reference
+## In Context
 
-Extends `React.ComponentProps<"div">`.
+### Project list
+
+<ComponentPreview name="card-project-list" title="card-project-list.tsx" src="examples/card-project-list.tsx" previewClassName="h-auto py-8">
+  <CardProjectList />
+</ComponentPreview>
+
+## API Reference
 
 ### Card
 
 <PropsTable
   rows={[
-    {
-      name: "size",
-      type: '"default" | "sm"',
-      defaultValue: '"default"',
-      description:
-        "Root padding via --card-spacing (16px → 12px) and smaller title.",
-    },
+    { name: "size", type: "default | sm", defaultValue: "default", description: "Root padding via --card-spacing (16px → 12px) and smaller title." },
   ]}
 />
 
 ### Other parts
 
-All other parts extend `React.ComponentProps<"div">`.
-
-Adds `data-slot="card-*"` for styling hooks.
+All other parts extend `React.ComponentProps<"div">` and set `data-slot="card-*"` for styling hooks.
 
 ## CSS Variables
 
@@ -166,67 +193,6 @@ Adds `data-slot="card-*"` for styling hooks.
 | :-- | :-- |
 | `data-slot` | `card`, `card-header`, `card-title`, `card-description`, `card-action`, `card-content`, `card-footer` |
 
-## Usage
-
-```tsx title="card.tsx"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-```
-
-```tsx title="card.tsx"
-<Card>
-  <CardHeader>
-    <CardTitle>Frakment</CardTitle>
-    <CardDescription>Registry primitives for React.</CardDescription>
-  </CardHeader>
-  <CardContent>
-    <p>Copy-paste, not install.</p>
-  </CardContent>
-  <CardFooter>
-    <Button>Open</Button>
-  </CardFooter>
-</Card>
-```
-
-## In Context
-
-### Project list
-
-<ComponentPreview name="card" title="card.tsx">
-  <div className="mx-auto w-full max-w-sm space-y-3">
-    <Card>
-      <CardHeader>
-        <CardTitle>frakment/ui</CardTitle>
-        <CardDescription>Primitives for product surfaces.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm">42 components. Radix-based. Copy-paste first.</p>
-      </CardContent>
-      <CardFooter>
-        <Button size="sm" variant="outline">View</Button>
-      </CardFooter>
-    </Card>
-    <Card>
-      <CardHeader>
-        <CardTitle>frakment/ai</CardTitle>
-        <CardDescription>Chat, agent, and reasoning primitives.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm">Message, Bubble, Trace, Attachment.</p>
-      </CardContent>
-      <CardFooter>
-        <Button size="sm" variant="outline">View</Button>
-      </CardFooter>
-    </Card>
-  </div>
-</ComponentPreview>
-
 ## Accessibility
 
 - `Card` renders a plain `<div>` with `data-slot="card"`. It has no role by default; add one when the card represents a distinct region (e.g. `role="region"` with `aria-labelledby`).
@@ -241,9 +207,9 @@ import {
 - **Keep actions in the footer.** `CardFooter` aligns buttons and metadata to the end.
 - **Use `CardTitle` as a heading, not a label.** For labels, use `text-sm font-medium` on a span.
 - **Avoid full-surface hover unless the whole card is clickable.** Mixed hover states confuse users.
+
 ## Related Components
 
-- [Item](/docs/components/item) — row-level container
-- [Accordion](/docs/components/accordion) — collapsible content
-- [Tabs](/docs/components/tabs) — switch content panes
-
+- [Item](/docs/components/web/item) — row-level container
+- [Accordion](/docs/components/web/accordion) — collapsible content
+- [Tabs](/docs/components/web/tabs) — switch content panes

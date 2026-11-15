@@ -6,7 +6,9 @@ description: Navigation for splitting content across multiple pages.
 import { PaginationDemo } from "@/examples/pagination-demo";
 import { PaginationSimple } from "@/examples/pagination-simple";
 import { PaginationIconsOnly } from "@/examples/pagination-icons-only";
-import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationLink, PaginationNext } from "@/components/ui/pagination";
+import { PaginationTableFooter } from "@/examples/pagination-table-footer";
+
+<DocsBaseSwitcher base="web" component="pagination" className="mb-6" />
 
 <ComponentPreview name="pagination" title="pagination.tsx">
   <PaginationDemo />
@@ -24,19 +26,19 @@ Pagination splits long content into pages. It composes standard links so navigat
 
 <TabsContent value="cli">
 
-~~~bash
+```bash
 npx frakment add pagination
-~~~
+```
 
 </TabsContent>
 
   <TabsContent value="manual">
     <Steps className="mb-0 pt-2">
-      <Step>Install the base button</Step>
+      <Step>Install the base button:</Step>
 
-      ~~~bash
+      ```bash
       npx frakment add button
-      ~~~
+      ```
 
       <Step>Copy and paste the following code into your project.</Step>
 
@@ -50,26 +52,32 @@ npx frakment add pagination
 
 ## Usage
 
-~~~tsx title="pagination.tsx"
+```tsx title="pagination.tsx"
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
   PaginationLink,
-  PaginationPrevious,
   PaginationNext,
+  PaginationPrevious,
 } from "@/components/ui/pagination";
-~~~
+```
 
-~~~tsx
+```tsx
 <Pagination>
   <PaginationContent>
-    <PaginationItem><PaginationPrevious href="#" /></PaginationItem>
-    <PaginationItem><PaginationLink href="#">1</PaginationLink></PaginationItem>
-    <PaginationItem><PaginationNext href="#" /></PaginationItem>
+    <PaginationItem>
+      <PaginationPrevious href="#" />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#">1</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationNext href="#" />
+    </PaginationItem>
   </PaginationContent>
 </Pagination>
-~~~
+```
 
 ## Examples
 
@@ -77,7 +85,7 @@ import {
 
 Show every page number without an ellipsis.
 
-<ComponentPreview name="pagination" title="pagination.tsx">
+<ComponentPreview name="pagination-simple" title="pagination-simple.tsx" src="examples/pagination-simple.tsx">
   <PaginationSimple />
 </ComponentPreview>
 
@@ -85,7 +93,7 @@ Show every page number without an ellipsis.
 
 Pair with a `Select` for page size, keeping the controls minimal.
 
-<ComponentPreview name="pagination" title="pagination.tsx" previewClassName="h-auto py-8">
+<ComponentPreview name="pagination-icons-only" title="pagination-icons-only.tsx" src="examples/pagination-icons-only.tsx" previewClassName="h-auto py-8">
   <PaginationIconsOnly />
 </ComponentPreview>
 
@@ -104,16 +112,8 @@ Pagination
 
 ### Table footer
 
-<ComponentPreview name="pagination" title="pagination.tsx">
-  <Pagination>
-    <PaginationContent>
-      <PaginationItem><PaginationPrevious href="?page=1" /></PaginationItem>
-      <PaginationItem><PaginationLink href="?page=1">1</PaginationLink></PaginationItem>
-      <PaginationItem><PaginationLink href="?page=2" isActive>2</PaginationLink></PaginationItem>
-      <PaginationItem><PaginationLink href="?page=3">3</PaginationLink></PaginationItem>
-      <PaginationItem><PaginationNext href="?page=3" /></PaginationItem>
-    </PaginationContent>
-  </Pagination>
+<ComponentPreview name="pagination-table-footer" title="pagination-table-footer.tsx" src="examples/pagination-table-footer.tsx">
+  <PaginationTableFooter />
 </ComponentPreview>
 
 ## API Reference
@@ -123,10 +123,14 @@ Pagination
 <PropsTable
   rows={[
     { name: "href", type: "string", description: "Destination URL." },
-    { name: "isActive", type: "boolean", default: "false", description: "Mark the link as the current page; sets aria-current." },
-    { name: "size", type: "sm | default | lg | icon", default: "icon", description: "Button size." },
+    { name: "isActive", type: "boolean", defaultValue: "false", description: "Mark the link as the current page; sets aria-current." },
+    { name: "size", type: "sm | default | lg | icon", defaultValue: "icon", description: "Button size." },
   ]}
 />
+
+### Other parts
+
+All other parts extend `React.ComponentProps<"div">` (or `<a>` for `PaginationLink` and `PaginationPrevious` / `PaginationNext`).
 
 ## Accessibility
 

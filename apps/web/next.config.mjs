@@ -99,6 +99,21 @@ const nextConfig = {
         source: `${ROUTES.DOCS}/components/separator`,
       },
       {
+        destination: `${ROUTES.DOCS}/components/web/spinner`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/spinner`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/card`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/card`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/pagination`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/pagination`,
+      },
+      {
         destination: `${ROUTES.DOCS}/components/web/button-group`,
         permanent: false,
         source: `${ROUTES.DOCS}/components/button-group`,
