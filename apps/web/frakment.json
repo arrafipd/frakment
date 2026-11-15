@@ -349,7 +349,7 @@
       "description": "A popup that displays information related to an element on hover or focus.",
       "source": "registry/tooltip.tsx",
       "target": "components/ui/tooltip.tsx",
-      "dependencies": ["@floating-ui/react-dom@^2.1.9"],
+      "dependencies": [],
       "registryDependencies": [],
       "type": "registry:ui"
     },

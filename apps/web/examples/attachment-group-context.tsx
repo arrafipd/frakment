@@ -10,7 +10,7 @@ import {
 
 export function AttachmentGroupContext() {
   return (
-    <AttachmentGroup className="mx-auto w-full max-w-sm">
+    <AttachmentGroup className="scroll-fade-e mx-auto w-full max-w-sm">
       <Attachment className="w-64">
         <AttachmentMedia>
           <FileTextIcon />

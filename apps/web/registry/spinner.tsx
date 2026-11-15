@@ -40,6 +40,7 @@ function Spinner({
         className
       )}
       data-slot="spinner"
+      data-variant="default"
       role="status"
       style={
         borderWidth === undefined

@@ -115,6 +115,7 @@ function Switch({
           "group-data-[size=sm]/switch:data-[state=checked]:translate-x-[calc(100%-2px)] group-data-[size=sm]/switch:data-[state=unchecked]:translate-x-0"
         )}
         data-slot="switch-thumb"
+        data-state={checked ? "checked" : "unchecked"}
         style={thumbStyle}
       />
     </button>
