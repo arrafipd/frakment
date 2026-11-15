@@ -134,6 +134,51 @@ const nextConfig = {
         source: `${ROUTES.DOCS}/components/progress`,
       },
       {
+        destination: `${ROUTES.DOCS}/components/web/dialog`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/dialog`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/item`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/item`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/checkbox`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/checkbox`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/empty`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/empty`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/field`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/field`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/code-block`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/code-block`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/hover-card`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/hover-card`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/tabs`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/tabs`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/textarea`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/textarea`,
+      },
+      {
         destination: `${ROUTES.DOCS}/components/web/slider`,
         permanent: false,
         source: `${ROUTES.DOCS}/components/slider`,

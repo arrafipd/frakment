@@ -39,7 +39,7 @@
       "description": "Displays rich content in a portal when hovering over a trigger.",
       "source": "registry/hover-card.tsx",
       "target": "components/ui/hover-card.tsx",
-      "dependencies": ["radix-ui@^1.8.1"],
+      "dependencies": [],
       "registryDependencies": [],
       "type": "registry:ui"
     },
@@ -169,7 +169,7 @@
       "description": "A control that lets the user toggle between checked and not checked.",
       "source": "registry/checkbox.tsx",
       "target": "components/ui/checkbox.tsx",
-      "dependencies": ["lucide-react@^1.69.0", "radix-ui@^1.8.1"],
+      "dependencies": ["lucide-react@^1.69.0"],
       "registryDependencies": [],
       "type": "registry:ui"
     },
@@ -290,7 +290,7 @@
       "description": "A flexible row for grouping media, content, and actions.",
       "source": "registry/item.tsx",
       "target": "components/ui/item.tsx",
-      "dependencies": ["class-variance-authority@^0.7.1", "radix-ui@^1.8.1"],
+      "dependencies": ["class-variance-authority@^0.7.1"],
       "type": "registry:ui"
     },
     {
@@ -359,7 +359,7 @@
       "description": "A set of layered sections of content, known as tab panels, displayed one at a time.",
       "source": "registry/tabs.tsx",
       "target": "components/ui/tabs.tsx",
-      "dependencies": ["radix-ui@^1.8.1"],
+      "dependencies": [],
       "registryDependencies": [],
       "type": "registry:ui"
     },
@@ -476,7 +476,7 @@
       "description": "A modal dialog built on Radix.",
       "source": "registry/dialog.tsx",
       "target": "components/ui/dialog.tsx",
-      "dependencies": ["lucide-react@^1.69.0", "radix-ui@^1.8.1"],
+      "dependencies": ["lucide-react@^1.69.0"],
       "registryDependencies": [],
       "type": "registry:ui"
     },

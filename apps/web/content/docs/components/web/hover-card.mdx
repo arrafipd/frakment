@@ -34,7 +34,7 @@ npx frakment add hover-card
       <Step>Install the following dependencies:</Step>
 
       ```bash
-      npm install radix-ui
+      
       ```
 
       <Step>Copy and paste the following code into your project.</Step>
@@ -51,6 +51,7 @@ npx frakment add hover-card
 
 ```tsx title="hover-card.tsx"
 import {
+<DocsBaseSwitcher base="web" component="hover-card" className="mb-6" />
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
@@ -76,7 +77,7 @@ Set `side` on `HoverCardContent` to control placement.
 
 ## Delay
 
-Pass `openDelay` and `closeDelay` to `HoverCard` to tune the timing. Defaults come from Radix (700ms open, 300ms close).
+Pass `openDelay` and `closeDelay` to `HoverCard` to tune the timing. Defaults are 700ms open, 300ms close.
 
 ```tsx
 <HoverCard openDelay={100} closeDelay={100}>

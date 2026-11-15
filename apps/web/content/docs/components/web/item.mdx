@@ -50,7 +50,7 @@ npx frakment add item
       <Step>Install the following dependencies:</Step>
 
       ```bash
-      npm install class-variance-authority radix-ui
+      npm install class-variance-authority
       ```
 
       <Step>Optional — install <code>avatar</code> to replicate the full demo:</Step>
@@ -79,6 +79,8 @@ The demo uses `<Avatar>` with the 5 AVIF avatars included in the avatar componen
 
 ```tsx title="item.tsx"
 import { Item, ItemContent, ItemMedia, ItemTitle } from "@/components/ui/item";
+
+<DocsBaseSwitcher base="web" component="item" className="mb-6" />
 ```
 
 ```tsx title="item.tsx"
@@ -255,7 +257,7 @@ Add `ItemActions` as the last child for a trailing button, badge, or amount.
 
 ## In context
 
-Combine with [Spinner](/docs/components/spinner) for a live processing row.
+Combine with [Spinner](/docs/components/web/spinner) for a live processing row.
 
 <ComponentPreview
   name="item"
@@ -326,6 +328,12 @@ Combine with [Spinner](/docs/components/spinner) for a live processing row.
 
 Extend `React.ComponentProps<"div">`. Each maps to a `data-slot` attribute for CSS targeting.
 
+## As prop
+
+`Item` also accepts an `as` prop to render a custom element such as `<a>` or `<li>`.
+
+The legacy `asChild` prop remains supported for backward compatibility but is deprecated.
+
 ## Data Attributes
 
 | Attribute | Values |
@@ -336,7 +344,7 @@ Extend `React.ComponentProps<"div">`. Each maps to a `data-slot` attribute for C
 
 ## Accessibility
 
-- `Item` renders a `<div>` — for interactive rows, use `asChild` with `<a>` or `<button>` so keyboard and screen readers work.
+- `Item` renders a `<div>` — for interactive rows, use `as` with `<a>` or `<button>` (legacy `asChild` still works) so keyboard and screen readers work.
 - `ItemMedia` should be `aria-hidden` when the visual is decorative (e.g., a status dot).
 - `ItemTitle` acts as the accessible name — write it as a short label.
 
@@ -348,7 +356,7 @@ Extend `React.ComponentProps<"div">`. Each maps to a `data-slot` attribute for C
 - **One action cluster.** More than three actions belong in a dropdown.
 ## Related Components
 
-- [Card](/docs/components/card) — elevated container
-- [Marker](/docs/components/marker) — inline status row
-- [Attachment](/docs/components/attachment) — file row
+- [Card](/docs/components/web/card) — elevated container
+- [Marker](/docs/components/web/marker) — inline status row
+- [Attachment](/docs/components/web/attachment) — file row
 

@@ -13,7 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox";
   <CheckboxDemo />
 </ComponentPreview>
 
-Checkbox is a Radix primitive styled with Frakment tokens. It supports checked, unchecked, and indeterminate states, and integrates with `Label` for accessible click-through.
+Checkbox is a native button styled with Frakment tokens. It supports checked, unchecked, and indeterminate states, and integrates with `Label` for accessible click-through.
 
 ## Installation
 
@@ -36,7 +36,7 @@ npx frakment add checkbox
       <Step>Install the following dependencies:</Step>
 
       ```bash
-      npm install radix-ui
+      npm install lucide-react
       ```
 
       <Step>Copy and paste the following code into your project.</Step>
@@ -53,6 +53,7 @@ npx frakment add checkbox
 
 ```tsx title="checkbox.tsx"
 import { Checkbox } from "@/components/ui/checkbox";
+<DocsBaseSwitcher base="web" component="checkbox" className="mb-6" />
 ```
 
 ```tsx
@@ -133,13 +134,13 @@ Pair with `Label` and matching `id` / `htmlFor` for a click-through row.
 
 ### Checkbox
 
-Extends Radix `Checkbox.Root`.
+Extends `React.ComponentProps<"button">`.
 
 <PropsTable
   rows={[
     { name: "checked", type: "boolean | \"indeterminate\"", description: "Controlled state. Use \"indeterminate\" for partial selection." },
-    { name: "defaultChecked", type: "boolean", default: "false", description: "Uncontrolled initial state." },
-    { name: "onCheckedChange", type: "(checked: boolean) => void", description: "Fires when the checkbox toggles." },
+    { name: "defaultChecked", type: "boolean | \"indeterminate\"", default: "false", description: "Uncontrolled initial state." },
+    { name: "onCheckedChange", type: "(checked: boolean | \"indeterminate\") => void", description: "Fires when the checkbox toggles." },
     { name: "disabled", type: "boolean", default: "false", description: "Removes the checkbox from the tab order." },
     { name: "required", type: "boolean", default: "false", description: "Native form requirement." },
   ]}

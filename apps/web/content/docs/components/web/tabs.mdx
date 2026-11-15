@@ -36,7 +36,7 @@ npx frakment add tabs
       <Step>Install the following dependency:</Step>
 
       ~~~bash
-      npm install radix-ui
+      
       ~~~
 
       <Step>Copy and paste the following code into your project.</Step>
@@ -53,6 +53,7 @@ npx frakment add tabs
 
 ~~~tsx title="tabs.tsx"
 import {
+<DocsBaseSwitcher base="web" component="tabs" className="mb-6" />
   Tabs,
   TabsContent,
   TabsList,
@@ -177,7 +178,7 @@ const [value, setValue] = React.useState("tab-1")
 
 ## Accessibility
 
-- Built on Radix Tabs, following the WAI-ARIA tabs pattern.
+- Follows the WAI-ARIA tabs pattern.
 - Triggers expose `role="tab"` and `aria-selected`.
 - Keyboard: `ArrowLeft` and `ArrowRight` move between triggers.
 

@@ -1,7 +1,6 @@
 import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
-import { Slot } from "radix-ui";
-import type * as React from "react";
+import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -21,21 +20,40 @@ const itemVariants = cva(
   }
 );
 
+type ItemProps = React.ComponentPropsWithoutRef<"div"> &
+  VariantProps<typeof itemVariants> & {
+    as?: React.ElementType;
+    asChild?: boolean;
+  };
+
 function Item({
+  as,
+  asChild,
+  children,
   className,
   variant,
-  asChild = false,
   ...props
-}: React.ComponentProps<"div"> &
-  VariantProps<typeof itemVariants> & { asChild?: boolean }) {
-  const Comp = asChild ? Slot.Root : "div";
+}: ItemProps) {
+  const mergedClass = cn(itemVariants({ variant }), className);
+  if (asChild && React.isValidElement(children)) {
+    const child = children as React.ReactElement<{ className?: string }>;
+    return React.cloneElement(child, {
+      ...props,
+      className: cn(mergedClass, child.props.className),
+      "data-slot": "item",
+      "data-variant": variant,
+    } as never);
+  }
+  const Comp = (as ?? "div") as React.ElementType;
   return (
     <Comp
-      className={cn(itemVariants({ variant }), className)}
+      className={mergedClass}
       data-slot="item"
       data-variant={variant}
       {...props}
-    />
+    >
+      {children}
+    </Comp>
   );
 }
 
