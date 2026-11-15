@@ -1,10 +1,26 @@
 ---
 title: "November 15, 2026"
-description: "Label ships as a native element, dropping the radix-ui dependency."
+description: "Label drops radix, message consolidates, marker/attachment/switch/progress/slider/tooltip ship native, and dialog/item/checkbox/hover-card/tabs join them with docs migration to web paths."
 date: "2026-11-15"
 ---
 
 import { LabelDemo } from "@/examples/label-demo";
+import { MessageDemo } from "@/examples/message-demo";
+import { MarkerDemo } from "@/examples/marker-demo";
+import { AttachmentDemo } from "@/examples/attachment-demo";
+import { SwitchDemo } from "@/examples/switch-demo";
+import { ProgressDemo } from "@/examples/progress-demo";
+import { SliderDemo } from "@/examples/slider-demo";
+import { TooltipDemo } from "@/examples/tooltip-demo";
+import { DialogDemo } from "@/examples/dialog-demo";
+import { ItemDemo } from "@/examples/item-demo";
+import { CheckboxDemo } from "@/examples/checkbox-demo";
+import { HoverCardDemo } from "@/examples/hover-card-demo";
+import { TabsDemo } from "@/examples/tabs-demo";
+import { EmptyDemo } from "@/examples/empty-demo";
+import { FieldDemo } from "@/examples/field-demo";
+import { CodeBlockDemo } from "@/examples/code-block-demo";
+import { TextareaDemo } from "@/examples/textarea-demo";
 
 **Label** now ships as a native `<label>` with no runtime dependency. The `radix-ui` package is no longer required to install it.
 
@@ -29,6 +45,10 @@ npx frakment@latest add label
 
 ### Message consolidation
 
+
+<ComponentPreview name="message" title="message.tsx">
+  <MessageDemo />
+</ComponentPreview>
 **Message**, **Bubble**, **MessageScroller**, and **MessageAnimated** now ship as a single registry component. `npx frakment add message` installs all four primitives: layout (`Message`, `MessageGroup`, `MessageContent`), bubble (`Bubble`, `BubbleContent`, `BubbleReactions`), scroll behavior (`MessageScroller*` + three hooks), and animated message (`MessageAnimated`).
 
 The scroll engine is inlined. The `@frakment/react` package is no longer published. Imports from `@frakment/react/message-scroller` must migrate to `@/components/ui/message` after running `npx frakment@latest add message`.
@@ -69,6 +89,22 @@ npx frakment@latest add message
 
 ### Marker, Attachment, Switch, Progress
 
+
+<ComponentPreview name="marker" title="marker.tsx">
+  <MarkerDemo />
+</ComponentPreview>
+
+<ComponentPreview name="attachment" title="attachment.tsx">
+  <AttachmentDemo />
+</ComponentPreview>
+
+<ComponentPreview name="switch" title="switch.tsx">
+  <SwitchDemo />
+</ComponentPreview>
+
+<ComponentPreview name="progress" title="progress.tsx">
+  <ProgressDemo />
+</ComponentPreview>
 Four more components drop `radix-ui` and ship as native primitives. **Marker** and **Attachment** replace the `asChild` prop with `as` for polymorphic rendering. **Switch** and **Progress** expose a `motion` prop so you can override the CSS transition without editing the file.
 
 All four now render with `role=switch` / `role=progressbar` / native `<div>` + `aria-*` attributes directly, so the shipped file has no external primitive dependency. `prefers-reduced-motion` disables transitions automatically, and third-party animation libraries that write inline styles suppress the internal transition via `useMotionGuard`.
@@ -104,6 +140,14 @@ npx frakment@latest add marker attachment switch progress
 
 ### Slider, Tooltip
 
+
+<ComponentPreview name="slider" title="slider.tsx">
+  <SliderDemo />
+</ComponentPreview>
+
+<ComponentPreview name="tooltip" title="tooltip.tsx">
+  <TooltipDemo />
+</ComponentPreview>
 The last two Radix primitives drop to native implementations. **Slider** renders `<div role="slider">` per thumb with pointer and keyboard handling in a single file. **Tooltip** renders `<div role="tooltip">` with floating-ui positioning, hover/focus trigger, and portal. `radix-ui` is no longer a runtime dependency for either.
 
 `TooltipTrigger` replaces the Radix `asChild` pattern with an `as` prop (R16). `asChild` stays for backward compat (deprecated) but `as={Button}` is the recommended call.
@@ -126,3 +170,72 @@ npx frakment@latest add slider tooltip
 Arrow keys step, Home/End jump, Page Up/Down step × 10. Multi-thumb sliders respect thumb ordering automatically.
 
 `motion` prop on TooltipContent overrides the entrance transition. Slider keeps its color/box-shadow hover transition and does not expose a motion prop (no positioning animation to tune).
+
+<hr className="my-16 border-border/40" />
+
+### Native primitives (Dialog, Item, Checkbox, Hover Card, Tabs)
+
+<ComponentPreview name="dialog" title="dialog.tsx">
+  <DialogDemo />
+</ComponentPreview>
+
+<ComponentPreview name="item" title="item.tsx">
+  <ItemDemo />
+</ComponentPreview>
+
+<ComponentPreview name="checkbox" title="checkbox.tsx">
+  <CheckboxDemo />
+</ComponentPreview>
+
+<ComponentPreview name="hover-card" title="hover-card.tsx">
+  <HoverCardDemo />
+</ComponentPreview>
+
+<ComponentPreview name="tabs" title="tabs.tsx">
+  <TabsDemo />
+</ComponentPreview>
+
+**Dialog**, **Item**, **Checkbox**, **Hover Card**, and **Tabs** now ship as native implementations. **Dialog** renders a `role="dialog"` surface with `aria-modal`, focus trap, Escape close, click-outside close, focus restore, and a `motion` prop. **Hover Card** runs on a self-contained `computePosition` with portal, `openDelay`, and `closeDelay`. **Tabs** implements the WAI-ARIA tabs pattern with roving tabindex and arrow-key navigation. **Checkbox** and **Item** replace the Radix Slot with the polymorphic `as` prop (`asChild` stays for backward compatibility).
+
+**Changed:**
+
+- Removed `radix-ui` from `dependencies` on all five.
+- New `motion` prop on `DialogContent`.
+- New `openDelay` / `closeDelay` props on `HoverCard`.
+- `DialogTrigger`, `DialogClose`, `Item`, `HoverCardTrigger`, and `TabsContent` accept `as` (`asChild` retained).
+- **Checkbox** now supports `checked="indeterminate"` with `aria-checked="mixed"`.
+- Fixed class typo on **Checkbox** and **Item**: `data-checked:bg-primary` and `data-checked:text-primary-foreground` were missing a space.
+
+#### Installation
+
+```bash
+npx frakment@latest add dialog item checkbox hover-card tabs
+```
+
+<hr className="my-16 border-border/40" />
+
+### Docs migration (Empty, Field, Code Block, Textarea)
+
+<ComponentPreview name="empty" title="empty.tsx">
+  <EmptyDemo />
+</ComponentPreview>
+
+<ComponentPreview name="field" title="field.tsx">
+  <FieldDemo />
+</ComponentPreview>
+
+<ComponentPreview name="code-block" title="code-block.tsx">
+  <CodeBlockDemo />
+</ComponentPreview>
+
+<ComponentPreview name="textarea" title="textarea.tsx">
+  <TextareaDemo />
+</ComponentPreview>
+
+**Empty**, **Field**, **Code Block**, and **Textarea** move under the `/docs/components/web/` path to match the base switcher used by the rest of the web components. Sources are unchanged and already free of `radix-ui`. Old URLs redirect.
+
+**Changed:**
+
+- Docs moved from `/docs/components/<name>` to `/docs/components/web/<name>`.
+- Each page now renders `<DocsBaseSwitcher base="web" component="<name>" />`.
+- All install snippets and related-component links point to the new paths.

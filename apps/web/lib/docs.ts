@@ -82,6 +82,15 @@ export const pagesNew: ReadonlySet<string> = new Set([
   "/docs/components/spinner",
   "/docs/components/switch",
   "/docs/components/tooltip",
+  "/docs/components/web/checkbox",
+  "/docs/components/web/code-block",
+  "/docs/components/web/dialog",
+  "/docs/components/web/empty",
+  "/docs/components/web/field",
+  "/docs/components/web/hover-card",
+  "/docs/components/web/item",
+  "/docs/components/web/tabs",
+  "/docs/components/web/textarea",
 ]);
 
 export interface NavItem {
