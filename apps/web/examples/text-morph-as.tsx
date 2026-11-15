@@ -7,14 +7,14 @@ export function TextMorphAs() {
   return (
     <div className="flex min-h-[420px] w-full flex-col items-center justify-center gap-10 px-6 py-12">
       <p className="text-muted-foreground max-w-md text-center text-lg leading-relaxed text-balance">
-        We help teams{" "}
+        We help teams
         <TextMorph
           as="span"
           className="text-foreground inline-block font-medium"
           interval={2}
         >
           {["ship faster", "build smarter", "iterate daily"]}
-        </TextMorph>{" "}
+        </TextMorph>
         with primitives that feel native to their stack.
       </p>
 

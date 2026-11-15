@@ -166,17 +166,16 @@ export function MessageScrollerDemo() {
             <CardDescription>How can I help you today?</CardDescription>
             <CardAction>
               <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    aria-label="Reset conversation"
-                    className="rounded-full"
-                    disabled={busy}
-                    onClick={reset}
-                    size="icon-sm"
-                    variant="outline"
-                  >
-                    <ArrowClockwiseIcon />
-                  </Button>
+                <TooltipTrigger
+                  aria-label="Reset conversation"
+                  as={Button}
+                  className="rounded-full"
+                  disabled={busy}
+                  onClick={reset}
+                  size="icon-sm"
+                  variant="outline"
+                >
+                  <ArrowClockwiseIcon />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>Reset</p>

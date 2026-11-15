@@ -15,7 +15,7 @@ export function TextMorphDemo() {
         v2.0 is out
       </Badge>
       <h1 className="max-w-2xl text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
-        The component library for teams that{" "}
+        The component library for teams that
         <TextMorph as="span" className="inline-block" interval={2}>
           {PHRASES}
         </TextMorph>

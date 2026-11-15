@@ -94,11 +94,12 @@ function Dialog({
 type DialogTriggerProps = Omit<
   React.ComponentPropsWithoutRef<"button">,
   "ref"
-> & {
-  as?: React.ElementType;
-  asChild?: boolean;
-  ref?: React.Ref<HTMLElement>;
-};
+> &
+  Record<string, unknown> & {
+    as?: React.ElementType;
+    asChild?: boolean;
+    ref?: React.Ref<HTMLElement>;
+  };
 
 function DialogTrigger({
   as,
@@ -160,14 +161,12 @@ function DialogPortal({ children }: { children?: React.ReactNode }) {
   return <>{children}</>;
 }
 
-type DialogCloseProps = Omit<
-  React.ComponentPropsWithoutRef<"button">,
-  "ref"
-> & {
-  as?: React.ElementType;
-  asChild?: boolean;
-  ref?: React.Ref<HTMLElement>;
-};
+type DialogCloseProps = Omit<React.ComponentPropsWithoutRef<"button">, "ref"> &
+  Record<string, unknown> & {
+    as?: React.ElementType;
+    asChild?: boolean;
+    ref?: React.Ref<HTMLElement>;
+  };
 
 function DialogClose({
   as,

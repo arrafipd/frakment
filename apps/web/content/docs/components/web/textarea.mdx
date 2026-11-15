@@ -11,7 +11,7 @@ import { TextareaField } from "@/examples/textarea-field";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-<ComponentPreview name="textarea" title="textarea.tsx">
+<ComponentPreview name="textarea" title="textarea.tsx" previewClassName="h-auto py-8">
   <TextareaDemo />
 </ComponentPreview>
 
@@ -71,11 +71,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 Because of `field-sizing-content`, the textarea grows to fit its content without JavaScript. Set `rows` for a minimum height.
 
-<ComponentPreview
-  name="textarea"
-  title="textarea.tsx"
-  previewClassName="h-auto py-8"
->
+<ComponentPreview name="textarea-autogrow" title="textarea-autogrow.tsx" src="examples/textarea-autogrow.tsx" previewClassName="h-auto py-8">
   <TextareaAutogrow />
 </ComponentPreview>
 
@@ -88,11 +84,7 @@ Because of `field-sizing-content`, the textarea grows to fit its content without
 
 ### Disabled
 
-<ComponentPreview
-  name="textarea"
-  title="textarea.tsx"
-  previewClassName="h-auto py-8"
->
+<ComponentPreview name="textarea-disabled" title="textarea-disabled.tsx" src="examples/textarea-disabled.tsx" previewClassName="h-auto py-8">
   <TextareaDisabled />
 </ComponentPreview>
 
@@ -108,11 +100,7 @@ Because of `field-sizing-content`, the textarea grows to fit its content without
 
 Set `aria-invalid` on the textarea to trigger the destructive border and ring.
 
-<ComponentPreview
-  name="textarea"
-  title="textarea.tsx"
-  previewClassName="h-auto py-8"
->
+<ComponentPreview name="textarea-invalid" title="textarea-invalid.tsx" src="examples/textarea-invalid.tsx" previewClassName="h-auto py-8">
   <TextareaInvalid />
 </ComponentPreview>
 
@@ -128,11 +116,7 @@ Set `aria-invalid` on the textarea to trigger the destructive border and ring.
 
 Compose with `Field` for a label and description around the textarea.
 
-<ComponentPreview
-  name="textarea"
-  title="textarea.tsx"
-  previewClassName="h-auto py-8"
->
+<ComponentPreview name="textarea-field" title="textarea-field.tsx" src="examples/textarea-field.tsx" previewClassName="h-auto py-8">
   <TextareaField />
 </ComponentPreview>
 

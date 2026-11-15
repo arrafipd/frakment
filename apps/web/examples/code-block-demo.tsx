@@ -1,6 +1,6 @@
 "use client";
 
-import { DownloadIcon, FileCodeIcon, WrapTextIcon } from "lucide-react";
+import { DownloadIcon, WrapTextIcon } from "lucide-react";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -45,10 +45,7 @@ export function CodeBlockDemo() {
     <div className="max-w-lg">
       <CodeBlock>
         <CodeBlockHeader>
-          <CodeBlockTitle>
-            <FileCodeIcon />
-            app/api/chat/route.ts
-          </CodeBlockTitle>
+          <CodeBlockTitle>app/api/chat/route.ts</CodeBlockTitle>
           <CodeBlockActions>
             <Button
               aria-label="Wrap lines"

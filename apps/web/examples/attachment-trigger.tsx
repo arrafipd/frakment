@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { CopyIcon, FileSearchIcon, XIcon } from "lucide-react";
 
@@ -41,9 +41,10 @@ export function AttachmentTriggerDemo() {
               <XIcon />
             </AttachmentAction>
           </AttachmentActions>
-          <DialogTrigger asChild>
-            <AttachmentTrigger aria-label="Preview research-summary.pdf" />
-          </DialogTrigger>
+          <DialogTrigger
+            aria-label="Preview research-summary.pdf"
+            as={AttachmentTrigger}
+          />
         </Attachment>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>

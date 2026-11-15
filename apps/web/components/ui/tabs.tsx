@@ -2,6 +2,7 @@
 
 import * as React from "react";
 
+import { parseMotion, useReducedMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 interface TabsContextValue {
@@ -72,11 +73,91 @@ function Tabs({
   );
 }
 
-type TabsListProps = React.ComponentPropsWithoutRef<"div">;
+type TabsListProps = React.ComponentPropsWithoutRef<"div"> & {
+  motion?: string;
+};
 
-function TabsList({ children, className, onKeyDown, ...props }: TabsListProps) {
+function TabsList({
+  children,
+  className,
+  motion,
+  onKeyDown,
+  ...props
+}: TabsListProps) {
   const ctx = useTabsContext();
+  const reduce = useReducedMotion();
+  const parsed = parseMotion(motion);
+  const motionDisabled = parsed?.disabled === true;
+  const motionDuration = parsed?.duration ?? 260;
+  const motionEasing = parsed?.easing ?? "cubic-bezier(0.22, 1, 0.36, 1)";
   const listRef = React.useRef<HTMLDivElement>(null);
+  const indicatorRef = React.useRef<HTMLDivElement>(null);
+  const prevRectRef = React.useRef<{
+    height: number;
+    left: number;
+    top: number;
+    width: number;
+  } | null>(null);
+
+  React.useLayoutEffect(() => {
+    const list = listRef.current;
+    const indicator = indicatorRef.current;
+    if (!(list && indicator)) {
+      return;
+    }
+    const active = list.querySelector<HTMLElement>(
+      "[data-slot=tabs-trigger][data-state=active]"
+    );
+    if (!active) {
+      return;
+    }
+    const listRect = list.getBoundingClientRect();
+    const activeRect = active.getBoundingClientRect();
+    const next = {
+      height: activeRect.height,
+      left: activeRect.left - listRect.left,
+      top: activeRect.top - listRect.top,
+      width: activeRect.width,
+    };
+    const prev = prevRectRef.current;
+    prevRectRef.current = next;
+    const apply = () => {
+      indicator.style.height = `${next.height}px`;
+      indicator.style.left = `${next.left}px`;
+      indicator.style.top = `${next.top}px`;
+      indicator.style.width = `${next.width}px`;
+    };
+    if (
+      !prev ||
+      reduce ||
+      motionDisabled ||
+      typeof indicator.animate !== "function"
+    ) {
+      apply();
+      return;
+    }
+    indicator.getAnimations().forEach((a) => a.cancel());
+    const anim = indicator.animate(
+      [
+        {
+          height: `${prev.height}px`,
+          left: `${prev.left}px`,
+          top: `${prev.top}px`,
+          width: `${prev.width}px`,
+        },
+        {
+          height: `${next.height}px`,
+          left: `${next.left}px`,
+          top: `${next.top}px`,
+          width: `${next.width}px`,
+        },
+      ],
+      { duration: motionDuration, easing: motionEasing }
+    );
+    anim.onfinish = apply;
+    anim.oncancel = apply;
+  }, [ctx.value, reduce, motionDisabled, motionDuration, motionEasing]);
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     onKeyDown?.(e);
     if (e.defaultPrevented) {
@@ -124,7 +205,7 @@ function TabsList({ children, className, onKeyDown, ...props }: TabsListProps) {
     <div
       {...props}
       className={cn(
-        "bg-muted text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px] outline-none",
+        "bg-muted text-muted-foreground relative inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px] outline-none",
         className
       )}
       data-slot="tabs-list"
@@ -132,11 +213,17 @@ function TabsList({ children, className, onKeyDown, ...props }: TabsListProps) {
       ref={listRef}
       role="tablist"
     >
+      <div
+        aria-hidden="true"
+        className="bg-background dark:border-input dark:bg-input/30 pointer-events-none absolute rounded-md border border-transparent shadow-sm"
+        data-slot="tabs-indicator"
+        ref={indicatorRef}
+        style={{ height: 0, left: 0, top: 0, width: 0 }}
+      />
       {children}
     </div>
   );
 }
-
 type TabsTriggerProps = Omit<
   React.ComponentPropsWithoutRef<"button">,
   "value" | "ref"
@@ -163,7 +250,7 @@ function TabsTrigger({
       aria-controls={contentId}
       aria-selected={isActive}
       className={cn(
-        "data-[state=active]:bg-background dark:data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 text-foreground dark:text-muted-foreground inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap transition-[color,box-shadow,opacity] duration-150 focus-visible:outline-none active:opacity-60 data-[state=active]:shadow-sm [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-4",
+        "text-foreground dark:text-muted-foreground dark:data-[state=active]:text-foreground relative z-10 inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap transition-[color,opacity] duration-150 focus-visible:outline-none active:opacity-60 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-4",
         className
       )}
       data-slot="tabs-trigger"

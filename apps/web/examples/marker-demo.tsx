@@ -9,22 +9,22 @@ export function MarkerDemo() {
         <MarkerIcon>
           <GitBranchIcon />
         </MarkerIcon>
-        <MarkerContent>{"Switched to a new branch"}</MarkerContent>
+        <MarkerContent>Switched to a new branch</MarkerContent>
       </Marker>
       <Marker role="status">
         <MarkerIcon>
           <Spinner />
         </MarkerIcon>
-        <MarkerContent className="shimmer">{"Thinking..."}</MarkerContent>
+        <MarkerContent className="shimmer">Thinking...</MarkerContent>
       </Marker>
       <Marker variant="separator">
-        <MarkerContent>{"Conversation compacted"}</MarkerContent>
+        <MarkerContent>Conversation compacted</MarkerContent>
       </Marker>
       <Marker>
         <MarkerIcon>
           <SearchIcon />
         </MarkerIcon>
-        <MarkerContent>{"Explored 4 files"}</MarkerContent>
+        <MarkerContent>Explored 4 files</MarkerContent>
       </Marker>
     </div>
   );

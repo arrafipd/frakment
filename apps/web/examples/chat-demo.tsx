@@ -200,19 +200,18 @@ export function ChatDemo() {
               </div>
             </div>
             <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  aria-label="Reset conversation"
-                  disabled={busy}
-                  onClick={() => {
-                    setMessages(initialMessages);
-                    setDraft(null);
-                  }}
-                  size="icon"
-                  variant="outline"
-                >
-                  <RotateCwIcon />
-                </Button>
+              <TooltipTrigger
+                aria-label="Reset conversation"
+                as={Button}
+                disabled={busy}
+                onClick={() => {
+                  setMessages(initialMessages);
+                  setDraft(null);
+                }}
+                size="icon"
+                variant="outline"
+              >
+                <RotateCwIcon />
               </TooltipTrigger>
               <TooltipContent>
                 <p>Reset</p>

@@ -2,7 +2,14 @@
 
 import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
-import { CheckIcon, CopyIcon } from "lucide-react";
+import {
+  CheckIcon,
+  CopyIcon,
+  FileCode2Icon,
+  FileJsonIcon,
+  FileTextIcon,
+  TerminalIcon,
+} from "lucide-react";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -55,16 +62,69 @@ function CodeBlockHeader({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-function CodeBlockTitle({ className, ...props }: React.ComponentProps<"div">) {
+const iconMap: Record<string, typeof FileCode2Icon> = {
+  bash: TerminalIcon,
+  cjs: FileCode2Icon,
+  css: FileCode2Icon,
+  fish: TerminalIcon,
+  go: FileCode2Icon,
+  html: FileCode2Icon,
+  js: FileCode2Icon,
+  json: FileJsonIcon,
+  jsonc: FileJsonIcon,
+  jsx: FileCode2Icon,
+  less: FileCode2Icon,
+  md: FileTextIcon,
+  mdx: FileTextIcon,
+  mjs: FileCode2Icon,
+  php: FileCode2Icon,
+  py: FileCode2Icon,
+  rb: FileCode2Icon,
+  rs: FileCode2Icon,
+  sass: FileCode2Icon,
+  scss: FileCode2Icon,
+  sh: TerminalIcon,
+  toml: FileCode2Icon,
+  ts: FileCode2Icon,
+  tsx: FileCode2Icon,
+  yaml: FileCode2Icon,
+  yml: FileCode2Icon,
+  zsh: TerminalIcon,
+};
+
+function pickIcon(children: React.ReactNode): typeof FileCode2Icon | null {
+  if (typeof children !== "string") {
+    return null;
+  }
+  const trimmed = children.trim();
+  const last = trimmed.split(/\s+/u).pop() ?? "";
+  const dot = last.lastIndexOf(".");
+  if (dot < 0 || dot === last.length - 1) {
+    return FileCode2Icon;
+  }
+  const ext = last.slice(dot + 1).toLowerCase();
+  return iconMap[ext] ?? FileCode2Icon;
+}
+
+function CodeBlockTitle({
+  children,
+  className,
+  icon,
+  ...props
+}: React.ComponentProps<"div"> & { icon?: typeof FileCode2Icon | null }) {
+  const Icon = icon === undefined ? pickIcon(children) : icon;
   return (
     <div
       className={cn(
-        "text-foreground group-data-[variant=destructive]/code-block:text-destructive min-w-0 truncate font-sans text-sm font-medium group-data-[size=sm]/code-block:text-xs [&_svg]:pointer-events-none [&_svg]:inline-block [&_svg]:align-middle [&_svg:not([class*='size-'])]:size-4 group-data-[size=sm]/code-block:[&_svg:not([class*='size-'])]:size-3.5 *:[svg]:me-1.5",
+        "text-foreground group-data-[variant=destructive]/code-block:text-destructive inline-flex min-w-0 items-center gap-1.5 truncate font-sans text-sm font-medium group-data-[size=sm]/code-block:text-xs [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[size=sm]/code-block:[&_svg:not([class*='size-'])]:size-3.5",
         className
       )}
       data-slot="code-block-title"
       {...props}
-    />
+    >
+      {Icon ? <Icon /> : null}
+      <span className="min-w-0 truncate">{children}</span>
+    </div>
   );
 }
 

@@ -22,13 +22,20 @@ import { FieldDemo } from "@/examples/field-demo";
 import { CodeBlockDemo } from "@/examples/code-block-demo";
 import { TextareaDemo } from "@/examples/textarea-demo";
 
-**Label** now ships as a native `<label>` with no runtime dependency. The `radix-ui` package is no longer required to install it.
+Nine components ship native today, alongside the earlier consolidations in this date. **Label** drops radix, **Message** consolidates four primitives into one, **Marker**, **Attachment**, **Switch**, **Progress**, **Slider**, **Tooltip** drop to native implementations, and **Dialog**, **Item**, **Checkbox**, **Hover Card**, **Tabs** join them with a full native rewrite. Four already-native components move their docs to `/docs/components/web/`.
+
+- [Label](#label): Native element, drops radix.
+- [Message consolidation](#message-consolidation): One component for message, bubble, and scroller.
+- [Marker, Attachment, Switch, Progress](#marker-attachment-switch-progress): Native primitives, `as` and `motion` props.
+- [Slider, Tooltip](#slider-tooltip): Last two radix-only drop to native.
+- [Native primitives (Dialog, Item, Checkbox, Hover Card, Tabs)](#native-primitives-dialog-item-checkbox-hover-card-tabs): Native rewrites, drop radix.
+- [Docs migration (Empty, Field, Code Block, Textarea)](#docs-migration-empty-field-code-block-textarea): Move to `web/` paths.
 
 <hr className="my-16 border-border/40" />
 
 ### Label
 
-<ComponentPreview name="label" title="label.tsx">
+<ComponentPreview name="label" title="label.tsx" previewClassName="h-auto py-8">
   <LabelDemo />
 </ComponentPreview>
 
@@ -46,7 +53,7 @@ npx frakment@latest add label
 ### Message consolidation
 
 
-<ComponentPreview name="message" title="message.tsx">
+<ComponentPreview name="message" title="message.tsx" previewClassName="h-auto py-8">
   <MessageDemo />
 </ComponentPreview>
 **Message**, **Bubble**, **MessageScroller**, and **MessageAnimated** now ship as a single registry component. `npx frakment add message` installs all four primitives: layout (`Message`, `MessageGroup`, `MessageContent`), bubble (`Bubble`, `BubbleContent`, `BubbleReactions`), scroll behavior (`MessageScroller*` + three hooks), and animated message (`MessageAnimated`).
@@ -90,19 +97,19 @@ npx frakment@latest add message
 ### Marker, Attachment, Switch, Progress
 
 
-<ComponentPreview name="marker" title="marker.tsx">
+<ComponentPreview name="marker" title="marker.tsx" previewClassName="h-auto py-8">
   <MarkerDemo />
 </ComponentPreview>
 
-<ComponentPreview name="attachment" title="attachment.tsx">
+<ComponentPreview name="attachment" title="attachment.tsx" previewClassName="h-auto py-8">
   <AttachmentDemo />
 </ComponentPreview>
 
-<ComponentPreview name="switch" title="switch.tsx">
+<ComponentPreview name="switch" title="switch.tsx" previewClassName="h-auto py-8">
   <SwitchDemo />
 </ComponentPreview>
 
-<ComponentPreview name="progress" title="progress.tsx">
+<ComponentPreview name="progress" title="progress.tsx" previewClassName="h-auto py-8">
   <ProgressDemo />
 </ComponentPreview>
 Four more components drop `radix-ui` and ship as native primitives. **Marker** and **Attachment** replace the `asChild` prop with `as` for polymorphic rendering. **Switch** and **Progress** expose a `motion` prop so you can override the CSS transition without editing the file.
@@ -141,11 +148,11 @@ npx frakment@latest add marker attachment switch progress
 ### Slider, Tooltip
 
 
-<ComponentPreview name="slider" title="slider.tsx">
+<ComponentPreview name="slider" title="slider.tsx" previewClassName="h-auto py-8">
   <SliderDemo />
 </ComponentPreview>
 
-<ComponentPreview name="tooltip" title="tooltip.tsx">
+<ComponentPreview name="tooltip" title="tooltip.tsx" previewClassName="h-auto py-8">
   <TooltipDemo />
 </ComponentPreview>
 The last two Radix primitives drop to native implementations. **Slider** renders `<div role="slider">` per thumb with pointer and keyboard handling in a single file. **Tooltip** renders `<div role="tooltip">` with floating-ui positioning, hover/focus trigger, and portal. `radix-ui` is no longer a runtime dependency for either.
@@ -175,23 +182,23 @@ Arrow keys step, Home/End jump, Page Up/Down step × 10. Multi-thumb sliders res
 
 ### Native primitives (Dialog, Item, Checkbox, Hover Card, Tabs)
 
-<ComponentPreview name="dialog" title="dialog.tsx">
+<ComponentPreview name="dialog" title="dialog.tsx" previewClassName="h-auto py-8">
   <DialogDemo />
 </ComponentPreview>
 
-<ComponentPreview name="item" title="item.tsx">
+<ComponentPreview name="item" title="item.tsx" previewClassName="h-auto py-8">
   <ItemDemo />
 </ComponentPreview>
 
-<ComponentPreview name="checkbox" title="checkbox.tsx">
+<ComponentPreview name="checkbox" title="checkbox.tsx" previewClassName="h-auto py-8">
   <CheckboxDemo />
 </ComponentPreview>
 
-<ComponentPreview name="hover-card" title="hover-card.tsx">
+<ComponentPreview name="hover-card" title="hover-card.tsx" previewClassName="h-auto py-8">
   <HoverCardDemo />
 </ComponentPreview>
 
-<ComponentPreview name="tabs" title="tabs.tsx">
+<ComponentPreview name="tabs" title="tabs.tsx" previewClassName="h-auto py-8">
   <TabsDemo />
 </ComponentPreview>
 
@@ -216,19 +223,19 @@ npx frakment@latest add dialog item checkbox hover-card tabs
 
 ### Docs migration (Empty, Field, Code Block, Textarea)
 
-<ComponentPreview name="empty" title="empty.tsx">
+<ComponentPreview name="empty" title="empty.tsx" previewClassName="h-auto py-8">
   <EmptyDemo />
 </ComponentPreview>
 
-<ComponentPreview name="field" title="field.tsx">
+<ComponentPreview name="field" title="field.tsx" previewClassName="h-auto py-8">
   <FieldDemo />
 </ComponentPreview>
 
-<ComponentPreview name="code-block" title="code-block.tsx">
+<ComponentPreview name="code-block" title="code-block.tsx" previewClassName="h-auto py-8">
   <CodeBlockDemo />
 </ComponentPreview>
 
-<ComponentPreview name="textarea" title="textarea.tsx">
+<ComponentPreview name="textarea" title="textarea.tsx" previewClassName="h-auto py-8">
   <TextareaDemo />
 </ComponentPreview>
 

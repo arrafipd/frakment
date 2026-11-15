@@ -10,7 +10,7 @@ import { Switch } from "@/components/ui/switch";
 
 export function FieldSwitch() {
   return (
-    <div className="w-fit">
+    <div className="w-full max-w-sm">
       <Field orientation="horizontal">
         <FieldContent>
           <FieldTitle>Share across devices</FieldTitle>

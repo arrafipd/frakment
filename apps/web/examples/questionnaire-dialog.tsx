@@ -48,8 +48,8 @@ export function QuestionnaireDialog() {
 
   return (
     <Dialog onOpenChange={setOpen} open={open}>
-      <DialogTrigger asChild>
-        <Button variant="outline">Open clarification</Button>
+      <DialogTrigger as={Button} variant="outline">
+        Open clarification
       </DialogTrigger>
       <DialogContent>
         <Questionnaire
@@ -114,10 +114,8 @@ export function QuestionnaireDialog() {
             <QuestionnaireError />
           </QuestionnaireItem>
           <DialogFooter>
-            <DialogClose asChild>
-              <Button type="button" variant="outline">
-                Cancel
-              </Button>
+            <DialogClose as={Button} type="button" variant="outline">
+              Cancel
             </DialogClose>
             <QuestionnaireActions>
               <QuestionnairePrevious />

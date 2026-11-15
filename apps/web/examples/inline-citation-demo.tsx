@@ -50,14 +50,13 @@ function Citation({ source }: { source: Source }) {
 
   return (
     <HoverCard closeDelay={100} openDelay={10}>
-      <HoverCardTrigger asChild>
-        <Button
-          className="h-5 rounded-full px-2 text-xs font-medium"
-          size="sm"
-          variant="secondary"
-        >
-          {host}
-        </Button>
+      <HoverCardTrigger
+        as={Button}
+        className="h-5 rounded-full px-2 text-xs font-medium"
+        size="sm"
+        variant="secondary"
+      >
+        {host}
       </HoverCardTrigger>
       <HoverCardContent className="flex w-64 flex-col gap-1">
         <div className="font-medium">{source.title}</div>
@@ -88,13 +87,13 @@ export function InlineCitationDemo() {
         fallback first. When the data resolves, the finished HTML streams into
         the same response and replaces the fallback, with no extra request from
         the browser. <Citation source={sources.suspense} /> Server Components
-        help here, because their code never ships to the browser.{" "}
+        help here, because their code never ships to the browser.
         <Citation source={sources.serverComponents} />
       </p>
       <p>
-        A loading.tsx file does the same for a whole route segment.{" "}
+        A loading.tsx file does the same for a whole route segment.
         <Citation source={sources.loading} /> It all runs over chunked transfer
-        encoding, so there is nothing extra to set up.{" "}
+        encoding, so there is nothing extra to set up.
         <Citation source={sources.chunked} />
       </p>
     </div>

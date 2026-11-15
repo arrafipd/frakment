@@ -120,11 +120,12 @@ function HoverCard({
 type HoverCardTriggerProps = Omit<
   React.ComponentPropsWithoutRef<"button">,
   "ref"
-> & {
-  as?: React.ElementType;
-  asChild?: boolean;
-  ref?: React.Ref<HTMLElement>;
-};
+> &
+  Record<string, unknown> & {
+    as?: React.ElementType;
+    asChild?: boolean;
+    ref?: React.Ref<HTMLElement>;
+  };
 
 function HoverCardTrigger({
   as,
@@ -307,10 +308,19 @@ function HoverCardContent({
     },
     [contentRef, ref]
   );
+  const [entered, setEntered] = React.useState(false);
   React.useEffect(() => {
     if (open) {
       setMounted(true);
+      const raf1 = requestAnimationFrame(() => {
+        const raf2 = requestAnimationFrame(() => setEntered(true));
+        return () => cancelAnimationFrame(raf2);
+      });
+      return () => cancelAnimationFrame(raf1);
     }
+    setEntered(false);
+    const timer = window.setTimeout(() => setMounted(false), 100);
+    return () => window.clearTimeout(timer);
   }, [open]);
   React.useLayoutEffect(() => {
     if (!mounted) {
@@ -335,13 +345,7 @@ function HoverCardContent({
       window.removeEventListener("resize", update);
     };
   }, [mounted, align, side, sideOffset, triggerRef, contentRef]);
-  React.useEffect(() => {
-    if (open) {
-      return;
-    }
-    const timer = window.setTimeout(() => setMounted(false), 100);
-    return () => window.clearTimeout(timer);
-  }, [open]);
+
   React.useEffect(() => {
     if (!open) {
       return;
@@ -372,9 +376,9 @@ function HoverCardContent({
       ref={setRef}
       style={{
         left: pos.left,
-        opacity: open ? 1 : 0,
+        opacity: entered ? 1 : 0,
         top: pos.top,
-        transform: `scale(${open ? 1 : 0.95})`,
+        transform: `scale(${entered ? 1 : 0.95})`,
         transition: "opacity 100ms ease-out, transform 100ms ease-out",
         ...style,
       }}

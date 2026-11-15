@@ -187,7 +187,7 @@ export function ToolApproval() {
                           ? "Denied"
                           : part.state === "output-available"
                             ? "Ran"
-                            : "Running"}{" "}
+                            : "Running"}
                         {part.input?.command}
                       </TraceTitle>
                     </TraceLine>

@@ -14,7 +14,6 @@ import {
   CodeBlockContent,
   CodeBlockLine,
 } from "@/components/ui/code-block";
-import { FileCode2Icon } from "lucide-react";
 
 <ComponentPreview
   name="code-block"
@@ -75,7 +74,7 @@ import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block";
 
 ```tsx title="codeblock.tsx"
 <CodeBlock>
-  <CodeBlockContent>{"npm install frakment"}</CodeBlockContent>
+  <CodeBlockContent>npm install frakment</CodeBlockContent>
 </CodeBlock>
 ```
 
@@ -86,7 +85,7 @@ The simplest form — pass a string as children of `CodeBlockContent`.
 <ComponentPreview name="code-block" title="code-block.tsx">
   <div className="w-full max-w-lg">
     <CodeBlock>
-      <CodeBlockContent>{"npm install frakment"}</CodeBlockContent>
+      <CodeBlockContent>npm install frakment</CodeBlockContent>
     </CodeBlock>
   </div>
 </ComponentPreview>
@@ -99,15 +98,12 @@ Wrap the top row in `CodeBlockHeader`. Use `CodeBlockTitle` for the filename and
   <div className="w-full max-w-lg">
     <CodeBlock>
       <CodeBlockHeader>
-        <CodeBlockTitle>
-          <FileCode2Icon />
-          Terminal
-        </CodeBlockTitle>
+        <CodeBlockTitle>Terminal</CodeBlockTitle>
         <CodeBlockActions>
           <CodeBlockCopyButton value="npx frakment add button" />
         </CodeBlockActions>
       </CodeBlockHeader>
-      <CodeBlockContent>{"npx frakment add button"}</CodeBlockContent>
+      <CodeBlockContent>npx frakment add button</CodeBlockContent>
     </CodeBlock>
   </div>
 </ComponentPreview>
@@ -120,15 +116,12 @@ Wrap the top row in `CodeBlockHeader`. Use `CodeBlockTitle` for the filename and
   <div className="w-full max-w-lg">
     <CodeBlock>
       <CodeBlockHeader>
-        <CodeBlockTitle>
-          <FileCode2Icon />
-          install.sh
-        </CodeBlockTitle>
+        <CodeBlockTitle>install.sh</CodeBlockTitle>
         <CodeBlockActions>
           <CodeBlockCopyButton value="pnpm add frakment" />
         </CodeBlockActions>
       </CodeBlockHeader>
-      <CodeBlockContent>{"pnpm add frakment"}</CodeBlockContent>
+      <CodeBlockContent>pnpm add frakment</CodeBlockContent>
     </CodeBlock>
   </div>
 </ComponentPreview>
@@ -143,7 +136,7 @@ Place `CodeBlockActions` **directly inside** `CodeBlock` (no header) — the but
       <CodeBlockActions>
         <CodeBlockCopyButton value="npm i frakment" />
       </CodeBlockActions>
-      <CodeBlockContent>{"npm i frakment"}</CodeBlockContent>
+      <CodeBlockContent>npm i frakment</CodeBlockContent>
     </CodeBlock>
   </div>
 </ComponentPreview>
@@ -200,7 +193,7 @@ Add `wrap` to `CodeBlockContent` to break long lines instead of scroll. Compare 
       </span>
       <CodeBlock>
         <CodeBlockContent>
-          {"Error: Failed to resolve module from /app/page.tsx"}
+          Error: Failed to resolve module from /app/page.tsx
         </CodeBlockContent>
       </CodeBlock>
     </div>
@@ -208,7 +201,7 @@ Add `wrap` to `CodeBlockContent` to break long lines instead of scroll. Compare 
       <span className="text-xs font-medium text-muted-foreground">wrap</span>
       <CodeBlock>
         <CodeBlockContent wrap>
-          {"Error: Failed to resolve module from /app/page.tsx"}
+          Error: Failed to resolve module from /app/page.tsx
         </CodeBlockContent>
       </CodeBlock>
     </div>
@@ -224,11 +217,11 @@ Use `CodeBlockLine` with `variant="highlighted"` to draw attention to specific l
     <CodeBlock>
       <CodeBlockContent>
         <CodeBlockLine>{"const config = {"}</CodeBlockLine>
-        <CodeBlockLine>{"  theme: 'system',"}</CodeBlockLine>
+        <CodeBlockLine>  theme: 'system',</CodeBlockLine>
         <CodeBlockLine variant="highlighted">
-          {"  primary: 'oklch(0.6 0.2 250)',"}
+            primary: 'oklch(0.6 0.2 250)',
         </CodeBlockLine>
-        <CodeBlockLine>{"  radius: 0.5,"}</CodeBlockLine>
+        <CodeBlockLine>  radius: 0.5,</CodeBlockLine>
         <CodeBlockLine>{"}"}</CodeBlockLine>
       </CodeBlockContent>
     </CodeBlock>
@@ -244,8 +237,8 @@ Use `variant="added"` and `variant="removed"`. The `+` and `−` markers are add
     <CodeBlock>
       <CodeBlockContent>
         <CodeBlockLine>{"const config = {"}</CodeBlockLine>
-        <CodeBlockLine variant="removed">{"  theme: 'light',"}</CodeBlockLine>
-        <CodeBlockLine variant="added">{"  theme: 'system',"}</CodeBlockLine>
+        <CodeBlockLine variant="removed">  theme: 'light',</CodeBlockLine>
+        <CodeBlockLine variant="added">  theme: 'system',</CodeBlockLine>
         <CodeBlockLine>{"}"}</CodeBlockLine>
       </CodeBlockContent>
     </CodeBlock>
@@ -294,7 +287,7 @@ Two sizes: `default` (14px, 16px padding) and `sm` (12px, 12px padding). `sm` fi
         size="default"
       </span>
       <CodeBlock>
-        <CodeBlockContent>{"npx frakment add button"}</CodeBlockContent>
+        <CodeBlockContent>npx frakment add button</CodeBlockContent>
       </CodeBlock>
     </div>
     <div className="flex flex-col gap-2">
@@ -302,7 +295,7 @@ Two sizes: `default` (14px, 16px padding) and `sm` (12px, 12px padding). `sm` fi
         size="sm"
       </span>
       <CodeBlock size="sm">
-        <CodeBlockContent>{"npx frakment add button"}</CodeBlockContent>
+        <CodeBlockContent>npx frakment add button</CodeBlockContent>
       </CodeBlock>
     </div>
   </div>
@@ -316,7 +309,7 @@ Use `variant="destructive"` for error output. Background and text shift to destr
   <div className="w-full max-w-lg">
     <CodeBlock variant="destructive">
       <CodeBlockContent>
-        {"Error: Failed to resolve module '@/components/ui/code-block'"}
+        Error: Failed to resolve module '@/components/ui/code-block'
       </CodeBlockContent>
     </CodeBlock>
   </div>

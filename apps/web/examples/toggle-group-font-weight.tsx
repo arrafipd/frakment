@@ -56,10 +56,10 @@ export function ToggleGroupFontWeightSelector() {
         </ToggleGroupItem>
       </ToggleGroup>
       <FieldDescription>
-        Use{" "}
+        Use
         <code className="bg-muted rounded-md px-1 py-0.5 font-mono">
           font-{fontWeight}
-        </code>{" "}
+        </code>
         to set the font weight.
       </FieldDescription>
     </Field>

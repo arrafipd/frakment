@@ -106,7 +106,7 @@ export function ToolSheet() {
                           <FileTextIcon />
                         </TraceIcon>
                         <TraceTitle>
-                          {running ? "Reading" : "Failed to read"}{" "}
+                          {running ? "Reading" : "Failed to read"}
                           {part.input?.path}
                         </TraceTitle>
                       </TraceLine>

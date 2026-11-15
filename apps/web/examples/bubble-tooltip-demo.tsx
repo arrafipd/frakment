@@ -21,15 +21,14 @@ export function BubbleTooltipDemo() {
         <BubbleContent>Yes, removed it from the registry.</BubbleContent>
         <BubbleReactions className="p-0">
           <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                aria-label="Read on Jan 5, 2026 at 4:32 PM"
-                className="rounded-full"
-                size="icon-xs"
-                variant="ghost"
-              >
-                <CheckIcon />
-              </Button>
+            <TooltipTrigger
+              aria-label="Read on Jan 5, 2026 at 4:32 PM"
+              as={Button}
+              className="rounded-full"
+              size="icon-xs"
+              variant="ghost"
+            >
+              <CheckIcon />
             </TooltipTrigger>
             <TooltipContent>Read on Jan 5, 2026 at 4:32 PM</TooltipContent>
           </Tooltip>

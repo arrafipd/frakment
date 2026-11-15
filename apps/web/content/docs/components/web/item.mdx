@@ -85,9 +85,9 @@ import { Item, ItemContent, ItemMedia, ItemTitle } from "@/components/ui/item";
 
 ```tsx title="item.tsx"
 <Item>
-  <ItemMedia>{"JS"}</ItemMedia>
+  <ItemMedia>JS</ItemMedia>
   <ItemContent>
-    <ItemTitle>{"Jane Smith"}</ItemTitle>
+    <ItemTitle>Jane Smith</ItemTitle>
   </ItemContent>
 </Item>
 ```
@@ -118,7 +118,7 @@ Three styles: `default` (bordered card), `outline` (transparent with border), `m
       <span className="text-xs font-medium text-muted-foreground">default</span>
       <Item>
         <ItemContent>
-          <ItemTitle>{"Default row"}</ItemTitle>
+          <ItemTitle>Default row</ItemTitle>
         </ItemContent>
       </Item>
     </div>
@@ -126,7 +126,7 @@ Three styles: `default` (bordered card), `outline` (transparent with border), `m
       <span className="text-xs font-medium text-muted-foreground">outline</span>
       <Item variant="outline">
         <ItemContent>
-          <ItemTitle>{"Outline row"}</ItemTitle>
+          <ItemTitle>Outline row</ItemTitle>
         </ItemContent>
       </Item>
     </div>
@@ -134,7 +134,7 @@ Three styles: `default` (bordered card), `outline` (transparent with border), `m
       <span className="text-xs font-medium text-muted-foreground">muted</span>
       <Item variant="muted">
         <ItemContent>
-          <ItemTitle>{"Muted row"}</ItemTitle>
+          <ItemTitle>Muted row</ItemTitle>
         </ItemContent>
       </Item>
     </div>
@@ -160,7 +160,7 @@ Put an icon, avatar, or badge in `ItemMedia`. Icons without a `size-*` class are
           </span>
         </ItemMedia>
         <ItemContent>
-          <ItemTitle>{"Aria Chen"}</ItemTitle>
+          <ItemTitle>Aria Chen</ItemTitle>
         </ItemContent>
       </Item>
       <Item>
@@ -170,7 +170,7 @@ Put an icon, avatar, or badge in `ItemMedia`. Icons without a `size-*` class are
           </span>
         </ItemMedia>
         <ItemContent>
-          <ItemTitle>{"Ben Ortiz"}</ItemTitle>
+          <ItemTitle>Ben Ortiz</ItemTitle>
         </ItemContent>
       </Item>
       <Item>
@@ -180,7 +180,7 @@ Put an icon, avatar, or badge in `ItemMedia`. Icons without a `size-*` class are
           </span>
         </ItemMedia>
         <ItemContent>
-          <ItemTitle>{"Cleo Park"}</ItemTitle>
+          <ItemTitle>Cleo Park</ItemTitle>
         </ItemContent>
       </Item>
     </ItemGroup>
@@ -201,20 +201,20 @@ Add `ItemDescription` below `ItemTitle` for a secondary line.
     <ItemGroup>
       <Item>
         <ItemContent>
-          <ItemTitle>{"Deployed v1.2.3"}</ItemTitle>
-          <ItemDescription>{"2 minutes ago"}</ItemDescription>
+          <ItemTitle>Deployed v1.2.3</ItemTitle>
+          <ItemDescription>2 minutes ago</ItemDescription>
         </ItemContent>
       </Item>
       <Item>
         <ItemContent>
-          <ItemTitle>{"Ran migrations"}</ItemTitle>
-          <ItemDescription>{"14 minutes ago"}</ItemDescription>
+          <ItemTitle>Ran migrations</ItemTitle>
+          <ItemDescription>14 minutes ago</ItemDescription>
         </ItemContent>
       </Item>
       <Item>
         <ItemContent>
-          <ItemTitle>{"Merged PR #42"}</ItemTitle>
-          <ItemDescription>{"1 hour ago"}</ItemDescription>
+          <ItemTitle>Merged PR #42</ItemTitle>
+          <ItemDescription>1 hour ago</ItemDescription>
         </ItemContent>
       </Item>
     </ItemGroup>
@@ -235,20 +235,20 @@ Add `ItemActions` as the last child for a trailing button, badge, or amount.
     <ItemGroup>
       <Item variant="muted">
         <ItemContent>
-          <ItemTitle>{"Pro plan"}</ItemTitle>
-          <ItemDescription>{"Billed monthly"}</ItemDescription>
+          <ItemTitle>Pro plan</ItemTitle>
+          <ItemDescription>Billed monthly</ItemDescription>
         </ItemContent>
         <ItemActions>
-          <span className="text-sm font-medium tabular-nums">{"$20/mo"}</span>
+          <span className="text-sm font-medium tabular-nums">$20/mo</span>
         </ItemActions>
       </Item>
       <Item variant="muted">
         <ItemContent>
-          <ItemTitle>{"Team plan"}</ItemTitle>
-          <ItemDescription>{"Billed annually"}</ItemDescription>
+          <ItemTitle>Team plan</ItemTitle>
+          <ItemDescription>Billed annually</ItemDescription>
         </ItemContent>
         <ItemActions>
-          <span className="text-sm font-medium tabular-nums">{"$200/yr"}</span>
+          <span className="text-sm font-medium tabular-nums">$200/yr</span>
         </ItemActions>
       </Item>
     </ItemGroup>
@@ -271,10 +271,10 @@ Combine with [Spinner](/docs/components/web/spinner) for a live processing row.
         <Spinner />
       </ItemMedia>
       <ItemContent>
-        <ItemTitle>{"Processing payment..."}</ItemTitle>
+        <ItemTitle>Processing payment...</ItemTitle>
       </ItemContent>
       <ItemContent className="flex-none justify-end">
-        <span className="text-sm tabular-nums">{"$100.00"}</span>
+        <span className="text-sm tabular-nums">$100.00</span>
       </ItemContent>
     </Item>
   </div>
@@ -293,8 +293,8 @@ Combine with [Spinner](/docs/components/web/spinner) for a live processing row.
         </span>
       </ItemMedia>
       <ItemContent>
-        <ItemTitle>Arrafi</ItemTitle>
-        <ItemDescription>arrafi@frakment.dev</ItemDescription>
+        <ItemTitle>Jane Doe</ItemTitle>
+        <ItemDescription>john@example.com</ItemDescription>
       </ItemContent>
       <ItemActions>
         <Button size="sm" variant="outline">Edit</Button>
