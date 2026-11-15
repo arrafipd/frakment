@@ -78,8 +78,10 @@ export const pagesNew: ReadonlySet<string> = new Set([
   "/docs/components/message",
   "/docs/components/pagination",
   "/docs/components/progress",
+  "/docs/components/slider",
   "/docs/components/spinner",
   "/docs/components/switch",
+  "/docs/components/tooltip",
 ]);
 
 export interface NavItem {

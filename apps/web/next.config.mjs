@@ -134,6 +134,16 @@ const nextConfig = {
         source: `${ROUTES.DOCS}/components/progress`,
       },
       {
+        destination: `${ROUTES.DOCS}/components/web/slider`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/slider`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/tooltip`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/tooltip`,
+      },
+      {
         destination: `${ROUTES.DOCS}/components/web/button-group`,
         permanent: false,
         source: `${ROUTES.DOCS}/components/button-group`,

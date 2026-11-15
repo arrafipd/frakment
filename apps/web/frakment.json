@@ -85,7 +85,7 @@
       "description": "An input where the user selects a value from within a given range.",
       "source": "registry/slider.tsx",
       "target": "components/ui/slider.tsx",
-      "dependencies": ["radix-ui@^1.8.1"],
+      "dependencies": [],
       "registryDependencies": [],
       "type": "registry:ui"
     },
@@ -349,7 +349,7 @@
       "description": "A popup that displays information related to an element on hover or focus.",
       "source": "registry/tooltip.tsx",
       "target": "components/ui/tooltip.tsx",
-      "dependencies": ["radix-ui@^1.8.1"],
+      "dependencies": ["@floating-ui/react-dom@^2.1.9"],
       "registryDependencies": [],
       "type": "registry:ui"
     },

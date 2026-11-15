@@ -1,0 +1,184 @@
+---
+title: Slider
+description: An input where the user selects a value from within a given range.
+---
+
+import { SliderDemo } from "@/examples/slider-demo";
+import { SliderRange } from "@/examples/slider-range";
+import { SliderMultiple } from "@/examples/slider-multiple";
+import { SliderVertical } from "@/examples/slider-vertical";
+import { SliderControlled } from "@/examples/slider-controlled";
+import { SliderDisabled } from "@/examples/slider-disabled";
+import { SliderSettingsPanel } from "@/examples/slider-settings-panel";
+import { SliderPriceFilter } from "@/examples/slider-price-filter";
+
+<DocsBaseSwitcher base="web" component="slider" className="mb-6" />
+
+<ComponentPreview name="slider" title="slider.tsx">
+  <SliderDemo />
+</ComponentPreview>
+
+Slider lets the user pick a value or range from a track. It supports single values, ranges, multiple thumbs, and vertical orientation.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add slider
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>No npm dependencies required.</Step>
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="slider" title="components/ui/slider.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="slider.tsx"
+import { Slider } from "@/components/ui/slider";
+```
+
+```tsx
+<Slider defaultValue={[75]} max={100} step={1} />
+```
+
+## Examples
+
+### Range
+
+Pass two values to select a range.
+
+<ComponentPreview name="slider-range" title="slider-range.tsx" src="examples/slider-range.tsx">
+  <SliderRange />
+</ComponentPreview>
+
+### Multiple thumbs
+
+<ComponentPreview name="slider-multiple" title="slider-multiple.tsx" src="examples/slider-multiple.tsx">
+  <SliderMultiple />
+</ComponentPreview>
+
+### Vertical
+
+<ComponentPreview name="slider-vertical" title="slider-vertical.tsx" src="examples/slider-vertical.tsx" previewClassName="h-auto py-6">
+  <SliderVertical />
+</ComponentPreview>
+
+### Controlled
+
+<ComponentPreview name="slider-controlled" title="slider-controlled.tsx" src="examples/slider-controlled.tsx">
+  <SliderControlled />
+</ComponentPreview>
+
+### Disabled
+
+<ComponentPreview name="slider-disabled" title="slider-disabled.tsx" src="examples/slider-disabled.tsx">
+  <SliderDisabled />
+</ComponentPreview>
+
+## In Context
+
+### Settings panel
+
+<ComponentPreview name="slider-settings-panel" title="slider-settings-panel.tsx" src="examples/slider-settings-panel.tsx" previewClassName="h-auto py-6">
+  <SliderSettingsPanel />
+</ComponentPreview>
+
+### Price filter
+
+<ComponentPreview name="slider-price-filter" title="slider-price-filter.tsx" src="examples/slider-price-filter.tsx" previewClassName="h-auto py-6">
+  <SliderPriceFilter />
+</ComponentPreview>
+
+## API Reference
+
+### Slider
+
+<PropsTable
+  rows={[
+    { name: "value", type: "number[]", description: "Controlled values, one per thumb." },
+    { name: "defaultValue", type: "number[]", defaultValue: "[min, max]", description: "Uncontrolled initial values." },
+    { name: "onValueChange", type: "(value: number[]) => void", description: "Fires on every drag and keypress." },
+    { name: "min", type: "number", defaultValue: "0", description: "Lower bound of the range." },
+    { name: "max", type: "number", defaultValue: "100", description: "Upper bound of the range." },
+    { name: "step", type: "number", defaultValue: "1", description: "Increment between selectable values." },
+    { name: "orientation", type: "horizontal | vertical", defaultValue: "horizontal", description: "Layout direction." },
+    { name: "disabled", type: "boolean", defaultValue: "false", description: "Disables the slider and every thumb." },
+    { name: "aria-label", type: "string", description: "Accessible name applied to every thumb." },
+  ]}
+/>
+
+## Anatomy
+
+```tsx
+<Slider defaultValue={[50]} max={100} step={1} />
+```
+
+- **Root** — flex container, horizontal or vertical
+- **Track** — muted rail behind the fill
+- **Range** — filled portion between min and the current value(s)
+- **Thumb** — draggable handle, one per value
+
+## States
+
+| State | How |
+| :-- | :-- |
+| Single | `defaultValue={[50]}` |
+| Range | `defaultValue={[25, 75]}` |
+| Multi | `defaultValue={[10, 20, 70]}` |
+| Vertical | `orientation="vertical"` |
+| Disabled | `disabled` prop |
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `←` / `→` | Decrease / increase value |
+| `↑` / `↓` | Decrease / increase value |
+| `Home` / `End` | Min / max |
+| `Page Up` / `Page Down` | Step × 10 up / down |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `slider`, `slider-track`, `slider-range`, `slider-thumb` |
+| `data-orientation` | `horizontal` \| `vertical` |
+| `data-disabled` | `true` |
+
+## Accessibility
+
+- Every thumb renders `role="slider"` with `aria-valuemin`, `aria-valuemax`, and `aria-valuenow`.
+- Each thumb is keyboard focusable and responds to arrow keys, Home, End, Page Up, and Page Down.
+- `aria-orientation` is set on each thumb.
+- Pair the slider with a `Label` when the slider is not self-describing.
+
+## Best Practices
+
+- **Show the current value.** A slider without a visible number or label is hard to read. Pair it with a formatted span.
+- **Prefer ranges when both ends matter.** Use two thumbs for temperature, price, or scale intervals.
+- **Add a label.** Link a `Label` with `htmlFor` to the slider `id` so screen readers announce it.
+- **Do not replace a numeric input.** Sliders are imprecise for exact values. Pair with a number input when precision matters.
+
+## Related Components
+
+- [Progress](/docs/components/web/progress) — read-only indicator
+- [Input](/docs/components/web/input) — exact numeric entry

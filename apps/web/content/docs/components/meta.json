@@ -30,17 +30,17 @@
     "web/progress",
     "radio-group",
     "web/select",
+    "web/slider",
     "web/spinner",
     "web/switch",
+    "web/tooltip",
     "web/separator",
     "sheet",
-    "slider",
     "sonner",
     "tabs",
     "textarea",
     "toggle",
     "toggle-group",
-    "tooltip",
     "trace"
   ]
 }

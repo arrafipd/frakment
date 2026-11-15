@@ -15,9 +15,7 @@ export function TooltipDisabled() {
           </Button>
         </span>
       </TooltipTrigger>
-      <TooltipContent>
-        <p>This feature is currently unavailable</p>
-      </TooltipContent>
+      <TooltipContent>This feature is currently unavailable</TooltipContent>
     </Tooltip>
   );
 }

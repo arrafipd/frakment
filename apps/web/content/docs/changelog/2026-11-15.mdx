@@ -99,3 +99,30 @@ npx frakment@latest add marker attachment switch progress
 - <AttachmentTrigger asChild><a href="..." /></AttachmentTrigger>
 + <AttachmentTrigger as="a" href="..." />
 ```
+
+<hr className="my-16 border-border/40" />
+
+### Slider, Tooltip
+
+The last two Radix primitives drop to native implementations. **Slider** renders `<div role="slider">` per thumb with pointer and keyboard handling in a single file. **Tooltip** renders `<div role="tooltip">` with floating-ui positioning, hover/focus trigger, and portal. `radix-ui` is no longer a runtime dependency for either.
+
+`TooltipTrigger` replaces the Radix `asChild` pattern with an `as` prop (R16). `asChild` stays for backward compat (deprecated) but `as={Button}` is the recommended call.
+
+```bash
+npx frakment@latest add slider tooltip
+```
+
+#### Tooltip `as` prop
+
+```tsx
+<Tooltip>
+  <TooltipTrigger as={Button} variant="outline">Hover</TooltipTrigger>
+  <TooltipContent>Add to library</TooltipContent>
+</Tooltip>
+```
+
+#### Slider keyboard support
+
+Arrow keys step, Home/End jump, Page Up/Down step × 10. Multi-thumb sliders respect thumb ordering automatically.
+
+`motion` prop on TooltipContent overrides the entrance transition. Slider keeps its color/box-shadow hover transition and does not expose a motion prop (no positioning animation to tune).
