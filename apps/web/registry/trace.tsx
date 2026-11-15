@@ -250,6 +250,7 @@ function TraceCollapsibleContent({
     >
       <div
         className={cn("border-border mt-1 ml-2 border-l pb-1 pl-4", className)}
+        data-slot="trace-collapsible-content"
       >
         {children}
       </div>
