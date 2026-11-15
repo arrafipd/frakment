@@ -9,6 +9,7 @@ import { EmptyLink } from "@/examples/empty-link";
 import { EmptyOutline } from "@/examples/empty-outline";
 import { MessageCircleDashedIcon } from "lucide-react";
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
+import { EmptyZeroData } from "@/examples/empty-zero-data";
 
 <ComponentPreview name="empty" title="empty.tsx" previewClassName="h-auto py-8">
   <EmptyDemo />
@@ -127,14 +128,8 @@ Use `variant="default"` on `EmptyMedia` to render media without a muted backgrou
 
 ### Zero-data state
 
-<ComponentPreview name="empty" title="empty.tsx">
-  <Empty className="mx-auto h-64 w-full max-w-sm">
-    <EmptyHeader>
-      <EmptyMedia><MessageCircleDashedIcon /></EmptyMedia>
-      <EmptyTitle>No messages</EmptyTitle>
-      <EmptyDescription>Start a new conversation to see it here.</EmptyDescription>
-    </EmptyHeader>
-  </Empty>
+<ComponentPreview name="empty-zero-data" title="empty-zero-data.tsx" src="examples/empty-zero-data.tsx">
+  <EmptyZeroData />
 </ComponentPreview>
 
 ## API Reference

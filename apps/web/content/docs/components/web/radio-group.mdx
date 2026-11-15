@@ -9,6 +9,7 @@ import { RadioGroupChoiceCard } from "@/examples/radio-group-choice-card";
 import { RadioGroupFieldset } from "@/examples/radio-group-fieldset";
 import { RadioGroupDisabled } from "@/examples/radio-group-disabled";
 import { RadioGroupInvalid } from "@/examples/radio-group-invalid";
+import { RadioGroupPlan } from "@/examples/radio-group-plan";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 
@@ -36,8 +37,6 @@ npx frakment add radio-group
 
   <TabsContent value="manual">
     <Steps className="mb-0 pt-2">
-      <Step>No npm dependencies required.</Step>
-
       <Step>Copy and paste the following code into your project.</Step>
 
       <ComponentSource name="radio-group" title="components/ui/radio-group.tsx" />
@@ -82,7 +81,7 @@ RadioGroup
 
 Compose `Field`, `FieldContent`, and `FieldDescription` for helper text under each option.
 
-<ComponentPreview name="radio-group" title="radio-group.tsx" previewClassName="h-auto py-8">
+<ComponentPreview name="radio-group-description" title="radio-group-description.tsx" src="examples/radio-group-description.tsx" previewClassName="h-auto py-8">
   <RadioGroupDescription />
 </ComponentPreview>
 
@@ -90,7 +89,7 @@ Compose `Field`, `FieldContent`, and `FieldDescription` for helper text under ea
 
 Wrap each option in `FieldLabel` to make the entire card clickable.
 
-<ComponentPreview name="radio-group" title="radio-group.tsx" previewClassName="h-auto py-8">
+<ComponentPreview name="radio-group-choice-card" title="radio-group-choice-card.tsx" src="examples/radio-group-choice-card.tsx" previewClassName="h-auto py-8">
   <RadioGroupChoiceCard />
 </ComponentPreview>
 
@@ -98,13 +97,13 @@ Wrap each option in `FieldLabel` to make the entire card clickable.
 
 Use `FieldSet` and `FieldLegend` for a labelled group.
 
-<ComponentPreview name="radio-group" title="radio-group.tsx" previewClassName="h-auto py-8">
+<ComponentPreview name="radio-group-fieldset" title="radio-group-fieldset.tsx" src="examples/radio-group-fieldset.tsx" previewClassName="h-auto py-8">
   <RadioGroupFieldset />
 </ComponentPreview>
 
 ### Disabled
 
-<ComponentPreview name="radio-group" title="radio-group.tsx" previewClassName="h-auto py-8">
+<ComponentPreview name="radio-group-disabled" title="radio-group-disabled.tsx" src="examples/radio-group-disabled.tsx" previewClassName="h-auto py-8">
   <RadioGroupDisabled />
 </ComponentPreview>
 
@@ -112,7 +111,7 @@ Use `FieldSet` and `FieldLegend` for a labelled group.
 
 Mark each item with `aria-invalid` and its `Field` wrapper with `data-invalid`.
 
-<ComponentPreview name="radio-group" title="radio-group.tsx" previewClassName="h-auto py-8">
+<ComponentPreview name="radio-group-invalid" title="radio-group-invalid.tsx" src="examples/radio-group-invalid.tsx" previewClassName="h-auto py-8">
   <RadioGroupInvalid />
 </ComponentPreview>
 
@@ -120,21 +119,8 @@ Mark each item with `aria-invalid` and its `Field` wrapper with `data-invalid`.
 
 ### Plan selector
 
-<ComponentPreview name="radio-group" title="radio-group.tsx">
-  <RadioGroup className="mx-auto w-full max-w-sm" defaultValue="pro">
-    <div className="flex items-center gap-2">
-      <RadioGroupItem id="free" value="free" />
-      <Label htmlFor="free">Free</Label>
-    </div>
-    <div className="flex items-center gap-2">
-      <RadioGroupItem id="pro" value="pro" />
-      <Label htmlFor="pro">Pro</Label>
-    </div>
-    <div className="flex items-center gap-2">
-      <RadioGroupItem id="team" value="team" />
-      <Label htmlFor="team">Team</Label>
-    </div>
-  </RadioGroup>
+<ComponentPreview name="radio-group-plan" title="radio-group-plan.tsx" src="examples/radio-group-plan.tsx">
+  <RadioGroupPlan />
 </ComponentPreview>
 
 ## API Reference

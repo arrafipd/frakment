@@ -6,8 +6,7 @@ description: A modal panel that slides in from the edge of the screen.
 import { SheetDemo } from "@/examples/sheet-demo";
 import { SheetSide } from "@/examples/sheet-side";
 import { SheetNoCloseButton } from "@/examples/sheet-no-close-button";
-import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
+import { SheetMobileNav } from "@/examples/sheet-mobile-nav";
 
 <ComponentPreview name="sheet" title="sheet.tsx">
   <SheetDemo />
@@ -90,7 +89,7 @@ Sheet
 
 Four sides are available: `top`, `right`, `bottom`, `left`.
 
-<ComponentPreview name="sheet" title="sheet.tsx">
+<ComponentPreview name="sheet-side" title="sheet-side.tsx" src="examples/sheet-side.tsx">
   <SheetSide />
 </ComponentPreview>
 
@@ -98,7 +97,7 @@ Four sides are available: `top`, `right`, `bottom`, `left`.
 
 Pass `showCloseButton={false}` and dismiss via backdrop or Escape.
 
-<ComponentPreview name="sheet" title="sheet.tsx">
+<ComponentPreview name="sheet-no-close-button" title="sheet-no-close-button.tsx" src="examples/sheet-no-close-button.tsx">
   <SheetNoCloseButton />
 </ComponentPreview>
 
@@ -106,20 +105,8 @@ Pass `showCloseButton={false}` and dismiss via backdrop or Escape.
 
 ### Mobile navigation
 
-<ComponentPreview name="sheet" title="sheet.tsx">
-  <Sheet>
-    <SheetTrigger as={Button} variant="outline">Open menu</SheetTrigger>
-    <SheetContent>
-      <SheetHeader>
-        <SheetTitle>Navigation</SheetTitle>
-      </SheetHeader>
-      <nav className="flex flex-col gap-2 pt-4">
-        <a className="text-sm" href="/docs">Docs</a>
-        <a className="text-sm" href="/changelog">Changelog</a>
-        <a className="text-sm" href="/github">GitHub</a>
-      </nav>
-    </SheetContent>
-  </Sheet>
+<ComponentPreview name="sheet-mobile-nav" title="sheet-mobile-nav.tsx" src="examples/sheet-mobile-nav.tsx">
+  <SheetMobileNav />
 </ComponentPreview>
 
 ## API Reference
@@ -136,7 +123,7 @@ Pass `showCloseButton={false}` and dismiss via backdrop or Escape.
 
 ## As Prop
 
-`SheetTrigger` and `SheetClose` accept an `as` prop to render a custom element, for example `as={Button}` or `as="a"`. The legacy `asChild` is deprecated but still supported.
+`SheetTrigger` and `SheetClose` accept an `as` prop to render a custom element, for example `as={Button}` or `as="a"`.
 
 ## Controlled
 

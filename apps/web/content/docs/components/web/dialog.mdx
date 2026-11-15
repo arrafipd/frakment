@@ -8,6 +8,7 @@ import { DialogDemo } from "@/examples/dialog-demo";
 import { DialogNoCloseButton } from "@/examples/dialog-no-close-button";
 import { DialogScrollableContent } from "@/examples/dialog-scrollable-content";
 import { DialogStickyFooter } from "@/examples/dialog-sticky-footer";
+import { DialogConfirm } from "@/examples/dialog-confirm";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -137,20 +138,8 @@ Long content scrolls inside the dialog without growing it past the viewport.
 
 ### Confirm deletion
 
-<ComponentPreview name="dialog" title="dialog.tsx">
-  <Dialog>
-    <DialogTrigger as={Button} variant="destructive">Delete file</DialogTrigger>
-    <DialogContent>
-      <DialogHeader>
-        <DialogTitle>Delete this file?</DialogTitle>
-        <DialogDescription>This cannot be undone.</DialogDescription>
-      </DialogHeader>
-      <DialogFooter>
-        <DialogClose as={Button} variant="outline">Cancel</DialogClose>
-        <Button variant="destructive">Delete</Button>
-      </DialogFooter>
-    </DialogContent>
-  </Dialog>
+<ComponentPreview name="dialog-confirm" title="dialog-confirm.tsx" src="examples/dialog-confirm.tsx">
+  <DialogConfirm />
 </ComponentPreview>
 
 ## Data Attributes
@@ -201,8 +190,6 @@ Use `defaultOpen` for an uncontrolled dialog that starts open.
 ```
 
 Without `as`, the trigger renders as a native `<button>`.
-
-The legacy `asChild` prop is still supported for backward compatibility but is deprecated in favor of `as`.
 
 ## Motion
 

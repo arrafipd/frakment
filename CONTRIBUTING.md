@@ -475,7 +475,7 @@ Add `"<name>"` to `content/docs/{category}/meta.json` under `pages`, alphabetica
 
 ### 6. New badge
 
-Add `"/docs/{category}/<name>"` to `pagesNew` in `lib/docs.ts`. This drives the blue dot in the sidebar and mobile nav.
+Add `"/docs/{category}/<name>"` to `pagesNew` in `lib/docs.ts`. This drives the blue dot in the sidebar, mobile nav, command menu, and component list grid.
 
 `pagesNew` is a rotating set of the components shipped on the current working day, not a cumulative list. A new calendar day of shipped work starts a new batch: replace the entire set with only the components shipped that day. Components from previous days graduate and their dots disappear.
 
@@ -503,7 +503,7 @@ npm run build
 | :-- | :-- |
 | `frakment.json` entry | CLI returns 404 |
 | `meta.json` entry | Page not in sidebar, mobile nav, or command menu |
-| `pagesNew` entry | Page linked everywhere, no new badge |
+| `pagesNew` entry | Page linked everywhere, no new badge in sidebar, mobile nav, command menu, or component list grid |
 | `changelog/meta.json` entry | Release missing from changelog |
 | `npm run registry:build` not run | `public/r/<name>.json` missing |
 
@@ -514,7 +514,7 @@ npm run build
 - [ ] `examples/<name>-demo.tsx` exists and renders
 - [ ] Docs page follows [Docs style](#docs-style)
 - [ ] `meta.json` has the entry
-- [ ] `pagesNew` has the entry
+- [ ] `pagesNew` has the entry (drives blue dot in sidebar, mobile nav, command menu, component list grid)
 - [ ] Changelog file exists + `changelog/meta.json` has the entry
 - [ ] `npm run registry:build` ran and `public/r/<name>.json` in diff
 - [ ] `npm run build` passes

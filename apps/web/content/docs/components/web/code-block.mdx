@@ -4,6 +4,19 @@ description: A scrollable code container with header, copy button, line numbers,
 ---
 
 import { CodeBlockDemo } from "@/examples/code-block-demo";
+import { CodeBlockBasicDemo } from "@/examples/code-block-basic";
+import { CodeBlockHeaderDemo } from "@/examples/code-block-header";
+import { CodeBlockActionsDemo } from "@/examples/code-block-actions";
+import { CodeBlockFloatingActionsDemo } from "@/examples/code-block-floating-actions";
+import { CodeBlockLineNumbersDemo } from "@/examples/code-block-line-numbers";
+import { CodeBlockStartLineDemo } from "@/examples/code-block-start-line";
+import { CodeBlockWrapDemo } from "@/examples/code-block-wrap";
+import { CodeBlockHighlightedLinesDemo } from "@/examples/code-block-highlighted-lines";
+import { CodeBlockDiffDemo } from "@/examples/code-block-diff";
+import { CodeBlockHeightDemo } from "@/examples/code-block-height";
+import { CodeBlockSizeDemo } from "@/examples/code-block-size";
+import { CodeBlockDestructiveDemo } from "@/examples/code-block-destructive";
+import { CodeBlockDocumentationDemo } from "@/examples/code-block-documentation";
 import { Button } from "@/components/ui/button";
 import {
   CodeBlock,
@@ -14,6 +27,8 @@ import {
   CodeBlockContent,
   CodeBlockLine,
 } from "@/components/ui/code-block";
+
+<DocsBaseSwitcher base="web" component="code-block" className="mb-6" />
 
 <ComponentPreview
   name="code-block"
@@ -82,247 +97,104 @@ import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block";
 
 The simplest form — pass a string as children of `CodeBlockContent`.
 
-<ComponentPreview name="code-block" title="code-block.tsx">
-  <div className="w-full max-w-lg">
-    <CodeBlock>
-      <CodeBlockContent>npm install frakment</CodeBlockContent>
-    </CodeBlock>
-  </div>
+<ComponentPreview name="code-block-basic" title="code-block-basic.tsx" src="examples/code-block-basic.tsx">
+  <CodeBlockBasicDemo />
 </ComponentPreview>
 
 ## Header
 
 Wrap the top row in `CodeBlockHeader`. Use `CodeBlockTitle` for the filename and `CodeBlockActions` for buttons.
 
-<ComponentPreview name="code-block" title="code-block.tsx">
-  <div className="w-full max-w-lg">
-    <CodeBlock>
-      <CodeBlockHeader>
-        <CodeBlockTitle>Terminal</CodeBlockTitle>
-        <CodeBlockActions>
-          <CodeBlockCopyButton value="npx frakment add button" />
-        </CodeBlockActions>
-      </CodeBlockHeader>
-      <CodeBlockContent>npx frakment add button</CodeBlockContent>
-    </CodeBlock>
-  </div>
+<ComponentPreview name="code-block-header" title="code-block-header.tsx" src="examples/code-block-header.tsx">
+  <CodeBlockHeaderDemo />
 </ComponentPreview>
 
 ## Actions
 
 `CodeBlockActions` can hold multiple buttons — copy, download, wrap toggle. Each is a plain `Button`.
 
-<ComponentPreview name="code-block" title="code-block.tsx">
-  <div className="w-full max-w-lg">
-    <CodeBlock>
-      <CodeBlockHeader>
-        <CodeBlockTitle>install.sh</CodeBlockTitle>
-        <CodeBlockActions>
-          <CodeBlockCopyButton value="pnpm add frakment" />
-        </CodeBlockActions>
-      </CodeBlockHeader>
-      <CodeBlockContent>pnpm add frakment</CodeBlockContent>
-    </CodeBlock>
-  </div>
+<ComponentPreview name="code-block-actions" title="code-block-actions.tsx" src="examples/code-block-actions.tsx">
+  <CodeBlockActionsDemo />
 </ComponentPreview>
 
 ## Floating Actions
 
 Place `CodeBlockActions` **directly inside** `CodeBlock` (no header) — the buttons float top-end and fade in on hover.
 
-<ComponentPreview name="code-block" title="code-block.tsx">
-  <div className="w-full max-w-lg">
-    <CodeBlock>
-      <CodeBlockActions>
-        <CodeBlockCopyButton value="npm i frakment" />
-      </CodeBlockActions>
-      <CodeBlockContent>npm i frakment</CodeBlockContent>
-    </CodeBlock>
-  </div>
+<ComponentPreview name="code-block-floating-actions" title="code-block-floating-actions.tsx" src="examples/code-block-floating-actions.tsx">
+  <CodeBlockFloatingActionsDemo />
 </ComponentPreview>
 
 ## Line Numbers
 
 Add `lineNumbers` to `CodeBlockContent`. Line numbers **are not copied** when the user selects the code.
 
-<ComponentPreview name="code-block" title="code-block.tsx">
-  <div className="w-full max-w-lg">
-    <CodeBlock>
-      <CodeBlockContent lineNumbers>{`import { Button } from "@/components/ui/button"
-<DocsBaseSwitcher base="web" component="code-block" className="mb-6" />
-
-export default function Page() {
-  return <Button>Click me</Button>
-}`}</CodeBlockContent>
-    </CodeBlock>
-  </div>
+<ComponentPreview name="code-block-line-numbers" title="code-block-line-numbers.tsx" src="examples/code-block-line-numbers.tsx">
+  <CodeBlockLineNumbersDemo />
 </ComponentPreview>
 
 ## Start Line
 
 Set `startLine` to begin numbering from a different number — useful when showing a snippet from the middle of a file.
 
-<ComponentPreview name="code-block" title="code-block.tsx">
-  <div className="w-full max-w-lg">
-    <CodeBlock>
-      <CodeBlockContent lineNumbers startLine={20}>{`  const result = streamText({
-    model: "anthropic/claude-sonnet-4.5",
-    messages,
-  })
-
-return result.toUIMessageStreamResponse()`}</CodeBlockContent>
-
-</CodeBlock>
-
-  </div>
+<ComponentPreview name="code-block-start-line" title="code-block-start-line.tsx" src="examples/code-block-start-line.tsx">
+  <CodeBlockStartLineDemo />
 </ComponentPreview>
 
 ## Wrap
 
 Add `wrap` to `CodeBlockContent` to break long lines instead of scroll. Compare both sides:
 
-<ComponentPreview
-  name="code-block"
-  title="code-block.tsx"
-  previewClassName="h-auto"
->
-  <div className="grid w-full max-w-2xl grid-cols-1 gap-4 p-4 sm:grid-cols-2">
-    <div className="flex flex-col gap-2">
-      <span className="text-xs font-medium text-muted-foreground">
-        default (scroll)
-      </span>
-      <CodeBlock>
-        <CodeBlockContent>
-          Error: Failed to resolve module from /app/page.tsx
-        </CodeBlockContent>
-      </CodeBlock>
-    </div>
-    <div className="flex flex-col gap-2">
-      <span className="text-xs font-medium text-muted-foreground">wrap</span>
-      <CodeBlock>
-        <CodeBlockContent wrap>
-          Error: Failed to resolve module from /app/page.tsx
-        </CodeBlockContent>
-      </CodeBlock>
-    </div>
-  </div>
+<ComponentPreview name="code-block-wrap" title="code-block-wrap.tsx" src="examples/code-block-wrap.tsx">
+  <CodeBlockWrapDemo />
 </ComponentPreview>
 
 ## Highlighted Lines
 
 Use `CodeBlockLine` with `variant="highlighted"` to draw attention to specific lines.
 
-<ComponentPreview name="code-block" title="code-block.tsx">
-  <div className="w-full max-w-lg">
-    <CodeBlock>
-      <CodeBlockContent>
-        <CodeBlockLine>{"const config = {"}</CodeBlockLine>
-        <CodeBlockLine>  theme: 'system',</CodeBlockLine>
-        <CodeBlockLine variant="highlighted">
-            primary: 'oklch(0.6 0.2 250)',
-        </CodeBlockLine>
-        <CodeBlockLine>  radius: 0.5,</CodeBlockLine>
-        <CodeBlockLine>{"}"}</CodeBlockLine>
-      </CodeBlockContent>
-    </CodeBlock>
-  </div>
+<ComponentPreview name="code-block-highlighted-lines" title="code-block-highlighted-lines.tsx" src="examples/code-block-highlighted-lines.tsx">
+  <CodeBlockHighlightedLinesDemo />
 </ComponentPreview>
 
 ## Diff
 
 Use `variant="added"` and `variant="removed"`. The `+` and `−` markers are added by CSS — no need to type them.
 
-<ComponentPreview name="code-block" title="code-block.tsx">
-  <div className="w-full max-w-lg">
-    <CodeBlock>
-      <CodeBlockContent>
-        <CodeBlockLine>{"const config = {"}</CodeBlockLine>
-        <CodeBlockLine variant="removed">  theme: 'light',</CodeBlockLine>
-        <CodeBlockLine variant="added">  theme: 'system',</CodeBlockLine>
-        <CodeBlockLine>{"}"}</CodeBlockLine>
-      </CodeBlockContent>
-    </CodeBlock>
-  </div>
+<ComponentPreview name="code-block-diff" title="code-block-diff.tsx" src="examples/code-block-diff.tsx">
+  <CodeBlockDiffDemo />
 </ComponentPreview>
 
 ## Height
 
 Constrain height with a `max-h-*` class on `CodeBlockContent`. Content becomes scrollable — good for long build logs.
 
-<ComponentPreview name="code-block" title="code-block.tsx" previewClassName="h-auto">
-  <div className="w-full max-w-lg">
-    <CodeBlock>
-      <CodeBlockContent className="max-h-40" lineNumbers>{`✓ Compiled successfully in 2.1s
-✓ Linting and checking validity of types
-✓ Collecting page data
-✓ Generating static pages (12/12)
-✓ Finalizing page optimization
-
-Route (app) Size First Load JS
-┌ ○ / 1.2 kB 90.2 kB
-├ ○ /\_not-found 875 B 88.9 kB
-├ ○ /docs 3.4 kB 92.4 kB
-└ ○ /docs/components 5.1 kB 94.1 kB
-
-- First Load JS shared by all 88.1 kB
-  ├ chunks/1a2b3c.js 45.2 kB
-  ├ chunks/4d5e6f.js 32.9 kB
-  └ chunks/7g8h9i.js 10.0 kB`}</CodeBlockContent>
-  </CodeBlock>
-  </div>
-  </ComponentPreview>
+<ComponentPreview name="code-block-height" title="code-block-height.tsx" src="examples/code-block-height.tsx" previewClassName="h-auto">
+  <CodeBlockHeightDemo />
+</ComponentPreview>
 
 ## Size
 
 Two sizes: `default` (14px, 16px padding) and `sm` (12px, 12px padding). `sm` fits inside compact slots.
 
-<ComponentPreview
-  name="code-block"
-  title="code-block.tsx"
-  previewClassName="h-auto"
->
-  <div className="flex w-full max-w-lg flex-col gap-4 p-4">
-    <div className="flex flex-col gap-2">
-      <span className="text-xs font-medium text-muted-foreground">
-        size="default"
-      </span>
-      <CodeBlock>
-        <CodeBlockContent>npx frakment add button</CodeBlockContent>
-      </CodeBlock>
-    </div>
-    <div className="flex flex-col gap-2">
-      <span className="text-xs font-medium text-muted-foreground">
-        size="sm"
-      </span>
-      <CodeBlock size="sm">
-        <CodeBlockContent>npx frakment add button</CodeBlockContent>
-      </CodeBlock>
-    </div>
-  </div>
+<ComponentPreview name="code-block-size" title="code-block-size.tsx" src="examples/code-block-size.tsx">
+  <CodeBlockSizeDemo />
 </ComponentPreview>
 
 ## Destructive
 
 Use `variant="destructive"` for error output. Background and text shift to destructive tone.
 
-<ComponentPreview name="code-block" title="code-block.tsx">
-  <div className="w-full max-w-lg">
-    <CodeBlock variant="destructive">
-      <CodeBlockContent>
-        Error: Failed to resolve module '@/components/ui/code-block'
-      </CodeBlockContent>
-    </CodeBlock>
-  </div>
+<ComponentPreview name="code-block-destructive" title="code-block-destructive.tsx" src="examples/code-block-destructive.tsx">
+  <CodeBlockDestructiveDemo />
 </ComponentPreview>
 
 ## In Context
 
 ### Documentation snippet
 
-<ComponentPreview name="code-block" title="code-block.tsx">
-  <CodeBlock className="mx-auto w-full max-w-md">
-    <CodeBlockContent wrap>{`npx frakment add button`}</CodeBlockContent>
-  </CodeBlock>
+<ComponentPreview name="code-block-documentation" title="code-block-documentation.tsx" src="examples/code-block-documentation.tsx">
+  <CodeBlockDocumentationDemo />
 </ComponentPreview>
 
 ## API Reference

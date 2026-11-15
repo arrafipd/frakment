@@ -12,6 +12,7 @@ import { FieldSwitch } from "@/examples/field-switch";
 import { FieldSelect } from "@/examples/field-select";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { FieldLogin } from "@/examples/field-login";
 
 <ComponentPreview name="field" title="field.tsx" previewClassName="h-auto py-8">
   <FieldDemo />
@@ -237,20 +238,8 @@ Compose `Field` with `Select` for a labelled dropdown with a description.
 
 ### Login form
 
-<ComponentPreview name="field" title="field.tsx">
-  <div className="mx-auto w-full max-w-sm">
-    <FieldGroup>
-      <Field>
-        <FieldLabel htmlFor="email">Email</FieldLabel>
-        <Input id="email" type="email" />
-      </Field>
-      <Field>
-        <FieldLabel htmlFor="password">Password</FieldLabel>
-        <Input id="password" type="password" />
-        <FieldDescription>At least 8 characters.</FieldDescription>
-      </Field>
-    </FieldGroup>
-  </div>
+<ComponentPreview name="field-login" title="field-login.tsx" src="examples/field-login.tsx">
+  <FieldLogin />
 </ComponentPreview>
 
 ## API Reference

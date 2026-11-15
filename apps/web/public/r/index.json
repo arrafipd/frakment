@@ -275,9 +275,9 @@
     },
     {
       "deprecated": false,
-      "description": "An opinionated toast component for React, powered by Sonner.",
+      "description": "A native toast engine with themes, types, promises, and responsive positioning.",
       "name": "sonner",
-      "title": "Toast",
+      "title": "Sonner",
       "version": "0.0.0"
     },
     {

@@ -7,6 +7,7 @@ import { TabsDemo } from "@/examples/tabs-demo";
 import { TabsVertical } from "@/examples/tabs-vertical";
 import { TabsDisabled } from "@/examples/tabs-disabled";
 import { TabsIcons } from "@/examples/tabs-icons";
+import { TabsDocs } from "@/examples/tabs-docs";
 
 <DocsBaseSwitcher base="web" component="tabs" className="mb-6" />
 
@@ -34,10 +35,6 @@ npx frakment add tabs
 
   <TabsContent value="manual">
     <Steps className="mb-0 pt-2">
-      <Step>Install the following dependency:</Step>
-
-No npm dependencies required.
-
       <Step>Copy and paste the following code into your project.</Step>
 
       <ComponentSource name="tabs" title="components/ui/tabs.tsx" />
@@ -109,19 +106,8 @@ Triggers accept icons before the label. Icons size themselves via `[&_svg]:size-
 
 ### Docs tabs
 
-<ComponentPreview name="tabs" title="tabs.tsx">
-  <Tabs className="mx-auto w-full max-w-sm" defaultValue="preview">
-    <TabsList>
-      <TabsTrigger value="preview">Preview</TabsTrigger>
-      <TabsTrigger value="code">Code</TabsTrigger>
-    </TabsList>
-    <TabsContent className="text-sm text-muted-foreground pt-3" value="preview">
-      The component renders here.
-    </TabsContent>
-    <TabsContent className="text-sm text-muted-foreground pt-3" value="code">
-      Source code for this example.
-    </TabsContent>
-  </Tabs>
+<ComponentPreview name="tabs-docs" title="tabs-docs.tsx" src="examples/tabs-docs.tsx">
+  <TabsDocs />
 </ComponentPreview>
 
 ## API Reference
@@ -167,7 +153,7 @@ Set motion="off" to snap the indicator without animation. prefers-reduced-motion
 
 ## As Prop
 
-`TabsContent` accepts `as` to render a custom element. `TabsTrigger` renders a native `<button>` by default. The legacy `asChild` is deprecated but still supported for backward compatibility.
+`TabsContent` accepts `as` to render a custom element. `TabsTrigger` renders a native `<button>` by default.
 
 ## Controlled
 

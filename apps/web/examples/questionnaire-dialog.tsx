@@ -1,8 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { toast } from "sonner";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -28,6 +26,7 @@ import {
   QuestionnaireSubmit,
   QuestionnaireTitle,
 } from "@/components/ui/questionnaire";
+import { toast } from "@/components/ui/sonner";
 
 const items = [
   { name: "scope", required: true },

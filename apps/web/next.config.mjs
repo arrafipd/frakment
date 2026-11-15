@@ -315,6 +315,11 @@ const nextConfig = {
         permanent: false,
         source: `${ROUTES.DOCS}/components/trace`,
       },
+      {
+        destination: `${ROUTES.DOCS}/components/web/sonner`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/sonner`,
+      },
     ];
   },
   transpilePackages: ["@frakment/ai"],

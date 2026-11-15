@@ -18,8 +18,7 @@ import { TraceSheet } from "@/examples/trace-sheet";
 import { TraceTurn } from "@/examples/trace-turn";
 import { TraceThinking } from "@/examples/trace-thinking";
 import { TraceToolCalls } from "@/examples/trace-tool-calls";
-import { Trace, TraceLine, TraceIcon, TraceTitle } from "@/components/ui/trace";
-import { CircleCheckIcon, LoaderCircleIcon } from "lucide-react";
+import { TraceAgentStep } from "@/examples/trace-agent-step";
 
 <ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
   <TraceDemo />
@@ -93,7 +92,7 @@ Trace
 
 The smallest trace: an icon and a sentence.
 
-<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
+<ComponentPreview name="trace-static" title="trace-static.tsx" src="examples/trace-static.tsx" previewClassName="h-auto">
   <TraceStatic />
 </ComponentPreview>
 
@@ -107,14 +106,14 @@ Use `status` on **TraceLine** to convey state without extra markup.
 | `error` | Destructive color |
 | `pending` | 60% opacity |
 
-<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
+<ComponentPreview name="trace-status" title="trace-status.tsx" src="examples/trace-status.tsx" previewClassName="h-auto">
   <TraceStatus />
 </ComponentPreview>
 ## With description
 
 Place a `TraceDescription` after the title to show a secondary value, such as a duration or byte count.
 
-<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
+<ComponentPreview name="trace-description" title="trace-description.tsx" src="examples/trace-description.tsx" previewClassName="h-auto">
   <TraceDescriptionDemo />
 </ComponentPreview>
 
@@ -122,7 +121,7 @@ Place a `TraceDescription` after the title to show a secondary value, such as a 
 
 Wrap a **TraceLine** in **TraceCollapsibleTrigger** to make it expand into nested steps.
 
-<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
+<ComponentPreview name="trace-collapsible" title="trace-collapsible.tsx" src="examples/trace-collapsible.tsx" previewClassName="h-auto">
   <TraceCollapsibleDemo />
 </ComponentPreview>
 
@@ -130,14 +129,14 @@ Wrap a **TraceLine** in **TraceCollapsibleTrigger** to make it expand into neste
 
 Pass `open` and `onOpenChange` to control the collapsible from outside.
 
-<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
+<ComponentPreview name="trace-open" title="trace-open.tsx" src="examples/trace-open.tsx" previewClassName="h-auto">
   <TraceOpen />
 </ComponentPreview>
 ## Links
 
 Wrap a **TraceLine** in an anchor to make it navigable.
 
-<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
+<ComponentPreview name="trace-link" title="trace-link.tsx" src="examples/trace-link.tsx" previewClassName="h-auto">
   <TraceLink />
 </ComponentPreview>
 
@@ -145,7 +144,7 @@ Wrap a **TraceLine** in an anchor to make it navigable.
 
 Stack multiple lines to form a group of related steps.
 
-<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
+<ComponentPreview name="trace-group" title="trace-group.tsx" src="examples/trace-group.tsx" previewClassName="h-auto">
   <TraceGroup />
 </ComponentPreview>
 
@@ -153,7 +152,7 @@ Stack multiple lines to form a group of related steps.
 
 Group source links inside a collapsible trace.
 
-<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
+<ComponentPreview name="trace-sources" title="trace-sources.tsx" src="examples/trace-sources.tsx" previewClassName="h-auto">
   <TraceSources />
 </ComponentPreview>
 
@@ -161,14 +160,14 @@ Group source links inside a collapsible trace.
 
 Model a multi-step task with nested collapsibles and a running status.
 
-<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
+<ComponentPreview name="trace-steps" title="trace-steps.tsx" src="examples/trace-steps.tsx" previewClassName="h-auto">
   <TraceSteps />
 </ComponentPreview>
 ## Commit
 
 Show a commit with per-file diffs inside a sheet.
 
-<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
+<ComponentPreview name="trace-commit" title="trace-commit.tsx" src="examples/trace-commit.tsx" previewClassName="h-auto">
   <TraceCommit />
 </ComponentPreview>
 
@@ -176,7 +175,7 @@ Show a commit with per-file diffs inside a sheet.
 
 Open a full result set from a trace line using a dialog.
 
-<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
+<ComponentPreview name="trace-dialog" title="trace-dialog.tsx" src="examples/trace-dialog.tsx" previewClassName="h-auto">
   <TraceDialog />
 </ComponentPreview>
 
@@ -184,7 +183,7 @@ Open a full result set from a trace line using a dialog.
 
 Open a list of files from a trace line using a sheet.
 
-<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
+<ComponentPreview name="trace-sheet" title="trace-sheet.tsx" src="examples/trace-sheet.tsx" previewClassName="h-auto">
   <TraceSheet />
 </ComponentPreview>
 
@@ -192,14 +191,14 @@ Open a list of files from a trace line using a sheet.
 
 Nest traces to model a full agent turn with reasoning, tool calls, and output.
 
-<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
+<ComponentPreview name="trace-turn" title="trace-turn.tsx" src="examples/trace-turn.tsx" previewClassName="h-auto">
   <TraceTurn />
 </ComponentPreview>
 ## Thinking
 
 Stream a reasoning block as it is generated.
 
-<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
+<ComponentPreview name="trace-thinking" title="trace-thinking.tsx" src="examples/trace-thinking.tsx" previewClassName="h-auto">
   <TraceThinking />
 </ComponentPreview>
 
@@ -207,30 +206,15 @@ Stream a reasoning block as it is generated.
 
 Track tool invocations with running, done, and failed states.
 
-<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
+<ComponentPreview name="trace-tool-calls" title="trace-tool-calls.tsx" src="examples/trace-tool-calls.tsx" previewClassName="h-auto">
   <TraceToolCalls />
 </ComponentPreview>
 ## In Context
 
 ### Agent step list
 
-<ComponentPreview name="trace" title="trace.tsx">
-  <div className="mx-auto w-full max-w-sm">
-    <Trace>
-      <TraceLine>
-        <TraceIcon><CircleCheckIcon /></TraceIcon>
-        <TraceTitle>Read 4 files</TraceTitle>
-      </TraceLine>
-      <TraceLine>
-        <TraceIcon><CircleCheckIcon /></TraceIcon>
-        <TraceTitle>Ran pnpm test</TraceTitle>
-      </TraceLine>
-      <TraceLine status="running">
-        <TraceIcon><LoaderCircleIcon className="animate-spin" /></TraceIcon>
-        <TraceTitle>Writing patch</TraceTitle>
-      </TraceLine>
-    </Trace>
-  </div>
+<ComponentPreview name="trace-agent-step" title="trace-agent-step.tsx" src="examples/trace-agent-step.tsx">
+  <TraceAgentStep />
 </ComponentPreview>
 
 ## Motion

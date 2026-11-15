@@ -1,9 +1,9 @@
 "use client";
 
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/sonner";
 
-export function ToastDemo() {
+export function SonnerDemo() {
   function showToast() {
     toast("Event created", {
       action: {

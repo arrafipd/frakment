@@ -8,10 +8,10 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
 } from "lucide-react";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/sonner";
 
-export function ToastPosition() {
+export function SonnerPosition() {
   return (
     <div className="grid w-full max-w-md grid-cols-2 gap-2">
       <Button

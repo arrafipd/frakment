@@ -4,6 +4,7 @@ description: A flexible row for grouping media, content, and actions.
 ---
 
 import { ItemDemo } from "@/examples/item-demo";
+import { ItemSettings } from "@/examples/item-settings";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 
@@ -284,23 +285,8 @@ Combine with [Spinner](/docs/components/web/spinner) for a live processing row.
 
 ### Settings row
 
-<ComponentPreview name="item" title="item.tsx">
-  <div className="mx-auto w-full max-w-sm">
-    <Item variant="outline">
-      <ItemMedia>
-        <span className="flex size-8 items-center justify-center rounded-full bg-muted text-xs font-medium">
-          AR
-        </span>
-      </ItemMedia>
-      <ItemContent>
-        <ItemTitle>Jane Doe</ItemTitle>
-        <ItemDescription>john@example.com</ItemDescription>
-      </ItemContent>
-      <ItemActions>
-        <Button size="sm" variant="outline">Edit</Button>
-      </ItemActions>
-    </Item>
-  </div>
+<ComponentPreview name="item-settings" title="item-settings.tsx" src="examples/item-settings.tsx">
+  <ItemSettings />
 </ComponentPreview>
 
 ## API Reference
@@ -315,12 +301,6 @@ Combine with [Spinner](/docs/components/web/spinner) for a live processing row.
       default: "default",
       description: "Visual style of the row.",
     },
-    {
-      name: "asChild",
-      type: "boolean",
-      default: "false",
-      description: "When true, renders the child element instead of a div.",
-    },
   ]}
 />
 
@@ -332,8 +312,6 @@ Extend `React.ComponentProps<"div">`. Each maps to a `data-slot` attribute for C
 
 `Item` also accepts an `as` prop to render a custom element such as `<a>` or `<li>`.
 
-The legacy `asChild` prop remains supported for backward compatibility but is deprecated.
-
 ## Data Attributes
 
 | Attribute | Values |
@@ -344,7 +322,7 @@ The legacy `asChild` prop remains supported for backward compatibility but is de
 
 ## Accessibility
 
-- `Item` renders a `<div>` — for interactive rows, use `as` with `<a>` or `<button>` (legacy `asChild` still works) so keyboard and screen readers work.
+- `Item` renders a `<div>` — for interactive rows, use `as` with `<a>` or `<button>` so keyboard and screen readers work.
 - `ItemMedia` should be `aria-hidden` when the visual is decorative (e.g., a status dot).
 - `ItemTitle` acts as the accessible name — write it as a short label.
 

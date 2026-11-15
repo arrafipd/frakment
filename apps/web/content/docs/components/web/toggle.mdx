@@ -9,7 +9,7 @@ import { ToggleText } from "@/examples/toggle-text";
 import { ToggleSizes } from "@/examples/toggle-sizes";
 import { ToggleDisabled } from "@/examples/toggle-disabled";
 import { Toggle } from "@/components/ui/toggle";
-import { BoldIcon } from "lucide-react";
+import { ToggleToolbar } from "@/examples/toggle-toolbar";
 
 <ComponentPreview name="toggle" title="toggle.tsx">
   <ToggleDemo />
@@ -74,7 +74,7 @@ import { Toggle } from "@/components/ui/toggle";
 </Toggle>
 ```
 
-- **Toggle** — native `<button>`; accepts `variant`, `size`, `pressed`, `defaultPressed`, `onPressedChange`, `as`, `asChild`
+- **Toggle** — native `<button>`; accepts `variant`, `size`, `pressed`, `defaultPressed`, `onPressedChange`, `as`
 - Icons and text are children; the pressed state styles icon fills via `group-aria-pressed/toggle:`
 
 ## Examples
@@ -83,7 +83,7 @@ import { Toggle } from "@/components/ui/toggle";
 
 Pass `variant="outline"` for a bordered toggle.
 
-<ComponentPreview name="toggle" title="toggle.tsx">
+<ComponentPreview name="toggle-outline" title="toggle-outline.tsx" src="examples/toggle-outline.tsx">
   <ToggleOutline />
 </ComponentPreview>
 
@@ -98,7 +98,7 @@ Pass `variant="outline"` for a bordered toggle.
 
 Default variant — no border, transparent background.
 
-<ComponentPreview name="toggle" title="toggle.tsx">
+<ComponentPreview name="toggle-text" title="toggle-text.tsx" src="examples/toggle-text.tsx">
   <ToggleText />
 </ComponentPreview>
 
@@ -113,7 +113,7 @@ Default variant — no border, transparent background.
 
 `size` accepts `sm`, `default`, and `lg`.
 
-<ComponentPreview name="toggle" title="toggle.tsx">
+<ComponentPreview name="toggle-sizes" title="toggle-sizes.tsx" src="examples/toggle-sizes.tsx">
   <ToggleSizes />
 </ComponentPreview>
 
@@ -127,7 +127,7 @@ Default variant — no border, transparent background.
 
 Set `disabled` on the toggle to lock interaction.
 
-<ComponentPreview name="toggle" title="toggle.tsx">
+<ComponentPreview name="toggle-disabled" title="toggle-disabled.tsx" src="examples/toggle-disabled.tsx">
   <ToggleDisabled />
 </ComponentPreview>
 
@@ -140,8 +140,8 @@ Set `disabled` on the toggle to lock interaction.
 
 ### Toolbar toggle
 
-<ComponentPreview name="toggle" title="toggle.tsx">
-  <Toggle aria-label="Bold" variant="outline"><BoldIcon /></Toggle>
+<ComponentPreview name="toggle-toolbar" title="toggle-toolbar.tsx" src="examples/toggle-toolbar.tsx">
+  <ToggleToolbar />
 </ComponentPreview>
 
 ## API Reference

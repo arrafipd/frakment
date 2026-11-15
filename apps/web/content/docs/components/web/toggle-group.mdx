@@ -11,7 +11,7 @@ import { ToggleGroupVertical } from "@/examples/toggle-group-vertical";
 import { ToggleGroupDisabled } from "@/examples/toggle-group-disabled";
 import { ToggleGroupFontWeightSelector } from "@/examples/toggle-group-font-weight";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { BoldIcon, ItalicIcon, UnderlineIcon } from "lucide-react";
+import { ToggleGroupFormatting } from "@/examples/toggle-group-formatting";
 
 <ComponentPreview name="toggle-group" title="toggle-group.tsx">
   <ToggleGroupDemo />
@@ -86,7 +86,7 @@ ToggleGroup
 
 `variant="outline"` for bordered items with a shared rounded container.
 
-<ComponentPreview name="toggle-group" title="toggle-group.tsx">
+<ComponentPreview name="toggle-group-outline" title="toggle-group-outline.tsx" src="examples/toggle-group-outline.tsx">
   <ToggleGroupOutline />
 </ComponentPreview>
 
@@ -101,7 +101,7 @@ ToggleGroup
 
 `size` accepts `sm`, `default`, and `lg`.
 
-<ComponentPreview name="toggle-group" title="toggle-group.tsx">
+<ComponentPreview name="toggle-group-sizes" title="toggle-group-sizes.tsx" src="examples/toggle-group-sizes.tsx">
   <ToggleGroupSizes />
 </ComponentPreview>
 
@@ -114,7 +114,7 @@ ToggleGroup
 
 `spacing` accepts a Tailwind spacing scale value (e.g. `2`) to separate items instead of merging them.
 
-<ComponentPreview name="toggle-group" title="toggle-group.tsx">
+<ComponentPreview name="toggle-group-spacing" title="toggle-group-spacing.tsx" src="examples/toggle-group-spacing.tsx">
   <ToggleGroupSpacing />
 </ComponentPreview>
 
@@ -128,7 +128,7 @@ ToggleGroup
 
 `orientation="vertical"` stacks items in a column — useful for toolbar-like selectors.
 
-<ComponentPreview name="toggle-group" title="toggle-group.tsx">
+<ComponentPreview name="toggle-group-vertical" title="toggle-group-vertical.tsx" src="examples/toggle-group-vertical.tsx">
   <ToggleGroupVertical />
 </ComponentPreview>
 
@@ -142,7 +142,7 @@ ToggleGroup
 
 Pass `disabled` on the group to lock every item.
 
-<ComponentPreview name="toggle-group" title="toggle-group.tsx">
+<ComponentPreview name="toggle-group-disabled" title="toggle-group-disabled.tsx" src="examples/toggle-group-disabled.tsx">
   <ToggleGroupDisabled />
 </ComponentPreview>
 
@@ -154,11 +154,7 @@ Pass `disabled` on the group to lock every item.
 
 Compose `ToggleGroup` with `Field` for a labeled, controlled selector — `value` / `onValueChange` accept a string array.
 
-<ComponentPreview
-  name="toggle-group"
-  title="toggle-group.tsx"
-  previewClassName="h-auto py-8"
->
+<ComponentPreview name="toggle-group-font-weight" title="toggle-group-font-weight.tsx" src="examples/toggle-group-font-weight.tsx" previewClassName="h-auto py-8">
   <ToggleGroupFontWeightSelector />
 </ComponentPreview>
 
@@ -176,12 +172,8 @@ Compose `ToggleGroup` with `Field` for a labeled, controlled selector — `value
 
 ### Text formatting
 
-<ComponentPreview name="toggle-group" title="toggle-group.tsx">
-  <ToggleGroup type="multiple">
-    <ToggleGroupItem aria-label="Bold" value="bold"><BoldIcon /></ToggleGroupItem>
-    <ToggleGroupItem aria-label="Italic" value="italic"><ItalicIcon /></ToggleGroupItem>
-    <ToggleGroupItem aria-label="Underline" value="underline"><UnderlineIcon /></ToggleGroupItem>
-  </ToggleGroup>
+<ComponentPreview name="toggle-group-formatting" title="toggle-group-formatting.tsx" src="examples/toggle-group-formatting.tsx">
+  <ToggleGroupFormatting />
 </ComponentPreview>
 
 ## API Reference

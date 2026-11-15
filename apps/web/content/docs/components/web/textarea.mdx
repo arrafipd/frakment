@@ -8,6 +8,8 @@ import { TextareaAutogrow } from "@/examples/textarea-autogrow";
 import { TextareaDisabled } from "@/examples/textarea-disabled";
 import { TextareaInvalid } from "@/examples/textarea-invalid";
 import { TextareaField } from "@/examples/textarea-field";
+import { TextareaBio } from "@/examples/textarea-bio";
+import { TextareaComment } from "@/examples/textarea-comment";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -35,8 +37,6 @@ npx frakment add textarea
 
   <TabsContent value="manual">
     <Steps className="mb-0 pt-2">
-      <Step>No npm dependencies required.</Step>
-
       <Step>Copy and paste the following code into your project.</Step>
 
       <ComponentSource name="textarea" title="components/ui/textarea.tsx" />
@@ -132,21 +132,14 @@ Compose with `Field` for a label and description around the textarea.
 
 ### Comment box
 
-<ComponentPreview name="textarea" title="textarea.tsx">
-  <div className="mx-auto flex w-full max-w-sm flex-col gap-2">
-    <Label htmlFor="comment">Comment</Label>
-    <Textarea id="comment" placeholder="Write a reply…" rows={3} />
-  </div>
+<ComponentPreview name="textarea-comment" title="textarea-comment.tsx" src="examples/textarea-comment.tsx">
+  <TextareaComment />
 </ComponentPreview>
 
 ### Bio field with limit
 
-<ComponentPreview name="textarea" title="textarea.tsx">
-  <div className="mx-auto flex w-full max-w-sm flex-col gap-2">
-    <Label htmlFor="bio">Bio</Label>
-    <Textarea id="bio" placeholder="A few words about you…" rows={4} />
-    <p className="text-muted-foreground text-xs">Max 160 characters.</p>
-  </div>
+<ComponentPreview name="textarea-bio" title="textarea-bio.tsx" src="examples/textarea-bio.tsx">
+  <TextareaBio />
 </ComponentPreview>
 
 ## API Reference

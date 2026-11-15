@@ -434,16 +434,12 @@
     },
     {
       "name": "sonner",
-      "title": "Toast",
-      "description": "An opinionated toast component for React, powered by Sonner.",
+      "title": "Sonner",
+      "description": "A native toast engine with themes, types, promises, and responsive positioning.",
       "source": "registry/sonner.tsx",
       "target": "components/ui/sonner.tsx",
-      "dependencies": [
-        "lucide-react@^1.69.0",
-        "next-themes@^0.4.6",
-        "sonner@^2.0.8"
-      ],
-      "registryDependencies": [],
+      "dependencies": ["lucide-react@^1.69.0", "next-themes@^0.4.6"],
+      "registryDependencies": ["spinner"],
       "type": "registry:ui"
     },
     {

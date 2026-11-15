@@ -135,7 +135,7 @@ Use the `size` prop to change density. `sm` and `xs` reduce the media slot, padd
 
 ### Trigger
 
-**AttachmentTrigger** fills the card so the entire surface is clickable while actions stay independently interactive. Pass `as` to render a different element, or wrap it in `DialogTrigger asChild` for a preview dialog.
+**AttachmentTrigger** fills the card so the entire surface is clickable while actions stay independently interactive. Pass `as` to render a different element, or compose it with `DialogTrigger as={AttachmentTrigger}` for a preview dialog.
 
 <ComponentPreview name="attachment-trigger" title="attachment-trigger.tsx" src="examples/attachment-trigger.tsx" previewClassName="h-auto py-6">
   <AttachmentTriggerDemo />
@@ -155,9 +155,7 @@ Use the `size` prop to change density. `sm` and `xs` reduce the media slot, padd
       <XIcon />
     </AttachmentAction>
   </AttachmentActions>
-  <DialogTrigger asChild>
-    <AttachmentTrigger aria-label="Preview research-summary.pdf" />
-  </DialogTrigger>
+  <DialogTrigger as={AttachmentTrigger} aria-label="Preview research-summary.pdf" />
 </Attachment>
 ```
 
@@ -230,7 +228,7 @@ Extends `React.ComponentProps<typeof Button>`. Requires `aria-label` since it re
 
 - **AttachmentTrigger** is an absolute overlay. Give it an `aria-label` describing the target action, such as "Preview report.pdf".
 - **AttachmentAction** buttons are icon-only. Every action must have an `aria-label` so screen readers can announce its intent.
-- Do not attach click handlers to the card itself. Use **AttachmentTrigger** with `as` (or inside a `DialogTrigger asChild`) so the click target is a real anchor or button.
+- Do not attach click handlers to the card itself. Use **AttachmentTrigger** with `as` (or as `DialogTrigger` with `as={AttachmentTrigger}`) so the click target is a real anchor or button.
 - Pair color with icon or text. The error state uses `file-warning` and a description — never rely on color alone.
 - When `state="uploading"`, render **Spinner** inside **AttachmentMedia** and include the progress in **AttachmentDescription** so the state is announced.
 
@@ -240,7 +238,7 @@ Extends `React.ComponentProps<typeof Button>`. Requires `aria-label` since it re
 - **Keep file names visible.** **AttachmentTitle** truncates with ellipsis; do not replace it with an icon-only card.
 - **Use `orientation="vertical"` for image attachments.** Horizontal orientation reserves less vertical space but hides the image.
 - **Prefer `AttachmentGroup` for lists.** It normalizes spacing and snap behavior between cards.
-- **Wrap with `as` for links.** A plain overlay without `as` is a button with no semantic role; pass `as="a"` for anchors or use a `DialogTrigger asChild` wrapper.
+- **Wrap with `as` for links.** A plain overlay without `as` is a button with no semantic role; pass `as="a"` for anchors or wrap in `DialogTrigger` with `as={AttachmentTrigger}`.
 
 ## Related Components
 

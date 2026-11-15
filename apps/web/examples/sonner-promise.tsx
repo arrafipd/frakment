@@ -1,9 +1,9 @@
 "use client";
 
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/sonner";
 
-export function ToastPromise() {
+export function SonnerPromise() {
   function showToast() {
     const promise = new Promise<{ name: string }>((resolve) => {
       window.setTimeout(() => resolve({ name: "Event" }), 2000);
