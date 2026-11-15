@@ -1,9 +1,15 @@
 # Lefthook config - https://github.com/evilmartians/lefthook
-# Registry MUST build before format -> no JSON drift. See HANDOFF.md.
+# Format runs BEFORE registry-build so JSON snapshots the post-format source.
+# Reversing this order causes content drift (source changes after build).
 
 pre-commit:
   parallel: false
   jobs:
+    - name: format
+      glob: "*.{ts,tsx,js,jsx,json,md,mdx,css,yml,yaml}"
+      run: npx ultracite fix {staged_files}
+      stage_fixed: true
+
     - name: registry-build
       glob:
         [
@@ -12,11 +18,6 @@ pre-commit:
           "apps/web/frakment.json",
         ]
       run: node apps/web/scripts/build-registry.mjs
-      stage_fixed: true
-
-    - name: format
-      glob: "*.{ts,tsx,js,jsx,json,md,mdx,css,yml,yaml}"
-      run: npx ultracite fix {staged_files}
       stage_fixed: true
 
     - name: lint
