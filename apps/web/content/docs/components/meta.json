@@ -28,19 +28,19 @@
     "web/pagination",
     "web/popover",
     "web/progress",
-    "radio-group",
+    "web/radio-group",
     "web/select",
     "web/slider",
     "web/spinner",
     "web/switch",
     "web/tooltip",
     "web/separator",
-    "sheet",
+    "web/sheet",
     "sonner",
     "web/tabs",
     "web/textarea",
-    "toggle",
-    "toggle-group",
-    "trace"
+    "web/toggle",
+    "web/toggle-group",
+    "web/trace"
   ]
 }

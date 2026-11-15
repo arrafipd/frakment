@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
   <SheetDemo />
 </ComponentPreview>
 
-Sheet renders a modal panel that slides in from a screen edge. Built on Radix Dialog, so focus is trapped and Escape dismisses.
+Sheet renders a modal panel that slides in from a screen edge. Focus is trapped, Escape dismisses, and the backdrop closes on click.
 
 ## Installation
 
@@ -36,7 +36,7 @@ npx frakment add sheet
       <Step>Install the following dependencies:</Step>
 
       ~~~bash
-      npm install lucide-react radix-ui
+      npm install lucide-react
       ~~~
 
       <Step>Copy and paste the following code into your project.</Step>
@@ -53,6 +53,7 @@ npx frakment add sheet
 
 ~~~tsx title="sheet.tsx"
 import {
+<DocsBaseSwitcher base="web" component="sheet" className="mb-6" />
   Sheet, SheetClose, SheetContent, SheetDescription,
   SheetFooter, SheetHeader, SheetTitle, SheetTrigger,
 } from "@/components/ui/sheet";
@@ -60,18 +61,14 @@ import {
 
 ~~~tsx
 <Sheet>
-  <SheetTrigger asChild>
-    <Button>Open</Button>
-  </SheetTrigger>
+  <SheetTrigger as={Button}>Open</SheetTrigger>
   <SheetContent>
     <SheetHeader>
       <SheetTitle>Title</SheetTitle>
       <SheetDescription>Description</SheetDescription>
     </SheetHeader>
     <SheetFooter>
-      <SheetClose asChild>
-        <Button variant="outline">Close</Button>
-      </SheetClose>
+      <SheetClose as={Button} variant="outline">Close</SheetClose>
     </SheetFooter>
   </SheetContent>
 </Sheet>
@@ -111,9 +108,7 @@ Pass `showCloseButton={false}` and dismiss via backdrop or Escape.
 
 <ComponentPreview name="sheet" title="sheet.tsx">
   <Sheet>
-    <SheetTrigger asChild>
-      <Button variant="outline">Open menu</Button>
-    </SheetTrigger>
+    <SheetTrigger as={Button} variant="outline">Open menu</SheetTrigger>
     <SheetContent>
       <SheetHeader>
         <SheetTitle>Navigation</SheetTitle>
@@ -139,18 +134,16 @@ Pass `showCloseButton={false}` and dismiss via backdrop or Escape.
   ]}
 />
 
-## As Child
+## As Prop
 
-`SheetTrigger` and `SheetClose` accept `asChild` to render your own element.
+`SheetTrigger` and `SheetClose` accept an `as` prop to render a custom element, for example `as={Button}` or `as="a"`. The legacy `asChild` is deprecated but still supported.
 
 ## Controlled
 
 ```tsx
 const [open, setOpen] = React.useState(false)
 <Sheet open={open} onOpenChange={setOpen}>
-  <SheetTrigger asChild>
-    <Button>Open</Button>
-  </SheetTrigger>
+  <SheetTrigger as={Button}>Open</SheetTrigger>
   <SheetContent side="right">{/* ... */}</SheetContent>
 </Sheet>
 ```
@@ -186,7 +179,7 @@ const [open, setOpen] = React.useState(false)
 - **Do not stack sheets.** One at a time.
 ## Related Components
 
-- [Dialog](/docs/components/dialog) — centered modal
-- [Dropdown Menu](/docs/components/dropdown-menu) — action menu
-- [Tooltip](/docs/components/tooltip) — hint on hover
+- [Dialog](/docs/components/web/dialog) — centered modal
+- [Dropdown Menu](/docs/components/web/dropdown-menu) — action menu
+- [Tooltip](/docs/components/web/tooltip) — hint on hover
 

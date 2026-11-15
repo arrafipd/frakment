@@ -15,7 +15,7 @@ import { BoldIcon } from "lucide-react";
   <ToggleDemo />
 </ComponentPreview>
 
-Toggle is a two-state button built on the Radix Toggle primitive. It supports `default` and `outline` variants, `sm` / `default` / `lg` sizes, and pressed / disabled states.
+Toggle is a two-state button rendered as a native `<button>` with `aria-pressed`. It supports `default` and `outline` variants, `sm` / `default` / `lg` sizes, and pressed / disabled states.
 
 ## Installation
 
@@ -38,7 +38,7 @@ npx frakment add toggle
       <Step>Install the following dependencies:</Step>
 
       ```bash
-      npm install class-variance-authority radix-ui
+      npm install class-variance-authority
       ```
 
       <Step>Copy and paste the following code into your project.</Step>
@@ -55,6 +55,7 @@ npx frakment add toggle
 
 ```tsx title="toggle.tsx"
 import { Toggle } from "@/components/ui/toggle";
+<DocsBaseSwitcher base="web" component="toggle" className="mb-6" />
 ```
 
 ```tsx
@@ -73,7 +74,7 @@ import { Toggle } from "@/components/ui/toggle";
 </Toggle>
 ```
 
-- **Toggle** — Radix `Toggle.Root`; accepts `variant`, `size`, `pressed`, `defaultPressed`, `onPressedChange`
+- **Toggle** — native `<button>`; accepts `variant`, `size`, `pressed`, `defaultPressed`, `onPressedChange`, `as`, `asChild`
 - Icons and text are children; the pressed state styles icon fills via `group-aria-pressed/toggle:`
 
 ## Examples
@@ -145,7 +146,7 @@ Set `disabled` on the toggle to lock interaction.
 
 ## API Reference
 
-Extends `React.ComponentProps<typeof TogglePrimitive.Root>` from `radix-ui`.
+Extends `React.ComponentProps<"button">`.
 
 <PropsTable
   rows={[
@@ -231,6 +232,6 @@ const [pressed, setPressed] = React.useState(false)
 - **Persist the state.** Toggles are stateful, not one-shot.
 ## Related Components
 
-- [Toggle Group](/docs/components/toggle-group) — set of toggles
-- [Switch](/docs/components/switch) — boolean setting
+- [Toggle Group](/docs/components/web/toggle-group) — set of toggles
+- [Switch](/docs/components/web/switch) — boolean setting
 

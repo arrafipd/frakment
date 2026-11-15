@@ -36,11 +36,7 @@ npx frakment add radio-group
 
   <TabsContent value="manual">
     <Steps className="mb-0 pt-2">
-      <Step>Install the following dependency:</Step>
-
-      ~~~bash
-      npm install radix-ui
-      ~~~
+      <Step>No npm dependencies required.</Step>
 
       <Step>Copy and paste the following code into your project.</Step>
 
@@ -57,6 +53,7 @@ npx frakment add radio-group
 ~~~tsx title="radio-group.tsx"
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+<DocsBaseSwitcher base="web" component="radio-group" className="mb-6" />
 ~~~
 
 ~~~tsx
@@ -188,7 +185,7 @@ const [value, setValue] = React.useState("")
 
 ## Accessibility
 
-- Built on Radix RadioGroup, following the WAI-ARIA radio group pattern.
+- Follows the WAI-ARIA radio group pattern.
 - Arrow keys move the selection within the group.
 - Each item must have a matching `Label` with `htmlFor`.
 - Invalid state is conveyed via `aria-invalid` on the item and `data-invalid` on the wrapper.
@@ -201,7 +198,7 @@ const [value, setValue] = React.useState("")
 - **Pair with a visible label.** Every option needs a matching `Label htmlFor`.
 ## Related Components
 
-- [Checkbox](/docs/components/checkbox) — multiple choice
-- [Select](/docs/components/select) — compact single choice
-- [Field](/docs/components/field) — label + error
+- [Checkbox](/docs/components/web/checkbox) — multiple choice
+- [Select](/docs/components/web/select) — compact single choice
+- [Field](/docs/components/web/field) — label + error
 

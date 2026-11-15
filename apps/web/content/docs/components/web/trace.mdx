@@ -21,7 +21,7 @@ import { TraceToolCalls } from "@/examples/trace-tool-calls";
 import { Trace, TraceLine, TraceIcon, TraceTitle } from "@/components/ui/trace";
 import { CircleCheckIcon, LoaderCircleIcon } from "lucide-react";
 
-<ComponentPreview name="trace" title="trace.tsx" align="start" previewClassName="h-auto">
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
   <TraceDemo />
 </ComponentPreview>
 
@@ -47,7 +47,7 @@ npx frakment add trace
       <Step>Install the following dependencies:</Step>
 
       ~~~bash
-      npm install lucide-react motion radix-ui
+      npm install lucide-react
       ~~~
 
       <Step>Copy and paste the following code into your project.</Step>
@@ -63,6 +63,7 @@ npx frakment add trace
 
 ~~~tsx title="trace.tsx"
 import { Trace, TraceLine, TraceIcon, TraceTitle } from "@/components/ui/trace";
+<DocsBaseSwitcher base="web" component="trace" className="mb-6" />
 ~~~
 
 ~~~tsx title="trace.tsx"
@@ -92,7 +93,7 @@ Trace
 
 The smallest trace: an icon and a sentence.
 
-<ComponentPreview name="trace" title="trace.tsx" align="start" previewClassName="h-auto">
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
   <TraceStatic />
 </ComponentPreview>
 
@@ -106,14 +107,14 @@ Use `status` on **TraceLine** to convey state without extra markup.
 | `error` | Destructive color |
 | `pending` | 60% opacity |
 
-<ComponentPreview name="trace" title="trace.tsx" align="start" previewClassName="h-auto">
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
   <TraceStatus />
 </ComponentPreview>
 ## With description
 
 Place a `TraceDescription` after the title to show a secondary value, such as a duration or byte count.
 
-<ComponentPreview name="trace" title="trace.tsx" align="start" previewClassName="h-auto">
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
   <TraceDescriptionDemo />
 </ComponentPreview>
 
@@ -121,7 +122,7 @@ Place a `TraceDescription` after the title to show a secondary value, such as a 
 
 Wrap a **TraceLine** in **TraceCollapsibleTrigger** to make it expand into nested steps.
 
-<ComponentPreview name="trace" title="trace.tsx" align="start" previewClassName="h-auto">
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
   <TraceCollapsibleDemo />
 </ComponentPreview>
 
@@ -129,14 +130,14 @@ Wrap a **TraceLine** in **TraceCollapsibleTrigger** to make it expand into neste
 
 Pass `open` and `onOpenChange` to control the collapsible from outside.
 
-<ComponentPreview name="trace" title="trace.tsx" align="start" previewClassName="h-auto">
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
   <TraceOpen />
 </ComponentPreview>
 ## Links
 
 Wrap a **TraceLine** in an anchor to make it navigable.
 
-<ComponentPreview name="trace" title="trace.tsx" align="start" previewClassName="h-auto">
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
   <TraceLink />
 </ComponentPreview>
 
@@ -144,7 +145,7 @@ Wrap a **TraceLine** in an anchor to make it navigable.
 
 Stack multiple lines to form a group of related steps.
 
-<ComponentPreview name="trace" title="trace.tsx" align="start" previewClassName="h-auto">
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
   <TraceGroup />
 </ComponentPreview>
 
@@ -152,7 +153,7 @@ Stack multiple lines to form a group of related steps.
 
 Group source links inside a collapsible trace.
 
-<ComponentPreview name="trace" title="trace.tsx" align="start" previewClassName="h-auto">
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
   <TraceSources />
 </ComponentPreview>
 
@@ -160,14 +161,14 @@ Group source links inside a collapsible trace.
 
 Model a multi-step task with nested collapsibles and a running status.
 
-<ComponentPreview name="trace" title="trace.tsx" align="start" previewClassName="h-auto">
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
   <TraceSteps />
 </ComponentPreview>
 ## Commit
 
 Show a commit with per-file diffs inside a sheet.
 
-<ComponentPreview name="trace" title="trace.tsx" align="start" previewClassName="h-auto">
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
   <TraceCommit />
 </ComponentPreview>
 
@@ -175,7 +176,7 @@ Show a commit with per-file diffs inside a sheet.
 
 Open a full result set from a trace line using a dialog.
 
-<ComponentPreview name="trace" title="trace.tsx" align="start" previewClassName="h-auto">
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
   <TraceDialog />
 </ComponentPreview>
 
@@ -183,7 +184,7 @@ Open a full result set from a trace line using a dialog.
 
 Open a list of files from a trace line using a sheet.
 
-<ComponentPreview name="trace" title="trace.tsx" align="start" previewClassName="h-auto">
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
   <TraceSheet />
 </ComponentPreview>
 
@@ -191,14 +192,14 @@ Open a list of files from a trace line using a sheet.
 
 Nest traces to model a full agent turn with reasoning, tool calls, and output.
 
-<ComponentPreview name="trace" title="trace.tsx" align="start" previewClassName="h-auto">
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
   <TraceTurn />
 </ComponentPreview>
 ## Thinking
 
 Stream a reasoning block as it is generated.
 
-<ComponentPreview name="trace" title="trace.tsx" align="start" previewClassName="h-auto">
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
   <TraceThinking />
 </ComponentPreview>
 
@@ -206,7 +207,7 @@ Stream a reasoning block as it is generated.
 
 Track tool invocations with running, done, and failed states.
 
-<ComponentPreview name="trace" title="trace.tsx" align="start" previewClassName="h-auto">
+<ComponentPreview name="trace" title="trace.tsx" previewClassName="h-auto">
   <TraceToolCalls />
 </ComponentPreview>
 ## In Context
@@ -232,27 +233,9 @@ Track tool invocations with running, done, and failed states.
   </div>
 </ComponentPreview>
 
-## Animation
+## Motion
 
-`TraceCollapsible` accepts an `animation` prop on the root, inherited by `TraceCollapsibleContent`. Pass a per-content override to diverge.
-
-```tsx
-<Trace>
-  <TraceCollapsible animation="spring(400, 30)">
-    <TraceCollapsibleTrigger>Expand</TraceCollapsibleTrigger>
-    <TraceCollapsibleContent>Revealed content.</TraceCollapsibleContent>
-  </TraceCollapsible>
-</Trace>
-```
-
-| Form | Example |
-| :-- | :-- |
-| Named easing | `"easeInOut"`, `"easeOutExpo"`, `"easeSmoothOut"` |
-| Named easing + duration | `"easeInOut 300ms"`, `"easeOutExpo 0.5"` |
-| Custom curve | `"cubic-bezier(0.4, 0, 0.2, 1) 300ms"` |
-| Spring | `"spring(300, 25)"` |
-
-Any form supports `delay(...)` and `repeat(n | infinite)`. Pass `animation={false}` to disable. Ignored when `animateHeight={false}`.
+`TraceCollapsible` accepts `motion` on the root, inherited by content.
 
 ## API Reference
 
@@ -270,14 +253,14 @@ Extend `React.ComponentProps<"div">` and `React.ComponentProps<"span">`. **Trace
 
 ### TraceCollapsible
 
-Extends Radix `Collapsible.Root`. Supports `open`, `defaultOpen`, `onOpenChange`, and `animation` (Motion DSL string inherited by content).
+Extends `React.ComponentProps<"div">`. Supports `open`, `defaultOpen`, `onOpenChange`, `motion` (inherited by content), and deprecated `animation` (BC).
 
 ### TraceCollapsibleTrigger
 
-Extends Radix `Collapsible.Trigger`. Chevron rotates 90° when open.
+Renders a native `<button>`. Chevron rotates 90° when open via a CSS transform.
 ### TraceCollapsibleContent
 
-Extends Radix `Collapsible.Content`. Animates height via `motion/react` with `springSoft` from `@/lib/animation` and re-targets on content growth via `ResizeObserver`. Accepts `animation` (Motion DSL string, per-instance override) and `animateHeight` (pass `false` to render plain show/hide, ignoring `animation`).
+Extends `React.ComponentProps<"div">`. Animates height via CSS grid rows (`0fr` ↔ `1fr`) with an opacity fade, re-targeting on content growth automatically. Accepts `motion` (per-instance override), `animation` (deprecated BC), and `animateHeight` (pass `false` to render plain show/hide).
 
 ## Accessibility
 

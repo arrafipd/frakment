@@ -91,6 +91,11 @@ export const pagesNew: ReadonlySet<string> = new Set([
   "/docs/components/item",
   "/docs/components/tabs",
   "/docs/components/textarea",
+  "/docs/components/radio-group",
+  "/docs/components/sheet",
+  "/docs/components/toggle",
+  "/docs/components/toggle-group",
+  "/docs/components/trace",
 ]);
 
 export interface NavItem {

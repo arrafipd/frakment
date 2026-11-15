@@ -17,7 +17,7 @@ import { BoldIcon, ItalicIcon, UnderlineIcon } from "lucide-react";
   <ToggleGroupDemo />
 </ComponentPreview>
 
-Toggle Group is a set of two-state toggle buttons built on Radix Toggle Group. It supports `outline` and `default` variants, multiple selection, `sm` / `default` / `lg` sizes, `spacing`, and both horizontal and vertical orientation.
+Toggle Group is a set of two-state toggle buttons rendered as native `<button>` elements. It supports `outline` and `default` variants, multiple selection, `sm` / `default` / `lg` sizes, `spacing`, and both horizontal and vertical orientation.
 
 ## Installation
 
@@ -42,7 +42,7 @@ The CLI also installs the registry dependency: `toggle`.
       <Step>Install the following dependencies:</Step>
 
       ```bash
-      npm install class-variance-authority radix-ui
+      npm install class-variance-authority
       ```
 
       <Step>Copy and paste the following code into your project.</Step>
@@ -59,10 +59,11 @@ The CLI also installs the registry dependency: `toggle`.
 
 ```tsx title="toggle-group.tsx"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+<DocsBaseSwitcher base="web" component="toggle-group" className="mb-6" />
 ```
 
 ```tsx
-<ToggleGroup variant="outline" multiple>
+<ToggleGroup type="multiple" variant="outline">
   <ToggleGroupItem value="bold" aria-label="Toggle bold">
     <Bold />
   </ToggleGroupItem>
@@ -132,7 +133,7 @@ ToggleGroup
 </ComponentPreview>
 
 ```tsx
-<ToggleGroup multiple orientation="vertical" spacing={1}>
+<ToggleGroup type="multiple" orientation="vertical" spacing={1}>
   ...
 </ToggleGroup>
 ```
@@ -185,7 +186,7 @@ Compose `ToggleGroup` with `Field` for a labeled, controlled selector — `value
 
 ## API Reference
 
-All parts extend their Radix `ToggleGroup` primitives.
+All parts extend `React.ComponentProps<"div">` / `React.ComponentProps<"button">`.
 
 ### ToggleGroup
 
@@ -216,17 +217,32 @@ All parts extend their Radix `ToggleGroup` primitives.
       description: "Layout direction.",
     },
     {
-      name: "multiple",
-      type: "boolean",
-      defaultValue: "false",
-      description: "Allow more than one item to be pressed.",
+      name: "type",
+      type: '"single" | "multiple"',
+      defaultValue: '"single"',
+      description: "Single-selection or multi-selection mode.",
+    },
+    {
+      name: "value",
+      type: "string | string[]",
+      description: "Controlled selection. String in single mode, array in multiple mode.",
+    },
+    {
+      name: "defaultValue",
+      type: "string | string[]",
+      description: "Initial selection when uncontrolled.",
+    },
+    {
+      name: "onValueChange",
+      type: "(value: string | string[]) => void",
+      description: "Called when the selection changes.",
     },
   ]}
 />
 
 ### ToggleGroupItem
 
-Extends Radix `ToggleGroup.Item`. Requires `value` and an accessible `aria-label`.
+Requires `value` and an accessible `aria-label`.
 
 ## Controlled
 
@@ -261,7 +277,7 @@ const [value, setValue] = React.useState(["bold"])
 ## Accessibility
 
 - Each item renders a button with `aria-pressed`.
-- `type="single"` allows one active item, `multiple` allows many.
+- `type="single"` (default) allows one active item, `type="multiple"` allows many.
 - Provide `aria-label` when icon-only.
 
 ## Best Practices
@@ -272,6 +288,6 @@ const [value, setValue] = React.useState(["bold"])
 - **Cap at five items.** More become a toolbar with labels.
 ## Related Components
 
-- [Toggle](/docs/components/toggle) — single toggle
-- [Radio Group](/docs/components/radio-group) — mutually exclusive selection
+- [Toggle](/docs/components/web/toggle) — single toggle
+- [Radio Group](/docs/components/web/radio-group) — mutually exclusive selection
 

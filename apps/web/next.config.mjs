@@ -290,6 +290,31 @@ const nextConfig = {
         permanent: false,
         source: `${ROUTES.DOCS}/components/button.md`,
       },
+      {
+        destination: `${ROUTES.DOCS}/components/web/radio-group`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/radio-group`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/sheet`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/sheet`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/toggle`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/toggle`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/toggle-group`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/toggle-group`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/trace`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/trace`,
+      },
     ];
   },
   transpilePackages: ["@frakment/ai"],
