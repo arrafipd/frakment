@@ -3,7 +3,7 @@ import { Trace, TraceIcon, TraceLine, TraceTitle } from "@/components/ui/trace";
 
 export function TraceGroup() {
   return (
-    <Trace className="max-w-sm">
+    <Trace className="mx-auto w-fit max-w-full">
       <TraceLine>
         <TraceIcon>
           <SearchIcon />

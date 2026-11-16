@@ -5,7 +5,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export function RadioGroupPlan() {
   return (
-    <RadioGroup className="mx-auto w-full max-w-sm" defaultValue="pro">
+    <RadioGroup className="mx-auto w-fit max-w-full" defaultValue="pro">
       <div className="flex items-center gap-2">
         <RadioGroupItem id="free" value="free" />
         <Label htmlFor="free">Free</Label>

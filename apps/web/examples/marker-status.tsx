@@ -4,19 +4,19 @@ import { Spinner } from "@/components/ui/spinner";
 export function MarkerStatus() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-4">
-      <Marker role="status">
+      <Marker className="mx-auto w-fit" role="status">
         <MarkerIcon>
           <Spinner />
         </MarkerIcon>
         <MarkerContent className="shimmer">Thinking...</MarkerContent>
       </Marker>
-      <Marker role="status">
+      <Marker className="mx-auto w-fit" role="status">
         <MarkerIcon>
           <Spinner />
         </MarkerIcon>
         <MarkerContent className="shimmer">Reading 4 files...</MarkerContent>
       </Marker>
-      <Marker role="status">
+      <Marker className="mx-auto w-fit" role="status">
         <MarkerIcon>
           <Spinner />
         </MarkerIcon>

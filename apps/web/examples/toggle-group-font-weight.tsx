@@ -8,7 +8,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 export function ToggleGroupFontWeightSelector() {
   const [fontWeight, setFontWeight] = React.useState("normal");
   return (
-    <Field>
+    <Field className="mx-auto w-fit *:w-fit">
       <FieldLabel>Font Weight</FieldLabel>
       <ToggleGroup
         onValueChange={(value) => {

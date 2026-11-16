@@ -6,7 +6,7 @@ import { Field, FieldLabel } from "@/components/ui/field";
 export function FieldCheckbox() {
   return (
     <div className="w-full max-w-sm">
-      <Field orientation="horizontal">
+      <Field className="mx-auto w-fit" orientation="horizontal">
         <Checkbox id="terms" />
         <FieldLabel className="h-4 items-center" htmlFor="terms">
           Accept terms and conditions

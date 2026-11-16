@@ -10,7 +10,7 @@ import {
 
 export function InputGroupBlockEnd() {
   return (
-    <div className="max-w-sm">
+    <div className="w-full max-w-md">
       <InputGroup>
         <InputGroupTextarea placeholder="Type a message" rows={2} />
         <InputGroupAddon align="block-end" className="justify-end">

@@ -4,13 +4,13 @@ import { Marker, MarkerContent, MarkerIcon } from "@/components/ui/marker";
 export function MarkerWithTime() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-2">
-      <Marker>
+      <Marker className="mx-auto w-fit">
         <MarkerIcon>
           <ClockIcon />
         </MarkerIcon>
         <MarkerContent>Profiled in 1.8s</MarkerContent>
       </Marker>
-      <Marker>
+      <Marker className="mx-auto w-fit">
         <MarkerIcon>
           <ClockIcon />
         </MarkerIcon>

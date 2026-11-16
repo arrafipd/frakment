@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export function TabsDocs() {
   return (
     <Tabs className="mx-auto w-full max-w-sm" defaultValue="preview">
-      <TabsList>
+      <TabsList className="mx-auto">
         <TabsTrigger value="preview">Preview</TabsTrigger>
         <TabsTrigger value="code">Code</TabsTrigger>
       </TabsList>

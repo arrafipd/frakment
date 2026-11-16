@@ -5,8 +5,8 @@ import { Trace, TraceIcon, TraceLine, TraceTitle } from "@/components/ui/trace";
 
 export function TraceAgentStep() {
   return (
-    <div className="mx-auto w-full max-w-sm">
-      <Trace>
+    <div className="mx-auto w-fit max-w-full">
+      <Trace className="w-fit max-w-full">
         <TraceLine>
           <TraceIcon>
             <CircleCheckIcon />

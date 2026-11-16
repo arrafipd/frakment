@@ -4,7 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 export function TextareaInvalid() {
   return (
-    <div className="max-w-sm">
+    <div className="w-full max-w-md">
       <Textarea
         aria-invalid
         defaultValue="This content is not allowed."

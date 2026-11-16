@@ -4,19 +4,19 @@ import { Marker, MarkerContent, MarkerIcon } from "@/components/ui/marker";
 export function MarkerWithIcon() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-4">
-      <Marker>
+      <Marker className="mx-auto w-fit">
         <MarkerIcon>
           <GitBranchIcon />
         </MarkerIcon>
         <MarkerContent>Switched to a new branch</MarkerContent>
       </Marker>
-      <Marker>
+      <Marker className="mx-auto w-fit">
         <MarkerIcon>
           <SearchIcon />
         </MarkerIcon>
         <MarkerContent>Explored 4 files</MarkerContent>
       </Marker>
-      <Marker>
+      <Marker className="mx-auto w-fit">
         <MarkerIcon>
           <CheckIcon />
         </MarkerIcon>
