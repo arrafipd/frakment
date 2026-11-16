@@ -5,6 +5,8 @@ description: A daily status timeline for service uptime, with inline incident lo
 
 import Pulse from "@/components/ui/pulse";
 import { PulseDemo } from "@/examples/pulse-demo";
+import { PulseSizes } from "@/examples/pulse-sizes";
+import { PulseWithIcon } from "@/examples/pulse-with-icon";
 
 <ComponentPreview name="pulse" title="pulse.tsx">
   <PulseDemo />
@@ -110,6 +112,22 @@ Pass a `services` array. Each service takes a `name`, an optional `incidents` ma
 - **`missing`** — number of days before the service existed. These render as `none` (muted).
 
 ## Examples
+
+### Sizes
+
+Compare compact, default, and expanded timelines by changing the visible range and width.
+
+<ComponentPreview name="pulse" title="pulse-sizes.tsx" src="examples/pulse-sizes.tsx" previewClassName="h-auto py-8">
+  <PulseSizes />
+</ComponentPreview>
+
+### With an icon
+
+Pair the timeline with an icon and an animated status dot in a badge.
+
+<ComponentPreview name="pulse" title="pulse-with-icon.tsx" src="examples/pulse-with-icon.tsx" previewClassName="h-auto py-8">
+  <PulseWithIcon />
+</ComponentPreview>
 
 ### Single service
 
