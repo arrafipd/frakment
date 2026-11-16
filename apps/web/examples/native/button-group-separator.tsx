@@ -10,7 +10,7 @@ export function NativeButtonGroupSeparator() {
       >
         Copy
       </NativePreviewButton>
-      <div className="bg-border my-px w-px self-stretch" />
+      <div className="my-px w-px self-stretch" />
       <NativePreviewButton
         className="rounded-l-none border-l-0"
         size="sm"
