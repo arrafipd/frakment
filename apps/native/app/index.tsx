@@ -5,13 +5,17 @@ import {
   GitBranch,
   GitFork,
   MinusIcon,
+  MoreHorizontalIcon,
   PlusIcon,
 } from "lucide-react-native";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Button, type ButtonVariant } from "@/components/ui/button";
-import { ButtonGroup } from "@/components/ui/button-group";
+import {
+  ButtonGroup,
+  ButtonGroupSeparator,
+} from "@/components/ui/button-group";
 import { Separator } from "@/components/ui/separator";
 import { useThemeColors } from "@/lib/theme";
 
@@ -215,6 +219,13 @@ export default function Home() {
             </ButtonGroup>
             <ButtonGroup>
               <Button variant="outline">Snooze</Button>
+              <Button
+                accessibilityLabel="More Options"
+                size="icon"
+                variant="outline"
+              >
+                <MoreHorizontalIcon color={colors.foreground} size={16} />
+              </Button>
             </ButtonGroup>
           </ButtonGroup>
           <ButtonGroup orientation="vertical">
@@ -223,6 +234,66 @@ export default function Home() {
             </Button>
             <Button accessibilityLabel="Remove" size="icon" variant="outline">
               <MinusIcon color={colors.foreground} size={16} />
+            </Button>
+          </ButtonGroup>
+        </View>
+
+        <View style={{ gap: 12 }}>
+          <Text
+            style={{
+              color: colors.mutedForeground,
+              fontSize: 14,
+              fontWeight: "500",
+            }}
+          >
+            Button Group with Separator
+          </Text>
+          <ButtonGroup>
+            <Button size="sm" variant="secondary">
+              Copy
+            </Button>
+            <ButtonGroupSeparator />
+            <Button size="sm" variant="secondary">
+              Paste
+            </Button>
+          </ButtonGroup>
+        </View>
+
+        <View style={{ gap: 12 }}>
+          <Text
+            style={{
+              color: colors.mutedForeground,
+              fontSize: 14,
+              fontWeight: "500",
+            }}
+          >
+            Button Group Sizes
+          </Text>
+          <ButtonGroup>
+            <Button size="sm" variant="outline">
+              Small
+            </Button>
+            <Button size="sm" variant="outline">
+              Button
+            </Button>
+            <Button size="sm" variant="outline">
+              Group
+            </Button>
+          </ButtonGroup>
+          <ButtonGroup>
+            <Button variant="outline">Default</Button>
+            <Button variant="outline">Button</Button>
+            <Button variant="outline">Group</Button>
+          </ButtonGroup>
+          <ButtonGroup>
+            <Button size="lg" variant="outline">
+              Large
+            </Button>
+            <Button size="lg" variant="outline">
+              Button
+            </Button>
+            <Button size="lg" variant="outline">
+              Group
             </Button>
           </ButtonGroup>
         </View>

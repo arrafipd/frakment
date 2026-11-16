@@ -7,7 +7,7 @@ import { ButtonGroup } from "@/components/ui/button-group";
 export function ButtonGroupOrientationExample() {
   return (
     <View>
-      <ButtonGroup orientation="vertical">
+      <ButtonGroup accessibilityLabel="Media controls" orientation="vertical">
         <Button accessibilityLabel="Add" size="icon" variant="outline">
           <PlusIcon />
         </Button>

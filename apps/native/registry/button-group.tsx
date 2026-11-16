@@ -156,7 +156,6 @@ function ButtonGroupSeparator({
 }: Omit<React.ComponentProps<typeof Separator>, "style"> & {
   style?: ViewStyle;
 }) {
-  const colors = useThemeColors();
   const marginStyle: ViewStyle =
     orientation === "vertical"
       ? { marginVertical: 1 }
@@ -166,7 +165,7 @@ function ButtonGroupSeparator({
       orientation={orientation}
       style={{
         alignSelf: "stretch",
-        backgroundColor: colors.input,
+        backgroundColor: "transparent",
         ...marginStyle,
         ...style,
       }}

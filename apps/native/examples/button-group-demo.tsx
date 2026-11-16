@@ -1,4 +1,4 @@
-import { ArrowLeftIcon } from "lucide-react-native";
+import { ArrowLeftIcon, MoreHorizontalIcon } from "lucide-react-native";
 import { View } from "react-native";
 
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,13 @@ export function ButtonGroupDemoExample() {
         </ButtonGroup>
         <ButtonGroup>
           <Button variant="outline">Snooze</Button>
+          <Button
+            accessibilityLabel="More Options"
+            size="icon"
+            variant="outline"
+          >
+            <MoreHorizontalIcon />
+          </Button>
         </ButtonGroup>
       </ButtonGroup>
     </View>
