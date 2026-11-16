@@ -26,7 +26,173 @@ function escapeRegex(s) {
   return s.replaceAll(/[.*+?^${}()|[\]\\]/gu, "\\$&");
 }
 
-export async function init() {
+async function initExpo() {
+  let cwd;
+  const preflight = ora("Expo preflight checks").start();
+
+  try {
+    cwd = findProjectRoot(process.cwd());
+  } catch (error) {
+    preflight.fail(error.message);
+    process.exit(1);
+  }
+
+  const pkgPath = path.join(cwd, "package.json");
+  let pkg;
+
+  try {
+    const raw = await readFile(pkgPath, "utf-8");
+    pkg = JSON.parse(raw.replace(/^\uFEFF/u, ""));
+  } catch (error) {
+    preflight.fail("Could not read package.json.");
+    logger.error(error.message);
+    process.exit(1);
+  }
+
+  const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
+  const required = ["expo", "react-native", "nativewind", "tailwindcss"];
+  const missingFramework = required.filter((name) => !allDeps[name]);
+
+  if (missingFramework.length > 0) {
+    preflight.fail("Expo project prerequisites are missing.");
+    logger.error(
+      "frakment init --expo requires Expo, React Native, NativeWind, and Tailwind CSS."
+    );
+    logger.info(`Missing: ${missingFramework.join(", ")}`);
+    process.exit(1);
+  }
+
+  preflight.succeed("Found Expo + React Native + NativeWind project.");
+
+  const cssCandidates = [
+    "global.css",
+    "app/global.css",
+    "src/global.css",
+    "src/app/global.css",
+    "styles/global.css",
+  ];
+
+  const cssPath = cssCandidates.find((candidate) =>
+    existsSync(path.join(cwd, candidate))
+  );
+
+  if (!cssPath) {
+    logger.error(
+      "Could not find the NativeWind stylesheet, for example global.css."
+    );
+    process.exit(1);
+  }
+
+  const css = (await readFile(path.join(cwd, cssPath), "utf-8")).replace(
+    /^\uFEFF/u,
+    ""
+  );
+
+  if (!/@import\s+["']nativewind\/theme["'];?/u.test(css)) {
+    logger.error(
+      "The stylesheet must import nativewind/theme. Configure NativeWind first."
+    );
+    process.exit(1);
+  }
+
+  const configPath = path.join(cwd, CONFIG_FILE);
+  let shouldWriteConfig = !existsSync(configPath);
+
+  if (!shouldWriteConfig) {
+    const { overwrite } = await prompts({
+      initial: false,
+      message: `${CONFIG_FILE} already exists. Overwrite?`,
+      name: "overwrite",
+      type: "confirm",
+    });
+
+    if (overwrite === undefined) {
+      logger.break();
+      logger.info("Cancelled.");
+      process.exit(0);
+    }
+
+    shouldWriteConfig = overwrite === true;
+
+    if (!shouldWriteConfig) {
+      logger.info(`Keeping existing ${CONFIG_FILE}.`);
+    }
+  }
+
+  if (shouldWriteConfig) {
+    const spinner = ora("Writing Expo components.json").start();
+    const templatePath = path.join(TEMPLATES_DIR, "expo", CONFIG_FILE);
+    const templateRaw = await readFile(templatePath, "utf-8");
+    const template = JSON.parse(templateRaw.replace(/^\uFEFF/u, ""));
+
+    if (template.platform !== "expo" || !template.registries?.expo) {
+      spinner.fail("Expo CLI template is missing its Expo registry.");
+      process.exit(1);
+    }
+
+    const config = {
+      ...template,
+      registry: template.registries.web ?? DEFAULT_REGISTRY,
+      tailwind: { ...template.tailwind, css: cssPath },
+    };
+
+    await writeFile(configPath, `${JSON.stringify(config, null, 2)}\n`);
+    spinner.succeed(`Created ${CONFIG_FILE}.`);
+  }
+
+  for (const name of ["utils.ts", "theme.ts"]) {
+    const target = path.join(cwd, "lib", name);
+
+    if (existsSync(target)) {
+      logger.info(`Keeping existing lib/${name}.`);
+      continue;
+    }
+
+    const source = path.join(TEMPLATES_DIR, "expo", "lib", name);
+    const content = await readFile(source, "utf-8");
+
+    await mkdir(path.dirname(target), { recursive: true });
+    await writeFile(target, content);
+
+    logger.log(`Created lib/${name}.`);
+  }
+
+  const baseDependencies = [
+    "clsx",
+    "tailwind-merge",
+    "class-variance-authority",
+  ];
+
+  const missing = baseDependencies.filter((name) => !allDeps[name]);
+
+  if (missing.length > 0) {
+    const spinner = ora("Installing Expo dependencies").start();
+
+    try {
+      await execa("npx", ["expo", "install", ...missing], {
+        cwd,
+        stdio: "ignore",
+      });
+      spinner.succeed(`Installed ${missing.length} package(s).`);
+    } catch (error) {
+      spinner.fail("Failed to install Expo dependencies.");
+      logger.warn(error.message);
+    }
+  }
+
+  logger.break();
+  logger.log(
+    chalk.green("Success!") +
+      " Expo initialization completed. Use frakment add <component> --expo for native components."
+  );
+  logger.break();
+}
+
+export async function init(options = {}) {
+  if (options.expo) {
+    await initExpo();
+    return;
+  }
   let cwd;
   const preflight = ora("Preflight checks").start();
   try {
