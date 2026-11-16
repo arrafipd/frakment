@@ -54,6 +54,30 @@ Tailwind v4 entry point. `npx frakment init` injects the theme block into this f
 | :-- | :-- | :-- |
 | `css` | `app/globals.css` | Path to the CSS file that imports Tailwind |
 
+### `platform`
+
+Marks the project as a web or Expo project. `init --expo` writes `"platform": "expo"`.
+
+| Value | Purpose |
+| :-- | :-- |
+| `web` | Default. `add` reads `registry` and `registries.web`. |
+| `expo` | `add --expo` reads `registries.expo`. |
+
+### `registries`
+
+Optional map of per-platform registry URLs. When present, `add --expo` reads `registries.expo` and `add` reads `registries.web`, falling back to `registry`.
+
+```json
+{
+  "registries": {
+    "web": "https://www.arrafi.dev/frakment/r",
+    "expo": "https://www.arrafi.dev/frakment/r/expo"
+  }
+}
+```
+
+The `--registry <url>` flag overrides both maps for that run.
+
 ## Minimal setup
 
 ```json title="components.json"

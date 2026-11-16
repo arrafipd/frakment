@@ -14,60 +14,215 @@ import { DocsBaseSwitcher } from "@/components/docs/docs-base-switcher";
   className="mb-6"
 />
 
-Frakment native components are installed by copying source files into your Expo project. A CLI for native is not available yet.
+Frakment native components are built for React Native apps that run on iOS and Android via Expo. There are two paths: use the CLI with `--expo` to fetch components from the registry, or copy the source files manually.
+
+**What you'll get from this guide:**
+
+- A working `components.json` with `platform: "expo"` and `registries.expo`
+- `lib/utils.ts` and `lib/theme.ts`
+- Three dependencies installed via `npx expo install`: `clsx`, `tailwind-merge`, `class-variance-authority`
+- Your first native component installed and rendering
 
 ## Prerequisites
 
-- Node.js 18 or newer
-- Expo SDK 58 or newer
-- React Native 0.88
-- NativeWind 5.0.0-rc or newer
-- react-native-css 3.1.0-rc or newer
-- react-native-reanimated 4.7 or newer
-- react-native-safe-area-context 5.10 or newer
-- react-native-svg 15.16 or newer
-- react-native-gesture-handler 3.3 or newer
-- lucide-react-native
+- **Node.js** 18 or newer
+- **Expo SDK** 58 or newer
+- **React Native** 0.88
+- **NativeWind** 5.0.0-rc or newer
+- **Tailwind CSS** v4
+- **TypeScript** (recommended)
+- A stylesheet that imports `nativewind/theme`, such as `global.css` or `app/global.css`
 
 Components target Expo SDK 58 and React Native 0.88. Older versions may need manual adjustments.
 
-## Setup
+### Additional peer packages
 
-### Install dependencies
+Some components need extra peers. Install them with the component:
+
+- `react-native-reanimated` 4.7 or newer
+- `react-native-safe-area-context` 5.10 or newer
+- `react-native-svg` 15.16 or newer
+- `react-native-gesture-handler` 3.3 or newer
+- `react-native-worklets`
+- `lucide-react-native`
+## Use the CLI
+
+For all commands, flags, and registry format, see the [CLI Reference](/docs/libraries/cli).
+
+<Steps>
+
+<Step>Run init</Step>
 
 ```bash
-npx expo install nativewind@5.0.0-rc.1 react-native-css@3.1.0-rc.1 react-native-reanimated react-native-safe-area-context react-native-svg react-native-gesture-handler react-native-worklets
-npm install class-variance-authority clsx tailwind-merge lucide-react-native
+npx frakment@latest init --expo
 ```
 
-### Configure NativeWind
+Verifies the required dependencies, detects your NativeWind stylesheet, writes `components.json` with `platform: "expo"` and `registries.expo`, copies `lib/utils.ts` and `lib/theme.ts`, and installs 3 dependencies via `npx expo install`: `class-variance-authority`, `clsx`, `tailwind-merge`.
 
-Follow the NativeWind 5 setup guide. Wrap your `metro.config.js` with `withNativeWind` and make sure `global.css` has no `preflight.css` or `layer()` blocks.
+<Step>Add components</Step>
 
-### Copy the lib files
+```bash
+npx frakment@latest add button --expo
+```
 
-Copy `theme.ts` and `utils.ts` from the docs into `lib/` in your project. `theme.ts` defines `useThemeColors()` and the `ThemeColors` type used by every native component.
+Fetches `button.json` from the Expo registry, resolves registry dependencies recursively, resolves npm dependencies, writes source into `components/ui/`.
 
-## Install a component
+<Step>Import and use</Step>
 
-Copy the source from the component page. For example, `button.tsx` from [Button](/docs/components/native/button).
-
-Each native component ships as a single file with its own primitive, styling, and motion setup.
-
-```tsx title="example.tsx"
+```tsx title="app/index.tsx"
 import { Button } from "@/components/ui/button";
 
-<Button>Save changes</Button>;
+export default function Screen() {
+  return <Button>Save changes</Button>;
+}
 ```
 
-## Known limits
+</Steps>
+## What you get
 
-- CLI install for native is not available yet.
-- npm packages for native components are not published yet.
-- Motion on native is in progress. Current components use instant state changes, not tweened animation.
+After `frakment init --expo`, your project will have:
+
+<FileTree>
+  <FileTreeFolder name="apps" defaultOpen>
+    <FileTreeFile name="components.json" />
+    <FileTreeFolder name="lib" defaultOpen>
+      <FileTreeFile name="utils.ts" />
+      <FileTreeFile name="theme.ts" />
+    </FileTreeFolder>
+  </FileTreeFolder>
+</FileTree>
+
+- **`components.json`** - `platform`, `registries`, `aliases`, and `tailwind.css`. Read by the CLI on every `add`.
+- **`lib/utils.ts`** - `cn()` helper for merging NativeWind classes.
+- **`lib/theme.ts`** - `useThemeColors()` hook and the `ThemeColors` type used by every native component.
+
+### Dependencies
+
+`frakment init --expo` checks your `package.json` and installs any missing package via `npx expo install`:
+
+- `clsx`
+- `tailwind-merge`
+- `class-variance-authority`
+## Existing Project
+
+Add Frakment to an Expo project you already created.
+
+<Steps>
+
+<Step>Configure NativeWind</Step>
+
+Follow the NativeWind 5 setup guide. Wrap `metro.config.js` with `withNativeWind` and confirm `global.css` imports `tailwindcss/theme.css`, `tailwindcss/utilities.css`, and `nativewind/theme`.
+
+<Step>Copy `lib/utils.ts`</Step>
+
+<ComponentSource src="../../apps/native/lib/utils.ts" title="lib/utils.ts" />
+
+<Step>Copy `lib/theme.ts`</Step>
+
+<ComponentSource src="../../apps/native/lib/theme.ts" title="lib/theme.ts" />
+<Step>Create `components.json`</Step>
+
+```json title="components.json"
+{
+  "platform": "expo",
+  "registry": "https://www.arrafi.dev/frakment/r",
+  "registries": {
+    "web": "https://www.arrafi.dev/frakment/r",
+    "expo": "https://www.arrafi.dev/frakment/r/expo"
+  },
+  "aliases": {
+    "components": "@/components",
+    "ui": "@/components/ui",
+    "utils": "@/lib/utils"
+  },
+  "tailwind": {
+    "css": "global.css"
+  }
+}
+```
+
+<Step>Add a component</Step>
+
+```bash
+npx frakment@latest add button --expo
+```
+
+<Step>Import and use</Step>
+
+```tsx title="app/index.tsx"
+import { Button } from "@/components/ui/button";
+
+export default function Screen() {
+  return <Button>Save changes</Button>;
+}
+```
+
+</Steps>
+## Verify
+
+### Check the file exists
+
+```bash
+ls components/ui/button.tsx
+```
+
+### Import and render it
+
+```tsx title="app/index.tsx"
+import { Button } from "@/components/ui/button";
+
+export default function Screen() {
+  return <Button>Save changes</Button>;
+}
+```
+
+### Confirm no errors
+
+If you see `Cannot find module '@/lib/utils'`, run `npx frakment@latest init --expo` again.
+## Troubleshooting
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="preflight">
+<AccordionTrigger>Preflight checks failed</AccordionTrigger>
+<AccordionContent>
+
+`init --expo` requires `expo`, `react-native`, `nativewind`, and `tailwindcss` in your `package.json`. Install them first with `npx expo install` or `npm install`.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="stylesheet">
+<AccordionTrigger>Could not find the NativeWind stylesheet</AccordionTrigger>
+<AccordionContent>
+
+`init --expo` looks for `global.css`, `app/global.css`, `src/global.css`, `src/app/global.css`, or `styles/global.css`. Create one that imports `tailwindcss/theme.css`, `tailwindcss/utilities.css`, and `nativewind/theme`.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="motion">
+<AccordionTrigger>No animation on native</AccordionTrigger>
+<AccordionContent>
+
+Motion on native is in progress. Current components use instant state changes, not tweened animation.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="npm-publish">
+<AccordionTrigger>No npm package for native</AccordionTrigger>
+<AccordionContent>
+
+npm packages for native components are not published yet. Use the CLI or copy the source from each component page.
+
+</AccordionContent>
+</AccordionItem>
+
+</Accordion>
 
 ## Next
 
-- [Button](/docs/components/native/button): the first native component
-- [Theming](/docs/guides/theming): customize tokens
-- [Components](/docs/components): browse the catalog
+- [Button](/docs/components/native/button) - the first native component
+- [Theming](/docs/guides/theming) - customize tokens
+- [CLI Reference](/docs/libraries/cli) - all commands and flags
