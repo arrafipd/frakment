@@ -1,0 +1,199 @@
+---
+title: Marker
+description: A small inline status row with icon, content, and separator variants.
+---
+
+import { MarkerDemo } from "@/examples/marker-demo";
+import { MarkerBasic } from "@/examples/marker-basic";
+import { MarkerBorder } from "@/examples/marker-border";
+import { MarkerInContext } from "@/examples/marker-in-context";
+import { MarkerLinks } from "@/examples/marker-links";
+import { MarkerSeparator } from "@/examples/marker-separator";
+import { MarkerShimmer } from "@/examples/marker-shimmer";
+import { MarkerStatus } from "@/examples/marker-status";
+import { MarkerWithIcon } from "@/examples/marker-with-icon";
+import { MarkerWithTime } from "@/examples/marker-with-time";
+
+<DocsBaseSwitcher base="web" component="marker" className="mb-6" />
+
+<ComponentPreview name="marker" title="marker.tsx" previewClassName="h-auto py-8">
+  <MarkerDemo />
+</ComponentPreview>
+
+Marker is a small, single-line status row. Use it for system events, inline notifications, typing indicators, or as a separator between sections in a conversation.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add marker
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependency:</Step>
+
+      ```bash
+      npm install class-variance-authority
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="marker" title="components/ui/marker.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="marker.tsx"
+import { Marker, MarkerContent, MarkerIcon } from "@/components/ui/marker";
+```
+
+```tsx
+<Marker>
+  <MarkerIcon>
+    <CheckIcon />
+  </MarkerIcon>
+  <MarkerContent>Saved just now</MarkerContent>
+</Marker>
+```
+
+## Composition
+
+```text
+Marker
+├── MarkerIcon
+└── MarkerContent
+```
+
+## Examples
+
+### Basic
+
+The simplest form — just text.
+
+<ComponentPreview name="marker-basic" title="marker-basic.tsx" src="examples/marker-basic.tsx" previewClassName="h-auto py-8">
+  <MarkerBasic />
+</ComponentPreview>
+
+### With icon
+
+Place `MarkerIcon` as the first child. The icon is sized to 16px.
+
+<ComponentPreview name="marker-with-icon" title="marker-with-icon.tsx" src="examples/marker-with-icon.tsx" previewClassName="h-auto py-8">
+  <MarkerWithIcon />
+</ComponentPreview>
+
+### Status
+
+Set `role="status"` when the marker announces a live change. Pair with a spinner and `shimmer` for a streaming effect.
+
+<ComponentPreview name="marker-status" title="marker-status.tsx" src="examples/marker-status.tsx" previewClassName="h-auto py-8">
+  <MarkerStatus />
+</ComponentPreview>
+
+### Shimmer
+
+Apply `shimmer` to `MarkerContent` for a gentle highlight animation. Combine with `font-medium` on a name to mimic a chat presence line.
+
+<ComponentPreview name="marker-shimmer" title="marker-shimmer.tsx" src="examples/marker-shimmer.tsx" previewClassName="h-auto py-8">
+  <MarkerShimmer />
+</ComponentPreview>
+
+### Separator
+
+Set `variant="separator"` for a divider with a centered label.
+
+<ComponentPreview name="marker-separator" title="marker-separator.tsx" src="examples/marker-separator.tsx" previewClassName="h-auto py-8">
+  <MarkerSeparator />
+</ComponentPreview>
+
+### Border
+
+Set `variant="border"` for a status row with a bottom rule — useful as a section header.
+
+<ComponentPreview name="marker-border" title="marker-border.tsx" src="examples/marker-border.tsx" previewClassName="h-auto py-8">
+  <MarkerBorder />
+</ComponentPreview>
+
+### With time
+
+Combine an icon with a muted duration. Use `tabular-nums` for aligned digits.
+
+<ComponentPreview name="marker-with-time" title="marker-with-time.tsx" src="examples/marker-with-time.tsx" previewClassName="h-auto py-8">
+  <MarkerWithTime />
+</ComponentPreview>
+
+### Links and buttons
+
+Pass `as="a"` or `as="button"` to render the marker as an interactive element. The whole row becomes clickable and keyboard-focusable.
+
+<ComponentPreview name="marker-links" title="marker-links.tsx" src="examples/marker-links.tsx" previewClassName="h-auto py-8">
+  <MarkerLinks />
+</ComponentPreview>
+
+## In Context
+
+### Thinking marker
+
+<ComponentPreview name="marker-in-context" title="marker-in-context.tsx" src="examples/marker-in-context.tsx" previewClassName="h-auto py-8">
+  <MarkerInContext />
+</ComponentPreview>
+
+## API Reference
+
+### Marker
+
+<PropsTable
+  rows={[
+    { name: "variant", type: "default | border | separator", defaultValue: "default", description: "Visual style of the row." },
+    { name: "as", type: "React.ElementType", description: "Render as a different element or component. Accepts tag names or React components. Defaults to div." },
+  ]}
+/>
+
+### MarkerIcon
+
+Extends `React.ComponentProps<"span">`. Renders `aria-hidden`. Sizes child SVG to 16px unless overridden.
+
+### MarkerContent
+
+Extends `React.ComponentProps<"span">`. Wraps inline links with underline and hover color. Add `className="shimmer"` for animated streaming text.
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `marker`, `marker-icon`, `marker-content` |
+| `data-variant` | `default` \| `separator` \| `border` |
+
+## Accessibility
+
+- Pass `role="status"` to `Marker` when it announces a live change (typing, syncing, running).
+- `MarkerIcon` is `aria-hidden` — the meaning lives in `MarkerContent`.
+- For interactive markers, use `as="a"` for navigation and `as="button"` for actions so keyboard and screen readers behave correctly.
+- With `prefers-reduced-motion`, the shimmer animation stops automatically.
+
+## Best Practices
+
+- **Use `variant="separator"` for inline status.** A horizontal rule with centered text reads as a divider.
+- **Pair with an icon.** A spinner or check clarifies the state.
+- **Keep text short.** "Thinking" beats "The model is currently thinking".
+- **Announce with `role="status"`.** Screen readers announce updates politely.
+
+## Related Components
+
+- [Badge](/docs/components/web/badge) — compact label
+- [Spinner](/docs/components/web/spinner) — loading indicator

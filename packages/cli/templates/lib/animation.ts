@@ -1,4 +1,3 @@
-// Design tokens
 export const springSoft = {
   damping: 30,
   stiffness: 200,
@@ -16,7 +15,6 @@ export const durationSlow = 0.45;
 
 export const delayTight = 0.02;
 
-// Animation DSL parser
 export interface AnimationKeyframes {
   times?: number[];
   values: number[];

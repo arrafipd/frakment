@@ -1,0 +1,27 @@
+{
+  "components": [
+    {
+      "deprecated": false,
+      "description": "A native button with six variants and eight sizes.",
+      "name": "button",
+      "title": "Button",
+      "version": "0.0.0"
+    },
+    {
+      "deprecated": false,
+      "description": "Groups related native buttons into a single visual unit.",
+      "name": "button-group",
+      "title": "Button Group",
+      "version": "0.0.0"
+    },
+    {
+      "deprecated": false,
+      "description": "A visual divider between native content sections.",
+      "name": "separator",
+      "title": "Separator",
+      "version": "0.0.0"
+    }
+  ],
+  "homepage": "https://github.com/arrafipd/frakment",
+  "name": "frakment"
+}

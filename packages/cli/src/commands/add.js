@@ -15,6 +15,8 @@ const COMPONENT_NAME_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/u;
 const DEPENDENCY_PATTERN =
   /^(?:@[a-z0-9][a-z0-9._-]*\/)?[a-z0-9][a-z0-9._-]*(?:@[0-9A-Za-z*~^<>=|.+_-]+)?$/u;
 const MAX_REGISTRY_PAYLOAD_BYTES = 10 * 1024 * 1024;
+const DEFAULT_WEB_REGISTRY = "https://www.arrafi.dev/frakment/r";
+const DEFAULT_EXPO_REGISTRY = "https://www.arrafi.dev/frakment/r/expo";
 
 const DEFAULT_ALIASES = {
   components: "@/components",
@@ -157,6 +159,15 @@ const getRegistryUrl = (value) => {
   return url.href.replace(/\/$/u, "");
 };
 
+export function resolveRegistryUrl(config, options = {}) {
+  const registries = isRecord(config?.registries) ? config.registries : {};
+  const configured = options.expo
+    ? (registries.expo ?? DEFAULT_EXPO_REGISTRY)
+    : (config?.registry ?? registries.web ?? DEFAULT_WEB_REGISTRY);
+
+  return getRegistryUrl(options.registry ?? configured);
+}
+
 async function fetchComponent(name, registryUrl, spinner) {
   try {
     const res = await fetch(`${registryUrl}/${name}.json`, {
@@ -240,7 +251,7 @@ async function writeFileSafely(file, cwd, options, aliases) {
   return file.path;
 }
 
-export async function add(componentNamesInput, options) {
+export async function add(componentNamesInput, options = {}) {
   const componentNames = Array.isArray(componentNamesInput)
     ? [...new Set(componentNamesInput)]
     : [componentNamesInput];
@@ -274,7 +285,7 @@ export async function add(componentNamesInput, options) {
     }
     const configRaw = await readFile(configPath, "utf-8");
     config = JSON.parse(configRaw.replace(/^\uFEFF/u, ""));
-    registryUrl = getRegistryUrl(options.registry ?? config.registry);
+    registryUrl = resolveRegistryUrl(config, options);
   } catch (error) {
     logger.error(
       error instanceof Error ? error.message : "Invalid configuration."
@@ -380,13 +391,19 @@ export async function add(componentNamesInput, options) {
         return;
       }
       const s = ora("Installing dependencies").start();
-      const pm = detectPackageManager(cwd);
+      const packages = missing.map(([, dependency]) => dependency);
       try {
-        const args =
-          pm === "npm"
-            ? ["install", ...missing.map(([, dependency]) => dependency)]
-            : ["add", ...missing.map(([, dependency]) => dependency)];
-        await execa(pm, args, { cwd, stdio: "ignore" });
+        if (options.expo) {
+          await execa("npx", ["expo", "install", ...packages], {
+            cwd,
+            stdio: "ignore",
+          });
+        } else {
+          const pm = detectPackageManager(cwd);
+          const args =
+            pm === "npm" ? ["install", ...packages] : ["add", ...packages];
+          await execa(pm, args, { cwd, stdio: "ignore" });
+        }
         s.succeed(`Installed ${missing.length} package(s).`);
       } catch (error) {
         s.fail("Failed to install dependencies.");

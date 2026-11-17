@@ -1,0 +1,375 @@
+---
+title: Button
+description: Displays a button or a component that behaves like a button.
+---
+
+<DocsBaseSwitcher base="web" component="button" className="mb-6" />
+
+import { ButtonDemo } from "@/examples/button-demo";
+import { ButtonDefault } from "@/examples/button-default";
+import { ButtonOutline } from "@/examples/button-outline";
+import { ButtonSecondary } from "@/examples/button-secondary";
+import { ButtonGhost } from "@/examples/button-ghost";
+import { ButtonDestructive } from "@/examples/button-destructive";
+import { ButtonLink } from "@/examples/button-link";
+import { ButtonSize } from "@/examples/button-size";
+import { ButtonIcon } from "@/examples/button-icon";
+import { ButtonWithIcon } from "@/examples/button-with-icon";
+import { ButtonIconsCombo } from "@/examples/button-icons-combo";
+import { ButtonLoading } from "@/examples/button-loading";
+import { ButtonRounded } from "@/examples/button-rounded";
+import { ButtonAnchor } from "@/examples/button-anchor";
+import { ButtonMotionDefault } from "@/examples/button-motion-default";
+import { ButtonMotionReduced } from "@/examples/button-motion-reduced";
+import { ButtonGroupDemo } from "@/examples/button-group-demo";
+
+import { Button } from "@/components/ui/button";
+
+<ComponentPreview name="button" title="button.tsx">
+  <ButtonDemo />
+</ComponentPreview>
+
+Buttons trigger an action or event when clicked. They communicate intent through a compact surface, an icon, and a short label.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add button
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install class-variance-authority
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="button" title="components/ui/button.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="button.tsx"
+import { Button } from "@/components/ui/button";
+```
+
+```tsx title="button.tsx"
+<Button>Click me</Button>
+```
+
+## Variants
+
+| Variant | Use case |
+| :-- | :-- |
+| `default` | Primary action |
+| `secondary` | Secondary action |
+| `outline` | Bordered neutral |
+| `ghost` | Minimal, hover only |
+| `destructive` | Irreversible action |
+| `link` | Inline link styling |
+
+Set with the `variant` prop:
+
+```tsx
+<Button variant="outline">Cancel</Button>
+```
+
+### Default
+
+The primary variant, intended for the most important action on a page.
+
+<ComponentPreview name="button-default" title="button-default.tsx" src="examples/button-default.tsx">
+  <ButtonDefault />
+</ComponentPreview>
+
+### Secondary
+
+Intended for actions of lesser prominence.
+
+<ComponentPreview name="button-secondary" title="button-secondary.tsx" src="examples/button-secondary.tsx">
+  <ButtonSecondary />
+</ComponentPreview>
+
+### Outline
+
+Renders with a border and a transparent background.
+
+<ComponentPreview name="button-outline" title="button-outline.tsx" src="examples/button-outline.tsx">
+  <ButtonOutline />
+</ComponentPreview>
+
+### Ghost
+
+Renders without a border. Background applies only on hover.
+
+<ComponentPreview name="button-ghost" title="button-ghost.tsx" src="examples/button-ghost.tsx">
+  <ButtonGhost />
+</ComponentPreview>
+
+### Destructive
+
+Intended for destructive or irreversible actions.
+
+<ComponentPreview name="button-destructive" title="button-destructive.tsx" src="examples/button-destructive.tsx">
+  <ButtonDestructive />
+</ComponentPreview>
+
+### Link
+
+Renders as inline text with an underline on hover.
+
+<ComponentPreview name="button-link" title="button-link.tsx" src="examples/button-link.tsx">
+  <ButtonLink />
+</ComponentPreview>
+
+### Custom radius
+
+<ComponentPreview name="button-rounded" title="button-rounded.tsx" src="examples/button-rounded.tsx">
+  <ButtonRounded />
+</ComponentPreview>
+
+## Size & Icon Size
+
+Use the `size` prop to control the dimensions of a text button.
+
+<ComponentPreview name="button-size" title="button-size.tsx" src="examples/button-size.tsx">
+  <ButtonSize />
+</ComponentPreview>
+
+| Size      | Height | Padding |
+| :-------- | :----- | :------ |
+| `xs`      | 28px   | `px-2`  |
+| `sm`      | 32px   | `px-3`  |
+| `default` | 36px   | `px-4`  |
+| `lg`      | 40px   | `px-6`  |
+
+Icon sizes use the same `size` prop. Pass `size="icon-xs"`, `"icon-sm"`, `"icon"`, or `"icon-lg"` for a square button that fits a single icon.
+
+| Size      | Dimensions |
+| :-------- | :--------- |
+| `icon-xs` | 28×28      |
+| `icon-sm` | 32×32      |
+| `icon`    | 36×36      |
+| `icon-lg` | 40×40      |
+
+## Icons & With Icons
+
+Buttons accept an icon next to a label or render as a square icon-only button. Icons are sized to 16px by `[&_svg]:size-4`.
+
+<ComponentPreview name="button-icons-combo" title="button-icons-combo.tsx" src="examples/button-icons-combo.tsx">
+  <ButtonIconsCombo />
+</ComponentPreview>
+
+## Motion
+
+By default the button uses Tailwind's `transition-all` (150ms, `ease-in-out`). Pass `motion` to override the transition without editing the file.
+
+### Default
+
+<ComponentPreview name="button-motion-default" src="examples/button-motion-default.tsx" title="button-motion-default.tsx">
+  <ButtonMotionDefault />
+</ComponentPreview>
+
+### Reduced motion
+
+`prefers-reduced-motion: reduce` disables the transition automatically. The first button below opts out with `className="transition-none"`. The second uses the default and respects the OS setting.
+
+<ComponentPreview name="button-motion-reduced" src="examples/button-motion-reduced.tsx" title="button-motion-reduced.tsx">
+  <ButtonMotionReduced />
+</ComponentPreview>
+
+### Value reference
+
+| Value | Result |
+| :-- | :-- |
+| omitted | Tailwind `transition-all` (150ms ease-in-out) |
+| `"150"` | 150ms ease-in-out |
+| `"200 cubic-bezier(0.16, 1, 0.3, 1)"` | 200ms custom easing |
+
+```tsx
+<Button motion="300 ease-out">Slow reveal</Button>
+```
+
+To remove the default transition without a motion value, pass `className="transition-none"`. This is not a `motion` prop value — it is a Tailwind utility that wins over the base class.
+
+### Using your own animation library
+
+Attach GSAP, Framer Motion, the Web Animations API, or any library that writes inline styles to the element. The component detects the first external write and disables its own CSS transition automatically. No extra prop is required.
+
+```tsx
+const ref = useRef<HTMLButtonElement>(null);
+
+useEffect(() => {
+  gsap.to(ref.current, { scale: 1.1, duration: 0.3 });
+}, []);
+
+<Button ref={ref}>Animated by GSAP</Button>
+```
+
+CSS class changes such as hover styles do not trigger the guard. Only inline style writes from a library or a manual ref assignment do.
+
+## Loading State
+
+Render a spinner beside the label and set `disabled` to indicate an in-progress action.
+
+<ComponentPreview name="button-loading" title="button-loading.tsx" src="examples/button-loading.tsx">
+  <ButtonLoading />
+</ComponentPreview>
+
+## Links & Router links
+
+A button can navigate. Use `href` for a static anchor, or `as` to render a router link. The first button below is a static `<a>`; the second is a Next.js `<Link>` rendered with button styles.
+
+<ComponentPreview name="button-anchor" title="button-anchor.tsx" src="examples/button-anchor.tsx">
+  <ButtonAnchor />
+</ComponentPreview>
+
+Static link:
+
+```tsx
+import { Button } from "@/components/ui/button";
+
+<Button href="/pricing" variant="outline">Pricing</Button>
+```
+
+Router link:
+
+```tsx
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+
+<Button as={Link} href="/pricing" variant="outline">Pricing</Button>
+```
+
+Custom component:
+
+```tsx
+<Button as={MyLink} to="/pricing" variant="outline">Pricing</Button>
+```
+
+### Which approach to pick
+
+| Case | Approach |
+| --- | --- |
+| Static site, plain HTML, external URL | `<Button href="...">` |
+| Next.js, React Router, TanStack Router | `<Button as={Link} href="...">` |
+| Custom component with its own props | `<Button as={CustomComponent}>` |
+| Triggers an action, not navigation | `<Button onClick={...}>` |
+
+## Button Group
+
+For grouped actions, see [Button Group](/docs/components/button-group). A quick example:
+
+<ComponentPreview name="button-group-demo" title="button-group-demo.tsx" src="examples/button-group-demo.tsx">
+  <ButtonGroupDemo />
+</ComponentPreview>
+
+## API Reference
+
+### Button
+
+<PropsTable
+  rows={[
+    {
+      name: "variant",
+      type: "default | secondary | outline | ghost | destructive | link",
+      default: "default",
+      description: "The visual style of the button.",
+    },
+    {
+      name: "size",
+      type: "xs | sm | default | lg | icon-xs | icon-sm | icon | icon-lg",
+      default: "default",
+      description: "The dimensions of the button.",
+    },
+    { name: "href", type: "string", description: "Renders a native anchor with this URL instead of a button. When set, button-only props (type, disabled, form*, name, value) are ignored." },
+    { name: "target", type: "string", description: "Anchor target (for example, _blank). Only applies when href is set." },
+    { name: "rel", type: "string", description: "Anchor rel attribute. Use noopener noreferrer with target=_blank. Only applies when href is set." },
+    { name: "download", type: "string | boolean", description: "Prompts the browser to download the linked URL. Only applies when href is set." },
+    { name: "ref", type: "Ref<HTMLButtonElement>", description: "Ref to the underlying button element. Ignored when href is set." },
+    { name: "anchorRef", type: "Ref<HTMLAnchorElement>", description: "Ref to the underlying anchor element. Only used when href is set." },
+    {
+      name: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "Prevents interaction and applies a muted background style. Ignored when href is set.",
+    },
+    { name: "motion", type: "string", description: "CSS transition override. A duration like 150, 300, 300 ease-out, or a raw cubic-bezier(...). Default uses Tailwind transition-all. prefers-reduced-motion overrides every value." },
+    {
+      name: "as",
+      type: "React.ElementType",
+      description: "Renders a different root element or component. Accepts HTML tag names or React components. Defaults to button, or a when href is set.",
+    },
+    {
+      name: "onClick",
+      type: "function",
+      description: "Called when the button is activated. Fires on both button and anchor modes.",
+    },
+    {
+      name: "type",
+      type: "button | submit | reset",
+      default: "submit",
+      description: "The native button type. Defaults to submit per HTML spec. Set to button when not submitting a form. Ignored when href is set.",
+    },
+  ]}
+/>
+
+### buttonVariants
+
+The `buttonVariants` helper returns the class string for any variant and size. Use it to apply button styles to a router link component.
+
+```tsx
+import { buttonVariants } from "@/lib/utils";
+
+<a className={buttonVariants({ variant: "outline", size: "sm" })} href="/docs">
+  Read the docs
+</a>
+```
+
+<PropsTable
+  rows={[
+    { name: "variant", type: "default | secondary | outline | ghost | destructive | link", description: "The visual style." },
+    { name: "size", type: "xs | sm | default | lg | icon-xs | icon-sm | icon | icon-lg", description: "The dimensions." },
+    { name: "className", type: "string", description: "Additional classes merged with cn()." },
+  ]}
+/>
+
+## Accessibility
+
+- Set `type="button"` on buttons that are not intended to submit a form.
+- Provide an `aria-label` on icon-only buttons.
+- `disabled` removes the button from the tab order.
+- Color contrast is maintained by design tokens. Run your own contrast check for custom tokens.
+
+## Best Practices
+
+- **Use one primary button per surface.**
+- **Prefer `size="sm"` inside toolbars.**
+- **Never rely on color alone.**
+- **Use `href` for static links, `as={Link}` for router links.**
+- **Reserve `destructive` for irreversible actions.**
+
+## Related Components
+
+- [Button Group](/docs/components/button-group) — visually group buttons
+- [Toggle](/docs/components/toggle) — two-state button
+- [Input Group](/docs/components/input-group) — button inside an input
+

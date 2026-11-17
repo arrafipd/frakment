@@ -1,0 +1,584 @@
+---
+title: Manual
+description: Install Frakment manually in any React 19 + Tailwind v4 project.
+---
+
+Use this guide if you prefer to copy files yourself instead of using the CLI. It works in any React 19 + Tailwind v4 project.
+
+## Prerequisites
+
+- **React** 19
+- **Tailwind CSS** v4
+- **TypeScript**
+- **Node.js** 18 or newer
+
+Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/guides/theming) manually.
+
+## Setup
+
+<Steps>
+
+<Step>Install dependencies</Step>
+
+```bash
+npm install class-variance-authority clsx tailwind-merge lucide-react radix-ui motion
+```
+
+<Step>Configure the import alias</Step>
+
+In `tsconfig.json`:
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": { "@/*": ["./*"] }
+  }
+}
+```
+
+<Step>Create lib/utils.ts</Step>
+
+```ts title="lib/utils.ts"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+```
+
+<Step>Create lib/animation.ts</Step>
+
+```ts title="lib/animation.ts"
+export const springSoft = {
+  damping: 30,
+  stiffness: 200,
+  type: "spring",
+} as const;
+
+export const easeInOut = [0.4, 0, 0.2, 1] as const;
+export const easeInOutQuad = [0.45, 0, 0.55, 1] as const;
+export const easeOutExpo = [0.16, 1, 0.3, 1] as const;
+export const easeSmoothOut = [0.32, 0.72, 0, 1] as const;
+
+export const durationFast = 0.2;
+export const durationNormal = 0.3;
+export const durationSlow = 0.45;
+
+export const delayTight = 0.02;
+
+export interface AnimationKeyframes {
+  times?: number[];
+  values: number[];
+}
+
+export interface AnimationConfig {
+  keyframes?: AnimationKeyframes;
+  transition: Record<string, unknown>;
+}
+
+const NAMED_EASINGS: Record<string, readonly number[]> = {
+  easeInOut,
+  easeInOutQuad,
+  easeOutExpo,
+  easeSmoothOut,
+};
+
+const MOTION_NATIVE_EASINGS = new Set([
+  "linear",
+  "circIn",
+  "circOut",
+  "circInOut",
+  "backIn",
+  "backOut",
+  "backInOut",
+  "anticipate",
+]);
+
+const DURATION_RE = /^(\d+(?:\.\d+)?)(ms|s)?$/;
+const DELAY_RE = /^delay\(([^)]+)\)$/;
+const REPEAT_RE = /^repeat\(([^)]+)\)$/;
+
+function warn(message: string): void {
+  if (typeof console !== "undefined" && typeof console.warn === "function") {
+    console.warn(`[motion-dsl] ${message}`);
+  }
+}
+
+function toSeconds(raw: string): number | null {
+  const m = raw.trim().match(DURATION_RE);
+  if (!m) {
+    return null;
+  }
+  const n = Number.parseFloat(m[1]);
+  if (Number.isNaN(n)) {
+    return null;
+  }
+  return m[2] === "ms" ? n / 1000 : n;
+}
+
+function parseNumbers(raw: string): number[] {
+  return raw.split(",").map((s) => Number.parseFloat(s.trim()));
+}
+
+function tokenize(input: string): string[] {
+  const out: string[] = [];
+  let depth = 0;
+  let cur = "";
+  for (const ch of input) {
+    if (ch === "(" || ch === "[") {
+      depth++;
+    }
+    if (ch === ")" || ch === "]") {
+      depth--;
+    }
+    if (/\s/.test(ch) && depth === 0) {
+      if (cur) {
+        out.push(cur);
+      }
+      cur = "";
+    } else {
+      cur += ch;
+    }
+  }
+  if (cur) {
+    out.push(cur);
+  }
+  return out;
+}
+
+export function parseAnimation(input?: false | string): AnimationConfig | null {
+  if (input === undefined || input === false) {
+    return null;
+  }
+  if (typeof input !== "string") {
+    return null;
+  }
+
+  const trimmed = input.trim();
+  if (!trimmed) {
+    return null;
+  }
+
+  const tokens = tokenize(trimmed);
+  if (tokens.length === 0) {
+    return null;
+  }
+
+  const head = tokens[0];
+  let config: AnimationConfig;
+
+  if (head.startsWith("spring(")) {
+    const args = parseNumbers(head.slice(7, -1));
+    if (args.length !== 2 || args.some(Number.isNaN)) {
+      warn(`invalid spring: "${head}" - expected spring(stiffness, damping)`);
+      return null;
+    }
+    config = {
+      transition: { damping: args[1], stiffness: args[0], type: "spring" },
+    };
+  } else if (head.startsWith("inertia(")) {
+    const args = parseNumbers(head.slice(8, -1));
+    if (args.length !== 2 || args.some(Number.isNaN)) {
+      warn(
+        `invalid inertia: "${head}" - expected inertia(power, timeConstant)`
+      );
+      return null;
+    }
+    config = {
+      transition: { power: args[0], timeConstant: args[1], type: "inertia" },
+    };
+  } else if (head.startsWith("cubic-bezier(")) {
+    const args = parseNumbers(head.slice(13, -1));
+    if (args.length !== 4 || args.some(Number.isNaN)) {
+      warn(`invalid cubic-bezier: "${head}" - expected 4 numbers`);
+      return null;
+    }
+    config = {
+      transition: {
+        ease: args as [number, number, number, number],
+        type: "tween",
+      },
+    };
+  } else if (head.startsWith("steps(")) {
+    const args = parseNumbers(head.slice(6, -1));
+    if (args.length !== 1 || Number.isNaN(args[0])) {
+      warn(`invalid steps: "${head}" - expected steps(count)`);
+      return null;
+    }
+    config = { transition: { ease: "linear", type: "tween" } };
+  } else if (head.startsWith("keyframes(")) {
+    const inner = head.slice(10, -1);
+    const arrays = inner.match(/\[[^\]]*\]/g);
+    if (!arrays || arrays.length === 0) {
+      warn(
+        `invalid keyframes: "${head}" - expected keyframes([values], [times]?)`
+      );
+      return null;
+    }
+    const values = arrays[0]
+      .slice(1, -1)
+      .split(",")
+      .map((s) => Number.parseFloat(s.trim()));
+
+    if (values.some(Number.isNaN)) {
+      warn(`invalid keyframes values: "${arrays[0]}"`);
+      return null;
+    }
+    const times = arrays[1]
+      ? arrays[1]
+          .slice(1, -1)
+          .split(",")
+          .map((s) => Number.parseFloat(s.trim()))
+      : undefined;
+    if (times?.some(Number.isNaN)) {
+      warn(`invalid keyframes times: "${arrays[1]}"`);
+      return null;
+    }
+    config = { keyframes: { times, values }, transition: { type: "tween" } };
+  } else if (head in NAMED_EASINGS) {
+    config = {
+      transition: {
+        ease: [...NAMED_EASINGS[head]] as [number, number, number, number],
+        type: "tween",
+      },
+    };
+  } else if (MOTION_NATIVE_EASINGS.has(head)) {
+    config = { transition: { ease: head, type: "tween" } };
+  } else {
+    warn(`unknown easing or syntax: "${head}"`);
+    return null;
+  }
+
+  const isTween = config.transition.type === "tween";
+
+  for (const token of tokens.slice(1)) {
+    const dur = toSeconds(token);
+    if (dur !== null) {
+      if (isTween) {
+        (config.transition as { duration?: number }).duration = dur;
+      }
+      continue;
+    }
+    const delayMatch = token.match(DELAY_RE);
+    if (delayMatch) {
+      const d = toSeconds(delayMatch[1]);
+      if (d === null) {
+        warn(`invalid delay: "${token}"`);
+        continue;
+      }
+      (config.transition as { delay?: number }).delay = d;
+      continue;
+    }
+    const repeatMatch = token.match(REPEAT_RE);
+    if (repeatMatch) {
+      const v = repeatMatch[1].trim();
+      if (v === "infinite") {
+        (config.transition as { repeat?: number }).repeat =
+          Number.POSITIVE_INFINITY;
+      } else {
+        const n = Number.parseInt(v, 10);
+        if (Number.isNaN(n) || n < 0) {
+          warn(`invalid repeat: "${token}"`);
+          continue;
+        }
+        (config.transition as { repeat?: number }).repeat = n;
+      }
+      continue;
+    }
+    warn(`unexpected token: "${token}"`);
+  }
+
+  return config;
+}
+
+```
+
+<Step>Paste theme block</Step>
+
+Copy the theme block from [`cli/templates/theme.css`](https://github.com/arrafipd/frakment/blob/main/cli/templates/theme.css) and paste it into your `globals.css` **after** `@import "tailwindcss";`:
+
+<CodeCollapsibleWrapper>
+
+```css title="app/globals.css"
+@import "tailwindcss";
+
+/* ==== FRAKMENT THEME START ==== */
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --breakpoint-3xl: 1600px;
+  --breakpoint-4xl: 2000px;
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-surface: var(--surface);
+  --color-surface-foreground: var(--surface-foreground);
+  --color-code: var(--code);
+  --color-code-foreground: var(--code-foreground);
+  --color-code-highlight: var(--code-highlight);
+  --color-code-number: var(--code-number);
+  --color-selection: var(--selection);
+  --color-selection-foreground: var(--selection-foreground);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: var(--color-blue-300);
+  --chart-2: var(--color-blue-500);
+  --chart-3: var(--color-blue-600);
+  --chart-4: var(--color-blue-700);
+  --chart-5: var(--color-blue-800);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+  --surface: oklch(0.98 0 0);
+  --surface-foreground: var(--foreground);
+  --code: var(--surface);
+  --code-foreground: var(--surface-foreground);
+  --code-highlight: oklch(0.96 0 0);
+  --code-number: oklch(0.56 0 0);
+  --selection: oklch(0.145 0 0);
+  --selection-foreground: oklch(1 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.269 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.371 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: var(--color-blue-300);
+  --chart-2: var(--color-blue-500);
+  --chart-3: var(--color-blue-600);
+  --chart-4: var(--color-blue-700);
+  --chart-5: var(--color-blue-800);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.439 0 0);
+  --surface: oklch(0.2 0 0);
+  --surface-foreground: oklch(0.708 0 0);
+  --code: var(--surface);
+  --code-foreground: var(--surface-foreground);
+  --code-highlight: oklch(0.27 0 0);
+  --code-number: oklch(0.72 0 0);
+  --selection: oklch(0.922 0 0);
+  --selection-foreground: oklch(0.205 0 0);
+}
+
+/* Component utilities - kept here for the experiment */
+
+@utility border-grid {
+  @apply border-border/50 dark:border-border;
+}
+@utility section-soft {
+  @apply from-background to-surface/40 dark:bg-background 3xl:fixed:bg-none bg-gradient-to-b;
+}
+@utility container-wrapper {
+  @apply 3xl:fixed:max-w-[calc(var(--breakpoint-2xl)+2rem)] mx-auto w-full px-2;
+}
+@utility container {
+  @apply 3xl:max-w-screen-2xl mx-auto max-w-[1400px] px-4 lg:px-8;
+}
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+@utility border-ghost {
+  @apply after:border-border relative after:absolute after:inset-0 after:border after:mix-blend-darken dark:after:mix-blend-lighten;
+}
+@utility step {
+  counter-increment: step;
+
+  &:before {
+    @apply border-background bg-muted mr-2 inline-flex size-6 items-center justify-center rounded-full text-center -indent-px font-mono text-sm font-medium md:absolute md:mt-[-4px] md:ml-[-50px] md:size-9 md:border-4;
+    content: counter(step);
+  }
+}
+@utility extend-touch-target {
+  @media (pointer: coarse) {
+    @apply relative touch-manipulation after:absolute after:-inset-2;
+  }
+}
+@utility shimmer {
+  background-image: linear-gradient(
+    90deg,
+    var(--foreground) 0%,
+    var(--foreground) 35%,
+    var(--foreground) 45%,
+    color-mix(in oklab, var(--foreground) 50%, transparent) 50%,
+    var(--foreground) 55%,
+    var(--foreground) 65%,
+    var(--foreground) 100%
+  );
+  background-size: 220% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+/* ==== FRAKMENT THEME END ==== */
+```
+
+</CodeCollapsibleWrapper>
+
+The block contains the design tokens (`:root` + `.dark`), `@custom-variant dark` (for `dark:` utilities), `@theme inline` (Tailwind mapping), and 9 `@utility` helpers. Dark mode works as soon as `<html>` gets the `.dark` class — no extra setup. See [Theming](/docs/guides/theming) for tokens and dark-mode wiring.
+
+<Alert variant="warning" className="mt-6">
+  <AlertTitle>Placement matters</AlertTitle>
+  <AlertDescription>
+    The theme block must come **after** all your `@import` statements. Anything
+    after it is your overrides — CSS custom properties resolve last-wins.
+  </AlertDescription>
+</Alert>
+
+<Step>Copy a component</Step>
+
+Every component is a single `.tsx` file under `registry/`. Browse the [catalog](/docs/components/bubble) and copy the source into `components/ui/`, or run:
+
+```bash
+npx frakment@latest add bubble
+```
+
+</Steps>
+
+## Project structure
+
+After completing the setup steps, your project will have:
+
+<FileTree>
+  <FileTreeFolder name="apps" defaultOpen>
+    <FileTreeFile name="components.json" />
+    <FileTreeFile name="package.json" />
+    <FileTreeFile name="tsconfig.json" />
+    <FileTreeFile name="globals.css" />
+    <FileTreeFolder name="components">
+      <FileTreeFolder name="ui" defaultOpen>
+        <FileTreeFile name="bubble.tsx" />
+        <FileTreeFile name="button.tsx" />
+      </FileTreeFolder>
+    </FileTreeFolder>
+    <FileTreeFolder name="lib" defaultOpen>
+      <FileTreeFile name="utils.ts" />
+    </FileTreeFolder>
+  </FileTreeFolder>
+</FileTree>
+
+## Verify
+
+After installing your first component, confirm the setup:
+
+```bash
+ls components/ui/bubble.tsx
+```
+
+Then import and render it in your app. If it renders without errors, you're ready.
+
+## Troubleshooting
+
+<Accordion type="single" collapsible>
+
+<AccordionItem value="missing-utils">
+<AccordionTrigger>Cannot find module lib/utils</AccordionTrigger>
+<AccordionContent>
+
+Make sure `lib/utils.ts` exists and your `tsconfig.json` defines the `@/*` alias.
+
+</AccordionContent>
+</AccordionItem>
+
+<AccordionItem value="styles">
+<AccordionTrigger>Styles do not apply</AccordionTrigger>
+<AccordionContent>
+
+Make sure your `globals.css` includes the theme tokens from [Theming](/docs/guides/theming).
+
+</AccordionContent>
+</AccordionItem>
+
+</Accordion>
+
+## Next
+
+- [Theming](/docs/guides/theming) - customize tokens and dark mode
+- [Components](/docs/components/bubble) - browse the catalog

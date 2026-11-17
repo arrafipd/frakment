@@ -5,8 +5,10 @@
     "includes": [
       "!**/node_modules",
       "!scripts",
+      "!**/scripts",
       "!**/dist",
       "!**/.next",
+      "!**/.source",
       "!**/.turbo",
       "!**/*.tsbuildinfo",
       "!**/.github",
@@ -15,6 +17,7 @@
       "!**/public/r",
       "!**/public/skills",
       "!mdx-components.tsx",
+      "!**/mdx-components.tsx",
       "!**/lib/questionnaire"
     ]
   },

@@ -1,0 +1,363 @@
+---
+title: Dropdown Menu
+description: A menu of actions or options triggered by a button.
+---
+
+<DocsBaseSwitcher base="web" component="dropdown-menu" className="mb-6" />
+
+import { DropdownMenuDemo } from "@/examples/dropdown-menu-demo";
+import { DropdownMenuBasic } from "@/examples/dropdown-menu-basic";
+import { DropdownMenuIcons } from "@/examples/dropdown-menu-icons";
+import { DropdownMenuSubmenu } from "@/examples/dropdown-menu-submenu";
+import { DropdownMenuCheckboxes } from "@/examples/dropdown-menu-checkboxes";
+import { DropdownMenuAlignStart } from "@/examples/dropdown-menu-align-start";
+import { DropdownMenuAlignCenter } from "@/examples/dropdown-menu-align-center";
+import { DropdownMenuAlignEnd } from "@/examples/dropdown-menu-align-end";
+import { DropdownMenuRowActions } from "@/examples/dropdown-menu-row-actions";
+import { MoreHorizontalIcon } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+
+<ComponentPreview name="dropdown-menu-basic" title="dropdown-menu-basic.tsx" src="examples/dropdown-menu-basic.tsx">
+  <DropdownMenuBasic />
+</ComponentPreview>
+
+Dropdown Menu is a compound primitive built on Floating UI for positioning. It supports plain items, groups with labels, separators, nested submenus, checkbox / radio items, icons, and destructive variants.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add dropdown-menu
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependencies:</Step>
+
+      ```bash
+      npm install @floating-ui/react-dom
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="dropdown-menu" title="components/ui/dropdown-menu.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="dropdown-menu.tsx"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+```
+
+```tsx
+<DropdownMenu>
+  <DropdownMenuTrigger as={Button} variant="outline">
+    Open
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem>Profile</DropdownMenuItem>
+    <DropdownMenuItem>Settings</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+## Composition
+
+```text
+DropdownMenu
+├── DropdownMenuTrigger
+└── DropdownMenuContent
+    ├── DropdownMenuLabel
+    ├── DropdownMenuItem
+    ├── DropdownMenuSeparator
+    └── DropdownMenuSub
+        ├── DropdownMenuSubTrigger
+        └── DropdownMenuSubContent
+```
+
+## Examples
+
+### Basic
+
+<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
+  <DropdownMenuBasic />
+</ComponentPreview>
+
+### With submenu
+
+Nest a submenu using `DropdownMenuSub` — the trigger opens a side panel with its own items.
+
+<ComponentPreview name="dropdown-menu-submenu" title="dropdown-menu-submenu.tsx" src="examples/dropdown-menu-submenu.tsx">
+  <DropdownMenuSubmenu />
+</ComponentPreview>
+
+### With icons
+
+Icons render at 16px inside `DropdownMenuItem` — any `lucide-react` export works. Use `variant="destructive"` for irreversible actions.
+
+<ComponentPreview name="dropdown-menu-icons" title="dropdown-menu-icons.tsx" src="examples/dropdown-menu-icons.tsx">
+  <DropdownMenuIcons />
+</ComponentPreview>
+
+### Checkbox items
+
+`DropdownMenuCheckboxItem` accepts `checked` / `onCheckedChange` for multi-select toggles.
+
+<ComponentPreview name="dropdown-menu-checkboxes" title="dropdown-menu-checkboxes.tsx" src="examples/dropdown-menu-checkboxes.tsx">
+  <DropdownMenuCheckboxes />
+</ComponentPreview>
+
+### Full example
+
+Combine groups, labels, submenus, and shortcuts in a single menu.
+
+<ComponentPreview name="dropdown-menu-demo" title="dropdown-menu-demo.tsx" src="examples/dropdown-menu-demo.tsx">
+  <DropdownMenuDemo />
+</ComponentPreview>
+
+## Alignment
+
+Use `align` on `DropdownMenuContent` to control horizontal placement relative to the trigger.
+
+### Align start
+
+Content aligns to the left edge of the trigger.
+
+<ComponentPreview name="dropdown-menu-align-start" title="dropdown-menu-align-start.tsx" src="examples/dropdown-menu-align-start.tsx">
+  <DropdownMenuAlignStart />
+</ComponentPreview>
+
+~~~tsx
+<DropdownMenuContent align="start">...</DropdownMenuContent>
+~~~
+
+### Align center
+
+Content centers on the trigger. This is the default.
+
+<ComponentPreview name="dropdown-menu-align-center" title="dropdown-menu-align-center.tsx" src="examples/dropdown-menu-align-center.tsx">
+  <DropdownMenuAlignCenter />
+</ComponentPreview>
+
+~~~tsx
+<DropdownMenuContent align="center">...</DropdownMenuContent>
+~~~
+
+### Align end
+
+Content aligns to the right edge of the trigger.
+
+<ComponentPreview name="dropdown-menu-align-end" title="dropdown-menu-align-end.tsx" src="examples/dropdown-menu-align-end.tsx">
+  <DropdownMenuAlignEnd />
+</ComponentPreview>
+
+~~~tsx
+<DropdownMenuContent align="end">...</DropdownMenuContent>
+~~~
+
+## In Context
+
+### Row actions
+
+<ComponentPreview name="dropdown-menu-row-actions" title="dropdown-menu-row-actions.tsx" src="examples/dropdown-menu-row-actions.tsx">
+  <DropdownMenuRowActions />
+</ComponentPreview>
+
+## API Reference
+
+Each part is a first-class Frakment export. None of them wrap an external primitive library.
+
+### DropdownMenu
+
+<PropsTable
+  rows={[
+    { name: "open", type: "boolean", description: "Controlled open state. When omitted, the menu manages its own state." },
+    { name: "defaultOpen", type: "boolean", default: "false", description: "Uncontrolled initial open state." },
+    { name: "onOpenChange", type: "(open: boolean) => void", description: "Called when the menu opens or closes." },
+  ]}
+/>
+
+### DropdownMenuTrigger
+
+<PropsTable
+  rows={[
+    { name: "as", type: "React.ElementType", description: "Renders a different root element or component. Defaults to button." },
+    { name: "disabled", type: "boolean", default: "false", description: "Prevents opening the menu." },
+  ]}
+/>
+
+### DropdownMenuContent
+
+<PropsTable
+  rows={[
+    { name: "side", type: "top | right | bottom | left", default: "bottom", description: "Placement relative to the trigger." },
+    { name: "align", type: "start | center | end", default: "start", description: "Alignment along the cross axis." },
+    { name: "sideOffset", type: "number", default: "4", description: "Gap between trigger and content in pixels." },
+    { name: "motion", type: "string", description: "Motion string for the entrance reveal. Pass off to disable." },
+    { name: "alignOffset", type: "number", default: "0", description: "Shift along the cross axis in pixels." },
+    { name: "avoidCollisions", type: "boolean", default: "true", description: "Flip and shift to stay inside the viewport." },
+    { name: "collisionPadding", type: "number", default: "0", description: "Padding in pixels from the viewport edge." },
+    { name: "className", type: "string", description: "Additional CSS classes." },
+  ]}
+/>
+
+### DropdownMenuItem
+
+<PropsTable
+  rows={[
+    { name: "as", type: "React.ElementType", description: "Renders a different root element or component. Defaults to div with role=menuitem." },
+    { name: "variant", type: "default | destructive", default: "default", description: "Use destructive for irreversible actions." },
+    { name: "disabled", type: "boolean", default: "false", description: "Prevents selection and dims the item." },
+    { name: "inset", type: "boolean", default: "false", description: "Adds left padding to align with items that have an indicator." },
+    { name: "onSelect", type: "(event: Event) => void", description: "Called when the item is selected. Call event.preventDefault() to keep the menu open." },
+    { name: "textValue", type: "string", description: "Override for typeahead matching. Defaults to textContent." },
+  ]}
+/>
+
+### DropdownMenuCheckboxItem
+
+<PropsTable
+  rows={[
+    { name: "checked", type: "boolean | indeterminate", default: "false", description: "Current checked state." },
+    { name: "onCheckedChange", type: "(checked: boolean) => void", description: "Called when the item is toggled." },
+  ]}
+/>
+
+### DropdownMenuRadioGroup
+
+<PropsTable
+  rows={[
+    { name: "value", type: "string", description: "Currently selected value." },
+    { name: "onValueChange", type: "(value: string) => void", description: "Called when a radio item is selected." },
+  ]}
+/>
+
+### DropdownMenuRadioItem
+
+<PropsTable
+  rows={[
+    { name: "value", type: "string", description: "Value this item represents. Required." },
+  ]}
+/>
+
+### DropdownMenuSub
+
+<PropsTable
+  rows={[
+    { name: "open", type: "boolean", description: "Controlled open state for the submenu." },
+    { name: "defaultOpen", type: "boolean", default: "false", description: "Uncontrolled initial open state." },
+    { name: "onOpenChange", type: "(open: boolean) => void", description: "Called when the submenu opens or closes." },
+  ]}
+/>
+
+### DropdownMenuSubTrigger
+
+<PropsTable
+  rows={[
+    { name: "disabled", type: "boolean", default: "false", description: "Prevents opening the submenu." },
+    { name: "inset", type: "boolean", default: "false", description: "Adds left padding for alignment." },
+  ]}
+/>
+
+### DropdownMenuSubContent
+
+<PropsTable
+  rows={[
+    { name: "align", type: "start | end", default: "start", description: "Alignment of the submenu relative to the trigger." },
+    { name: "sideOffset", type: "number", default: "4", description: "Gap between sub-trigger and content in pixels." },
+    { name: "alignOffset", type: "number", default: "0", description: "Shift along the cross axis in pixels." },
+    { name: "avoidCollisions", type: "boolean", default: "true", description: "Flip and shift to stay inside the viewport." },
+  ]}
+/>
+
+### Other parts
+
+`DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuGroup`, `DropdownMenuLabel`, `DropdownMenuSeparator`, `DropdownMenuShortcut`, `DropdownMenuSub`, `DropdownMenuSubTrigger`, `DropdownMenuSubContent`, `DropdownMenuPortal`, `DropdownMenuCheckboxItem`, `DropdownMenuRadioGroup`, `DropdownMenuRadioItem` — all ship in the same file and share the `data-slot` convention.
+
+Adds `data-slot="dropdown-menu-*"` markers for styling hooks.
+
+## Custom element
+
+`DropdownMenuTrigger` accepts `as` to render a different root element or component. Pass `as={Button}` for a styled trigger, `as={Link}` for a router link, or omit for a plain `<button>`.
+
+## Controlled
+
+```tsx
+const [open, setOpen] = React.useState(false)
+<DropdownMenu open={open} onOpenChange={setOpen}>
+  <DropdownMenuTrigger as={Button} variant="outline">
+    Open
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>{/* ... */}</DropdownMenuContent>
+</DropdownMenu>
+```
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `Space` / `Enter` | Open, or activate focused item |
+| `↑` / `↓` | Move focus |
+| `→` / `←` | Open or close a submenu |
+| `Home` / `End` | First / last item |
+| `Esc` | Close |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `dropdown-menu-trigger`, `dropdown-menu-content`, `dropdown-menu-item`, `dropdown-menu-label`, `dropdown-menu-separator` |
+| `data-state` | `open` \| `closed` |
+| `data-highlighted` | `true` (focused item) |
+| `data-disabled` | `true` |
+| `data-side` | `top` \| `right` \| `bottom` \| `left` |
+
+## Motion
+
+The menu fades and scales in through Frakment's motion engine. Pass `motion` on `DropdownMenuContent`:
+
+```tsx
+<DropdownMenuContent motion="200 ease-out">Content</DropdownMenuContent>
+```
+
+`motion` accepts `"off"`, `"150"`, `"150 ease-out"`, or `"150 cubic-bezier(0.4, 0, 0.2, 1)"`. The default is a 150ms smooth-out curve. `prefers-reduced-motion` wins and the menu appears instantly.
+
+## Accessibility
+
+- The trigger must have `aria-label` when icon-only.
+- Items are focusable; arrow keys move focus.
+- Escape closes the menu and returns focus to the trigger.
+- Destructive items are visually distinct but still focusable.
+
+## Best Practices
+
+- **Do not put more than 10 items.** Use a command palette for long lists.
+- **Group related items.** `DropdownMenuSeparator` between clusters.
+- **Destructive items last.** And always separated.
+- **Keep labels verb-based.** "Delete", not "Deletion".
+## Related Components
+
+- [Select](/docs/components/select): single-value picker with keyboard search
+- [Popover](/docs/components/popover): floating panel anchored to a trigger
+- [Button Group](/docs/components/button-group): groups adjacent buttons into one unit
+

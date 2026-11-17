@@ -1,0 +1,37 @@
+{
+  "$schema": "https://www.arrafi.dev/frakment/schema/frakment.json",
+  "name": "frakment",
+  "homepage": "https://github.com/arrafipd/frakment",
+  "components": [
+    {
+      "name": "button",
+      "title": "Button",
+      "description": "A native button with six variants and eight sizes.",
+      "source": "registry/button.tsx",
+      "target": "components/ui/button.tsx",
+      "dependencies": ["class-variance-authority@^0.7.1"],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "button-group",
+      "title": "Button Group",
+      "description": "Groups related native buttons into a single visual unit.",
+      "source": "registry/button-group.tsx",
+      "target": "components/ui/button-group.tsx",
+      "dependencies": ["class-variance-authority@^0.7.1"],
+      "registryDependencies": ["separator"],
+      "type": "registry:ui"
+    },
+    {
+      "name": "separator",
+      "title": "Separator",
+      "description": "A visual divider between native content sections.",
+      "source": "registry/separator.tsx",
+      "target": "components/ui/separator.tsx",
+      "dependencies": [],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    }
+  ]
+}

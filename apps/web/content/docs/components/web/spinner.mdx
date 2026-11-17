@@ -1,0 +1,137 @@
+---
+title: Spinner
+description: An indicator that can be used to show a loading state.
+---
+
+import { SpinnerDemo } from "@/examples/spinner-demo";
+import { SpinnerBadge } from "@/examples/spinner-badge";
+import { SpinnerButton } from "@/examples/spinner-button";
+import { SpinnerInContext } from "@/examples/spinner-in-context";
+import { SpinnerShapes } from "@/examples/spinner-shapes";
+import { SpinnerSize } from "@/examples/spinner-size";
+
+<DocsBaseSwitcher base="web" component="spinner" className="mb-6" />
+
+<ComponentPreview name="spinner" title="spinner.tsx" previewClassName="h-auto py-8">
+  <SpinnerDemo />
+</ComponentPreview>
+
+Spinner renders a loading indicator. It carries `role="status"` and `aria-label="Loading"` so screen readers announce a live state. Two shapes are available: `default` (a circular arc, rendered as CSS border for zero rotation jitter) and `spoke` (a sunburst, from `LoaderIcon`).
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add spinner
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependency:</Step>
+
+      ```bash
+      npm install lucide-react
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="spinner" title="components/ui/spinner.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="spinner.tsx"
+import { Spinner } from "@/components/ui/spinner";
+```
+
+```tsx
+<Spinner />
+```
+
+## Examples
+
+### Shapes
+
+`default` renders a circular arc. `spoke` renders a sunburst from `LoaderIcon`.
+
+<ComponentPreview name="spinner-shapes" title="spinner-shapes.tsx" src="examples/spinner-shapes.tsx" previewClassName="h-auto py-8">
+  <SpinnerShapes />
+</ComponentPreview>
+
+### Size
+
+Use a `size-*` utility class to change the diameter. Default is 16px (`size-4`).
+
+<ComponentPreview name="spinner-size" title="spinner-size.tsx" src="examples/spinner-size.tsx" previewClassName="h-auto py-8">
+  <SpinnerSize />
+</ComponentPreview>
+
+### Button
+
+Place the spinner **before** the label with `data-icon="inline-start"`, or **after** with `data-icon="inline-end"`. The button uses the attribute for gap spacing.
+
+<ComponentPreview name="spinner-button" title="spinner-button.tsx" src="examples/spinner-button.tsx" previewClassName="h-auto py-8">
+  <SpinnerButton />
+</ComponentPreview>
+
+### Badge
+
+Same idea inside a badge — `data-icon` keeps the gap aligned with the badge icon size.
+
+<ComponentPreview name="spinner-badge" title="spinner-badge.tsx" src="examples/spinner-badge.tsx" previewClassName="h-auto py-8">
+  <SpinnerBadge />
+</ComponentPreview>
+
+### In context
+
+Combine with a `shimmer` text for a live streaming line.
+
+<ComponentPreview name="spinner-in-context" title="spinner-in-context.tsx" src="examples/spinner-in-context.tsx" previewClassName="h-auto py-6">
+  <SpinnerInContext />
+</ComponentPreview>
+
+## API Reference
+
+### Spinner
+
+<PropsTable
+  rows={[
+    { name: "variant", type: "default | spoke", defaultValue: "default", description: "Icon shape — circular arc (default) or sunburst (spoke)." },
+    { name: "borderWidth", type: "number", description: "Custom border thickness for the default variant. Defaults to Tailwind border-2." },
+  ]}
+/>
+
+Extends `React.ComponentProps<"span">`. Defaults: `size-4`, `animate-spin`, `role="status"`, `aria-label="Loading"`.
+
+## Accessibility
+
+- Renders `role="status"` and `aria-label="Loading"` by default — screen readers treat it as a live region.
+- Pair with visible text for clarity when the loading state has semantic meaning.
+- `animate-spin` respects `prefers-reduced-motion` via `motion-reduce:animate-none`.
+- When placed inside `Button` or `Badge`, keep `data-icon="inline-start"` or `"inline-end"` so the gap matches the surrounding component.
+
+## Best Practices
+
+- **Pair with text.** A spinner alone is ambiguous.
+- **Do not block the whole page.** Use a skeleton for content areas.
+- **Respect reduced motion.** When `prefers-reduced-motion` is set, the icon renders static.
+- **Hide after success.** A lingering spinner reads as "still loading".
+
+## Related Components
+
+- [Button](/docs/components/web/button) — disabled loading button
+- [Badge](/docs/components/web/badge) — inline status badge

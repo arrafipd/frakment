@@ -1,0 +1,18 @@
+{
+  "dependencies": [
+    "lucide-react@^1.69.0"
+  ],
+  "deprecated": false,
+  "description": "A control that lets the user toggle between checked and not checked.",
+  "files": [
+    {
+      "content": "\"use client\";\n\nimport { CheckIcon } from \"lucide-react\";\nimport * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\ntype CheckedState = boolean | \"indeterminate\";\n\ntype CheckboxProps = Omit<\n  React.ComponentPropsWithoutRef<\"button\">,\n  \"onChange\" | \"role\" | \"aria-checked\" | \"type\"\n> & {\n  checked?: CheckedState;\n  defaultChecked?: CheckedState;\n  disabled?: boolean;\n  onCheckedChange?: (checked: CheckedState) => void;\n  ref?: React.Ref<HTMLButtonElement>;\n};\n\nfunction Checkbox({\n  checked: checkedProp,\n  className,\n  defaultChecked = false,\n  disabled = false,\n  onClick,\n  onCheckedChange,\n  ref,\n  ...props\n}: CheckboxProps) {\n  const isControlled = checkedProp !== undefined;\n  const [uncontrolled, setUncontrolled] =\n    React.useState<CheckedState>(defaultChecked);\n  const checked = isControlled ? checkedProp : uncontrolled;\n  const isChecked = checked === true;\n  const isIndeterminate = checked === \"indeterminate\";\n  const isActive = isChecked || isIndeterminate;\n  const dataState = isIndeterminate\n    ? \"indeterminate\"\n    : isChecked\n      ? \"checked\"\n      : \"unchecked\";\n  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {\n    onClick?.(event);\n    if (event.defaultPrevented || disabled) {\n      return;\n    }\n    const next: CheckedState = !isChecked;\n    if (!isControlled) {\n      setUncontrolled(next);\n    }\n    onCheckedChange?.(next);\n  };\n  return (\n    <button\n      aria-checked={isIndeterminate ? \"mixed\" : isChecked}\n      className={cn(\n        \"peer border-input group-has-[:focus-visible]/field-label:not-data-checked:border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground group-has-[:focus-visible]/field-label:data-checked:border-primary dark:data-checked:bg-primary relative flex size-4 shrink-0 items-center justify-center rounded-[4px] border transition-colors outline-none group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3\",\n        className\n      )}\n      data-checked={isActive ? \"\" : undefined}\n      data-slot=\"checkbox\"\n      data-state={dataState}\n      disabled={disabled}\n      onClick={handleClick}\n      ref={ref}\n      role=\"checkbox\"\n      type=\"button\"\n      {...props}\n    >\n      {isActive ? (\n        <span\n          aria-hidden=\"true\"\n          className=\"grid place-content-center text-current [&>svg]:size-3.5\"\n          data-slot=\"checkbox-indicator\"\n        >\n          {isIndeterminate ? (\n            <span className=\"block h-px w-2 rounded-full bg-current\" />\n          ) : (\n            <CheckIcon />\n          )}\n        </span>\n      ) : null}\n    </button>\n  );\n}\n\nexport { Checkbox };\n",
+      "path": "components/ui/checkbox.tsx"
+    }
+  ],
+  "name": "checkbox",
+  "registryDependencies": [],
+  "title": "Checkbox",
+  "version": "0.0.0",
+  "integrity": "sha256:1688259034d5b08b3e5c22e02ecd44544530348fc6b1f097140b472fd0bf89a9"
+}

@@ -124,6 +124,17 @@ For security issues, do **not** open a public issue. See [SECURITY.md](./SECURIT
 
 Rich but simple. One sentence per paragraph. Every component page follows the same shape.
 
+### ComponentPreview pattern
+
+Every component page follows the same preview pattern:
+
+- **Hero** (top of page): `<ComponentPreview name="<component>" title="<component>.tsx">` — no `src` prop. The Code tab shows the registry source (`registry/<component>.tsx`).
+- **Every other preview**: `<ComponentPreview name="<slug>" title="<slug>.tsx" src="examples/<slug>.tsx">` — the Code tab shows the demo file, not the registry.
+
+The registry source appears **once** per page (hero). Every other preview's Code tab must show usage, not implementation. `name` without `src` falls back to registry source; use it only for the hero.
+
+Demo files live at `examples/<slug>.tsx` and export a named component (`<Slug>`). Import them in the MDX and pass as children.
+
 ### Component naming
 
 - **Lowercase in prose.** Write "a button", "the badge", "spinners" — not "a Button" or "the Badge".
@@ -464,9 +475,9 @@ Add `"<name>"` to `content/docs/{category}/meta.json` under `pages`, alphabetica
 
 ### 6. New badge
 
-Add `"/docs/{category}/<name>"` to `PAGES_NEW` in `lib/docs.ts`. This drives the blue dot in the sidebar and mobile nav.
+Add `"/docs/{category}/<name>"` to `pagesNew` in `lib/docs.ts`. This drives the blue dot in the sidebar, mobile nav, command menu, and component list grid.
 
-`PAGES_NEW` is a rotating batch, not a cumulative list. When you ship a new batch, replace the entire set with only the components from that batch. Entries from the previous batch graduate and their dots disappear.
+`pagesNew` is a rotating set of the components shipped on the current working day, not a cumulative list. A new calendar day of shipped work starts a new batch: replace the entire set with only the components shipped that day. Components from previous days graduate and their dots disappear.
 
 ### 7. Changelog
 
@@ -492,7 +503,7 @@ npm run build
 | :-- | :-- |
 | `frakment.json` entry | CLI returns 404 |
 | `meta.json` entry | Page not in sidebar, mobile nav, or command menu |
-| `PAGES_NEW` entry | Page linked everywhere, no new badge |
+| `pagesNew` entry | Page linked everywhere, no new badge in sidebar, mobile nav, command menu, or component list grid |
 | `changelog/meta.json` entry | Release missing from changelog |
 | `npm run registry:build` not run | `public/r/<name>.json` missing |
 
@@ -503,7 +514,7 @@ npm run build
 - [ ] `examples/<name>-demo.tsx` exists and renders
 - [ ] Docs page follows [Docs style](#docs-style)
 - [ ] `meta.json` has the entry
-- [ ] `PAGES_NEW` has the entry
+- [ ] `pagesNew` has the entry (drives blue dot in sidebar, mobile nav, command menu, component list grid)
 - [ ] Changelog file exists + `changelog/meta.json` has the entry
 - [ ] `npm run registry:build` ran and `public/r/<name>.json` in diff
 - [ ] `npm run build` passes

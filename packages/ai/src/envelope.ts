@@ -411,7 +411,7 @@ export function eventsToEnvelope(
   let start = 0;
 
   // Hoist leading "before-start" sleeps before the start chunk
-  for (;;) {
+  while (true) {
     const ev = events[start];
     if (!(ev && ev.kind === "sleep" && ev.phase === "before-start")) {
       break;

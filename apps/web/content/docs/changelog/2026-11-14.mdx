@@ -1,0 +1,318 @@
+---
+title: "November 14, 2026"
+description: "Popover, Select, Badge, Avatar, Accordion, Collapsible, Input, Input Group, Breadcrumb, Input OTP, first-party Separator and Button Group, and a polymorphic `as` prop across Button, Badge, Collapsible, Breadcrumb, and Button Group Text."
+date: "2026-11-14"
+---
+
+import { PopoverDemo } from "@/examples/popover-demo";
+import { SelectDemo } from "@/examples/select-demo";
+import { BadgeDemo } from "@/examples/badge-demo";
+import { AvatarDemo } from "@/examples/avatar-demo";
+import { NativeSeparatorDemo } from "@/examples/native/separator-demo";
+import { NativeButtonGroupDemo } from "@/examples/native/button-group-demo";
+import { CollapsibleDemo } from "@/examples/collapsible-demo";
+import { BreadcrumbDemo } from "@/examples/breadcrumb-demo";
+import { InputOTPDemo } from "@/examples/input-otp-demo";
+
+This release adds **Popover**, migrates **Select**, **Separator**, **Badge**, **Avatar**, **Accordion**, **Collapsible**, **Breadcrumb**, and **Input OTP** off `radix-ui` and `input-otp`, ships first-party **Button Group**, and standardizes the polymorphic `as` prop across **Button**, **Badge**, **Collapsible**, **Breadcrumb**, and **Button Group Text**.
+
+- [Popover](#popover): Floating panel anchored to a trigger.
+- [Select](#select): Floating UI listbox with item-aligned and popper modes.
+- [Badge](#badge): Smaller height, `as` prop, `iconOnly` mode.
+- [Avatar](#avatar): Own primitive, destructive error fallback, soft destructive token.
+- [Button `as` prop](#button-as-prop): Render router links and custom components.
+- [`as` prop rollout](#as-prop-rollout-badge-collapsible-button-group-text): Removes `asChild` from Badge and Collapsible Trigger, adds `as` to Button Group Text.
+- [Separator](#separator): No more `radix-ui`.
+- [Button Group](#button-group): Own primitive replaces the Radix Slot.
+- [Native Separator & Button Group](#native-separator--button-group): Native ports.
+
+<hr className="my-16 border-border/40" />
+
+### Popover
+
+<ComponentPreview name="popover" title="popover.tsx" previewClassName="h-auto py-8">
+  <PopoverDemo />
+</ComponentPreview>
+
+**Popover** renders a floating panel anchored to a trigger. Position is resolved with Floating UI, so the panel flips and shifts automatically when it would overflow the viewport. Opens on trigger click, closes on outside click or `Escape`. Non-modal: focus returns to the trigger, no focus trap. `PopoverHeader`, `PopoverTitle`, and `PopoverDescription` wire `aria-labelledby` and `aria-describedby` for you.
+
+#### Installation
+
+<Steps>
+  <Step>Install</Step>
+
+```bash
+npx frakment add popover
+```
+
+<Step>Use it</Step>
+
+```tsx
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+```
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+<Popover>
+  <PopoverTrigger as={Button} variant="outline">Open</PopoverTrigger>
+  <PopoverContent>Content</PopoverContent>
+</Popover>
+```
+
+See the [Popover docs](/docs/components/web/popover) for the full API reference.
+
+<hr className="my-16 border-border/40" />
+
+### Button `as` prop
+
+
+<ComponentPreview name="
+button
+" title="
+button.tsx
+" previewClassName="h-auto py-8">
+  <
+ButtonDemo
+ />
+</ComponentPreview>
+Button accepts `as` to render a different root element or component. Pass `as={Link}` for router links, `as={CustomComponent}` for a wrapped surface, or omit to keep the default `<button>` / `<a>` behavior based on `href`.
+
+```tsx
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+
+<Button as={Link} href="/pricing" variant="outline">Pricing</Button>
+```
+
+No API breaking changes. `href` and `onClick` continue to work as before. See the [Button docs](/docs/components/web/button) for the updated router link guidance.
+
+<hr className="my-16 border-border/40" />
+
+### Separator
+
+
+<ComponentPreview name="
+separator
+" title="
+separator.tsx
+" previewClassName="h-auto py-8">
+  <
+SeparatorDemo
+ />
+</ComponentPreview>
+Separator no longer depends on `radix-ui`. It renders as a `div` with `role="none"` by default, or `role="separator"` with `aria-orientation` when `decorative={false}`.
+
+**Changed:**
+
+- Removed `radix-ui` from `dependencies`. No npm install needed.
+- `decorative` prop now controls `role` directly.
+
+No API breaking changes. See the [Separator docs](/docs/components/web/separator).
+
+<hr className="my-16 border-border/40" />
+
+### Button Group
+
+
+<ComponentPreview name="
+button-group
+" title="
+button-group.tsx
+" previewClassName="h-auto py-8">
+  <
+ButtonGroupDemo
+ />
+</ComponentPreview>
+Button Group now uses Frakment's own Slot primitive instead of the Radix Slot. All ten compositions (dropdown, input, input group, nested, select, separator, split, size, orientation, demo) continue to work without changes.
+
+**Changed:**
+
+- Removed `radix-ui` from `dependencies`.
+- New `registryDependency`: `slot`.
+
+See the [Button Group docs](/docs/components/web/button-group).
+
+<hr className="my-16 border-border/40" />
+
+### Select
+
+<ComponentPreview name="select" title="select.tsx" previewClassName="h-auto py-8">
+  <SelectDemo />
+</ComponentPreview>
+
+**Select** no longer depends on `radix-ui`. The listbox runs on Floating UI with two placement modes: `item-aligned` (default, overlaps the selected item with the trigger) and `popper` (anchors below the trigger). Keyboard navigation, type-ahead, and form submission follow the native select contract.
+
+**Changed:**
+
+- Removed `radix-ui` from `dependencies`. Added `@floating-ui/react-dom`.
+- New `position` prop on `SelectContent`: `item-aligned` (default) or `popper`.
+- Controlled `open` and `value` now honor the prop instead of the initial state.
+- New `SelectScrollUpButton` and `SelectScrollDownButton` for long lists.
+- Scroll inside the listbox is locked; the page beneath does not scroll while open.
+
+No API breaking changes. See the [Select docs](/docs/components/web/select).
+
+<hr className="my-16 border-border/40" />
+
+### Badge
+
+<ComponentPreview name="badge" title="badge.tsx" previewClassName="h-auto py-8">
+  <BadgeDemo />
+</ComponentPreview>
+
+**Badge** no longer depends on `radix-ui`. The surface height drops from `h-6` to `h-5` to match the shadcn/ui baseline, and the primitive gains an `as` prop and an `iconOnly` mode.
+
+**Changed:**
+
+- Removed `radix-ui` from `dependencies`.
+- New `registryDependency`: `slot`.
+- Height `h-6` → `h-5`, horizontal padding `px-2.5` → `px-2`, icon size `size-3.5` → `size-3`.
+- New `as` prop for router links and custom components. `asChild` stays for backward compatibility.
+- New `iconOnly` prop renders a square badge with no horizontal padding. Use when the badge wraps only an icon.
+- Spinner inside a badge now renders at `size-2.5` with a 1px ring.
+
+See the [Badge docs](/docs/components/web/badge).
+
+<hr className="my-16 border-border/40" />
+
+### Avatar
+
+<ComponentPreview name="avatar" title="avatar.tsx" previewClassName="h-auto py-8">
+  <AvatarDemo />
+</ComponentPreview>
+
+**Avatar** no longer depends on `radix-ui`. The image loading state lives in a small context hook, so `AvatarImage` and `AvatarFallback` share it. A failed load auto-styles the fallback with the destructive token — distinguishable from a missing image without extra state.
+
+**Changed:**
+
+- Removed `radix-ui` from `dependencies`.
+- New `data-status` attribute on `AvatarFallback`: `idle`, `loading`, `loaded`, `error`.
+- Failed `AvatarImage` loads auto-render the fallback with `bg-destructive` and `text-white`.
+- `--destructive` in light mode drops chroma from `0.245` to `0.18` for a softer surface across Button, Badge, and Input.
+
+See the [Avatar docs](/docs/components/web/avatar).
+
+<hr className="my-16 border-border/40" />
+
+### Collapsible
+
+<ComponentPreview name="collapsible" title="collapsible.tsx" previewClassName="h-auto py-8">
+  <CollapsibleDemo />
+</ComponentPreview>
+
+**Collapsible** no longer depends on `radix-ui` or `motion/react`. The reveal runs through Frakment's motion engine, and the height animates via CSS grid rows.
+
+**Changed:**
+
+- Removed `radix-ui` and `motion` from `dependencies`.
+- New `motion` prop accepts `"off"`, `"150"`, `"150 ease-out"`, or `"150 cubic-bezier(...)"`. Default is a 450ms smooth-out curve.
+- Per-content override on `CollapsibleContent`.
+- Height animates via CSS grid rows (`0fr` to `1fr`).
+- `CollapsibleTrigger` accepts `as` for custom trigger elements. `asChild` stays for backward compatibility.
+
+See the [Collapsible docs](/docs/components/web/collapsible).
+
+<hr className="my-16 border-border/40" />
+
+### `as` prop rollout (Badge, Collapsible, Button Group Text)
+
+**Badge**, **Collapsible Trigger**, and **Button Group Text** now accept a single polymorphic `as` prop instead of `asChild`. Pass `as={Link}` to render a router link, `as={Button}` to slot a custom surface, or omit to keep the default element.
+
+**Changed:**
+
+- `Badge` accepts `as`. `asChild` is removed; use `as={Link}` for anchors or `as={Custom}` for other elements.
+- `CollapsibleTrigger` accepts `as`. `asChild` is removed.
+- `ButtonGroupText` accepts `as`. `asChild` is deprecated and kept for backward compatibility.
+
+See the [Badge](/docs/components/web/badge), [Collapsible](/docs/components/web/collapsible), and [Button Group](/docs/components/web/button-group) docs.
+
+<hr className="my-16 border-border/40" />
+
+### Breadcrumb
+
+<ComponentPreview name="breadcrumb" title="breadcrumb.tsx" previewClassName="h-auto py-8">
+  <BreadcrumbDemo />
+</ComponentPreview>
+
+**Breadcrumb** no longer depends on `radix-ui`. The link part accepts a single `as` prop instead of `asChild`.
+
+**Changed:**
+
+- Removed `radix-ui` from `dependencies`.
+- New `registryDependency`: `slot`.
+- `BreadcrumbLink` accepts `as` for router links. `asChild` is deprecated and kept for backward compatibility.
+
+See the [Breadcrumb docs](/docs/components/web/breadcrumb).
+
+<hr className="my-16 border-border/40" />
+
+### Input OTP
+
+<ComponentPreview name="input-otp" title="input-otp.tsx" previewClassName="h-auto py-8">
+  <InputOTPDemo />
+</ComponentPreview>
+
+**Input OTP** no longer depends on `input-otp`. The field renders a real hidden `<input>` so paste, backspace, arrow navigation, and form submission work natively. Each slot is a styled sibling driven by the input value.
+
+**Changed:**
+
+- Removed `input-otp` from `dependencies`.
+- Exports `digits`, `chars`, and `alphanumeric` regex patterns instead of `REGEXP_*` constants.
+- Pattern filtering runs on `onChange` so pasted values are sanitized against the pattern.
+
+See the [Input OTP docs](/docs/components/web/input-otp).
+
+<hr className="my-16 border-border/40" />
+
+### Native Separator & Button Group
+
+<ComponentPreview name="native/separator" src="../../apps/native/registry/separator.tsx" title="separator.tsx" previewClassName="h-auto py-8">
+  <NativeSeparatorDemo />
+</ComponentPreview>
+
+<ComponentPreview name="native/button-group" src="../../apps/native/registry/button-group.tsx" title="button-group.tsx" previewClassName="h-auto py-8">
+  <NativeButtonGroupDemo />
+</ComponentPreview>
+
+**Separator** and **Button Group** are now available for React Native via Expo. Separator renders as a `View` with a 1px line. Button Group lays out children in a row or column, strips the inner border and radius on adjacent children, and paints the separator variant with the `input` token so it matches the web composition.
+
+Both read colors from `useThemeColors()`, so light and dark mode track the device system preference.
+
+#### Installation
+
+<Steps>
+  <Step>Install Separator first</Step>
+
+Copy from the [Separator docs](/docs/components/native/separator). No CLI flag for native yet.
+
+<Step>Install Button Group</Step>
+
+Copy from the [Button Group docs](/docs/components/native/button-group).
+
+</Steps>
+
+#### Minimal usage
+
+```tsx
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
+import { ButtonDemo } from "@/examples/button-demo";
+import { ButtonGroupDemo } from "@/examples/button-group-demo";
+import { SeparatorDemo } from "@/examples/separator-demo";
+
+<Separator />
+
+<ButtonGroup>
+  <Button variant="outline">Archive</Button>
+  <Button variant="outline">Report</Button>
+</ButtonGroup>
+```

@@ -1,0 +1,176 @@
+---
+title: Breadcrumb
+description: Displays the path to the current resource using a hierarchy of links.
+---
+
+import { BreadcrumbDemo } from "@/examples/breadcrumb-demo";
+import { BreadcrumbBasic } from "@/examples/breadcrumb-basic";
+import { BreadcrumbSeparatorDemo } from "@/examples/breadcrumb-separator";
+import { BreadcrumbDropdown } from "@/examples/breadcrumb-dropdown";
+import { BreadcrumbEllipsisDemo } from "@/examples/breadcrumb-ellipsis";
+import { BreadcrumbLinkDemo } from "@/examples/breadcrumb-link";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { BreadcrumbDocsPath } from "@/examples/breadcrumb-docs-path";
+import { BreadcrumbPageHeader } from "@/examples/breadcrumb-page-header";
+
+<DocsBaseSwitcher base="web" component="breadcrumb" className="mb-6" />
+
+<ComponentPreview name="breadcrumb" title="breadcrumb.tsx">
+  <BreadcrumbDemo />
+</ComponentPreview>
+
+Breadcrumb shows the path from the site root to the current page. It helps users understand where they are and jump back to any ancestor level.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+~~~bash
+npx frakment add breadcrumb
+~~~
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependency:</Step>
+
+      ~~~bash
+      npm install lucide-react
+      ~~~
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="breadcrumb" title="components/ui/breadcrumb.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+~~~tsx title="breadcrumb.tsx"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+~~~
+
+~~~tsx
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem><BreadcrumbLink href="/components">Components</BreadcrumbLink></BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>
+~~~
+
+## Composition
+
+```text
+Breadcrumb
+└── BreadcrumbList
+    ├── BreadcrumbItem
+    └── BreadcrumbSeparator
+```
+
+## Examples
+
+### Basic
+
+<ComponentPreview name="breadcrumb-basic" src="examples/breadcrumb-basic.tsx" title="breadcrumb-basic.tsx">
+  <BreadcrumbBasic />
+</ComponentPreview>
+
+### Custom separator
+
+Pass any node as children to replace the chevron.
+
+<ComponentPreview name="breadcrumb-separator" src="examples/breadcrumb-separator.tsx" title="breadcrumb-separator.tsx">
+  <BreadcrumbSeparatorDemo />
+</ComponentPreview>
+
+### With router link
+
+Pass `as` on `BreadcrumbLink` to render a router component.
+
+<ComponentPreview name="breadcrumb-link" src="examples/breadcrumb-link.tsx" title="breadcrumb-link.tsx">
+  <BreadcrumbLinkDemo />
+</ComponentPreview>
+
+### Ellipsis
+
+Collapse the middle of a long path with `BreadcrumbEllipsis`.
+
+<ComponentPreview name="breadcrumb-ellipsis" src="examples/breadcrumb-ellipsis.tsx" title="breadcrumb-ellipsis.tsx">
+  <BreadcrumbEllipsisDemo />
+</ComponentPreview>
+
+### With dropdown
+
+Open a `DropdownMenu` from an intermediate level to show siblings.
+
+<ComponentPreview name="breadcrumb-dropdown" src="examples/breadcrumb-dropdown.tsx" title="breadcrumb-dropdown.tsx">
+  <BreadcrumbDropdown />
+</ComponentPreview>
+
+## In Context
+
+### Docs path
+
+<ComponentPreview name="breadcrumb-docs-path" src="examples/breadcrumb-docs-path.tsx" title="breadcrumb-docs-path.tsx">
+  <BreadcrumbDocsPath />
+</ComponentPreview>
+
+### In a page header
+
+<ComponentPreview name="breadcrumb-page-header" src="examples/breadcrumb-page-header.tsx" title="breadcrumb-page-header.tsx">
+  <BreadcrumbPageHeader />
+</ComponentPreview>
+
+## API Reference
+
+### BreadcrumbLink
+
+<PropsTable
+  rows={[
+    { name: "href", type: "string", description: "Destination URL." },
+    { name: "as", type: "React.ElementType", description: "Renders a different root element or component. Defaults to a." },
+  ]}
+/>
+
+### BreadcrumbPage
+
+<PropsTable
+  rows={[
+    { name: "aria-current", type: "string", default: "page", description: "Marks the active page." },
+  ]}
+/>
+
+## Accessibility
+
+- Wrapper is `<nav aria-label="breadcrumb">`, giving a named landmark.
+- Current page uses `aria-current="page"` and is not focusable.
+- Separators are `role="presentation"` so they are skipped by screen readers.
+
+## Best Practices
+
+- **Last item is a page, not a link.** Use `BreadcrumbPage`, not `BreadcrumbLink`.
+- **Skip the root if obvious.** If the logo links to home, do not repeat "Home".
+- **Keep segments short.** "Docs / Button", not "Documentation / Button component".
+- **Do not use breadcrumbs for wizard steps.** Use a Stepper instead.

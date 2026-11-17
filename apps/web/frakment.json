@@ -1,0 +1,529 @@
+{
+  "$schema": "https://www.arrafi.dev/frakment/schema/frakment.json",
+  "name": "frakment",
+  "homepage": "https://github.com/arrafipd/frakment",
+  "components": [
+    {
+      "name": "badge",
+      "title": "Badge",
+      "description": "A small label for statuses, categories, or counts.",
+      "source": "registry/badge.tsx",
+      "target": "components/ui/badge.tsx",
+      "dependencies": ["class-variance-authority@^0.7.1"],
+      "registryDependencies": ["slot"],
+      "type": "registry:ui"
+    },
+    {
+      "name": "button",
+      "title": "Button",
+      "description": "A monochrome button with six variants and six sizes.",
+      "source": "registry/button.tsx",
+      "target": "components/ui/button.tsx",
+      "dependencies": ["class-variance-authority@^0.7.1"],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "popover",
+      "title": "Popover",
+      "description": "A popup that displays content anchored to a trigger.",
+      "source": "registry/popover.tsx",
+      "target": "components/ui/popover.tsx",
+      "dependencies": ["@floating-ui/react-dom@^2.1.9"],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "hover-card",
+      "title": "Hover Card",
+      "description": "Displays rich content in a portal when hovering over a trigger.",
+      "source": "registry/hover-card.tsx",
+      "target": "components/ui/hover-card.tsx",
+      "dependencies": [],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "progress",
+      "title": "Progress",
+      "description": "Displays an indicator showing the completion progress of a task.",
+      "source": "registry/progress.tsx",
+      "target": "components/ui/progress.tsx",
+      "dependencies": [],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "pulse",
+      "title": "Pulse",
+      "description": "A daily status timeline for service uptime, with inline incident logs.",
+      "source": "registry/pulse.tsx",
+      "target": "components/ui/pulse.tsx",
+      "dependencies": ["lucide-react@^1.69.0"],
+      "registryDependencies": ["badge", "card", "trace"],
+      "type": "registry:ui"
+    },
+    {
+      "name": "questionnaire",
+      "title": "Questionnaire",
+      "description": "Multi-step form component. Bundles the headless engine and composes checkbox, radio-group, button, and card.",
+      "type": "registry:component",
+      "source": "registry/questionnaire.tsx",
+      "target": "components/ui/questionnaire.tsx",
+      "additionalFiles": [
+        {
+          "source": "lib/questionnaire.ts",
+          "target": "lib/questionnaire.ts"
+        }
+      ],
+      "dependencies": ["lucide-react@^1.69.0"],
+      "registryDependencies": ["checkbox", "radio-group", "button", "card"]
+    },
+    {
+      "name": "slider",
+      "title": "Slider",
+      "description": "An input where the user selects a value from within a given range.",
+      "source": "registry/slider.tsx",
+      "target": "components/ui/slider.tsx",
+      "dependencies": [],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "trace",
+      "title": "Trace",
+      "description": "A list of lines for the steps an agent takes.",
+      "source": "registry/trace.tsx",
+      "target": "components/ui/trace.tsx",
+      "dependencies": ["lucide-react@^1.69.0"],
+      "registryDependencies": ["shimmer"],
+      "type": "registry:ui"
+    },
+    {
+      "name": "input",
+      "title": "Input",
+      "description": "A single-line text input.",
+      "source": "registry/input.tsx",
+      "target": "components/ui/input.tsx",
+      "dependencies": [],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "textarea",
+      "title": "Textarea",
+      "description": "A multi-line text input.",
+      "source": "registry/textarea.tsx",
+      "target": "components/ui/textarea.tsx",
+      "dependencies": [],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "empty",
+      "title": "Empty",
+      "description": "A centered placeholder for empty states.",
+      "source": "registry/empty.tsx",
+      "target": "components/ui/empty.tsx",
+      "dependencies": ["class-variance-authority@^0.7.1"],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "input-group",
+      "title": "Input Group",
+      "description": "A composable input wrapper with inline addons, buttons, and text groups.",
+      "source": "registry/input-group.tsx",
+      "target": "components/ui/input-group.tsx",
+      "dependencies": ["class-variance-authority@^0.7.1"],
+      "registryDependencies": ["button", "input", "textarea"],
+      "type": "registry:ui"
+    },
+    {
+      "name": "label",
+      "title": "Label",
+      "description": "A text label for form controls.",
+      "source": "registry/label.tsx",
+      "target": "components/ui/label.tsx",
+      "dependencies": [],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "switch",
+      "title": "Switch",
+      "description": "A toggle control for boolean settings.",
+      "source": "registry/switch.tsx",
+      "target": "components/ui/switch.tsx",
+      "dependencies": [],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "checkbox",
+      "title": "Checkbox",
+      "description": "A control that lets the user toggle between checked and not checked.",
+      "source": "registry/checkbox.tsx",
+      "target": "components/ui/checkbox.tsx",
+      "dependencies": ["lucide-react@^1.69.0"],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "select",
+      "title": "Select",
+      "description": "A dropdown for selecting a single value from a list.",
+      "source": "registry/select.tsx",
+      "target": "components/ui/select.tsx",
+      "dependencies": ["@floating-ui/react-dom@^2.1.9", "lucide-react@^1.69.0"],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "field",
+      "title": "Field",
+      "description": "A layout primitive for form fields — label, description, and inputs.",
+      "source": "registry/field.tsx",
+      "target": "components/ui/field.tsx",
+      "dependencies": ["class-variance-authority@^0.7.1"],
+      "registryDependencies": ["label", "separator"],
+      "type": "registry:ui"
+    },
+    {
+      "name": "code-block",
+      "title": "Code Block",
+      "description": "A scrollable code container with header, copy button, line numbers, and diff highlighting.",
+      "source": "registry/code-block.tsx",
+      "target": "components/ui/code-block.tsx",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "lucide-react@^1.69.0"
+      ],
+      "registryDependencies": ["button"],
+      "type": "registry:ui"
+    },
+    {
+      "name": "message",
+      "title": "Message",
+      "description": "A chat message layout with alignment, avatar, header, and footer.",
+      "source": "registry/message.tsx",
+      "target": "components/ui/message.tsx",
+      "type": "registry:ui",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "lucide-react@^1.69.0"
+      ],
+      "registryDependencies": ["button"]
+    },
+    {
+      "name": "avatar",
+      "title": "Avatar",
+      "description": "A circular user image with fallback, badge, and stacking group.",
+      "source": "registry/avatar.tsx",
+      "target": "components/ui/avatar.tsx",
+      "assets": [
+        {
+          "path": "public/avatars/male-l.avif",
+          "type": "registry:file",
+          "target": "public/avatars/male-l.avif"
+        },
+        {
+          "path": "public/avatars/male-r.avif",
+          "type": "registry:file",
+          "target": "public/avatars/male-r.avif"
+        },
+        {
+          "path": "public/avatars/female-l-1.avif",
+          "type": "registry:file",
+          "target": "public/avatars/female-l-1.avif"
+        },
+        {
+          "path": "public/avatars/female-l-2.avif",
+          "type": "registry:file",
+          "target": "public/avatars/female-l-2.avif"
+        },
+        {
+          "path": "public/avatars/female-l-3.avif",
+          "type": "registry:file",
+          "target": "public/avatars/female-l-3.avif"
+        }
+      ],
+      "dependencies": [],
+      "type": "registry:ui",
+      "registryDependencies": []
+    },
+    {
+      "name": "marker",
+      "title": "Marker",
+      "description": "A small inline status row with icon, content, and separator variants.",
+      "source": "registry/marker.tsx",
+      "target": "components/ui/marker.tsx",
+      "dependencies": ["class-variance-authority@^0.7.1"],
+      "type": "registry:ui"
+    },
+    {
+      "name": "spinner",
+      "title": "Spinner",
+      "description": "A small animated loading indicator.",
+      "source": "registry/spinner.tsx",
+      "target": "components/ui/spinner.tsx",
+      "dependencies": ["lucide-react@^1.69.0"],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "separator",
+      "title": "Separator",
+      "description": "A visual divider between content sections.",
+      "source": "registry/separator.tsx",
+      "target": "components/ui/separator.tsx",
+      "dependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "item",
+      "title": "Item",
+      "description": "A flexible row for grouping media, content, and actions.",
+      "source": "registry/item.tsx",
+      "target": "components/ui/item.tsx",
+      "dependencies": ["class-variance-authority@^0.7.1"],
+      "type": "registry:ui"
+    },
+    {
+      "name": "toggle",
+      "title": "Toggle",
+      "description": "A two-state button that can be toggled on or off.",
+      "source": "registry/toggle.tsx",
+      "target": "components/ui/toggle.tsx",
+      "dependencies": ["class-variance-authority@^0.7.1"],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "toggle-group",
+      "title": "Toggle Group",
+      "description": "A set of grouped toggle buttons.",
+      "source": "registry/toggle-group.tsx",
+      "target": "components/ui/toggle-group.tsx",
+      "dependencies": ["class-variance-authority@^0.7.1"],
+      "registryDependencies": ["toggle"],
+      "type": "registry:ui"
+    },
+    {
+      "name": "card",
+      "title": "Card",
+      "description": "A container for grouping related content and actions.",
+      "source": "registry/card.tsx",
+      "target": "components/ui/card.tsx",
+      "dependencies": [],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "accordion",
+      "title": "Accordion",
+      "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
+      "source": "registry/accordion.tsx",
+      "target": "components/ui/accordion.tsx",
+      "dependencies": ["lucide-react@^1.69.0"],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "dropdown-menu",
+      "title": "Dropdown Menu",
+      "description": "A menu triggered by a button, with items, checkboxes, and submenus.",
+      "source": "registry/dropdown-menu.tsx",
+      "target": "components/ui/dropdown-menu.tsx",
+      "dependencies": ["@floating-ui/react-dom@^2.1.9"],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "tooltip",
+      "title": "Tooltip",
+      "description": "A popup that displays information related to an element on hover or focus.",
+      "source": "registry/tooltip.tsx",
+      "target": "components/ui/tooltip.tsx",
+      "dependencies": [],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "tabs",
+      "title": "Tabs",
+      "description": "A set of layered sections of content, known as tab panels, displayed one at a time.",
+      "source": "registry/tabs.tsx",
+      "target": "components/ui/tabs.tsx",
+      "dependencies": [],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "number-flow",
+      "title": "Number Flow",
+      "description": "A numeric slot machine built on Intl.NumberFormat, with custom motion support.",
+      "source": "registry/number-flow.tsx",
+      "target": "components/ui/number-flow.tsx",
+      "dependencies": [],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "collapsible",
+      "title": "Collapsible",
+      "description": "An interactive component which expands and collapses a panel.",
+      "source": "registry/collapsible.tsx",
+      "target": "components/ui/collapsible.tsx",
+      "dependencies": [],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "breadcrumb",
+      "title": "Breadcrumb",
+      "description": "Displays the path to the current resource using a hierarchy of links.",
+      "source": "registry/breadcrumb.tsx",
+      "target": "components/ui/breadcrumb.tsx",
+      "dependencies": ["lucide-react@^1.69.0"],
+      "registryDependencies": ["slot"],
+      "type": "registry:ui"
+    },
+    {
+      "name": "button-group",
+      "title": "Button Group",
+      "description": "Groups related buttons into a single visual unit.",
+      "source": "registry/button-group.tsx",
+      "target": "components/ui/button-group.tsx",
+      "dependencies": ["class-variance-authority@^0.7.1"],
+      "registryDependencies": ["slot", "separator"],
+      "type": "registry:ui"
+    },
+    {
+      "name": "input-otp",
+      "title": "Input OTP",
+      "description": "Accessible one-time password input with configurable length and pattern.",
+      "source": "registry/input-otp.tsx",
+      "target": "components/ui/input-otp.tsx",
+      "dependencies": ["lucide-react@^1.69.0"],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "pagination",
+      "title": "Pagination",
+      "description": "Navigation for splitting content across multiple pages.",
+      "source": "registry/pagination.tsx",
+      "target": "components/ui/pagination.tsx",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "lucide-react@^1.69.0"
+      ],
+      "registryDependencies": ["button"],
+      "type": "registry:ui"
+    },
+    {
+      "name": "radio-group",
+      "title": "Radio Group",
+      "description": "A set of checkable buttons where only one can be selected at a time.",
+      "source": "registry/radio-group.tsx",
+      "target": "components/ui/radio-group.tsx",
+      "dependencies": [],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "sonner",
+      "title": "Sonner",
+      "description": "A native toast engine with themes, types, promises, and responsive positioning.",
+      "source": "registry/sonner.tsx",
+      "target": "components/ui/sonner.tsx",
+      "dependencies": ["lucide-react@^1.69.0", "next-themes@^0.4.6"],
+      "registryDependencies": ["spinner"],
+      "type": "registry:ui"
+    },
+    {
+      "name": "shimmer",
+      "title": "Shimmer",
+      "description": "CSS-animated text shimmer for streaming states.",
+      "source": "registry/shimmer.tsx",
+      "target": "components/ui/shimmer.tsx",
+      "dependencies": [],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "attachment",
+      "title": "Attachment",
+      "description": "Displays file attachments with state indicators and shimmer for upload/processing.",
+      "source": "registry/attachment.tsx",
+      "target": "components/ui/attachment.tsx",
+      "dependencies": ["class-variance-authority@^0.7.1"],
+      "registryDependencies": ["button", "shimmer"],
+      "type": "registry:ui"
+    },
+    {
+      "name": "dialog",
+      "title": "Dialog",
+      "description": "A modal dialog built on Radix.",
+      "source": "registry/dialog.tsx",
+      "target": "components/ui/dialog.tsx",
+      "dependencies": ["lucide-react@^1.69.0"],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "sheet",
+      "title": "Sheet",
+      "description": "A modal sheet that slides in from a side.",
+      "source": "registry/sheet.tsx",
+      "target": "components/ui/sheet.tsx",
+      "dependencies": ["lucide-react@^1.69.0"],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "credit-card",
+      "title": "Credit Card",
+      "description": "A monochrome credit card display with three variants.",
+      "source": "registry/credit-card.tsx",
+      "target": "components/ui/credit-card.tsx",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "@icons-pack/react-simple-icons@^13.15.1",
+        "motion@^14.9.0"
+      ],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "holo-card",
+      "title": "Holo Card",
+      "description": "A card with a procedural foil that reacts to pointer tilt and device motion. Card and image variants.",
+      "source": "registry/holo-card.tsx",
+      "target": "components/ui/holo-card.tsx",
+      "dependencies": [],
+      "registryDependencies": [],
+      "type": "registry:ui"
+    },
+    {
+      "name": "slot",
+      "title": "Slot",
+      "description": "Merges its props onto its single child element.",
+      "source": "registry/slot.tsx",
+      "target": "components/ui/slot.tsx",
+      "dependencies": [],
+      "type": "registry:ui"
+    }
+  ],
+  "skills": [
+    {
+      "name": "frakment-usage",
+      "title": "Frakment Usage",
+      "description": "Instructions for AI agents to discover, browse, and install Frakment components.",
+      "source": "skills/frakment-usage/SKILL.md",
+      "version": "0.1.0",
+      "allowedTools": ["fetch", "bash"]
+    }
+  ]
+}

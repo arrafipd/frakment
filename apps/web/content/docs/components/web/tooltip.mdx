@@ -1,0 +1,204 @@
+---
+title: Tooltip
+description: A popup that displays information related to an element on hover or focus.
+---
+
+import { TooltipDemo } from "@/examples/tooltip-demo";
+import { TooltipSides } from "@/examples/tooltip-sides";
+import { TooltipDisabled } from "@/examples/tooltip-disabled";
+import { TooltipIconHint } from "@/examples/tooltip-icon-hint";
+import { TooltipAnatomy } from "@/examples/tooltip-anatomy";
+
+<DocsBaseSwitcher base="web" component="tooltip" className="mb-6" />
+
+<ComponentPreview name="tooltip" title="tooltip.tsx">
+  <TooltipDemo />
+</ComponentPreview>
+
+Tooltip shows a small label on hover or focus. It supports `side` / `align` / `sideOffset` via floating-ui, and requires wrapping the app in `TooltipProvider` only if you want a shared delay.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add tooltip
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Install the following dependency:</Step>
+
+      ```bash
+      npm install @floating-ui/react-dom
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="tooltip" title="components/ui/tooltip.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="tooltip.tsx"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+```
+
+```tsx
+<Tooltip>
+  <TooltipTrigger as={Button} variant="outline">Hover</TooltipTrigger>
+  <TooltipContent>Add to library</TooltipContent>
+</Tooltip>
+```
+
+## Composition
+
+```text
+TooltipProvider (optional)
+└── Tooltip
+    ├── TooltipTrigger
+    └── TooltipContent
+```
+
+## Examples
+
+### Sides
+
+<ComponentPreview name="tooltip-sides" title="tooltip-sides.tsx" src="examples/tooltip-sides.tsx" previewClassName="h-auto py-8">
+  <TooltipSides />
+</ComponentPreview>
+
+### Disabled trigger
+
+Wrap a disabled button in a `<span>` — the trigger needs a hoverable host to receive pointer events.
+
+<ComponentPreview name="tooltip-disabled" title="tooltip-disabled.tsx" src="examples/tooltip-disabled.tsx">
+  <TooltipDisabled />
+</ComponentPreview>
+
+## In Context
+
+### Icon button hint
+
+<ComponentPreview name="tooltip-icon-hint" title="tooltip-icon-hint.tsx" src="examples/tooltip-icon-hint.tsx">
+  <TooltipIconHint />
+</ComponentPreview>
+
+## Anatomy
+
+<ComponentPreview name="tooltip-anatomy" title="tooltip-anatomy.tsx" src="examples/tooltip-anatomy.tsx">
+  <TooltipAnatomy />
+</ComponentPreview>
+
+- **Tooltip** — state container for open/closed
+- **TooltipTrigger** — hover/focus target
+- **TooltipContent** — floating panel rendered in a portal
+
+## API Reference
+
+### TooltipProvider
+
+<PropsTable
+  rows={[
+    { name: "delayDuration", type: "number", defaultValue: "0", description: "Delay before the tooltip appears (ms). Shared across all tooltips under the provider." },
+  ]}
+/>
+
+### Tooltip
+
+<PropsTable
+  rows={[
+    { name: "open", type: "boolean", description: "Controlled open state." },
+    { name: "defaultOpen", type: "boolean", defaultValue: "false", description: "Uncontrolled initial state." },
+    { name: "onOpenChange", type: "(open: boolean) => void", description: "Fires when the tooltip opens or closes." },
+  ]}
+/>
+
+### TooltipTrigger
+
+<PropsTable
+  rows={[
+    { name: "as", type: "React.ElementType", description: "Render as a different element or component. Accepts tag names or React components. Defaults to button." },
+  ]}
+/>
+
+### TooltipContent
+
+<PropsTable
+  rows={[
+    { name: "side", type: "top | right | bottom | left", defaultValue: "bottom", description: "Preferred side relative to the trigger." },
+    { name: "align", type: "start | center | end", defaultValue: "center", description: "Alignment along the side axis." },
+    { name: "sideOffset", type: "number", defaultValue: "4", description: "Distance from the trigger in pixels." },
+    { name: "avoidCollisions", type: "boolean", defaultValue: "true", description: "Flip and shift to stay inside the viewport." },
+    { name: "motion", type: "string", description: "CSS transition override for entrance; e.g. 150 ease-out or 200 cubic-bezier(...). Respects prefers-reduced-motion." },
+  ]}
+/>
+
+## Motion
+
+The tooltip fades in with a default `150ms cubic-bezier(0.16, 1, 0.3, 1)` transition. Override with `motion`:
+
+```tsx
+<TooltipContent motion="200 ease-out">Read more</TooltipContent>
+```
+
+| Value | Result |
+| :-- | :-- |
+| omitted | 150ms cubic-bezier default |
+| `"200"` | 200ms ease-in-out |
+| `"300 cubic-bezier(...)"` | 300ms custom easing |
+| `"off"` | instant (no transition) |
+
+When `prefers-reduced-motion` is set, the transition is disabled. Third-party animation libraries that write inline styles to the tooltip automatically suppress the internal CSS transition.
+
+## Keyboard
+
+| Key | Action |
+| :-- | :-- |
+| `Tab` | Focus the trigger, opens the tooltip |
+| `Esc` | Close the tooltip |
+
+## Data Attributes
+
+| Attribute | Values |
+| :-- | :-- |
+| `data-slot` | `tooltip-trigger`, `tooltip-content` |
+| `data-state` | `open` \| `closed` |
+| `data-side` | `top` \| `right` \| `bottom` \| `left` |
+| `data-align` | `start` \| `center` \| `end` |
+
+## Accessibility
+
+- The trigger receives `aria-describedby` pointing to the tooltip content id when open.
+- Tooltip content renders `role="tooltip"`.
+- Icon-only triggers need `aria-label`; the tooltip is supplementary text.
+- Keyboard: `Tab` opens on focus, `Esc` closes.
+
+## Best Practices
+
+- **Never put essential text in a tooltip.** Use a visible label.
+- **Keep it short.** A phrase, not a sentence.
+- **Do not stack tooltips.** One open at a time.
+- **Wrap around a real element.** Use `as={Button}` or `as={Link}` so the trigger is focusable.
+
+## Related Components
+
+- [Popover](/docs/components/web/popover) — click-triggered panel
+- [Hover Card](/docs/components/web/hover-card) — rich content on hover

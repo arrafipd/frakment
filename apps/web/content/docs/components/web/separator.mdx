@@ -1,0 +1,112 @@
+---
+title: Separator
+description: A visual divider between content sections.
+---
+
+import { SeparatorDemo } from "@/examples/separator-demo";
+import { SeparatorVertical } from "@/examples/separator-vertical";
+import { SeparatorDecorative } from "@/examples/separator-decorative";
+
+<DocsBaseSwitcher base="web" component="separator" className="mb-6" />
+
+<ComponentPreview name="separator" title="separator.tsx">
+  <SeparatorDemo />
+</ComponentPreview>
+
+A div-based divider. Horizontal by default, vertical with `orientation="vertical"`. When `decorative` is true (the default) it renders with `role="none"`. Set `decorative={false}` when the divider carries structural meaning and should be announced to assistive tech.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add separator
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="separator" title="components/ui/separator.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="separator.tsx"
+import { Separator } from "@/components/ui/separator";
+```
+
+```tsx title="separator.tsx"
+<Separator />;
+```
+
+## Vertical
+
+<ComponentPreview name="separator-vertical" title="separator-vertical.tsx" src="examples/separator-vertical.tsx">
+  <SeparatorVertical />
+</ComponentPreview>
+
+Pass `orientation="vertical"`. The divider fills its parent height and sets width to 1px. Use it inside a `flex` container with a fixed height.
+
+```tsx
+<div className="flex h-5 items-center gap-4 text-sm">
+  <span>Docs</span>
+  <Separator orientation="vertical" />
+  <span>Source</span>
+</div>
+```
+
+## Semantic
+
+<ComponentPreview name="separator-decorative" title="separator-decorative.tsx" src="examples/separator-decorative.tsx">
+  <SeparatorDecorative />
+</ComponentPreview>
+
+`decorative={false}` renders `role="separator"` with `aria-orientation`. Use it when the divider communicates structure that a screen reader should announce. Default `true` hides the divider from the accessibility tree.
+
+```tsx
+<Separator decorative={false} />;
+```
+
+## API Reference
+
+### Separator
+
+<PropsTable
+  rows={[
+    { name: "orientation", type: "horizontal | vertical", default: "horizontal", description: "Divider direction." },
+    { name: "decorative", type: "boolean", default: "true", description: "When true, renders role=none and hides from assistive tech. When false, role=separator with aria-orientation." },
+    { name: "className", type: "string", description: "Additional CSS classes merged with cn()." },
+  ]}
+/>
+
+## Accessibility
+
+- Default `decorative={true}` renders `role="none"`, so screen readers skip the divider.
+- `decorative={false}` renders `role="separator"` and `aria-orientation` so the divider becomes part of the document structure.
+- Do not attach `aria-label` to a decorative separator. It is invisible to assistive tech by design.
+
+## Best Practices
+
+- **Use decorative by default.** Only opt into `decorative={false}` when the divider encodes structural meaning.
+- **Prefer spacing over separators.** Gap or padding on the parent often reads better than a hard line.
+- **Keep vertical separators short.** They work best inside inline rows (navigation, breadcrumbs, meta info).
+
+## Related Components
+
+- [Button Group](/docs/components/button-group): uses Separator between buttons
+- [Item](/docs/components/item): list item layout with optional separator
+- [Theming](/docs/guides/theming): customize the border token
