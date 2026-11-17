@@ -208,7 +208,7 @@ function SourcesRow({
 }
 
 export function TraceDemo() {
-  const { messages, sendMessage, setMessages, status } = useChat({
+  const { messages, sendMessage, setMessages, status } = useChat<ChatMessage>({
     messages: transcript,
     transport,
   });

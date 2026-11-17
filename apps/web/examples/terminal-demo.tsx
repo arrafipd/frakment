@@ -162,7 +162,7 @@ function CommandRow({
 }
 
 export function TerminalDemo() {
-  const { messages, sendMessage, setMessages, status } = useChat({
+  const { messages, sendMessage, setMessages, status } = useChat<ChatMessage>({
     messages: transcript,
     transport,
   });

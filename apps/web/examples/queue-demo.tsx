@@ -173,7 +173,7 @@ function TodoQueue({
 }
 
 export function QueueDemo() {
-  const { messages, sendMessage, setMessages, status } = useChat({
+  const { messages, sendMessage, setMessages, status } = useChat<ChatMessage>({
     messages: transcript,
     transport,
   });

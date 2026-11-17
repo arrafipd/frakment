@@ -47,7 +47,7 @@ const transcript = chat.get();
 const transport = chat.transport({ delayMs: 20 });
 
 export function CheckpointDemo() {
-  const { messages, sendMessage, setMessages, status } = useChat({
+  const { messages, sendMessage, setMessages, status } = useChat<ChatMessage>({
     messages: transcript,
     transport,
   });

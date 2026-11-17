@@ -78,7 +78,7 @@ export function ToolApproval() {
     setMessages,
     status,
     addToolApprovalResponse,
-  } = useChat({
+  } = useChat<ChatMessage>({
     messages: initialMessages,
     sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithApprovalResponses,
     transport,
