@@ -1,86 +1,196 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
-import { Collapsible as CollapsiblePrimitive } from "radix-ui";
 import * as React from "react";
-import { durationSlow, easeSmoothOut, parseAnimation } from "@/lib/animation";
+
+import { getTransition, parseMotion, useReducedMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
-const CollapsibleAnimationContext = React.createContext<
-  false | string | undefined
->(undefined);
+const defaultCollapsibleMotion = "450 cubic-bezier(0.32, 0.72, 0, 1)";
+
+interface CollapsibleContextValue {
+  contentId: string;
+  disabled: boolean;
+  motion: string | undefined;
+  onOpenChange: (open: boolean) => void;
+  open: boolean;
+  triggerId: string;
+}
+
+const CollapsibleContext = React.createContext<CollapsibleContextValue | null>(
+  null
+);
+
+function useCollapsibleContext(component: string): CollapsibleContextValue {
+  const ctx = React.useContext(CollapsibleContext);
+  if (!ctx) {
+    throw new Error(`${component} must be used within Collapsible`);
+  }
+  return ctx;
+}
+
+interface CollapsibleProps
+  extends Omit<React.ComponentProps<"div">, "onChange"> {
+  defaultOpen?: boolean;
+  disabled?: boolean;
+  motion?: string;
+  onOpenChange?: (open: boolean) => void;
+  open?: boolean;
+}
 
 function Collapsible({
-  animation,
+  children,
+  className,
+  defaultOpen,
+  disabled = false,
+  motion,
+  onOpenChange,
+  open: openProp,
   ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.Root> & {
-  animation?: false | string;
-}) {
+}: CollapsibleProps) {
+  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(
+    defaultOpen ?? false
+  );
+  const isControlled = openProp !== undefined;
+  const open = isControlled ? openProp : uncontrolledOpen;
+  const triggerId = React.useId();
+  const contentId = React.useId();
+
+  const setOpen = React.useCallback(
+    (next: boolean) => {
+      if (!isControlled) {
+        setUncontrolledOpen(next);
+      }
+      onOpenChange?.(next);
+    },
+    [isControlled, onOpenChange]
+  );
+
+  const context = React.useMemo<CollapsibleContextValue>(
+    () => ({
+      contentId,
+      disabled,
+      motion,
+      onOpenChange: setOpen,
+      open,
+      triggerId,
+    }),
+    [contentId, disabled, motion, setOpen, open, triggerId]
+  );
+
   return (
-    <CollapsibleAnimationContext.Provider value={animation}>
-      <CollapsiblePrimitive.Root data-slot="collapsible" {...props} />
-    </CollapsibleAnimationContext.Provider>
+    <CollapsibleContext.Provider value={context}>
+      <div
+        className={className}
+        data-disabled={disabled ? "" : undefined}
+        data-slot="collapsible"
+        data-state={open ? "open" : "closed"}
+        {...props}
+      >
+        {children}
+      </div>
+    </CollapsibleContext.Provider>
   );
 }
 
+type CollapsibleTriggerProps = Omit<React.ComponentProps<"button">, "ref"> & {
+  as?: React.ElementType;
+  ref?: React.Ref<HTMLButtonElement>;
+} & Record<string, unknown>;
+
 function CollapsibleTrigger({
+  as,
+  children,
+  className,
+  onClick,
+  ref,
   ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleTrigger>) {
-  return (
-    <CollapsiblePrimitive.CollapsibleTrigger
-      data-slot="collapsible-trigger"
-      {...props}
-    />
-  );
+}: CollapsibleTriggerProps) {
+  const { contentId, disabled, onOpenChange, open, triggerId } =
+    useCollapsibleContext("CollapsibleTrigger");
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    onClick?.(event);
+    if (event.defaultPrevented || disabled) {
+      return;
+    }
+    onOpenChange(!open);
+  };
+
+  const finalProps: Record<string, unknown> = {
+    ...props,
+    "aria-controls": contentId,
+    "aria-expanded": open,
+    className: cn(className),
+    "data-disabled": disabled ? "" : undefined,
+    "data-slot": "collapsible-trigger",
+    "data-state": open ? "open" : "closed",
+    id: triggerId,
+    onClick: handleClick,
+    ref,
+  };
+  if (!(as || "type" in props)) {
+    finalProps.type = "button";
+    finalProps.disabled = disabled;
+  }
+  const Comp = as ?? "button";
+  return <Comp {...finalProps}>{children}</Comp>;
+}
+
+interface CollapsibleContentProps extends React.ComponentProps<"div"> {
+  motion?: string | false;
 }
 
 function CollapsibleContent({
-  className,
   children,
-  animation: localAnimation,
+  className,
+  motion: localMotion,
+  style,
   ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleContent> & {
-  animation?: false | string;
-}) {
-  const ref = React.useRef<HTMLDivElement>(null);
-  const [open, setOpen] = React.useState(false);
-  const contextAnimation = React.useContext(CollapsibleAnimationContext);
-  const animation = localAnimation ?? contextAnimation;
-  const anim = React.useMemo(() => parseAnimation(animation), [animation]);
-  const prefersReduced = useReducedMotion();
+}: CollapsibleContentProps) {
+  const {
+    contentId,
+    disabled,
+    motion: contextMotion,
+    open,
+    triggerId,
+  } = useCollapsibleContext("CollapsibleContent");
+  const reduce = useReducedMotion();
+  const motionProp =
+    localMotion === false ? "off" : (localMotion ?? contextMotion);
+  const motionValue = motionProp ?? defaultCollapsibleMotion;
 
-  React.useEffect(() => {
-    const el = ref.current;
-    if (!el) {
-      return;
+  const gridStyle: React.CSSProperties = {
+    display: "grid",
+    gridTemplateRows: open ? "1fr" : "0fr",
+    opacity: open ? 1 : 0,
+    ...style,
+  };
+
+  if (reduce) {
+    gridStyle.transition = "none";
+  } else {
+    const transition = getTransition(parseMotion(motionValue));
+    if (transition) {
+      gridStyle.transition = transition;
     }
-    const update = () => setOpen(el.getAttribute("data-state") === "open");
-    update();
-    const observer = new MutationObserver(update);
-    observer.observe(el, { attributeFilter: ["data-state"], attributes: true });
-    return () => observer.disconnect();
-  }, []);
-
-  const defaultTransition = { duration: durationSlow, ease: easeSmoothOut };
-  const transition =
-    animation === false || prefersReduced
-      ? { duration: 0 }
-      : (anim?.transition ?? defaultTransition);
+  }
 
   return (
-    <CollapsiblePrimitive.CollapsibleContent asChild forceMount {...props}>
-      <div className="w-full" ref={ref}>
-        <motion.div
-          animate={{ height: open ? "auto" : 0 }}
-          className="w-full overflow-hidden"
-          data-slot="collapsible-content"
-          initial={false}
-          transition={transition}
-        >
-          <div className={cn("w-full", className)}>{children}</div>
-        </motion.div>
+    <div
+      aria-labelledby={triggerId}
+      data-disabled={disabled ? "" : undefined}
+      data-slot="collapsible-content"
+      data-state={open ? "open" : "closed"}
+      id={contentId}
+      role="region"
+      {...props}
+    >
+      <div inert={!open} style={gridStyle}>
+        <div style={{ minHeight: 0, overflow: "hidden" }}>
+          <div className={cn(className)}>{children}</div>
+        </div>
       </div>
-    </CollapsiblePrimitive.CollapsibleContent>
+    </div>
   );
 }
 

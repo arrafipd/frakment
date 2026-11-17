@@ -9,7 +9,6 @@ import {
 import { CircleCheckIcon, LoaderCircleIcon, TerminalIcon } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import * as React from "react";
-import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import { Button } from "@/components/ui/button";
 import {
   Item,
@@ -19,7 +18,12 @@ import {
   ItemMedia,
   ItemTitle,
 } from "@/components/ui/item";
-import { Message, MessageContent } from "@/components/ui/message";
+import {
+  Bubble,
+  BubbleContent,
+  Message,
+  MessageContent,
+} from "@/components/ui/message";
 import {
   Trace,
   TraceCollapsible,
@@ -76,7 +80,7 @@ export function ConfirmationDemo() {
     setMessages,
     status,
     addToolApprovalResponse,
-  } = useChat({
+  } = useChat<ChatMessage>({
     messages: initialMessages,
     sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithApprovalResponses,
     transport,
@@ -207,7 +211,7 @@ export function ConfirmationDemo() {
                               ? "Denied"
                               : part.state === "output-available"
                                 ? "Ran"
-                                : "Running"}{" "}
+                                : "Running"}
                             {part.input?.command}
                           </TraceTitle>
                         </TraceLine>

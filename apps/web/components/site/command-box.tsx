@@ -1,12 +1,11 @@
 "use client";
 
-import { motion } from "motion/react";
-import { useRef } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
 import { CopyButton } from "@/components/docs/copy-button";
 import { AgentsPopover } from "@/components/site/agents-popover";
 import { getIconForPackageManager } from "@/components/site/icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TextMorph } from "@/components/ui/text-morph";
 import frakment from "@/frakment.json";
 import type { PackageManager } from "@/hooks/use-package-manager";
 import { usePackageManager } from "@/hooks/use-package-manager";
@@ -31,6 +30,18 @@ export const CommandBox = ({ className }: { className?: string }) => {
   const [packageManager, setPackageManager] = usePackageManager();
 
   const currentItemRef = useRef(registryItemNames[0]);
+  const [itemIndex, setItemIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setItemIndex((i) => {
+        const next = (i + 1) % registryItemNames.length;
+        currentItemRef.current = registryItemNames[next];
+        return next;
+      });
+    }, 1500);
+    return () => clearInterval(id);
+  }, []);
 
   return (
     <div
@@ -77,21 +88,18 @@ export const CommandBox = ({ className }: { className?: string }) => {
                 </span>
               </TabsContent>
             ))}
-            <TextMorph
-              as={motion.span}
-              className="text-foreground"
-              interval={1.5}
-              onIndexChange={(index: number) => {
-                currentItemRef.current = registryItemNames[index];
-              }}
-              variants={{
-                animate: { opacity: 1, y: 0 },
-                exit: { opacity: 0, y: 12 },
-                initial: { opacity: 0, y: -12 },
-              }}
-            >
-              {registryItemNames}
-            </TextMorph>
+            <AnimatePresence initial={false} mode="popLayout">
+              <motion.span
+                animate={{ opacity: 1, y: 0 }}
+                className="text-foreground inline-block"
+                exit={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: -12 }}
+                key={itemIndex}
+                transition={{ duration: 0.3 }}
+              >
+                {registryItemNames[itemIndex]}
+              </motion.span>
+            </AnimatePresence>
           </code>
         </pre>
       </Tabs>

@@ -22,19 +22,15 @@ const TRACKED_PKGS = [
   "class-variance-authority",
   "lucide-react",
   "motion",
-  "@number-flow/react",
   "input-otp",
   "sonner",
   "next-themes",
   "ai",
   "@frakment/ai",
-  "@frakment/react",
 ];
 
 const IMPORT_PATTERNS = {
   "@frakment/ai": /from\s+["']@frakment\/ai["']/,
-  "@frakment/react": /from\s+["']@frakment\/react["']/,
-  "@number-flow/react": /from\s+["']@number-flow\/react["']/,
   ai: /from\s+["']ai["']/,
   "class-variance-authority": /from\s+["']class-variance-authority["']/,
   "input-otp": /from\s+["']input-otp["']/,

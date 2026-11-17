@@ -2,7 +2,7 @@ import { Slider } from "@/components/ui/slider";
 
 export function SliderVertical() {
   return (
-    <div className="mx-auto flex w-full max-w-xs items-center justify-center gap-6">
+    <div className="mx-auto flex w-full max-w-xs items-center justify-center gap-4">
       <Slider
         className="h-40"
         defaultValue={[50]}

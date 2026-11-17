@@ -24,7 +24,9 @@ program
     `
 Examples:
   ${chalk.dim("$ frakment init")}
+  ${chalk.dim("$ frakment init --expo")}
   ${chalk.dim("$ frakment add button")}
+  ${chalk.dim("$ frakment add button --expo")}
   ${chalk.dim("$ frakment add button bubble")}
   ${chalk.dim("$ frakment list")}
 `
@@ -33,7 +35,8 @@ Examples:
 program
   .command("init")
   .description("Initialize frakment in your project")
-  .action(init);
+  .option("--expo", "Initialize for an Expo + NativeWind project")
+  .action((...args) => init(args.at(-1).opts()));
 
 program
   .command("add <components...>")
@@ -43,6 +46,7 @@ program
     "Show planned file and dependency changes without writing"
   )
   .option("--registry <url>", "Custom registry URL")
+  .option("--expo", "Use the Expo / React Native registry")
   .option("--skip-dependencies", "Do not install missing npm dependencies")
   .option("--overwrite", "Overwrite existing files", false)
   .action(add);

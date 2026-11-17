@@ -1,7 +1,7 @@
 "use client";
 
-import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
 import {
+  alphanumeric,
   InputOTP,
   InputOTPGroup,
   InputOTPSeparator,
@@ -10,7 +10,7 @@ import {
 
 export function InputOTPAlphanumeric() {
   return (
-    <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS_AND_CHARS}>
+    <InputOTP maxLength={6} pattern={alphanumeric}>
       <InputOTPGroup>
         <InputOTPSlot index={0} />
         <InputOTPSlot index={1} />

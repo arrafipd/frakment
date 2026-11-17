@@ -64,22 +64,21 @@ export const CodeCollapsibleWrapper = ({
       {...props}
     >
       {needsCollapse && (
-        <CollapsibleTrigger asChild>
-          <div
-            className={cn(
-              "absolute top-1.5 right-9 z-10 flex items-center",
-              navTriggerClassName
-            )}
+        <CollapsibleTrigger
+          as="div"
+          className={cn(
+            "absolute top-1.5 right-9 z-10 flex items-center",
+            navTriggerClassName
+          )}
+        >
+          <Button
+            className="text-muted-foreground h-7 rounded-md px-2"
+            size="sm"
+            variant="ghost"
           >
-            <Button
-              className="text-muted-foreground h-7 rounded-md px-2"
-              size="sm"
-              variant="ghost"
-            >
-              {isOpened ? "Collapse" : "Expand"}
-            </Button>
-            <Separator className="mx-1.5 h-4!" orientation="vertical" />
-          </div>
+            {isOpened ? "Collapse" : "Expand"}
+          </Button>
+          <Separator className="mx-1.5 h-4!" orientation="vertical" />
         </CollapsibleTrigger>
       )}
 
@@ -100,10 +99,8 @@ export const CodeCollapsibleWrapper = ({
 
       {needsCollapse && (
         <div className="from-code/70 to-code absolute inset-x-0 -bottom-2 flex h-20 items-center justify-center rounded-b-lg bg-linear-to-b group-data-[state=open]/collapsible:hidden">
-          <CollapsibleTrigger asChild>
-            <Button size="sm" variant="outline">
-              Expand
-            </Button>
+          <CollapsibleTrigger as={Button} size="sm" variant="outline">
+            Expand
           </CollapsibleTrigger>
         </div>
       )}

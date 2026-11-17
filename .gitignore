@@ -88,3 +88,6 @@ _node_modules_old
 # pnpm (contributor-only, npm is canonical)
 pnpm-lock.yaml
 .pnpm-store/
+
+# commit helper
+.commit-msg-temp.txt

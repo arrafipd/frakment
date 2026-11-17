@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { NewDot } from "@/components/docs/new-dot";
 import { isComponentsFolder, normalizeActivePath, pagesNew } from "@/lib/docs";
 import type { PageTreeFolder, PageTreePage } from "@/lib/page-tree";
 import { getAllPagesFromFolder, getPagesFromFolder } from "@/lib/page-tree";
@@ -25,6 +26,7 @@ const ComponentGrid = ({ pages }: { pages: PageTreePage[] }) => (
         transitionTypes={["nav-forward"]}
       >
         {component.name}
+        {pagesNew.has(normalizeActivePath(component.url)) ? <NewDot /> : null}
       </Link>
     ))}
   </div>

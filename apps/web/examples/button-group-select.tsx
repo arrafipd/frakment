@@ -31,7 +31,7 @@ export function ButtonGroupSelect() {
           <SelectContent>
             {CURRENCIES.map((item) => (
               <SelectItem key={item.value} value={item.value}>
-                {item.value}{" "}
+                {item.value}
                 <span className="text-muted-foreground">{item.label}</span>
               </SelectItem>
             ))}

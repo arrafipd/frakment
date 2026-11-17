@@ -1,8 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { toast } from "sonner";
-
 import {
   Questionnaire,
   QuestionnaireActions,
@@ -17,6 +15,7 @@ import {
   QuestionnaireSubmit,
   QuestionnaireTitle,
 } from "@/components/ui/questionnaire";
+import { toast } from "@/components/ui/sonner";
 
 export function QuestionnaireConditional() {
   const [runtime, setRuntime] = React.useState("local");

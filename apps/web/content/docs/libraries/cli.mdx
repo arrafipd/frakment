@@ -9,11 +9,25 @@ Complete reference for the `frakment` CLI. New to Frakment? Start with [Installa
 
 | Command                | Description                                                                                                                                  |
 | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `frakment init`        | Bootstrap the project: write `components.json`, inject the theme block into `globals.css`, create `lib/utils.ts`, install base dependencies. |
-| `frakment add <name…>` | Fetch one or more components (plus `registryDependencies` recursively), write files, install missing npm deps.                               |
+| `frakment init`        | Bootstrap the project: write `components.json`, inject the theme block into `globals.css`, create `lib/utils.ts`, install base dependencies. Pass `--expo` for an Expo + NativeWind project. |
+| `frakment add <name…>` | Fetch one or more components (plus `registryDependencies` recursively), write files, install missing npm deps. Pass `--expo` to fetch from the Expo registry. |
 | `frakment list`        | List all components exposed by the configured registry.                                                                                      |
 
 ## Flags
+
+
+### `frakment init`
+
+<PropsTable
+  rows={[
+    {
+      name: "--expo",
+      type: "boolean",
+      defaultValue: "false",
+      description: "Bootstrap an Expo + NativeWind project. Writes components.json with platform set to expo and registries.expo, copies lib/utils.ts and lib/theme.ts, and installs base dependencies with npx expo install.",
+    },
+  ]}
+/>
 
 ### `frakment add`
 
@@ -30,6 +44,12 @@ Complete reference for the `frakment` CLI. New to Frakment? Start with [Installa
       type: "string",
       defaultValue: "from components.json",
       description: "Override the registry URL for this run.",
+    },
+    {
+      name: "--expo",
+      type: "boolean",
+      defaultValue: "false",
+      description: "Fetch from registries.expo and install dependencies with npx expo install.",
     },
     {
       name: "--skip-dependencies",
@@ -57,7 +77,22 @@ No flags. Reads `registry` from `components.json` and prints every available com
 
 ## Registry resolution
 
-During `init`, the CLI writes a `registry` field to `components.json`. `add` and `list` read from it by default. 
+During `init`, the CLI writes a `registry` field to `components.json`. `add` and `list` read from it by default.
+
+### `registries.expo`
+
+`init --expo` writes a `registries` map that keeps web and Expo URLs side by side:
+
+```json title="components.json"
+{
+  "registries": {
+    "web": "https://www.arrafi.dev/frakment/r",
+    "expo": "https://www.arrafi.dev/frakment/r/expo"
+  }
+}
+```
+
+`add --expo` reads `registries.expo`. `add` without the flag reads `registries.web`, falling back to `registry`. The `--registry <url>` flag overrides both.
 ### Registry entry format
 
 Each component lives at `<registry-url>/r/<name>.json`:

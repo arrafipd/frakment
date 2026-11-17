@@ -131,7 +131,7 @@ A pending tool call renders as an `Item` card. Once approved or denied, it becom
     <TraceLine status={!denied && part.state !== "output-available" ? "running" : undefined}>
       <TraceIcon><TerminalIcon /></TraceIcon>
       <TraceTitle>
-        {denied ? "Denied" : part.state === "output-available" ? "Ran" : "Running"}{" "}
+        {denied ? "Denied" : part.state === "output-available" ? "Ran" : "Running"} 
         {part.input?.command}
       </TraceTitle>
     </TraceLine>

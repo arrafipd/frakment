@@ -314,41 +314,29 @@ export interface Chat<
 // ============================================================
 
 export type MessageMetadata<UI_MESSAGE extends UIMessage> =
-  UI_MESSAGE extends UIMessage<infer METADATA> ? METADATA : unknown;
+  UI_MESSAGE extends UIMessage<infer METADATA, infer _DATA, infer _TOOLS>
+    ? METADATA
+    : unknown;
 
 export type MessageData<UI_MESSAGE extends UIMessage> =
-  UI_MESSAGE extends UIMessage<unknown, infer DATA_PARTS>
+  UI_MESSAGE extends UIMessage<infer _METADATA, infer DATA_PARTS, infer _TOOLS>
     ? DATA_PARTS
     : UIDataTypes;
 
 export type MessageTools<UI_MESSAGE extends UIMessage> =
-  UI_MESSAGE extends UIMessage<unknown, UIDataTypes, infer TOOLS>
+  UI_MESSAGE extends UIMessage<infer _METADATA, infer _DATA, infer TOOLS>
     ? TOOLS
     : UITools;
 
 export type CreateChatOptions<UI_MESSAGE extends UIMessage = UIMessage> =
   ChatOptions & {
-    messages?: UIMessage<
-      MessageMetadata<UI_MESSAGE>,
-      MessageData<UI_MESSAGE>,
-      MessageTools<UI_MESSAGE>
-    >[];
+    messages?: UI_MESSAGE[];
   };
 
 export type AiSdkChat<UI_MESSAGE extends UIMessage = UIMessage> = Chat<
-  UIMessage<
-    MessageMetadata<UI_MESSAGE>,
-    MessageData<UI_MESSAGE>,
-    MessageTools<UI_MESSAGE>
-  >,
-  UIMessagePart<MessageData<UI_MESSAGE>, MessageTools<UI_MESSAGE>>,
-  ChatTransport<
-    UIMessage<
-      MessageMetadata<UI_MESSAGE>,
-      MessageData<UI_MESSAGE>,
-      MessageTools<UI_MESSAGE>
-    >
-  >,
+  UI_MESSAGE,
+  UI_MESSAGE["parts"][number],
+  ChatTransport<UI_MESSAGE>,
   MessageMetadata<UI_MESSAGE>,
   MessageData<UI_MESSAGE>,
   MessageTools<UI_MESSAGE>

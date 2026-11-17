@@ -15,8 +15,8 @@ import {
 export function SheetDemo() {
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="outline">Open</Button>
+      <SheetTrigger as={Button} variant="outline">
+        Open
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
@@ -37,8 +37,8 @@ export function SheetDemo() {
         </div>
         <SheetFooter>
           <Button type="submit">Save changes</Button>
-          <SheetClose asChild>
-            <Button variant="outline">Close</Button>
+          <SheetClose as={Button} variant="outline">
+            Close
           </SheetClose>
         </SheetFooter>
       </SheetContent>

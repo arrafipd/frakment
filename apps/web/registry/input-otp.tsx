@@ -1,30 +1,222 @@
 "use client";
 
-import { OTPInput, OTPInputContext } from "input-otp";
 import { MinusIcon } from "lucide-react";
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-function InputOTP({
-  className,
-  containerClassName,
-  ...props
-}: React.ComponentProps<typeof OTPInput> & {
-  containerClassName?: string;
-}) {
-  return (
-    <OTPInput
-      className={cn("disabled:cursor-not-allowed", className)}
-      containerClassName={cn(
-        "cn-input-otp flex items-center",
-        containerClassName
-      )}
-      data-slot="input-otp"
-      spellCheck={false}
-      {...props}
-    />
-  );
+const digits = "^\\d+$";
+const chars = "^[a-zA-Z]+$";
+const alphanumeric = "^[a-zA-Z0-9]+$";
+
+interface SlotProps {
+  char: string | null;
+  hasFakeCaret: boolean;
+  isActive: boolean;
+  placeholderChar: string | null;
 }
+
+interface RenderProps {
+  isFocused: boolean;
+  isHovering: boolean;
+  slots: SlotProps[];
+}
+
+const OTPInputContext = React.createContext<RenderProps>({
+  isFocused: false,
+  isHovering: false,
+  slots: [],
+});
+
+type OTPInputBaseProps = Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "value" | "onChange" | "maxLength" | "pattern" | "placeholder"
+> & {
+  containerClassName?: string;
+  maxLength: number;
+  onChange?: (value: string) => void;
+  pattern?: string;
+  placeholder?: string;
+  value?: string;
+};
+
+type OTPInputProps = OTPInputBaseProps & {
+  children?: React.ReactNode;
+};
+
+const InputOTP = React.forwardRef<HTMLInputElement, OTPInputProps>(
+  function InputOTP(
+    {
+      children,
+      className,
+      containerClassName,
+      defaultValue,
+      disabled,
+      id,
+      inputMode = "numeric",
+      maxLength,
+      onChange,
+      onFocus,
+      onBlur,
+      pattern,
+      placeholder,
+      value: valueProp,
+      ...props
+    },
+    forwardedRef
+  ) {
+    const isControlled = valueProp !== undefined;
+    const [uncontrolled, setUncontrolled] = React.useState<string>(
+      typeof defaultValue === "string" ? defaultValue : ""
+    );
+    const value = isControlled ? valueProp : uncontrolled;
+    const [isFocused, setIsFocused] = React.useState(false);
+    const [isHovering, setIsHovering] = React.useState(false);
+    const [selectionStart, setSelectionStart] = React.useState(0);
+    const [selectionEnd, setSelectionEnd] = React.useState(0);
+    const inputRef = React.useRef<HTMLInputElement>(null);
+
+    const setRef = React.useCallback(
+      (node: HTMLInputElement | null) => {
+        inputRef.current = node;
+        if (typeof forwardedRef === "function") {
+          forwardedRef(node);
+        } else if (forwardedRef) {
+          (
+            forwardedRef as React.MutableRefObject<HTMLInputElement | null>
+          ).current = node;
+        }
+      },
+      [forwardedRef]
+    );
+
+    const filterValue = React.useCallback(
+      (raw: string): string => {
+        let next = raw.slice(0, maxLength);
+        if (pattern) {
+          const re = new RegExp(pattern);
+          if (!re.test(next)) {
+            next = next
+              .split("")
+              .filter((c) => new RegExp(pattern.replace(/[+*]$/, "")).test(c))
+              .join("");
+          }
+        }
+        return next;
+      },
+      [maxLength, pattern]
+    );
+
+    const commit = React.useCallback(
+      (next: string) => {
+        const filtered = filterValue(next);
+        if (!isControlled) {
+          setUncontrolled(filtered);
+        }
+        onChange?.(filtered);
+      },
+      [filterValue, isControlled, onChange]
+    );
+
+    const updateSelection = React.useCallback(() => {
+      const el = inputRef.current;
+      if (!el) {
+        return;
+      }
+      setSelectionStart(el.selectionStart ?? 0);
+      setSelectionEnd(el.selectionEnd ?? 0);
+    }, []);
+
+    const slots = React.useMemo<SlotProps[]>(
+      () =>
+        Array.from({ length: maxLength }).map((_, i) => {
+          const char = value[i] ?? null;
+          const active =
+            isFocused &&
+            ((selectionStart === selectionEnd && i === selectionStart) ||
+              (i >= selectionStart && i < selectionEnd));
+          return {
+            char,
+            hasFakeCaret: active && char === null,
+            isActive: active,
+            placeholderChar: null,
+          };
+        }),
+      [value, maxLength, isFocused, selectionStart, selectionEnd]
+    );
+
+    const contextValue = React.useMemo<RenderProps>(
+      () => ({ isFocused, isHovering, slots }),
+      [isFocused, isHovering, slots]
+    );
+
+    const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+      commit(event.currentTarget.value);
+      updateSelection();
+    };
+
+    const handleSelect = () => updateSelection();
+
+    const handleClick = () => {
+      inputRef.current?.focus();
+      updateSelection();
+    };
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      props.onKeyDown?.(event);
+      if (event.defaultPrevented) {
+        return;
+      }
+      requestAnimationFrame(updateSelection);
+    };
+
+    return (
+      <OTPInputContext.Provider value={contextValue}>
+        <div
+          className={cn("cn-input-otp flex items-center", containerClassName)}
+          data-slot="input-otp"
+          onClick={handleClick}
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
+        >
+          <input
+            aria-label={props["aria-label"] ?? "One-time password"}
+            autoComplete="one-time-code"
+            className={cn(
+              "pointer-events-none absolute inset-0 -z-10 opacity-0",
+              className
+            )}
+            data-input-otp=""
+            defaultValue={
+              isControlled ? undefined : (defaultValue as string | undefined)
+            }
+            disabled={disabled}
+            id={id}
+            inputMode={inputMode}
+            maxLength={maxLength}
+            onBlur={(e) => {
+              setIsFocused(false);
+              onBlur?.(e);
+            }}
+            onChange={handleInput}
+            onFocus={(e) => {
+              setIsFocused(true);
+              updateSelection();
+              onFocus?.(e);
+            }}
+            onKeyDown={handleKeyDown}
+            onSelect={handleSelect}
+            pattern={pattern}
+            placeholder={placeholder}
+            ref={setRef}
+            value={isControlled ? value : undefined}
+            {...props}
+          />
+          {children}
+        </div>
+      </OTPInputContext.Provider>
+    );
+  }
+);
 
 function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -43,11 +235,9 @@ function InputOTPSlot({
   index,
   className,
   ...props
-}: React.ComponentProps<"div"> & {
-  index: number;
-}) {
+}: React.ComponentProps<"div"> & { index: number }) {
   const inputOTPContext = React.useContext(OTPInputContext);
-  const { char, hasFakeCaret, isActive } = inputOTPContext?.slots[index] ?? {};
+  const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index] ?? {};
 
   return (
     <div
@@ -82,4 +272,12 @@ function InputOTPSeparator({ ...props }: React.ComponentProps<"div">) {
   );
 }
 
-export { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot };
+export {
+  alphanumeric,
+  chars,
+  digits,
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+};

@@ -37,7 +37,7 @@ This keeps every installable file small and single-purpose. The trade-off: compo
 
 ### Engine in packages, styling in registry
 
-State logic (chat engine, message scroller) lives in published npm packages: `@frakment/ai` and `@frakment/react`. Styling lives in registry components. Copy the styling, install the engine.
+Chat engine state lives in the published `@frakment/ai` package. Scroll behavior and styling ship as registry components. Copy the components, install the engine.
 
 ```bash
 npm install @frakment/ai
@@ -93,13 +93,12 @@ Every component ships as TypeScript. For JavaScript projects, strip type annotat
 
 ## Versioning
 
-Frakment follows semantic versioning for its npm packages (`@frakment/ai`, `@frakment/react`, `@frakment/mcp`). Registry components ship with per-component versions tracked in `frakment.json`. Breaking changes are noted in the [Changelog](/docs/changelog).
+Frakment follows semantic versioning for its npm packages (`@frakment/ai`, `@frakment/mcp`). Registry components ship with per-component versions tracked in `frakment.json`. Breaking changes are noted in the [Changelog](/docs/changelog).
 
 | Package | Version | Scope |
 | :-- | :-- | :-- |
 | `frakment` | CLI | `npx frakment add` |
 | `@frakment/ai` | npm | Chat engine, streams |
-| `@frakment/react` | npm | Message scroller, hooks |
 | `@frakment/mcp` | npm | MCP server for agents |
 
 ## Credits

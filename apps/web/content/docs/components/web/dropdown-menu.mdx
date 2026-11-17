@@ -13,11 +13,12 @@ import { DropdownMenuCheckboxes } from "@/examples/dropdown-menu-checkboxes";
 import { DropdownMenuAlignStart } from "@/examples/dropdown-menu-align-start";
 import { DropdownMenuAlignCenter } from "@/examples/dropdown-menu-align-center";
 import { DropdownMenuAlignEnd } from "@/examples/dropdown-menu-align-end";
+import { DropdownMenuRowActions } from "@/examples/dropdown-menu-row-actions";
 import { MoreHorizontalIcon } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 
-<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
+<ComponentPreview name="dropdown-menu-basic" title="dropdown-menu-basic.tsx" src="examples/dropdown-menu-basic.tsx">
   <DropdownMenuBasic />
 </ComponentPreview>
 
@@ -106,7 +107,7 @@ DropdownMenu
 
 Nest a submenu using `DropdownMenuSub` — the trigger opens a side panel with its own items.
 
-<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
+<ComponentPreview name="dropdown-menu-submenu" title="dropdown-menu-submenu.tsx" src="examples/dropdown-menu-submenu.tsx">
   <DropdownMenuSubmenu />
 </ComponentPreview>
 
@@ -114,7 +115,7 @@ Nest a submenu using `DropdownMenuSub` — the trigger opens a side panel with i
 
 Icons render at 16px inside `DropdownMenuItem` — any `lucide-react` export works. Use `variant="destructive"` for irreversible actions.
 
-<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
+<ComponentPreview name="dropdown-menu-icons" title="dropdown-menu-icons.tsx" src="examples/dropdown-menu-icons.tsx">
   <DropdownMenuIcons />
 </ComponentPreview>
 
@@ -122,7 +123,7 @@ Icons render at 16px inside `DropdownMenuItem` — any `lucide-react` export wor
 
 `DropdownMenuCheckboxItem` accepts `checked` / `onCheckedChange` for multi-select toggles.
 
-<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
+<ComponentPreview name="dropdown-menu-checkboxes" title="dropdown-menu-checkboxes.tsx" src="examples/dropdown-menu-checkboxes.tsx">
   <DropdownMenuCheckboxes />
 </ComponentPreview>
 
@@ -130,7 +131,7 @@ Icons render at 16px inside `DropdownMenuItem` — any `lucide-react` export wor
 
 Combine groups, labels, submenus, and shortcuts in a single menu.
 
-<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
+<ComponentPreview name="dropdown-menu-demo" title="dropdown-menu-demo.tsx" src="examples/dropdown-menu-demo.tsx">
   <DropdownMenuDemo />
 </ComponentPreview>
 
@@ -142,7 +143,7 @@ Use `align` on `DropdownMenuContent` to control horizontal placement relative to
 
 Content aligns to the left edge of the trigger.
 
-<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
+<ComponentPreview name="dropdown-menu-align-start" title="dropdown-menu-align-start.tsx" src="examples/dropdown-menu-align-start.tsx">
   <DropdownMenuAlignStart />
 </ComponentPreview>
 
@@ -154,7 +155,7 @@ Content aligns to the left edge of the trigger.
 
 Content centers on the trigger. This is the default.
 
-<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
+<ComponentPreview name="dropdown-menu-align-center" title="dropdown-menu-align-center.tsx" src="examples/dropdown-menu-align-center.tsx">
   <DropdownMenuAlignCenter />
 </ComponentPreview>
 
@@ -166,7 +167,7 @@ Content centers on the trigger. This is the default.
 
 Content aligns to the right edge of the trigger.
 
-<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
+<ComponentPreview name="dropdown-menu-align-end" title="dropdown-menu-align-end.tsx" src="examples/dropdown-menu-align-end.tsx">
   <DropdownMenuAlignEnd />
 </ComponentPreview>
 
@@ -178,18 +179,8 @@ Content aligns to the right edge of the trigger.
 
 ### Row actions
 
-<ComponentPreview name="dropdown-menu" title="dropdown-menu.tsx">
-  <DropdownMenu>
-    <DropdownMenuTrigger as={Button} size="icon" variant="ghost" aria-label="Row actions">
-      <MoreHorizontalIcon />
-    </DropdownMenuTrigger>
-    <DropdownMenuContent align="end">
-      <DropdownMenuItem>Edit</DropdownMenuItem>
-      <DropdownMenuItem>Duplicate</DropdownMenuItem>
-      <DropdownMenuSeparator />
-      <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
-    </DropdownMenuContent>
-  </DropdownMenu>
+<ComponentPreview name="dropdown-menu-row-actions" title="dropdown-menu-row-actions.tsx" src="examples/dropdown-menu-row-actions.tsx">
+  <DropdownMenuRowActions />
 </ComponentPreview>
 
 ## API Reference

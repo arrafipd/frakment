@@ -8,7 +8,7 @@ import { Trace, TraceIcon, TraceLine, TraceTitle } from "@/components/ui/trace";
 
 export function TraceLink() {
   return (
-    <Trace className="max-w-sm">
+    <Trace className="mx-auto w-fit max-w-full">
       <a
         className="decoration-muted-foreground block underline-offset-4 hover:underline"
         href="#link"

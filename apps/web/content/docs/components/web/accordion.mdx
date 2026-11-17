@@ -9,6 +9,7 @@ import { AccordionMultiple } from "@/examples/accordion-multiple";
 import { AccordionDisabled } from "@/examples/accordion-disabled";
 import { AccordionBorders } from "@/examples/accordion-borders";
 import { AccordionCard } from "@/examples/accordion-card";
+import { AccordionFaq } from "@/examples/accordion-faq";
 
 <DocsBaseSwitcher base="web" component="accordion" className="mb-6" />
 
@@ -80,7 +81,7 @@ import {
 
 A minimal accordion with three items.
 
-<ComponentPreview name="accordion" title="accordion.tsx" previewClassName="h-auto py-8">
+<ComponentPreview name="accordion-basic" title="accordion-basic.tsx" src="examples/accordion-basic.tsx" previewClassName="h-auto py-8">
   <AccordionBasic />
 </ComponentPreview>
 
@@ -88,7 +89,7 @@ A minimal accordion with three items.
 
 Use `type="multiple"` to allow several items open at the same time.
 
-<ComponentPreview name="accordion" title="accordion.tsx" previewClassName="h-auto py-8">
+<ComponentPreview name="accordion-multiple" title="accordion-multiple.tsx" src="examples/accordion-multiple.tsx" previewClassName="h-auto py-8">
   <AccordionMultiple />
 </ComponentPreview>
 
@@ -96,7 +97,7 @@ Use `type="multiple"` to allow several items open at the same time.
 
 Set `disabled` on an `AccordionItem` to lock it.
 
-<ComponentPreview name="accordion" title="accordion.tsx" previewClassName="h-auto py-8">
+<ComponentPreview name="accordion-disabled" title="accordion-disabled.tsx" src="examples/accordion-disabled.tsx" previewClassName="h-auto py-8">
   <AccordionDisabled />
 </ComponentPreview>
 
@@ -104,7 +105,7 @@ Set `disabled` on an `AccordionItem` to lock it.
 
 Add borders around the container and between items for a boxed look.
 
-<ComponentPreview name="accordion" title="accordion.tsx" previewClassName="h-auto py-8">
+<ComponentPreview name="accordion-borders" title="accordion-borders.tsx" src="examples/accordion-borders.tsx" previewClassName="h-auto py-8">
   <AccordionBorders />
 </ComponentPreview>
 
@@ -112,7 +113,7 @@ Add borders around the container and between items for a boxed look.
 
 Nest an accordion inside a card for grouped, framed content.
 
-<ComponentPreview name="accordion" title="accordion.tsx" previewClassName="h-auto py-8">
+<ComponentPreview name="accordion-card" title="accordion-card.tsx" src="examples/accordion-card.tsx" previewClassName="h-auto py-8">
   <AccordionCard />
 </ComponentPreview>
 
@@ -120,23 +121,8 @@ Nest an accordion inside a card for grouped, framed content.
 
 ### FAQ section
 
-<ComponentPreview name="accordion" title="accordion.tsx">
-  <Accordion className="w-full max-w-md" collapsible type="single">
-    <AccordionItem value="ship">
-      <AccordionTrigger>How do I ship Frakment in my app?</AccordionTrigger>
-      <AccordionContent>
-        Copy each primitive into your project with the CLI, then import from
-        your local `components/ui` directory.
-      </AccordionContent>
-    </AccordionItem>
-    <AccordionItem value="update">
-      <AccordionTrigger>How do updates work?</AccordionTrigger>
-      <AccordionContent>
-        Because every component is local, run `npx frakment add <name>` again
-        and diff the result.
-      </AccordionContent>
-    </AccordionItem>
-  </Accordion>
+<ComponentPreview name="accordion-faq" title="accordion-faq.tsx" src="examples/accordion-faq.tsx">
+  <AccordionFaq />
 </ComponentPreview>
 
 ## Motion

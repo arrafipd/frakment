@@ -8,9 +8,13 @@ import {
   CircleIcon,
   RouteIcon,
 } from "lucide-react";
-import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import { Button } from "@/components/ui/button";
-import { Message, MessageContent } from "@/components/ui/message";
+import {
+  Bubble,
+  BubbleContent,
+  Message,
+  MessageContent,
+} from "@/components/ui/message";
 import {
   Trace,
   TraceCollapsible,
@@ -124,7 +128,7 @@ function PlanRow({
 }
 
 export function PlanDemo() {
-  const { messages, sendMessage, setMessages, status } = useChat({
+  const { messages, sendMessage, setMessages, status } = useChat<ChatMessage>({
     messages: transcript,
     transport,
   });

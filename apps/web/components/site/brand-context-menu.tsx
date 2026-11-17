@@ -2,8 +2,6 @@
 
 import { useTheme } from "next-themes";
 import { useCallback } from "react";
-import { toast } from "sonner";
-
 import { FrakmentMark } from "@/components/site/brand/frakment-mark";
 import {
   ContextMenu,
@@ -11,6 +9,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/site/context-menu";
+import { toast } from "@/components/ui/sonner";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { DownloadIcon } from "@/lib/icons";
 

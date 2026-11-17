@@ -13,8 +13,8 @@ import {
 export function DialogStickyFooter() {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">Sticky Footer</Button>
+      <DialogTrigger as={Button} variant="outline">
+        Sticky Footer
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -36,8 +36,8 @@ export function DialogStickyFooter() {
           ))}
         </div>
         <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">Close</Button>
+          <DialogClose as={Button} variant="outline">
+            Close
           </DialogClose>
         </DialogFooter>
       </DialogContent>

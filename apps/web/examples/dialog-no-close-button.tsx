@@ -11,8 +11,8 @@ import {
 export function DialogNoCloseButton() {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">No Close Button</Button>
+      <DialogTrigger as={Button} variant="outline">
+        No Close Button
       </DialogTrigger>
       <DialogContent showCloseButton={false}>
         <DialogHeader>

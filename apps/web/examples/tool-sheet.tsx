@@ -3,10 +3,14 @@
 import { useChat } from "@ai-sdk/react";
 import type { UIDataTypes, UIMessage } from "ai";
 import { ChevronRightIcon, FileTextIcon } from "lucide-react";
-import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import { Button } from "@/components/ui/button";
 import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block";
-import { Message, MessageContent } from "@/components/ui/message";
+import {
+  Bubble,
+  BubbleContent,
+  Message,
+  MessageContent,
+} from "@/components/ui/message";
 import {
   Sheet,
   SheetContent,
@@ -53,7 +57,7 @@ const initialMessages = chat.get(0);
 const transport = chat.transport({ delayMs: 20 });
 
 export function ToolSheet() {
-  const { messages, sendMessage, setMessages, status } = useChat({
+  const { messages, sendMessage, setMessages, status } = useChat<ChatMessage>({
     messages: initialMessages,
     transport,
   });
@@ -102,7 +106,7 @@ export function ToolSheet() {
                           <FileTextIcon />
                         </TraceIcon>
                         <TraceTitle>
-                          {running ? "Reading" : "Failed to read"}{" "}
+                          {running ? "Reading" : "Failed to read"}
                           {part.input?.path}
                         </TraceTitle>
                       </TraceLine>

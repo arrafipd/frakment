@@ -6,7 +6,6 @@ import {
   CollapsibleTrigger,
 } from "../collapsible";
 import { CreditCardNumber } from "../credit-card";
-import { TextMorph } from "../text-morph";
 import {
   Trace,
   TraceCollapsible,
@@ -14,7 +13,7 @@ import {
   TraceCollapsibleTrigger,
 } from "../trace";
 
-describe("Collapsible animation prop", () => {
+describe("Collapsible motion prop", () => {
   it("renders default", () => {
     const { container } = render(
       <Collapsible>
@@ -28,7 +27,7 @@ describe("Collapsible animation prop", () => {
   });
   it("accepts spring DSL", () => {
     const { container } = render(
-      <Collapsible animation="spring(300, 25)">
+      <Collapsible motion="spring(300, 25)">
         <CollapsibleTrigger>t</CollapsibleTrigger>
         <CollapsibleContent>c</CollapsibleContent>
       </Collapsible>
@@ -39,7 +38,7 @@ describe("Collapsible animation prop", () => {
   });
   it("accepts false", () => {
     const { container } = render(
-      <Collapsible animation={false}>
+      <Collapsible motion="off">
         <CollapsibleTrigger>t</CollapsibleTrigger>
         <CollapsibleContent>c</CollapsibleContent>
       </Collapsible>
@@ -109,35 +108,5 @@ describe("CreditCardNumber animation prop", () => {
     );
     expect(container.querySelector("p")).toBeTruthy();
     expect(container.querySelector("motion.span, [style*=blur]")).toBeFalsy();
-  });
-});
-
-describe("TextMorph animation prop", () => {
-  it("renders default", () => {
-    const { container } = render(
-      <TextMorph>
-        <span>a</span>
-        <span>b</span>
-      </TextMorph>
-    );
-    expect(container.firstChild).toBeTruthy();
-  });
-  it("accepts spring DSL", () => {
-    const { container } = render(
-      <TextMorph animation="spring(300, 25)">
-        <span>a</span>
-        <span>b</span>
-      </TextMorph>
-    );
-    expect(container.firstChild).toBeTruthy();
-  });
-  it("accepts false", () => {
-    const { container } = render(
-      <TextMorph animation={false}>
-        <span>a</span>
-        <span>b</span>
-      </TextMorph>
-    );
-    expect(container.firstChild).toBeTruthy();
   });
 });

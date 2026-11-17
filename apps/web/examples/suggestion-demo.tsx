@@ -2,8 +2,6 @@
 
 import { ArrowUpIcon, PlusIcon } from "lucide-react";
 import * as React from "react";
-
-import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import { Button } from "@/components/ui/button";
 import {
   InputGroup,
@@ -11,7 +9,12 @@ import {
   InputGroupButton,
   InputGroupTextarea,
 } from "@/components/ui/input-group";
-import { Message, MessageContent } from "@/components/ui/message";
+import {
+  Bubble,
+  BubbleContent,
+  Message,
+  MessageContent,
+} from "@/components/ui/message";
 
 const suggestions = [
   "Add a dark mode toggle",

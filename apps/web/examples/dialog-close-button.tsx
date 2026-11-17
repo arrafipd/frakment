@@ -15,8 +15,8 @@ import { Label } from "@/components/ui/label";
 export function DialogCloseButton() {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">Share</Button>
+      <DialogTrigger as={Button} variant="outline">
+        Share
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
@@ -38,8 +38,8 @@ export function DialogCloseButton() {
           </div>
         </div>
         <DialogFooter className="sm:justify-start">
-          <DialogClose asChild>
-            <Button type="button">Close</Button>
+          <DialogClose as={Button} type="button">
+            Close
           </DialogClose>
         </DialogFooter>
       </DialogContent>

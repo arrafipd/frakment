@@ -9,7 +9,7 @@ import {
 
 export function InputGroupBlockStart() {
   return (
-    <div className="max-w-sm">
+    <div className="w-full max-w-md">
       <InputGroup>
         <InputGroupAddon align="block-start">
           <InputGroupText>Subject</InputGroupText>

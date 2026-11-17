@@ -1,9 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { toast } from "sonner";
 import { z } from "zod";
-
 import {
   Card,
   CardAction,
@@ -25,6 +23,7 @@ import {
   QuestionnaireSubmit,
   QuestionnaireTitle,
 } from "@/components/ui/questionnaire";
+import { toast } from "@/components/ui/sonner";
 
 const items = [
   { name: "detail", required: true },

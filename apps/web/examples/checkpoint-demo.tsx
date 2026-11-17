@@ -3,10 +3,14 @@
 import { useChat } from "@ai-sdk/react";
 import type { UIMessage } from "ai";
 import { motion, useReducedMotion } from "motion/react";
-import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import { Button } from "@/components/ui/button";
 import { Marker, MarkerContent } from "@/components/ui/marker";
-import { Message, MessageContent } from "@/components/ui/message";
+import {
+  Bubble,
+  BubbleContent,
+  Message,
+  MessageContent,
+} from "@/components/ui/message";
 import { createChat, getMessageText } from "@/lib/ai";
 import { messageAnimations } from "@/lib/message-animations";
 
@@ -43,7 +47,7 @@ const transcript = chat.get();
 const transport = chat.transport({ delayMs: 20 });
 
 export function CheckpointDemo() {
-  const { messages, sendMessage, setMessages, status } = useChat({
+  const { messages, sendMessage, setMessages, status } = useChat<ChatMessage>({
     messages: transcript,
     transport,
   });

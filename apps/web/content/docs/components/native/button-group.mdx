@@ -7,7 +7,7 @@ import { NativeButtonGroupDemo } from "@/examples/native/button-group-demo";
 import { NativeButtonGroupOrientation } from "@/examples/native/button-group-orientation";
 import { NativeButtonGroupSize } from "@/examples/native/button-group-size";
 import { NativeButtonGroupSeparator } from "@/examples/native/button-group-separator";
-import { NativeButtonGroupText } from "@/examples/native/button-group-text";
+import { NativeButtonGroupSplit } from "@/examples/native/button-group-split";
 
 <DocsBaseSwitcher base="native" component="button-group" className="mb-6" />
 
@@ -25,8 +25,17 @@ A `View` wrapper that lays out children in a row (`horizontal`, default) or a co
 
 <CodeTabs>
   <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
     <TabsTrigger value="manual">Manual</TabsTrigger>
   </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add button-group --expo
+```
+
+</TabsContent>
 
   <TabsContent value="manual">
     <Steps className="mb-0 pt-2">
@@ -90,7 +99,27 @@ Pass `orientation="vertical"`. Children stack in a column. Inner edges lose thei
   <NativeButtonGroupSize />
 </ComponentPreview>
 
-Buttons keep their own `size`. The group does not enforce size, so mixing `sm`, `default`, and `lg` inside the same group is allowed.
+`ButtonGroup` has no `size` prop. Each child `Button` keeps its own height from the `size` prop documented on the [Button](/docs/components/native/button#size) page.
+
+The preview above renders at the web size scale. On iOS and Android the child button applies the larger dp values.
+
+| Child `size` | Height |
+| :--- | :--- |
+| `xs` | 40dp |
+| `sm` | 44dp |
+| `default` | 48dp |
+| `lg` | 51dp |
+
+Icon-only children use the icon size system. Width matches height.
+
+| Child icon `size` | Dimensions |
+| :--- | :--- |
+| `icon-xs` | 40×40 |
+| `icon-sm` | 44×44 |
+| `icon` | 48×48 |
+| `icon-lg` | 51×51 |
+
+The group does not enforce size. Mixing `sm`, `default`, and `lg` inside the same group is allowed. Inner edges lose border and radius regardless of child size.
 
 ## Separator
 
@@ -98,15 +127,15 @@ Buttons keep their own `size`. The group does not enforce size, so mixing `sm`, 
   <NativeButtonGroupSeparator />
 </ComponentPreview>
 
-`ButtonGroupSeparator` wraps `Separator` with `alignSelf: "stretch"`, so it fills the group height without additional style. Use it when the visual separation between adjacent actions matters more than the tight border merge.
+`ButtonGroupSeparator` renders a transparent 1dp gap between adjacent children, letting the page background show through. Use it when two actions should read as distinct units without a visible divider line.
 
-## Button Group Text
+## Split
 
-<ComponentPreview name="native/button-group-text" title="button-group-text.tsx" src="../../apps/native/examples/button-group-text.tsx">
-  <NativeButtonGroupText />
+<ComponentPreview name="native/button-group-split" title="button-group-split.tsx" src="../../apps/native/examples/button-group-split.tsx">
+  <NativeButtonGroupSplit />
 </ComponentPreview>
 
-`ButtonGroupText` renders a bordered surface for a label or an icon. String children are wrapped in a `Text` with the group foreground color. Non-string children render as-is.
+Combine a labeled action with a related icon-only action inside one group. The separator gives each half its own tap target while the group reads as a single unit.
 
 ## API Reference
 
@@ -132,7 +161,7 @@ Buttons keep their own `size`. The group does not enforce size, so mixing `sm`, 
 
 ### ButtonGroupSeparator
 
-Wraps `Separator` with `alignSelf: "stretch"`. Accepts every `Separator` prop.
+Renders a transparent gap between adjacent children. Applies `marginVertical: 1` and stretches to the group height. Accepts every `Separator` prop.
 
 ## Accessibility
 
@@ -152,6 +181,7 @@ Wraps `Separator` with `alignSelf: "stretch"`. Accepts every `Separator` prop.
 - **Border merge is inline.** Native does not have CSS child selectors. `ButtonGroup` clones its direct children and sets `borderRadius` and `borderWidth` on the inner edges. This works for `Button`, `ButtonGroupText`, and any child that accepts a `style` prop.
 - **Dropdown, Input, Input Group, and Select demos are web-only for now.** The web Button Group page shows those compositions. Native ports are pending. The `ButtonGroup` API is identical and works with any child that renders a tappable surface.
 - **The hero example uses three nested groups.** The web hero includes a dropdown trigger inside the third group. Native renders a plain button there because DropdownMenu is not ported yet. The nesting and group composition are otherwise identical.
+- **Separator is transparent on native.** The web `ButtonGroupSeparator` renders `bg-input` (a subtle divider line). Native drops the line and lets the page background show through, so the gap reads as a darker separation in dark mode and a subtle one in light mode. The layout matches web: 1dp wide, stretched to the group height, with 1dp vertical margin.
 
 ## Related Components
 

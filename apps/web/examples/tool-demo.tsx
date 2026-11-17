@@ -3,10 +3,14 @@
 import { useChat } from "@ai-sdk/react";
 import type { UIDataTypes, UIMessage } from "ai";
 import { TerminalIcon } from "lucide-react";
-import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import { Button } from "@/components/ui/button";
 import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block";
-import { Message, MessageContent } from "@/components/ui/message";
+import {
+  Bubble,
+  BubbleContent,
+  Message,
+  MessageContent,
+} from "@/components/ui/message";
 import {
   Trace,
   TraceCollapsible,
@@ -106,7 +110,7 @@ function ToolRow({
 }
 
 export function ToolDemo() {
-  const { messages, sendMessage, setMessages, status } = useChat({
+  const { messages, sendMessage, setMessages, status } = useChat<ChatMessage>({
     messages: transcript,
     transport,
   });

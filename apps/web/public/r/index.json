@@ -65,13 +65,6 @@
     },
     {
       "deprecated": false,
-      "description": "Scroll container for chat transcripts. Anchors turns, follows streamed replies, restores position, and tracks visibility.",
-      "name": "message-scroller",
-      "title": "Message Scroller",
-      "version": "0.0.0"
-    },
-    {
-      "deprecated": false,
       "description": "A single-line text input.",
       "name": "input",
       "title": "Input",
@@ -131,20 +124,6 @@
       "description": "A layout primitive for form fields — label, description, and inputs.",
       "name": "field",
       "title": "Field",
-      "version": "0.0.0"
-    },
-    {
-      "deprecated": false,
-      "description": "An animated chat message that fades in and pins to the message scroller.",
-      "name": "message-animated",
-      "title": "Message Animated",
-      "version": "0.0.0"
-    },
-    {
-      "deprecated": false,
-      "description": "Chat bubble surface with variants, alignment, and optional reactions.",
-      "name": "bubble",
-      "title": "Bubble",
       "version": "0.0.0"
     },
     {
@@ -247,9 +226,9 @@
     },
     {
       "deprecated": false,
-      "description": "An animated text component that cycles through strings with ten transition variants.",
-      "name": "text-morph",
-      "title": "Text Morph",
+      "description": "A numeric slot machine built on Intl.NumberFormat, with custom motion support.",
+      "name": "number-flow",
+      "title": "Number Flow",
       "version": "0.0.0"
     },
     {
@@ -296,9 +275,9 @@
     },
     {
       "deprecated": false,
-      "description": "An opinionated toast component for React, powered by Sonner.",
+      "description": "A native toast engine with themes, types, promises, and responsive positioning.",
       "name": "sonner",
-      "title": "Toast",
+      "title": "Sonner",
       "version": "0.0.0"
     },
     {

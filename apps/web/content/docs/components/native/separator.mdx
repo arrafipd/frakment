@@ -17,14 +17,23 @@ import { NativeSeparatorDecorative } from "@/examples/native/separator-decorativ
   <NativeSeparatorDemo />
 </ComponentPreview>
 
-A `View`-based divider. Horizontal by default, vertical with `orientation="vertical"`. The color comes from `useThemeColors().border`, so it tracks light and dark mode without extra configuration.
+A `View`-based divider. Horizontal by default, vertical with `orientation="vertical"`. When `decorative` is true (the default) it is hidden from assistive tech. Set `decorative={false}` when the divider carries structural meaning and should be announced. The color comes from `useThemeColors().border`, so it tracks light and dark mode without extra configuration.
 
 ## Installation
 
 <CodeTabs>
   <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
     <TabsTrigger value="manual">Manual</TabsTrigger>
   </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add separator --expo
+```
+
+</TabsContent>
 
   <TabsContent value="manual">
     <Steps className="mb-0 pt-2">
@@ -74,13 +83,13 @@ Pass `orientation="vertical"`. The divider sets width to 1px and stretches to fi
 </View>
 ```
 
-## Decorative
+## Semantic
 
 <ComponentPreview name="native/separator-decorative" title="separator-decorative.tsx" src="../../apps/native/examples/separator-decorative.tsx">
   <NativeSeparatorDecorative />
 </ComponentPreview>
 
-Default `decorative` is `true`, matching web behavior. Pass `decorative={false}` to expose the divider to assistive tech. Native does not render a visible difference. Only the accessibility hint changes.
+Default `decorative` is `true`, matching web behavior. Pass `decorative={false}` to expose the divider to assistive tech. Visual appearance does not change between the two modes.
 
 ## API Reference
 

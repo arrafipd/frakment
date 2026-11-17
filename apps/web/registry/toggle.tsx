@@ -1,8 +1,7 @@
 "use client";
 
 import { cva, type VariantProps } from "class-variance-authority";
-import { Toggle as TogglePrimitive } from "radix-ui";
-import type * as React from "react";
+import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const toggleVariants = cva(
@@ -27,19 +26,84 @@ const toggleVariants = cva(
   }
 );
 
+type ToggleProps = Omit<
+  React.ComponentPropsWithoutRef<"button">,
+  "onChange" | "aria-pressed" | "type" | "ref"
+> &
+  VariantProps<typeof toggleVariants> & {
+    as?: React.ElementType;
+    asChild?: boolean;
+    pressed?: boolean;
+    defaultPressed?: boolean;
+    onPressedChange?: (pressed: boolean) => void;
+    ref?: React.Ref<HTMLButtonElement>;
+  };
+
 function Toggle({
+  as,
+  asChild,
+  children,
   className,
-  variant = "default",
+  defaultPressed = false,
+  onClick,
+  onPressedChange,
+  pressed: pressedProp,
+  ref,
   size = "default",
+  variant = "default",
   ...props
-}: React.ComponentProps<typeof TogglePrimitive.Root> &
-  VariantProps<typeof toggleVariants>) {
+}: ToggleProps) {
+  const isControlled = pressedProp !== undefined;
+  const [uncontrolled, setUncontrolled] = React.useState(defaultPressed);
+  const pressed = isControlled ? pressedProp : uncontrolled;
+  const mergedClass = cn(toggleVariants({ className, size, variant }));
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    onClick?.(event as never);
+    if (event.defaultPrevented) {
+      return;
+    }
+    const next = !pressed;
+    if (!isControlled) {
+      setUncontrolled(next);
+    }
+    onPressedChange?.(next);
+  };
+
+  if (asChild && React.isValidElement(children)) {
+    const child = children as React.ReactElement<Record<string, unknown>>;
+    return React.cloneElement(child, {
+      ...props,
+      "aria-pressed": pressed,
+      className: cn(mergedClass, child.props.className as string),
+      "data-slot": "toggle",
+      "data-state": pressed ? "on" : "off",
+      onClick: (event: React.MouseEvent<HTMLElement>) => {
+        (
+          child.props.onClick as
+            | ((e: React.MouseEvent<HTMLElement>) => void)
+            | undefined
+        )?.(event);
+        handleClick(event);
+      },
+      ref,
+    } as never);
+  }
+
+  const Component = (as ?? "button") as React.ElementType;
   return (
-    <TogglePrimitive.Root
-      className={cn(toggleVariants({ className, size, variant }))}
-      data-slot="toggle"
+    <Component
       {...props}
-    />
+      aria-pressed={pressed}
+      className={mergedClass}
+      data-slot="toggle"
+      data-state={pressed ? "on" : "off"}
+      onClick={handleClick}
+      ref={ref}
+      {...(as ? {} : { type: "button" as const })}
+    >
+      {children}
+    </Component>
   );
 }
 

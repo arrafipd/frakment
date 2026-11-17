@@ -1,7 +1,6 @@
 {
   "dependencies": [
-    "lucide-react@^1.69.0",
-    "radix-ui@^1.8.1"
+    "lucide-react@^1.69.0"
   ],
   "deprecated": false,
   "description": "Multi-step form component. Bundles the headless engine and composes checkbox, radio-group, button, and card.",
@@ -24,5 +23,5 @@
   ],
   "title": "Questionnaire",
   "version": "0.0.0",
-  "integrity": "sha256:089e55b9f564d8778ca2faaa645f9f41049cdc896577cb10efe83adc06d3afd8"
+  "integrity": "sha256:27d9e323f39c11f2b87a24087e90cdce063312aa9764e29f734a0da98738b60c"
 }

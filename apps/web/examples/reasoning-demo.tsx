@@ -2,9 +2,13 @@
 
 import { useChat } from "@ai-sdk/react";
 import * as React from "react";
-import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import { Button } from "@/components/ui/button";
-import { Message, MessageContent } from "@/components/ui/message";
+import {
+  Bubble,
+  BubbleContent,
+  Message,
+  MessageContent,
+} from "@/components/ui/message";
 import {
   Trace,
   TraceCollapsible,

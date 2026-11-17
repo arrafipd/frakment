@@ -4,7 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 export function TextareaDisabled() {
   return (
-    <div className="max-w-sm">
+    <div className="w-full max-w-md">
       <Textarea
         defaultValue="This field is disabled."
         disabled

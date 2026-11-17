@@ -16,7 +16,6 @@ import {
 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import * as React from "react";
-import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import { Button } from "@/components/ui/button";
 import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block";
 import {
@@ -40,15 +39,18 @@ import {
   InputGroupTextarea,
 } from "@/components/ui/input-group";
 import { Markdown } from "@/components/ui/markdown";
-import { Message, MessageContent } from "@/components/ui/message";
 import {
+  Bubble,
+  BubbleContent,
+  Message,
+  MessageContent,
   MessageScroller,
   MessageScrollerButton,
   MessageScrollerContent,
   MessageScrollerItem,
   MessageScrollerProvider,
   MessageScrollerViewport,
-} from "@/components/ui/message-scroller";
+} from "@/components/ui/message";
 import {
   Tooltip,
   TooltipContent,
@@ -160,7 +162,7 @@ const transport = chat.transport({
 const MotionMessageScrollerItem = motion.create(MessageScrollerItem);
 
 export function ChatDemo() {
-  const { messages, sendMessage, setMessages, status } = useChat({
+  const { messages, sendMessage, setMessages, status } = useChat<ChatMessage>({
     messages: initialMessages,
     transport,
   });
@@ -198,19 +200,18 @@ export function ChatDemo() {
               </div>
             </div>
             <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  aria-label="Reset conversation"
-                  disabled={busy}
-                  onClick={() => {
-                    setMessages(initialMessages);
-                    setDraft(null);
-                  }}
-                  size="icon"
-                  variant="outline"
-                >
-                  <RotateCwIcon />
-                </Button>
+              <TooltipTrigger
+                aria-label="Reset conversation"
+                as={Button}
+                disabled={busy}
+                onClick={() => {
+                  setMessages(initialMessages);
+                  setDraft(null);
+                }}
+                size="icon"
+                variant="outline"
+              >
+                <RotateCwIcon />
               </TooltipTrigger>
               <TooltipContent>
                 <p>Reset</p>

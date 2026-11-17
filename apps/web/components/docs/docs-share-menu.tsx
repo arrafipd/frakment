@@ -1,8 +1,6 @@
 "use client";
 
 import { useCallback, useMemo, useRef } from "react";
-import { toast } from "sonner";
-
 import type { ShareIconHandle } from "@/components/site/animated-icons/share";
 import { ShareIcon } from "@/components/site/animated-icons/share";
 import { LinkedInIcon, XIcon } from "@/components/site/icons";
@@ -13,6 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { toast } from "@/components/ui/sonner";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { EllipsisIcon, LinkIcon } from "@/lib/icons";
 

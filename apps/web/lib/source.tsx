@@ -7,7 +7,12 @@ import { docs } from "@/.source/server";
 import { NewDot } from "@/components/docs/new-dot";
 import { ROUTES } from "@/constants/routes";
 import { agentDocsDirectiveMarkdown } from "@/lib/agent-discovery/directive";
-import { docsContentRoute, docsImageRoute, pagesNew } from "@/lib/docs";
+import {
+  docsContentRoute,
+  docsImageRoute,
+  normalizeActivePath,
+  pagesNew,
+} from "@/lib/docs";
 
 const baseSource = loader({
   baseUrl: ROUTES.DOCS,
@@ -16,7 +21,7 @@ const baseSource = loader({
 
 // Decorate page names with a "new" dot indicator when the URL is in pagesNew.
 const decorateName = (name: ReactNode, url: string): ReactNode =>
-  pagesNew.has(url) ? (
+  pagesNew.has(normalizeActivePath(url)) ? (
     <>
       {name}
       <NewDot className="ml-auto" />
