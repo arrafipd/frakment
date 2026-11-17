@@ -1,6 +1,6 @@
 ---
 title: "November 5, 2026"
-description: "Thirteen new registry components and a ten-variant Text Flip."
+description: "Thirteen new registry components and a numeric slot machine."
 date: "2026-11-05"
 ---
 
@@ -9,7 +9,7 @@ import { CardDemo } from "@/examples/card-demo";
 import { CollapsibleDemo } from "@/examples/collapsible-demo";
 import { DropdownMenuDemo } from "@/examples/dropdown-menu-demo";
 import { TabsDemo } from "@/examples/tabs-demo";
-import { TextFlipRoll } from "@/examples/text-flip-roll";
+import { NumberFlowDemo } from "@/examples/number-flow-demo";
 import { TooltipDemo } from "@/examples/tooltip-demo";
 import { BreadcrumbDemo } from "@/examples/breadcrumb-demo";
 import { ButtonGroupDemo } from "@/examples/button-group-demo";
@@ -18,14 +18,14 @@ import { PaginationDemo } from "@/examples/pagination-demo";
 import { RadioGroupDemo } from "@/examples/radio-group-demo";
 import { SonnerDemo } from "@/examples/sonner-demo";
 
-This release adds **thirteen registry components** and expands **Text Flip** with ten transition variants.
+This release adds **thirteen registry components** including **Number Flow**, a numeric slot machine built on `Intl.NumberFormat`.
 
 - [Accordion](#accordion): Collapsible sections with single or multiple expansion.
 - [Card](#card): Now installable via `npx frakment add card`.
 - [Collapsible](#collapsible): Single-panel expand and collapse with animated height.
 - [Dropdown Menu](#dropdown-menu): Menu with items, checkboxes, submenus, and three alignment values.
 - [Tabs](#tabs): Layered content panels with vertical and disabled support.
-- [Text Flip](#text-flip): Ten variants for animating text and numbers.
+- [Number Flow](#number-flow): Numeric slot machine with locale-aware formatting.
 - [Tooltip](#tooltip): Hover and focus popup with three side placements.
 - [Breadcrumb](#breadcrumb): Path hierarchy with dropdown and ellipsis.
 - [Button Group](#button-group): Merged clusters of buttons, inputs, and selects.
@@ -181,13 +181,13 @@ npx frakment add tabs
 See the [Tabs docs](/docs/components/tabs) for the full API reference.
 <hr className="my-16 border-border/40" />
 
-### Text Flip
+### Number Flow
 
-<ComponentPreview name="text-flip" title="text-flip.tsx">
-  <TextFlipRoll />
+<ComponentPreview name="number-flow" title="number-flow.tsx">
+  <NumberFlowDemo />
 </ComponentPreview>
 
-**Text Flip** ships with ten variants: `flip`, `fade`, `blur`, `slide`, `scale`, `count`, `roll`, `shuffle`, `typewriter`, and `wave`. Numeric variants (`count`, `roll`) interpolate numbers via `@number-flow/react`. The `as` prop chooses the rendered element. `typewriter` and `wave` accept a `speed` prop in milliseconds.
+**Number Flow** animates between numeric values with a vertical slot machine. Locale grouping, decimals, percent, prefix, and suffix come from `Intl.NumberFormat`. Digits slide in the direction of change. The `motion` prop overrides duration and easing.
 
 #### Installation
 
@@ -195,13 +195,13 @@ See the [Tabs docs](/docs/components/tabs) for the full API reference.
   <Step>Install</Step>
 
 ~~~bash
-npx frakment add text-flip
+npx frakment add number-flow
 ~~~
 
 <Step>Use it in your app</Step>
 
 ~~~tsx
-import { TextFlip } from "@/components/ui/text-flip";
+import { NumberFlow } from "@/components/ui/number-flow";
 ~~~
 
 </Steps>
@@ -209,10 +209,10 @@ import { TextFlip } from "@/components/ui/text-flip";
 #### Minimal usage
 
 ~~~tsx
-<TextFlip>{"Build", "Ship", "Iterate"}</TextFlip>
+<NumberFlow value={1234} />
 ~~~
 
-See the [Text Flip docs](/docs/components/text-flip) for the full API reference.
+See the [Number Flow docs](/docs/components/web/number-flow) for the full API reference.
 
 <hr className="my-16 border-border/40" />
 

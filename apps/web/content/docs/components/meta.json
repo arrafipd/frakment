@@ -25,6 +25,7 @@
     "web/label",
     "web/marker",
     "web/message",
+    "web/number-flow",
     "web/pagination",
     "web/popover",
     "web/progress",

@@ -226,9 +226,9 @@
     },
     {
       "deprecated": false,
-      "description": "An animated text component that cycles through strings with ten transition variants.",
-      "name": "text-morph",
-      "title": "Text Morph",
+      "description": "A numeric slot machine built on Intl.NumberFormat, with custom motion support.",
+      "name": "number-flow",
+      "title": "Number Flow",
       "version": "0.0.0"
     },
     {

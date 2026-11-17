@@ -94,6 +94,11 @@ const nextConfig = {
         source: `${ROUTES.DOCS}/components/button`,
       },
       {
+        destination: `${ROUTES.DOCS}/components/web/number-flow`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/number-flow`,
+      },
+      {
         destination: `${ROUTES.DOCS}/components/web/separator`,
         permanent: false,
         source: `${ROUTES.DOCS}/components/separator`,
