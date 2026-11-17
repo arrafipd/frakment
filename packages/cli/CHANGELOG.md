@@ -1,5 +1,46 @@
 # frakment
 
+## 1.0.0
+
+### Major Changes
+
+- f5e5ddc: Message consolidation. Message, Bubble, MessageScroller, and MessageAnimated now ship as a single `message` registry component. `npx frakment add message` installs everything: layout primitives, bubble with seven variants, the scroll engine, and the animated message renderer. `bubble`, `message-scroller`, and `message-animated` are no longer installable by name. `@frakment/react` is deprecated: its `message-scroller` engine is inlined into the `message` registry file. Migrate `import ... from "@frakment/react/message-scroller"` to `@/components/ui/message` after running `npx frakment@latest add message`. The `BubbleContent` `asChild` prop is replaced by `as`. Removes `radix-ui` and `ai` runtime dependencies from the consolidated component.
+- e4c20ef: Replace `text-morph` with `number-flow`.
+  
+  `text-morph` is removed from the registry. The replacement is `number-flow`, a numeric slot machine built on `Intl.NumberFormat`. The `@number-flow/react` dependency is dropped — `number-flow` has no runtime dependencies.
+  
+  Projects using `text-morph` from a previous install keep the old file. New installs use `npx frakment add number-flow`.
+  
+  Text cycling that previously used `text-morph` (e.g. the package manager switcher) now uses inline motion.
+- e1a0e1b: **Sonner is now a native toast engine.**
+  
+  The `sonner` registry component no longer depends on the `sonner` npm package. The toast state machine, engine, animations, and CSS ship inside `registry/sonner.tsx`. `toast` and `Toaster` are both exported from `@/components/ui/sonner`.
+  
+  - **Breaking**: `import { toast } from "sonner"` no longer resolves. Use `import { toast } from "@/components/ui/sonner"` instead. The `npx frakment add sonner` command still works; only the import path changes.
+  - **Fixed**: `frakment.json` now declares `spinner` as a `registryDependency`. Installs previously missed `@/components/ui/spinner` and broke at runtime.
+  - **Renamed**: Display name and docs path change from "Toast" to "Sonner".
+  - **Fixed**: Component list grid now renders the blue dot for new components. Sidebar, mobile nav, and command menu already had it. Docs URL is `/docs/components/web/sonner` (redirect from `/docs/components/sonner`). Demo files renamed `toast-*` → `sonner-*`, exports renamed `Toast*` → `Sonner*`.
+  
+  The rendered UI, icons, themes, and toast behavior are byte-for-byte unchanged.
+
+### Minor Changes
+
+- dabf2d2: Button: replace `asChild` with an `href` prop.
+  
+  Pass `href` to render the button as a native anchor. `<Button href="/docs">Read the docs</Button>` produces a link without a wrapper. For client-side navigation with Next.js, React Router, or TanStack Router, apply the button styles with `buttonVariants` and render the router link component.
+  
+  The `button` registry entry no longer depends on `radix-ui`. Fresh installs of `npx frakment add button` pull only `class-variance-authority`.
+- af03fa1: Add `--expo` flag to `frakment init` and `frakment add`.
+  
+  `frakment init --expo` scaffolds a NativeWind-ready Expo project with `components.json`, `lib/utils.ts`, and `lib/theme.ts`.
+  
+  `frakment add <name> --expo` installs React Native components from the Expo registry (`/r/expo`) using `npx expo install` for dependencies.
+- e4caf59: Native primitives batch: dialog, item, checkbox, hover-card, and tabs drop `radix-ui` and ship as native implementations. Empty, field, code-block, and textarea docs migrate to `/docs/components/web/`. Changelog 2026-11-15 now covers all 17 components shipped today.
+
+### Patch Changes
+
+- 0e4723b: Label now ships without the `radix-ui` dependency. It renders a native `<label>` element with the same behavior; existing consumers using `htmlFor` and `className` are unaffected.
+
 ## 0.3.0
 
 ### Minor Changes
