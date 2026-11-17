@@ -221,7 +221,7 @@ function TestResultsRow({
 }
 
 export function TestResultsDemo() {
-  const { messages, sendMessage, setMessages, status } = useChat({
+  const { messages, sendMessage, setMessages, status } = useChat<ChatMessage>({
     messages: transcript,
     transport,
   });

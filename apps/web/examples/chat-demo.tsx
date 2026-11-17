@@ -162,7 +162,7 @@ const transport = chat.transport({
 const MotionMessageScrollerItem = motion.create(MessageScrollerItem);
 
 export function ChatDemo() {
-  const { messages, sendMessage, setMessages, status } = useChat({
+  const { messages, sendMessage, setMessages, status } = useChat<ChatMessage>({
     messages: initialMessages,
     transport,
   });
