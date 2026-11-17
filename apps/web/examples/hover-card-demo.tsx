@@ -8,8 +8,8 @@ import {
 export function HoverCardDemo() {
   return (
     <HoverCard closeDelay={100} openDelay={10}>
-      <HoverCardTrigger asChild>
-        <Button variant="link">Hover Here</Button>
+      <HoverCardTrigger as={Button} variant="link">
+        Hover Here
       </HoverCardTrigger>
       <HoverCardContent className="flex w-64 flex-col gap-0.5">
         <div className="font-semibold">@nextjs</div>

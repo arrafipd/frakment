@@ -80,7 +80,7 @@ export function ConfirmationDemo() {
     setMessages,
     status,
     addToolApprovalResponse,
-  } = useChat({
+  } = useChat<ChatMessage>({
     messages: initialMessages,
     sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithApprovalResponses,
     transport,
@@ -211,7 +211,7 @@ export function ConfirmationDemo() {
                               ? "Denied"
                               : part.state === "output-available"
                                 ? "Ran"
-                                : "Running"}{" "}
+                                : "Running"}
                             {part.input?.command}
                           </TraceTitle>
                         </TraceLine>

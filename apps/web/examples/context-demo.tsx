@@ -35,10 +35,8 @@ export function ContextDemo() {
   return (
     <div className="flex justify-center py-12">
       <HoverCard closeDelay={100} openDelay={10}>
-        <HoverCardTrigger asChild>
-          <Button size="sm" variant="outline">
-            {percent}% context
-          </Button>
+        <HoverCardTrigger as={Button} size="sm" variant="outline">
+          {percent}% context
         </HoverCardTrigger>
         <HoverCardContent className="flex w-64 flex-col gap-3">
           <div className="flex items-center justify-between gap-3 text-sm">

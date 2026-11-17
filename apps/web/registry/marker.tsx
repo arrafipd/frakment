@@ -1,6 +1,5 @@
 import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
-import { Slot } from "radix-ui";
 import type * as React from "react";
 
 import { cn } from "@/lib/utils";
@@ -19,22 +18,26 @@ const markerVariants = cva(
   }
 );
 
+type MarkerProps = Omit<React.ComponentProps<"div">, "ref"> &
+  VariantProps<typeof markerVariants> & {
+    as?: React.ElementType;
+    ref?: React.Ref<HTMLDivElement>;
+  } & Record<string, unknown>;
+
 function Marker({
   className,
   variant = "default",
-  asChild = false,
+  as,
+  ref,
   ...props
-}: React.ComponentProps<"div"> &
-  VariantProps<typeof markerVariants> & {
-    asChild?: boolean;
-  }) {
-  const Comp = asChild ? Slot.Root : "div";
-
+}: MarkerProps) {
+  const Comp = as ?? "div";
   return (
     <Comp
       className={cn(markerVariants({ className, variant }))}
       data-slot="marker"
       data-variant={variant}
+      ref={ref}
       {...props}
     />
   );

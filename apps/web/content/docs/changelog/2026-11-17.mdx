@@ -1,0 +1,50 @@
+---
+title: "November 17, 2026"
+description: "Number Flow replaces Text Morph with a dependency-free numeric slot machine."
+date: "2026-11-17"
+---
+
+import { NumberFlowDemo } from "@/examples/number-flow-demo";
+
+`number-flow` replaces `text-morph` as the numeric animation primitive. It drops the `@number-flow/react` dependency and runs on `Intl.NumberFormat` plus native CSS masks.
+
+- [Number Flow](#number-flow): New primitive, no runtime dependencies.
+- [Removed](#removed): `text-morph` registry entry.
+- [Changelog correction](#changelog-correction): November 5 entry updated in place.
+
+<hr className="my-16 border-border/40" />
+
+### Number Flow
+
+<ComponentPreview name="number-flow" title="number-flow.tsx" previewClassName="h-auto py-16">
+  <NumberFlowDemo />
+</ComponentPreview>
+
+`npx frakment add number-flow` writes a single self-contained component. Digits slide vertically when the value changes. Locale grouping, decimals, percent, prefix, and suffix come from `Intl.NumberFormat`.
+
+#### Installation
+
+<Steps>
+  <Step>Install</Step>
+
+~~~bash
+npx frakment add number-flow
+~~~
+
+</Steps>
+
+#### Minimal usage
+
+~~~tsx
+import { NumberFlow } from "@/components/ui/number-flow";
+
+<NumberFlow value={1234} />
+~~~
+
+### Removed
+
+`text-morph` is no longer in the registry. `npx frakment add text-morph` returns 404. Projects with an existing `text-morph.tsx` continue to work until the file is removed.
+
+### Changelog correction
+
+The November 5 entry listed Text Flip with ten variants. The section now describes Number Flow, matching what ships today.

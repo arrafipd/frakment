@@ -94,9 +94,104 @@ const nextConfig = {
         source: `${ROUTES.DOCS}/components/button`,
       },
       {
+        destination: `${ROUTES.DOCS}/components/web/number-flow`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/number-flow`,
+      },
+      {
         destination: `${ROUTES.DOCS}/components/web/separator`,
         permanent: false,
         source: `${ROUTES.DOCS}/components/separator`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/spinner`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/spinner`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/card`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/card`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/pagination`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/pagination`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/marker`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/marker`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/attachment`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/attachment`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/switch`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/switch`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/progress`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/progress`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/dialog`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/dialog`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/item`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/item`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/checkbox`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/checkbox`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/empty`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/empty`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/field`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/field`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/code-block`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/code-block`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/hover-card`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/hover-card`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/tabs`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/tabs`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/textarea`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/textarea`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/slider`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/slider`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/tooltip`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/tooltip`,
       },
       {
         destination: `${ROUTES.DOCS}/components/web/button-group`,
@@ -199,6 +294,36 @@ const nextConfig = {
         destination: `${ROUTES.DOCS}/components/react/button.md`,
         permanent: false,
         source: `${ROUTES.DOCS}/components/button.md`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/radio-group`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/radio-group`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/sheet`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/sheet`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/toggle`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/toggle`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/toggle-group`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/toggle-group`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/trace`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/trace`,
+      },
+      {
+        destination: `${ROUTES.DOCS}/components/web/sonner`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/sonner`,
       },
     ];
   },

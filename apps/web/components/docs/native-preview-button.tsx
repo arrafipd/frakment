@@ -22,16 +22,16 @@ const nativePreviewButtonVariants = cva(
       },
       variant: {
         default:
-          "bg-primary text-primary-foreground active:bg-primary/90 shadow-xs",
+          "bg-primary text-primary-foreground active:bg-primary/90 shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.05)]",
         destructive:
-          "bg-destructive active:bg-destructive/90 focus-visible:ring-destructive/20 dark:bg-destructive/60 dark:focus-visible:ring-destructive/40 text-white shadow-xs",
+          "bg-destructive active:bg-destructive/90 focus-visible:ring-destructive/20 dark:bg-destructive/60 dark:focus-visible:ring-destructive/40 text-white shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.05)]",
         ghost:
           "active:bg-accent active:text-accent-foreground dark:active:bg-accent/50",
         link: "text-primary underline-offset-4 active:underline",
         outline:
-          "active:bg-accent active:text-accent-foreground dark:border-input dark:active:bg-input/50 border shadow-xs",
+          "active:bg-accent active:text-accent-foreground dark:border-input dark:active:bg-input/50 border shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.05)]",
         secondary:
-          "bg-secondary text-secondary-foreground active:bg-secondary/80 shadow-xs",
+          "bg-secondary text-secondary-foreground active:bg-secondary/80 shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.05)]",
       },
     },
   }

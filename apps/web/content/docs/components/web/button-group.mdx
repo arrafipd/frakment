@@ -162,7 +162,6 @@ Buttons inside a group keep their own `size`. The group does not enforce a size,
 <PropsTable
   rows={[
     { name: "as", type: "React.ElementType", description: "Renders a different root element or component. Defaults to div." },
-    { name: "asChild", type: "boolean", default: "false", description: "Deprecated. Use as instead. Kept for backward compatibility." },
     { name: "className", type: "string", description: "Additional CSS classes." },
   ]}
 />
@@ -183,6 +182,17 @@ Wraps `Separator` with group-aware styling. Accepts every `Separator` prop. See 
 - **Keep group size uniform.** Mixing `sm` and `lg` inside a group reads as a bug, not a feature.
 - **Use `ButtonGroupSeparator` sparingly.** The default border merge is enough for most cases.
 - **Nested groups need an outer ButtonGroup.** The outer wrapper adds the gap and keeps the composition readable.
+
+## Custom radius
+
+Override `--radius` on the wrapper to square off or fully round the group. All children inherit the variable.
+
+```tsx
+<ButtonGroup className="[--radius:9999rem]">
+  <Button variant="outline">Back</Button>
+  <Button variant="outline">Next</Button>
+</ButtonGroup>
+```
 
 ## Related Components
 

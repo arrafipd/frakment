@@ -11,8 +11,8 @@ import {
 export function DialogScrollableContent() {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">Scrollable Content</Button>
+      <DialogTrigger as={Button} variant="outline">
+        Scrollable Content
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

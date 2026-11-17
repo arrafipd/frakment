@@ -1,0 +1,157 @@
+---
+title: Progress
+description: Displays an indicator showing the completion progress of a task.
+---
+
+import { ProgressDemo } from "@/examples/progress-demo";
+import { ProgressWithLabel } from "@/examples/progress-with-label";
+import { ProgressControlled } from "@/examples/progress-controlled";
+import { ProgressFileUploadList } from "@/examples/progress-file-upload-list";
+
+<DocsBaseSwitcher base="web" component="progress" className="mb-6" />
+
+<ComponentPreview name="progress" title="progress.tsx">
+  <ProgressDemo />
+</ComponentPreview>
+
+Progress shows how much of a task has completed. The indicator animates smoothly on every value change with a 500ms ease-out transform by default. Override with the `motion` prop.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add progress
+```
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="progress" title="components/ui/progress.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx title="progress.tsx"
+import { Progress } from "@/components/ui/progress";
+```
+
+```tsx
+<Progress value={60} />
+```
+
+## Examples
+
+### With label and value
+
+Pass `ProgressLabel` and `ProgressValue` as children to render a header row above the bar. `ProgressValue` reads the current value from context and renders `{value}%`.
+
+<ComponentPreview name="progress-with-label" title="progress-with-label.tsx" src="examples/progress-with-label.tsx">
+  <ProgressWithLabel />
+</ComponentPreview>
+
+### Controlled
+
+<ComponentPreview name="progress-controlled" title="progress-controlled.tsx" src="examples/progress-controlled.tsx">
+  <ProgressControlled />
+</ComponentPreview>
+
+## In Context
+
+### File upload list
+
+<ComponentPreview name="progress-file-upload-list" title="progress-file-upload-list.tsx" src="examples/progress-file-upload-list.tsx" previewClassName="h-auto py-6">
+  <ProgressFileUploadList />
+</ComponentPreview>
+
+## API Reference
+
+### Progress
+
+<PropsTable
+  rows={[
+    { name: "value", type: "number", description: "Current progress. Values outside min..max are clamped." },
+    { name: "min", type: "number", defaultValue: "0", description: "Minimum value." },
+    { name: "max", type: "number", defaultValue: "100", description: "Maximum value." },
+    { name: "motion", type: "string", description: "CSS transition override for the indicator; e.g. 300 ease-out or 500 cubic-bezier(...). Respects prefers-reduced-motion." },
+    { name: "aria-label", type: "string", description: "Accessible name. Required when no visible label." },
+    { name: "children", type: "React.ReactNode", description: "Optional label and value row rendered above the bar." },
+  ]}
+/>
+
+### ProgressLabel
+
+Extends `React.ComponentProps<"span">`. Renders the label on the left of the header row.
+
+### ProgressValue
+
+Extends `React.ComponentProps<"span">`. Reads `value` from `ProgressContext` and renders `{value}%`.
+
+## Motion
+
+The indicator uses a CSS `transition-transform` (500ms ease-out) by default. Override with `motion`:
+
+```tsx
+<Progress motion="300 cubic-bezier(0.34, 1.56, 0.64, 1)" value={60} />
+```
+
+| Value | Result |
+| :-- | :-- |
+| omitted | 500ms ease-out |
+| `"200"` | 200ms ease-in-out |
+| `"500 cubic-bezier(...)"` | 500ms custom easing |
+| `"off"` | instant (no transition) |
+
+When `prefers-reduced-motion` is set, the transition is disabled regardless of the value. Third-party animation libraries that write inline styles to the indicator automatically suppress the internal CSS transition.
+
+### Live updates (slider, input)
+
+When the value changes rapidly — drag slider, typing, real-time upload — pass `motion="off"` so the fill updates instantly instead of trailing 500ms behind.
+
+```tsx
+const [value, setValue] = React.useState(50);
+
+<Progress motion="off" value={value} />
+<Slider onValueChange={(v) => setValue(v[0])} value={[value]} />
+```
+
+## Accessibility
+
+- Renders `<div role="progressbar">` with `aria-valuenow`, `aria-valuemin`, and `aria-valuemax` managed automatically.
+- Pass `aria-label` when the progress is not self-describing (bar without `ProgressLabel`).
+- Do not rely on color alone. Use `ProgressValue` to show the numeric value.
+
+## Anatomy
+
+```tsx
+<Progress value={60}>
+  <ProgressLabel />
+  <ProgressValue />
+</Progress>
+```
+
+- **Root** — track background
+- **Indicator** — filled portion driven by `value`
+- **Label** — left-aligned heading, optional
+- **Value** — right-aligned percentage
+
+## Best Practices
+
+- **Always show the value.** A bar alone is ambiguous.
+- **Use determinate for known tasks.** Spinners for unknown.
+- **Keep animation under 1s.** 500ms ease-out default.
+- **Cap at 100.** Values above `max` are clamped.

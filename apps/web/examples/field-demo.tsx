@@ -48,7 +48,7 @@ const years = [
 
 export function FieldDemo() {
   return (
-    <div className="max-w-md">
+    <div className="w-full max-w-md">
       <form>
         <FieldGroup>
           <FieldSet>

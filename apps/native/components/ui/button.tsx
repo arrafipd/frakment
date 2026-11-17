@@ -33,11 +33,7 @@ const sizeDim: Record<SizeKey, { height: number; width?: number }> = {
 };
 
 const shadowXs: ViewStyle = {
-  elevation: 1,
-  shadowColor: "rgba(0, 0, 0, 1)",
-  shadowOffset: { height: 1, width: 0 },
-  shadowOpacity: 0.05,
-  shadowRadius: 2,
+  boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)",
 };
 
 const buttonVariants = cva(

@@ -1,4 +1,4 @@
-import { ArrowLeftIcon } from "lucide-react";
+import { ArrowLeftIcon, MoreHorizontalIcon } from "lucide-react";
 
 import { NativePreviewButton } from "@/components/docs/native-preview-button";
 
@@ -15,14 +15,24 @@ export function NativeButtonGroupDemo() {
           Archive
         </NativePreviewButton>
         <NativePreviewButton
-          className="-ml-px rounded-l-none"
+          className="rounded-l-none border-l-0"
           variant="outline"
         >
           Report
         </NativePreviewButton>
       </div>
       <div className="flex items-stretch">
-        <NativePreviewButton variant="outline">Snooze</NativePreviewButton>
+        <NativePreviewButton className="rounded-r-none" variant="outline">
+          Snooze
+        </NativePreviewButton>
+        <NativePreviewButton
+          aria-label="More Options"
+          className="rounded-l-none border-l-0"
+          size="icon"
+          variant="outline"
+        >
+          <MoreHorizontalIcon />
+        </NativePreviewButton>
       </div>
     </div>
   );

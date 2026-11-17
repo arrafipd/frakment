@@ -17,10 +17,8 @@ export function SheetSide() {
     <div className="flex flex-wrap gap-2">
       {SHEET_SIDES.map((side) => (
         <Sheet key={side}>
-          <SheetTrigger asChild>
-            <Button className="capitalize" variant="outline">
-              {side}
-            </Button>
+          <SheetTrigger as={Button} className="capitalize" variant="outline">
+            {side}
           </SheetTrigger>
           <SheetContent
             className="data-[side=bottom]:max-h-[50vh] data-[side=top]:max-h-[50vh]"
@@ -46,8 +44,8 @@ export function SheetSide() {
             </div>
             <SheetFooter>
               <Button type="submit">Save changes</Button>
-              <SheetClose asChild>
-                <Button variant="outline">Cancel</Button>
+              <SheetClose as={Button} variant="outline">
+                Cancel
               </SheetClose>
             </SheetFooter>
           </SheetContent>

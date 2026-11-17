@@ -1,8 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { toast } from "sonner";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -28,6 +26,7 @@ import {
   QuestionnaireSubmit,
   QuestionnaireTitle,
 } from "@/components/ui/questionnaire";
+import { toast } from "@/components/ui/sonner";
 
 const items = [
   { name: "scope", required: true },
@@ -48,8 +47,8 @@ export function QuestionnaireDialog() {
 
   return (
     <Dialog onOpenChange={setOpen} open={open}>
-      <DialogTrigger asChild>
-        <Button variant="outline">Open clarification</Button>
+      <DialogTrigger as={Button} variant="outline">
+        Open clarification
       </DialogTrigger>
       <DialogContent>
         <Questionnaire
@@ -114,10 +113,8 @@ export function QuestionnaireDialog() {
             <QuestionnaireError />
           </QuestionnaireItem>
           <DialogFooter>
-            <DialogClose asChild>
-              <Button type="button" variant="outline">
-                Cancel
-              </Button>
+            <DialogClose as={Button} type="button" variant="outline">
+              Cancel
             </DialogClose>
             <QuestionnaireActions>
               <QuestionnairePrevious />

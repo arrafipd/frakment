@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   assertSafePath,
+  resolveRegistryUrl,
   rewriteImports,
   validateRegistryPayload,
 } from "./add.js";
@@ -127,5 +128,49 @@ export { cn, Button, Card };
     const input = 'import { springSoft } from "@/lib/animation";\n';
     const out = rewriteImports(input, { utils: "~/lib/cn" });
     expect(out).toBe(input);
+  });
+});
+
+describe("registry selection", () => {
+  const web = "https://www.arrafi.dev/frakment/r";
+  const expo = "https://www.arrafi.dev/frakment/r/expo";
+  const config = {
+    registries: { expo, web },
+    registry: web,
+  };
+
+  it("uses web by default, including in an Expo-initialized project", () => {
+    expect(resolveRegistryUrl(config, {})).toBe(web);
+  });
+
+  it("honors the edited registry as the web default", () => {
+    const edited = "https://registry.example.com/web";
+    expect(resolveRegistryUrl({ ...config, registry: edited }, {})).toBe(
+      edited
+    );
+  });
+  it("uses Expo only when the Expo option is enabled", () => {
+    expect(resolveRegistryUrl(config, { expo: true })).toBe(expo);
+  });
+
+  it("uses the default Expo endpoint when config has no Expo registry", () => {
+    expect(resolveRegistryUrl({ registry: web }, { expo: true })).toBe(expo);
+  });
+
+  it("allows an explicit custom registry to override either platform", () => {
+    const custom = "https://registry.example.com/components";
+
+    expect(
+      resolveRegistryUrl(config, {
+        expo: true,
+        registry: custom,
+      })
+    ).toBe(custom);
+
+    expect(
+      resolveRegistryUrl(config, {
+        registry: custom,
+      })
+    ).toBe(custom);
   });
 });

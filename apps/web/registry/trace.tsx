@@ -1,31 +1,55 @@
 "use client";
 
 import { ChevronRightIcon } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
-import { Collapsible as CollapsiblePrimitive } from "radix-ui";
 import * as React from "react";
 
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { Shimmer } from "@/components/ui/shimmer";
-import { easeOutExpo, parseAnimation, springSoft } from "@/lib/animation";
 import { cn } from "@/lib/utils";
 
-const TraceCollapsibleContext = React.createContext<{
-  animation?: false | string;
+const defaultTraceMotion = "450 cubic-bezier(0.32, 0.72, 0, 1)";
+
+interface TraceCollapsibleContextValue {
+  motion: string;
   open: boolean;
-}>({
-  open: false,
-});
+}
+
+const TraceCollapsibleContext =
+  React.createContext<TraceCollapsibleContextValue>({
+    motion: defaultTraceMotion,
+    open: false,
+  });
 
 const TraceLineContext = React.createContext<{
   status?: "running" | "error" | "pending";
 }>({});
 
-const springSharp = {
-  damping: 32,
-  mass: 0.7,
-  stiffness: 420,
-  type: "spring" as const,
-};
+function resolveTraceMotion(
+  motion: string | undefined,
+  animation: false | string | undefined,
+  fallback: string
+): string {
+  if (motion !== undefined) {
+    return motion;
+  }
+  if (animation === false) {
+    return "off";
+  }
+  if (typeof animation === "string") {
+    if (/^(spring|inertia|keyframes)/u.test(animation)) {
+      console.warn(
+        `[trace] animation="${animation}" uses a motion DSL that is not supported in CSS. Falling back to default. Prefer motion="150 ease-out" instead.`
+      );
+      return fallback;
+    }
+    return animation;
+  }
+  return fallback;
+}
 
 function Trace({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -94,6 +118,7 @@ function TraceTitle({
     </span>
   );
 }
+
 function TraceDescription({
   className,
   ...props
@@ -110,20 +135,34 @@ function TraceDescription({
   );
 }
 
+type TraceCollapsibleProps = Omit<React.ComponentProps<"div">, "onChange"> & {
+  animation?: false | string;
+  defaultOpen?: boolean;
+  disabled?: boolean;
+  motion?: string;
+  onOpenChange?: (open: boolean) => void;
+  open?: boolean;
+};
+
 function TraceCollapsible({
-  className,
-  open,
-  defaultOpen,
-  onOpenChange,
   animation,
   children,
+  className,
+  defaultOpen,
+  disabled,
+  motion,
+  onOpenChange,
+  open: openProp,
   ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.Root> & {
-  animation?: false | string;
-}) {
+}: TraceCollapsibleProps) {
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen ?? false);
-  const isControlled = open !== undefined;
-  const currentOpen = isControlled ? open : internalOpen;
+  const isControlled = openProp !== undefined;
+  const currentOpen = isControlled ? openProp : internalOpen;
+  const resolvedMotion = resolveTraceMotion(
+    motion,
+    animation,
+    defaultTraceMotion
+  );
 
   const handleOpenChange = React.useCallback(
     (next: boolean) => {
@@ -136,16 +175,20 @@ function TraceCollapsible({
   );
 
   return (
-    <TraceCollapsibleContext.Provider value={{ animation, open: currentOpen }}>
-      <CollapsiblePrimitive.Root
+    <TraceCollapsibleContext.Provider
+      value={{ motion: resolvedMotion, open: currentOpen }}
+    >
+      <Collapsible
         className={cn("flex w-full min-w-0 flex-col", className)}
         data-slot="trace-collapsible"
+        disabled={disabled}
+        motion={resolvedMotion}
         onOpenChange={handleOpenChange}
         open={currentOpen}
         {...props}
       >
         {children}
-      </CollapsiblePrimitive.Root>
+      </Collapsible>
     </TraceCollapsibleContext.Provider>
   );
 }
@@ -153,132 +196,65 @@ function TraceCollapsible({
 function TraceCollapsibleTrigger({
   className,
   children,
+  onClick,
   ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.Trigger>) {
+}: React.ComponentProps<"button">) {
   const { open } = React.useContext(TraceCollapsibleContext);
-  const shouldReduce = useReducedMotion();
-
   return (
-    <CollapsiblePrimitive.Trigger
+    <CollapsibleTrigger
       className={cn(
         "group/trace-collapsible-trigger text-muted-foreground flex w-fit max-w-full min-w-0 cursor-pointer items-center gap-2 text-left outline-none",
         "has-[[data-status=error]]:text-destructive",
         className
       )}
       data-slot="trace-collapsible-trigger"
+      onClick={onClick}
       {...props}
     >
-      <motion.div
-        className="flex items-center gap-2"
-        transition={{ duration: 0.2, ease: "easeOut" }}
-        whileHover={shouldReduce ? undefined : { x: 1 }}
-      >
+      <span className="inline-flex items-center gap-2 transition-transform duration-200 hover:translate-x-px motion-reduce:transition-none motion-reduce:hover:translate-x-0">
         {children}
-      </motion.div>
-      <motion.span
-        animate={{ rotate: open ? 90 : 0 }}
-        aria-hidden
-        className="flex shrink-0 items-center justify-center"
-        initial={false}
-        transition={shouldReduce ? { duration: 0 } : springSharp}
+      </span>
+      <span
+        aria-hidden="true"
+        className="flex shrink-0 items-center justify-center transition-transform duration-200 data-[state=open]:rotate-90 motion-reduce:transition-none"
+        data-state={open ? "open" : "closed"}
       >
         <ChevronRightIcon className="text-muted-foreground size-3.5" />
-      </motion.span>
-    </CollapsiblePrimitive.Trigger>
+      </span>
+    </CollapsibleTrigger>
   );
 }
 
-function TraceCollapsibleContent({
-  className,
-  children,
-  keepMounted: _keepMounted,
-  animateHeight = true,
-  animation: localAnimation,
-  ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.Content> & {
-  keepMounted?: boolean;
-  animateHeight?: boolean;
+type TraceCollapsibleContentProps = React.ComponentProps<"div"> & {
   animation?: false | string;
-}) {
-  const { animation: contextAnimation, open } = React.useContext(
-    TraceCollapsibleContext
-  );
-  const animation = localAnimation ?? contextAnimation;
-  const anim = React.useMemo(() => parseAnimation(animation), [animation]);
-  const shouldReduce = useReducedMotion();
-  const ref = React.useRef<HTMLDivElement>(null);
-  const [height, setHeight] = React.useState(0);
+  animateHeight?: boolean;
+  keepMounted?: boolean;
+  motion?: string;
+};
 
-  React.useLayoutEffect(() => {
-    const el = ref.current;
-    if (!el) {
-      return;
-    }
-    const update = () => setHeight(el.scrollHeight);
-    update();
-    if (!open) {
-      return;
-    }
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [open]);
-
-  if (!animateHeight) {
-    return (
-      <CollapsiblePrimitive.Content
-        data-slot="trace-collapsible-content-wrapper"
-        forceMount
-        {...props}
-      >
-        <div style={{ display: open ? "block" : "none" }}>
-          <div
-            className={cn(
-              "border-border mt-1 ml-2 border-l pb-1 pl-4",
-              className
-            )}
-          >
-            {children}
-          </div>
-        </div>
-      </CollapsiblePrimitive.Content>
-    );
-  }
-
-  const defaultTransition = {
-    height: springSoft,
-    opacity: { duration: 0.3, ease: easeOutExpo },
-  };
-  const transition =
-    animation === false || shouldReduce
-      ? { duration: 0 }
-      : (anim?.transition ?? defaultTransition);
-
+function TraceCollapsibleContent({
+  animateHeight = true,
+  animation,
+  children,
+  className,
+  keepMounted: _keepMounted,
+  motion,
+  ...props
+}: TraceCollapsibleContentProps) {
+  const { motion: contextMotion } = React.useContext(TraceCollapsibleContext);
+  const resolvedMotion = resolveTraceMotion(motion, animation, contextMotion);
   return (
-    <CollapsiblePrimitive.Content
-      data-slot="trace-collapsible-content-wrapper"
-      forceMount
+    <CollapsibleContent
+      motion={animateHeight ? resolvedMotion : false}
       {...props}
     >
-      <motion.div
-        animate={{ height: open ? height : 0, opacity: open ? 1 : 0 }}
+      <div
+        className={cn("border-border mt-1 ml-2 border-l pb-1 pl-4", className)}
         data-slot="trace-collapsible-content"
-        initial={false}
-        style={{ overflow: "hidden", willChange: "height" }}
-        transition={transition}
       >
-        <div ref={ref}>
-          <div
-            className={cn(
-              "border-border mt-1 ml-2 border-l pb-1 pl-4",
-              className
-            )}
-          >
-            {children}
-          </div>
-        </div>
-      </motion.div>
-    </CollapsiblePrimitive.Content>
+        {children}
+      </div>
+    </CollapsibleContent>
   );
 }
 

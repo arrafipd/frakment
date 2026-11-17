@@ -24,7 +24,7 @@ function Spinner({
         role="status"
         {...props}
       >
-        <span className="block size-full [transform-origin:center] animate-spin [transform-box:view-box]">
+        <span className="block size-full [transform-origin:center] animate-spin [transform-box:view-box] motion-reduce:animate-none">
           <LoaderIcon className="block size-full [shape-rendering:geometricPrecision]" />
         </span>
       </span>
@@ -35,11 +35,12 @@ function Spinner({
     <span
       aria-label="Loading"
       className={cn(
-        "inline-block size-4 shrink-0 animate-spin rounded-full border-current border-t-transparent",
+        "inline-block size-4 shrink-0 animate-spin rounded-full border-current border-t-transparent motion-reduce:animate-none",
         borderWidth === undefined ? "border-2" : "",
         className
       )}
       data-slot="spinner"
+      data-variant="default"
       role="status"
       style={
         borderWidth === undefined

@@ -100,27 +100,12 @@ const SCRIPT: ScriptTurn[] = [
   },
 ];
 
-const INITIAL: DemoMessage[] = [
-  {
-    id: "u-0",
-    parts: [{ text: SCRIPT[0].text, type: "text" }],
-    role: "user",
-  },
-];
+const INITIAL: DemoMessage[] = [];
 
 export function MessageScrollerDemo() {
   const [messages, setMessages] = React.useState<DemoMessage[]>(INITIAL);
   const [busy, setBusy] = React.useState(false);
-  const [step, setStep] = React.useState(1);
-
-  const nextTurn = step < SCRIPT.length ? SCRIPT[step] : null;
-  const preview = nextTurn ? nextTurn.text : null;
-
-  const reset = () => {
-    setMessages(INITIAL);
-    setStep(1);
-    setBusy(false);
-  };
+  const [pairIndex, setPairIndex] = React.useState(0);
 
   const streamAssistant = async (id: string, text: string) => {
     const tokens = text.split(/(\s+)/);
@@ -138,33 +123,40 @@ export function MessageScrollerDemo() {
       );
     }
   };
-
-  const send = async () => {
-    if (!nextTurn || busy) {
-      return;
-    }
-    setBusy(true);
-    const id = `${nextTurn.role === "user" ? "u" : "a"}-${step}`;
-    setMessages((m) => [
-      ...m,
-      { id, parts: [{ text: "", type: "text" }], role: nextTurn.role },
-    ]);
-    setStep((s) => s + 1);
-    if (nextTurn.role === "user") {
-      await new Promise((r) => setTimeout(r, 400));
-      setMessages((m) =>
-        m.map((msg) =>
-          msg.id === id
-            ? { ...msg, parts: [{ text: nextTurn.text, type: "text" }] }
-            : msg
-        )
-      );
-    } else {
-      await streamAssistant(id, nextTurn.text);
-    }
+  const reset = () => {
+    setMessages(INITIAL);
+    setPairIndex(0);
     setBusy(false);
   };
 
+  const send = async () => {
+    if (busy) {
+      return;
+    }
+    if (pairIndex >= 4) {
+      return;
+    }
+    const userTurn = SCRIPT[pairIndex * 2];
+    const assistantTurn = SCRIPT[pairIndex * 2 + 1];
+    const uid = `u-${pairIndex}`;
+    const aid = `a-${pairIndex}`;
+    setBusy(true);
+    setMessages((m) => [
+      ...m,
+      { id: uid, parts: [{ text: userTurn.text, type: "text" }], role: "user" },
+    ]);
+    await new Promise((r) => setTimeout(r, 400));
+    setMessages((m) => [
+      ...m,
+      { id: aid, parts: [{ text: "", type: "text" }], role: "assistant" },
+    ]);
+    await streamAssistant(aid, assistantTurn.text);
+    setPairIndex(pairIndex + 1);
+    setBusy(false);
+  };
+
+  const nextUser =
+    pairIndex >= 4 ? null : (SCRIPT[pairIndex * 2]?.text ?? null);
   return (
     <MessageScrollerProvider>
       <div className="relative flex flex-col gap-4">
@@ -174,17 +166,16 @@ export function MessageScrollerDemo() {
             <CardDescription>How can I help you today?</CardDescription>
             <CardAction>
               <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    aria-label="Reset conversation"
-                    className="rounded-full"
-                    disabled={busy}
-                    onClick={reset}
-                    size="icon-sm"
-                    variant="outline"
-                  >
-                    <ArrowClockwiseIcon />
-                  </Button>
+                <TooltipTrigger
+                  aria-label="Reset conversation"
+                  as={Button}
+                  className="rounded-full"
+                  disabled={busy}
+                  onClick={reset}
+                  size="icon-sm"
+                  variant="outline"
+                >
+                  <ArrowClockwiseIcon />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>Reset</p>
@@ -240,8 +231,8 @@ export function MessageScrollerDemo() {
                     className="line-clamp-2 opacity-60 data-[status=ready]:opacity-100"
                     data-status={busy ? "streaming" : "ready"}
                   >
-                    {preview ? (
-                      preview
+                    {nextUser ? (
+                      nextUser
                     ) : (
                       <span className="text-muted-foreground">
                         No messages queued. Reset the conversation.
@@ -287,7 +278,7 @@ export function MessageScrollerDemo() {
                   </DropdownMenu>
                   <InputGroupButton
                     className="ml-auto rounded-full"
-                    disabled={!preview || busy}
+                    disabled={!nextUser || busy}
                     size="icon-sm"
                     type="submit"
                     variant="default"

@@ -1,40 +1,112 @@
 "use client";
 
-import { Progress as ProgressPrimitive } from "radix-ui";
 import * as React from "react";
+
+import {
+  getTransition,
+  parseMotion,
+  useMotionGuard,
+  useReducedMotion,
+} from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 const ProgressContext = React.createContext<{ value?: number }>({});
 
-function Progress({
-  className,
-  value,
-  children,
-  ...props
-}: React.ComponentProps<typeof ProgressPrimitive.Root> & {
+type ProgressProps = Omit<React.ComponentProps<"div">, "role"> & {
+  "aria-label"?: string;
   children?: React.ReactNode;
-}) {
-  const normalizedValue = value || 0;
+  max?: number;
+  min?: number;
+  motion?: string;
+  value?: number;
+};
 
-  const bar = (
-    <ProgressPrimitive.Root
-      className={cn(
-        "bg-primary/20 relative flex h-1 w-full items-center overflow-x-hidden rounded-full",
-        !children && className
-      )}
-      data-slot="progress"
-      {...props}
-    >
-      <ProgressPrimitive.Indicator
-        className="bg-primary size-full flex-1 transition-transform duration-500 ease-out"
-        data-slot="progress-indicator"
-        style={{ transform: `translateX(-${100 - normalizedValue}%)` }}
-      />
-    </ProgressPrimitive.Root>
+function useProgressIndicatorStyle(
+  value: number,
+  min: number,
+  max: number,
+  motion: string | undefined,
+  internalRef: React.RefObject<HTMLDivElement | null>
+): React.CSSProperties {
+  const reduce = useReducedMotion();
+  const clamped = Math.min(Math.max(value, min), max);
+  const range = Math.max(max - min, 1);
+  const percent = ((clamped - min) / range) * 100;
+
+  let style: React.CSSProperties = {
+    transform: `translateX(-${100 - percent}%)`,
+  };
+
+  if (reduce) {
+    style.transition = "none";
+  } else if (motion !== undefined) {
+    const transition = getTransition(parseMotion(motion));
+    if (transition) {
+      style.transition = transition;
+    }
+  }
+
+  const motionEnabled = motion !== undefined && !reduce;
+  const fingerprint = JSON.stringify(style);
+  const yielded = useMotionGuard(internalRef, motionEnabled, fingerprint);
+  if (yielded && !reduce) {
+    style = { ...style, transition: "none" };
+  }
+
+  return style;
+}
+
+function ProgressBar({
+  className,
+  max = 100,
+  min = 0,
+  motion,
+  value,
+  ...props
+}: ProgressProps) {
+  const internalRef = React.useRef<HTMLDivElement | null>(null);
+  const safeValue = value ?? 0;
+  const indicatorStyle = useProgressIndicatorStyle(
+    safeValue,
+    min,
+    max,
+    motion,
+    internalRef
   );
 
+  return (
+    <div
+      aria-valuemax={max}
+      aria-valuemin={min}
+      aria-valuenow={safeValue}
+      className={cn(
+        "bg-primary/20 relative flex h-1 w-full items-center overflow-x-hidden rounded-full",
+        className
+      )}
+      data-slot="progress"
+      role="progressbar"
+      {...props}
+    >
+      <div
+        className={cn(
+          "bg-primary size-full flex-1",
+          motion === undefined && "transition-transform duration-500 ease-out"
+        )}
+        data-slot="progress-indicator"
+        ref={internalRef}
+        style={indicatorStyle}
+      />
+    </div>
+  );
+}
+
+function Progress({ className, value, children, ...props }: ProgressProps) {
+  const normalizedValue = value ?? 0;
+
   if (!children) {
-    return bar;
+    return (
+      <ProgressBar className={className} value={normalizedValue} {...props} />
+    );
   }
 
   return (
@@ -43,17 +115,7 @@ function Progress({
         <div className="flex items-center justify-between gap-2">
           {children}
         </div>
-        <ProgressPrimitive.Root
-          className="bg-primary/20 relative flex h-1 w-full items-center overflow-x-hidden rounded-full"
-          data-slot="progress"
-          {...props}
-        >
-          <ProgressPrimitive.Indicator
-            className="bg-primary size-full flex-1 transition-transform duration-500 ease-out"
-            data-slot="progress-indicator"
-            style={{ transform: `translateX(-${100 - normalizedValue}%)` }}
-          />
-        </ProgressPrimitive.Root>
+        <ProgressBar value={normalizedValue} {...props} />
       </div>
     </ProgressContext.Provider>
   );

@@ -16,8 +16,6 @@ import { InputOTPDemo } from "@/examples/input-otp-demo";
 
 This release adds **Popover**, migrates **Select**, **Separator**, **Badge**, **Avatar**, **Accordion**, **Collapsible**, **Breadcrumb**, and **Input OTP** off `radix-ui` and `input-otp`, ships first-party **Button Group**, and standardizes the polymorphic `as` prop across **Button**, **Badge**, **Collapsible**, **Breadcrumb**, and **Button Group Text**.
 
-> **Correction (Nov 13, 2026)**: the November 13 changelog's minimal Button example used `console.log("pressed")` as a placeholder handler. Corrected to an empty handler. The canonical example lives on the [Native Button docs](/docs/components/native/button).
-
 - [Popover](#popover): Floating panel anchored to a trigger.
 - [Select](#select): Floating UI listbox with item-aligned and popper modes.
 - [Badge](#badge): Smaller height, `as` prop, `iconOnly` mode.
@@ -32,7 +30,7 @@ This release adds **Popover**, migrates **Select**, **Separator**, **Badge**, **
 
 ### Popover
 
-<ComponentPreview name="popover" title="popover.tsx">
+<ComponentPreview name="popover" title="popover.tsx" previewClassName="h-auto py-8">
   <PopoverDemo />
 </ComponentPreview>
 
@@ -69,12 +67,22 @@ import {
 </Popover>
 ```
 
-See the [Popover docs](/docs/components/popover) for the full API reference.
+See the [Popover docs](/docs/components/web/popover) for the full API reference.
 
 <hr className="my-16 border-border/40" />
 
 ### Button `as` prop
 
+
+<ComponentPreview name="
+button
+" title="
+button.tsx
+" previewClassName="h-auto py-8">
+  <
+ButtonDemo
+ />
+</ComponentPreview>
 Button accepts `as` to render a different root element or component. Pass `as={Link}` for router links, `as={CustomComponent}` for a wrapped surface, or omit to keep the default `<button>` / `<a>` behavior based on `href`.
 
 ```tsx
@@ -84,12 +92,22 @@ import { Button } from "@/components/ui/button";
 <Button as={Link} href="/pricing" variant="outline">Pricing</Button>
 ```
 
-No API breaking changes. `href` and `onClick` continue to work as before. See the [Button docs](/docs/components/button) for the updated router link guidance.
+No API breaking changes. `href` and `onClick` continue to work as before. See the [Button docs](/docs/components/web/button) for the updated router link guidance.
 
 <hr className="my-16 border-border/40" />
 
 ### Separator
 
+
+<ComponentPreview name="
+separator
+" title="
+separator.tsx
+" previewClassName="h-auto py-8">
+  <
+SeparatorDemo
+ />
+</ComponentPreview>
 Separator no longer depends on `radix-ui`. It renders as a `div` with `role="none"` by default, or `role="separator"` with `aria-orientation` when `decorative={false}`.
 
 **Changed:**
@@ -97,12 +115,22 @@ Separator no longer depends on `radix-ui`. It renders as a `div` with `role="non
 - Removed `radix-ui` from `dependencies`. No npm install needed.
 - `decorative` prop now controls `role` directly.
 
-No API breaking changes. See the [Separator docs](/docs/components/separator).
+No API breaking changes. See the [Separator docs](/docs/components/web/separator).
 
 <hr className="my-16 border-border/40" />
 
 ### Button Group
 
+
+<ComponentPreview name="
+button-group
+" title="
+button-group.tsx
+" previewClassName="h-auto py-8">
+  <
+ButtonGroupDemo
+ />
+</ComponentPreview>
 Button Group now uses Frakment's own Slot primitive instead of the Radix Slot. All ten compositions (dropdown, input, input group, nested, select, separator, split, size, orientation, demo) continue to work without changes.
 
 **Changed:**
@@ -110,13 +138,13 @@ Button Group now uses Frakment's own Slot primitive instead of the Radix Slot. A
 - Removed `radix-ui` from `dependencies`.
 - New `registryDependency`: `slot`.
 
-See the [Button Group docs](/docs/components/button-group).
+See the [Button Group docs](/docs/components/web/button-group).
 
 <hr className="my-16 border-border/40" />
 
 ### Select
 
-<ComponentPreview name="select" title="select.tsx">
+<ComponentPreview name="select" title="select.tsx" previewClassName="h-auto py-8">
   <SelectDemo />
 </ComponentPreview>
 
@@ -136,7 +164,7 @@ No API breaking changes. See the [Select docs](/docs/components/web/select).
 
 ### Badge
 
-<ComponentPreview name="badge" title="badge.tsx">
+<ComponentPreview name="badge" title="badge.tsx" previewClassName="h-auto py-8">
   <BadgeDemo />
 </ComponentPreview>
 
@@ -157,7 +185,7 @@ See the [Badge docs](/docs/components/web/badge).
 
 ### Avatar
 
-<ComponentPreview name="avatar" title="avatar.tsx">
+<ComponentPreview name="avatar" title="avatar.tsx" previewClassName="h-auto py-8">
   <AvatarDemo />
 </ComponentPreview>
 
@@ -176,7 +204,7 @@ See the [Avatar docs](/docs/components/web/avatar).
 
 ### Collapsible
 
-<ComponentPreview name="collapsible" title="collapsible.tsx">
+<ComponentPreview name="collapsible" title="collapsible.tsx" previewClassName="h-auto py-8">
   <CollapsibleDemo />
 </ComponentPreview>
 
@@ -210,7 +238,7 @@ See the [Badge](/docs/components/web/badge), [Collapsible](/docs/components/web/
 
 ### Breadcrumb
 
-<ComponentPreview name="breadcrumb" title="breadcrumb.tsx">
+<ComponentPreview name="breadcrumb" title="breadcrumb.tsx" previewClassName="h-auto py-8">
   <BreadcrumbDemo />
 </ComponentPreview>
 
@@ -228,7 +256,7 @@ See the [Breadcrumb docs](/docs/components/web/breadcrumb).
 
 ### Input OTP
 
-<ComponentPreview name="input-otp" title="input-otp.tsx">
+<ComponentPreview name="input-otp" title="input-otp.tsx" previewClassName="h-auto py-8">
   <InputOTPDemo />
 </ComponentPreview>
 
@@ -240,17 +268,17 @@ See the [Breadcrumb docs](/docs/components/web/breadcrumb).
 - Exports `digits`, `chars`, and `alphanumeric` regex patterns instead of `REGEXP_*` constants.
 - Pattern filtering runs on `onChange` so pasted values are sanitized against the pattern.
 
-See the [Input OTP docs](/docs/components/input-otp).
+See the [Input OTP docs](/docs/components/web/input-otp).
 
 <hr className="my-16 border-border/40" />
 
 ### Native Separator & Button Group
 
-<ComponentPreview name="native/separator" src="../../apps/native/registry/separator.tsx" title="separator.tsx">
+<ComponentPreview name="native/separator" src="../../apps/native/registry/separator.tsx" title="separator.tsx" previewClassName="h-auto py-8">
   <NativeSeparatorDemo />
 </ComponentPreview>
 
-<ComponentPreview name="native/button-group" src="../../apps/native/registry/button-group.tsx" title="button-group.tsx">
+<ComponentPreview name="native/button-group" src="../../apps/native/registry/button-group.tsx" title="button-group.tsx" previewClassName="h-auto py-8">
   <NativeButtonGroupDemo />
 </ComponentPreview>
 
@@ -277,6 +305,9 @@ Copy from the [Button Group docs](/docs/components/native/button-group).
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
+import { ButtonDemo } from "@/examples/button-demo";
+import { ButtonGroupDemo } from "@/examples/button-group-demo";
+import { SeparatorDemo } from "@/examples/separator-demo";
 
 <Separator />
 

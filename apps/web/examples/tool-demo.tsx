@@ -110,7 +110,7 @@ function ToolRow({
 }
 
 export function ToolDemo() {
-  const { messages, sendMessage, setMessages, status } = useChat({
+  const { messages, sendMessage, setMessages, status } = useChat<ChatMessage>({
     messages: transcript,
     transport,
   });

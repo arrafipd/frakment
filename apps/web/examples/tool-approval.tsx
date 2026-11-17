@@ -78,7 +78,7 @@ export function ToolApproval() {
     setMessages,
     status,
     addToolApprovalResponse,
-  } = useChat({
+  } = useChat<ChatMessage>({
     messages: initialMessages,
     sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithApprovalResponses,
     transport,
@@ -187,7 +187,7 @@ export function ToolApproval() {
                           ? "Denied"
                           : part.state === "output-available"
                             ? "Ran"
-                            : "Running"}{" "}
+                            : "Running"}
                         {part.input?.command}
                       </TraceTitle>
                     </TraceLine>

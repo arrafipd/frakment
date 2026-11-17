@@ -1,0 +1,59 @@
+---
+title: "November 16, 2026"
+description: "Sonner ships as a native toast engine, no npm dependency."
+date: "2026-11-16"
+---
+
+import { SonnerDemo } from "@/examples/sonner-demo";
+import { SonnerTypes } from "@/examples/sonner-types";
+
+The `sonner` component now bundles a native toast engine instead of wrapping the `sonner` npm package. Copy-paste installs no longer pull the package, and the exported `toast` helper lives in the same file as `Toaster`. The rendered UI, icons, themes, and toast behavior are unchanged.
+
+- [Sonner](#sonner): Toast engine is inlined, `sonner` package removed.
+- [Naming](#naming): Display name changed from "Toast" to "Sonner". Docs URL is now `/docs/components/web/sonner` (redirect from `/docs/components/sonner`).
+- [Changelog correction](#changelog-correction): November 5 entry import path updated from `@/examples/toast-demo` to `@/examples/sonner-demo`.
+
+<hr className="my-16 border-border/40" />
+
+### Sonner
+
+<ComponentPreview name="sonner" title="sonner.tsx" previewClassName="h-auto py-16">
+  <SonnerDemo />
+</ComponentPreview>
+
+`npx frakment add sonner` writes a single file that contains the toast state machine, the `Toaster` engine, and the themed wrapper. The `sonner` package and `@/components/ui/spinner` stay independent: the registry now declares `spinner` as a `registryDependency`, so install pulls it automatically.
+
+#### Installation
+
+<Steps>
+  <Step>Install</Step>
+
+~~~bash
+npx frakment add sonner
+~~~
+
+<Step>Update imports</Step>
+
+~~~tsx
+- import { toast } from "sonner";
++ import { toast } from "@/components/ui/sonner";
+~~~
+
+</Steps>
+
+#### Minimal usage
+
+~~~tsx
+import { toast, Toaster } from "@/components/ui/sonner";
+
+<Toaster />
+toast.success("Saved");
+~~~
+
+### Naming
+
+The display label is now **Sonner** everywhere: page title, sidebar, changelog. The registry slug stays `sonner`. Docs moved to `/docs/components/web/sonner`, matching the rest of the web components. The old URL `/docs/components/sonner` redirects.
+
+### Changelog correction
+
+The November 5 entry imported `ToastDemo` from `@/examples/toast-demo`. The demo now lives at `@/examples/sonner-demo` with export `SonnerDemo`. The import in the November 5 changelog was updated in place to keep the build green.

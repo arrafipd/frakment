@@ -1,0 +1,20 @@
+{
+  "$schema": "https://www.arrafi.dev/frakment/schema/frakment.json",
+  "platform": "expo",
+  "registry": "https://www.arrafi.dev/frakment/r",
+  "registries": {
+    "web": "https://www.arrafi.dev/frakment/r",
+    "expo": "https://www.arrafi.dev/frakment/r/expo"
+  },
+  "aliases": {
+    "components": "@/components",
+    "ui": "@/components/ui",
+    "utils": "@/lib/utils",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  },
+  "tailwind": {
+    "config": "",
+    "css": "global.css"
+  }
+}

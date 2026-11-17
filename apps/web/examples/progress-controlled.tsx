@@ -10,7 +10,7 @@ export function ProgressControlled() {
 
   return (
     <div className="flex w-full max-w-sm flex-col gap-4">
-      <Progress className="w-full" value={value} />
+      <Progress className="w-full" motion="off" value={value} />
       <Slider
         aria-label="Progress value"
         className="w-full"

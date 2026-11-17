@@ -24,10 +24,8 @@ export function ButtonGroupNested() {
         <InputGroup>
           <InputGroupInput placeholder="Send a message..." />
           <Tooltip>
-            <TooltipTrigger asChild>
-              <InputGroupAddon align="inline-end">
-                <AudioLinesIcon />
-              </InputGroupAddon>
+            <TooltipTrigger align="inline-end" as={InputGroupAddon}>
+              <AudioLinesIcon />
             </TooltipTrigger>
             <TooltipContent>Voice Mode</TooltipContent>
           </Tooltip>

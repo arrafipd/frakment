@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { toast } from "sonner";
 import {
   Questionnaire,
   QuestionnaireActions,
@@ -16,6 +15,7 @@ import {
   QuestionnaireSubmit,
   QuestionnaireTitle,
 } from "@/components/ui/questionnaire";
+import { toast } from "@/components/ui/sonner";
 import type { QuestionnaireItemStatus } from "@/lib/questionnaire";
 
 const items = [

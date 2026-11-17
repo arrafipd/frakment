@@ -9,11 +9,11 @@ export function BubbleDemo() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-8 py-12">
       <Bubble align="end">
-        <BubbleContent>{"Hey there! what's up?"}</BubbleContent>
+        <BubbleContent>Hey there! what's up?</BubbleContent>
       </Bubble>
       <BubbleGroup>
         <Bubble variant="muted">
-          <BubbleContent>{"Hey! Want to see chat bubbles?"}</BubbleContent>
+          <BubbleContent>Hey! Want to see chat bubbles?</BubbleContent>
         </Bubble>
         <Bubble variant="muted">
           <BubbleContent>
@@ -22,12 +22,12 @@ export function BubbleDemo() {
             }
           </BubbleContent>
           <BubbleReactions aria-label="Reaction: thumbs up" role="img">
-            <span>{"👍"}</span>
+            <span>👍</span>
           </BubbleReactions>
         </Bubble>
       </BubbleGroup>
       <Bubble align="end">
-        <BubbleContent>{"Sure. Hit me with your best demo."}</BubbleContent>
+        <BubbleContent>Sure. Hit me with your best demo.</BubbleContent>
       </Bubble>
       <Bubble variant="muted">
         <BubbleContent>
@@ -39,10 +39,10 @@ export function BubbleDemo() {
           aria-label="Reactions: thumbs up, fire, eyes, and 2 more"
           role="img"
         >
-          <span>{"👍"}</span>
-          <span>{"🔥"}</span>
-          <span>{"👀"}</span>
-          <span>{"+2"}</span>
+          <span>👍</span>
+          <span>🔥</span>
+          <span>👀</span>
+          <span>+2</span>
         </BubbleReactions>
       </Bubble>
     </div>

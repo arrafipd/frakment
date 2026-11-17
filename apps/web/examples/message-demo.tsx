@@ -1,129 +1,87 @@
 "use client";
 
-import {
-  CheckIcon,
-  CopyIcon,
-  PencilIcon,
-  RefreshCcwIcon,
-  ThumbsDownIcon,
-  ThumbsUpIcon,
-} from "lucide-react";
-import * as React from "react";
-import { Button } from "@/components/ui/button";
-import { Markdown } from "@/components/ui/markdown";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Marker, MarkerContent } from "@/components/ui/marker";
 import {
   Bubble,
   BubbleContent,
+  BubbleGroup,
+  BubbleReactions,
   Message,
+  MessageAvatar,
   MessageContent,
   MessageFooter,
 } from "@/components/ui/message";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-
-const reply = `Install Dialog, then open it from the gear button in \`site-header.tsx\`.
-
-\`\`\`bash
-npx frakment@latest add dialog
-\`\`\`
-
-Wrap the button in a \`DialogTrigger\` and put the settings form in \`DialogContent\`. Focus moves into the dialog when it opens, and **Esc** closes it.`;
 
 export function MessageDemo() {
-  const [copied, setCopied] = React.useState(false);
-  const [feedback, setFeedback] = React.useState<"like" | "dislike" | null>(
-    null
-  );
-
-  React.useEffect(() => {
-    if (!copied) {
-      return;
-    }
-    const timeout = setTimeout(() => setCopied(false), 2000);
-    return () => clearTimeout(timeout);
-  }, [copied]);
-
   return (
-    <div className="mx-auto flex w-full max-w-md flex-col gap-8 py-6 text-sm">
+    <div className="flex w-full max-w-sm flex-col gap-6 py-12">
       <Message align="end">
-        <MessageContent className="gap-2">
-          <Bubble align="end" variant="muted">
-            <BubbleContent>
-              How do I add a settings dialog? It should open from the gear icon
-              in the header.
-            </BubbleContent>
+        <MessageAvatar>
+          <Avatar>
+            <AvatarImage alt="@me" src="/avatars/female-l-1.avif" />
+            <AvatarFallback>ME</AvatarFallback>
+          </Avatar>
+        </MessageAvatar>
+        <MessageContent>
+          <Bubble>
+            <BubbleContent>Deploying to prod real quick.</BubbleContent>
           </Bubble>
-          <MessageFooter>
-            <MessageAction label="Copy">
-              <CopyIcon />
-            </MessageAction>
-            <MessageAction label="Edit">
-              <PencilIcon />
-            </MessageAction>
-          </MessageFooter>
         </MessageContent>
       </Message>
       <Message>
-        <MessageContent className="gap-2">
-          <Markdown>{reply}</Markdown>
-          <MessageFooter className="px-0">
-            <MessageAction
-              label={copied ? "Copied" : "Copy"}
-              onClick={() => {
-                navigator.clipboard.writeText(reply);
-                setCopied(true);
-              }}
-            >
-              {copied ? <CheckIcon /> : <CopyIcon />}
-            </MessageAction>
-            <MessageAction
-              aria-pressed={feedback === "like"}
-              label="Good response"
-              onClick={() => setFeedback(feedback === "like" ? null : "like")}
-            >
-              <ThumbsUpIcon
-                className={feedback === "like" ? "fill-current" : undefined}
-              />
-            </MessageAction>
-            <MessageAction
-              aria-pressed={feedback === "dislike"}
-              label="Bad response"
-              onClick={() =>
-                setFeedback(feedback === "dislike" ? null : "dislike")
-              }
-            >
-              <ThumbsDownIcon
-                className={feedback === "dislike" ? "fill-current" : undefined}
-              />
-            </MessageAction>
-            <MessageAction label="Retry">
-              <RefreshCcwIcon />
-            </MessageAction>
-          </MessageFooter>
+        <MessageAvatar>
+          <Avatar>
+            <AvatarImage alt="@oliver" src="/avatars/male-r.avif" />
+            <AvatarFallback>OL</AvatarFallback>
+          </Avatar>
+        </MessageAvatar>
+        <MessageContent>
+          <Bubble variant="muted">
+            <BubbleContent>It is 4:55 PM. On a Friday.</BubbleContent>
+          </Bubble>
         </MessageContent>
       </Message>
+      <Message align="end">
+        <MessageAvatar>
+          <Avatar>
+            <AvatarImage alt="@me" src="/avatars/female-l-1.avif" />
+            <AvatarFallback>ME</AvatarFallback>
+          </Avatar>
+        </MessageAvatar>
+        <MessageContent>
+          <Bubble>
+            <BubbleContent>It is a one-line change.</BubbleContent>
+          </Bubble>
+          <MessageFooter>Delivered</MessageFooter>
+        </MessageContent>
+      </Message>
+      <Message>
+        <MessageAvatar>
+          <Avatar>
+            <AvatarImage alt="@oliver" src="/avatars/male-r.avif" />
+            <AvatarFallback>OL</AvatarFallback>
+          </Avatar>
+        </MessageAvatar>
+        <MessageContent>
+          <BubbleGroup>
+            <Bubble variant="muted">
+              <BubbleContent>It is always a one-line change.</BubbleContent>
+            </Bubble>
+            <Bubble variant="muted">
+              <BubbleContent>Alright, let me take a look.</BubbleContent>
+              <BubbleReactions aria-label="Reactions: thumbs up">
+                <span>👍</span>
+              </BubbleReactions>
+            </Bubble>
+          </BubbleGroup>
+        </MessageContent>
+      </Message>
+      <Marker role="status">
+        <MarkerContent className="shimmer">
+          <span className="font-medium">Oliver</span> is typing...
+        </MarkerContent>
+      </Marker>
     </div>
-  );
-}
-
-function MessageAction({
-  label,
-  children,
-  ...props
-}: React.ComponentProps<typeof Button> & { label: string }) {
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Button aria-label={label} size="icon-sm" variant="ghost" {...props}>
-          {children}
-        </Button>
-      </TooltipTrigger>
-      <TooltipContent>
-        <p>{label}</p>
-      </TooltipContent>
-    </Tooltip>
   );
 }

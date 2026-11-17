@@ -6,7 +6,7 @@ import { ButtonGroup } from "@/components/ui/button-group";
 
 export function ButtonGroupSizeExample() {
   return (
-    <View className="gap-8">
+    <View className="items-start gap-8">
       <ButtonGroup>
         <Button size="sm" variant="outline">
           Small

@@ -27,7 +27,7 @@ const results = [
 
 export function TraceDialog() {
   return (
-    <Trace className="max-w-sm">
+    <Trace className="mx-auto w-fit max-w-full">
       <Dialog>
         <DialogTrigger>
           <TraceLine>
