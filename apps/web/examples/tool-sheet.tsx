@@ -57,7 +57,7 @@ const initialMessages = chat.get(0);
 const transport = chat.transport({ delayMs: 20 });
 
 export function ToolSheet() {
-  const { messages, sendMessage, setMessages, status } = useChat({
+  const { messages, sendMessage, setMessages, status } = useChat<ChatMessage>({
     messages: initialMessages,
     transport,
   });

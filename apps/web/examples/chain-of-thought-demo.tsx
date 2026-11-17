@@ -320,7 +320,7 @@ function ChainOfThought({
 }
 
 export function ChainOfThoughtDemo() {
-  const { messages, sendMessage, setMessages, status } = useChat({
+  const { messages, sendMessage, setMessages, status } = useChat<ChatMessage>({
     messages: transcript,
     transport,
   });

@@ -198,7 +198,7 @@ function CommandRow({
 }
 
 export function StackTraceDemo() {
-  const { messages, sendMessage, setMessages, status } = useChat({
+  const { messages, sendMessage, setMessages, status } = useChat<ChatMessage>({
     messages: transcript,
     transport,
   });

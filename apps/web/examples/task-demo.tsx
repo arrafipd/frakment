@@ -151,7 +151,7 @@ function TaskRow({
 }
 
 export function TaskDemo() {
-  const { messages, sendMessage, setMessages, status } = useChat({
+  const { messages, sendMessage, setMessages, status } = useChat<ChatMessage>({
     messages: transcript,
     transport,
   });
