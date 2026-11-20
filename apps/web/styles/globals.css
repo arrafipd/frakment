@@ -308,18 +308,6 @@
   animation-name: via-blur;
 }
 
-::view-transition-group(.text-morph) {
-  animation-duration: var(--duration-move);
-}
-::view-transition-old(.text-morph) {
-  display: none;
-}
-::view-transition-new(.text-morph) {
-  object-fit: none;
-  object-position: left top;
-  animation: none;
-}
-
 ::view-transition-old(.scale-out) {
   animation: var(--duration-exit) ease-in scale-down;
 }

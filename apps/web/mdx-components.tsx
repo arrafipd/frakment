@@ -16,11 +16,6 @@ import {
 } from "@/components/docs/file-tree";
 import { PropsTable } from "@/components/docs/props-table";
 import { IntroFeatureCard } from "@/components/home/intro-feature-card";
-import { MotionCurveCustom } from "@/components/home/motion-curve-custom";
-import {
-  ComponentDefaultsGrid,
-  MotionCurveGrid,
-} from "@/components/home/motion-curve-grid";
 import { Alert, AlertDescription, AlertTitle } from "@/components/site/alert";
 import { FrakmentMark } from "@/components/site/brand";
 import { BrandColorSwatch } from "@/components/site/brand-color-swatch";
@@ -95,7 +90,6 @@ export const mdxComponents = {
   CodeBlockCommand,
   CodeCollapsibleWrapper,
   CodeTabs,
-  ComponentDefaultsGrid,
   ComponentPreview,
   ComponentSource,
   ComponentsList,
@@ -387,8 +381,6 @@ export const mdxComponents = {
   li: ({ className, ...props }: React.ComponentProps<"li">) => (
     <li className={cn("mt-2", className)} {...props} />
   ),
-  MotionCurveCustom,
-  MotionCurveGrid,
   ol: ({ className, ...props }: React.ComponentProps<"ol">) => (
     <ol className={cn("my-6 ml-6 list-decimal", className)} {...props} />
   ),

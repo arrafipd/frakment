@@ -114,7 +114,6 @@ const chat = createChat<ChatMessage>()
 Checkpoint rows animate through the same variants as chat messages.
 
 ```tsx title="checkpoint.tsx"
-import { MESSAGE_ANIMATIONS } from "@/lib/message-animations";
 import { motion, useReducedMotion } from "motion/react";
 
 const shouldReduceMotion = useReducedMotion();
@@ -122,7 +121,7 @@ const shouldReduceMotion = useReducedMotion();
 <motion.div
   animate={shouldReduceMotion ? undefined : "animate"}
   initial={shouldReduceMotion ? undefined : "initial"}
-  variants={MESSAGE_ANIMATIONS["slide-up"].variants}
+  variants={{ animate: { opacity: 1, y: 0 }, initial: { opacity: 0, y: 8 } }}
 >
   ...
 </motion.div>

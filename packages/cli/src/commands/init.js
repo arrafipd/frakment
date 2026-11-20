@@ -345,7 +345,6 @@ export function cn(...inputs: ClassValue[]) {
     "clsx",
     "tailwind-merge",
     "class-variance-authority",
-    "radix-ui",
     "lucide-react",
     "motion",
   ].filter((d) => !allDeps[d]);

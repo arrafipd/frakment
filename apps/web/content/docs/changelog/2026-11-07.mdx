@@ -11,7 +11,6 @@ import { ShimmerDemo } from "@/examples/shimmer-demo";
 import { HoverCardDemo } from "@/examples/hover-card-demo";
 import { ProgressDemo } from "@/examples/progress-demo";
 import { SliderDemo } from "@/examples/slider-demo";
-import { QuestionnaireDemo } from "@/examples/questionnaire-demo";
 
 This release adds the **Attachment** docs page with six examples, per-variant install commands for **Trace**, and two CSS utilities: **scroll-fade** for edge-aware scroll containers and **shimmer** for animated loading text.
 
@@ -19,7 +18,6 @@ This release adds the **Attachment** docs page with six examples, per-variant in
 - [Hover Card](#hover-card): Rich content on hover, portal-based.
 - [Progress](#progress): Task completion indicator with smooth transitions.
 - [Slider](#slider): Range input with single, range, and vertical modes.
-- [Questionnaire](#questionnaire): Multi-step form primitive with headless engine.
 - [Scroll fade](#scroll-fade): Mask gradient utilities for scroll containers.
 - [Shimmer](#shimmer): Animated gradient text utility.
 
@@ -27,7 +25,11 @@ This release adds the **Attachment** docs page with six examples, per-variant in
 
 ### Attachment
 
-<ComponentPreview name="attachment" title="attachment.tsx" previewClassName="h-auto py-8">
+<ComponentPreview
+  name="attachment"
+  title="attachment.tsx"
+  previewClassName="h-auto py-8"
+>
   <AttachmentDemo />
 </ComponentPreview>
 
@@ -158,9 +160,7 @@ import {
   <HoverCardTrigger asChild>
     <Button variant="link">@fraktment</Button>
   </HoverCardTrigger>
-  <HoverCardContent>
-    Registry primitives for React.
-  </HoverCardContent>
+  <HoverCardContent>Registry primitives for React.</HoverCardContent>
 </HoverCard>
 ```
 
@@ -238,67 +238,13 @@ See the [Slider docs](/docs/components/slider) for the full API reference.
 
 <hr className="my-16 border-border/40" />
 
-### Questionnaire
-
-<ComponentPreview name="questionnaire" title="questionnaire-demo.tsx">
-  <QuestionnaireDemo />
-</ComponentPreview>
-
-**Questionnaire** is a multi-step form **component** that bundles a headless engine. Each step renders one question with a title, optional description, a set of choices, optional freeform input, and inline error. Navigation between steps and the final submit are handled by the headless engine in `lib/questionnaire`, which ships as a registry dependency.
-
-#### Installation
-
-<Steps>
-  <Step>Install the primitive (pulls the engine automatically)</Step>
-
-```bash
-npx frakment add questionnaire checkbox radio-group button card
-```
-
-<Step>Use it in your app</Step>
-
-```tsx
-import {
-  Questionnaire,
-  QuestionnaireActions,
-  QuestionnaireChoice,
-  QuestionnaireChoices,
-  QuestionnaireItem,
-  QuestionnaireNext,
-  QuestionnairePrevious,
-  QuestionnaireSubmit,
-  QuestionnaireTitle,
-} from "@/components/ui/questionnaire";
-```
-
-</Steps>
-
-#### Minimal usage
-
-```tsx
-<Questionnaire items={items} onSubmit={handleSubmit}>
-  <QuestionnaireItem name="scope" required>
-    <QuestionnaireTitle>What should the agent change?</QuestionnaireTitle>
-    <QuestionnaireChoices>
-      <QuestionnaireChoice value="component">Component only</QuestionnaireChoice>
-      <QuestionnaireChoice value="feature">Complete feature</QuestionnaireChoice>
-    </QuestionnaireChoices>
-  </QuestionnaireItem>
-  <QuestionnaireActions>
-    <QuestionnairePrevious />
-    <QuestionnaireNext>Next</QuestionnaireNext>
-    <QuestionnaireSubmit>Save</QuestionnaireSubmit>
-  </QuestionnaireActions>
-</Questionnaire>
-```
-
-See the [Questionnaire docs](/docs/modules/questionnaire) for the full API reference.
-
-<hr className="my-16 border-border/40" />
-
 ### Context
 
-<ComponentPreview name="context-demo" title="context-demo.tsx" src="examples/context-demo.tsx">
+<ComponentPreview
+  name="context-demo"
+  title="context-demo.tsx"
+  src="examples/context-demo.tsx"
+>
   <ContextDemo />
 </ComponentPreview>
 
@@ -315,7 +261,9 @@ npx frakment add hover-card progress button
 ```tsx
 <HoverCard>
   <HoverCardTrigger asChild>
-    <Button size="sm" variant="outline">{percent}% context</Button>
+    <Button size="sm" variant="outline">
+      {percent}% context
+    </Button>
   </HoverCardTrigger>
   <HoverCardContent>
     <Progress value={percent} />

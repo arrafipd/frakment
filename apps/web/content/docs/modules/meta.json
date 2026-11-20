@@ -1,5 +1,5 @@
 {
   "title": "Modules",
   "root": true,
-  "pages": ["pulse", "questionnaire", "credit-card", "holo-card"]
+  "pages": ["pulse", "questionnaire"]
 }

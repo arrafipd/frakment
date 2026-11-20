@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useCallback } from "react";
 
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/sonner";
 import {
   Tooltip,
   TooltipContent,
@@ -60,16 +61,29 @@ export const CopyButton = ({
   });
 
   const handleCopy = useCallback(async () => {
-    const text = await getValue();
-    const hasCopied = await copyToClipboard(text);
+    try {
+      const result = getValue();
+      const text = typeof result === "string" ? result : await result;
+      const hasCopied = await copyToClipboard(text);
 
-    if (hasCopied && event) {
-      trackEvent({
-        name: event,
-        properties: {
-          code: text,
-        },
-      });
+      if (!hasCopied) {
+        toast.error(
+          "Could not copy to clipboard. Check browser permissions and try again."
+        );
+        return;
+      }
+
+      if (event) {
+        trackEvent({
+          name: event,
+          properties: {
+            code: text,
+          },
+        });
+      }
+    } catch (error) {
+      console.error("Failed to prepare content for copying.", error);
+      toast.error("Could not prepare content for copying. Please try again.");
     }
   }, [copyToClipboard, event, getValue]);
 

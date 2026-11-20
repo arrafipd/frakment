@@ -161,7 +161,6 @@ The tool call moves through states:
 User turns animate with the `slide-up` variant, assistant turns fade in, and the approval card slides up when it appears.
 
 ```tsx title="confirmation.tsx"
-import { MESSAGE_ANIMATIONS } from "@/lib/message-animations";
 import { motion, useReducedMotion } from "motion/react";
 
 const shouldReduceMotion = useReducedMotion();
@@ -169,7 +168,7 @@ const shouldReduceMotion = useReducedMotion();
 <motion.div
   animate={shouldReduceMotion ? undefined : "animate"}
   initial={shouldReduceMotion ? undefined : "initial"}
-  variants={MESSAGE_ANIMATIONS["slide-up"].variants}
+  variants={{ animate: { opacity: 1, y: 0 }, initial: { opacity: 0, y: 8 } }}
 >
   <Item variant="outline" size="sm">...</Item>
 </motion.div>

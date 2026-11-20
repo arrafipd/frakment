@@ -14,7 +14,7 @@ import { PopoverForm } from "@/examples/popover-form";
   <PopoverDemo />
 </ComponentPreview>
 
-A floating panel anchored to a trigger. Opens on trigger click, closes on outside click or `Escape`. Position is resolved by Floating UI, so the panel flips and shifts automatically when it would overflow the viewport.
+A panel anchored to a trigger. Opens on trigger click, closes on outside click or `Escape`, and adjusts its placement to remain visible near viewport edges.
 
 ## Installation
 
@@ -34,12 +34,6 @@ npx frakment add popover
 
   <TabsContent value="manual">
     <Steps className="mb-0 pt-2">
-      <Step>Install the following dependencies:</Step>
-
-```bash
-npm install @floating-ui/react-dom
-```
-
       <Step>Copy and paste the following code into your project.</Step>
 
       <ComponentSource name="popover" title="components/ui/popover.tsx" />

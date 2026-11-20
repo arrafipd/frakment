@@ -14,148 +14,94 @@ npx frakment@latest init
 npx frakment@latest add button
 ```
 
-`init` runs once per project. It verifies Tailwind v4 is configured, creates `lib/animation.ts` with the shared helper tokens, and installs `motion` along with the base dependencies. `add` runs once per component - it copies the component source into your project and installs whatever npm package that component animates with. No global config, no extra build step.
+`init` runs once per project. It verifies Tailwind v4 is configured, installs `motion` along with the base dependencies, and scaffolds `lib/motion.ts` for the `motion` prop parser. `add` runs once per component - it copies the component source into your project and installs whatever npm package that component animates with. No global config, no extra build step.
 
 ## Default motion
 
-These components animate out of the box - no prop required. A custom `animation` prop is also available on five Motion state-transition components. See [Custom animation prop](#custom-animation-prop).
+These components animate out of the box - no prop required. A custom `motion` prop is available on Motion state-transition components. Pass a string like `"150 ease-out"` or `"off"` to override.
 
-<ComponentDefaultsGrid />
+## Custom motion prop
 
-
-## Custom animation prop
-
-Five Motion state-transition components accept an `animation` prop. Pass a string; the parser (`parseAnimation` in `lib/animation.ts`) converts it into a Motion `transition`. No need to import `motion` yourself.
+Motion state-transition components accept a `motion` prop. Pass a string; `parseMotion` in `lib/motion.ts` converts it into a Motion transition. No need to import `motion` yourself.
 
 | Component | Prop location |
 | :-- | :-- |
-| Accordion | `<Accordion animation>` (inherited) + `<AccordionContent animation>` (per-item) |
-| Collapsible | `<Collapsible animation>` + `<CollapsibleContent animation>` |
-| Trace | `<TraceCollapsible animation>` + `<TraceCollapsibleContent animation>` |
-| Credit Card | `<CreditCardNumber animation>` (per character; uses `stagger` as delay) |
-| Text Morph | `<TextMorph animation>` (overrides `transition` prop when set) |
+| Accordion | `<Accordion motion>` (inherited) + `<AccordionContent motion>` (per-item) |
+| Collapsible | `<Collapsible motion>` + `<CollapsibleContent motion>` |
+| Trace | `<TraceCollapsible motion>` + `<TraceCollapsibleContent motion>` |
 
 ```tsx
-<Accordion animation="spring(300, 25)" collapsible type="single">
+<Accordion motion="150 ease-out" collapsible type="single">
   <AccordionItem value="a">
     <AccordionTrigger>Shipping options</AccordionTrigger>
-    <AccordionContent animation="easeOutExpo 400ms">...</AccordionContent>
+    <AccordionContent motion="300ms ease-out">...</AccordionContent>
   </AccordionItem>
 </Accordion>
 ```
 
 ### Syntax
 
-One required primary token, then any number of modifiers. Tokens separated by spaces; parentheses and brackets preserved, so `keyframes([0, 1, 0])` is one token.
+One optional duration token, then one optional easing token. Tokens separated by spaces.
 
-Primary token (exactly one):
-
-| Form | Example | Maps to |
+| Form | Example | Meaning |
 | :-- | :-- | :-- |
-| Named easing | `easeInOut`, `easeOutExpo`, `easeSmoothOut`, `linear`, `backOut`, `anticipate` | `{ type: "tween", ease }` |
-| Custom Bezier | `cubic-bezier(0.4, 0, 0.2, 1)` | `{ type: "tween", ease: [x1, y1, x2, y2] }` |
-| Spring | `spring(stiffness, damping)`, e.g. `spring(300, 25)` | `{ type: "spring", stiffness, damping }` |
-
-Modifiers (any order, repeatable):
-
-| Form | Example | Notes |
-| :-- | :-- | :-- |
-| Duration | `300ms`, `0.3s`, `0.3` | Tween only. Ignored on `spring`. |
-| Delay | `delay(100ms)` | Any transition type. |
-| Repeat | `repeat(3)`, `repeat(infinite)` | Any transition type. |
+| Duration | `150`, `300ms`, `0.3s` | Transition duration in milliseconds. |
+| Easing | `ease-in-out`, `linear`, `cubic-bezier(0.4, 0, 0.2, 1)` | CSS easing function. |
+| Off | `off` | Disables animation entirely. |
 
 ```text
-spring(300, 25) delay(100ms) repeat(3)
-easeOutExpo 400ms
-cubic-bezier(0.4, 0, 0.2, 1) 300ms delay(50ms)
+150 ease-out
+300ms cubic-bezier(0.4, 0, 0.2, 1)
+off
 ```
 
 ### Disable per instance
 
 ```tsx
-<Accordion animation={false} collapsible type="single">...</Accordion>
+<Accordion motion={false} collapsible type="single">...</Accordion>
 ```
 
-`false` disables the animation for that instance. Omitting the prop keeps the internal default. `false` is not "use default" — it is "no animation".
+`false` disables the animation for that instance. Omitting the prop keeps the internal default.
 
 ### Reduced motion
 
-When the user has `prefers-reduced-motion: reduce`, all five components force `{ duration: 0 }` regardless of the prop value.
+When the user has `prefers-reduced-motion: reduce`, all Motion transitions are disabled automatically via `useReducedMotion` from `lib/motion.ts`.
 
 ### Invalid input
 
-If the string cannot be parsed, `parseAnimation` logs `[motion-dsl] <reason>` to the console and returns `null`. The component then falls back to its internal default. No crash, no broken UI.
+If the string cannot be parsed, `parseMotion` logs `[motion] <reason>` to the console and returns `null`. The component then falls back to its internal default. No crash, no broken UI.
 
 ```tsx
-<Accordion animation="spring(abc, def)">   // warns, falls back to default
-<Accordion animation="wobbleOut 300ms">     // warns, falls back to default
+<Accordion motion="spring(abc, def)">   // warns, falls back to default
+<Accordion motion="wobbleOut 300ms">     // warns, falls back to default
 ```
 
 ### Per-component behavior
 
-- **Accordion** — animates `height` and `opacity` together. Default: `height` uses `durationSlow` + `easeSmoothOut`, `opacity` uses `0.2s`. Setting `animation` replaces both with a single shared transition.
-- **Collapsible** — animates `height`. Default: `durationSlow` + `easeSmoothOut`.
-- **Trace** — animates `height` and `opacity`. Default: `height` uses `springSoft`, `opacity` uses `0.3s` + `easeOutExpo`. Ignored when `animateHeight={false}`.
-- **Credit Card** — animates `scale`, `opacity`, and `filter: blur` per character. `stagger` sets the delay between characters. Default transition: `durationSlow` + `easeInOutQuad`.
-- **Text Morph** — passes the parsed transition to its internal `motion.span` for `flip` and `slide` variants only. The other variants (`fade`, `blur`, `scale`, `count`, `roll`, `shuffle`, `typewriter`, `wave`) run their own animation paths (CSS, NumberFlow, or timers) and ignore `animation`. Priority: `animation` string > `transition` prop > internal default.
+- **Accordion** — animates `height` and `opacity` together. Default: `150ms ease-in-out`. Setting `motion` replaces both with a single shared transition.
+- **Collapsible** — animates `height`. Default: `150ms ease-in-out`.
+- **Trace** — animates `height` and `opacity`. Default: `150ms ease-in-out`. Ignored when `animateHeight={false}`.
 
 ### Limitations
 
-- **No per-property transitions.** One transition object applies to every animated property. To control `height` and `opacity` separately, leave `animation` unset and edit the source.
-- **`springSoft` cannot be referenced by name.** The token is an object, not a string. Use `spring(200, 30)`.
-- **Duration is ignored on spring and inertia.** Physics transitions derive duration from their parameters.
-- **`steps(...)` is not a stepping easing.** Parser accepts it but maps to `ease: "linear"`.
+- **No per-property transitions.** One transition object applies to every animated property. To control `height` and `opacity` separately, leave `motion` unset and edit the source.
 
-## Easing curves
 
-The named cubic-bezier tokens Frakment uses across its motion system. Click any card to copy the name, then use it in your own animated components.
-
-<MotionCurveGrid />
-
-## Custom curve
-
-Build your own cubic-bezier when none of the tokens above fit. X must stay between 0 and 1; Y can overshoot for bounce-like effects. Click the value to copy the `cubic-bezier(...)` string.
-
-<MotionCurveCustom />
-
-## Durations
-
-Three duration tokens paired with any easing above.
-
-| Name | Value |
-| :-- | :-- |
-| `fast` | 0.2s |
-| `normal` | 0.3s |
-| `slow` | 0.45s |
-
-Exported as `durationFast`, `durationNormal`, `durationSlow` from `@/lib/animation`.
-
-## Springs
-
-Physics-based transitions that settle naturally without a fixed duration.
-
-| Name | Config |
-| :-- | :-- |
-| `springSoft` | stiffness 200, damping 30 |
-
-Reach for `springSoft` when an element should feel physical rather than timed. Trace uses it for height; Accordion and Collapsible use a tween (`durationSlow` + `easeSmoothOut`) by default.
 
 ## Motion vs CSS
 
-Every animation in Frakment picks the smallest tool that fits. Six components animate with Motion (JS-driven, per-frame control). Seven animate with pure CSS keyframes on Radix `data-state` attributes. Message Animated uses Motion for a single container fade, not per-character.
+Every animation in Frakment picks the smallest tool that fits. Some components animate with Motion (JS-driven, per-frame control). Others animate with pure CSS keyframes driven by their own `data-state` attributes.
 
-**Motion** (`motion/react`) - per-frame control, springs, per-character orchestration:
+**Motion** (`motion/react`) - per-frame control:
 
-- Accordion, Collapsible — height animation with tween (`durationSlow` + `easeSmoothOut`)
-- Trace — height animation with spring (`springSoft`)
-- Credit Card (Masked) - per-character stagger
-- Text Morph - layout transitions per variant
+- Accordion, Collapsible — height animation
+- Trace — height animation
 
-**CSS** (`tw-animate-css` + Radix `data-state`) - zero JS at runtime, runs on the compositor thread:
+**CSS** (`tw-animate-css` + `data-state`) - zero JS at runtime, runs on the compositor thread:
 
 - Dialog, Sheet, Dropdown Menu, Select, Tooltip, Hover Card, Tabs
 
-`npx frakment@latest init` installs Motion. Radix primitives arrive with the components that need them. The split exists so that simple enter/exit transitions stay off the JS main thread, and only the animations that genuinely need per-frame calculations ship a Motion bundle.
+`npx frakment@latest init` installs Motion. Components include their own interaction primitives, while the CLI installs any runtime dependencies declared by each component. The split exists so that simple enter/exit transitions stay off the JS main thread, and only the animations that genuinely need per-frame calculations ship a Motion bundle.
 
 ## What `init` creates
 
@@ -169,7 +115,7 @@ Running `npx frakment@latest init` adds these files to your project:
     </FileTreeFolder>
     <FileTreeFolder name="lib" defaultOpen>
       <FileTreeFile name="utils.ts" />
-      <FileTreeFile name="animation.ts" />
+      <FileTreeFile name="motion.ts" />
     </FileTreeFolder>
   </FileTreeFolder>
 </FileTree>
@@ -179,17 +125,9 @@ Running `npx frakment@latest init` adds these files to your project:
 | `components.json` | Registry URL, import aliases, Tailwind CSS path |
 | `app/globals.css` | Theme tokens injected between `FRAKMENT THEME` markers |
 | `lib/utils.ts` | `cn()` helper - merges Tailwind classes |
-| `lib/animation.ts` | Motion tokens + `parseAnimation()` parser for the `animation` prop |
+| `lib/motion.ts` | `parseMotion()`, `getTransition()`, `useReducedMotion()`, `useMotionGuard()` |
 
-Plus six npm packages: `class-variance-authority`, `clsx`, `tailwind-merge`, `radix-ui`, `lucide-react`, `motion`.
-## Two systems, one install
-
-Frakment uses two animation engines behind the scenes. You do not choose between them - the CLI installs whatever a component declares.
-
-- **Motion** - state transitions (accordion height, collapsible expand, trace collapse, text morph flip/slide, credit card per-character mask). Backed by the `motion` npm package.
-- **NumberFlow** - numeric roll and count variants in Text Morph. Backed by `@number-flow/react`.
-
-A third-party layer fills the rest: Tailwind's `animate-spin` for loaders, and `tw-animate-css` for Radix enter/exit transitions. Those ship inside Tailwind and `tw-animate-css`, not Frakment, and require nothing extra from you.
+Plus five npm packages: `class-variance-authority`, `clsx`, `tailwind-merge`, `lucide-react`, `motion`.
 
 ## What installs automatically
 
@@ -199,32 +137,22 @@ A third-party layer fills the rest: Tailwind's `animate-spin` for loaders, and `
 | Collapsible | Motion height | `motion` |
 | Trace | Motion height | `motion` |
 | Attachment | Shimmer utility (CSS) | `shimmer` |
-| Text Morph (flip, slide, fade, blur, scale) | Motion | `motion` |
-| Text Morph (count, roll) | NumberFlow | `@number-flow/react`, `motion` |
-| Text Morph (typewriter, wave, shuffle) | Timers / WAAPI | `motion` |
 | Message Animated | Motion | `motion` |
-| Credit Card (Masked) | Motion (per-character morph) | `motion` |
 
 Run `npx frakment add <name>` once and every dependency in that row is installed for you.
 
 ## Shared helpers
 
-`lib/animation.ts` is created by `npx frakment init`. Import from it when you build your own animated components so timing matches the rest of the library.
+`lib/motion.ts` is created by `npx frakment init`. Import from it when you build your own animated components so timing matches the rest of the library.
 
 ```ts
-import { springSoft, easeInOutQuad, easeOutExpo, easeSmoothOut, durationSlow } from "@/lib/animation";
+import { parseMotion, getTransition, useReducedMotion, useMotionGuard } from "@/lib/motion";
 ```
 
-- `springSoft` - `{ stiffness: 200, damping: 30 }`. Expand and collapse that should settle without bounce.
-- `easeInOutQuad` - `[0.45, 0, 0.55, 1]`. Default for per-character morph (Credit Card mask).
-- `easeOutExpo` - `[0.16, 1, 0.3, 1]`. Entrances that decelerate.
-- `easeSmoothOut` - `[0.32, 0.72, 0, 1]`. Default for Frakment height transitions.
-- `durationFast` / `durationNormal` / `durationSlow` - `0.2` / `0.3` / `0.45` seconds.
-- `delayTight` - `0.02` seconds. Per-character stagger delay.
 
 ## Usage
 
-Every Frakment animated component imports Motion and its tokens from `@/lib/animation`. Follow the same pattern when you build your own.
+Every Frakment animated component uses Motion. Follow the same pattern when you build your own.
 
 ### Enter
 
@@ -232,14 +160,13 @@ Every Frakment animated component imports Motion and its tokens from `@/lib/anim
 "use client";
 
 import { motion } from "motion/react";
-import { durationNormal, easeOutExpo } from "@/lib/animation";
 
 export function FadeIn({ children }: { children: React.ReactNode }) {
   return (
     <motion.div
       animate={{ opacity: 1, y: 0 }}
       initial={{ opacity: 0, y: 8 }}
-      transition={{ duration: durationNormal, ease: easeOutExpo }}
+      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </motion.div>
@@ -253,7 +180,6 @@ export function FadeIn({ children }: { children: React.ReactNode }) {
 "use client";
 
 import { motion } from "motion/react";
-import { durationSlow, easeSmoothOut } from "@/lib/animation";
 
 export function CollapsibleBody({ open, children }: { open: boolean; children: React.ReactNode }) {
   return (
@@ -261,29 +187,7 @@ export function CollapsibleBody({ open, children }: { open: boolean; children: R
       animate={{ height: open ? "auto" : 0 }}
       initial={false}
       style={{ overflow: "hidden" }}
-      transition={{ duration: durationSlow, ease: easeSmoothOut }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-```
-
-### Spring settle
-
-```tsx
-"use client";
-
-import { motion } from "motion/react";
-import { springSoft } from "@/lib/animation";
-
-export function SpringPanel({ open, children }: { open: boolean; children: React.ReactNode }) {
-  return (
-    <motion.div
-      animate={{ height: open ? "auto" : 0 }}
-      initial={false}
-      style={{ overflow: "hidden" }}
-      transition={springSoft}
+      transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
     >
       {children}
     </motion.div>
@@ -293,20 +197,20 @@ export function SpringPanel({ open, children }: { open: boolean; children: React
 
 ### Reduced motion
 
-Always respect the user's system preference. Use `useReducedMotion` from Motion:
+Always respect the user's system preference. Use `useReducedMotion` from `lib/motion.ts`:
 
 ```tsx
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { durationSlow, easeSmoothOut } from "@/lib/animation";
+import { useReducedMotion as useFrakmentReducedMotion } from "@/lib/motion";
 
 export function Safe({ open }: { open: boolean }) {
-  const reduce = useReducedMotion();
+  const reduce = useFrakmentReducedMotion();
   return (
     <motion.div
       animate={{ opacity: open ? 1 : 0 }}
-      transition={reduce ? { duration: 0 } : { duration: durationSlow, ease: easeSmoothOut }}
+      transition={reduce ? { duration: 0 } : { duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
     />
   );
 }
@@ -326,5 +230,5 @@ Run `npx frakment add shimmer` to install it on its own, or let another componen
 
 ## Customising
 
-Every animated component accepts a `className` and works with Motion's `transition` overrides where it exposes them. `CreditCardNumber` accepts `masked`, `animation`, `duration`, and `stagger` directly. Trace and Collapsible expose `animateHeight` to opt out of the built-in height animation when you provide your own. See each component page for props.
+Every animated component accepts a `className` and works with Motion's `transition` overrides where it exposes them. See each component page for props.
 

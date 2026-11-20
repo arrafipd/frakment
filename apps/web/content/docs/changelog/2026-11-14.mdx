@@ -17,7 +17,7 @@ import { InputOTPDemo } from "@/examples/input-otp-demo";
 This release adds **Popover**, migrates **Select**, **Separator**, **Badge**, **Avatar**, **Accordion**, **Collapsible**, **Breadcrumb**, and **Input OTP** off `radix-ui` and `input-otp`, ships first-party **Button Group**, and standardizes the polymorphic `as` prop across **Button**, **Badge**, **Collapsible**, **Breadcrumb**, and **Button Group Text**.
 
 - [Popover](#popover): Floating panel anchored to a trigger.
-- [Select](#select): Floating UI listbox with item-aligned and popper modes.
+- [Select](#select): listbox with item-aligned and popper modes.
 - [Badge](#badge): Smaller height, `as` prop, `iconOnly` mode.
 - [Avatar](#avatar): Own primitive, destructive error fallback, soft destructive token.
 - [Button `as` prop](#button-as-prop): Render router links and custom components.
@@ -34,7 +34,7 @@ This release adds **Popover**, migrates **Select**, **Separator**, **Badge**, **
   <PopoverDemo />
 </ComponentPreview>
 
-**Popover** renders a floating panel anchored to a trigger. Position is resolved with Floating UI, so the panel flips and shifts automatically when it would overflow the viewport. Opens on trigger click, closes on outside click or `Escape`. Non-modal: focus returns to the trigger, no focus trap. `PopoverHeader`, `PopoverTitle`, and `PopoverDescription` wire `aria-labelledby` and `aria-describedby` for you.
+**Popover** renders a panel anchored to a trigger. It adjusts placement to remain visible near viewport edges, opens on trigger click, and closes on outside click or `Escape`. It is non-modal, so focus returns to the trigger without a focus trap. `PopoverHeader`, `PopoverTitle`, and `PopoverDescription` wire `aria-labelledby` and `aria-describedby` for you.
 
 #### Installation
 
@@ -148,11 +148,11 @@ See the [Button Group docs](/docs/components/web/button-group).
   <SelectDemo />
 </ComponentPreview>
 
-**Select** no longer depends on `radix-ui`. The listbox runs on Floating UI with two placement modes: `item-aligned` (default, overlaps the selected item with the trigger) and `popper` (anchors below the trigger). Keyboard navigation, type-ahead, and form submission follow the native select contract.
+**Select** no longer depends on `radix-ui`. The listbox has two placement modes: `item-aligned` (default, overlaps the selected item with the trigger) and `popper` (anchors below the trigger). Keyboard navigation, type-ahead, and form submission follow the native select contract.
 
 **Changed:**
 
-- Removed `radix-ui` from `dependencies`. Added `@floating-ui/react-dom`.
+- Removed third-party positioning dependencies.
 - New `position` prop on `SelectContent`: `item-aligned` (default) or `popper`.
 - Controlled `open` and `value` now honor the prop instead of the initial state.
 - New `SelectScrollUpButton` and `SelectScrollDownButton` for long lists.

@@ -132,52 +132,51 @@ export const MobileNav = ({
 
   return (
     <Popover onOpenChange={setOpen} open={open}>
-      <PopoverTrigger asChild>
-        <Button
-          className={cn(
-            "size-8 touch-manipulation hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 active:bg-transparent dark:hover:bg-transparent",
-            className
-          )}
-          size="icon"
-          variant="ghost"
-        >
-          <div className="relative size-4">
-            <motion.span
-              animate={{ rotate: open ? -45 : 0, y: open ? 3 : 0 }}
-              className="bg-foreground absolute left-0 block h-px w-4"
-              initial={false}
-              style={{ top: 4 }}
-              transition={{
-                rotate: {
-                  delay: open ? 0.12 : 0,
-                  duration: 0.15,
-                  ease: "easeOut",
-                },
-                y: { delay: open ? 0 : 0.15, duration: 0.12, ease: "easeOut" },
-              }}
-            />
-            <motion.span
-              animate={{ rotate: open ? 45 : 0, y: open ? -5 : 0 }}
-              className="bg-foreground absolute left-0 block h-px w-4"
-              initial={false}
-              style={{ top: 12 }}
-              transition={{
-                rotate: {
-                  delay: open ? 0.12 : 0,
-                  duration: 0.15,
-                  ease: "easeOut",
-                },
-                y: { delay: open ? 0 : 0.15, duration: 0.12, ease: "easeOut" },
-              }}
-            />
-          </div>
-          <span className="sr-only">Toggle Menu</span>
-        </Button>
+      <PopoverTrigger
+        as={Button}
+        className={cn(
+          "size-8 touch-manipulation hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 active:bg-transparent dark:hover:bg-transparent",
+          className
+        )}
+        size="icon"
+        variant="ghost"
+      >
+        <div className="relative size-4">
+          <motion.span
+            animate={{ rotate: open ? -45 : 0, y: open ? 3 : 0 }}
+            className="bg-foreground absolute left-0 block h-px w-4"
+            initial={false}
+            style={{ top: 4 }}
+            transition={{
+              rotate: {
+                delay: open ? 0.12 : 0,
+                duration: 0.15,
+                ease: "easeOut",
+              },
+              y: { delay: open ? 0 : 0.15, duration: 0.12, ease: "easeOut" },
+            }}
+          />
+          <motion.span
+            animate={{ rotate: open ? 45 : 0, y: open ? -5 : 0 }}
+            className="bg-foreground absolute left-0 block h-px w-4"
+            initial={false}
+            style={{ top: 12 }}
+            transition={{
+              rotate: {
+                delay: open ? 0.12 : 0,
+                duration: 0.15,
+                ease: "easeOut",
+              },
+              y: { delay: open ? 0 : 0.15, duration: 0.12, ease: "easeOut" },
+            }}
+          />
+        </div>
+        <span className="sr-only">Toggle Menu</span>
       </PopoverTrigger>
       <PopoverContent
         align="start"
         alignOffset={-16}
-        className="bg-background/90 no-scrollbar h-(--radix-popper-available-height) w-(--radix-popper-available-width) overflow-y-auto overscroll-contain rounded-none border-none p-0 shadow-none backdrop-blur"
+        className="bg-background/90 no-scrollbar h-[calc(100dvh-4rem)] w-screen max-w-full overflow-y-auto overscroll-contain rounded-none border-none p-0 shadow-none backdrop-blur"
         side="bottom"
         sideOffset={0}
       >

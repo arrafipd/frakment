@@ -9,7 +9,7 @@ import { MessageSquareIcon, ListTreeIcon, CodeIcon, SparklesIcon, ZapIcon, BotIc
 
 ## Why Frakment
 
-Most component registries still pull in a dependency chain. Radix primitives for behavior, Motion or Framer Motion for animation, CVA for variants, a theming layer you wire up yourself. Copy-pasting the file does not free you from maintaining the ecosystem around it.
+Most component registries still pull in a dependency chain. Separate libraries provide behavior, animation, variants, and theming. Copy-pasting a file does not free you from maintaining those packages.
 
 Frakment ships the whole stack in one file. The component is the primitive, the styling, and the motion. There is no `useButton()` to import, no `transition` class to add, no animation library to install.
 Motion is per component, not a global system. An accordion expands at a different rate than a dialog enters, because the default is chosen for that component. You override it with a single prop, or edit the file for full control. There is no shared `easeInOut` token, no global duration map.
@@ -19,10 +19,10 @@ The same model applies on both platforms. Web uses CSS transitions with a per-co
 
 ### Web
 
-The web registry ships 48 components. `Button` is fully on the Frakment stack: our own primitive, our own motion, no external behavior library. The remaining 27 interactive primitives (accordion, dialog, dropdown, tabs, and so on) still use `radix-ui` for behavior and Motion v14 for animation. They work today and are documented. The migration is incremental.
+The web registry ships 44 components. Their interaction and positioning behavior is implemented with Frakment-owned primitives. Each component declares its required npm dependencies in the registry, and the CLI installs them when you add that component.
 ### Native
 
-The native registry ships 1 component: `Button`. The primitive is React Native's `Pressable`, styled with NativeWind and CVA. Pressed state is handled with `useState`, not a motion library yet. Motion on native is next.
+The native registry ships 3 components: `Button`, `Button Group`, and `Separator`. They use React Native primitives and NativeWind.
 
 The direction is zero external runtime dependencies on primitives and motion, on both platforms. `Button` establishes the pattern that the rest will follow: our own primitive, our own motion, one file.
 ## What's included
@@ -113,7 +113,7 @@ Every component ships as a single source file, on web and native. No sidecar hoo
 
 ### No hidden dependency chain
 
-Web components depend only on `class-variance-authority`, `lucide-react`, and, for components still on Radix, `radix-ui` plus `motion`. Native components depend on `class-variance-authority`, `lucide-react-native`, NativeWind, and React Native. When migration completes, both shrink to CVA plus the platform runtime.
+Web components use Frakment-owned behavior and positioning primitives. Each registry entry lists its runtime dependencies, and the CLI installs the required packages when you add a component. Native components use React Native primitives and NativeWind.
 ### Motion is per component
 
 Defaults are chosen per component, not from a global token set. There is no shared `easeInOut`, no shared `durationSlow`, no shared `springSoft`. The component knows its own motion, on whatever platform it runs.

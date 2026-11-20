@@ -36,7 +36,6 @@ Each remains under its original license.
 - `next` ^16.4.3
 - `next-themes` 0.4.6
 - `postcss` ^8.5.32
-- `radix-ui` ^1.8.1
 - `react` 19.3.1
 - `react-dom` 19.3.1
 - `react-hotkeys-hook` ^5.3.3

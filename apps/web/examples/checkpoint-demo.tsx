@@ -12,7 +12,6 @@ import {
   MessageContent,
 } from "@/components/ui/message";
 import { createChat, getMessageText } from "@/lib/ai";
-import { messageAnimations } from "@/lib/message-animations";
 
 type ChatMessage = UIMessage<
   unknown,
@@ -80,7 +79,10 @@ export function CheckpointDemo() {
             className="flex flex-col gap-4"
             initial={shouldReduceMotion ? undefined : "initial"}
             key={message.id}
-            variants={messageAnimations["slide-up"].variants}
+            variants={{
+              animate: { opacity: 1, y: 0 },
+              initial: { opacity: 0, y: 8 },
+            }}
           >
             {message.role === "user" ? (
               <Message align="end">
@@ -101,7 +103,7 @@ export function CheckpointDemo() {
               <motion.div
                 animate={shouldReduceMotion ? undefined : "animate"}
                 initial={shouldReduceMotion ? undefined : "initial"}
-                variants={messageAnimations.fade.variants}
+                variants={{ animate: { opacity: 1 }, initial: { opacity: 0 } }}
               >
                 <Marker variant="separator">
                   <MarkerContent className="inline-flex items-center gap-2">

@@ -66,7 +66,6 @@ import {
   TraceTitle,
 } from "@/components/ui/trace";
 import { createChat, getMessageText } from "@/lib/ai";
-import { messageAnimations } from "@/lib/message-animations";
 
 type ChatMessage = UIMessage<
   unknown,
@@ -248,7 +247,10 @@ export function ChatDemo() {
                             key={message.id}
                             messageId={message.id}
                             scrollAnchor
-                            variants={messageAnimations["slide-up"].variants}
+                            variants={{
+                              animate: { opacity: 1, y: 0 },
+                              initial: { opacity: 0, y: 8 },
+                            }}
                           >
                             <Message align="end">
                               <MessageContent>

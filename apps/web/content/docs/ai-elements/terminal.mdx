@@ -8,7 +8,7 @@ import { TerminalError } from "@/examples/terminal-error";
 import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block";
 import { Terminal, TerminalCommand } from "@/components/ui/terminal";
 
-<ComponentPreview name="terminal" title="terminal.tsx">
+<ComponentPreview name="terminal" title="terminal.tsx" src="examples/terminal-demo.tsx">
   <TerminalDemo />
 </ComponentPreview>
 
@@ -82,7 +82,7 @@ A terminal has three visible parts.
 
 Mark a `TraceLine` with `status="error"` to turn the title red. The collapsible body still uses `CodeBlock` — anything that fits inside a `TraceCollapsibleContent` works.
 
-<ComponentPreview name="terminal" title="terminal.tsx">
+<ComponentPreview name="terminal" title="terminal.tsx" src="examples/terminal-error.tsx">
   <TerminalError />
 </ComponentPreview>
 
@@ -96,13 +96,13 @@ The composition pulls `@ai-sdk/react`, `ai`, and every UI primitive it uses. Fol
 
 ### Build output
 
-<ComponentPreview name="terminal" title="terminal-demo.tsx">
+<ComponentPreview name="terminal" title="terminal-demo.tsx" src="examples/terminal-demo.tsx">
   <TerminalDemo />
 </ComponentPreview>
 
 ### Failed command
 
-<ComponentPreview name="terminal" title="terminal-error.tsx">
+<ComponentPreview name="terminal" title="terminal-error.tsx" src="examples/terminal-error.tsx">
   <TerminalError />
 </ComponentPreview>
 

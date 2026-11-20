@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { Collapsible as CollapsiblePrimitive } from "radix-ui";
 import * as React from "react";
 
 import {
@@ -172,13 +171,20 @@ function FileTreeFolder({
   children: React.ReactNode;
 }) {
   const [open, setOpen] = React.useState(defaultOpen);
+  const contentId = React.useId();
   const shouldReduce = useReducedMotion();
   const FolderIconResolved =
     icon && CUSTOM_ICONS[icon] ? CUSTOM_ICONS[icon] : FolderIcon;
 
   return (
-    <CollapsiblePrimitive.Root onOpenChange={setOpen} open={open}>
-      <CollapsiblePrimitive.Trigger className="group/folder hover:bg-muted/40 focus-visible:bg-muted/40 flex w-full items-center gap-2 rounded-md px-2.5 py-2 text-left transition-colors focus-visible:outline-none">
+    <>
+      <button
+        aria-controls={contentId}
+        aria-expanded={open}
+        className="group/folder hover:bg-muted/40 focus-visible:bg-muted/40 flex w-full items-center gap-2 rounded-md px-2.5 py-2 text-left transition-colors focus-visible:outline-none"
+        onClick={() => setOpen((value) => !value)}
+        type="button"
+      >
         <motion.span
           animate={{ rotate: open ? 90 : 0 }}
           className="flex shrink-0 items-center justify-center"
@@ -189,10 +195,11 @@ function FileTreeFolder({
         </motion.span>
         <FolderIconResolved className="text-muted-foreground size-4 shrink-0" />
         <span className="text-foreground truncate font-medium">{name}</span>
-      </CollapsiblePrimitive.Trigger>
-      <CollapsiblePrimitive.Content forceMount>
+      </button>
+      <div id={contentId}>
         <motion.div
           animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
+          inert={!open}
           initial={false}
           style={{ overflow: "hidden", transform: "translateZ(0)" }}
           transition={
@@ -208,8 +215,8 @@ function FileTreeFolder({
             {children}
           </div>
         </motion.div>
-      </CollapsiblePrimitive.Content>
-    </CollapsiblePrimitive.Root>
+      </div>
+    </>
   );
 }
 

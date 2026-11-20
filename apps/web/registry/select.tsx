@@ -1,19 +1,295 @@
 "use client";
 
-import {
-  autoUpdate,
-  flip,
-  offset,
-  shift,
-  size as sizeMiddleware,
-  useFloating,
-} from "@floating-ui/react-dom";
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import * as React from "react";
 import { createPortal } from "react-dom";
 
 import { getTransition, parseMotion, useReducedMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+
+type PositioningSide = "top" | "right" | "bottom" | "left";
+type PositioningAlignment = "start" | "center" | "end";
+
+interface PositioningMiddlewareOptions {
+  alignmentAxis?: number;
+  apply?: (state: {
+    availableHeight: number;
+    availableWidth: number;
+    elements: { positioned: HTMLElement };
+    rects: { reference: DOMRect };
+  }) => void;
+  mainAxis?: number;
+  padding?: number;
+}
+
+interface PositioningMiddleware {
+  name: "flip" | "offset" | "shift" | "size";
+  options: PositioningMiddlewareOptions;
+}
+
+interface PositioningOptions {
+  elements: { reference: HTMLElement | null };
+  middleware?: Array<PositioningMiddleware | false>;
+  placement?: string;
+  strategy?: "absolute" | "fixed";
+  whileElementsMounted?: (
+    reference: HTMLElement,
+    positioned: HTMLElement,
+    update: () => void
+  ) => () => void;
+}
+
+function offset(options: PositioningMiddlewareOptions = {}) {
+  return { name: "offset" as const, options };
+}
+
+function shift(options: PositioningMiddlewareOptions = {}) {
+  return { name: "shift" as const, options };
+}
+
+function flip(options: PositioningMiddlewareOptions = {}) {
+  return { name: "flip" as const, options };
+}
+
+function size(options: Pick<PositioningMiddlewareOptions, "apply">) {
+  return { name: "size" as const, options };
+}
+
+function autoUpdate(
+  reference: HTMLElement,
+  positioned: HTMLElement,
+  update: () => void
+) {
+  const view = reference.ownerDocument.defaultView;
+  if (!view) {
+    return () => {};
+  }
+
+  view.addEventListener("resize", update);
+  view.addEventListener("scroll", update, true);
+  const observer =
+    typeof ResizeObserver === "undefined" ? null : new ResizeObserver(update);
+  observer?.observe(reference);
+  observer?.observe(positioned);
+
+  return () => {
+    view.removeEventListener("resize", update);
+    view.removeEventListener("scroll", update, true);
+    observer?.disconnect();
+  };
+}
+
+function usePositioning(configuration: PositioningOptions) {
+  const [referenceOverride, setReferenceOverride] =
+    React.useState<HTMLElement | null>(null);
+  const reference = configuration.elements.reference ?? referenceOverride;
+  const [positioned, setPositioned] = React.useState<HTMLElement | null>(null);
+  const [position, setPosition] = React.useState({
+    isPositioned: false,
+    placement: configuration.placement ?? "bottom",
+    x: 0,
+    y: 0,
+  });
+  const referenceRef = React.useRef(reference);
+  const positionedRef = React.useRef(positioned);
+  const configurationRef = React.useRef(configuration);
+  referenceRef.current = reference;
+  positionedRef.current = positioned;
+  configurationRef.current = configuration;
+
+  const setReference = React.useCallback((node: HTMLElement | null) => {
+    setReferenceOverride(node);
+  }, []);
+
+  const update = React.useCallback(() => {
+    const referenceElement = referenceRef.current;
+    const positionedElement = positionedRef.current;
+    if (!(referenceElement && positionedElement)) {
+      return;
+    }
+
+    const referenceRect = referenceElement.getBoundingClientRect();
+    const positionedRect = positionedElement.getBoundingClientRect();
+    const documentElement = referenceElement.ownerDocument.documentElement;
+    const view = referenceElement.ownerDocument.defaultView;
+    if (!view) {
+      return;
+    }
+
+    const viewportWidth = documentElement.clientWidth || view.innerWidth;
+    const viewportHeight = documentElement.clientHeight || view.innerHeight;
+    const middleware = (configurationRef.current.middleware ?? []).filter(
+      (item): item is PositioningMiddleware => Boolean(item)
+    );
+    const findMiddleware = (name: PositioningMiddleware["name"]) =>
+      middleware.find((item) => item.name === name);
+    const [initialSide, alignment = "center"] = (
+      configurationRef.current.placement ?? "bottom"
+    ).split("-") as [PositioningSide, PositioningAlignment?];
+    let side = initialSide;
+
+    const oppositeSide: Record<PositioningSide, PositioningSide> = {
+      bottom: "top",
+      left: "right",
+      right: "left",
+      top: "bottom",
+    };
+    const flipPadding = findMiddleware("flip")?.options.padding ?? 0;
+    const isVertical = side === "top" || side === "bottom";
+    const currentSpace =
+      side === "bottom"
+        ? viewportHeight - referenceRect.bottom - flipPadding
+        : side === "top"
+          ? referenceRect.top - flipPadding
+          : side === "right"
+            ? viewportWidth - referenceRect.right - flipPadding
+            : referenceRect.left - flipPadding;
+    const opposite = oppositeSide[side];
+    const oppositeSpace =
+      opposite === "bottom"
+        ? viewportHeight - referenceRect.bottom - flipPadding
+        : opposite === "top"
+          ? referenceRect.top - flipPadding
+          : opposite === "right"
+            ? viewportWidth - referenceRect.right - flipPadding
+            : referenceRect.left - flipPadding;
+    const mainSize = isVertical ? positionedRect.height : positionedRect.width;
+    if (
+      findMiddleware("flip") &&
+      currentSpace < mainSize &&
+      oppositeSpace > currentSpace
+    ) {
+      side = opposite;
+    }
+
+    const offsetOptions = findMiddleware("offset")?.options;
+    const mainAxisOffset = offsetOptions?.mainAxis ?? 0;
+    const alignmentAxisOffset = offsetOptions?.alignmentAxis ?? 0;
+    const isRtl = view.getComputedStyle(referenceElement).direction === "rtl";
+    const alignmentOffset =
+      alignment === "center"
+        ? (isVertical
+            ? referenceRect.width - positionedRect.width
+            : referenceRect.height - positionedRect.height) / 2
+        : alignment === "start"
+          ? isVertical && isRtl
+            ? referenceRect.width - positionedRect.width
+            : 0
+          : isVertical && isRtl
+            ? 0
+            : isVertical
+              ? referenceRect.width - positionedRect.width
+              : referenceRect.height - positionedRect.height;
+    let x =
+      side === "left"
+        ? referenceRect.left - positionedRect.width
+        : side === "right"
+          ? referenceRect.right
+          : referenceRect.left + alignmentOffset;
+    let y =
+      side === "top"
+        ? referenceRect.top - positionedRect.height
+        : side === "bottom"
+          ? referenceRect.bottom
+          : referenceRect.top + alignmentOffset;
+
+    if (side === "top") {
+      y -= mainAxisOffset;
+      x += alignmentAxisOffset;
+    } else if (side === "bottom") {
+      y += mainAxisOffset;
+      x += alignmentAxisOffset;
+    } else if (side === "left") {
+      x -= mainAxisOffset;
+      y += alignmentAxisOffset;
+    } else {
+      x += mainAxisOffset;
+      y += alignmentAxisOffset;
+    }
+
+    const shiftPadding = findMiddleware("shift")?.options.padding ?? 0;
+    if (findMiddleware("shift")) {
+      if (side === "top" || side === "bottom") {
+        x = Math.min(
+          Math.max(x, shiftPadding),
+          Math.max(
+            shiftPadding,
+            viewportWidth - positionedRect.width - shiftPadding
+          )
+        );
+      } else {
+        y = Math.min(
+          Math.max(y, shiftPadding),
+          Math.max(
+            shiftPadding,
+            viewportHeight - positionedRect.height - shiftPadding
+          )
+        );
+      }
+    }
+
+    const sizeOptions = findMiddleware("size")?.options;
+    if (sizeOptions?.apply) {
+      const padding = sizeOptions.padding ?? 0;
+      sizeOptions.apply({
+        availableHeight: Math.max(
+          0,
+          side === "top"
+            ? referenceRect.top - padding
+            : side === "bottom"
+              ? viewportHeight - referenceRect.bottom - padding
+              : viewportHeight - 2 * padding
+        ),
+        availableWidth: Math.max(
+          0,
+          side === "left"
+            ? referenceRect.left - padding
+            : side === "right"
+              ? viewportWidth - referenceRect.right - padding
+              : viewportWidth - 2 * padding
+        ),
+        elements: { positioned: positionedElement },
+        rects: { reference: referenceRect },
+      });
+    }
+
+    const placement = `${side}${alignment === "center" ? "" : `-${alignment}`}`;
+    setPosition((previous) =>
+      previous.x === x &&
+      previous.y === y &&
+      previous.placement === placement &&
+      previous.isPositioned
+        ? previous
+        : { isPositioned: true, placement, x, y }
+    );
+  }, []);
+
+  React.useLayoutEffect(update);
+  React.useLayoutEffect(() => {
+    if (!(reference && positioned && configuration.whileElementsMounted)) {
+      return;
+    }
+    return configuration.whileElementsMounted(reference, positioned, update);
+  }, [configuration.whileElementsMounted, positioned, reference, update]);
+
+  const refs = React.useMemo(
+    () => ({ setPositioned, setReference }),
+    [setReference]
+  );
+  const positionStyles: React.CSSProperties = {
+    left: 0,
+    position: configuration.strategy ?? "absolute",
+    top: 0,
+    transform: `translate(${position.x}px, ${position.y}px)`,
+  };
+
+  return {
+    isPositioned: position.isPositioned,
+    placement: position.placement,
+    positionStyles,
+    refs,
+  };
+}
 
 const defaultSelectMotion = "150 cubic-bezier(0.16, 1, 0.3, 1)";
 
@@ -1172,27 +1448,27 @@ function SelectPopperPosition({
   sideOffset = 4,
 }: SelectPopperPositionProps) {
   const context = useSelectContext("SelectPopperPosition");
-  const { refs, floatingStyles, isPositioned, placement } = useFloating({
+  const { refs, positionStyles, isPositioned, placement } = usePositioning({
     elements: { reference: context.trigger },
     middleware: [
       offset({ alignmentAxis: alignOffset, mainAxis: sideOffset }),
       avoidCollisions && shift({ padding: collisionPadding }),
       avoidCollisions && flip({ padding: collisionPadding }),
-      sizeMiddleware({
+      size({
         apply: ({ elements, rects, availableWidth, availableHeight }) => {
-          elements.floating.style.setProperty(
+          elements.positioned.style.setProperty(
             "--frakment-select-content-available-width",
             `${availableWidth}px`
           );
-          elements.floating.style.setProperty(
+          elements.positioned.style.setProperty(
             "--frakment-select-content-available-height",
             `${availableHeight}px`
           );
-          elements.floating.style.setProperty(
+          elements.positioned.style.setProperty(
             "--frakment-select-trigger-width",
             `${rects.reference.width}px`
           );
-          elements.floating.style.setProperty(
+          elements.positioned.style.setProperty(
             "--frakment-select-trigger-height",
             `${rects.reference.height}px`
           );
@@ -1224,12 +1500,12 @@ function SelectPopperPosition({
       data-align={placedAlign}
       data-popper-wrapper=""
       data-side={placedSide}
-      ref={refs.setFloating}
+      ref={refs.setPositioned}
       style={{
-        ...floatingStyles,
+        ...positionStyles,
         minWidth: "max-content",
         transform: isPositioned
-          ? floatingStyles.transform
+          ? positionStyles.transform
           : "translate(0, -200%)",
       }}
     >

@@ -155,7 +155,7 @@ npx frakment@latest add marker attachment switch progress
 <ComponentPreview name="tooltip" title="tooltip.tsx" previewClassName="h-auto py-8">
   <TooltipDemo />
 </ComponentPreview>
-The last two Radix primitives drop to native implementations. **Slider** renders `<div role="slider">` per thumb with pointer and keyboard handling in a single file. **Tooltip** renders `<div role="tooltip">` with floating-ui positioning, hover/focus trigger, and portal. `radix-ui` is no longer a runtime dependency for either.
+The last two Radix primitives drop to native implementations. **Slider** renders `<div role="slider">` per thumb with pointer and keyboard handling in a single file. **Tooltip** renders `<div role="tooltip">` with automatic positioning, hover/focus trigger, and portal. `radix-ui` is no longer a runtime dependency for either.
 
 `TooltipTrigger` replaces the Radix `asChild` pattern with an `as` prop (R16). `asChild` stays for backward compat (deprecated) but `as={Button}` is the recommended call.
 
