@@ -1,5 +1,15 @@
 # @frakment/mcp
 
+## 1.0.0
+
+### Major Changes
+
+- a17a0aa: Require Node.js 22.18.0 or newer to run TypeScript entry points directly.
+
+### Patch Changes
+
+- 762b982: Align the public registry catalog and MCP scenario compositions with the current component set.
+
 ## 0.0.4
 
 ### Patch Changes
