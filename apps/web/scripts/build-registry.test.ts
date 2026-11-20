@@ -10,7 +10,7 @@ const outputDir = path.join(rootDir, "public/r");
 
 describe("build-registry", () => {
   beforeAll(() => {
-    execFileSync("node", ["scripts/build-registry.mjs"], {
+    execFileSync("node", ["scripts/build-registry.ts"], {
       cwd: rootDir,
       stdio: "pipe",
     });

@@ -13,7 +13,7 @@ Frakment targets React 19. Most components are drop-in compatible with React 18,
 
 ## Peer dependencies
 
-Frakment components expect React 19. If you use the engine packages, add both as peers:
+Frakment components expect React 19. Add both packages as peer dependencies in your project:
 
 ```json title="package.json"
 {
@@ -24,15 +24,13 @@ Frakment components expect React 19. If you use the engine packages, add both as
 }
 ```
 
-`@frakment/ai` supports React 19.
-
 ## Components that require React 19
 
 Most primitives (`button`, `input`, `card`, `dialog`) work on React 18.3. The following components require React 19:
 
 | Component | React 19 feature |
 | :-- | :-- |
-| `message-animated` | `useOptimistic` for streaming UI |
+| `message` | `useOptimistic` for streaming UI |
 | `trace` | `useTransition` for collapse animation |
 | `code-block` | Ref cleanup function |
 | `bubble` | Ref as a prop (no `forwardRef`) |

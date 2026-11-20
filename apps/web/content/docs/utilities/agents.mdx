@@ -40,9 +40,9 @@ MCP responds:
 # chat
 Chat interface with auto-scroll and animated turns
 
-Components: bubble, message, message-scroller, avatar, message-animated
+Components: message, avatar
 
-Install: npx frakment@latest add message-animated
+Install: npx frakment@latest add message
 ```
 
 The agent calls `get_install_command`:
@@ -50,17 +50,17 @@ The agent calls `get_install_command`:
 ```json
 {
   "tool": "get_install_command",
-  "arguments": { "name": "message-animated" }
+  "arguments": { "name": "message" }
 }
 ```
 
 MCP responds:
 
 ```bash
-npx frakment@latest add message-animated
+npx frakment@latest add message
 ```
 
-That single command pulls `bubble`, `message-scroller`, and the AI engine via `registryDependencies`.
+`message` includes the message, bubble, scroll, and animated message primitives. Add `avatar` separately if needed.
 
 ## Agent timeline
 
@@ -148,7 +148,7 @@ npx frakment@latest add field
 
 | Scenario | What you get | Entry |
 | :--- | :--- | :--- |
-| `chat` | Chat UI with auto-scroll, avatar, and animated turns | `message-animated` |
+| `chat` | Chat UI with auto-scroll, avatar, and animated turns | `message` |
 | `agent-timeline` | Reasoning timeline with status, pulse, and command output | `terminal` |
 | `login-form` | Accessible form with field, label, input, button, and checkbox | `field` |
 | `settings-panel` | Settings view with toggles, grouped options, and separators | `toggle-group` |

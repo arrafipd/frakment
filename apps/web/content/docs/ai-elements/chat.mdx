@@ -49,10 +49,6 @@ npx frakment add message-scroller message bubble input-group trace code-block em
       <ComponentSource name="tooltip" title="components/ui/tooltip.tsx" />
       <ComponentSource name="dropdown-menu" title="components/ui/dropdown-menu.tsx" />
 
-      <Step>Install the chat engine:</Step>
-
-      <ComponentSource src="lib/ai.ts" title="lib/ai.ts" />
-
       <Step>Update the import paths to match your project setup.</Step>
     </Steps>
 
@@ -61,13 +57,11 @@ npx frakment add message-scroller message bubble input-group trace code-block em
 
 ## Usage
 
-Wire the chat engine from `@frakment/ai` and render messages with the composed primitives.
+Connect `useChat` to your own transport and render messages with the composed primitives.
 
 ```tsx title="chat.tsx"
 import { useChat } from "@ai-sdk/react";
 import type { UIDataTypes, UIMessage } from "ai";
-
-import { createChat } from "@frakment/ai";
 
 type ChatMessage = UIMessage<
   unknown,
@@ -75,19 +69,10 @@ type ChatMessage = UIMessage<
   { runCommand: { input: { command: string }; output: { stdout: string } } }
 >;
 
-const chat = createChat<ChatMessage>()
-  .user("Run the tests.")
-  .assistant(({ writer }) => {
-    writer
-      .tool("runCommand", { input: { command: "pnpm test" } })
-      .output({ stdout: "15 passed" });
-    writer.text("Tests pass.");
-  });
-
-const transport = chat.transport({ delayMs: 16 });
-
 export function MyChat() {
-  const { messages, sendMessage, status } = useChat({ transport });
+  const { messages, sendMessage, status } = useChat<ChatMessage>({
+    transport: yourTransport,
+  });
 
   return (
     <MessageScroller>
@@ -187,7 +172,7 @@ Reasoning and tool calls render as nested `TraceCollapsible` items inside the as
 
 ## Replacing the script
 
-The demo ships with a scripted `chat` built from `createChat`. Replace it with a real transport:
+The site preview uses scripted data for its conversation. In your app, connect `useChat` to your own backend transport:
 
 ```tsx title="chat.tsx"
 import { useChat } from "@ai-sdk/react";
@@ -222,4 +207,4 @@ The rendered components do not assume the scripted transport. Any `UIMessage[]` 
 - **Stream text, do not swap.** Replacing the whole message per chunk breaks the typewriter effect.
 - **Collapse reasoning automatically.** Open while running, close when resolved.
 - **Fail gracefully.** Append a system message on transport error instead of clearing the transcript.
-- **Replace the scripted transport in production.** `createChat` is for demos, not real backends.
+- **Use your own transport in production.** The scripted conversation is only for the site preview.

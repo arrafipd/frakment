@@ -7,7 +7,7 @@ Monochrome design system and component registry CLI.
 
 ## Requirements
 
-- Node.js >= 22.12.0
+- Node.js >= 22.18.0
 - Tailwind CSS v4 (`@import "tailwindcss";` in your `globals.css`)
 
 ## Package managers

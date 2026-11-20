@@ -8,7 +8,7 @@ const isPnpm = userAgent.startsWith("pnpm/");
 const scriptName = process.argv[2];
 
 if (!scriptName) {
-  console.error("Usage: node scripts/workspaces.mjs <script>");
+  console.error("Usage: node scripts/workspaces.ts <script>");
   process.exit(1);
 }
 

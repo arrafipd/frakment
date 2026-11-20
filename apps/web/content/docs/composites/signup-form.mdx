@@ -1,0 +1,175 @@
+---
+title: "Signup Form"
+description: "Account creation layouts assembled from Frakment primitives."
+---
+
+import { SignupFormBranded } from "@/examples/signup-form-branded";
+import { SignupFormSocial } from "@/examples/signup-form-social";
+import { SignupFormBasic } from "@/examples/signup-form-basic";
+
+<ComponentPreview name="signup-form-basic" title="signup-form-basic.tsx" src="examples/signup-form-basic.tsx" previewClassName="h-auto py-8">
+  <SignupFormBasic />
+</ComponentPreview>
+
+A signup form combines Frakment's [button](/docs/components/button), [card](/docs/components/card), [field](/docs/components/field), and [input](/docs/components/input) primitives into account creation layouts.
+
+The examples include a basic form, a two-column password layout, and a branded form with social sign-in actions.
+
+These are copyable layouts, not a standalone registry item, and they do not implement authentication or application-specific validation.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add button card field input
+```
+
+The CLI also installs the `label` and `separator` registry dependencies required by `field`.
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Follow the [manual setup](/docs/getting-started/installation/manual) through the theme setup, then continue with the Signup Form files below.</Step>
+
+      <Step>Copy the primitives and the registry dependencies required by `field`:</Step>
+
+      <ComponentSource name="button" title="components/ui/button.tsx" />
+      <ComponentSource name="card" title="components/ui/card.tsx" />
+      <ComponentSource name="field" title="components/ui/field.tsx" />
+      <ComponentSource name="input" title="components/ui/input.tsx" />
+      <ComponentSource name="label" title="components/ui/label.tsx" />
+      <ComponentSource name="separator" title="components/ui/separator.tsx" />
+
+      <Step>Copy the basic signup form layout into your project:</Step>
+
+      <ComponentSource name="signup-form-basic" src="examples/signup-form-basic.tsx" title="signup-form-basic.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+Use the primitives to build the form and connect submission to your account creation flow.
+
+```tsx title="signup-form.tsx"
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+
+export function SignupForm() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Create an account</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form>
+          <FieldGroup>
+            <Field>
+              <FieldLabel htmlFor="name">Full Name</FieldLabel>
+              <Input id="name" type="text" autoComplete="name" required />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="email">Email</FieldLabel>
+              <Input id="email" type="email" autoComplete="email" required />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="password">Password</FieldLabel>
+              <Input
+                id="password"
+                type="password"
+                autoComplete="new-password"
+                required
+              />
+            </Field>
+            <Field>
+              <Button type="submit">Create Account</Button>
+            </Field>
+          </FieldGroup>
+        </form>
+      </CardContent>
+    </Card>
+  );
+}
+```
+
+## Anatomy
+
+The basic layout groups account fields and the submit action inside a card.
+
+```text
+Card
+├── CardHeader
+└── CardContent
+    └── form
+        └── FieldGroup
+            ├── Field (name)
+            ├── Field (email)
+            ├── Field (password)
+            └── Field (submit action)
+```
+
+The social layout adds a two-column password group, while the branded layout adds a brand mark, social actions, and terms text.
+
+## Examples
+
+### Social
+
+This layout places name and email fields above a two-column password group.
+
+<ComponentPreview name="signup-form-social" title="signup-form-social.tsx" src="examples/signup-form-social.tsx" previewClassName="h-auto py-8">
+  <SignupFormSocial />
+</ComponentPreview>
+
+### Branded
+
+This layout combines a brand mark, an email field, and Apple and Google signup actions.
+
+<ComponentPreview name="signup-form-branded" title="signup-form-branded.tsx" src="examples/signup-form-branded.tsx" previewClassName="h-auto py-8">
+  <SignupFormBranded />
+</ComponentPreview>
+
+The branded example uses `GalleryVerticalEnd` from `lucide-react`, which is installed during Frakment setup.
+
+## API
+
+`SignupFormBasic` accepts and forwards `React.ComponentProps<typeof Card>`.
+
+`SignupFormSocial` and `SignupFormBranded` accept and forward `React.ComponentProps<"div">`.
+
+`className` is merged with the default layout classes in all three examples.
+
+## Accessibility
+
+- Give every input a matching `FieldLabel` and `id`, and use the appropriate autocomplete value for each field.
+- For invalid fields, set `data-invalid` on `Field`, set `aria-invalid` on the control, and render `FieldError` for the validation message.
+- Connect form submission and social sign-in buttons to real authentication handlers before using the layouts in an application.
+
+## Best Practices
+
+- **Use the examples as layout starting points.** Add the validation and account creation behavior required by your application.
+- **Replace placeholder links.** Sign-in, Terms of Service, and Privacy Policy links in the examples use `href="#"`.
+- **Keep the primary action clear.** Use one primary submit button for the form.
+
+## Related Components
+
+- [Button](/docs/components/button) — form and social sign-in actions.
+- [Card](/docs/components/card) — groups the form content.
+- [Field](/docs/components/field) — labels, descriptions, and validation states.
+- [Input](/docs/components/input) — account information controls.

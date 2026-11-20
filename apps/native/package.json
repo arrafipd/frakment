@@ -6,8 +6,8 @@
   "scripts": {
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "registry:audit": "node scripts/audit-registry.mjs",
-    "registry:build": "node scripts/build-registry.mjs",
+    "registry:audit": "node scripts/audit-registry.mts",
+    "registry:build": "node scripts/build-registry.mts",
     "start": "expo start",
     "typecheck": "tsc --noEmit",
     "web": "expo start --web"

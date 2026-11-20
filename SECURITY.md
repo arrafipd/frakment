@@ -18,7 +18,6 @@ In scope:
 
 - `frakment` CLI (`packages/cli`)
 - `@frakment/mcp` server (`packages/mcp`)
-- `@frakment/ai` engine (`packages/ai`)
 - Components in `registry/` and `public/r/`
 - Documentation website (`app/`, `content/`)
 
@@ -76,7 +75,6 @@ Security fixes land on the current `0.x` line for each package. Older versions a
 | Package | Current line |
 | :-- | :-- |
 | `frakment` | `0.2.0` |
-| `@frakment/ai` | `0.0.6` |
 | `@frakment/mcp` | `0.0.4` |
 
 ## Recognition

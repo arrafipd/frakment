@@ -51,21 +51,9 @@ Yes. Frakment components target React 19 and use hooks that rely on its behavior
 
 `init` injects the Frakment theme block into an existing Tailwind v4 entry. The file must exist and contain `@import "tailwindcss";` so Frakment can append tokens after your imports.
 
-### Why are engine packages separate?
+### Do AI demos require a model?
 
-Chat engine state lives in `@frakment/ai` so it can be patched with `npm update`. Styling and scroll behavior ship in registry files you can edit. This separation keeps behavior stable across upgrades while leaving visual control to you.
-
-### Do I need both `npm install @frakment/ai` and `npx frakment add`?
-
-Only if you use AI-heavy components. `npx frakment add message-animated` installs `@frakment/ai` automatically as a dependency. Standalone primitives do not pull the engine.
-
-```bash
-# Standalone primitive - no engine
-npx frakment add button
-
-# AI primitive - pulls @frakment/ai
-npx frakment add message-animated
-```
+No. The interactive AI previews use scripted conversations, while your app connects the components to its own model and transport.
 
 ### How do I configure Tailwind v4?
 

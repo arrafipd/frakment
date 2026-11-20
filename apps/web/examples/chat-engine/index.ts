@@ -1,5 +1,5 @@
-// Public entry for the internal deterministic chat engine.
-// Consumers: lib/ai.ts (re-export) + examples/*.tsx (via @/lib/ai).
+// Internal entry for the deterministic chat demos.
+// Consumers: examples/*.tsx import this module directly.
 
 import { getMessageText } from "./adapter";
 import { createChatBuilder } from "./builder";

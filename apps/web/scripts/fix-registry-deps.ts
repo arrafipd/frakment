@@ -26,11 +26,9 @@ const TRACKED_PKGS = [
   "sonner",
   "next-themes",
   "ai",
-  "@frakment/ai",
 ];
 
 const IMPORT_PATTERNS = {
-  "@frakment/ai": /from\s+["']@frakment\/ai["']/,
   ai: /from\s+["']ai["']/,
   "class-variance-authority": /from\s+["']class-variance-authority["']/,
   "input-otp": /from\s+["']input-otp["']/,

@@ -1,0 +1,5 @@
+{
+  "title": "Composites",
+  "root": true,
+  "pages": ["login-form", "pulse", "signup-form"]
+}

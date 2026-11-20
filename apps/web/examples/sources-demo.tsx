@@ -19,7 +19,7 @@ import {
   TraceLine,
   TraceTitle,
 } from "@/components/ui/trace";
-import { createChat, getMessageText } from "@/lib/ai";
+import { createChat, getMessageText } from "@/examples/chat-engine";
 
 const chat = createChat()
   .user("How do I start an Astro project with pnpm?")

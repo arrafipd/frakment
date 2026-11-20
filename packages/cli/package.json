@@ -18,7 +18,7 @@
   "author": "The Frakment Authors (https://github.com/arrafipd/frakment)",
   "type": "module",
   "bin": {
-    "frakment": "./bin/index.js"
+    "frakment": "./bin/index.ts"
   },
   "files": [
     "bin",
@@ -34,6 +34,6 @@
     "prompts": "^2.4.2"
   },
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=22.18.0"
   }
 }

@@ -13,6 +13,8 @@ Exposes the registry as MCP tools so any MCP-capable agent can browse, search, a
 npx -y @frakment/mcp
 ```
 
+Requires Node.js >= 22.18.0.
+
 Or pin it as a dev dependency:
 
 ```bash
@@ -59,7 +61,7 @@ From the `packages/mcp/` folder:
 
 ```bash
 npm install
-node index.js
+node index.ts
 ```
 
 The server speaks JSON-RPC over stdin/stdout. Any MCP client that spawns subprocesses can launch it.

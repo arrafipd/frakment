@@ -4,9 +4,9 @@ import path from "node:path";
 import chalk from "chalk";
 import { Command } from "commander";
 
-import { add } from "../src/commands/add.js";
-import { init } from "../src/commands/init.js";
-import { list } from "../src/commands/list.js";
+import { add } from "../src/commands/add.ts";
+import { init } from "../src/commands/init.ts";
+import { list } from "../src/commands/list.ts";
 
 const __dirname = import.meta.dirname;
 const pkg = JSON.parse(

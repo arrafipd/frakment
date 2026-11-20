@@ -5,11 +5,11 @@ import path from "node:path";
 import chalk from "chalk";
 import ora from "ora";
 
-import { findProjectRoot } from "../utils/detect.js";
-import { logger } from "../utils/logger.js";
+import { findProjectRoot } from "../utils/detect.ts";
+import { logger } from "../utils/logger.ts";
 
-export async function list(options) {
-  let cwd;
+export async function list(options: { registry?: string }) {
+  let cwd: string;
   const preflight = ora("Preflight checks").start();
   try {
     cwd = findProjectRoot(process.cwd());
@@ -30,7 +30,9 @@ export async function list(options) {
   const registryUrl = (options.registry ?? config.registry).replace(/\/$/u, "");
   const s = ora("Fetching components").start();
 
-  let index;
+  let index: {
+    components: Array<{ name: string; description?: string }>;
+  };
   try {
     const res = await fetch(`${registryUrl}/index.json`);
     if (!res.ok) {

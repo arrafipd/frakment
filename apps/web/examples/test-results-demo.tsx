@@ -26,7 +26,7 @@ import {
   TraceLine,
   TraceTitle,
 } from "@/components/ui/trace";
-import { createChat, getMessageText } from "@/lib/ai";
+import { createChat, getMessageText } from "@/examples/chat-engine";
 
 interface Test {
   error?: string;

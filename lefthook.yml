@@ -17,7 +17,7 @@ pre-commit:
           "apps/web/examples/**",
           "apps/web/frakment.json",
         ]
-      run: node apps/web/scripts/build-registry.mjs
+      run: node apps/web/scripts/build-registry.ts
       stage_fixed: true
 
     - name: lint
@@ -35,15 +35,15 @@ pre-commit:
           "apps/web/components/ui/**",
           "apps/web/frakment.json",
         ]
-      run: node apps/web/scripts/audit-registry.mjs
+      run: node apps/web/scripts/audit-registry.ts
 
     - name: secrets
-      run: node scripts/scan-secrets.mjs
+      run: node scripts/scan-secrets.ts
 
 commit-msg:
   jobs:
     - name: conventional
-      run: node scripts/check-commit-msg.mjs {1}
+      run: node scripts/check-commit-msg.ts {1}
 
 pre-push:
   parallel: false

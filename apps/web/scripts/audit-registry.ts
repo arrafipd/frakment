@@ -31,10 +31,8 @@ const tracked = [
   "sonner",
   "next-themes",
   "ai",
-  "@frakment/ai",
 ];
 const pats = {
-  "@frakment/ai": /from\s+["']@frakment\/ai["']/,
   ai: /from\s+["']ai["']/,
   "class-variance-authority": /from\s+["']class-variance-authority["']/,
   "input-otp": /from\s+["']input-otp["']/,

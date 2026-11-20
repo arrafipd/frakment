@@ -11,8 +11,8 @@ import {
   detectGlobalsCss,
   detectPackageManager,
   findProjectRoot,
-} from "../utils/detect.js";
-import { logger } from "../utils/logger.js";
+} from "../utils/detect.ts";
+import { logger } from "../utils/logger.ts";
 
 const __dirname = import.meta.dirname;
 const TEMPLATES_DIR = path.resolve(__dirname, "../../templates");
@@ -27,7 +27,7 @@ function escapeRegex(s) {
 }
 
 async function initExpo() {
-  let cwd;
+  let cwd: string;
   const preflight = ora("Expo preflight checks").start();
 
   try {
@@ -38,7 +38,10 @@ async function initExpo() {
   }
 
   const pkgPath = path.join(cwd, "package.json");
-  let pkg;
+  let pkg: {
+    dependencies?: Record<string, string>;
+    devDependencies?: Record<string, string>;
+  };
 
   try {
     const raw = await readFile(pkgPath, "utf-8");
@@ -188,12 +191,12 @@ async function initExpo() {
   logger.break();
 }
 
-export async function init(options = {}) {
+export async function init(options: { expo?: boolean } = {}) {
   if (options.expo) {
     await initExpo();
     return;
   }
-  let cwd;
+  let cwd: string;
   const preflight = ora("Preflight checks").start();
   try {
     cwd = findProjectRoot(process.cwd());

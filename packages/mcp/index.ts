@@ -18,16 +18,10 @@ const SCENARIOS = {
     note: "terminal pulls trace and code-block. Add chain-of-thought and pulse separately.",
   },
   chat: {
-    components: [
-      "bubble",
-      "message",
-      "message-scroller",
-      "avatar",
-      "message-animated",
-    ],
+    components: ["message", "avatar"],
     description: "Chat interface with auto-scroll and animated turns",
-    install: "message-animated",
-    note: "message-animated pulls bubble, message-scroller, and ai automatically.",
+    install: "message",
+    note: "message includes the message, bubble, scroll, and animated message primitives. Add avatar separately.",
   },
   "code-output": {
     components: ["code-block", "terminal"],

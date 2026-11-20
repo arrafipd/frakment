@@ -1,10 +1,6 @@
 import { createMDX } from "fumadocs-mdx/next";
-import { createJiti } from "jiti";
-
-const jiti = createJiti(import.meta.url);
-
-const { LINK } = await jiti.import("./constants/links");
-const { ROUTES } = await jiti.import("./constants/routes");
+import { LINK } from "./constants/links";
+import { ROUTES } from "./constants/routes";
 
 const isDev = process.env.NODE_ENV !== "production";
 const scriptSrc = isDev
@@ -82,6 +78,21 @@ const nextConfig = {
         destination: `${ROUTES.DOCS}.md`,
         permanent: true,
         source: `${ROUTES.DOCS}.mdx`,
+      },
+      {
+        destination: `${ROUTES.DOCS_AI_ELEMENTS}/chat`,
+        permanent: true,
+        source: `${ROUTES.DOCS_LIBRARIES}/ai`,
+      },
+      {
+        destination: ROUTES.DOCS_COMPOSITES,
+        permanent: true,
+        source: `${ROUTES.DOCS}/modules`,
+      },
+      {
+        destination: `${ROUTES.DOCS_COMPOSITES}/:path*`,
+        permanent: true,
+        source: `${ROUTES.DOCS}/modules/:path*`,
       },
       {
         destination: `${ROUTES.DOCS}/:path*.md`,
@@ -327,7 +338,6 @@ const nextConfig = {
       },
     ];
   },
-  transpilePackages: ["@frakment/ai"],
 };
 
 const withMDX = createMDX({});

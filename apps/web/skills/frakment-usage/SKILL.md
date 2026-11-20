@@ -66,7 +66,7 @@ Example:
 { "tool": "compose", "arguments": { "scenario": "chat" } }
 ```
 
-Returns `bubble, message, message-scroller, avatar, message-animated` plus `npx frakment@latest add message-animated` — that single add pulls the rest via `registryDependencies`.
+Returns `message, avatar` plus `npx frakment@latest add message` — add `avatar` separately if the design needs it.
 
 ## Steps
 

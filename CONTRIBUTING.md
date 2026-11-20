@@ -464,7 +464,7 @@ Rules:
 Create `content/docs/{category}/<name>.mdx`. Template: see [Docs style](#docs-style) above. Reference:
 
 - Simple: `content/docs/components/button.mdx`
-- Composed: `content/docs/modules/questionnaire.mdx`
+- Composed: `content/docs/composites/questionnaire.mdx`
 - Utility: `content/docs/utilities/shimmer.mdx`
 
 The `<ComponentPreview>` `src` prop must point at the example file. Without it, the Code tab shows the component source instead of the usage example.

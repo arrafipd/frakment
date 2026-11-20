@@ -8,8 +8,8 @@ import { execa } from "execa";
 import ora from "ora";
 import prompts from "prompts";
 
-import { detectPackageManager, findProjectRoot } from "../utils/detect.js";
-import { logger } from "../utils/logger.js";
+import { detectPackageManager, findProjectRoot } from "../utils/detect.ts";
+import { logger } from "../utils/logger.ts";
 
 const COMPONENT_NAME_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/u;
 const DEPENDENCY_PATTERN =
@@ -251,7 +251,16 @@ async function writeFileSafely(file, cwd, options, aliases) {
   return file.path;
 }
 
-export async function add(componentNamesInput, options = {}) {
+export async function add(
+  componentNamesInput: string[] | string,
+  options: {
+    registry?: string;
+    expo?: boolean;
+    dryRun?: boolean;
+    skipDependencies?: boolean;
+    overwrite?: boolean;
+  } = {}
+) {
   const componentNames = Array.isArray(componentNamesInput)
     ? [...new Set(componentNamesInput)]
     : [componentNamesInput];
@@ -261,7 +270,7 @@ export async function add(componentNamesInput, options = {}) {
     );
     process.exit(1);
   }
-  let cwd;
+  let cwd: string;
   const preflight = ora("Preflight checks").start();
   try {
     cwd = findProjectRoot(process.cwd());
@@ -277,8 +286,8 @@ export async function add(componentNamesInput, options = {}) {
     process.exit(1);
   }
 
-  let config;
-  let registryUrl;
+  let config: unknown;
+  let registryUrl: string;
   try {
     for (const name of componentNames) {
       assertComponentName(name);

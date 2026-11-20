@@ -13,7 +13,6 @@ Each remains under its original license.
 ## Runtime Dependencies
 
 - `@ai-sdk/react` ^4.0.167
-- `@frakment/ai` workspace:*
 - `@icons-pack/react-simple-icons` ^13.15.1
 - `@phosphor-icons/react` ^2.1.10
 - `@tailwindcss/postcss` ^4.3.3
@@ -54,7 +53,7 @@ Each remains under its original license.
 
 ## AI Components
 
-AI-specific primitives in `@frakment/ai` may adapt patterns from Vercel AI Elements
+The internal scripted chat demo helper in `apps/web/examples/chat-engine/` may adapt patterns from Vercel AI Elements
 (Apache-2.0). See https://github.com/vercel/ai-elements.
 
 ---

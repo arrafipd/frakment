@@ -5,7 +5,7 @@ import {
   resolveRegistryUrl,
   rewriteImports,
   validateRegistryPayload,
-} from "./add.js";
+} from "./add.ts";
 
 const unsignedPayload = {
   dependencies: ["@frakment/react@^0.0.3", "motion@^14.10.0"],

@@ -16,7 +16,7 @@ const navItems = [
   { href: ROUTES.DOCS, label: "Docs" },
   { href: ROUTES.DOCS_COMPONENTS, label: "Components" },
   { href: ROUTES.DOCS_AI_ELEMENTS, label: "AI Elements" },
-  { href: ROUTES.DOCS_MODULES, label: "Modules" },
+  { href: ROUTES.DOCS_COMPOSITES, label: "Composites" },
 ];
 
 export const SiteHeader = () => (
