@@ -42,16 +42,32 @@ Add to `claude_desktop_config.json` (macOS: `~/Library/Application Support/Claud
 
 For Cursor, add the same block to `~/.cursor/mcp.json`.
 
+For VS Code with GitHub Copilot, save this as `.vscode/mcp.json`:
+
+```json
+{
+  "servers": {
+    "frakment": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@frakment/mcp"]
+    }
+  }
+}
+```
+
 ## Tools
 
 | Tool                  | Input                  | Output                                                |
 | --------------------- | ---------------------- | ----------------------------------------------------- |
 | `list_components`     | none                   | List of every web component with name and description. |
-| `view_component`      | `{ "name": "button" }` | Web source, npm dependencies, registry dependencies.   |
+| `view_component`      | `{ "name": "button" }` | Source files and dependency metadata; binary assets are labeled base64 text. |
 | `search_components`   | `{ "query": "chat" }`  | Web components matching name or description.          |
 | `get_install_command` | `{ "name": "button" }` | The exact web component install command.               |
 | `list_scenarios`      | none                   | Ready-made compositions of web components.             |
 | `compose`             | `{ "scenario": "chat" }` | Curated components, install command, and dependency note. |
+
+`get_install_command` formats the supplied name without validating it; call `list_components` first to choose a valid slug.
 
 ## Environment
 

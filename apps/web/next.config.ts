@@ -336,6 +336,11 @@ const nextConfig = {
         permanent: false,
         source: `${ROUTES.DOCS}/components/sonner`,
       },
+      {
+        destination: `${ROUTES.DOCS}/components/web/slot`,
+        permanent: false,
+        source: `${ROUTES.DOCS}/components/slot`,
+      },
     ];
   },
 };

@@ -1,0 +1,75 @@
+---
+title: Slot
+description: Merges attributes onto a single child without adding a DOM wrapper.
+---
+
+import { SlotDemo } from "@/examples/slot-demo";
+
+<DocsBaseSwitcher base="web" component="slot" className="mb-6" />
+
+<ComponentPreview name="slot" title="slot.tsx">
+  <SlotDemo />
+</ComponentPreview>
+
+Slot clones one child element and merges its attributes onto that element, allowing a wrapper to add styles and behavior without adding another DOM node.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+  <TabsContent value="cli">
+
+```bash
+npx frakment add slot
+```
+
+  </TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource name="slot" title="components/ui/slot.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+<ComponentPreview name="slot-demo" title="slot-demo.tsx" src="examples/slot-demo.tsx">
+  <SlotDemo />
+</ComponentPreview>
+
+Pass one element as `children`; Slot applies its attributes to that element.
+
+```tsx
+import { Slot } from "@/components/ui/slot";
+
+<Slot className="rounded-md bg-primary px-4 py-2 text-primary-foreground">
+  <a href="/docs">Open documentation</a>
+</Slot>
+```
+
+## API
+
+### Slot
+
+Slot accepts standard `React.HTMLAttributes<HTMLElement>` and a single React element as `children`.
+
+<PropsTable
+  rows={[
+    { name: "children", type: "React.ReactNode", description: "A valid React element to clone; Slot renders null when it is not valid." },
+    { name: "className", type: "string", description: "Combines the Slot class before the child's class." },
+    { name: "style", type: "React.CSSProperties", description: "Merges styles, with the child's values taking precedence." },
+    { name: "ref", type: "React.Ref<HTMLElement>", description: "Merges the Slot ref with the child's ref." },
+  ]}
+/>
+
+Other child props override matching Slot props. When both elements provide the same event handler, the child's handler runs before the Slot handler.

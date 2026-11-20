@@ -66,7 +66,7 @@ npx @frakment/mcp
 <FeatureCard
   icon={DownloadIcon}
   title="view_component"
-  description="Full source, npm dependencies, and registry dependencies of one component."
+  description="Component files and dependency metadata, with binary assets labeled as base64."
 />
 
 <FeatureCard
@@ -101,7 +101,9 @@ Returns every web component with `name` and `description`.
 
 ### view_component
 
-Returns the full source of one component.
+Returns the component files, npm dependencies, and registry dependencies.
+
+Binary assets remain base64 text and are labeled with their encoding in the file header.
 
 <PropsTable
   rows={[
@@ -114,7 +116,7 @@ Returns the full source of one component.
   ]}
 />
 
-**Output**: markdown with file contents, npm dependencies, and registry dependencies.
+**Output**: markdown with file contents, npm dependencies, and registry dependencies. Binary assets include an encoding label and retain their base64 content.
 
 ### search_components
 
@@ -135,7 +137,7 @@ Case-insensitive substring search across web component `name` and `description`.
 
 ### get_install_command
 
-Returns the exact CLI command.
+Formats the CLI command without validating the component name. Call `list_components` first to choose a valid slug.
 
 <PropsTable
   rows={[
@@ -197,6 +199,22 @@ Config lives at `~/Library/Application Support/Claude/claude_desktop_config.json
 }
 ```
 
+### VS Code with GitHub Copilot
+
+Save this configuration as `.vscode/mcp.json`:
+
+```json title="mcp.json"
+{
+  "servers": {
+    "frakment": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@frakment/mcp"]
+    }
+  }
+}
+```
+
 ### Cursor
 
 Config lives at `~/.cursor/mcp.json`:
@@ -217,7 +235,7 @@ Config lives at `~/.cursor/mcp.json`:
 Any client that spawns stdio processes:
 
 ```bash
-npx @frakment/mcp
+npx -y @frakment/mcp
 ```
 
 ## Environment

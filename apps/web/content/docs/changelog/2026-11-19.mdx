@@ -1,12 +1,10 @@
 ---
 title: "November 19, 2026"
-description: "Remove animation.ts, animation-curves, credit-card, holo-card; rewrite animations docs to use motion prop."
+description: "Remove obsolete animation utilities and update animation docs to use the motion prop."
 date: "2026-11-19"
 ---
 
 Removed `animation.ts` and `animation-curves.ts` from `lib/`. All animation now uses the `motion` prop via `lib/motion.ts` (`parseMotion`, `getTransition`, `useReducedMotion`, `useMotionGuard`).
-
-Removed `credit-card` and `holo-card` from the registry. `npx frakment add credit-card` and `npx frakment add holo-card` return 404. Existing installs continue to work.
 
 Rewrote `content/docs/guides/animations/index.mdx` to document the `motion` prop instead of the removed `animation` DSL. Removed cubic-bezier curve grid and custom curve components from the docs page.
 

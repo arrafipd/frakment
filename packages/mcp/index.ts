@@ -78,7 +78,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
     },
     {
       description:
-        "Get the full source, dependencies, and registry dependencies of one web component.",
+        "Get source files and dependency metadata for one web component. Binary assets are labeled base64 text.",
       inputSchema: {
         properties: { name: { type: "string" } },
         required: ["name"],
@@ -144,7 +144,10 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
   if (name === "view_component") {
     const comp = await fetchJson(`/r/${args.name}.json`);
     const files = (comp.files || [])
-      .map((f) => `--- ${f.path} ---\n${f.content || ""}`)
+      .map(
+        (f) =>
+          `--- ${f.path}${f.encoding ? ` (encoding: ${f.encoding})` : ""} ---\n${f.content || ""}`
+      )
       .join("\n\n");
     const text = [
       `# ${comp.name}`,

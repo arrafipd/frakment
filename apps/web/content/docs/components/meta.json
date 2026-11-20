@@ -32,6 +32,7 @@
     "web/radio-group",
     "web/select",
     "web/slider",
+    "web/slot",
     "web/sonner",
     "web/spinner",
     "web/switch",

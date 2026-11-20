@@ -59,7 +59,7 @@ Flags:
 - `--overwrite` — overwrite existing files without prompting
 
 - `--dry-run` - show planned file and dependency changes without changing the project
-- `--skip-dependencies` â€” write component files without installing missing npm dependencies
+- `--skip-dependencies` — write component files without installing missing npm dependencies
 
 ### `frakment list`
 
