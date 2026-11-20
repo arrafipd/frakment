@@ -5,6 +5,8 @@
 
 Model Context Protocol server for the [Frakment](https://github.com/arrafipd/frakment) component registry.
 
+Frakment is open source under the MIT License. Commercial use, modification, distribution, and sublicensing are permitted.
+
 Exposes registry search, component source, compositions, and CLI install commands as MCP tools.
 
 The MCP server does not write files into a project or execute the returned commands.

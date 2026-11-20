@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-const DEFAULT_MUTATION_OBSERVER_OPTIONS: MutationObserverInit = {
+const defaultMutationObserverOptions: MutationObserverInit = {
   attributes: true,
   characterData: true,
   childList: true,
@@ -10,7 +10,7 @@ const DEFAULT_MUTATION_OBSERVER_OPTIONS: MutationObserverInit = {
 export const useMutationObserver = (
   ref: React.RefObject<HTMLElement | null>,
   callback: MutationCallback,
-  options: MutationObserverInit = DEFAULT_MUTATION_OBSERVER_OPTIONS
+  options: MutationObserverInit = defaultMutationObserverOptions
 ) => {
   useEffect(() => {
     if (ref.current) {

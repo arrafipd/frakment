@@ -17,7 +17,7 @@ pre-commit:
           "apps/web/examples/**",
           "apps/web/frakment.json",
         ]
-      run: node apps/web/scripts/build-registry.ts
+      run: node tooling/registry/web/build-registry.ts
       stage_fixed: true
 
     - name: lint
@@ -35,7 +35,7 @@ pre-commit:
           "apps/web/components/ui/**",
           "apps/web/frakment.json",
         ]
-      run: node apps/web/scripts/audit-registry.ts
+      run: node tooling/registry/web/audit-registry.ts
 
     - name: secrets
       run: node scripts/scan-secrets.ts

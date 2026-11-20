@@ -1,6 +1,4 @@
 // @ts-nocheck
-// Remark plugin: transforms fenced `npx frakment ...` code blocks into
-// <CodeBlockCommand /> JSX so the site renders package manager tabs.
 
 const languages = new Set(["bash", "sh", "shell", "zsh", "console", "npm"]);
 const cmd = /^npx\s+frakment(?:@latest|@[0-9.]+)?\s+.+/u;

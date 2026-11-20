@@ -3,19 +3,18 @@ import { ComponentSource } from "@/components/docs/component-source";
 import { getRegistryComponent } from "@/lib/registry";
 
 interface ComponentPreviewProps {
-  /** Alignment konten preview */
   align?: "center" | "start" | "end";
-  /** Backward compat: children dirender langsung sebagai preview */
+
   children?: React.ReactNode;
   className?: string;
-  /** Sembunyikan tab Code — hanya tampilkan preview */
+
   hideCode?: boolean;
-  /** Nama komponen di registry — dipakai untuk mencari source code */
+
   name: string;
   previewClassName?: string;
-  /** Opsional: path file sumber jika berbeda dari default registry */
+
   src?: string;
-  /** Opsional: judul file yang tampil di atas blok kode */
+
   title?: string;
 }
 

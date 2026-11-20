@@ -3,10 +3,14 @@ import ora from "ora";
 
 export const logger = {
   break: () => console.log(""),
-  error: (...args) => console.log(chalk.red(...args)),
-  info: (...args) => console.log(chalk.cyan(...args)),
-  log: (...args) => console.log(...args),
-  spinner: (text) => ora(text),
-  success: (...args) => console.log(chalk.green(...args)),
-  warn: (...args) => console.log(chalk.yellow(...args)),
+  error: (...args: unknown[]) =>
+    console.log(chalk.red(...args.map((value) => String(value)))),
+  info: (...args: unknown[]) =>
+    console.log(chalk.cyan(...args.map((value) => String(value)))),
+  log: (...args: unknown[]) => console.log(...args),
+  spinner: (text: string) => ora(text),
+  success: (...args: unknown[]) =>
+    console.log(chalk.green(...args.map((value) => String(value)))),
+  warn: (...args: unknown[]) =>
+    console.log(chalk.yellow(...args.map((value) => String(value)))),
 };

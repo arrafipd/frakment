@@ -1,5 +1,4 @@
 const femaleNames = new Set([
-  // Western
   "sarah",
   "emma",
   "olivia",
@@ -150,7 +149,7 @@ const femaleNames = new Set([
   "rose",
   "alexis",
   "kayla",
-  // Indonesian
+
   "siti",
   "dewi",
   "putri",
@@ -181,7 +180,7 @@ const femaleNames = new Set([
   "susi",
   "tuti",
   "yanti",
-  // Asian
+
   "yuki",
   "sakura",
   "mei",
@@ -202,7 +201,7 @@ const femaleNames = new Set([
   "chaewon",
   "jisoo",
   "nayeon",
-  // Others
+
   "fatima",
   "aisha",
   "zara",
@@ -326,7 +325,7 @@ const maleNames = new Set([
   "bobby",
   "philip",
   "johnny",
-  // Tech
+
   "linus",
   "guido",
   "rich",
@@ -346,7 +345,7 @@ const maleNames = new Set([
   "luke",
   "nick",
   "dave",
-  // Indonesian
+
   "budi",
   "joko",
   "agus",
@@ -377,7 +376,7 @@ const maleNames = new Set([
   "hafiz",
   "rafi",
   "bima",
-  // Others
+
   "mohamed",
   "ahmed",
   "ali",

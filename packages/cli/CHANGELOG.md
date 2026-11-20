@@ -71,7 +71,7 @@
 - c961034: **Breaking:** animation constants renamed to camelCase in `lib/animation.ts`.
   
   Renames:
-  - `SPRING_SMOOTH` -> `springSoft`
+  - `springSmooth` -> `springSoft`
   - `EASE_OUT` -> `easeOutExpo`
   - `EASE_SMOOTH` -> `easeSmoothOut`
   - `EASE_IN_OUT` -> `easeInOut`

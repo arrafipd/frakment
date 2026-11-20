@@ -28,7 +28,7 @@ import {
   TraceLine,
   TraceTitle,
 } from "@/components/ui/trace";
-import { createChat, getMessageText } from "@/examples/chat-engine";
+import { createChat, getMessageText } from "@/features/chat-engine";
 
 type ChatMessage = UIMessage<
   unknown,
@@ -48,7 +48,7 @@ type StepPart = Extract<
   { type: "tool-searchWeb" | "tool-readBuildLog" | "tool-searchCode" }
 >;
 
-const BUILD_LOG_LINES = ["install    41s", "compile    38s", "images   3m 52s"];
+const buildLogLines = ["install    41s", "compile    38s", "images   3m 52s"];
 
 const chat = createChat<ChatMessage>()
   .user("Why is the checkout deploy so slow?")
@@ -58,16 +58,16 @@ const chat = createChat<ChatMessage>()
       input: { deployment: "dpl_8Kx2" },
       toolCallId: logId,
     });
-    BUILD_LOG_LINES.forEach((_, i) => {
+    buildLogLines.forEach((_, i) => {
       writer
         .data({
-          data: { output: BUILD_LOG_LINES.slice(0, i + 1).join("\n") },
+          data: { output: buildLogLines.slice(0, i + 1).join("\n") },
           id: logId,
           type: "data-buildLog",
         })
         .sleep(200);
     });
-    readLog.output({ log: BUILD_LOG_LINES.join("\n") });
+    readLog.output({ log: buildLogLines.join("\n") });
 
     writer
       .tool("searchWeb", { input: { query: "next.js image cache key" } })

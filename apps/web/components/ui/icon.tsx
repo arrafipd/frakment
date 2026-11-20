@@ -27,18 +27,6 @@ import {
 } from "@phosphor-icons/react";
 import type { CSSProperties } from "react";
 
-/**
- * Universal icon renderer — Scalar-style API.
- *
- *   <Icon src="phosphor/regular/check" />
- *   <Icon src="simple/github" size={24} />
- *   <Icon src="/custom/path.svg" />
- *
- * Only names registered in the maps below are bundled, so adding an
- * icon is a one-line registry change and tree-shaking keeps the
- * bundle at just the used icons.
- */
-
 export type IconWeight =
   | "thin"
   | "light"

@@ -55,7 +55,7 @@ function extractTextContent(node: React.ReactNode): string {
   return "";
 }
 
-const INITIAL_COMPONENTS: Partial<Components> = {
+const initialComponents: Partial<Components> = {
   a: function Anchor({ children, ...props }) {
     return (
       <a
@@ -95,8 +95,6 @@ const INITIAL_COMPONENTS: Partial<Components> = {
       );
     }
 
-    // Block code: rehype-pretty-code already highlighted.
-    // Let pre handler wrap it in CodeBlock with header + copy.
     return (
       <code className={className} {...props}>
         {children}
@@ -201,7 +199,7 @@ const INITIAL_COMPONENTS: Partial<Components> = {
 const MemoizedMarkdownBlock = memo(
   function MarkdownBlock({
     content,
-    components = INITIAL_COMPONENTS,
+    components = initialComponents,
   }: {
     content: string;
     components?: Partial<Components>;
@@ -227,7 +225,7 @@ function MarkdownComponent({
   children,
   id,
   className,
-  components = INITIAL_COMPONENTS,
+  components = initialComponents,
 }: MarkdownProps) {
   const generatedId = useId();
   const blockId = id ?? generatedId;

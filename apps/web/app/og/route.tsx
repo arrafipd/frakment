@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 import { FrakmentMark } from "@/components/site/brand/frakment-mark";
-import { SITE } from "@/constants/site";
+import { SITE } from "@/config/site";
 
 export const GET = (request: Request) => {
   const { searchParams } = new URL(request.url);

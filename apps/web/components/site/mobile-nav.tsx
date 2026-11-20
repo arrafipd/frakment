@@ -12,12 +12,9 @@ import {
   PopoverTrigger,
 } from "@/components/site/popover";
 import { Button } from "@/components/ui/button";
-import { ROUTES } from "@/constants/routes";
+import { ROUTES } from "@/config/routes";
 import { useFeedback } from "@/hooks/use-feedback";
-// NOTE: This component mirrors components/docs-sidebar.tsx.'s structure.
-// Both render TOP_LEVEL_SECTIONS (flat) + tree.children grouped, filtered by
-// EXCLUDED_SECTIONS. If you change one, change the other - or better, hoist
-// the shared logic into a helper.
+
 import {
   buildNavGroups,
   isActiveDocPath,

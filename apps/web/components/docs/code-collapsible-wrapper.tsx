@@ -8,7 +8,7 @@ import { Collapsible, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
-const COLLAPSE_THRESHOLD = 256;
+const collapseThreshold = 256;
 
 const useIsomorphicLayoutEffect =
   typeof window === "undefined" ? useEffect : useLayoutEffect;
@@ -42,13 +42,13 @@ export const CodeCollapsibleWrapper = ({
     return () => ro.disconnect();
   }, []);
 
-  const needsCollapse = contentHeight > COLLAPSE_THRESHOLD;
+  const needsCollapse = contentHeight > collapseThreshold;
 
   let targetHeight: number | "auto";
   if (!hasMeasured) {
-    targetHeight = COLLAPSE_THRESHOLD;
+    targetHeight = collapseThreshold;
   } else if (needsCollapse) {
-    targetHeight = isOpened ? "auto" : COLLAPSE_THRESHOLD;
+    targetHeight = isOpened ? "auto" : collapseThreshold;
   } else {
     targetHeight = "auto";
   }

@@ -25,14 +25,14 @@ export interface AnimationConfig {
   transition: Record<string, unknown>;
 }
 
-const NAMED_EASINGS: Record<string, readonly number[]> = {
+const namedEasings: Record<string, readonly number[]> = {
   easeInOut,
   easeInOutQuad,
   easeOutExpo,
   easeSmoothOut,
 };
 
-const MOTION_NATIVE_EASINGS = new Set([
+const motionNativeEasings = new Set([
   "linear",
   "circIn",
   "circOut",
@@ -43,9 +43,9 @@ const MOTION_NATIVE_EASINGS = new Set([
   "anticipate",
 ]);
 
-const DURATION_RE = /^(\d+(?:\.\d+)?)(ms|s)?$/;
-const DELAY_RE = /^delay\(([^)]+)\)$/;
-const REPEAT_RE = /^repeat\(([^)]+)\)$/;
+const durationRe = /^(\d+(?:\.\d+)?)(ms|s)?$/;
+const delayRe = /^delay\(([^)]+)\)$/;
+const repeatRe = /^repeat\(([^)]+)\)$/;
 
 function warn(message: string): void {
   if (typeof console !== "undefined" && typeof console.warn === "function") {
@@ -54,7 +54,7 @@ function warn(message: string): void {
 }
 
 function toSeconds(raw: string): number | null {
-  const m = raw.trim().match(DURATION_RE);
+  const m = raw.trim().match(durationRe);
   if (!m) {
     return null;
   }
@@ -184,14 +184,14 @@ export function parseAnimation(input?: false | string): AnimationConfig | null {
       return null;
     }
     config = { keyframes: { times, values }, transition: { type: "tween" } };
-  } else if (head in NAMED_EASINGS) {
+  } else if (head in namedEasings) {
     config = {
       transition: {
-        ease: [...NAMED_EASINGS[head]] as [number, number, number, number],
+        ease: [...namedEasings[head]] as [number, number, number, number],
         type: "tween",
       },
     };
-  } else if (MOTION_NATIVE_EASINGS.has(head)) {
+  } else if (motionNativeEasings.has(head)) {
     config = { transition: { ease: head, type: "tween" } };
   } else {
     warn(`unknown easing or syntax: "${head}"`);
@@ -208,7 +208,7 @@ export function parseAnimation(input?: false | string): AnimationConfig | null {
       }
       continue;
     }
-    const delayMatch = token.match(DELAY_RE);
+    const delayMatch = token.match(delayRe);
     if (delayMatch) {
       const d = toSeconds(delayMatch[1]);
       if (d === null) {
@@ -218,7 +218,7 @@ export function parseAnimation(input?: false | string): AnimationConfig | null {
       (config.transition as { delay?: number }).delay = d;
       continue;
     }
-    const repeatMatch = token.match(REPEAT_RE);
+    const repeatMatch = token.match(repeatRe);
     if (repeatMatch) {
       const v = repeatMatch[1].trim();
       if (v === "infinite") {

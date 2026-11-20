@@ -91,3 +91,6 @@ pnpm-lock.yaml
 
 # commit helper
 .commit-msg-temp.txt
+
+# editor-specific workspace settings
+.vscode/

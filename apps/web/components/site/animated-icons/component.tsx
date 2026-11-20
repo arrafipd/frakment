@@ -25,10 +25,10 @@ const makePathVariants = (x: number, y: number): Variants => ({
   normal: { translateX: 0, translateY: 0 },
 });
 
-const TOP_VARIANTS = makePathVariants(6.6, 6.6);
-const RIGHT_VARIANTS = makePathVariants(-6.6, 6.6);
-const BOTTOM_VARIANTS = makePathVariants(-6.6, -6.6);
-const LEFT_VARIANTS = makePathVariants(6.6, -6.6);
+const topVariants = makePathVariants(6.6, 6.6);
+const rightVariants = makePathVariants(-6.6, 6.6);
+const bottomVariants = makePathVariants(-6.6, -6.6);
+const leftVariants = makePathVariants(6.6, -6.6);
 
 const ComponentIcon = forwardRef<ComponentIconHandle, ComponentIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 24, ...props }, ref) => {
@@ -88,25 +88,25 @@ const ComponentIcon = forwardRef<ComponentIconHandle, ComponentIconProps>(
             animate={controls}
             d="M8.916 4.674a1 1 0 0 0 0 1.414l2.377 2.376a1 1 0 0 0 1.414 0l2.377-2.376a1 1 0 0 0 0-1.414l-2.377-2.377a1 1 0 0 0-1.414 0z"
             initial="normal"
-            variants={TOP_VARIANTS}
+            variants={topVariants}
           />
           <motion.path
             animate={controls}
             d="M15.536 11.293a1 1 0 0 0 0 1.414l2.376 2.377a1 1 0 0 0 1.414 0l2.377-2.377a1 1 0 0 0 0-1.414l-2.377-2.377a1 1 0 0 0-1.414 0z"
             initial="normal"
-            variants={RIGHT_VARIANTS}
+            variants={rightVariants}
           />
           <motion.path
             animate={controls}
             d="M8.916 17.912a1 1 0 0 0 0 1.415l2.377 2.376a1 1 0 0 0 1.414 0l2.377-2.376a1 1 0 0 0 0-1.415l-2.377-2.376a1 1 0 0 0-1.414 0z"
             initial="normal"
-            variants={BOTTOM_VARIANTS}
+            variants={bottomVariants}
           />
           <motion.path
             animate={controls}
             d="M2.297 11.293a1 1 0 0 0 0 1.414l2.377 2.377a1 1 0 0 0 1.414 0l2.377-2.377a1 1 0 0 0 0-1.414L6.088 8.916a1 1 0 0 0-1.414 0z"
             initial="normal"
-            variants={LEFT_VARIANTS}
+            variants={leftVariants}
           />
         </svg>
       </div>

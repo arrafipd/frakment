@@ -12,8 +12,8 @@ if (!scriptName) {
   process.exit(1);
 }
 
-// Build only packages/* (dependency libraries), NOT apps/*.
-// App build is invoked explicitly via root scripts ("npm run build -w @frakment/web").
+
+
 const packagesDir = join(process.cwd(), "packages");
 const targets = [];
 for (const entry of readdirSync(packagesDir, { withFileTypes: true })) {

@@ -468,7 +468,7 @@ export const getIconForPackageManager = (manager: PackageManager) => {
     }
   }
 };
-// ===== Brand icons (from @icons-pack/react-simple-icons) =====
+
 type BrandIconProps = React.ComponentProps<"svg">;
 
 const wrapBrand = (Brand: React.ComponentType<{ className?: string }>) => {

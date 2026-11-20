@@ -7,12 +7,12 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { LINK } from "@/constants/links";
-import { ROUTES } from "@/constants/routes";
+import { LINK } from "@/config/links";
+import { ROUTES } from "@/config/routes";
+import { createPageMetadata } from "@/features/seo/metadata";
 import { getContributors } from "@/lib/github";
 import { ExternalLink, Heart, Star } from "@/lib/icons";
 import { sponsors } from "@/lib/sponsors";
-import { createPageMetadata } from "@/seo/metadata";
 
 export const metadata: Metadata = createPageMetadata({
   description:
@@ -21,15 +21,15 @@ export const metadata: Metadata = createPageMetadata({
   title: "Sponsor",
 });
 
-const MAX_SPONSORS = 12;
-const MAX_CONTRIBUTORS = 30;
+const maxSponsors = 12;
+const maxContributors = 30;
 
 const SponsorPage = async () => {
   const contributors = await getContributors();
 
-  const visibleSponsors = sponsors.slice(0, MAX_SPONSORS);
+  const visibleSponsors = sponsors.slice(0, maxSponsors);
   const extraSponsors = sponsors.length - visibleSponsors.length;
-  const visibleContributors = contributors.slice(0, MAX_CONTRIBUTORS);
+  const visibleContributors = contributors.slice(0, maxContributors);
   const extraContributors = contributors.length - visibleContributors.length;
 
   return (

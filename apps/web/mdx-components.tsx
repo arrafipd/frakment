@@ -36,7 +36,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { IconComponent } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
-const LANGUAGE_TITLES: Record<string, string> = {
+const languageTitles: Record<string, string> = {
   astro: "astro",
   css: "css",
   diff: "diff",
@@ -110,7 +110,7 @@ export const mdxComponents = {
     __pnpm__?: string;
     __bun__?: string;
   }) => {
-    // Inline Code.
+
     if (typeof props.children === "string") {
       return (
         <code
@@ -123,7 +123,7 @@ export const mdxComponents = {
       );
     }
 
-    // npm command.
+
     const isNpmCommand = __npm__ && __yarn__ && __pnpm__ && __bun__;
     if (isNpmCommand) {
       return (
@@ -136,7 +136,7 @@ export const mdxComponents = {
       );
     }
 
-    // Default codeblock.
+
     return (
       <>
         {__raw__ && (
@@ -242,7 +242,7 @@ export const mdxComponents = {
       findLang(child);
     }
 
-    const title = lang ? LANGUAGE_TITLES[lang] : undefined;
+    const title = lang ? languageTitles[lang] : undefined;
     if (!(lang && title)) {
       return (
         <figure className={cn(className)} {...props}>
@@ -359,7 +359,6 @@ export const mdxComponents = {
   ),
   IntroFeatureCard,
   img: ({ className, alt, ...props }: React.ComponentProps<"img">) => (
-    // eslint-disable-next-line @next/next/no-img-element
     <img alt={alt} className={cn("rounded-md", className)} {...props} />
   ),
   Kbd,

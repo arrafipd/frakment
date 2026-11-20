@@ -10,7 +10,6 @@ type DisplayTransformer = (opts: {
 export const formatCode = async (code: string) => {
   let formattedCode = code;
 
-  // Ubah default export menjadi named export agar tidak bentrok saat ditampilkan
   formattedCode = formattedCode.replaceAll("export default", "export");
 
   try {

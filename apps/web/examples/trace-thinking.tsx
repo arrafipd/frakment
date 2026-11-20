@@ -20,7 +20,7 @@ import {
   TraceLine,
   TraceTitle,
 } from "@/components/ui/trace";
-import { createChat, getMessageText } from "@/examples/chat-engine";
+import { createChat, getMessageText } from "@/features/chat-engine";
 
 const chat = createChat()
   .user("Why is the checkout deploy so slow?")

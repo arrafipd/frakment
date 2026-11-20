@@ -83,10 +83,10 @@ The preview above is the exact code you get from the install command.
 
 Accordion and Collapsible now animate height through Motion instead of CSS keyframes. Shimmer is a Motion component. `TraceCollapsibleContent` uses `ResizeObserver` so streaming content updates the spring target instead of stalling on `auto`.
 
-`lib/animation.ts` ships with `npx frakment init` and exports `SPRING_SMOOTH`, `EASE_OUT`, `EASE_SMOOTH`, `EASE_IN_OUT`, `DURATION_FAST`, `DURATION_SMOOTH`. Import from it when you build animated components so timing matches the library.
+`lib/animation.ts` ships with `npx frakment init` and exports `springSmooth`, `EASE_OUT`, `EASE_SMOOTH`, `EASE_IN_OUT`, `DURATION_FAST`, `DURATION_SMOOTH`. Import from it when you build animated components so timing matches the library.
 
 ~~~ts
-import { SPRING_SMOOTH } from "@/lib/animation";
+import { springSmooth } from "@/lib/animation";
 ~~~
 
 See the [Animations guide](/docs/guides/animations) for the two-engine model.

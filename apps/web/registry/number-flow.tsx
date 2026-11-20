@@ -5,9 +5,9 @@ import { useEffect, useRef } from "react";
 import { useMotionGuard, useReducedMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
-const DEFAULT_DURATION = 900;
-const DEFAULT_EASING = "cubic-bezier(0.2, 0, 0.2, 1)";
-const STYLE_ID = "frakment-nf-style";
+const defaultDuration = 900;
+const defaultEasing = "cubic-bezier(0.2, 0, 0.2, 1)";
+const styleId = "frakment-nf-style";
 const MASK = "0.15em";
 
 const STYLES = [
@@ -41,19 +41,19 @@ export interface NumberFlowProps {
 
 function parseMotionProp(motion: string | undefined) {
   if (motion === undefined) {
-    return { duration: DEFAULT_DURATION, easing: DEFAULT_EASING };
+    return { duration: defaultDuration, easing: defaultEasing };
   }
   const parts = motion.trim().split(/\s+/);
   if (!parts[0]) {
-    return { duration: DEFAULT_DURATION, easing: DEFAULT_EASING };
+    return { duration: defaultDuration, easing: defaultEasing };
   }
   const raw = parts[0];
   const v = Number.parseFloat(raw);
-  let duration = DEFAULT_DURATION;
+  let duration = defaultDuration;
   if (!Number.isNaN(v)) {
     duration = /ms$/.test(raw) ? v : /s$/.test(raw) ? v * 1000 : v;
   }
-  return { duration, easing: parts.slice(1).join(" ") || DEFAULT_EASING };
+  return { duration, easing: parts.slice(1).join(" ") || defaultEasing };
 }
 function Digit({
   char,
@@ -134,11 +134,11 @@ function NumberFlow({
     if (typeof document === "undefined") {
       return;
     }
-    if (document.getElementById(STYLE_ID)) {
+    if (document.getElementById(styleId)) {
       return;
     }
     const el = document.createElement("style");
-    el.id = STYLE_ID;
+    el.id = styleId;
     el.textContent = STYLES;
     document.head.appendChild(el);
   }, []);

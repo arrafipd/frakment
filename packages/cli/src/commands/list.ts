@@ -15,7 +15,7 @@ export async function list(options: { registry?: string }) {
     cwd = findProjectRoot(process.cwd());
     preflight.succeed("Preflight checks. Found project root.");
   } catch (error) {
-    preflight.fail(error.message);
+    preflight.fail(error instanceof Error ? error.message : "Unknown error");
     process.exit(1);
   }
 

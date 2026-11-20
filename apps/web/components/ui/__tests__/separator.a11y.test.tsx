@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 
-import { axeOptions } from "@/lib/test/axe-options";
+import { axeOptions } from "@/tests/utils/axe-options";
 import { Separator } from "../separator";
 
 describe("Separator (a11y)", () => {

@@ -5,12 +5,12 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 
-const HOVER_CARD_SIDES = ["left", "top", "bottom", "right"] as const;
+const hoverCardSides = ["left", "top", "bottom", "right"] as const;
 
 export function HoverCardSides() {
   return (
     <div className="flex flex-wrap justify-center gap-2">
-      {HOVER_CARD_SIDES.map((side) => (
+      {hoverCardSides.map((side) => (
         <HoverCard closeDelay={100} key={side} openDelay={100}>
           <HoverCardTrigger
             as={Button}

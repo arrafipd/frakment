@@ -8,15 +8,15 @@ import { MobileNav } from "@/components/site/mobile-nav";
 import { ModeSwitcher } from "@/components/site/mode-switcher";
 import { NavItemGithub } from "@/components/site/nav-item-github";
 import { SponsorLink } from "@/components/site/sponsor-link";
-import { ROUTES } from "@/constants/routes";
-import { SITE } from "@/constants/site";
+import { ROUTES } from "@/config/routes";
+import { SITE } from "@/config/site";
 import { source } from "@/lib/source";
 
 const navItems = [
   { href: ROUTES.DOCS, label: "Docs" },
-  { href: ROUTES.DOCS_COMPONENTS, label: "Components" },
-  { href: ROUTES.DOCS_AI_ELEMENTS, label: "AI Elements" },
-  { href: ROUTES.DOCS_COMPOSITES, label: "Composites" },
+  { href: ROUTES.docsComponents, label: "Components" },
+  { href: ROUTES.docsAiElements, label: "AI Elements" },
+  { href: ROUTES.docsComposites, label: "Composites" },
 ];
 
 export const SiteHeader = () => (

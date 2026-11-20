@@ -44,21 +44,21 @@ import { cn } from "@/lib/utils";
 
 type FileIconComponent = React.ComponentType<{ className?: string }>;
 
-const SPRING_SMOOTH = {
+const springSmooth = {
   damping: 36,
   mass: 0.9,
   stiffness: 320,
   type: "spring" as const,
 };
 
-const SPRING_SHARP = {
+const springSharp = {
   damping: 32,
   mass: 0.7,
   stiffness: 420,
   type: "spring" as const,
 };
 
-const FILE_COLORS: Record<string, string> = {
+const fileColors: Record<string, string> = {
   avif: "text-pink-600 dark:text-pink-400",
   env: "text-yellow-600 dark:text-yellow-400",
   gitignore: "text-orange-500 dark:text-orange-400",
@@ -75,7 +75,7 @@ const FILE_COLORS: Record<string, string> = {
   woff2: "text-muted-foreground",
 };
 
-const EXT_ICONS: Record<string, FileIconComponent> = {
+const extIcons: Record<string, FileIconComponent> = {
   astro: AstroBrandIcon,
   bash: BashBrandIcon,
   cjs: JavascriptBrandIcon,
@@ -102,7 +102,7 @@ const EXT_ICONS: Record<string, FileIconComponent> = {
   zsh: BashBrandIcon,
 };
 
-const BRAND_ICONS: Record<string, FileIconComponent> = {
+const brandIcons: Record<string, FileIconComponent> = {
   "astro.config.js": AstroBrandIcon,
   "astro.config.mjs": AstroBrandIcon,
   "astro.config.ts": AstroBrandIcon,
@@ -125,7 +125,7 @@ const BRAND_ICONS: Record<string, FileIconComponent> = {
   "yarn.lock": YarnIcon,
 };
 
-const CUSTOM_ICONS: Record<string, FileIconComponent> = {
+const customIcons: Record<string, FileIconComponent> = {
   chat: ChatCentered,
   circle: CircleIcon,
   code: CodeIcon,
@@ -140,15 +140,15 @@ const CUSTOM_ICONS: Record<string, FileIconComponent> = {
 };
 
 function getFileIcon(name: string, iconOverride?: string): FileIconComponent {
-  if (iconOverride && CUSTOM_ICONS[iconOverride]) {
-    return CUSTOM_ICONS[iconOverride];
+  if (iconOverride && customIcons[iconOverride]) {
+    return customIcons[iconOverride];
   }
-  if (BRAND_ICONS[name]) {
-    return BRAND_ICONS[name];
+  if (brandIcons[name]) {
+    return brandIcons[name];
   }
   const ext = name.split(".").pop()?.toLowerCase() ?? "";
-  if (EXT_ICONS[ext]) {
-    return EXT_ICONS[ext];
+  if (extIcons[ext]) {
+    return extIcons[ext];
   }
   return FileIcon;
 }
@@ -174,7 +174,7 @@ function FileTreeFolder({
   const contentId = React.useId();
   const shouldReduce = useReducedMotion();
   const FolderIconResolved =
-    icon && CUSTOM_ICONS[icon] ? CUSTOM_ICONS[icon] : FolderIcon;
+    icon && customIcons[icon] ? customIcons[icon] : FolderIcon;
 
   return (
     <>
@@ -189,7 +189,7 @@ function FileTreeFolder({
           animate={{ rotate: open ? 90 : 0 }}
           className="flex shrink-0 items-center justify-center"
           initial={false}
-          transition={shouldReduce ? { duration: 0 } : SPRING_SHARP}
+          transition={shouldReduce ? { duration: 0 } : springSharp}
         >
           <ChevronRightIcon className="text-muted-foreground/70 size-4" />
         </motion.span>
@@ -206,7 +206,7 @@ function FileTreeFolder({
             shouldReduce
               ? { duration: 0 }
               : {
-                  height: SPRING_SMOOTH,
+                  height: springSmooth,
                   opacity: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
                 }
           }
@@ -223,9 +223,9 @@ function FileTreeFolder({
 function FileTreeFile({ name, icon }: { name: string; icon?: string }) {
   const ext = name.split(".").pop()?.toLowerCase() ?? "";
   const Icon = getFileIcon(name, icon);
-  const isGeneric = !(icon || BRAND_ICONS[name] || EXT_ICONS[ext]);
+  const isGeneric = !(icon || brandIcons[name] || extIcons[ext]);
   const colorClass = isGeneric
-    ? (FILE_COLORS[ext] ?? "text-muted-foreground")
+    ? (fileColors[ext] ?? "text-muted-foreground")
     : "text-muted-foreground";
   return (
     <div className="text-muted-foreground hover:bg-muted/40 flex items-center gap-2 rounded-md px-2.5 py-1.5 transition-colors">

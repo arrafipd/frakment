@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/components/ui/sonner";
-import { FALLBACK_SITE_ORIGIN, SITE } from "@/constants/site";
+import { fallbackSiteOrigin, SITE } from "@/config/site";
 import { ChevronDownIcon } from "@/lib/icons";
 
 const getShareableUrl = (href: string) => {
@@ -42,7 +42,7 @@ const getShareableUrl = (href: string) => {
     return url.toString();
   }
 
-  const publicUrl = new URL(FALLBACK_SITE_ORIGIN);
+  const publicUrl = new URL(fallbackSiteOrigin);
   publicUrl.pathname = `${publicUrl.pathname.replace(/\/+$/u, "")}${url.pathname}`;
   publicUrl.search = url.search;
   publicUrl.hash = url.hash;
@@ -73,7 +73,7 @@ interface MenuItemData {
   label: string;
 }
 
-const MENU_ITEMS: MenuItemData[] = [
+const menuItems: MenuItemData[] = [
   {
     href: (_url, markdownUrl) => markdownUrl,
     icon: <MarkdownDocIcon />,
@@ -182,7 +182,7 @@ export const DocsCopyPage = ({
             align="end"
             className="animate-none! rounded-lg shadow-none"
           >
-            {MENU_ITEMS.map((item) => (
+            {menuItems.map((item) => (
               <DropdownMenuItem
                 as="a"
                 href={item.href(url, markdownUrl)}
@@ -212,7 +212,7 @@ export const DocsCopyPage = ({
           align="start"
           className="bg-background/70 dark:bg-background/60 w-52 origin-center! rounded-lg p-1 shadow-none backdrop-blur-sm"
         >
-          {MENU_ITEMS.map((item) => (
+          {menuItems.map((item) => (
             <SiteButton
               asChild
               className="*:[svg]:text-muted-foreground w-full justify-start text-base font-normal"

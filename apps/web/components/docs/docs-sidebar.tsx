@@ -13,10 +13,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/site/sidebar";
-// NOTE: This component mirrors components/mobile-nav.tsx.'s structure.
-// Both render TOP_LEVEL_SECTIONS (flat) + tree.children grouped, filtered by
-// EXCLUDED_SECTIONS. If you change one, change the other — or better, hoist
-// the shared logic into a helper.
+
 import {
   buildNavGroups,
   isActiveDocPath,
@@ -25,7 +22,7 @@ import {
 } from "@/lib/docs";
 import type { source } from "@/lib/source";
 
-const MENU_BUTTON_CLS =
+const menuButtonCls =
   "relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md data-[active=true]:border-accent data-[active=true]:bg-accent 3xl:fixed:w-full 3xl:fixed:max-w-48";
 
 const SidebarPageGroup = ({
@@ -52,7 +49,7 @@ const SidebarPageGroup = ({
             <SidebarMenuItem key={page.url}>
               <SidebarMenuButton
                 asChild
-                className={MENU_BUTTON_CLS}
+                className={menuButtonCls}
                 isActive={isActiveDocPath(page.url, pathname)}
               >
                 <Link className="flex items-center gap-1.5" href={page.url}>

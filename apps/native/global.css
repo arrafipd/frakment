@@ -2,6 +2,6 @@
 @import "tailwindcss/utilities.css";
 @import "nativewind/theme";
 
-@source "./app/**/*.{ts,tsx}";
-@source "./components/**/*.{ts,tsx}";
-@source "./registry/**/*.{ts,tsx}";
+@source "./app*.{ts,tsx}";
+@source "./components*.{ts,tsx}";
+@source "./registry*.{ts,tsx}";

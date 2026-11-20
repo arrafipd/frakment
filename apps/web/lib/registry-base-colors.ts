@@ -1,4 +1,3 @@
-/* eslint-disable sort-keys, no-inline-comments */
 export const baseColors = [
   {
     activeColor: {

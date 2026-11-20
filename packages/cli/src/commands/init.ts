@@ -15,14 +15,14 @@ import {
 import { logger } from "../utils/logger.ts";
 
 const __dirname = import.meta.dirname;
-const TEMPLATES_DIR = path.resolve(__dirname, "../../templates");
+const templatesDir = path.resolve(__dirname, "../../templates");
 
-const DEFAULT_REGISTRY = "https://www.arrafi.dev/frakment/r";
-const CONFIG_FILE = "components.json";
-const THEME_MARKER_START = "/* ==== FRAKMENT THEME START ==== */";
-const THEME_MARKER_END = "/* ==== FRAKMENT THEME END ==== */";
+const defaultRegistry = "https://www.arrafi.dev/frakment/r";
+const configFile = "components.json";
+const themeMarkerStart = "/* ==== FRAKMENT THEME START ==== */";
+const themeMarkerEnd = "/* ==== FRAKMENT THEME END ==== */";
 
-function escapeRegex(s) {
+function escapeRegex(s: string): string {
   return s.replaceAll(/[.*+?^${}()|[\]\\]/gu, "\\$&");
 }
 
@@ -33,7 +33,7 @@ async function initExpo() {
   try {
     cwd = findProjectRoot(process.cwd());
   } catch (error) {
-    preflight.fail(error.message);
+    preflight.fail(error instanceof Error ? error.message : "Unknown error");
     process.exit(1);
   }
 
@@ -48,7 +48,7 @@ async function initExpo() {
     pkg = JSON.parse(raw.replace(/^\uFEFF/u, ""));
   } catch (error) {
     preflight.fail("Could not read package.json.");
-    logger.error(error.message);
+    logger.error(error instanceof Error ? error.message : "Unknown error");
     process.exit(1);
   }
 
@@ -98,13 +98,13 @@ async function initExpo() {
     process.exit(1);
   }
 
-  const configPath = path.join(cwd, CONFIG_FILE);
+  const configPath = path.join(cwd, configFile);
   let shouldWriteConfig = !existsSync(configPath);
 
   if (!shouldWriteConfig) {
     const { overwrite } = await prompts({
       initial: false,
-      message: `${CONFIG_FILE} already exists. Overwrite?`,
+      message: `${configFile} already exists. Overwrite?`,
       name: "overwrite",
       type: "confirm",
     });
@@ -118,13 +118,13 @@ async function initExpo() {
     shouldWriteConfig = overwrite === true;
 
     if (!shouldWriteConfig) {
-      logger.info(`Keeping existing ${CONFIG_FILE}.`);
+      logger.info(`Keeping existing ${configFile}.`);
     }
   }
 
   if (shouldWriteConfig) {
     const spinner = ora("Writing Expo components.json").start();
-    const templatePath = path.join(TEMPLATES_DIR, "expo", CONFIG_FILE);
+    const templatePath = path.join(templatesDir, "expo", configFile);
     const templateRaw = await readFile(templatePath, "utf-8");
     const template = JSON.parse(templateRaw.replace(/^\uFEFF/u, ""));
 
@@ -135,12 +135,12 @@ async function initExpo() {
 
     const config = {
       ...template,
-      registry: template.registries.web ?? DEFAULT_REGISTRY,
+      registry: template.registries.web ?? defaultRegistry,
       tailwind: { ...template.tailwind, css: cssPath },
     };
 
     await writeFile(configPath, `${JSON.stringify(config, null, 2)}\n`);
-    spinner.succeed(`Created ${CONFIG_FILE}.`);
+    spinner.succeed(`Created ${configFile}.`);
   }
 
   for (const name of ["utils.ts", "theme.ts"]) {
@@ -151,7 +151,7 @@ async function initExpo() {
       continue;
     }
 
-    const source = path.join(TEMPLATES_DIR, "expo", "lib", name);
+    const source = path.join(templatesDir, "expo", "lib", name);
     const content = await readFile(source, "utf-8");
 
     await mkdir(path.dirname(target), { recursive: true });
@@ -179,7 +179,7 @@ async function initExpo() {
       spinner.succeed(`Installed ${missing.length} package(s).`);
     } catch (error) {
       spinner.fail("Failed to install Expo dependencies.");
-      logger.warn(error.message);
+      logger.warn(error instanceof Error ? error.message : "Unknown error");
     }
   }
 
@@ -202,7 +202,7 @@ export async function init(options: { expo?: boolean } = {}) {
     cwd = findProjectRoot(process.cwd());
     preflight.succeed("Preflight checks. Found project root.");
   } catch (error) {
-    preflight.fail(error.message);
+    preflight.fail(error instanceof Error ? error.message : "Unknown error");
     process.exit(1);
   }
 
@@ -225,13 +225,13 @@ export async function init(options: { expo?: boolean } = {}) {
     `Verifying Tailwind CSS config. Found ${chalk.cyan("v4")} in ${chalk.cyan(cssPath)}.`
   );
 
-  const configPath = path.join(cwd, CONFIG_FILE);
+  const configPath = path.join(cwd, configFile);
   const configExists = existsSync(configPath);
   let shouldWriteConfig = !configExists;
   if (configExists) {
     const { overwrite } = await prompts({
       initial: false,
-      message: `${CONFIG_FILE} already exists. Overwrite?`,
+      message: `${configFile} already exists. Overwrite?`,
       name: "overwrite",
       type: "confirm",
     });
@@ -243,18 +243,18 @@ export async function init(options: { expo?: boolean } = {}) {
     shouldWriteConfig = overwrite === true;
     if (!shouldWriteConfig) {
       logger.break();
-      logger.info(`Keeping existing ${CONFIG_FILE}.`);
+      logger.info(`Keeping existing ${configFile}.`);
     }
   }
 
   if (shouldWriteConfig) {
     const s = ora("Writing components.json").start();
     const template = JSON.parse(
-      await readFile(path.join(TEMPLATES_DIR, "components.json"), "utf-8")
+      await readFile(path.join(templatesDir, "components.json"), "utf-8")
     );
     const config = {
       ...template,
-      registry: DEFAULT_REGISTRY,
+      registry: defaultRegistry,
       tailwind: { ...template.tailwind, css: cssPath },
     };
     await writeFile(configPath, `${JSON.stringify(config, null, 2)}\n`);
@@ -263,7 +263,7 @@ export async function init(options: { expo?: boolean } = {}) {
   const themeSpinner = ora("Updating CSS variables").start();
   css = css.replaceAll(
     new RegExp(
-      `\\n*${escapeRegex(THEME_MARKER_START)}[\\s\\S]*?${escapeRegex(THEME_MARKER_END)}\\n*`,
+      `\\n*${escapeRegex(themeMarkerStart)}[\\s\\S]*?${escapeRegex(themeMarkerEnd)}\\n*`,
       "g"
     ),
     "\n"
@@ -272,16 +272,20 @@ export async function init(options: { expo?: boolean } = {}) {
   css = `${css.replaceAll(/\n{3,}/gu, "\n\n").trimEnd()}\n`;
 
   const themeContent = await readFile(
-    path.join(TEMPLATES_DIR, "theme.css"),
+    path.join(templatesDir, "theme.css"),
     "utf-8"
   );
-  const wrapped = `${THEME_MARKER_START}\n${themeContent.trim()}\n${THEME_MARKER_END}`;
+  const wrapped = `${themeMarkerStart}\n${themeContent.trim()}\n${themeMarkerEnd}`;
 
   const importMatches = [...css.matchAll(/^@import\s+[^;\n]+;\s*$/gmu)];
   if (importMatches.length > 0) {
     const lastMatch = importMatches.at(-1);
-    const insertAt = lastMatch.index + lastMatch[0].length;
-    css = `${css.slice(0, insertAt)}\n\n${wrapped}${css.slice(insertAt)}`;
+    if (lastMatch?.index === undefined) {
+      css = `${css.trimEnd()}\n\n${wrapped}\n`;
+    } else {
+      const insertAt = lastMatch.index + lastMatch[0].length;
+      css = `${css.slice(0, insertAt)}\n\n${wrapped}${css.slice(insertAt)}`;
+    }
   } else {
     css = `${css.trimEnd()}\n\n${wrapped}\n`;
   }
@@ -318,7 +322,7 @@ export function cn(...inputs: ClassValue[]) {
     const s = ora("Creating lib/animation.ts").start();
     await mkdir(path.join(cwd, "lib"), { recursive: true });
     const animation = await readFile(
-      path.join(TEMPLATES_DIR, "lib/animation.ts"),
+      path.join(templatesDir, "lib/animation.ts"),
       "utf-8"
     );
     await writeFile(path.join(cwd, "lib/animation.ts"), animation);
@@ -327,12 +331,11 @@ export function cn(...inputs: ClassValue[]) {
   }
 
   if (existsSync(path.join(cwd, "lib/motion.ts"))) {
-    // skip, user may have customized this file
   } else {
     const s = ora("Creating lib/motion.ts").start();
     await mkdir(path.join(cwd, "lib"), { recursive: true });
     const motion = await readFile(
-      path.join(TEMPLATES_DIR, "lib/motion.ts"),
+      path.join(templatesDir, "lib/motion.ts"),
       "utf-8"
     );
     await writeFile(path.join(cwd, "lib/motion.ts"), motion);
@@ -361,7 +364,7 @@ export function cn(...inputs: ClassValue[]) {
       s.succeed(`Installed ${missing.length} package(s).`);
     } catch (error) {
       s.fail("Failed to install dependencies.");
-      logger.warn(error.message);
+      logger.warn(error instanceof Error ? error.message : "Unknown error");
     }
   }
 

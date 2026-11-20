@@ -1226,8 +1226,6 @@ const Toast = (props: ToastProps) => {
           ...toast.style,
         } as React.CSSProperties
       }
-      // biome-ignore lint/a11y/noNoninteractiveTabindex: focus target for keyboard swipe
-      tabIndex={0}
     >
       {closeButton && !toast.jsx && toastType !== "loading" ? (
         <button
@@ -1985,7 +1983,7 @@ html[dir='rtl'],
   display: flex;
   flex-direction: column;
   gap: 2px;
-  
+
   flex: 1;
   min-width: 0;
 }
@@ -2160,7 +2158,7 @@ html[dir='rtl'],
 }
 
 [data-sonner-toast][data-swiped='true'] {
-  -webkit-user-select: none; 
+  -webkit-user-select: none;
   user-select: none;
 }
 

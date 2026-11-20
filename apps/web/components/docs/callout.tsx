@@ -7,7 +7,7 @@ import {
 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
-const CALLOUT_TYPES = {
+const calloutTypes = {
   danger: { Icon: CircleAlertIcon, variant: "destructive" as const },
   info: { Icon: InfoIcon, variant: "info" as const },
   neutral: { Icon: InfoIcon, variant: "default" as const },
@@ -15,7 +15,7 @@ const CALLOUT_TYPES = {
   warning: { Icon: TriangleAlertIcon, variant: "warning" as const },
 };
 
-export type CalloutType = keyof typeof CALLOUT_TYPES;
+export type CalloutType = keyof typeof calloutTypes;
 
 export const Callout = ({
   type,
@@ -28,7 +28,7 @@ export const Callout = ({
   type?: CalloutType;
   icon?: React.ReactNode;
 }) => {
-  const config = type ? CALLOUT_TYPES[type] : null;
+  const config = type ? calloutTypes[type] : null;
   const Icon = config?.Icon;
   const renderedIcon = icon ?? (Icon ? <Icon /> : null);
 

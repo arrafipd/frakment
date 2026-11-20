@@ -1,4 +1,4 @@
-import { siteAgentSkillMd } from "@/lib/agent-discovery/site-agent-skill";
+import { siteAgentSkillMd } from "@/features/agent-discovery/site-agent-skill";
 
 export const GET = () =>
   new Response(siteAgentSkillMd, {

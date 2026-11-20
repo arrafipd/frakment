@@ -1,7 +1,7 @@
 {
   "name": "frakment",
   "version": "2.0.0",
-  "description": "CLI and design system for the frakment component registry",
+  "description": "MIT-licensed CLI and design system for the Frakment component registry",
   "keywords": [
     "components",
     "frakment",
@@ -26,12 +26,18 @@
     "templates",
     "LICENSE"
   ],
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
     "chalk": "^6.0.1",
     "commander": "^15.1.0",
     "execa": "^10.2.1",
     "ora": "^10.0.0",
     "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/prompts": "^2.4.9"
   },
   "engines": {
     "node": ">=22.18.0"

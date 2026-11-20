@@ -1,9 +1,9 @@
 import { llms } from "fumadocs-core/source";
 
-import { LINK } from "@/constants/links";
-import { ROUTES } from "@/constants/routes";
-import { SITE } from "@/constants/site";
-import { requestOrigin } from "@/lib/agent-discovery/request-origin";
+import { LINK } from "@/config/links";
+import { ROUTES } from "@/config/routes";
+import { SITE } from "@/config/site";
+import { requestOrigin } from "@/features/agent-discovery/request-origin";
 import { source } from "@/lib/source";
 
 export const revalidate = false;
@@ -29,12 +29,12 @@ ${documentationIndex(SITE.URL)}
 
 ## Machine-readable Resources
 
-- [Full documentation](${base}${ROUTES.LLMS_FULL}): All documentation pages in a single markdown file.
-- [Homepage markdown](${base}${ROUTES.LLMS_MD}/content.md): Homepage content in markdown.
+- [Full documentation](${base}${ROUTES.llmsFull}): All documentation pages in a single markdown file.
+- [Homepage markdown](${base}${ROUTES.llmsMd}/content.md): Homepage content in markdown.
 - [OpenAPI description](${base}${ROUTES.OPENAPI}): OpenAPI 3.1 spec for the Frakment registry.
-- [API catalog](${base}${ROUTES.API_CATALOG}): RFC 9727 API catalog for the Frakment registry.
-- [Agent skill](${base}${ROUTES.AGENT_SKILLS_SITE_SKILL}): Site-wide agent skill with usage instructions.
-- [Frakment MCP server documentation](${LINK.FRAKMENT_MCP_DOCS}): Documentation for the Frakment MCP server.
+- [API catalog](${base}${ROUTES.apiCatalog}): RFC 9727 API catalog for the Frakment registry.
+- [Agent skill](${base}${ROUTES.agentSkillsSiteSkill}): Site-wide agent skill with usage instructions.
+- [Frakment MCP server documentation](${LINK.frakmentMcpDocs}): Documentation for the Frakment MCP server.
 `;
 };
 

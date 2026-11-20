@@ -6,7 +6,7 @@ import { useCallback, useRef } from "react";
 import type { HeartHandshakeIconHandle } from "@/components/site/animated-icons/heart-handshake";
 import { HeartHandshakeIcon } from "@/components/site/animated-icons/heart-handshake";
 import { SiteButton } from "@/components/site/button";
-import { ROUTES } from "@/constants/routes";
+import { ROUTES } from "@/config/routes";
 
 export const SponsorLink = () => {
   const heartRef = useRef<HeartHandshakeIconHandle>(null);

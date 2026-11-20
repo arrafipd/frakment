@@ -1,6 +1,6 @@
 ﻿import { unstable_cache } from "next/cache";
 
-import { GITHUB } from "@/constants/links";
+import { GITHUB } from "@/config/links";
 
 interface Stargazer {
   avatar_url: string;

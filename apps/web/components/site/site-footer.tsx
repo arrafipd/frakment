@@ -1,7 +1,7 @@
 "use client";
 
-import { LINK } from "@/constants/links";
-import { UTM_PARAMS } from "@/constants/site";
+import { LINK } from "@/config/links";
+import { utmParams } from "@/config/site";
 import { useFeedback } from "@/hooks/use-feedback";
 import { addQueryParams } from "@/lib/url";
 
@@ -19,7 +19,7 @@ export const SiteFooter = () => {
             The source code is available on{" "}
             <a
               className="font-medium underline underline-offset-4"
-              href={addQueryParams(LINK.GITHUB, UTM_PARAMS)}
+              href={addQueryParams(LINK.GITHUB, utmParams)}
               onClick={playClick}
               rel="noreferrer"
               target="_blank"

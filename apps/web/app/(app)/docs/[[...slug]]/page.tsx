@@ -2,7 +2,6 @@ import { findNeighbour } from "fumadocs-core/page-tree";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-// import { DocsBaseSwitcher } from "@/components/docs/docs-base-switcher";
 import { DocsCopyPage } from "@/components/docs/docs-copy-page";
 import { DocsKeyboardShortcuts } from "@/components/docs/docs-keyboard-shortcuts";
 import { DocsNavLink } from "@/components/docs/docs-nav-link";
@@ -10,15 +9,15 @@ import { DocsShareMenu } from "@/components/docs/docs-share-menu";
 import { DocsTableOfContents } from "@/components/docs/docs-toc";
 import { PageTransition } from "@/components/docs/page-transition";
 import { Badge } from "@/components/ui/badge";
-import { ROUTES } from "@/constants/routes";
+import { ROUTES } from "@/config/routes";
+import { BreadcrumbJsonLd } from "@/features/seo/json-ld";
+import { createPageMetadata } from "@/features/seo/metadata";
 import { getChangelogPages } from "@/lib/changelog";
 import { formatTitleFromSlug, topLevelSections } from "@/lib/docs";
 import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon } from "@/lib/icons";
 import { getPageImage, getPageMarkdownUrl, source } from "@/lib/source";
 import { absoluteUrl } from "@/lib/utils";
 import { mdxComponents } from "@/mdx-components";
-import { BreadcrumbJsonLd } from "@/seo/json-ld";
-import { createPageMetadata } from "@/seo/metadata";
 
 const getChangelogNeighbours = (url: string) => {
   const pages = getChangelogPages()
@@ -233,16 +232,6 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
                 ) : null}
               </div>
               <div className="w-full flex-1 *:data-[slot=alert]:first:mt-0">
-                {/* {params.slug &&
-                params.slug[0] === "components" &&
-                params.slug[1] &&
-                params.slug[2] && (
-                  <DocsBaseSwitcher
-                    base={params.slug[1]}
-                    component={params.slug.slice(2).join("/")}
-                    className="mb-4"
-                  />
-                )} */}
                 <MdxContent components={mdxComponents} />
               </div>
             </div>

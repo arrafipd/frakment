@@ -383,7 +383,7 @@ Every commit must be signed off with the Developer Certificate of Origin (DCO). 
 git commit -s -m "docs: fix typo in theming page"
 ```
 
-This adds a `Signed-off-by: Your Name <email>` line to the commit message. It certifies you have the right to submit the contribution under this project's license. See [DCO.txt](./DCO.txt) for the full text.
+This adds a `Signed-off-by: Your Name <email>` line to the commit message. It certifies you have the right to submit the contribution under this project's license. See [DCO.txt](./docs/legal/DCO.txt) for the full text.
 
 Commits without a valid `Signed-off-by` line fail the DCO check in CI and cannot be merged. Amend existing commits with `git commit --amend -s` (last commit) or `git rebase -i --signoff main` (multiple commits).
 
@@ -522,17 +522,17 @@ npm run build
 
 ## Adding a new docs section
 
-Sections come from two sources: manual groups in `SECTION_GROUPS` (in `lib/docs.ts`) and auto-discovered folders from the page tree. Add manual sections to `SECTION_GROUPS`, then register the folder in `content/docs/meta.json` and the route in `constants/routes.ts`. Auto-discovered folders need only steps 1-3 below.
+Sections come from two sources: manual groups in `sectionGroups` (in `lib/docs.ts`) and auto-discovered folders from the page tree. Add manual sections to `sectionGroups`, then register the folder in `content/docs/meta.json` and the route in `config/routes.ts`. Auto-discovered folders need only steps 1-3 below.
 
-The sidebar, mobile nav, and command menu all call `buildNavGroups(tree)` from `lib/docs.ts`. Update `SECTION_GROUPS` and `EXCLUDED_SECTIONS` there. Never render nav items directly in consumer files.
+The sidebar, mobile nav, and command menu all call `buildNavGroups(tree)` from `lib/docs.ts`. Update `sectionGroups` and `excludedSections` there. Never render nav items directly in consumer files.
 
 Steps:
 
 1. Create `content/docs/<slug>/index.mdx` with frontmatter (`title`, `description`).
 2. Create `content/docs/<slug>/meta.json` with `{ "title": "<Display Name>" }`.
 3. Add `"<slug>"` to `content/docs/meta.json` `pages` at the desired position.
-4. Add `DOCS_<SLUG>: "/docs/<slug>"` to `constants/routes.ts`.
-5. If manually grouped, add `{ label: "<Group>", sections: [{ href: ROUTES.DOCS_<SLUG>, name: "<Display Name>" }] }` to `SECTION_GROUPS` in `lib/docs.ts`. Auto-discovered folders need no `SECTION_GROUPS` entry.
+4. Add `docsSlug: "/docs/<slug>"` to `config/routes.ts`.
+5. If manually grouped, add `{ label: "<Group>", sections: [{ href: routes.docsSlug, name: "<Display Name>" }] }` to `sectionGroups` in `lib/docs.ts`. Auto-discovered folders need no `sectionGroups` entry.
 6. Run `npm run build` to verify.
 
 

@@ -1,7 +1,7 @@
 import { existsSync } from "node:fs";
 import path from "node:path";
 
-export function findProjectRoot(startDir) {
+export function findProjectRoot(startDir: string): string {
   let dir = startDir;
   while (dir !== path.dirname(dir)) {
     if (existsSync(path.join(dir, "package.json"))) {
@@ -12,7 +12,9 @@ export function findProjectRoot(startDir) {
   throw new Error("No package.json found. Are you inside a project?");
 }
 
-export function detectPackageManager(cwd) {
+export function detectPackageManager(
+  cwd: string
+): "npm" | "pnpm" | "yarn" | "bun" {
   if (existsSync(path.join(cwd, "pnpm-lock.yaml"))) {
     return "pnpm";
   }
@@ -25,7 +27,7 @@ export function detectPackageManager(cwd) {
   return "npm";
 }
 
-export function detectGlobalsCss(cwd) {
+export function detectGlobalsCss(cwd: string): string {
   const candidates = [
     "app/globals.css",
     "src/app/globals.css",

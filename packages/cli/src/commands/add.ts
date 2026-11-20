@@ -11,28 +11,84 @@ import prompts from "prompts";
 import { detectPackageManager, findProjectRoot } from "../utils/detect.ts";
 import { logger } from "../utils/logger.ts";
 
-const COMPONENT_NAME_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/u;
-const DEPENDENCY_PATTERN =
+const componentNamePattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/u;
+const dependencyPattern =
   /^(?:@[a-z0-9][a-z0-9._-]*\/)?[a-z0-9][a-z0-9._-]*(?:@[0-9A-Za-z*~^<>=|.+_-]+)?$/u;
-const MAX_REGISTRY_PAYLOAD_BYTES = 10 * 1024 * 1024;
-const DEFAULT_WEB_REGISTRY = "https://www.arrafi.dev/frakment/r";
-const DEFAULT_EXPO_REGISTRY = "https://www.arrafi.dev/frakment/r/expo";
+const maxRegistryPayloadBytes = 10 * 1024 * 1024;
+const defaultWebRegistry = "https://www.arrafi.dev/frakment/r";
+const defaultExpoRegistry = "https://www.arrafi.dev/frakment/r/expo";
 
-const DEFAULT_ALIASES = {
+const defaultAliases = {
   components: "@/components",
   ui: "@/components/ui",
   utils: "@/lib/utils",
 };
 
-const normalizeAliases = (input) => {
-  const aliases = input ?? {};
-  const components = aliases.components ?? DEFAULT_ALIASES.components;
+interface AliasesInput {
+  components?: string;
+  ui?: string;
+  utils?: string;
+}
+
+interface ResolvedAliases {
+  components: string;
+  ui: string;
+  utils: string;
+}
+
+interface RegistryFile {
+  content: string;
+  encoding?: "base64";
+  path: string;
+}
+
+interface RegistryPayload {
+  dependencies?: string[];
+  files: RegistryFile[];
+  integrity: string;
+  name: string;
+  registryDependencies?: string[];
+}
+
+interface RegistryConfig {
+  aliases?: AliasesInput;
+  registries?: {
+    expo?: string;
+    web?: string;
+  };
+  registry?: string;
+  tailwind?: {
+    css?: string;
+  };
+}
+
+interface AddOptions {
+  dryRun?: boolean;
+  expo?: boolean;
+  overwrite?: boolean;
+  registry?: string;
+  skipDependencies?: boolean;
+}
+
+interface Spinner {
+  fail: (message: string) => void;
+  succeed: (message: string) => void;
+  text: string;
+}
+
+const normalizeAliases = (input: unknown): ResolvedAliases => {
+  const aliases = isRecord(input) ? input : {};
+  const components = aliases.components ?? defaultAliases.components;
   const ui = aliases.ui ?? `${components}/ui`;
-  const utils = aliases.utils ?? DEFAULT_ALIASES.utils;
-  return { components, ui, utils };
+  const utils = aliases.utils ?? defaultAliases.utils;
+  return {
+    components: String(components),
+    ui: String(ui),
+    utils: String(utils),
+  };
 };
 
-export const rewriteImports = (content, aliases) => {
+export const rewriteImports = (content: string, aliases: unknown): string => {
   const a = normalizeAliases(aliases);
   let out = content;
   out = out.replaceAll("@/components/ui/", `${a.ui}/`);
@@ -41,10 +97,10 @@ export const rewriteImports = (content, aliases) => {
   return out;
 };
 
-const isRecord = (value) =>
+const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value);
 
-const canonicalize = (value) => {
+const canonicalize = (value: unknown): string => {
   if (Array.isArray(value)) {
     return `[${value.map(canonicalize).join(",")}]`;
   }
@@ -57,41 +113,44 @@ const canonicalize = (value) => {
   return JSON.stringify(value);
 };
 
-const createIntegrity = (payload) =>
+const createIntegrity = (payload: unknown): string =>
   `sha256:${createHash("sha256")
     .update(canonicalize(payload), "utf8")
     .digest("hex")}`;
 
-const assertComponentName = (name) => {
-  if (typeof name !== "string" || !COMPONENT_NAME_PATTERN.test(name)) {
+function assertComponentName(name: unknown): asserts name is string {
+  if (typeof name !== "string" || !componentNamePattern.test(name)) {
     throw new Error(`Invalid component name: ${String(name)}`);
   }
-};
+}
 
-const assertDependency = (dependency) => {
-  if (typeof dependency !== "string" || !DEPENDENCY_PATTERN.test(dependency)) {
+function assertDependency(dependency: unknown): asserts dependency is string {
+  if (typeof dependency !== "string" || !dependencyPattern.test(dependency)) {
     throw new Error(
       `Invalid dependency in registry payload: ${String(dependency)}`
     );
   }
-};
+}
 
-const getDependencyName = (dependency) => {
+const getDependencyName = (dependency: string): string => {
   if (dependency.startsWith("@")) {
     return dependency.slice(0, dependency.indexOf("@", 1));
   }
   return dependency.split("@")[0];
 };
 
-const hasDependencyVersion = (dependency) =>
+const hasDependencyVersion = (dependency: string): boolean =>
   dependency.lastIndexOf("@") > (dependency.startsWith("@") ? 0 : -1);
 
-const isBase64 = (value) =>
+const isBase64 = (value: string): boolean =>
   /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/u.test(
     value
   );
 
-export const validateRegistryPayload = (payload, expectedName) => {
+export const validateRegistryPayload = (
+  payload: unknown,
+  expectedName: string
+): RegistryPayload => {
   if (!isRecord(payload) || payload.name !== expectedName) {
     throw new Error("Registry payload has an unexpected component name");
   }
@@ -131,10 +190,16 @@ export const validateRegistryPayload = (payload, expectedName) => {
   ) {
     throw new Error("Registry payload has invalid dependency lists");
   }
-  for (const dependency of payload.dependencies ?? []) {
+  const dependencies = Array.isArray(payload.dependencies)
+    ? payload.dependencies
+    : [];
+  const registryDependencies = Array.isArray(payload.registryDependencies)
+    ? payload.registryDependencies
+    : [];
+  for (const dependency of dependencies) {
     assertDependency(dependency);
   }
-  for (const dependency of payload.registryDependencies ?? []) {
+  for (const dependency of registryDependencies) {
     assertComponentName(dependency);
   }
 
@@ -143,10 +208,10 @@ export const validateRegistryPayload = (payload, expectedName) => {
     throw new Error("Registry payload integrity check failed");
   }
 
-  return payload;
+  return payload as unknown as RegistryPayload;
 };
 
-const getRegistryUrl = (value) => {
+const getRegistryUrl = (value: string): string => {
   const url = new URL(value);
   if (url.protocol !== "http:" && url.protocol !== "https:") {
     throw new Error("Registry URL must use HTTP or HTTPS");
@@ -159,16 +224,33 @@ const getRegistryUrl = (value) => {
   return url.href.replace(/\/$/u, "");
 };
 
-export function resolveRegistryUrl(config, options = {}) {
-  const registries = isRecord(config?.registries) ? config.registries : {};
+export function resolveRegistryUrl(
+  config: unknown,
+  options: { expo?: boolean; registry?: string } = {}
+): string {
+  const configRecord = isRecord(config) ? config : {};
+  const registries = isRecord(configRecord.registries)
+    ? configRecord.registries
+    : {};
+  const registry =
+    typeof configRecord.registry === "string"
+      ? configRecord.registry
+      : undefined;
+  const web = typeof registries.web === "string" ? registries.web : undefined;
+  const expo =
+    typeof registries.expo === "string" ? registries.expo : undefined;
   const configured = options.expo
-    ? (registries.expo ?? DEFAULT_EXPO_REGISTRY)
-    : (config?.registry ?? registries.web ?? DEFAULT_WEB_REGISTRY);
+    ? (expo ?? defaultExpoRegistry)
+    : (registry ?? web ?? defaultWebRegistry);
 
   return getRegistryUrl(options.registry ?? configured);
 }
 
-async function fetchComponent(name, registryUrl, spinner) {
+async function fetchComponent(
+  name: string,
+  registryUrl: string,
+  spinner: Spinner
+): Promise<RegistryPayload> {
   try {
     const res = await fetch(`${registryUrl}/${name}.json`, {
       signal: AbortSignal.timeout(30_000),
@@ -177,11 +259,11 @@ async function fetchComponent(name, registryUrl, spinner) {
       throw new Error(`HTTP ${res.status}`);
     }
     const contentLength = Number(res.headers.get("content-length"));
-    if (contentLength > MAX_REGISTRY_PAYLOAD_BYTES) {
+    if (contentLength > maxRegistryPayloadBytes) {
       throw new Error("Registry response is too large");
     }
     const raw = await res.text();
-    if (Buffer.byteLength(raw, "utf8") > MAX_REGISTRY_PAYLOAD_BYTES) {
+    if (Buffer.byteLength(raw, "utf8") > maxRegistryPayloadBytes) {
       throw new Error("Registry response is too large");
     }
     const payload = validateRegistryPayload(JSON.parse(raw), name);
@@ -195,7 +277,10 @@ async function fetchComponent(name, registryUrl, spinner) {
   }
 }
 
-export async function assertSafePath(cwd, relativePath) {
+export async function assertSafePath(
+  cwd: string,
+  relativePath: string
+): Promise<string> {
   if (typeof relativePath !== "string" || relativePath.length === 0) {
     throw new Error("Invalid file path in registry payload");
   }
@@ -228,7 +313,12 @@ export async function assertSafePath(cwd, relativePath) {
   return target;
 }
 
-async function writeFileSafely(file, cwd, options, aliases) {
+async function writeFileSafely(
+  file: RegistryFile,
+  cwd: string,
+  options: AddOptions,
+  aliases: unknown
+): Promise<string | null> {
   const targetPath = await assertSafePath(cwd, file.path);
   if (existsSync(targetPath) && !options.overwrite) {
     const { overwrite } = await prompts({
@@ -253,13 +343,7 @@ async function writeFileSafely(file, cwd, options, aliases) {
 
 export async function add(
   componentNamesInput: string[] | string,
-  options: {
-    registry?: string;
-    expo?: boolean;
-    dryRun?: boolean;
-    skipDependencies?: boolean;
-    overwrite?: boolean;
-  } = {}
+  options: AddOptions = {}
 ) {
   const componentNames = Array.isArray(componentNamesInput)
     ? [...new Set(componentNamesInput)]
@@ -276,7 +360,7 @@ export async function add(
     cwd = findProjectRoot(process.cwd());
     preflight.succeed("Preflight checks. Found project root.");
   } catch (error) {
-    preflight.fail(error.message);
+    preflight.fail(error instanceof Error ? error.message : "Unknown error");
     process.exit(1);
   }
   const configPath = path.join(cwd, "components.json");
@@ -286,14 +370,14 @@ export async function add(
     process.exit(1);
   }
 
-  let config: unknown;
+  let config: RegistryConfig;
   let registryUrl: string;
   try {
     for (const name of componentNames) {
       assertComponentName(name);
     }
     const configRaw = await readFile(configPath, "utf-8");
-    config = JSON.parse(configRaw.replace(/^\uFEFF/u, ""));
+    config = JSON.parse(configRaw.replace(/^\uFEFF/u, "")) as RegistryConfig;
     registryUrl = resolveRegistryUrl(config, options);
   } catch (error) {
     logger.error(
@@ -305,11 +389,14 @@ export async function add(
   const registrySpinner = ora("Checking registry").start();
   const roots = new Set(componentNames);
   const queue = [...roots];
-  const fetched = new Map();
-  const npmDeps = new Map();
+  const fetched = new Map<string, RegistryPayload>();
+  const npmDeps = new Map<string, string>();
 
   while (queue.length) {
     const name = queue.shift();
+    if (!name) {
+      continue;
+    }
     if (fetched.has(name)) {
       continue;
     }
@@ -334,7 +421,7 @@ export async function add(
   registrySpinner.succeed("Checking registry.");
   const aliases = normalizeAliases(config.aliases);
   const isSrcLayout = config.tailwind?.css?.startsWith("src/") ?? false;
-  const resolveTargetPath = (p) => {
+  const resolveTargetPath = (p: string): string => {
     if (!isSrcLayout) {
       return p;
     }
@@ -346,19 +433,22 @@ export async function add(
 
   const order = [...fetched.keys()].filter((n) => !roots.has(n));
   order.push(...roots);
-  const written = [];
+  const written: string[] = [];
 
   const getMissingDependencies = async () => {
     const pkgPath = path.join(cwd, "package.json");
     const pkgRaw = await readFile(pkgPath, "utf-8");
-    const pkg = JSON.parse(pkgRaw.replace(/^\uFEFF/u, ""));
+    const pkg = JSON.parse(pkgRaw.replace(/^\uFEFF/u, "")) as {
+      dependencies?: Record<string, string>;
+      devDependencies?: Record<string, string>;
+    };
     const allDeps = { ...pkg.dependencies, ...pkg.devDependencies };
     return [...npmDeps].filter(([packageName]) => !allDeps[packageName]);
   };
 
   if (options.dryRun) {
     for (const name of order) {
-      for (const file of fetched.get(name).files) {
+      for (const file of fetched.get(name)?.files ?? []) {
         const targetPath = resolveTargetPath(file.path);
         await assertSafePath(cwd, targetPath);
         logger.log(`Would create ${targetPath}.`);
@@ -374,7 +464,7 @@ export async function add(
   }
 
   for (const name of order) {
-    for (const file of fetched.get(name).files ?? []) {
+    for (const file of fetched.get(name)?.files ?? []) {
       const targetFile = { ...file, path: resolveTargetPath(file.path) };
       const result = await writeFileSafely(targetFile, cwd, options, aliases);
       if (result) {
@@ -416,7 +506,7 @@ export async function add(
         s.succeed(`Installed ${missing.length} package(s).`);
       } catch (error) {
         s.fail("Failed to install dependencies.");
-        logger.warn(error.message);
+        logger.warn(error instanceof Error ? error.message : "Unknown error");
       }
     }
   }

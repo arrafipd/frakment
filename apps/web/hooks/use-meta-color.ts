@@ -1,16 +1,14 @@
 import { useTheme } from "next-themes";
 import { useCallback, useMemo } from "react";
 
-import { META_THEME_COLORS } from "@/constants/site";
+import { metaThemeColors } from "@/config/site";
 
 export const useMetaColor = () => {
   const { resolvedTheme } = useTheme();
 
   const metaColor = useMemo(
     () =>
-      resolvedTheme === "dark"
-        ? META_THEME_COLORS.dark
-        : META_THEME_COLORS.light,
+      resolvedTheme === "dark" ? metaThemeColors.dark : metaThemeColors.light,
     [resolvedTheme]
   );
 

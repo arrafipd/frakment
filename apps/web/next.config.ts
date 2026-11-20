@@ -1,6 +1,6 @@
 import { createMDX } from "fumadocs-mdx/next";
-import { LINK } from "./constants/links";
-import { ROUTES } from "./constants/routes";
+import { LINK } from "./config/links";
+import { ROUTES } from "./config/routes";
 
 const isDev = process.env.NODE_ENV !== "production";
 const scriptSrc = isDev
@@ -22,7 +22,6 @@ const securityHeaders = [
   { key: "X-Frame-Options", value: "DENY" },
 ];
 
-/** @type {import('next').NextConfig} */
 const nextConfig = {
   basePath: process.env.NODE_ENV === "production" ? "/frakment" : "",
   devIndicators: false,
@@ -34,11 +33,11 @@ const nextConfig = {
   },
   headers() {
     const link = [
-      `<${ROUTES.API_CATALOG}>; rel="api-catalog"`,
+      `<${ROUTES.apiCatalog}>; rel="api-catalog"`,
       `<${ROUTES.OPENAPI}>; rel="service-desc"`,
       `</frakment${ROUTES.DOCS}>; rel="service-doc"`,
-      `<${LINK.FRAKMENT_MCP_DOCS}>; rel="service-doc"; title="Frakment MCP server"`,
-      `<${ROUTES.AGENT_SKILLS_INDEX}>; rel="describedby"`,
+      `<${LINK.frakmentMcpDocs}>; rel="service-doc"; title="Frakment MCP server"`,
+      `<${ROUTES.agentSkillsIndex}>; rel="describedby"`,
     ].join(", ");
 
     return [
@@ -70,7 +69,7 @@ const nextConfig = {
   redirects() {
     return [
       {
-        destination: ROUTES.DOCS_INSTALLATION,
+        destination: ROUTES.docsInstallation,
         permanent: false,
         source: ROUTES.DOCS,
       },
@@ -80,17 +79,17 @@ const nextConfig = {
         source: `${ROUTES.DOCS}.mdx`,
       },
       {
-        destination: `${ROUTES.DOCS_AI_ELEMENTS}/chat`,
+        destination: `${ROUTES.docsAiElements}/chat`,
         permanent: true,
-        source: `${ROUTES.DOCS_LIBRARIES}/ai`,
+        source: `${ROUTES.docsLibraries}/ai`,
       },
       {
-        destination: ROUTES.DOCS_COMPOSITES,
+        destination: ROUTES.docsComposites,
         permanent: true,
         source: `${ROUTES.DOCS}/modules`,
       },
       {
-        destination: `${ROUTES.DOCS_COMPOSITES}/:path*`,
+        destination: `${ROUTES.docsComposites}/:path*`,
         permanent: true,
         source: `${ROUTES.DOCS}/modules/:path*`,
       },

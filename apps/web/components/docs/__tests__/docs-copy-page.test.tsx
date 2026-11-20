@@ -1,9 +1,7 @@
-// @vitest-environment jsdom
-
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { DocsCopyPage } from "@/components/docs/docs-copy-page";
-import { FALLBACK_SITE_ORIGIN } from "@/constants/site";
+import { fallbackSiteOrigin } from "@/config/site";
 
 const markdown = "# Select\n\nA component.";
 const writeText = vi.fn();
@@ -89,11 +87,9 @@ describe("DocsCopyPage", () => {
       const destination = new URL(link.getAttribute("href") ?? "");
       expect(link.tagName).toBe("A");
       const prompt = destination.searchParams.get(parameter) ?? "";
+      expect(prompt).toContain(`${fallbackSiteOrigin}/docs/components/select`);
       expect(prompt).toContain(
-        `${FALLBACK_SITE_ORIGIN}/docs/components/select`
-      );
-      expect(prompt).toContain(
-        `${FALLBACK_SITE_ORIGIN}/llms.md/docs/components/select/content.md`
+        `${fallbackSiteOrigin}/llms.md/docs/components/select/content.md`
       );
       expect(prompt).not.toContain("localhost");
     }

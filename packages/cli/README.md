@@ -5,6 +5,8 @@
 
 Monochrome design system and component registry CLI.
 
+Frakment is open source under the MIT License. Commercial use, modification, distribution, and sublicensing are permitted.
+
 ## Requirements
 
 - Node.js >= 22.18.0

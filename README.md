@@ -1,7 +1,7 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="apps/web/assets/logo-dark.svg">
   <img src="apps/web/assets/logo.svg" width="72" height="72" alt="Frakment">
 </picture>
 
@@ -24,7 +24,8 @@ npx frakment@latest init
 npx frakment@latest add button
 ```
 
-- **47 components** across base primitives, AI chat elements, and utility modules
+- **43 web components** across primitives, AI elements, composites, and utilities
+- **3 native components** for Expo and React Native
 - **Accessible interactions** — interactive components include keyboard and ARIA behavior
 - **Configurable web transitions** — supported components expose CSS motion controls
 
@@ -50,4 +51,4 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
-MIT — see [LICENSE](./LICENSE) and [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md).
+MIT — see [LICENSE](./LICENSE) and [third-party notices](./docs/legal/THIRD_PARTY_NOTICES.md).

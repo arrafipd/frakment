@@ -11,7 +11,7 @@ import {
   Message,
   MessageContent,
 } from "@/components/ui/message";
-import { createChat, getMessageText } from "@/examples/chat-engine";
+import { createChat, getMessageText } from "@/features/chat-engine";
 
 type ChatMessage = UIMessage<
   unknown,

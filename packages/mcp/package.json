@@ -1,7 +1,7 @@
 {
   "name": "@frakment/mcp",
   "version": "1.0.0",
-  "description": "MCP server for the frakment component registry",
+  "description": "MIT-licensed MCP server for the Frakment component registry",
   "keywords": [
     "ai",
     "frakment",
@@ -22,13 +22,17 @@
   "author": "The Frakment Authors (https://github.com/arrafipd/frakment)",
   "type": "module",
   "bin": {
-    "frakment-mcp": "./index.ts"
+    "frakment-mcp": "./src/index.ts"
   },
   "files": [
-    "index.ts",
+    "src",
     "README.md",
     "LICENSE"
   ],
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
     "zod": "^4.6.7"

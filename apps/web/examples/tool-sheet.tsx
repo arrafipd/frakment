@@ -20,7 +20,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Trace, TraceIcon, TraceLine, TraceTitle } from "@/components/ui/trace";
-import { createChat, getMessageText } from "@/examples/chat-engine";
+import { createChat, getMessageText } from "@/features/chat-engine";
 
 type ChatMessage = UIMessage<
   unknown,
@@ -33,7 +33,7 @@ type ChatMessage = UIMessage<
   }
 >;
 
-const PACKAGE_JSON = `{
+const packageJson = `{
   "name": "acme-chat",
   "private": true,
   "dependencies": {
@@ -49,7 +49,7 @@ const chat = createChat<ChatMessage>()
     writer
       .tool("readFile", { input: { path: "package.json" } })
       .sleep(900)
-      .output({ content: PACKAGE_JSON, path: "package.json" });
+      .output({ content: packageJson, path: "package.json" });
     writer.text("It uses ai 7 with @ai-sdk/react 4.");
   });
 

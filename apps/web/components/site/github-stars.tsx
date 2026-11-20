@@ -6,8 +6,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { LINK } from "@/constants/links";
-import { UTM_PARAMS } from "@/constants/site";
+import { LINK } from "@/config/links";
+import { utmParams } from "@/config/site";
 import { useFeedback } from "@/hooks/use-feedback";
 import { addQueryParams } from "@/lib/url";
 import { buttonVariants, cn } from "@/lib/utils";
@@ -34,7 +34,7 @@ export const GitHubStars = ({
         <a
           aria-label="GitHub repository"
           className={cn(buttonVariants({ size: "sm", variant: "ghost" }))}
-          href={addQueryParams(LINK.GITHUB, UTM_PARAMS)}
+          href={addQueryParams(LINK.GITHUB, utmParams)}
           onClick={play}
           rel="noopener"
           target="_blank"

@@ -1,5 +1,5 @@
 import type { Root as PageTreeRoot } from "fumadocs-core/page-tree";
-import { ROUTES } from "@/constants/routes";
+import { ROUTES } from "@/config/routes";
 import type { PageTreeFolder } from "@/lib/page-tree";
 import { getAllPagesFromFolder, getPagesFromFolder } from "@/lib/page-tree";
 import { formatLabelFromSlug } from "@/lib/utils";
@@ -24,30 +24,26 @@ export interface SectionGroup {
   sections: TopLevelSection[];
 }
 
-// SINGLE SOURCE OF TRUTH for top-level docs sections.
-// Used by docs-sidebar.tsx, command-menu.tsx, and (via navItems in
-// site-header) mobile-nav.tsx. Add new sections here, not in the consumers.
 export const sectionGroups: SectionGroup[] = [
   {
     label: "Get Started",
     sections: [
-      { href: ROUTES.DOCS_GETTING_STARTED, name: "Introduction" },
-      { href: ROUTES.DOCS_INSTALLATION, name: "Installation" },
-      { href: ROUTES.DOCS_COMPONENTS_JSON, name: "components.json" },
+      { href: ROUTES.docsGettingStarted, name: "Introduction" },
+      { href: ROUTES.docsInstallation, name: "Installation" },
+      { href: ROUTES.docsComponentsJson, name: "components.json" },
     ],
   },
   {
     label: "Guides",
     sections: [
-      { href: ROUTES.DOCS_THEMING, name: "Theming" },
-      { href: ROUTES.DOCS_TYPOGRAPHY, name: "Typography" },
-      { href: ROUTES.DOCS_DARK_MODE, name: "Dark mode" },
-      { href: ROUTES.DOCS_ANIMATIONS, name: "Animations" },
+      { href: ROUTES.docsTheming, name: "Theming" },
+      { href: ROUTES.docsTypography, name: "Typography" },
+      { href: ROUTES.docsDarkMode, name: "Dark mode" },
+      { href: ROUTES.docsAnimations, name: "Animations" },
     ],
   },
 ];
 
-// Flat fallback for consumers that still expect a single array.
 export const topLevelSections: TopLevelSection[] = sectionGroups.flatMap(
   (g) => g.sections
 );
@@ -63,13 +59,10 @@ const titleOverrides: Record<string, string> = {
 export const formatTitleFromSlug = (slug: string): string =>
   titleOverrides[slug] ?? formatLabelFromSlug(slug);
 
-export const homeContentRoute = `${ROUTES.LLMS_MD}/content.md`;
-export const docsContentRoute = `${ROUTES.LLMS_MD}${ROUTES.DOCS}`;
+export const homeContentRoute = `${ROUTES.llmsMd}/content.md`;
+export const docsContentRoute = `${ROUTES.llmsMd}${ROUTES.DOCS}`;
 export const docsImageRoute = `${ROUTES.OG}${ROUTES.DOCS}`;
 
-// Pages marked "new" — get a blue dot in sidebar + mobile nav.
-// Add the URL here when releasing a new component or page; remove once it
-// graduates from "new". Single source of truth for the "new" indicator.
 export const pagesNew: ReadonlySet<string> = new Set([
   "/docs/composites/login-form",
   "/docs/composites/signup-form",
@@ -99,7 +92,7 @@ export function buildNavGroups(tree: PageTreeRoot): NavGroup[] {
     const pages = (
       isComponentsFolder(item)
         ? getAllPagesFromFolder(item)
-            .filter((p) => p.url !== ROUTES.DOCS_COMPONENTS)
+            .filter((p) => p.url !== ROUTES.docsComponents)
             .filter((p) => !p.url.startsWith("/docs/components/native/"))
             .map((p) => ({
               ...p,
