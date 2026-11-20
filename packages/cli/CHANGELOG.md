@@ -1,5 +1,12 @@
 # frakment
 
+## 2.0.0
+
+### Major Changes
+
+- 762b982: Align the public registry catalog and MCP scenario compositions with the current component set.
+- a17a0aa: Require Node.js 22.18.0 or newer to run TypeScript entry points directly.
+
 ## 1.0.0
 
 ### Major Changes
