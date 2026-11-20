@@ -24,7 +24,7 @@ Chat is not a single component — it composes **Message Scroller**, **Message**
 <TabsContent value="cli">
 
 ```bash
-npx frakment add message-scroller message bubble input-group trace code-block empty tooltip dropdown-menu
+npx frakment add message input-group trace code-block empty tooltip dropdown-menu
 ```
 
 </TabsContent>
@@ -39,9 +39,7 @@ npx frakment add message-scroller message bubble input-group trace code-block em
 
       <Step>Install the required registry components:</Step>
 
-      <ComponentSource name="message-scroller" title="components/ui/message-scroller.tsx" />
       <ComponentSource name="message" title="components/ui/message.tsx" />
-      <ComponentSource name="bubble" title="components/ui/bubble.tsx" />
       <ComponentSource name="input-group" title="components/ui/input-group.tsx" />
       <ComponentSource name="trace" title="components/ui/trace.tsx" />
       <ComponentSource name="code-block" title="components/ui/code-block.tsx" />
@@ -186,9 +184,9 @@ The rendered components do not assume the scripted transport. Any `UIMessage[]` 
 
 ## Next
 
-- [Message Scroller](/docs/components/message-scroller) — scroll-aware transcript viewport.
+- [Message](/docs/components/web/message) — message layout, bubbles, animated messages, and scrolling primitives.
 - [Message](/docs/components/message) — message row primitive.
-- [Bubble](/docs/components/bubble) — chat bubble surface.
+- [Bubble](/docs/components/web/message) — chat bubble surface.
 - [Trace](/docs/components/trace) — collapsible reasoning and tool-call lines.
 - [Code Block](/docs/components/code-block) — syntax-highlighted code.
 - [Input Group](/docs/components/input-group) — inline composer with addons.

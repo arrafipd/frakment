@@ -1,160 +1,56 @@
 ---
 title: Animations
-description: How motion works across Frakment, when to reach for it, and how to customise it.
+description: Configure CSS transitions on Frakment web components.
 ---
 
-Every animated Frakment component ships with its motion already wired. State transitions run on Motion. `frakment init` installs the `motion` package once; `frakment add` installs any additional npm package a specific component needs. You never install anything by hand.
+Frakment web components that expose a `motion` prop use CSS transitions.
 
-## Installation
+The prop changes the transition for that component without requiring an animation library import.
 
-Motion ships with Frakment through the CLI. Two commands are enough:
+## Configure a transition
 
-```bash
-npx frakment@latest init
-npx frakment@latest add button
-```
-
-`init` runs once per project. It verifies Tailwind v4 is configured, installs `motion` along with the base dependencies, and scaffolds `lib/motion.ts` for the `motion` prop parser. `add` runs once per component - it copies the component source into your project and installs whatever npm package that component animates with. No global config, no extra build step.
-
-## Default motion
-
-These components animate out of the box - no prop required. A custom `motion` prop is available on Motion state-transition components. Pass a string like `"150 ease-out"` or `"off"` to override.
-
-## Custom motion prop
-
-Motion state-transition components accept a `motion` prop. Pass a string; `parseMotion` in `lib/motion.ts` converts it into a Motion transition. No need to import `motion` yourself.
-
-| Component | Prop location |
-| :-- | :-- |
-| Accordion | `<Accordion motion>` (inherited) + `<AccordionContent motion>` (per-item) |
-| Collapsible | `<Collapsible motion>` + `<CollapsibleContent motion>` |
-| Trace | `<TraceCollapsible motion>` + `<TraceCollapsibleContent motion>` |
+The `motion` prop accepts a duration followed by an optional CSS easing value.
 
 ```tsx
-<Accordion motion="150 ease-out" collapsible type="single">
+<Accordion motion="150ms ease-out" collapsible type="single">
   <AccordionItem value="a">
     <AccordionTrigger>Shipping options</AccordionTrigger>
-    <AccordionContent motion="300ms ease-out">...</AccordionContent>
+    <AccordionContent>Choose a delivery method.</AccordionContent>
   </AccordionItem>
 </Accordion>
 ```
 
-### Syntax
+You can set a duration in milliseconds or seconds, use a CSS easing value, or pass `off` to disable the transition.
 
-One optional duration token, then one optional easing token. Tokens separated by spaces.
+| Value | Meaning |
+| :-- | :-- |
+| `150` or `300ms` | Transition duration in milliseconds. |
+| `0.3s` | Transition duration in seconds. |
+| `ease-in-out` | CSS easing value. |
+| `cubic-bezier(0.4, 0, 0.2, 1)` | Custom CSS easing value. |
+| `off` | Disable the transition. |
 
-| Form | Example | Meaning |
-| :-- | :-- | :-- |
-| Duration | `150`, `300ms`, `0.3s` | Transition duration in milliseconds. |
-| Easing | `ease-in-out`, `linear`, `cubic-bezier(0.4, 0, 0.2, 1)` | CSS easing function. |
-| Off | `off` | Disables animation entirely. |
+Components may provide their own default transition and may expose the prop on different parts.
 
-```text
-150 ease-out
-300ms cubic-bezier(0.4, 0, 0.2, 1)
-off
-```
+Check the API section of the component page before overriding its transition.
 
-### Disable per instance
+## Reduced motion
 
-```tsx
-<Accordion motion={false} collapsible type="single">...</Accordion>
-```
+Frakment web components respect the `prefers-reduced-motion` system preference.
 
-`false` disables the animation for that instance. Omitting the prop keeps the internal default.
+When reduced motion is enabled, component transitions are disabled.
 
-### Reduced motion
+## Native components
 
-When the user has `prefers-reduced-motion: reduce`, all Motion transitions are disabled automatically via `useReducedMotion` from `lib/motion.ts`.
+Native components use immediate state changes and do not expose the web `motion` prop.
 
-### Invalid input
+## Custom animations
 
-If the string cannot be parsed, `parseMotion` logs `[motion] <reason>` to the console and returns `null`. The component then falls back to its internal default. No crash, no broken UI.
+The CLI initializer installs the `motion` package for custom JavaScript-driven animations in your application.
 
-```tsx
-<Accordion motion="spring(abc, def)">   // warns, falls back to default
-<Accordion motion="wobbleOut 300ms">     // warns, falls back to default
-```
+For manual setup, install it with `npm install motion`.
 
-### Per-component behavior
-
-- **Accordion** — animates `height` and `opacity` together. Default: `150ms ease-in-out`. Setting `motion` replaces both with a single shared transition.
-- **Collapsible** — animates `height`. Default: `150ms ease-in-out`.
-- **Trace** — animates `height` and `opacity`. Default: `150ms ease-in-out`. Ignored when `animateHeight={false}`.
-
-### Limitations
-
-- **No per-property transitions.** One transition object applies to every animated property. To control `height` and `opacity` separately, leave `motion` unset and edit the source.
-
-
-
-## Motion vs CSS
-
-Every animation in Frakment picks the smallest tool that fits. Some components animate with Motion (JS-driven, per-frame control). Others animate with pure CSS keyframes driven by their own `data-state` attributes.
-
-**Motion** (`motion/react`) - per-frame control:
-
-- Accordion, Collapsible — height animation
-- Trace — height animation
-
-**CSS** (`tw-animate-css` + `data-state`) - zero JS at runtime, runs on the compositor thread:
-
-- Dialog, Sheet, Dropdown Menu, Select, Tooltip, Hover Card, Tabs
-
-`npx frakment@latest init` installs Motion. Components include their own interaction primitives, while the CLI installs any runtime dependencies declared by each component. The split exists so that simple enter/exit transitions stay off the JS main thread, and only the animations that genuinely need per-frame calculations ship a Motion bundle.
-
-## What `init` creates
-
-Running `npx frakment@latest init` adds these files to your project:
-
-<FileTree>
-  <FileTreeFolder name="apps" defaultOpen>
-    <FileTreeFile name="components.json" />
-    <FileTreeFolder name="app" defaultOpen>
-      <FileTreeFile name="globals.css" />
-    </FileTreeFolder>
-    <FileTreeFolder name="lib" defaultOpen>
-      <FileTreeFile name="utils.ts" />
-      <FileTreeFile name="motion.ts" />
-    </FileTreeFolder>
-  </FileTreeFolder>
-</FileTree>
-
-| File | Purpose |
-|---|---|
-| `components.json` | Registry URL, import aliases, Tailwind CSS path |
-| `app/globals.css` | Theme tokens injected between `FRAKMENT THEME` markers |
-| `lib/utils.ts` | `cn()` helper - merges Tailwind classes |
-| `lib/motion.ts` | `parseMotion()`, `getTransition()`, `useReducedMotion()`, `useMotionGuard()` |
-
-Plus five npm packages: `class-variance-authority`, `clsx`, `tailwind-merge`, `lucide-react`, `motion`.
-
-## What installs automatically
-
-| Component | Animation | Installed by CLI |
-| --- | --- | --- |
-| Accordion | Motion height | `motion` |
-| Collapsible | Motion height | `motion` |
-| Trace | Motion height | `motion` |
-| Attachment | Shimmer utility (CSS) | `shimmer` |
-| Message Animated | Motion | `motion` |
-
-Run `npx frakment add <name>` once and every dependency in that row is installed for you.
-
-## Shared helpers
-
-`lib/motion.ts` is created by `npx frakment init`. Import from it when you build your own animated components so timing matches the rest of the library.
-
-```ts
-import { parseMotion, getTransition, useReducedMotion, useMotionGuard } from "@/lib/motion";
-```
-
-
-## Usage
-
-Every Frakment animated component uses Motion. Follow the same pattern when you build your own.
-
-### Enter
+Use the package directly when a composition needs frame-based animation:
 
 ```tsx
 "use client";
@@ -174,61 +70,6 @@ export function FadeIn({ children }: { children: React.ReactNode }) {
 }
 ```
 
-### Expand height
+Respect the user's reduced-motion preference in custom animations as well.
 
-```tsx
-"use client";
-
-import { motion } from "motion/react";
-
-export function CollapsibleBody({ open, children }: { open: boolean; children: React.ReactNode }) {
-  return (
-    <motion.div
-      animate={{ height: open ? "auto" : 0 }}
-      initial={false}
-      style={{ overflow: "hidden" }}
-      transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-```
-
-### Reduced motion
-
-Always respect the user's system preference. Use `useReducedMotion` from `lib/motion.ts`:
-
-```tsx
-"use client";
-
-import { motion, useReducedMotion } from "motion/react";
-import { useReducedMotion as useFrakmentReducedMotion } from "@/lib/motion";
-
-export function Safe({ open }: { open: boolean }) {
-  const reduce = useFrakmentReducedMotion();
-  return (
-    <motion.div
-      animate={{ opacity: open ? 1 : 0 }}
-      transition={reduce ? { duration: 0 } : { duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
-    />
-  );
-}
-```
-
-## Shimmer
-
-`Shimmer` is a CSS-animated component that renders a gradient over text. Trace and Attachment use it internally when their state is `running`, `processing`, or `uploading`, but it works anywhere. No Motion dependency.
-
-```tsx
-import { Shimmer } from "@/components/ui/shimmer";
-
-<Shimmer>Loading registry...</Shimmer>
-```
-
-Run `npx frakment add shimmer` to install it on its own, or let another component pull it in.
-
-## Customising
-
-Every animated component accepts a `className` and works with Motion's `transition` overrides where it exposes them. See each component page for props.
-
+See the [component catalog](/docs/components) for component-specific APIs.

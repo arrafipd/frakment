@@ -25,7 +25,7 @@ Frakment native components are built for React Native apps that run on iOS and A
 
 ## Prerequisites
 
-- **Node.js** 18 or newer
+- **Node.js** 22.18.0 or newer when using the Frakment CLI
 - **Expo SDK** 58 or newer
 - **React Native** 0.88
 - **NativeWind** 5.0.0-rc or newer
@@ -205,16 +205,7 @@ If you see `Cannot find module '@/lib/utils'`, run `npx frakment@latest init --e
 <AccordionTrigger>No animation on native</AccordionTrigger>
 <AccordionContent>
 
-Motion on native is in progress. Current components use instant state changes, not tweened animation.
-
-</AccordionContent>
-</AccordionItem>
-
-<AccordionItem value="npm-publish">
-<AccordionTrigger>No npm package for native</AccordionTrigger>
-<AccordionContent>
-
-npm packages for native components are not published yet. Use the CLI or copy the source from each component page.
+Native components use immediate state changes and do not expose the web `motion` prop.
 
 </AccordionContent>
 </AccordionItem>

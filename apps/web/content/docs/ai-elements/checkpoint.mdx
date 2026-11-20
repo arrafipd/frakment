@@ -24,7 +24,7 @@ Checkpoint is a composition — install the primitives, then wire them together 
 <TabsContent value="cli">
 
 ```bash
-npx frakment add bubble button marker message
+npx frakment add message button marker
 ```
 
 </TabsContent>
@@ -39,7 +39,6 @@ npx frakment add bubble button marker message
 
       <Step>Install the required registry components:</Step>
 
-      <ComponentSource name="bubble" title="components/ui/bubble.tsx" />
       <ComponentSource name="button" title="components/ui/button.tsx" />
       <ComponentSource name="marker" title="components/ui/marker.tsx" />
       <ComponentSource name="message" title="components/ui/message.tsx" />
@@ -132,7 +131,7 @@ The restore button hides when the checkpoint is already the last message. Send t
 
 - [Chat](/docs/ai-elements/chat) — full streaming chat surface.
 - [Message](/docs/components/message) — message row primitive.
-- [Bubble](/docs/components/bubble) — chat bubble surface.
+- [Bubble](/docs/components/web/message) — chat bubble surface.
 - [Marker](/docs/components/marker) — separator and status line.
 - [Button](/docs/components/button) — restore action.
 

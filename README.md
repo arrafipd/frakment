@@ -2,7 +2,7 @@
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg">
-  <img src="assets/logo.svg" width="72" height="72" alt="Frakment">
+  <img src="apps/web/assets/logo.svg" width="72" height="72" alt="Frakment">
 </picture>
 
 # Frakment
@@ -15,9 +15,9 @@
 
 </div>
 
-<img src="assets/hero-dark.webp" alt="Frakment homepage" width="100%">
+<img src="apps/web/assets/hero-dark.webp" alt="Frakment homepage" width="100%">
 
-A component registry for React — copy-paste primitives you own. Accessible, motion-ready, no lock-in.
+A component registry for React — copy-paste components you own, with no lock-in.
 
 ```bash
 npx frakment@latest init
@@ -25,16 +25,14 @@ npx frakment@latest add button
 ```
 
 - **47 components** across base primitives, AI chat elements, and utility modules
-- **Accessible by default** — ARIA-first, a11y tested
-- **Motion built in** — consistent transitions and micro-interactions out of the box
+- **Accessible interactions** — interactive components include keyboard and ARIA behavior
+- **Configurable web transitions** — supported components expose CSS motion controls
 
 **[Documentation](https://www.arrafi.dev/frakment/docs)** · **[Components](https://www.arrafi.dev/frakment/docs/components)** · **[Changelog](https://github.com/arrafipd/frakment/releases)**
 
 ## Requirements
 
-Node.js `>=22` · React `19` · Tailwind CSS `v4`
-
-> **Pre-1.0** — APIs may change between `0.x` releases. Pin a version before upgrading.
+Node.js `>=22.18.0` · React `19` · Tailwind CSS `v4`
 
 ## Package manager
 

@@ -1,13 +1,18 @@
 ---
 name: frakment-usage
-description: Load when an agent needs to discover, fetch, search, or install Frakment components. Covers the /r/index.json discovery endpoint, per-component JSON, and the frakment CLI.
-allowed-tools: ["fetch", "bash"]
-version: 0.1.0
+description: Provider-neutral instructions for discovering, inspecting, and installing Frakment web and Expo components through HTTP, MCP, or the CLI.
+version: 0.2.0
 ---
 
 # Frakment Usage
 
-Frakment is a component registry for React interfaces. This skill teaches an agent how to discover, fetch, and install its components without guessing slugs.
+Frakment is a component registry for React web and Expo interfaces.
+
+These instructions use standard HTTP, MCP, and CLI workflows and can be loaded by any assistant that can read Markdown.
+
+Automatic skill discovery and available tools vary by AI client.
+
+The skill supplies instructions but does not grant network, terminal, or project-write permissions.
 
 ## When to load this skill
 
@@ -23,15 +28,36 @@ Do not load when:
 - The user is asking about a different component library
 - The user needs only generic React patterns
 
-## Registry surface
+## Registry endpoints
 
-Index endpoint:
+Use the web registry for React components:
 
 ```bash
-curl https://frakment.vercel.app/r/index.json
+curl https://www.arrafi.dev/frakment/r/index.json
 ```
 
-Response shape:
+Use the Expo registry for React Native components:
+
+```bash
+curl https://www.arrafi.dev/frakment/r/expo/index.json
+```
+
+Fetch one component from the matching registry:
+
+```bash
+curl https://www.arrafi.dev/frakment/r/button.json
+curl https://www.arrafi.dev/frakment/r/expo/button.json
+```
+
+Each index contains `components[]` entries with `name`, `title`, and `description`.
+
+Each component JSON contains `files[]`, `dependencies[]`, and `registryDependencies[]`.
+
+Component files can include `encoding: "base64"` for binary assets.
+
+The default registry root is `https://www.arrafi.dev/frakment`.
+
+The web registry index response has this shape:
 
 ```json
 {
@@ -41,24 +67,36 @@ Response shape:
 }
 ```
 
-Per-component endpoint:
-
-```bash
-curl https://frakment.vercel.app/r/button.json
-```
-
-Response has `files[]` (each with `path`, `content`, and optionally `encoding: "base64"` for binary assets), `dependencies[]` (npm), and `registryDependencies[]` (other Frakment components).
-
 ## Steps
 
-**First time setup.** If `components.json` does not exist yet, run `npx frakment@latest init` before adding components. This injects the theme block into `globals.css`, creates `lib/utils.ts`, and installs the base dependencies (`clsx`, `tailwind-merge`, `class-variance-authority`, `lucide-react`, `motion`). Safe to skip when `components.json` is already present.
+If `components.json` does not exist, initialize Frakment in the existing project before adding components.
+
+For web projects, run `npx frakment@latest init`; web components require React 19 and Tailwind CSS v4.
+
+For Expo projects, run `npx frakment@latest init --expo` after configuring Expo and NativeWind.
+
+The CLI and MCP server require Node.js 22.18.0 or newer.
 
 ## MCP compose
 
-If the agent runs through MCP (`npx -y @frakment/mcp`), two tools avoid manual discovery:
+Use MCP from any AI client that supports MCP over stdio.
 
-- `list_scenarios` — no input. Returns the built-in compositions: `chat`, `agent-timeline`, `code-output`, `login-form`, `settings-panel`, `empty-state`, `search-input`, `status-dashboard`.
-- `compose({ scenario })` — returns components, resolved dependencies, and the install command for one scenario. Prefer this over guessing component sets from the registry index.
+The Frakment MCP server exposes web components only; use the Expo registry endpoints and the CLI for native components.
+
+Set `FRAKMENT_REGISTRY` to a registry root when using a self-hosted registry.
+
+The MCP tools are:
+
+- `list_components` lists all web components.
+- `search_components({ query })` searches web component names and descriptions.
+- `view_component({ name })` returns a web component's source and dependencies.
+- `get_install_command({ name })` formats a CLI command and does not validate the name.
+- `list_scenarios` lists the available compositions.
+- `compose({ scenario })` returns curated component names, an install command, and a dependency note.
+
+The built-in scenarios are `chat`, `agent-timeline`, `code-output`, `empty-state`, `login-form`, `search-input`, and `settings-panel`.
+
+The CLI resolves registry dependencies; MCP does not execute commands or write files.
 
 Example:
 
@@ -66,37 +104,44 @@ Example:
 { "tool": "compose", "arguments": { "scenario": "chat" } }
 ```
 
-Returns `message, avatar` plus `npx frakment@latest add message` — add `avatar` separately if the design needs it.
+The `chat` scenario returns `message` and `avatar` with an install command for `message`; add `avatar` separately if the design needs it.
 
-## Steps
+## Discover and install
 
-When not using MCP tools, follow these steps directly against the registry HTTP surface.
+Choose the index that matches the target platform.
 
-1. **Discover** - fetch `/r/index.json` and pick a component name from `components[].name`. Never invent a slug.
-2. **Inspect** (optional) - fetch `/r/<name>.json` to read the source before using it.
-3. **Install** - prefer the CLI:
+1. **Discover** the component name from `/r/index.json` for web or `/r/expo/index.json` for Expo; never invent a slug.
+2. **Inspect** the matching component JSON when source details are needed.
+3. **Install** with the CLI from the target project:
 
    ```bash
    npx frakment@latest add <name>
    ```
 
+   Add `--expo` for native components.
+
    The CLI resolves `registryDependencies` recursively and installs npm dependencies automatically.
 
-4. **Fallback** - if the CLI is not available, write each `files[].content` to its `files[].path` (decode base64 when `encoding: "base64"`), then run `npm install` for the listed `dependencies`.
+4. **Fallback** to the JSON files only when the CLI is unavailable.
+
+   Fetch each registry dependency recursively, write every file to its declared path, decode base64 assets when indicated, and install the listed npm dependencies with the project's package manager.
+
+   For Expo projects, use `npx expo install` for native dependencies when required.
 
 ## Constraints
 
-- **Never guess component names.** Always fetch `/r/index.json` first.
-- **Frakment is standalone.** Do not invoke another registry CLI against it.
-- **Respect registryDependencies.** Install them before their consumers. The CLI handles ordering.
-- **Do not summarize source.** When fetching `/r/<name>.json` for inspection, quote it verbatim.
+- **Never guess component names.** Use the web or Expo index for the matching platform.
+- **Verify before suggesting commands.** MCP's `get_install_command` formats a command and does not validate the component name.
+- **Respect registry dependencies.** The CLI handles recursive dependency ordering.
+- **Do not claim MCP installed anything.** It only returns information and commands.
+- **Preserve source accurately.** Do not omit files or silently alter fetched component code.
 
 ## Output format
 
-When listing components, return a markdown table:
+When listing multiple components, include their exact registry names and descriptions.
 
 | Name   | Description                                          |
 | ------ | ---------------------------------------------------- |
 | button | A monochrome button with six variants and six sizes. |
 
-When suggesting an install, show the command in a code block, one line, no `$` prefix.
+When suggesting an install, show the command in a code block without a shell prompt.

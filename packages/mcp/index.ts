@@ -12,10 +12,10 @@ const REGISTRY = (
 
 const SCENARIOS = {
   "agent-timeline": {
-    components: ["trace", "chain-of-thought", "pulse", "terminal"],
-    description: "Agent reasoning timeline with status and command output",
-    install: "terminal",
-    note: "terminal pulls trace and code-block. Add chain-of-thought and pulse separately.",
+    components: ["trace", "code-block"],
+    description: "Agent activity view with trace steps and code output",
+    install: "trace code-block",
+    note: "trace pulls collapsible and shimmer; code-block pulls button.",
   },
   chat: {
     components: ["message", "avatar"],
@@ -24,41 +24,34 @@ const SCENARIOS = {
     note: "message includes the message, bubble, scroll, and animated message primitives. Add avatar separately.",
   },
   "code-output": {
-    components: ["code-block", "terminal"],
-    description:
-      "Syntax-highlighted code with copy and optional terminal stream",
+    components: ["code-block"],
+    description: "Syntax-highlighted code with copy actions and line diffs",
     install: "code-block",
     note: "code-block pulls button and icons.",
   },
   "empty-state": {
     components: ["empty", "button"],
     description: "Zero-data placeholder with optional call-to-action",
-    install: "empty",
+    install: "empty button",
     note: "empty is standalone.",
   },
   "login-form": {
     components: ["field", "label", "input", "button", "checkbox"],
     description: "Accessible login form with remember-me toggle",
-    install: "field",
-    note: "field pulls label and separator.",
+    install: "field input button checkbox",
+    note: "field pulls label and separator; the CLI resolves dependencies for all components.",
   },
   "search-input": {
     components: ["input-group", "input", "button", "spinner"],
     description: "Search input with inline button and loading state",
-    install: "input-group",
+    install: "input-group spinner",
     note: "input-group pulls input, textarea, and button.",
   },
   "settings-panel": {
     components: ["field", "switch", "toggle-group", "separator"],
     description: "Settings panel with boolean toggles and grouped options",
-    install: "toggle-group",
-    note: "toggle-group pulls toggle. Add field and switch separately.",
-  },
-  "status-dashboard": {
-    components: ["pulse", "pulse-status", "badge"],
-    description: "Service health dashboard with daily timeline",
-    install: "pulse",
-    note: "pulse pulls badge, pulse-status, trace, and icons.",
+    install: "field switch toggle-group separator",
+    note: "field pulls label and separator; toggle-group pulls toggle.",
   },
 };
 
@@ -71,20 +64,21 @@ async function fetchJson(path) {
 }
 
 const server = new Server(
-  { name: "frakment-mcp", version: "0.0.1" },
+  { name: "frakment-mcp", version: "0.0.4" },
   { capabilities: { tools: {} } }
 );
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
   tools: [
     {
-      description: "List every frakment component with name and description.",
+      description:
+        "List every Frakment web component with name and description.",
       inputSchema: { properties: {}, type: "object" },
       name: "list_components",
     },
     {
       description:
-        "Get the full source, dependencies, and registry dependencies of one component.",
+        "Get the full source, dependencies, and registry dependencies of one web component.",
       inputSchema: {
         properties: { name: { type: "string" } },
         required: ["name"],
@@ -93,7 +87,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
       name: "view_component",
     },
     {
-      description: "Search components by name or description substring.",
+      description: "Search web components by name or description substring.",
       inputSchema: {
         properties: { query: { type: "string" } },
         required: ["query"],
@@ -102,7 +96,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
       name: "search_components",
     },
     {
-      description: "Get the npx install command for a component.",
+      description: "Get the npx install command for a web component.",
       inputSchema: {
         properties: { name: { type: "string" } },
         required: ["name"],
@@ -112,13 +106,13 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
     },
     {
       description:
-        "List ready-made component compositions for common UI scenarios (chat, agent-timeline, login-form, etc).",
+        "List ready-made compositions of web components for common UI scenarios.",
       inputSchema: { properties: {}, type: "object" },
       name: "list_scenarios",
     },
     {
       description:
-        "Get a curated set of components for a UI scenario. Returns components, resolved dependencies, and install command.",
+        "Get curated web components for a UI scenario and an install command with registry dependencies resolved by the CLI.",
       inputSchema: {
         properties: { scenario: { type: "string" } },
         required: ["scenario"],

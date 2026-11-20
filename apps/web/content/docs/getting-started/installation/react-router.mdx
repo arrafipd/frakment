@@ -12,7 +12,7 @@ Frakment works in any React Router v7 project with React 19 and Tailwind v4. Thi
 - **TypeScript**
 - **Tailwind CSS** v4
 
-Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/guides/theming) manually.
+Frakment web components require React 19 and Tailwind CSS v4.
 
 ## Use the CLI
 
@@ -49,7 +49,7 @@ export default defineConfig({
 
 ```bash
 npx frakment@latest init
-npx frakment@latest add bubble
+npx frakment@latest add message
 ```
 
 <Step>Use it</Step>
@@ -107,7 +107,6 @@ In `tsconfig.json`:
 ```json title="tsconfig.json"
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./*"]
     }
@@ -118,7 +117,7 @@ In `tsconfig.json`:
 <Step>Add a component</Step>
 
 ```bash
-npx frakment@latest add bubble
+npx frakment@latest add message
 ```
 
 </Steps>
@@ -146,7 +145,7 @@ npx frakment@latest add bubble
 ## Verify
 
 ```bash
-ls app/components/ui/bubble.tsx
+ls app/components/ui/message.tsx
 ```
 
 Then render it in a route. If it renders without errors, you are ready.

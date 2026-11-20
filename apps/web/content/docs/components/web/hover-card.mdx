@@ -91,7 +91,7 @@ Pass `openDelay` and `closeDelay` to `HoverCard` to tune the timing. Defaults ar
 
 ### HoverCard
 
-Extends Radix `HoverCard.Root`.
+Controls the open state and the delays before opening and closing.
 
 <PropsTable
   rows={[
@@ -105,11 +105,11 @@ Extends Radix `HoverCard.Root`.
 
 ### HoverCardTrigger
 
-Extends Radix `HoverCard.Trigger`. Use `as` to compose with a Button, Link, or any focusable element.
+Opens the card on hover or focus. Use `as` to render a Button, Link, or another focusable element.
 
 ### HoverCardContent
 
-Extends Radix `HoverCard.Content`. Renders inside a portal.
+Renders the card content in a portal and positions it relative to the trigger.
 
 <PropsTable
   rows={[

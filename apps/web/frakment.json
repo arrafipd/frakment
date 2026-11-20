@@ -54,16 +54,6 @@
       "type": "registry:ui"
     },
     {
-      "name": "pulse",
-      "title": "Pulse",
-      "description": "A daily status timeline for service uptime, with inline incident logs.",
-      "source": "registry/pulse.tsx",
-      "target": "components/ui/pulse.tsx",
-      "dependencies": ["lucide-react@^1.69.0"],
-      "registryDependencies": ["badge", "card", "trace"],
-      "type": "registry:ui"
-    },
-    {
       "name": "slider",
       "title": "Slider",
       "description": "An input where the user selects a value from within a given range.",
@@ -449,7 +439,7 @@
     {
       "name": "dialog",
       "title": "Dialog",
-      "description": "A modal dialog built on Radix.",
+      "description": "A modal dialog with focus management and keyboard dismissal.",
       "source": "registry/dialog.tsx",
       "target": "components/ui/dialog.tsx",
       "dependencies": ["lucide-react@^1.69.0"],
@@ -480,10 +470,9 @@
     {
       "name": "frakment-usage",
       "title": "Frakment Usage",
-      "description": "Instructions for AI agents to discover, browse, and install Frakment components.",
+      "description": "Provider-neutral instructions for discovering, inspecting, and installing Frakment web and Expo components.",
       "source": "skills/frakment-usage/SKILL.md",
-      "version": "0.1.0",
-      "allowedTools": ["fetch", "bash"]
+      "version": "0.2.0"
     }
   ]
 }

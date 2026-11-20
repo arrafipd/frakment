@@ -3,22 +3,22 @@ title: Agents
 description: What an AI agent sees when it builds with Frakment. Real MCP tool calls, real responses, no hand-waving.
 ---
 
-Frakment ships an MCP server and an agent skill. Agents can **compose, install, and use** the registry without a human in the loop.
+Frakment provides an MCP server and an agent skill for discovering components, composing scenarios, and retrieving CLI commands.
 
 ## The workflow
 
 <Steps>
   <Step>Agent calls `compose` with a scenario name</Step>
 
-  MCP returns the components that fit that UI pattern.
+  MCP returns a curated component list, an install command, and dependency notes.
 
-  <Step>Agent calls `get_install_command` with the primary component</Step>
+  <Step>Agent can call `get_install_command` for an individual component</Step>
 
-  MCP returns the `npx` command that installs it and pulls its `registryDependencies`.
+  MCP returns the `npx` command; the CLI resolves that component's `registryDependencies`.
 
-  <Step>User runs one command</Step>
+  <Step>User or authorized agent runs the command in the target project</Step>
 
-  The rest lands automatically. No manual dependency resolution, no guessing slugs.
+  The CLI writes the components and resolves their dependencies.
 </Steps>
 
 ## Chat UI
@@ -43,6 +43,8 @@ Chat interface with auto-scroll and animated turns
 Components: message, avatar
 
 Install: npx frakment@latest add message
+
+message includes the message, bubble, scroll, and animated message primitives. Add avatar separately.
 ```
 
 The agent calls `get_install_command`:
@@ -64,7 +66,7 @@ npx frakment@latest add message
 
 ## Agent timeline
 
-**Prompt:** "Build an agent timeline with reasoning steps"
+**Prompt:** "Build an agent activity timeline with code output"
 
 The agent calls `compose`:
 
@@ -79,11 +81,13 @@ MCP responds:
 
 ```text
 # agent-timeline
-Agent reasoning timeline with status and command output
+Agent activity view with trace steps and code output
 
-Components: trace, code-block, chain-of-thought, pulse
+Components: trace, code-block
 
 Install: npx frakment@latest add trace code-block
+
+trace pulls collapsible and shimmer; code-block pulls button.
 ```
 
 The agent calls `get_install_command`:
@@ -98,10 +102,10 @@ The agent calls `get_install_command`:
 MCP responds:
 
 ```bash
-npx frakment@latest add trace code-block
+npx frakment@latest add trace
 ```
 
-`trace` pulls `code-block` as a registry dependency. Add `chain-of-thought` and `pulse` separately.
+`trace` pulls `collapsible` and `shimmer`. `compose` includes all requested components in its install command.
 
 ## Login form
 
@@ -124,7 +128,9 @@ Accessible login form with remember-me toggle
 
 Components: field, label, input, button, checkbox
 
-Install: npx frakment@latest add field
+Install: npx frakment@latest add field input button checkbox
+
+field pulls label and separator; the CLI resolves registry dependencies for all components.
 ```
 
 The agent calls `get_install_command`:
@@ -142,18 +148,19 @@ MCP responds:
 npx frakment@latest add field
 ```
 
-`field` pulls `label` and `separator`. Add `input`, `button`, and `checkbox` separately.
+`field` pulls `label` and `separator`.
 
 ## All scenarios
 
 | Scenario | What you get | Entry |
 | :--- | :--- | :--- |
 | `chat` | Chat UI with auto-scroll, avatar, and animated turns | `message` |
-| `agent-timeline` | Reasoning timeline with status, pulse, and command output | `terminal` |
-| `login-form` | Accessible form with field, label, input, button, and checkbox | `field` |
-| `settings-panel` | Settings view with toggles, grouped options, and separators | `toggle-group` |
-| `search-input` | Search field with inline button and loading state | `input-group` |
-| `status-dashboard` | Service health overview with daily timeline and badges | `pulse` |
+| `agent-timeline` | Activity view with trace steps and code output | `trace`, `code-block` |
+| `code-output` | Syntax-highlighted code with copy actions and line diffs | `code-block` |
+| `empty-state` | Zero-data placeholder with optional call-to-action | `empty`, `button` |
+| `login-form` | Accessible form with field, label, input, button, and checkbox | `field`, `input`, `button`, `checkbox` |
+| `search-input` | Search field with inline button and loading state | `input-group`, `spinner` |
+| `settings-panel` | Settings view with boolean toggles and grouped options | `field`, `switch`, `toggle-group`, `separator` |
 
 Call `list_scenarios` with no input to get the current set. The tool is the source of truth so the list stays current.
 

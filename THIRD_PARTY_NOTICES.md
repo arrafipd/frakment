@@ -8,30 +8,30 @@ Each remains under its original license.
 ### shadcn/ui
 - **License:** MIT
 - **Source:** https://github.com/shadcn-ui/ui
-- **Scope:** components in `registry/` and `components/ui/` are adapted from shadcn/ui.
+- **Scope:** some component source is adapted from shadcn/ui; this attribution does not imply that every registry component is derived from it.
 
 ## Runtime Dependencies
 
-- `@ai-sdk/react` ^4.0.167
+- `@ai-sdk/react` ^4.0.169
 - `@icons-pack/react-simple-icons` ^13.15.1
 - `@phosphor-icons/react` ^2.1.10
-- `@tailwindcss/postcss` ^4.3.3
+- `@tailwindcss/postcss` ^4.3.5
 - `@vercel/analytics` ^2.0.1
 - `@web-kits/audio` ^0.2.0
 - `ai` ^7.0.159
 - `class-variance-authority` ^0.7.1
 - `clsx` ^2.1.1
 - `cmdk` ^1.1.1
-- `fumadocs-core` ^16.18.0
-- `fumadocs-mdx` ^15.5.0
-- `fumadocs-ui` ^16.18.0
+- `fumadocs-core` ^16.18.2
+- `fumadocs-mdx` ^15.5.1
+- `fumadocs-ui` ^16.18.2
 - `input-otp` ^1.5.0
 - `jiti` ^2.7.0
 - `jotai` ^3.0.1
 - `lru-cache` ^11.5.3
 - `lucide-react` ^1.70.0
 - `marked` ^18.1.2
-- `motion` ^14.10.0
+- `motion` ^14.10.1
 - `next` ^16.4.3
 - `next-themes` 0.4.6
 - `postcss` ^8.5.32

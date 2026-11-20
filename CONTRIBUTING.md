@@ -29,7 +29,7 @@ pnpm install
 pnpm build
 ```
 
-Every workspace-aware script (`prebuild`, `precheck`, `predev`, `pretest`, `pretypecheck`, `release`) detects the active package manager through `scripts/workspaces.mjs` and dispatches to either `npm run <script> --workspaces` or `pnpm -r`. You do not need to configure anything.
+Every workspace-aware script (`prebuild`, `precheck`, `predev`, `pretest`, `pretypecheck`, `release`) detects the active package manager through `scripts/workspaces.ts` and dispatches to either `npm run <script> --workspaces` or `pnpm -r`. You do not need to configure anything.
 
 ### Lockfiles
 
@@ -83,7 +83,7 @@ Report unacceptable behavior to the maintainer via the private channel in [SECUR
 Open an issue using the **Bug report** template. Before filing:
 
 - **Search existing issues** and discussions for the same problem.
-- **Upgrade to the latest version** - `npx frakment add <name>` rewrites the file with the newest release.
+- **Upgrade to the latest version** - `npx frakment@latest add <name> --overwrite` replaces the file with the newest registry source.
 - **Reduce to a minimal reproduction** - one component plus the props that trigger the bug.
 
 A bug report includes:

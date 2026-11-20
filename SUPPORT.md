@@ -13,7 +13,7 @@
 ## Before opening an issue
 
 1. Search [existing issues](https://github.com/arrafipd/frakment/issues) and [discussions](https://github.com/arrafipd/frakment/discussions).
-2. Upgrade to the latest version: `npx frakment@latest add <name>` rewrites the file with the current release.
+2. To replace an installed component with the latest source, run `npx frakment@latest add <name> --overwrite`.
 3. Reduce to a minimal reproduction — one component plus the props that trigger the bug.
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full workflow.

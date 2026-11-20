@@ -5,7 +5,11 @@
 
 Model Context Protocol server for the [Frakment](https://github.com/arrafipd/frakment) component registry.
 
-Exposes the registry as MCP tools so any MCP-capable agent can browse, search, and install Frakment components without scraping HTML or writing HTTP glue.
+Exposes registry search, component source, compositions, and CLI install commands as MCP tools.
+
+The MCP server does not write files into a project or execute the returned commands.
+
+The MCP server exposes the web registry only. Use the Expo registry endpoints and the CLI `--expo` option for native components.
 
 ## Install
 
@@ -42,18 +46,18 @@ For Cursor, add the same block to `~/.cursor/mcp.json`.
 
 | Tool                  | Input                  | Output                                                |
 | --------------------- | ---------------------- | ----------------------------------------------------- |
-| `list_components`     | none                   | List of every component with name and description.    |
-| `view_component`      | `{ "name": "button" }` | Full source, npm dependencies, registry dependencies. |
-| `search_components`   | `{ "query": "chat" }`  | Components matching name or description substring.    |
-| `get_install_command` | `{ "name": "button" }` | The exact `npx frakment@latest add <name>` command.   |
-| `list_scenarios`      | none                   | Ready-made compositions for common UI scenarios.      |
-| `compose`             | `{ "scenario": "chat" }` | Components, resolved deps, and install command.     |
+| `list_components`     | none                   | List of every web component with name and description. |
+| `view_component`      | `{ "name": "button" }` | Web source, npm dependencies, registry dependencies.   |
+| `search_components`   | `{ "query": "chat" }`  | Web components matching name or description.          |
+| `get_install_command` | `{ "name": "button" }` | The exact web component install command.               |
+| `list_scenarios`      | none                   | Ready-made compositions of web components.             |
+| `compose`             | `{ "scenario": "chat" }` | Curated components, install command, and dependency note. |
 
 ## Environment
 
 | Variable            | Default                       | Purpose                                                                                       |
 | ------------------- | ----------------------------- | --------------------------------------------------------------------------------------------- |
-| `FRAKMENT_REGISTRY` | `https://www.arrafi.dev/frakment` | Override the registry base URL. Useful for local development against `http://localhost:3000`. |
+| `FRAKMENT_REGISTRY` | `https://www.arrafi.dev/frakment` | Registry root URL. Do not include the trailing `/r` path. |
 
 ## Development
 
@@ -64,7 +68,9 @@ npm install
 node index.ts
 ```
 
-The server speaks JSON-RPC over stdin/stdout. Any MCP client that spawns subprocesses can launch it.
+The server speaks JSON-RPC over stdin/stdout and works with MCP clients that support stdio subprocess servers.
+
+Clients without MCP support can use the registry HTTPS endpoints and CLI directly.
 
 ## License
 

@@ -37,13 +37,6 @@
     },
     {
       "deprecated": false,
-      "description": "A daily status timeline for service uptime, with inline incident logs.",
-      "name": "pulse",
-      "title": "Pulse",
-      "version": "0.0.0"
-    },
-    {
-      "deprecated": false,
       "description": "An input where the user selects a value from within a given range.",
       "name": "slider",
       "title": "Slider",
@@ -289,7 +282,7 @@
     },
     {
       "deprecated": false,
-      "description": "A modal dialog built on Radix.",
+      "description": "A modal dialog with focus management and keyboard dismissal.",
       "name": "dialog",
       "title": "Dialog",
       "version": "0.0.0"

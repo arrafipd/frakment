@@ -18,8 +18,9 @@ In scope:
 
 - `frakment` CLI (`packages/cli`)
 - `@frakment/mcp` server (`packages/mcp`)
-- Components in `registry/` and `public/r/`
-- Documentation website (`app/`, `content/`)
+- Web components and registry files in `apps/web/registry/` and `apps/web/public/r/`
+- Native components and registry files in `apps/native/registry/` and `apps/native/public/r/`
+- Documentation website (`apps/web/app/`, `apps/web/content/`)
 
 Out of scope:
 
@@ -70,11 +71,11 @@ Threats and mitigations:
 
 ## Supported versions
 
-Security fixes land on the current `0.x` line for each package. Older versions are not maintained.
+Security fixes are provided for the latest published version of each package. Older versions are not maintained.
 
 | Package | Current line |
 | :-- | :-- |
-| `frakment` | `0.2.0` |
+| `frakment` | `1.0.0` |
 | `@frakment/mcp` | `0.0.4` |
 
 ## Recognition

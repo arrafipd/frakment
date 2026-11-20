@@ -1,7 +1,7 @@
 "use client";
 
 import { LINK } from "@/constants/links";
-import { SITE, UTM_PARAMS } from "@/constants/site";
+import { UTM_PARAMS } from "@/constants/site";
 import { useFeedback } from "@/hooks/use-feedback";
 import { addQueryParams } from "@/lib/url";
 
@@ -16,17 +16,7 @@ export const SiteFooter = () => {
       <div className="container-wrapper px-4 xl:px-6">
         <div className="flex h-(--footer-height) items-center justify-between">
           <div className="text-muted-foreground w-full px-1 text-center text-xs leading-loose sm:text-sm">
-            Built by{" "}
-            <a
-              className="font-medium underline underline-offset-4"
-              href={addQueryParams(LINK.AUTHOR, UTM_PARAMS)}
-              onClick={playClick}
-              rel="noreferrer"
-              target="_blank"
-            >
-              {SITE.AUTHOR.NAME}
-            </a>
-            . The source code is available on{" "}
+            The source code is available on{" "}
             <a
               className="font-medium underline underline-offset-4"
               href={addQueryParams(LINK.GITHUB, UTM_PARAMS)}

@@ -3,104 +3,82 @@ title: About
 description: The principles behind Frakment.
 ---
 
-Frakment is a component registry for React interfaces. It ships standalone components you copy into your project, not a library you depend on. This page covers the design principles, how Frakment compares to component libraries, and the decisions behind its shape.
+Frakment is a component registry for React interfaces.
+
+It distributes editable component source that you add to and maintain in your own project.
 
 ## Principles
 
 ### Monochrome by default
 
-Every UI token uses `oklch(L 0 0)` - pure grayscale. Hierarchy comes from lightness, not hue. Two exceptions ship as tokens you can override: `--destructive` for error states and `.hljs-*` for syntax highlighting.
+The default theme uses a neutral palette with semantic tokens for surfaces, text, borders, and status.
 
-```css title="theme.css"
-:root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --border: oklch(0.922 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-}
-```
+Override the tokens to match your product, as described in [Theming](/docs/guides/theming).
 
-Change a token, the entire system follows. Light and dark mode both inherit from the same scale. See [Theming](/docs/guides/theming).
+### Components and compositions
 
-### Composition, not primitives
+Components are installed individually with the CLI.
 
-Primitives are single elements installable via CLI (`button`, `input`, `card`). Compositions are tutorials that wire primitives together (`chat`, `terminal`, `plan`). Compositions are not registry items - you assemble them from primitives following the tutorial.
+Compositions such as chat and agent interfaces combine registry components and are documented as examples.
 
 ```bash
-# A composition is installed as its primitives
-npx frakment add code-block trace
-npx frakment add code-block trace
+npx frakment add message input-group trace code-block
 ```
 
-This keeps every installable file small and single-purpose. The trade-off: compositions need more work to wire, but you end up with exactly the UI you want.
+### Editable source
 
-### Components in the registry
+The CLI copies component source into your project so you can inspect and change it.
 
-Frakment components ship as editable source files through the registry. AI demos use scripted conversations; connect the copied components to your own model and transport.
+AI interface examples provide UI only; connect them to your own model, transport, and application logic.
 
-Your project owns the copied component code and its integration.
+### Motion
 
-### AI-native, motion-first
+Web components that expose a `motion` prop use CSS transitions.
 
-Components for agent surfaces ship with AI support built in. Every component animates through Motion - no extra setup. Chat, trace, plan, and reasoning ship as first-class compositions.
-
-### Docs describe what ships
-
-Every page describes a component that installs today. No roadmaps, no "coming soon", no deprecated stubs. If it is not in the registry, it is not in the docs.
+Native components currently use immediate state changes.
 
 ## Comparison
 
 | Aspect | Frakment | Component library |
 | :-- | :-- | :-- |
-| Distribution | Copy into your project | `npm install` |
-| Updates | Re-run `npx frakment add` | `npm update` |
-| Theme | Monochrome by default | Any |
-| Motion | Built in | Add your own |
-| AI | UI components and compositions | Your model and transport |
-| Composition | Tutorials, not installable items | Pre-built |
-| Ownership | Source in your repo | Wrapped in `node_modules` |
+| Distribution | Source copied into your project | Installed as a dependency |
+| Updates | Re-run the CLI when you choose | Update the package |
+| Theme | Neutral defaults with editable tokens | Depends on the library |
+| Ownership | Edit the copied source | Use the package API |
 
 ## Frequently asked
 
-### Why not just use a library?
+### Is Frakment Tailwind only?
 
-Libraries give you less code to maintain but less control. Frakment gives you the source - you own it, you edit it, you upgrade it on your schedule. If you do not need that level of control, a library is the better choice.
+Yes, Frakment web components require Tailwind CSS v4.
 
-### Is it Tailwind only?
+### Can I customize the colors?
 
-Yes. Tokens are Tailwind CSS variables. Components use Tailwind utilities. Tailwind v4 is required.
-
-### Can I add color?
-
-Yes. Override any token in `:root` and `.dark`. The default monochrome palette is a starting point, not a constraint.
-
-```css
-:root {
-  --primary: oklch(0.62 0.19 259);
-  --primary-foreground: oklch(0.98 0 0);
-}
-```
+Yes, override the theme tokens in your project.
 
 ### What about TypeScript?
 
-Every component ships as TypeScript. For JavaScript projects, strip type annotations after copying. See [Installation](/docs/getting-started/installation/manual).
+Frakment component source is TypeScript.
 
-## Versioning
+For JavaScript projects, remove the type annotations after copying the source.
 
-Frakment follows semantic versioning for its npm packages (`frakment` and `@frakment/mcp`). Registry components ship with per-component versions tracked in `frakment.json`. Breaking changes are noted in the [Changelog](/docs/changelog).
+## Versions
 
-| Package | Version | Scope |
+| Package | Current version | Purpose |
 | :-- | :-- | :-- |
-| `frakment` | CLI | `npx frakment add` |
-| `@frakment/mcp` | npm | MCP server for agents |
+| `frakment` | `1.0.0` | CLI |
+| `@frakment/mcp` | `0.0.4` | MCP server |
+
+Breaking changes and releases are listed in the [Changelog](/docs/changelog).
 
 ## Credits
 
-Frakment is built and maintained by [@arrafipd](https://github.com/arrafipd). Component APIs follow patterns established by the broader React community. License: SEE LICENSE IN LICENSE.
+Frakment is maintained by [@arrafipd](https://github.com/arrafipd).
+
+Frakment is MIT licensed.
 
 ## Related
 
-- [FAQ](/docs/resources/faq) - common questions
-- [Installation](/docs/getting-started/installation) - get started in one command
-- [Theming](/docs/guides/theming) - tokens and dark mode
+- [FAQ](/docs/resources/faq): common questions.
+- [Installation](/docs/getting-started/installation): set up a project.
+- [Theming](/docs/guides/theming): customize colors and dark mode.

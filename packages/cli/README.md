@@ -36,7 +36,7 @@ What it does:
 1. Writes `components.json` at project root (CLI config)
 2. Injects the theme block into `globals.css` between `/* ==== FRAKMENT THEME START/END ==== */` markers (design tokens + 9 `@utility` + `.dark` + `@custom-variant dark`)
 3. Preserves anything outside the markers — your `@import` statements, overrides, and custom CSS stay untouched
-4. Creates `lib/utils.ts` (the `cn` helper) if missing
+4. Creates `lib/utils.ts`, `lib/motion.ts`, and the compatibility helper `lib/animation.ts` if missing
 5. Installs 5 dependencies: `clsx`, `tailwind-merge`, `class-variance-authority`, `lucide-react`, `motion`
 
 **Idempotent.** Safe to re-run:
@@ -58,7 +58,7 @@ Flags:
 - `--registry <url>` — override the registry URL (default: from `components.json`)
 - `--overwrite` — overwrite existing files without prompting
 
-- `--dry-run` â€” show planned file and dependency changes without changing the project
+- `--dry-run` - show planned file and dependency changes without changing the project
 - `--skip-dependencies` â€” write component files without installing missing npm dependencies
 
 ### `frakment list`
