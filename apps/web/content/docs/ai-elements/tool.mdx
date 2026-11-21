@@ -24,7 +24,7 @@ import { TerminalIcon } from "lucide-react";
 
 Tool renders a tool call as a trace row. The row shows the command, a status glyph, and the output in a code block. Failing calls expand by default. Approvals render as a prompt outside the trace.
 
-Tool is a **composition**, not a primitive. It composes [Trace](/docs/components/trace) and [Code Block](/docs/components/code-block).
+Tool is a **composition**, not a primitive. It composes [Trace](/docs/components/web/trace) and [Code Block](/docs/components/web/code-block).
 
 ## Installation
 
@@ -107,7 +107,7 @@ A call can be running, done, error, denied, or pending approval. Each maps to a 
 
 ## Output in a sheet
 
-For file reads or long outputs, open the result in a [Sheet](/docs/components/sheet) instead of expanding inline. The row becomes a trigger and the sheet shows the full content.
+For file reads or long outputs, open the result in a [Sheet](/docs/components/web/sheet) instead of expanding inline. The row becomes a trigger and the sheet shows the full content.
 
 <ComponentPreview name="tool-sheet" title="tool-sheet.tsx" src="examples/tool-sheet.tsx" align="start" previewClassName="h-auto">
   <ToolSheet />
@@ -115,7 +115,7 @@ For file reads or long outputs, open the result in a [Sheet](/docs/components/sh
 
 ## Approval
 
-Mark a tool with `needsApproval: true` and the call pauses with `state: "approval-requested"`. Render it as an [Item](/docs/components/item) outside the trace, with Deny and Approve buttons. `addToolApprovalResponse` from `useChat` sends the decision, and `sendAutomaticallyWhen` resumes the assistant turn.
+Mark a tool with `needsApproval: true` and the call pauses with `state: "approval-requested"`. Render it as an [Item](/docs/components/web/item) outside the trace, with Deny and Approve buttons. `addToolApprovalResponse` from `useChat` sends the decision, and `sendAutomaticallyWhen` resumes the assistant turn.
 
 ~~~ts title="tool.ts"
 writer.tool("runCommand", {

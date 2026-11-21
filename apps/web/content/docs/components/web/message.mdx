@@ -348,7 +348,7 @@ All layout primitives (**MessageGroup**, **Message**, **MessageAvatar**, **Messa
 
 <PropsTable
   rows={[
-    { name: 'message', type: "UIMessage", description: "The message to render. Text parts are concatenated." },
+    { name: 'message', type: "UIMessage", required: true, description: "The message to render. Text parts are concatenated." },
     { name: 'motion', type: "string", description: "CSS transition override; e.g. 200 ease-out or 300 cubic-bezier(...)." },
     { name: 'scrollAnchor', type: "boolean", defaultValue: "false", description: "Forwarded to the underlying MessageScrollerItem." },
   ]}

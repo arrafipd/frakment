@@ -131,7 +131,6 @@ Extends `React.ComponentProps<"button">`.
     { name: "defaultChecked", type: "boolean | \"indeterminate\"", default: "false", description: "Uncontrolled initial state." },
     { name: "onCheckedChange", type: "(checked: boolean | \"indeterminate\") => void", description: "Fires when the checkbox toggles." },
     { name: "disabled", type: "boolean", default: "false", description: "Removes the checkbox from the tab order." },
-    { name: "required", type: "boolean", default: "false", description: "Native form requirement." },
   ]}
 />
 
@@ -176,9 +175,9 @@ const [checked, setChecked] = React.useState(false)
 
 ## Related Components
 
-- [Radio Group](/docs/components/radio-group) — single choice
-- [Switch](/docs/components/switch) — on/off toggle
-- [Field](/docs/components/field) — label + description
+- [Radio Group](/docs/components/web/radio-group) — single choice
+- [Switch](/docs/components/web/switch) — on/off toggle
+- [Field](/docs/components/web/field) — label + description
 
 ## Anatomy
 

@@ -1,0 +1,8 @@
+{
+  "plugins": {
+    "mdx": true
+  },
+  "rules": {
+    "common-misspellings": true
+  }
+}

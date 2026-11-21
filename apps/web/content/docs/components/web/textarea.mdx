@@ -152,11 +152,11 @@ Extends `React.ComponentProps<"textarea">`.
   rows={[
     { name: "rows", type: "number", default: "2", description: "Initial visible rows." },
     { name: "placeholder", type: "string", description: "Shown when empty." },
-    { name: "value", type: "string", description: "Controlled value." },
-    { name: "defaultValue", type: "string", description: "Uncontrolled initial value." },
+    { name: "value", type: "string | number | readonly string[]", description: "Controlled value." },
+    { name: "defaultValue", type: "string | number | readonly string[]", description: "Uncontrolled initial value." },
     { name: "onChange", type: "React.ChangeEventHandler<HTMLTextAreaElement>", description: "Fires on every keystroke." },
     { name: "disabled", type: "boolean", default: "false", description: "Removes from the tab order." },
-    { name: "aria-invalid", type: "boolean", description: "Marks invalid; pair with aria-describedby." },
+    { name: "aria-invalid", type: 'boolean | "grammar" | "spelling"', description: "Marks invalid; pair with aria-describedby." },
   ]}
 />
 

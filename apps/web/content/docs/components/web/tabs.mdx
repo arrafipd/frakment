@@ -125,22 +125,7 @@ Triggers accept icons before the label. Icons size themselves via `[&_svg]:size-
 
 ### TabsList
 
-<PropsTable
-  rows={[
-    { name: "motion", type: "string", default: "260 cubic-bezier(0.22, 1, 0.36, 1)", description: "Timing for the active-tab indicator slide. Set to off to disable, or pass duration + easing like 150 ease-out." },
-  ]}
-/>
-
-The active-tab background slides between triggers using the Web Animations API. The default is 260ms with a smooth-out curve.
-
-```tsx
-<TabsList motion="400 ease-in-out">
-  <TabsTrigger value="account">Account</TabsTrigger>
-  <TabsTrigger value="password">Password</TabsTrigger>
-</TabsList>
-```
-
-Set motion="off" to snap the indicator without animation. prefers-reduced-motion disables the slide automatically.
+Accepts native `div` props and forwards them to the tab list. The active trigger is marked with `aria-selected` and `data-state="active"`.
 
 ### TabsTrigger
 
@@ -193,7 +178,7 @@ const [value, setValue] = React.useState("tab-1")
 - **Do not lazy-load the first tab.** The default tab should not flash.
 ## Related Components
 
-- [Accordion](/docs/components/accordion) — stacked collapsible sections
-- [Breadcrumb](/docs/components/breadcrumb) — navigate between pages
+- [Accordion](/docs/components/web/accordion) — stacked collapsible sections
+- [Breadcrumb](/docs/components/web/breadcrumb) — navigate between pages
 
 

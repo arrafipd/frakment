@@ -22,7 +22,7 @@ import { FileCodeIcon, LayersIcon, TerminalIcon } from "lucide-react";
 
 Stack Trace renders a failed command as a collapsible trace. The error message sits at the top in destructive color, app frames are links to the file, and framework frames from `node_modules` or `node:` collapse into a monospace list.
 
-Stack Trace is a **composition**, not a primitive. It composes [Trace](/docs/components/trace) and [Code Block](/docs/components/code-block) and streams failures through a chat transport.
+Stack Trace is a **composition**, not a primitive. It composes [Trace](/docs/components/web/trace) and [Code Block](/docs/components/web/code-block) and streams failures through a chat transport.
 
 ## Installation
 
@@ -158,7 +158,7 @@ Render a fixed stack without a chat transport for a read-only summary.
 
 ## With command output
 
-Successful commands render their stdout in a [Code Block](/docs/components/code-block). The failed command renders the stack trace in place. The demo alternates between the two so the transition is visible on replay.
+Successful commands render their stdout in a [Code Block](/docs/components/web/code-block). The failed command renders the stack trace in place. The demo alternates between the two so the transition is visible on replay.
 
 ## Accessibility
 

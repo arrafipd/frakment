@@ -20,7 +20,7 @@ import { Input } from "@/components/ui/input";
   <InputDemo />
 </ComponentPreview>
 
-Input is a single-line text field for forms and inline editing. It inherits all native `<input>` attributes and behaviors, and pairs with [Field](/docs/components/field) for labels and descriptions.
+Input is a single-line text field for forms and inline editing. It inherits all native `<input>` attributes and behaviors, and pairs with [Field](/docs/components/web/field) for labels and descriptions.
 
 ## Installation
 
@@ -90,7 +90,7 @@ import { Input } from "@/components/ui/input";
 
 ### Form
 
-Use [FieldGroup](/docs/components/field) for multiple fields with consistent spacing.
+Use [FieldGroup](/docs/components/web/field) for multiple fields with consistent spacing.
 
 <ComponentPreview name="input-fieldgroup" src="examples/input-fieldgroup.tsx" title="input-fieldgroup.tsx" previewClassName="h-auto py-8">
   <InputFieldgroup />
@@ -147,7 +147,7 @@ Set `aria-invalid` on the input, or `data-invalid` on the **Field** wrapper, to 
 
 ### Search bar
 
-For an icon inside the input surface, use [Input Group](/docs/components/input-group):
+For an icon inside the input surface, use [Input Group](/docs/components/web/input-group):
 
 <ComponentPreview name="input-group-demo" src="examples/input-group-demo.tsx" title="input-group-demo.tsx">
   <InputGroupDemo />
@@ -177,11 +177,11 @@ Extends `React.ComponentProps<"input">`.
   rows={[
     { name: "type", type: "string", default: '"text"', description: "Native input type." },
     { name: "placeholder", type: "string", description: "Shown when the input is empty." },
-    { name: "value", type: "string", description: "Controlled value." },
-    { name: "defaultValue", type: "string", description: "Uncontrolled initial value." },
+    { name: "value", type: "string | number | readonly string[]", description: "Controlled value." },
+    { name: "defaultValue", type: "string | number | readonly string[]", description: "Uncontrolled initial value." },
     { name: "onChange", type: "React.ChangeEventHandler<HTMLInputElement>", description: "Fires on every keystroke." },
     { name: "disabled", type: "boolean", default: "false", description: "Removes the input from the tab order." },
-    { name: "aria-invalid", type: "boolean", description: "Marks the input as invalid; pair with aria-describedby." },
+    { name: "aria-invalid", type: 'boolean | "grammar" | "spelling"', description: "Marks the input as invalid; pair with aria-describedby." },
   ]}
 />
 
@@ -214,7 +214,7 @@ Extends `React.ComponentProps<"input">`.
 
 ## Related Components
 
-- [Field](/docs/components/field) — label, description, and error wrapper
-- [Input Group](/docs/components/input-group) — add icons and buttons
-- [Input OTP](/docs/components/input-otp) — one-time password input
-- [Textarea](/docs/components/textarea) — multi-line variant
+- [Field](/docs/components/web/field) — label, description, and error wrapper
+- [Input Group](/docs/components/web/input-group) — add icons and buttons
+- [Input OTP](/docs/components/web/input-otp) — one-time password input
+- [Textarea](/docs/components/web/textarea) — multi-line variant
