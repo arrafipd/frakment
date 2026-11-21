@@ -52,7 +52,7 @@
   "dependencies": {},
   "devDependencies": {
     "@basedkoala/context-drift": "0.2.0",
-    "@biomejs/biome": "^2.6.6",
+    "@biomejs/biome": "^2.6.8",
     "@changesets/cli": "^3.0.3",
     "@mdx-js/mdx": "3.1.1",
     "@types/node": "^26.6.6",
@@ -63,8 +63,8 @@
     "textlint-plugin-mdx": "1.1.0",
     "textlint-rule-common-misspellings": "1.0.1",
     "typescript": "^5.9.3",
-    "ultracite": "8.1.1",
-    "vitest": "^5.0.5"
+    "ultracite": "8.3.0",
+    "vitest": "^5.1.1"
   },
   "optionalDependencies": {
     "@esbuild/darwin-arm64": "^0.28.2",
