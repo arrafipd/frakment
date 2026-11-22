@@ -30,9 +30,9 @@ function Separator({
 
   return (
     <View
-      accessibilityRole={decorative ? "none" : undefined}
       accessible={!decorative}
       className={cn(className)}
+      role={decorative ? "none" : "separator"}
       style={baseStyle}
       {...props}
     />
