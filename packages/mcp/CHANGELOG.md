@@ -1,5 +1,11 @@
 # @frakment/mcp
 
+## 1.0.1
+
+### Patch Changes
+
+- e9f81fa: Build the published binaries as JavaScript before packing so Node.js can run them from `node_modules`, and point the CLI's shipped registry configuration at the canonical Frakment URL.
+
 ## 1.0.0
 
 ### Major Changes
