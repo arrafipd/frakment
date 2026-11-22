@@ -1,6 +1,6 @@
 {
   "name": "frakment",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "MIT-licensed CLI and design system for the Frakment component registry",
   "keywords": [
     "components",

@@ -1,5 +1,11 @@
 # frakment
 
+## 2.0.2
+
+### Patch Changes
+
+- 942e191: Stop `frakment init` from scaffolding the obsolete `lib/animation.ts` helper.
+
 ## 2.0.1
 
 ### Patch Changes
