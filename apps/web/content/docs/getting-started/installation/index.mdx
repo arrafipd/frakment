@@ -21,7 +21,7 @@ Frakment is a set of components you install into your own project. There are two
 
 - A working `components.json` with registry URL and import aliases
 - Theme CSS variables injected into your globals
-- `lib/utils.ts`, `lib/motion.ts`, and a compatibility helper for older animation code
+- `lib/utils.ts` and `lib/motion.ts`
 - Five dependencies installed: `clsx`, `tailwind-merge`, `class-variance-authority`, `lucide-react`, `motion`
 - Your first component installed and rendering
 
@@ -86,7 +86,6 @@ After `frakment init`, your project will have:
     </FileTreeFolder>
     <FileTreeFolder name="lib" defaultOpen>
       <FileTreeFile name="utils.ts" />
-      <FileTreeFile name="animation.ts" />
       <FileTreeFile name="motion.ts" />
     </FileTreeFolder>
   </FileTreeFolder>
@@ -96,7 +95,6 @@ After `frakment init`, your project will have:
 - **`app/globals.css`** - theme tokens and dark-mode styles.
 - **`lib/utils.ts`** - `cn()` helper for merging Tailwind classes.
 - **`lib/motion.ts`** - The per-component motion API. `parseMotion()` parses the `motion?: string` prop into duration and easing. `getTransition()` turns that into a CSS transition. `useReducedMotion()` and `useMotionGuard()` handle reduced motion and style overrides.
-- **`lib/animation.ts`** - Compatibility helper for existing project code that uses the older `parseAnimation()` API.
 
 ### Dependencies
 

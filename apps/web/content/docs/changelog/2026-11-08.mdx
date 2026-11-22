@@ -40,7 +40,7 @@ This release adds eleven AI element tutorials — **Plan** and **Prompt Input** 
   <PlanDemo />
 </ComponentPreview>
 
-**Plan** renders an agent plan as a collapsible list of steps. Each step is `done`, `running`, or `pending`. The header shows progress and the whole block collapses. It is a composition over [Trace](/docs/components/trace).
+**Plan** renders an agent plan as a collapsible list of steps. Each step is `done`, `running`, or `pending`. The header shows progress and the whole block collapses. It is a composition over [Trace](/docs/components/web/trace).
 
 #### Installation
 
@@ -148,7 +148,7 @@ See the [Prompt Input docs](/docs/ai-elements/prompt-input) for the full composi
   <QueueDemo />
 </ComponentPreview>
 
-**Queue** renders an agent todo list as two grouped trace sections — pending and completed. Each row carries a status glyph and the group headers show counts. It is a composition over [Trace](/docs/components/trace).
+**Queue** renders an agent todo list as two grouped trace sections — pending and completed. Each row carries a status glyph and the group headers show counts. It is a composition over [Trace](/docs/components/web/trace).
 
 #### Installation
 
@@ -203,7 +203,7 @@ See the [Queue docs](/docs/ai-elements/queue) for the full composition.
   <ReasoningDemo />
 </ComponentPreview>
 
-**Reasoning** renders an agent thinking block as a collapsible trace. The line shimmers while streaming, stays open until the run finishes, then collapses. It is a composition over [Trace](/docs/components/trace).
+**Reasoning** renders an agent thinking block as a collapsible trace. The line shimmers while streaming, stays open until the run finishes, then collapses. It is a composition over [Trace](/docs/components/web/trace).
 
 #### Installation
 
@@ -256,7 +256,7 @@ See the [Reasoning docs](/docs/ai-elements/reasoning) for the full composition.
   <SourcesDemo />
 </ComponentPreview>
 
-**Sources** collects `source-url` parts from an assistant message and renders them as a collapsible trace list. Duplicates are removed and the header shows the count. It is a composition over [Trace](/docs/components/trace).
+**Sources** collects `source-url` parts from an assistant message and renders them as a collapsible trace list. Duplicates are removed and the header shows the count. It is a composition over [Trace](/docs/components/web/trace).
 
 #### Installation
 
@@ -320,7 +320,7 @@ See the [Sources docs](/docs/ai-elements/sources) for the full composition.
   <StackTraceDemo />
 </ComponentPreview>
 
-**Stack Trace** renders a failed command as a collapsible trace. App frames are links, framework frames collapse into a monospace list. It is a composition over [Trace](/docs/components/trace) and [Code Block](/docs/components/code-block).
+**Stack Trace** renders a failed command as a collapsible trace. App frames are links, framework frames collapse into a monospace list. It is a composition over [Trace](/docs/components/web/trace) and [Code Block](/docs/components/web/code-block).
 
 #### Installation
 
@@ -374,7 +374,7 @@ See the [Stack Trace docs](/docs/ai-elements/stack-trace) for the full compositi
   <SubagentDemo />
 </ComponentPreview>
 
-**Subagent** renders a delegated task as a live trace. The subagent streams its own tool calls as partial output and lands the final report at the bottom. It is a composition over [Trace](/docs/components/trace) and [Code Block](/docs/components/code-block).
+**Subagent** renders a delegated task as a live trace. The subagent streams its own tool calls as partial output and lands the final report at the bottom. It is a composition over [Trace](/docs/components/web/trace) and [Code Block](/docs/components/web/code-block).
 
 #### Installation
 
@@ -647,7 +647,7 @@ Disabled buttons now use a solid muted background instead of reduced opacity. Ic
 
 `InputGroup`, `InputOTP`, and `NativeSelect` no longer fade their entire container when a single child is disabled.
 
-See the [Button docs](/docs/components/button) and [Input Group docs](/docs/components/input-group) for the updated variants.
+See the [Button docs](/docs/components/web/button) and [Input Group docs](/docs/components/web/input-group) for the updated variants.
 
 <hr className="my-16 border-border/40" />
 

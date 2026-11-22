@@ -308,28 +308,6 @@ export function cn(...inputs: ClassValue[]) {
     logger.log("  - lib/utils.ts");
   }
 
-  if (existsSync(path.join(cwd, "lib/animation.ts"))) {
-    const existing = await readFile(
-      path.join(cwd, "lib/animation.ts"),
-      "utf-8"
-    );
-    if (!existing.includes("parseAnimation")) {
-      logger.warn(
-        "lib/animation.ts is outdated (missing animation DSL parser). Delete it and re-run `frakment init`."
-      );
-    }
-  } else {
-    const s = ora("Creating lib/animation.ts").start();
-    await mkdir(path.join(cwd, "lib"), { recursive: true });
-    const animation = await readFile(
-      path.join(templatesDir, "lib/animation.ts"),
-      "utf-8"
-    );
-    await writeFile(path.join(cwd, "lib/animation.ts"), animation);
-    s.succeed("Created 1 file:");
-    logger.log("  - lib/animation.ts");
-  }
-
   if (existsSync(path.join(cwd, "lib/motion.ts"))) {
   } else {
     const s = ora("Creating lib/motion.ts").start();

@@ -39,7 +39,7 @@ What it does: <!-- context-drift-ignore-next-line CD001 -->
 1. Writes `components.json` at project root (CLI config) <!-- context-drift-ignore-next-line CD003 -->
 2. Injects the theme block into `globals.css` between `/* ==== FRAKMENT THEME START/END ==== */` markers (design tokens + 9 `@utility` + `.dark` + `@custom-variant dark`) <!-- context-drift-ignore-next-line CD003 -->
 3. Preserves anything outside the markers — your `@import` statements, overrides, and custom CSS stay untouched <!-- context-drift-ignore-next-line CD001 -->
-4. Creates `lib/utils.ts`, `lib/motion.ts`, and the compatibility helper `lib/animation.ts` if missing
+4. Creates `lib/utils.ts` and `lib/motion.ts` if missing
 5. Installs 5 dependencies: `clsx`, `tailwind-merge`, `class-variance-authority`, `lucide-react`, `motion`
 
 **Idempotent.** Safe to re-run:

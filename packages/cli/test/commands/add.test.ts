@@ -125,7 +125,7 @@ export { cn, Button, Card };
   });
 
   it("does not rewrite unrelated @/lib paths", () => {
-    const input = 'import { springSoft } from "@/lib/animation";\n';
+    const input = 'import { parseMotion } from "@/lib/motion";\n';
     const out = rewriteImports(input, { utils: "~/lib/cn" });
     expect(out).toBe(input);
   });
