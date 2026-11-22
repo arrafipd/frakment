@@ -25,7 +25,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json && node ../../scripts/copy-runtime-package.mjs",
+    "build": "tsc -p tsconfig.build.json && node ../../scripts/copy-runtime-package.ts",
     "prepack": "npm run build",
     "typecheck": "tsc --noEmit"
   },

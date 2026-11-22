@@ -5,7 +5,7 @@
 
 Monochrome design system and component registry CLI.
 
-Frakment is open source under the MIT License. Commercial use, modification, distribution, and sublicensing are permitted.
+Frakment-authored CLI code is licensed under MIT, which permits commercial use, modification, distribution, and sublicensing. Third-party dependencies retain their own licenses; see the [repository third-party notices](https://github.com/arrafipd/frakment/blob/main/docs/legal/THIRD_PARTY_NOTICES.md).
 
 ## Requirements
 
@@ -112,4 +112,4 @@ If your `globals.css` lives at `src/app/globals.css`, component files are writte
 
 ## License
 
-MIT licensed. See [LICENSE](./LICENSE).
+The CLI's own source is MIT licensed; see [LICENSE](./LICENSE). Third-party dependencies retain their respective licenses.

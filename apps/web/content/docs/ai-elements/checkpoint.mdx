@@ -34,7 +34,7 @@ npx frakment add message button marker
       <Step>Install the following dependencies:</Step>
 
       ```bash
-      npm install @ai-sdk/react ai motion
+      npm install motion
       ```
 
       <Step>Install the required registry components:</Step>
@@ -51,15 +51,18 @@ npx frakment add message button marker
 
 ## Usage
 
-Have your backend emit a `data-checkpoint` part from the assistant turn. The part carries a label, which renders as a separator marker in the transcript.
+Store a checkpoint object in local state. Its label renders as a separator marker, and the restore action can trim later messages.
 
 ```tsx title="chat.tsx"
-import type { UIMessage } from "ai";
 
-type ChatMessage = UIMessage<
-  unknown,
-  { checkpoint: { label: string } }
->;
+type ChatMessage = {
+  id: string;
+  role: "assistant" | "user";
+  parts: Array<
+    | { type: "text"; text: string }
+    | { type: "data-checkpoint"; data: { label: string }; id: string }
+  >;
+};
 ```
 
 ## Anatomy

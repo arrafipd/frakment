@@ -5,7 +5,7 @@
 
 Model Context Protocol server for the [Frakment](https://github.com/arrafipd/frakment) component registry.
 
-Frakment is open source under the MIT License. Commercial use, modification, distribution, and sublicensing are permitted.
+Frakment-authored MCP server code is licensed under MIT, which permits commercial use, modification, distribution, and sublicensing. Third-party dependencies retain their own licenses; see the [repository third-party notices](https://github.com/arrafipd/frakment/blob/main/docs/legal/THIRD_PARTY_NOTICES.md).
 
 Exposes registry search, component source, compositions, and CLI install commands as MCP tools.
 
@@ -94,4 +94,4 @@ Clients without MCP support can use the registry HTTPS endpoints and CLI directl
 
 ## License
 
-MIT licensed. See [LICENSE](./LICENSE).
+The MCP server's own source is MIT licensed; see [LICENSE](./LICENSE). Third-party dependencies retain their respective licenses.

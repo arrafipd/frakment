@@ -24,12 +24,14 @@ npx frakment@latest init
 npx frakment@latest add button
 ```
 
-- **43 web components** across primitives, AI elements, composites, and utilities
-- **3 native components** for Expo and React Native
-- **Accessible interactions** — interactive components include keyboard and ARIA behavior
+- **43 web registry entries** across primitives, AI elements, composites, and utilities
+- **3 native registry entries** for Expo and React Native
+- **Accessibility checks** — selected web components have axe tests and focused keyboard/ARIA interaction tests
 - **Configurable web transitions** — supported components expose CSS motion controls
 
-**[Documentation](https://www.arrafi.dev/frakment/docs)** · **[Components](https://www.arrafi.dev/frakment/docs/components)** · **[Changelog](https://github.com/arrafipd/frakment/releases)**
+Counts refer to registry entries, not individual exports; compound entries may expose multiple related components.
+
+**[Hosted documentation](https://www.arrafi.dev/frakment/docs)** · [Docs source](./apps/web/content/docs) · **[Components](https://www.arrafi.dev/frakment/docs/components)** · **[Changelog](https://github.com/arrafipd/frakment/releases)**
 
 ## Requirements
 
@@ -51,4 +53,6 @@ See [CONTRIBUTING.md](https://github.com/arrafipd/frakment/blob/main/CONTRIBUTIN
 
 ## License
 
-MIT — see [LICENSE](./LICENSE) and [third-party notices](./docs/legal/THIRD_PARTY_NOTICES.md).
+Frakment-authored code in this repository is licensed under MIT; see [LICENSE](./LICENSE).
+
+Third-party code and dependencies retain their respective licenses; see [third-party notices](./docs/legal/THIRD_PARTY_NOTICES.md).

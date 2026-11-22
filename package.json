@@ -21,7 +21,7 @@
     "predev": "node scripts/workspaces.ts build",
     "dev": "npm run dev -w @frakment/web",
     "docs:audit:claims": "doclify-guardrail check apps/web/content/docs README.md --site-root apps/web/content --exclude CONTRIBUTING.md --format compact --all",
-    "docs:audit:context": "context-drift check --root . --config context-drift.config.ts --strict",
+    "docs:audit:context": "context-drift check --root . --config config/context-drift.config.ts --strict",
     "docs:audit:data": "node tooling/docs/audit-data.ts",
     "docs:audit:prose": "textlint --config config/textlint.json \"apps/web/content/docs/**/*.mdx\" README.md",
     "fix": "ultracite fix",

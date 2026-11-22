@@ -4,9 +4,13 @@ If you use Frakment in your project, we appreciate a credit line in your README 
 
 > Based on [Frakment](https://github.com/arrafipd/frakment).
 
-This is a courtesy, not a legal requirement. The MIT license only requires
-that you keep the copyright notice and license text when you redistribute
-the source code. See [LICENSE](../LICENSE).
+This is a courtesy, not a legal requirement for Frakment-authored code.
+
+The MIT license requires that you keep its copyright notice and license text
+when you redistribute that source code.
+
+Third-party code may have separate notice or attribution requirements; see
+[third-party notices](./legal/THIRD_PARTY_NOTICES.md) and the upstream licenses.
 
 ## What counts as clear attribution
 

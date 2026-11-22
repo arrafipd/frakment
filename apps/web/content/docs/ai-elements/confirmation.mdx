@@ -34,7 +34,7 @@ npx frakment add message button item trace
       <Step>Install the following dependencies:</Step>
 
       ```bash
-      npm install @ai-sdk/react ai motion lucide-react
+      npm install motion lucide-react
       ```
 
       <Step>Install the required registry components:</Step>
@@ -52,16 +52,14 @@ npx frakment add message button item trace
 
 ## Usage
 
-Have your AI backend send a tool call that requires approval, then let `useChat` manage the approval response.
+Keep the pending tool call in local state, then update its approval state from the two action buttons.
 
 ```tsx title="chat.tsx"
-import { useChat } from "@ai-sdk/react";
-import { lastAssistantMessageIsCompleteWithApprovalResponses } from "ai";
+const [approved, setApproved] = useState<boolean>();
 
-const { messages, addToolApprovalResponse } = useChat({
-  transport: yourTransport,
-  sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithApprovalResponses,
-});
+function respond(approvalId: string, approved: boolean) {
+  setApproved(approved);
+}
 ```
 
 ## Anatomy

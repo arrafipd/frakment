@@ -8,5 +8,5 @@ const nativeManifest = JSON.parse(
 ) as { components: unknown[] };
 
 console.log(
-  `Frakment registry: ${webManifest.components.length} web components, ${nativeManifest.components.length} native components`
+  `Frakment registry: ${webManifest.components.length} web entries, ${nativeManifest.components.length} native entries`
 );

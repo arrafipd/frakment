@@ -28,7 +28,7 @@ import {
 
 Queue renders an agent todo list as two grouped trace sections: pending and completed. Each row carries a status glyph, the group headers show counts, and both groups collapse independently.
 
-Queue is a **composition**, not a primitive. It composes [Trace](/docs/components/web/trace) lines inside collapsibles and drives streaming status through a chat transport.
+Queue is a **composition**, not a primitive. It composes [Trace](/docs/components/web/trace) lines inside collapsibles and can update status from local React state.
 
 ## Installation
 
@@ -161,9 +161,9 @@ Each todo may carry a description that expands on demand. Wrap the todo row in a
   <QueueDescriptions />
 </ComponentPreview>
 
-## Streaming
+## Updating the queue
 
-The demo streams `writeTodos` tool calls through a chat transport. Each tick replaces the todo list with a new snapshot where one more item moves to `completed` and the next becomes `in_progress`. The header counts and icons update without a full re-render of the chat.
+The demo advances a scripted todo snapshot locally. Each tick replaces the todo list with one more item in `completed` and the next item in `in_progress`. The header counts and icons update in place.
 
 ## Accessibility
 

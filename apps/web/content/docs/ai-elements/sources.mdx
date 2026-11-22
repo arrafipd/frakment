@@ -22,7 +22,7 @@ import { ArrowUpRightIcon, GlobeIcon } from "lucide-react";
 
 Sources collects every `source-url` part from an assistant message and renders them as a collapsible trace list. The header shows the count, duplicates are removed, and each row links to the original page.
 
-Sources is a **composition**, not a primitive. It composes [Trace](/docs/components/web/trace) and streams sources through a chat transport.
+Sources is a **composition**, not a primitive. It composes [Trace](/docs/components/web/trace) and renders a list of source objects stored in local state.
 
 ## Installation
 
@@ -149,7 +149,7 @@ The demo streams four sources, one of which is a duplicate. The header shows the
 
 ## Static list
 
-Render a fixed list without a chat transport for a read-only summary.
+Render a fixed list for a read-only summary.
 
 <ComponentPreview name="sources-static" title="sources-static.tsx" src="examples/sources-static.tsx" align="start" previewClassName="h-auto">
   <SourcesStatic />

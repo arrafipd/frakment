@@ -9,12 +9,12 @@ export function CodeBlockStartLineDemo() {
         <CodeBlockContent
           lineNumbers
           startLine={20}
-        >{`  const result = streamText({
-    model: "anthropic/claude-sonnet-4.5",
-    messages,
-  })
+        >{`  const reply = createReply(message)
 
-return result.toUIMessageStreamResponse()`}</CodeBlockContent>
+  setMessages((current) => [
+    ...current,
+    reply,
+  ])`}</CodeBlockContent>
       </CodeBlock>
     </div>
   );

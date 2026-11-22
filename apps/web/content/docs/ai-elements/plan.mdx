@@ -23,7 +23,7 @@ import { RouteIcon, CircleCheckIcon, CircleDotIcon, CircleIcon } from "lucide-re
 
 Plan renders an agent plan as a collapsible step list. Each step carries a status of `done`, `running`, or `pending`, and the header shows how many are finished. The whole block collapses to a single line.
 
-Plan is a **composition**, not a primitive. It composes [Trace](/docs/components/web/trace) lines inside a collapsible and drives streaming status through a chat transport.
+Plan is a **composition**, not a primitive. It composes [Trace](/docs/components/web/trace) lines inside a collapsible and can update status from local React state.
 
 ## Installation
 
@@ -141,15 +141,15 @@ Each step carries a status. The header shows how many are done.
 
 ## Static plan
 
-Render a fixed plan without a chat transport for a read-only summary.
+Render a fixed plan for a read-only summary.
 
 <ComponentPreview name="plan-description" title="plan-description.tsx" src="examples/plan-description.tsx" align="start" previewClassName="h-auto">
   <PlanDescription />
 </ComponentPreview>
 
-## Streaming
+## Updating the plan
 
-The demo streams `data-plan` parts through a chat transport. Each tick replaces the plan with a new snapshot where one more step is `done` and the next is `running`. The header count updates and the shimmers settle on the current step.
+The demo advances a scripted plan locally. Each tick replaces the plan with a new snapshot where one more step is `done` and the next is `running`. The header count updates and the shimmers settle on the current step.
 
 ## Accessibility
 
@@ -160,7 +160,7 @@ The demo streams `data-plan` parts through a chat transport. Each tick replaces 
 
 ## Best Practices
 
-- **Stream status, not text.** Update `data-plan` snapshots instead of mutating the transcript.
+- **Update status, not text.** Replace plan snapshots instead of mutating completed step text.
 - **Keep titles short.** One step is one sentence, no sub-clauses.
 - **Collapse by default for long runs.** More than six steps crowds the surface.
 - **Pair with a terminal message.** The plan is not the answer. Close the turn with text.

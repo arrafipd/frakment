@@ -58,7 +58,7 @@ npx frakment add trace code-block badge
 
       ```bash
       npx frakment add badge message code-block
-      npm install @ai-sdk/react ai
+      npm install motion
       ```
 
       <div className="text-sm text-muted-foreground">
@@ -103,9 +103,9 @@ import {
 
 ### Full demo
 
-The preview uses a scripted conversation with `useChat` to stream three tool calls and a line-by-line build log, then uses nested `TraceCollapsible` for auto-expansion and manual toggling.
+The preview uses a scripted conversation to replay three tool calls and a line-by-line build log, then uses nested `TraceCollapsible` for auto-expansion and manual toggling.
 
-The composition pulls `@ai-sdk/react`, `ai`, `badge`, `bubble`, `button`, `code-block`, `message`, and `trace`. Follow the [Chat tutorial](/docs/ai-elements/chat) for the wiring pattern, or replace `createChat` with your own backend that streams `data-buildLog` and tool parts.
+The composition pulls local React state and the `badge`, `bubble`, `button`, `code-block`, `message`, and `trace` primitives. The demo transcript supplies build-log and tool parts inline.
 
 ## In Context
 

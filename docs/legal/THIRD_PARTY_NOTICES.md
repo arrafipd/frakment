@@ -1,7 +1,7 @@
 # Third-Party Notices
 
 This project includes or adapts code from the following third-party projects.
-Each remains under its original license.
+The root [LICENSE](../../LICENSE) applies to Frakment-authored code only; third-party code and dependencies remain under their respective licenses.
 
 ## Adapted Components
 
@@ -14,13 +14,13 @@ Each remains under its original license.
 
 Direct runtime dependencies of the web and native workspaces:
 
-- `@ai-sdk/react` ^4.0.180
+This version list is not a complete license-by-license inventory or a grant of rights; consult each package's license for its terms.
+
 - `@icons-pack/react-simple-icons` ^13.15.1
 - `@phosphor-icons/react` ^2.1.10
 - `@tailwindcss/postcss` ^4.3.5
 - `@vercel/analytics` ^2.0.1
 - `@web-kits/audio` ^0.2.0
-- `ai` ^7.0.159
 - `class-variance-authority` ^0.7.1
 - `clsx` ^2.1.1
 - `cmdk` ^1.1.1
@@ -63,11 +63,6 @@ Direct runtime dependencies of the web and native workspaces:
 - `vaul` ^1.1.2
 - `web-haptics` ^0.0.6
 - `zod` ^4.6.7
-
-## AI Components
-
-The internal scripted chat demo helper in `apps/web/features/chat-engine/` may adapt patterns from Vercel AI Elements
-(Apache-2.0). See https://github.com/vercel/ai-elements.
 
 ---
 

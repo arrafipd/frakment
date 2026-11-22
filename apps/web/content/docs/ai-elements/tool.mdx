@@ -115,14 +115,18 @@ For file reads or long outputs, open the result in a [Sheet](/docs/components/we
 
 ## Approval
 
-Mark a tool with `needsApproval: true` and the call pauses with `state: "approval-requested"`. Render it as an [Item](/docs/components/web/item) outside the trace, with Deny and Approve buttons. `addToolApprovalResponse` from `useChat` sends the decision, and `sendAutomaticallyWhen` resumes the assistant turn.
+Mark a tool with `needsApproval: true` and pause it with `state: "approval-requested"`. Render it as an [Item](/docs/components/web/item) outside the trace, with Deny and Approve buttons that update the local approval state.
 
 ~~~ts title="tool.ts"
-writer.tool("runCommand", {
-  input: { command: "rm -rf dist" },
-  needsApproval: true,
-  output: { stdout: "" },
-})
+const [approval, setApproval] = useState<boolean>()
+
+function approve() {
+  setApproval(true)
+}
+
+function deny() {
+  setApproval(false)
+}
 ~~~
 
 <ComponentPreview name="tool-approval" title="tool-approval.tsx" src="examples/tool-approval.tsx" align="start" previewClassName="h-auto">

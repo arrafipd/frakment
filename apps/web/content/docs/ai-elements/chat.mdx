@@ -9,7 +9,7 @@ import { ChatDemo } from "@/examples/chat-demo";
   <ChatDemo />
 </ComponentPreview>
 
-A complete chat surface wired with `@ai-sdk/react` and Frakment primitives. Messages animate on entry, reasoning appears as a collapsible trace, tool calls render as code blocks, and the transcript stays anchored to the latest message.
+A complete chat surface composed with Frakment primitives and local React state. Messages animate on entry, reasoning appears as a collapsible trace, tool calls render as code blocks, and the transcript stays anchored to the latest message.
 
 Chat is not a single component — it composes **Message Scroller**, **Message**, **Bubble**, and **Input Group** into one surface. Install the primitives, then assemble them the same way the demo does.
 
@@ -34,7 +34,7 @@ npx frakment add message input-group trace code-block empty tooltip dropdown-men
       <Step>Install the following dependencies:</Step>
 
       ```bash
-      npm install @ai-sdk/react ai motion lucide-react
+      npm install motion lucide-react
       ```
 
       <Step>Install the required registry components:</Step>
@@ -55,22 +55,26 @@ npx frakment add message input-group trace code-block empty tooltip dropdown-men
 
 ## Usage
 
-Connect `useChat` to your own transport and render messages with the composed primitives.
+Keep the transcript in local state and render messages with the composed primitives.
 
 ```tsx title="chat.tsx"
-import { useChat } from "@ai-sdk/react";
-import type { UIDataTypes, UIMessage } from "ai";
-
-type ChatMessage = UIMessage<
-  unknown,
-  UIDataTypes,
-  { runCommand: { input: { command: string }; output: { stdout: string } } }
->;
+type ChatMessage = {
+  id: string;
+  role: "assistant" | "user";
+  parts: Array<{ type: "text"; text: string }>;
+};
 
 export function MyChat() {
-  const { messages, sendMessage, status } = useChat<ChatMessage>({
-    transport: yourTransport,
-  });
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [input, setInput] = useState("");
+
+  function sendMessage(text: string) {
+    setMessages((current) => [
+      ...current,
+      { id: crypto.randomUUID(), role: "user", parts: [{ type: "text", text }] },
+    ]);
+    setInput("");
+  }
 
   return (
     <MessageScroller>
@@ -170,17 +174,14 @@ Reasoning and tool calls render as nested `TraceCollapsible` items inside the as
 
 ## Replacing the script
 
-The site preview uses scripted data for its conversation. In your app, connect `useChat` to your own backend transport:
+The site preview uses scripted data for its conversation. Replace the local transcript with state controlled by your application:
 
 ```tsx title="chat.tsx"
-import { useChat } from "@ai-sdk/react";
-
-const { messages, sendMessage, status } = useChat({
-  transport: yourTransport,
-});
+const [messages, setMessages] = useState<ChatMessage[]>([]);
+const [status, setStatus] = useState<"ready" | "streaming">("ready");
 ```
 
-The rendered components do not assume the scripted transport. Any `UIMessage[]` works.
+The rendered components do not assume a scripted transport. Any local message array with text parts works.
 
 ## Next
 
