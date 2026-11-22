@@ -727,7 +727,7 @@ function DropdownMenuContent({
     const isCharacterKey = event.key.length === 1;
     if (isKeyDownInside) {
       if (event.key === "Tab") {
-        event.preventDefault();
+        ctx.onOpenChange(false);
       }
       if (!isModifierKey && isCharacterKey) {
         const search = ctx.searchRef.current + event.key;

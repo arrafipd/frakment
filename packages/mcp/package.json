@@ -22,14 +22,16 @@
   "author": "The Frakment Authors (https://github.com/arrafipd/frakment)",
   "type": "module",
   "bin": {
-    "frakment-mcp": "./src/index.ts"
+    "frakment-mcp": "./dist/src/index.js"
   },
   "files": [
-    "src",
+    "dist",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
+    "build": "tsc -p tsconfig.build.json && node ../../scripts/copy-runtime-package.mjs",
+    "prepack": "npm run build",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },

@@ -195,7 +195,7 @@ Extend `React.ComponentProps<"div">`. Group applies `-space-x-2` and a 2px backg
 ## Accessibility
 
 - Always pass `alt` on **AvatarImage** — describe the person, not the file. Use `@username` for handles.
-- **AvatarFallback** initials act as a visual label but are not read as a name. If the avatar has semantic meaning, wrap the group in a container with `aria-label`.
+- **AvatarFallback** text is exposed to assistive technology as text, but initials alone may not identify the person. Give interactive controls an accessible name and use `AvatarImage alt` to describe the person.
 - **AvatarBadge** is decorative. Convey the status in text when it matters (e.g., "Online").
 - **AvatarGroup** should have an accessible label like `aria-label="3 participants"` when it summarizes a list.
 

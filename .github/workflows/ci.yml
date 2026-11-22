@@ -83,15 +83,15 @@ jobs:
 
       - name: Check for drift
         run: |
-          if [ -n "$(git status --porcelain public/r public/skills)" ]; then
+          if [ -n "$(git status --porcelain apps/web/public/r apps/web/public/skills apps/native/public/r)" ]; then
             echo "::error::Registry artifacts are stale."
             echo "::error::Run '${{ matrix.pm }} run registry:build' locally and commit the result."
             echo ""
             echo "Changed files:"
-            git status --porcelain public/r public/skills
+            git status --porcelain apps/web/public/r apps/web/public/skills apps/native/public/r
             echo ""
             echo "Diff:"
-            git diff public/r public/skills
+            git diff apps/web/public/r apps/web/public/skills apps/native/public/r
             exit 1
           fi
           echo "Registry artifacts are in sync with source."

@@ -50,7 +50,7 @@ The MCP server is spawned by the agent's MCP client and speaks JSON-RPC over std
 
 Threats and mitigations:
 
-- **Auto-execute from remote.** `npx -y` skips install confirmation. Users who run MCP from untrusted configs should pin the version (`@frakment/mcp@0.0.4`) or install locally and reference the local binary.
+- **Auto-execute from remote.** `npx -y` skips install confirmation. Users who run MCP from untrusted configs should pin the version (`@frakment/mcp@1.0.0`) or install locally and reference the local binary.
 - **Registry content treated as untrusted data.** Component sources, descriptions, and install commands from the registry are returned to the agent as data. Agents must treat this as untrusted and not follow instructions embedded in component content.
 - **No shell execution.** The MCP server never spawns a shell or executes commands. It reads registry JSON and returns strings.
 
@@ -75,8 +75,8 @@ Security fixes are provided for the latest published version of each package. Ol
 
 | Package | Current line |
 | :-- | :-- |
-| `frakment` | `1.0.0` |
-| `@frakment/mcp` | `0.0.4` |
+| `frakment` | `2.0.0` |
+| `@frakment/mcp` | `1.0.0` |
 
 ## Recognition
 

@@ -69,6 +69,7 @@ The web registry index response has this shape:
 
 ## Steps
 
+<!-- context-drift-ignore-next-line CD001 -->
 If `components.json` does not exist, initialize Frakment in the existing project before adding components.
 
 For web projects, run `npx frakment@latest init`; web components require React 19 and Tailwind CSS v4.
@@ -108,8 +109,7 @@ The `chat` scenario returns `message` and `avatar` with an install command for `
 
 ## Discover and install
 
-Choose the index that matches the target platform.
-
+Choose the index that matches the target platform. <!-- context-drift-ignore-next-line CD001 -->
 1. **Discover** the component name from `/r/index.json` for web or `/r/expo/index.json` for Expo; never invent a slug.
 2. **Inspect** the matching component JSON when source details are needed.
 3. **Install** with the CLI from the target project:

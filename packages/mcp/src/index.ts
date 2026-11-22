@@ -5,6 +5,7 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
+import packageJson from "../package.json" with { type: "json" };
 
 import {
   getRegistryComponentPayload,
@@ -27,7 +28,7 @@ async function fetchJson<T>(path: string): Promise<T> {
 }
 
 const server = new Server(
-  { name: "frakment-mcp", version: "0.0.4" },
+  { name: "frakment-mcp", version: packageJson.version },
   { capabilities: { tools: {} } }
 );
 

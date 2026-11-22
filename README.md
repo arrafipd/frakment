@@ -43,11 +43,11 @@ Both **npm** and **pnpm** are supported. CI runs every PR against both, and the 
 npm ci && npm run build      # or: pnpm install && pnpm build
 ```
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md#package-manager) for the full policy, lockfile rules, and troubleshooting.
+See [CONTRIBUTING.md](https://github.com/arrafipd/frakment/blob/main/CONTRIBUTING.md#package-manager) for the full policy, lockfile rules, and troubleshooting.
 
 ## Contributing
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md).
+See [CONTRIBUTING.md](https://github.com/arrafipd/frakment/blob/main/CONTRIBUTING.md).
 
 ## License
 

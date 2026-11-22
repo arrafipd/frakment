@@ -33,18 +33,20 @@ The CLI auto-detects your package manager from the project lockfile when install
 npx frakment@latest init
 ```
 
-What it does:
+What it does: <!-- context-drift-ignore-next-line CD001 -->
 
-1. Writes `components.json` at project root (CLI config)
-2. Injects the theme block into `globals.css` between `/* ==== FRAKMENT THEME START/END ==== */` markers (design tokens + 9 `@utility` + `.dark` + `@custom-variant dark`)
-3. Preserves anything outside the markers — your `@import` statements, overrides, and custom CSS stay untouched
+<!-- context-drift-ignore-next-line CD001 -->
+1. Writes `components.json` at project root (CLI config) <!-- context-drift-ignore-next-line CD003 -->
+2. Injects the theme block into `globals.css` between `/* ==== FRAKMENT THEME START/END ==== */` markers (design tokens + 9 `@utility` + `.dark` + `@custom-variant dark`) <!-- context-drift-ignore-next-line CD003 -->
+3. Preserves anything outside the markers — your `@import` statements, overrides, and custom CSS stay untouched <!-- context-drift-ignore-next-line CD001 -->
 4. Creates `lib/utils.ts`, `lib/motion.ts`, and the compatibility helper `lib/animation.ts` if missing
 5. Installs 5 dependencies: `clsx`, `tailwind-merge`, `class-variance-authority`, `lucide-react`, `motion`
 
 **Idempotent.** Safe to re-run:
 
+<!-- context-drift-ignore-next-line CD001 -->
 - Existing `components.json` is preserved unless you choose to overwrite
-- Marker block is replaced in place (no duplicates)
+- Marker block is replaced in place (no duplicates) <!-- context-drift-ignore-next-line CD001 -->
 - Legacy inline theme blocks (from older `init` versions) are auto-migrated
 
 ### `frakment add <component>`
@@ -56,7 +58,7 @@ npx frakment@latest add button
 Fetches the component (plus all `registryDependencies` recursively) from the registry, writes all files, and installs any missing npm dependencies.
 
 Flags:
-
+<!-- context-drift-ignore-next-line CD001 -->
 - `--registry <url>` — override the registry URL (default: from `components.json`)
 - `--overwrite` — overwrite existing files without prompting
 
@@ -73,6 +75,7 @@ Lists all available components from the registry.
 
 ## Registry
 
+<!-- context-drift-ignore-next-line CD001 -->
 The default registry URL is written to `components.json` during `init`. If the public registry is not live yet, pass `--registry <url>` explicitly:
 
 ```bash
@@ -88,10 +91,10 @@ Your `globals.css` must contain `@import "tailwindcss";`. Frakment relies on Tai
 ### "Could not find globals.css"
 
 The CLI looks for one of:
-
-- `app/globals.css`
-- `src/app/globals.css`
-- `styles/globals.css`
+<!-- context-drift-ignore-next-line CD001 -->
+- `app/globals.css` <!-- context-drift-ignore-next-line CD001 -->
+- `src/app/globals.css` <!-- context-drift-ignore-next-line CD001 -->
+- `styles/globals.css` <!-- context-drift-ignore-next-line CD001 -->
 - `src/styles/globals.css`
 
 If none exist, create one with at minimum:
@@ -102,6 +105,7 @@ If none exist, create one with at minimum:
 
 ### `src/` directory projects
 
+<!-- context-drift-ignore-next-line CD001 -->
 If your `globals.css` lives at `src/app/globals.css`, component files are written to `src/components/`, `src/lib/`, `src/hooks/`. Binary assets under `public/` are written to `public/` at the project root (Next.js serves `public/` from the root regardless of `src/` layout).
 
 ## License

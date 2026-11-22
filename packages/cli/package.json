@@ -18,15 +18,15 @@
   "author": "The Frakment Authors (https://github.com/arrafipd/frakment)",
   "type": "module",
   "bin": {
-    "frakment": "./bin/index.ts"
+    "frakment": "./dist/bin/index.js"
   },
   "files": [
-    "bin",
-    "src",
-    "templates",
+    "dist",
     "LICENSE"
   ],
   "scripts": {
+    "build": "tsc -p tsconfig.build.json && node ../../scripts/copy-runtime-package.mjs",
+    "prepack": "npm run build",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

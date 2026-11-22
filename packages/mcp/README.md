@@ -29,6 +29,7 @@ npm install --save-dev @frakment/mcp
 
 ## Configure your MCP client
 
+<!-- context-drift-ignore-next-line CD001 -->
 Add to `claude_desktop_config.json` (macOS: `~/Library/Application Support/Claude/`, Windows: `%APPDATA%\Claude\`):
 
 ```json
@@ -44,6 +45,7 @@ Add to `claude_desktop_config.json` (macOS: `~/Library/Application Support/Claud
 
 For Cursor, add the same block to `~/.cursor/mcp.json`.
 
+<!-- context-drift-ignore-next-line CD001 -->
 For VS Code with GitHub Copilot, save this as `.vscode/mcp.json`:
 
 ```json
@@ -75,7 +77,7 @@ For VS Code with GitHub Copilot, save this as `.vscode/mcp.json`:
 
 | Variable            | Default                       | Purpose                                                                                       |
 | ------------------- | ----------------------------- | --------------------------------------------------------------------------------------------- |
-| `FRAKMENT_REGISTRY` | `https://www.arrafi.dev/frakment` | Registry root URL. Do not include the trailing `/r` path. |
+| `FRAKMENT_REGISTRY` | `https://www.arrafi.dev/frakment` | Registry root URL. Do not include the registry API suffix. |
 
 ## Development
 

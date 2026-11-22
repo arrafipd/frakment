@@ -3,12 +3,14 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 
+import { useReducedMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 type Side = "top" | "right" | "bottom" | "left";
 type Align = "start" | "center" | "end";
 
 interface HoverCardContextValue {
+  contentId: string;
   contentRef: React.RefObject<HTMLDivElement | null>;
   open: boolean;
   scheduleClose: () => void;
@@ -46,6 +48,7 @@ function HoverCard({
   openDelay = 700,
   closeDelay = 300,
 }: HoverCardProps) {
+  const contentId = React.useId();
   const isControlled = openProp !== undefined;
   const [uncontrolled, setUncontrolled] = React.useState(defaultOpen);
   const open = isControlled ? openProp : uncontrolled;
@@ -101,6 +104,7 @@ function HoverCard({
   React.useEffect(() => clearTimers, [clearTimers]);
   const ctx = React.useMemo<HoverCardContextValue>(
     () => ({
+      contentId,
       contentRef,
       open,
       scheduleClose,
@@ -108,7 +112,7 @@ function HoverCard({
       setOpen,
       triggerRef,
     }),
-    [open, setOpen, scheduleOpen, scheduleClose]
+    [contentId, open, setOpen, scheduleOpen, scheduleClose]
   );
   return (
     <HoverCardContext.Provider value={ctx}>
@@ -139,6 +143,17 @@ function HoverCardTrigger({
   ...props
 }: HoverCardTriggerProps) {
   const ctx = useHoverCardContext();
+  const childDescription =
+    asChild && React.isValidElement(children)
+      ? (children.props as Record<string, unknown>)["aria-describedby"]
+      : undefined;
+  const describedBy = [
+    props["aria-describedby"],
+    childDescription,
+    ctx.open ? ctx.contentId : undefined,
+  ]
+    .filter((value): value is string => typeof value === "string" && !!value)
+    .join(" ");
   const setRef = React.useCallback(
     (node: HTMLElement | null) => {
       ctx.triggerRef.current = node;
@@ -182,6 +197,7 @@ function HoverCardTrigger({
     return React.cloneElement(child, {
       ...props,
       ...handlers,
+      "aria-describedby": describedBy || undefined,
       "data-slot": "hover-card-trigger",
       "data-state": state,
       ref: setRef,
@@ -196,6 +212,7 @@ function HoverCardTrigger({
       {...props}
       {...(isNativeButton ? { type: "button" as const } : {})}
       {...handlers}
+      aria-describedby={describedBy || undefined}
       ref={setRef}
     >
       {children}
@@ -295,6 +312,7 @@ function HoverCardContent({
   const ctx = useHoverCardContext();
   const { open, setOpen, triggerRef, contentRef, scheduleOpen, scheduleClose } =
     ctx;
+  const reduce = useReducedMotion();
   const [mounted, setMounted] = React.useState(open);
   const [pos, setPos] = React.useState<Position>({ left: 0, side, top: 0 });
   const setRef = React.useCallback(
@@ -319,9 +337,13 @@ function HoverCardContent({
       return () => cancelAnimationFrame(raf1);
     }
     setEntered(false);
+    if (reduce) {
+      setMounted(false);
+      return;
+    }
     const timer = window.setTimeout(() => setMounted(false), 100);
     return () => window.clearTimeout(timer);
-  }, [open]);
+  }, [open, reduce]);
   React.useLayoutEffect(() => {
     if (!mounted) {
       return;
@@ -366,6 +388,7 @@ function HoverCardContent({
       data-side={pos.side}
       data-slot="hover-card-content"
       data-state={open ? "open" : "closed"}
+      id={ctx.contentId}
       {...props}
       className={cn(
         "bg-popover dark:bg-card text-popover-foreground ring-foreground/10 fixed z-50 w-64 rounded-lg p-3 text-sm shadow-sm ring-1 outline-hidden",
@@ -374,12 +397,15 @@ function HoverCardContent({
       onPointerEnter={() => scheduleOpen()}
       onPointerLeave={() => scheduleClose()}
       ref={setRef}
+      role="tooltip"
       style={{
         left: pos.left,
         opacity: entered ? 1 : 0,
         top: pos.top,
         transform: `scale(${entered ? 1 : 0.95})`,
-        transition: "opacity 100ms ease-out, transform 100ms ease-out",
+        transition: reduce
+          ? "none"
+          : "opacity 100ms ease-out, transform 100ms ease-out",
         ...style,
       }}
     >

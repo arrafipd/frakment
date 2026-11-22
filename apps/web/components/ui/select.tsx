@@ -1150,37 +1150,6 @@ function SelectContentImpl({
     if (!content) {
       return;
     }
-    const selector =
-      '[tabindex]:not([tabindex="-1"]), button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled])';
-    const handler = (event: KeyboardEvent) => {
-      if (event.key !== "Tab") {
-        return;
-      }
-      const focusables = Array.from(
-        content.querySelectorAll<HTMLElement>(selector)
-      );
-      const first = focusables[0];
-      const last = focusables.at(-1);
-      if (!(first && last)) {
-        return;
-      }
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    };
-    content.addEventListener("keydown", handler);
-    return () => content.removeEventListener("keydown", handler);
-  }, []);
-
-  React.useEffect(() => {
-    const content = contentRef.current;
-    if (!content) {
-      return;
-    }
     const ownerDocument = content.ownerDocument;
     const pointerdown = (event: PointerEvent) => {
       const target = event.target as Node;
@@ -1317,9 +1286,13 @@ function SelectContentImpl({
 
   const handleContentKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     onKeyDown?.(event);
+    if (event.defaultPrevented) {
+      return;
+    }
     const isModifierKey = event.ctrlKey || event.altKey || event.metaKey;
     if (event.key === "Tab") {
-      event.preventDefault();
+      context.onOpenChange(false);
+      return;
     }
     if (!isModifierKey && event.key.length === 1) {
       handleTypeaheadSearch(event.key);

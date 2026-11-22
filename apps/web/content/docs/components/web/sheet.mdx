@@ -143,6 +143,10 @@ const [open, setOpen] = React.useState(false)
 | `Tab` | Move focus |
 | `Shift + Tab` | Move focus backwards |
 
+## Motion
+
+The sheet fades and slides into view. The transition is disabled when `prefers-reduced-motion: reduce` is enabled.
+
 ## Data Attributes
 
 | Attribute | Values |
@@ -155,7 +159,7 @@ const [open, setOpen] = React.useState(false)
 
 - Focus is trapped inside the sheet while open.
 - `SheetTitle` and `SheetDescription` are announced to screen readers.
-- `Escape` closes the sheet unless prevented.
+- `Escape` closes the sheet.
 - Clicking the backdrop closes the sheet.
 
 ## Best Practices

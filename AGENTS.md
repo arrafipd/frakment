@@ -42,7 +42,7 @@ Never write `FraKment`, `FRAKment`, or `frakmenT`.
 
 ### Changelog
 
-Changelog files live at `apps/web/content/docs/changelog/YYYY-MM-DD.mdx` and are immutable after merge unless the project owner explicitly authorizes a historical correction. Record any such correction in a new changelog entry. Only add an entry for user-facing library or package changes: new registry component, visual or behaviour change, public API change, CLI change, theme token change, registry schema change, package publish or rename. Skip site-only UI, docs typos, and internal tooling.
+Changelog files live in `apps/web/content/docs/changelog/` and use the `YYYY-MM-DD.mdx` naming format. They are immutable after merge unless the project owner explicitly authorizes a historical correction. Record any such correction in a new changelog entry. Only add an entry for user-facing library or package changes: new registry component, visual or behaviour change, public API change, CLI change, theme token change, registry schema change, package publish or rename. Skip site-only UI, docs typos, and internal tooling.
 
 Preview first: for visual changes, `<ComponentPreview>` goes above the prose.
 

@@ -1,5 +1,5 @@
 {
-  "registry": "https://frakment.vercel.app/r",
+  "registry": "https://www.arrafi.dev/frakment/r",
   "aliases": {
     "components": "@/components",
     "ui": "@/components/ui",

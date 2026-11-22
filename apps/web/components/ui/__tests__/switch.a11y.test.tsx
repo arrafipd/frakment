@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { axe } from "vitest-axe";
 
@@ -23,5 +23,26 @@ describe("Switch (a11y)", () => {
     const { container } = render(<Switch aria-label="Enable" disabled />);
     const results = await axe(container, axeOptions);
     expect(results).toHaveNoViolations();
+  });
+
+  it("yields the thumb transition when an external animation writes inline styles", async () => {
+    const { container } = render(
+      <Switch aria-label="Enable" motion="300 ease-out" />
+    );
+    const thumb = container.querySelector<HTMLElement>(
+      '[data-slot="switch-thumb"]'
+    );
+
+    expect(thumb?.style.transition).toBe("300ms ease-out");
+
+    if (!thumb) {
+      throw new Error("Switch thumb was not rendered");
+    }
+
+    thumb.style.transform = "translateX(1px)";
+
+    await waitFor(() => {
+      expect(thumb.style.transition).toBe("none");
+    });
   });
 });

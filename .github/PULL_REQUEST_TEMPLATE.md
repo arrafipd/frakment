@@ -15,7 +15,7 @@ Fixes #
 - [ ] `npm run typecheck` passes
 - [ ] `npm run check` passes
 - [ ] `npm test` passes
-- [ ] `npm run registry:build` run (if `registry/` or `frakment.json` changed)
+- [ ] `npm run registry:build` run (if `apps/web/registry/`, `apps/native/registry/`, `apps/web/frakment.json`, or `apps/native/frakment.json` changed)
 - [ ] Tested locally (`npm run dev`)
 - [ ] Screenshot or recording attached (if UI change)
 - [ ] Commit messages follow conventional format (`feat:`, `fix:`, `docs:`, etc.)

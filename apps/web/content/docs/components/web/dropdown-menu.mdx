@@ -315,6 +315,7 @@ const [open, setOpen] = React.useState(false)
 | `→` / `←` | Open or close a submenu |
 | `Home` / `End` | First / last item |
 | `Esc` | Close |
+| `Tab` / `Shift + Tab` | Close and move focus to the next / previous control |
 
 ## Data Attributes
 
@@ -341,6 +342,7 @@ The menu fades and scales in through Frakment's motion engine. Pass `motion` on 
 - The trigger must have `aria-label` when icon-only.
 - Items are focusable; arrow keys move focus.
 - Escape closes the menu and returns focus to the trigger.
+- Tab and Shift+Tab close the menu and continue focus navigation outside it.
 - Destructive items are visually distinct but still focusable.
 
 ## Best Practices

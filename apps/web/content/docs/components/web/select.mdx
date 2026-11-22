@@ -136,6 +136,7 @@ Long lists scroll inside the listbox. The viewport caps its height and keeps the
 | `Home` / `End` | Move focus to the first / last item. |
 | `a`–`z` | Type-ahead. Jumps to the next item whose label starts with the typed prefix. |
 | `Esc` | Close the listbox and return focus to the trigger. |
+| `Tab` / `Shift + Tab` | Close and move focus to the next / previous control |
 
 ## Data Attributes
 
@@ -240,6 +241,7 @@ The listbox fades and scales in through Frakment's motion engine. Pass `motion` 
 - Disabled items stay visible but are skipped by keyboard navigation and type-ahead.
 - `Escape` closes the listbox. Outside pointer down also closes it.
 - Focus moves to the selected item on open and returns to the trigger on close.
+- `Tab` and `Shift + Tab` close the listbox and continue focus navigation outside it.
 
 ## Best Practices
 
