@@ -46,9 +46,11 @@ Native components use immediate state changes and do not expose the web `motion`
 
 ## Custom animations
 
-The CLI initializer installs the `motion` package for custom JavaScript-driven animations in your application.
+The `motion` package is optional and is not installed by the CLI initializer.
 
-For manual setup, install it with `npm install motion`.
+The `motion` npm package is not required by the Frakment component `motion` prop, which uses CSS transitions and the local `lib/motion.ts` helper.
+
+Install it with `npm install motion` when you need custom JavaScript-driven animations.
 
 Use the package directly when a composition needs frame-based animation:
 

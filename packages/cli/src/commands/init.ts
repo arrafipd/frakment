@@ -330,7 +330,6 @@ export function cn(...inputs: ClassValue[]) {
     "tailwind-merge",
     "class-variance-authority",
     "lucide-react",
-    "motion",
   ].filter((d) => !allDeps[d]);
 
   if (missing.length > 0) {

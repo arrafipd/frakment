@@ -40,7 +40,9 @@ What it does: <!-- context-drift-ignore-next-line CD001 -->
 2. Injects the theme block into `globals.css` between `/* ==== FRAKMENT THEME START/END ==== */` markers (design tokens + 9 `@utility` + `.dark` + `@custom-variant dark`) <!-- context-drift-ignore-next-line CD003 -->
 3. Preserves anything outside the markers — your `@import` statements, overrides, and custom CSS stay untouched <!-- context-drift-ignore-next-line CD001 -->
 4. Creates `lib/utils.ts` and `lib/motion.ts` if missing
-5. Installs 5 dependencies: `clsx`, `tailwind-merge`, `class-variance-authority`, `lucide-react`, `motion`
+5. Installs four dependencies used by Frakment components: `clsx`, `tailwind-merge`, `class-variance-authority`, `lucide-react`
+
+The optional `motion` npm package is not installed by `frakment init`; install it separately for custom JavaScript animations. Frakment component `motion` props use CSS transitions and do not require the package.
 
 **Idempotent.** Safe to re-run:
 
