@@ -10,8 +10,8 @@ import {
 } from "lucide-react-native";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-import { Button, type ButtonVariant } from "@/components/ui/button";
+import type { ButtonVariant } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   ButtonGroup,
   ButtonGroupSeparator,

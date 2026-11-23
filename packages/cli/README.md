@@ -16,12 +16,12 @@ Frakment-authored CLI code is licensed under MIT, which permits commercial use, 
 
 The commands below use `npx`. Every package manager works.
 
-| Package manager | Run |
-| :-- | :-- |
-| npm | `npx frakment@latest <command>` |
-| pnpm | `pnpm dlx frakment@latest <command>` |
-| yarn | `yarn dlx frakment@latest <command>` |
-| bun | `bunx frakment@latest <command>` |
+| Package manager | Run                                  |
+| :-------------- | :----------------------------------- |
+| npm             | `npx frakment@latest <command>`      |
+| pnpm            | `pnpm dlx frakment@latest <command>` |
+| yarn            | `yarn dlx frakment@latest <command>` |
+| bun             | `bunx frakment@latest <command>`     |
 
 The CLI auto-detects your package manager from the project lockfile when installing dependencies.
 

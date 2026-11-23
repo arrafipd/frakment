@@ -4,7 +4,7 @@
   "description": "A visual divider between native content sections.",
   "files": [
     {
-      "content": "import { View, type ViewProps, type ViewStyle } from \"react-native\";\n\nimport { useThemeColors } from \"@/lib/theme\";\nimport { cn } from \"@/lib/utils\";\n\nexport interface SeparatorProps extends Omit<ViewProps, \"style\"> {\n  decorative?: boolean;\n  orientation?: \"horizontal\" | \"vertical\";\n  style?: ViewStyle;\n}\n\nfunction Separator({\n  decorative = true,\n  orientation = \"horizontal\",\n  className,\n  style,\n  ...props\n}: SeparatorProps) {\n  const colors = useThemeColors();\n  const isHorizontal = orientation === \"horizontal\";\n\n  const baseStyle: ViewStyle = {\n    backgroundColor: colors.border,\n    flexShrink: 0,\n    ...(isHorizontal\n      ? { height: 1, width: \"100%\" }\n      : { alignSelf: \"stretch\", width: 1 }),\n    ...style,\n  };\n\n  return (\n    <View\n      accessible={!decorative}\n      className={cn(className)}\n      role={decorative ? \"none\" : \"separator\"}\n      style={baseStyle}\n      {...props}\n    />\n  );\n}\n\nexport { Separator };\n",
+      "content": "import type { ViewProps, ViewStyle } from \"react-native\";\nimport { View } from \"react-native\";\n\nimport { useThemeColors } from \"@/lib/theme\";\nimport { cn } from \"@/lib/utils\";\n\nexport interface SeparatorProps extends Omit<ViewProps, \"style\"> {\n  decorative?: boolean;\n  orientation?: \"horizontal\" | \"vertical\";\n  style?: ViewStyle;\n}\n\nfunction Separator({\n  decorative = true,\n  orientation = \"horizontal\",\n  className,\n  style,\n  ...props\n}: SeparatorProps) {\n  const colors = useThemeColors();\n  const isHorizontal = orientation === \"horizontal\";\n\n  const baseStyle: ViewStyle = {\n    backgroundColor: colors.border,\n    flexShrink: 0,\n    ...(isHorizontal\n      ? { height: 1, width: \"100%\" }\n      : { alignSelf: \"stretch\", width: 1 }),\n    ...style,\n  };\n\n  return (\n    <View\n      accessible={!decorative}\n      className={cn(className)}\n      role={decorative ? \"none\" : \"separator\"}\n      style={baseStyle}\n      {...props}\n    />\n  );\n}\n\nexport { Separator };\n",
       "path": "components/ui/separator.tsx"
     }
   ],
@@ -12,5 +12,5 @@
   "registryDependencies": [],
   "title": "Separator",
   "version": "0.0.0",
-  "integrity": "sha256:52ec08351ffd6979f2dda6f479e06efe5fa20919615f510a3f8feb113f7d6d79"
+  "integrity": "sha256:b10e76554ca7fce6df41a2abbdb8293353594fb8b46cbe79a387da524435fe50"
 }

@@ -1,4 +1,5 @@
-import { View, type ViewProps, type ViewStyle } from "react-native";
+import type { ViewProps, ViewStyle } from "react-native";
+import { View } from "react-native";
 
 import { useThemeColors } from "@/lib/theme";
 import { cn } from "@/lib/utils";

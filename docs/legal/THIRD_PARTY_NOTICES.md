@@ -6,6 +6,7 @@ The root [LICENSE](../../LICENSE) applies to Frakment-authored code only; third-
 ## Adapted Components
 
 ### shadcn/ui
+
 - **License:** MIT
 - **Source:** https://github.com/shadcn-ui/ui
 - **Scope:** some component source is adapted from shadcn/ui; this attribution does not imply that every registry component is derived from it.

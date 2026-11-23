@@ -119,7 +119,6 @@ For how-to questions ("how do I use X with Y?"), open a [GitHub Discussion](http
 
 For security issues, do **not** open a public issue. See [SECURITY.md](./SECURITY.md) for the private reporting process.
 
-
 ## Docs style
 
 Rich but simple. One sentence per paragraph. Every component page follows the same shape.
@@ -228,37 +227,36 @@ import { X } from "@/components/ui/x";
 - Consumer responsibilities
 ````
 
-
 ### Reference
 
 `apps/web/content/docs/components/web/button.mdx` is the reference implementation. Copy its structure, not its content.
 
 ### Rules
 
-| Do | Do not |
-| --- | --- |
-| One sentence per paragraph | Wall of text |
-| Live `<ComponentPreview>` | Screenshot or placeholder |
-| `<Steps>` for installation | Inline bash mid-paragraph |
-| `## Usage` with a minimal example | Full demo source |
-| Link related components | Duplicate another page |
+| Do                                | Do not                    |
+| --------------------------------- | ------------------------- |
+| One sentence per paragraph        | Wall of text              |
+| Live `<ComponentPreview>`         | Screenshot or placeholder |
+| `<Steps>` for installation        | Inline bash mid-paragraph |
+| `## Usage` with a minimal example | Full demo source          |
+| Link related components           | Duplicate another page    |
 
 ## Changelog policy
 
 Changelog entries exist **only** for library and package changes that affect users.
 
-| Change | Changelog? |
-| --- | --- |
-| New registry component | Yes |
-| Component visual or behaviour change | Yes |
-| Public API change (props, exports) | Yes |
-| CLI command or flag change | Yes |
-| Theme token change in `theme.css` | Yes |
-| Registry schema change | Yes |
-| Package rename or publish | Yes |
-| Site-only change (header, sidebar, demo page) | No |
-| Docs typo, refactor, or wording | No |
-| Internal tooling, CI, or dev scripts | No |
+| Change                                        | Changelog? |
+| --------------------------------------------- | ---------- |
+| New registry component                        | Yes        |
+| Component visual or behaviour change          | Yes        |
+| Public API change (props, exports)            | Yes        |
+| CLI command or flag change                    | Yes        |
+| Theme token change in `theme.css`             | Yes        |
+| Registry schema change                        | Yes        |
+| Package rename or publish                     | Yes        |
+| Site-only change (header, sidebar, demo page) | No         |
+| Docs typo, refactor, or wording               | No         |
+| Internal tooling, CI, or dev scripts          | No         |
 
 ### Template
 
@@ -310,7 +308,6 @@ npx frakment@latest add x
 - **One file per day.** Name is `YYYY-MM-DD.mdx`. Immutable after merge.
 - **No internal detail.** No dependency bumps without a user-visible effect, no `package.json` diffs, no CI notes, no roadmap language.
 
-
 **Before merging a Changesets release pull request**, verify every changeset description matches the final shipped state:
 
 - Every file the changeset mentions still exists.
@@ -343,19 +340,19 @@ Format:
 
 Types:
 
-| Type | Use for |
-| :-- | :-- |
-| `feat` | New component, new prop, new CLI command |
-| `fix` | Bug fix in a component, CLI, or build |
-| `docs` | README, CONTRIBUTING, docs page, changelog |
-| `style` | Formatting, no behaviour change |
-| `refactor` | Restructure without behaviour change |
-| `perf` | Performance improvement |
-| `test` | Add or fix tests |
-| `build` | Build config, package.json, tsconfig |
-| `ci` | GitHub Actions, release workflow |
-| `revert` | Revert a previous commit |
-| `chore` | Version bump, dependency bump |
+| Type       | Use for                                    |
+| :--------- | :----------------------------------------- |
+| `feat`     | New component, new prop, new CLI command   |
+| `fix`      | Bug fix in a component, CLI, or build      |
+| `docs`     | README, CONTRIBUTING, docs page, changelog |
+| `style`    | Formatting, no behaviour change            |
+| `refactor` | Restructure without behaviour change       |
+| `perf`     | Performance improvement                    |
+| `test`     | Add or fix tests                           |
+| `build`    | Build config, package.json, tsconfig       |
+| `ci`       | GitHub Actions, release workflow           |
+| `revert`   | Revert a previous commit                   |
+| `chore`    | Version bump, dependency bump              |
 
 Rules:
 
@@ -373,7 +370,6 @@ Examples:
 - `docs: modernize docs template in CONTRIBUTING`
 - `chore(deps): bump motion to 14.10.0`
 - `feat(animation)!: rename constants to camelCase`
-
 
 ## Sign-off (DCO)
 
@@ -499,13 +495,13 @@ npm run build
 
 ### 9. Silent failure checklist
 
-| Missing | Symptom |
-| :-- | :-- |
-| `apps/web/frakment.json` entry | CLI returns 404 |
-| Category navigation metadata contains the entry | Page not in sidebar, mobile nav, or command menu |
-| `pagesNew` entry in `apps/web/lib/docs.ts` | Page linked everywhere, no new badge in sidebar, mobile nav, command menu, or component list grid |
-| `apps/web/content/docs/changelog/meta.json` entry | Release missing from changelog |
-| `npm run registry:build` not run | `apps/web/public/r/<name>.json` missing |
+| Missing                                           | Symptom                                                                                           |
+| :------------------------------------------------ | :------------------------------------------------------------------------------------------------ |
+| `apps/web/frakment.json` entry                    | CLI returns 404                                                                                   |
+| Category navigation metadata contains the entry   | Page not in sidebar, mobile nav, or command menu                                                  |
+| `pagesNew` entry in `apps/web/lib/docs.ts`        | Page linked everywhere, no new badge in sidebar, mobile nav, command menu, or component list grid |
+| `apps/web/content/docs/changelog/meta.json` entry | Release missing from changelog                                                                    |
+| `npm run registry:build` not run                  | `apps/web/public/r/<name>.json` missing                                                           |
 
 ### PR checklist
 
@@ -534,5 +530,3 @@ Steps:
 4. Add `docsSlug: "/docs/<slug>"` to `apps/web/config/routes.ts`.
 5. If manually grouped, add `{ label: "<Group>", sections: [{ href: routes.docsSlug, name: "<Display Name>" }] }` to `sectionGroups` in `apps/web/lib/docs.ts`. Auto-discovered folders need no `sectionGroups` entry.
 6. Run `npm run build` to verify.
-
-

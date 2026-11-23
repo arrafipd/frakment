@@ -2,7 +2,7 @@
   "skills": [
     {
       "description": "Provider-neutral instructions for discovering, inspecting, and installing Frakment web and Expo components.",
-      "digest": "sha256:6358237d17f9f7084f2b6f496b11015c8e650690b866141e8e1670ffad9cad66",
+      "digest": "sha256:2a30841afff63eac7e122a9a154c938a5667a2c589395683c21fdaa8fab228b3",
       "name": "frakment-usage",
       "title": "Frakment Usage",
       "url": "/skills/frakment-usage/SKILL.md",

@@ -62,21 +62,21 @@ For VS Code with GitHub Copilot, save this as `.vscode/mcp.json`:
 
 ## Tools
 
-| Tool                  | Input                  | Output                                                |
-| --------------------- | ---------------------- | ----------------------------------------------------- |
-| `list_components`     | none                   | List of every web component with name and description. |
-| `view_component`      | `{ "name": "button" }` | Source files and dependency metadata; binary assets are labeled base64 text. |
-| `search_components`   | `{ "query": "chat" }`  | Web components matching name or description.          |
-| `get_install_command` | `{ "name": "button" }` | The exact web component install command.               |
-| `list_scenarios`      | none                   | Ready-made compositions of web components.             |
-| `compose`             | `{ "scenario": "chat" }` | Curated components, install command, and dependency note. |
+| Tool                  | Input                    | Output                                                                       |
+| --------------------- | ------------------------ | ---------------------------------------------------------------------------- |
+| `list_components`     | none                     | List of every web component with name and description.                       |
+| `view_component`      | `{ "name": "button" }`   | Source files and dependency metadata; binary assets are labeled base64 text. |
+| `search_components`   | `{ "query": "chat" }`    | Web components matching name or description.                                 |
+| `get_install_command` | `{ "name": "button" }`   | The exact web component install command.                                     |
+| `list_scenarios`      | none                     | Ready-made compositions of web components.                                   |
+| `compose`             | `{ "scenario": "chat" }` | Curated components, install command, and dependency note.                    |
 
 `get_install_command` formats the supplied name without validating it; call `list_components` first to choose a valid slug.
 
 ## Environment
 
-| Variable            | Default                       | Purpose                                                                                       |
-| ------------------- | ----------------------------- | --------------------------------------------------------------------------------------------- |
+| Variable            | Default                           | Purpose                                                    |
+| ------------------- | --------------------------------- | ---------------------------------------------------------- |
 | `FRAKMENT_REGISTRY` | `https://www.arrafi.dev/frakment` | Registry root URL. Do not include the registry API suffix. |
 
 ## Development

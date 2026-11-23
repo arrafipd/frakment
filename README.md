@@ -1,7 +1,10 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="apps/web/assets/logo-dark.svg">
+  <source
+    media="(prefers-color-scheme: dark)"
+    srcset="apps/web/assets/logo-dark.svg"
+  >
   <img src="apps/web/assets/logo.svg" width="72" height="72" alt="Frakment">
 </picture>
 

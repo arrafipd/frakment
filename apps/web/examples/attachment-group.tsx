@@ -1,10 +1,5 @@
-﻿import {
-  FileCodeIcon,
-  FileTextIcon,
-  type LucideIcon,
-  TableIcon,
-  XIcon,
-} from "lucide-react";
+﻿import type { LucideIcon } from "lucide-react";
+import { FileCodeIcon, FileTextIcon, TableIcon, XIcon } from "lucide-react";
 
 import {
   Attachment,

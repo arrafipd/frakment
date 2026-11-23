@@ -11,16 +11,16 @@ Frakment is a component registry for React interfaces. The Next.js site is in `a
 
 ## Commands
 
-| Task | Command |
-| --- | --- |
-| Install (locked) | `npm ci` |
-| Dev server | `npm run dev` |
-| Build site | `npm run build` |
-| Typecheck | `npm run typecheck` |
-| Lint + format check | `npm run check` |
-| Auto-fix lint and format | `npm run fix` |
-| Tests | `npm test` |
-| Rebuild registry JSON | `npm run registry:build` |
+| Task                     | Command                   |
+| ------------------------ | ------------------------- |
+| Install (locked)         | `npm ci`                  |
+| Dev server               | `npm run dev`             |
+| Build site               | `npm run build`           |
+| Typecheck                | `npm run typecheck`       |
+| Lint + format check      | `npm run check`           |
+| Auto-fix lint and format | `npm run fix`             |
+| Tests                    | `npm test`                |
+| Rebuild registry JSON    | `npm run registry:build`  |
 | Regenerate README images | `npm run assets:generate` |
 
 Use `npm install` only when changing dependencies. Otherwise `npm ci`.

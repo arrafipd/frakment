@@ -73,10 +73,10 @@ Threats and mitigations:
 
 Security fixes are provided for the latest published version of each package. Older versions are not maintained.
 
-| Package | Current line |
-| :-- | :-- |
-| `frakment` | `2.0.0` |
-| `@frakment/mcp` | `1.0.0` |
+| Package         | Current line |
+| :-------------- | :----------- |
+| `frakment`      | `2.0.0`      |
+| `@frakment/mcp` | `1.0.0`      |
 
 ## Recognition
 
