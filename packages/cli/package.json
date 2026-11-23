@@ -11,11 +11,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arrafipd/frakment.git",
+    "url": "git+https://github.com/frakment/ui.git",
     "directory": "packages/cli"
   },
   "license": "MIT",
-  "author": "The Frakment Authors (https://github.com/arrafipd/frakment)",
+  "author": "The Frakment Authors (https://github.com/frakment/ui)",
   "type": "module",
   "bin": {
     "frakment": "./dist/bin/index.js"

@@ -1,7 +1,7 @@
 {
   "$schema": "https://www.arrafi.dev/frakment/schema/frakment.json",
   "name": "frakment",
-  "homepage": "https://github.com/arrafipd/frakment",
+  "homepage": "https://github.com/frakment/ui",
   "components": [
     {
       "name": "badge",

@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 6ea441c: Stop `frakment init` from installing the optional Motion package by default.
+- 6ea441c: Stop `frakment init` from installing the animation dependency by default.
 
 ## 2.0.2
 

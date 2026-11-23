@@ -34,7 +34,7 @@ npx frakment add message button item trace
       <Step>Install the following dependencies:</Step>
 
       ```bash
-      npm install motion lucide-react
+      npm install lucide-react
       ```
 
       <Step>Install the required registry components:</Step>
@@ -128,23 +128,7 @@ The tool call moves through states:
 
 ## Animation
 
-User turns animate with the `slide-up` variant, assistant turns fade in, and the approval card slides up when it appears.
-
-```tsx title="confirmation.tsx"
-import { motion, useReducedMotion } from "motion/react";
-
-const shouldReduceMotion = useReducedMotion();
-
-<motion.div
-  animate={shouldReduceMotion ? undefined : "animate"}
-  initial={shouldReduceMotion ? undefined : "initial"}
-  variants={{ animate: { opacity: 1, y: 0 }, initial: { opacity: 0, y: 8 } }}
->
-  <Item variant="outline" size="sm">...</Item>
-</motion.div>
-```
-
-Motion is skipped when the user prefers reduced motion.
+The preview uses CSS entrance animations for new turns and approval cards, and respects the reduced-motion preference.
 
 ## Next
 

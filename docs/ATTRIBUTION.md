@@ -2,7 +2,7 @@
 
 If you use Frakment in your project, we appreciate a credit line in your README or footer:
 
-> Based on [Frakment](https://github.com/arrafipd/frakment).
+> Based on [Frakment](https://github.com/frakment/ui).
 
 This is a courtesy, not a legal requirement for Frakment-authored code.
 
@@ -22,4 +22,4 @@ If you are unsure, open an issue and ask.
 
 ## Questions
 
-Open an issue at [github.com/arrafipd/frakment/issues](https://github.com/arrafipd/frakment/issues).
+Open an issue at [github.com/frakment/ui/issues](https://github.com/frakment/ui/issues).

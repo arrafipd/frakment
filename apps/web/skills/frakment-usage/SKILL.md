@@ -62,7 +62,7 @@ The web registry index response has this shape:
 ```json
 {
   "name": "frakment",
-  "homepage": "https://github.com/arrafipd/frakment",
+  "homepage": "https://github.com/frakment/ui",
   "components": [{ "name": "button", "title": "Button", "description": "..." }]
 }
 ```

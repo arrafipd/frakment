@@ -7,17 +7,15 @@
 
 # Frakment
 
-**The Fragments behind your Design System.**
+**Composable and accessible UI primitives for React and React Native with motion built in, customizable styling and AI-ready tooling.**
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
 [![npm](https://img.shields.io/npm/v/frakment?style=for-the-badge&color=000)](https://www.npmjs.com/package/frakment)
-[![CI](https://img.shields.io/github/actions/workflow/status/arrafipd/frakment/ci.yml?style=for-the-badge&label=CI)](https://github.com/arrafipd/frakment/actions/workflows/ci.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/frakment/ui/ci.yml?style=for-the-badge&label=CI)](https://github.com/frakment/ui/actions/workflows/ci.yml)
 
 </div>
 
 <img src="apps/web/assets/hero-dark.webp" alt="Frakment homepage" width="100%">
-
-A component registry for React — copy-paste components you own, with no lock-in.
 
 ```bash
 npx frakment@latest init
@@ -31,7 +29,7 @@ npx frakment@latest add button
 
 Counts refer to registry entries, not individual exports; compound entries may expose multiple related components.
 
-**[Hosted documentation](https://www.arrafi.dev/frakment/docs)** · [Docs source](./apps/web/content/docs) · **[Components](https://www.arrafi.dev/frakment/docs/components)** · **[Changelog](https://github.com/arrafipd/frakment/releases)**
+**[Hosted documentation](https://www.arrafi.dev/frakment/docs)** · [Docs source](./apps/web/content/docs) · **[Components](https://www.arrafi.dev/frakment/docs/components)** · **[Changelog](https://github.com/frakment/ui/releases)**
 
 ## Requirements
 
@@ -45,11 +43,11 @@ Both **npm** and **pnpm** are supported. CI runs every PR against both, and the 
 npm ci && npm run build      # or: pnpm install && pnpm build
 ```
 
-See [CONTRIBUTING.md](https://github.com/arrafipd/frakment/blob/main/CONTRIBUTING.md#package-manager) for the full policy, lockfile rules, and troubleshooting.
+See [CONTRIBUTING.md](https://github.com/frakment/ui/blob/main/CONTRIBUTING.md#package-manager) for the full policy, lockfile rules, and troubleshooting.
 
 ## Contributing
 
-See [CONTRIBUTING.md](https://github.com/arrafipd/frakment/blob/main/CONTRIBUTING.md).
+See [CONTRIBUTING.md](https://github.com/frakment/ui/blob/main/CONTRIBUTING.md).
 
 ## License
 

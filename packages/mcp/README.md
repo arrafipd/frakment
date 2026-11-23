@@ -3,9 +3,9 @@
 [![npm](https://img.shields.io/npm/v/@frakment/mcp?style=for-the-badge&color=000)](https://www.npmjs.com/package/@frakment/mcp)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](./LICENSE)
 
-Model Context Protocol server for the [Frakment](https://github.com/arrafipd/frakment) component registry.
+Model Context Protocol server for the [Frakment](https://github.com/frakment/ui) component registry.
 
-Frakment-authored MCP server code is licensed under MIT, which permits commercial use, modification, distribution, and sublicensing. Third-party dependencies retain their own licenses; see the [repository third-party notices](https://github.com/arrafipd/frakment/blob/main/docs/legal/THIRD_PARTY_NOTICES.md).
+Frakment-authored MCP server code is licensed under MIT, which permits commercial use, modification, distribution, and sublicensing. Third-party dependencies retain their own licenses; see the [repository third-party notices](https://github.com/frakment/ui/blob/main/docs/legal/THIRD_PARTY_NOTICES.md).
 
 Exposes registry search, component source, compositions, and CLI install commands as MCP tools.
 

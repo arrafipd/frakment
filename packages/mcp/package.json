@@ -9,17 +9,17 @@
     "model-context-protocol",
     "registry"
   ],
-  "homepage": "https://github.com/arrafipd/frakment/tree/main/packages/mcp#readme",
+  "homepage": "https://github.com/frakment/ui/tree/main/packages/mcp#readme",
   "bugs": {
-    "url": "https://github.com/arrafipd/frakment/issues"
+    "url": "https://github.com/frakment/ui/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arrafipd/frakment.git",
+    "url": "git+https://github.com/frakment/ui.git",
     "directory": "packages/mcp"
   },
   "license": "MIT",
-  "author": "The Frakment Authors (https://github.com/arrafipd/frakment)",
+  "author": "The Frakment Authors (https://github.com/frakment/ui)",
   "type": "module",
   "bin": {
     "frakment-mcp": "./dist/src/index.js"

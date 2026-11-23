@@ -27,8 +27,8 @@ export const SITE = {
     TWITTER: "@arrafipd",
   },
   DESCRIPTION: {
-    LONG: "Components drop in from the registry directly, adapt to your theme natively, and move with your interface smoothly.",
-    SHORT: "Drop in directly, adapt natively, move smoothly.",
+    LONG: "Composable and accessible UI primitives for React and React Native with motion built in, customizable styling and AI-ready tooling.",
+    SHORT: "Composable UI primitives for React and React Native",
   },
   KEYWORDS: [
     "Frakment",

@@ -208,11 +208,11 @@ See the [Avatar docs](/docs/components/web/avatar).
   <CollapsibleDemo />
 </ComponentPreview>
 
-**Collapsible** no longer depends on `radix-ui` or `motion/react`. The reveal runs through Frakment's motion engine, and the height animates via CSS grid rows.
+**Collapsible** no longer depends on `radix-ui`. The reveal runs through Frakment's motion engine, and the height animates via CSS grid rows.
 
 **Changed:**
 
-- Removed `radix-ui` and `motion` from `dependencies`.
+- Removed `radix-ui` from `dependencies`.
 - New `motion` prop accepts `"off"`, `"150"`, `"150 ease-out"`, or `"150 cubic-bezier(...)"`. Default is a 450ms smooth-out curve.
 - Per-content override on `CollapsibleContent`.
 - Height animates via CSS grid rows (`0fr` to `1fr`).

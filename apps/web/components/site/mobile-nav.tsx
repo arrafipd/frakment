@@ -1,7 +1,6 @@
 "use client";
 
 import type { Root as PageTreeRoot } from "fumadocs-core/page-tree";
-import { motion } from "motion/react";
 import type { LinkProps } from "next/link";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -139,33 +138,21 @@ export const MobileNav = ({
         variant="ghost"
       >
         <div className="relative size-4">
-          <motion.span
-            animate={{ rotate: open ? -45 : 0, y: open ? 3 : 0 }}
-            className="bg-foreground absolute left-0 block h-px w-4"
-            initial={false}
+          <span
+            className={cn(
+              "bg-foreground absolute left-0 block h-px w-4 transition-all duration-150 ease-out motion-reduce:transition-none",
+              open
+                ? "translate-y-[3px] rotate-[-45deg]"
+                : "translate-y-0 rotate-0"
+            )}
             style={{ top: 4 }}
-            transition={{
-              rotate: {
-                delay: open ? 0.12 : 0,
-                duration: 0.15,
-                ease: "easeOut",
-              },
-              y: { delay: open ? 0 : 0.15, duration: 0.12, ease: "easeOut" },
-            }}
           />
-          <motion.span
-            animate={{ rotate: open ? 45 : 0, y: open ? -5 : 0 }}
-            className="bg-foreground absolute left-0 block h-px w-4"
-            initial={false}
+          <span
+            className={cn(
+              "bg-foreground absolute left-0 block h-px w-4 transition-all duration-150 ease-out motion-reduce:transition-none",
+              open ? "-translate-y-[5px] rotate-45" : "translate-y-0 rotate-0"
+            )}
             style={{ top: 12 }}
-            transition={{
-              rotate: {
-                delay: open ? 0.12 : 0,
-                duration: 0.15,
-                ease: "easeOut",
-              },
-              y: { delay: open ? 0 : 0.15, duration: 0.12, ease: "easeOut" },
-            }}
           />
         </div>
         <span className="sr-only">Toggle Menu</span>

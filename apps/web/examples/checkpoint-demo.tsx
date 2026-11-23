@@ -1,6 +1,5 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Marker, MarkerContent } from "@/components/ui/marker";
@@ -332,7 +331,6 @@ export function CheckpointDemo() {
     transcript,
     initialMessages
   );
-  const shouldReduceMotion = useReducedMotion();
   const nextMessage = getNextMessage(transcript, messages);
   const busy = status === "submitted" || status === "streaming";
 
@@ -356,15 +354,9 @@ export function CheckpointDemo() {
         const canRestore = index < messages.length - 1;
 
         return (
-          <motion.div
-            animate={shouldReduceMotion ? undefined : "animate"}
-            className="flex flex-col gap-4"
-            initial={shouldReduceMotion ? undefined : "initial"}
+          <div
+            className="frakment-demo-enter flex flex-col gap-4"
             key={message.id}
-            variants={{
-              animate: { opacity: 1, y: 0 },
-              initial: { opacity: 0, y: 8 },
-            }}
           >
             {message.role === "user" ? (
               <Message align="end">
@@ -382,11 +374,7 @@ export function CheckpointDemo() {
               </Message>
             )}
             {checkpoint && (
-              <motion.div
-                animate={shouldReduceMotion ? undefined : "animate"}
-                initial={shouldReduceMotion ? undefined : "initial"}
-                variants={{ animate: { opacity: 1 }, initial: { opacity: 0 } }}
-              >
+              <div className="frakment-demo-enter">
                 <Marker variant="separator">
                   <MarkerContent className="inline-flex items-center gap-2">
                     {checkpoint.data.label}
@@ -403,9 +391,9 @@ export function CheckpointDemo() {
                     )}
                   </MarkerContent>
                 </Marker>
-              </motion.div>
+              </div>
             )}
-          </motion.div>
+          </div>
         );
       })}
       {!busy && nextMessage && (

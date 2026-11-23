@@ -34,7 +34,7 @@ npx frakment add message input-group trace code-block empty tooltip dropdown-men
       <Step>Install the following dependencies:</Step>
 
       ```bash
-      npm install motion lucide-react
+      npm install lucide-react
       ```
 
       <Step>Install the required registry components:</Step>
@@ -134,23 +134,7 @@ The demo composes seven primitives. Each one is documented on its own page.
 
 ## Animation
 
-Message rows animate through inline Motion variants. Motion is skipped when the user prefers reduced motion.
-
-```tsx title="chat.tsx"
-import { motion, useReducedMotion } from "motion/react";
-
-const shouldReduceMotion = useReducedMotion();
-
-<motion.div
-  animate={shouldReduceMotion ? undefined : "animate"}
-  initial={shouldReduceMotion ? undefined : "initial"}
-  variants={{ animate: { opacity: 1, y: 0 }, initial: { opacity: 0, y: 8 } }}
->
-  <Message>...</Message>
-</motion.div>
-```
-
-Each variant exposes `initial` and `animate` states that plug into `motion.div`. Add a new variant by extending the object — the `MessageAnimation` type covers all keys.
+The preview animates new message rows with CSS and respects the reduced-motion preference.
 
 ## Reasoning traces
 
