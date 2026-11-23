@@ -12,7 +12,7 @@ permissions: read-all
 
 jobs:
   release:
-    uses: frakment/.github/.github/workflows/ui-release-reusable.yml@91e5c204666274d1c5238636d26543637f926aba
+    uses: frakment/.github/.github/workflows/ui-release-reusable.yml@596725c531f4cdde69a45c708e941d888af6e7d4
     permissions:
       contents: write
       pull-requests: write
