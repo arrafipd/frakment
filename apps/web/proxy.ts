@@ -2,7 +2,7 @@ import { isMarkdownPreferred, rewritePath } from "fumadocs-core/negotiation";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-import { ROUTES } from "@/constants/routes";
+import { ROUTES } from "@/config/routes";
 import { docsContentRoute, homeContentRoute } from "@/lib/docs";
 
 const { rewrite: rewriteDocs } = rewritePath(

@@ -2,9 +2,9 @@ import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
-import { ROUTES } from "@/constants/routes";
-import { requestOrigin } from "@/lib/agent-discovery/request-origin";
-import { siteAgentSkillDigest } from "@/lib/agent-discovery/site-agent-skill";
+import { ROUTES } from "@/config/routes";
+import { requestOrigin } from "@/features/agent-discovery/request-origin";
+import { siteAgentSkillDigest } from "@/features/agent-discovery/site-agent-skill";
 
 async function fileDigest(source: string): Promise<string | null> {
   try {
@@ -24,7 +24,7 @@ export const GET = async (request: Request) => {
   const base = origin.replace(/\/$/u, "");
 
   const frakmentUsageDigest = await fileDigest(
-    "skills/frakment-usage/SKILL.md"
+    "public/skills/frakment-usage/SKILL.md"
   );
 
   return Response.json(
@@ -37,7 +37,7 @@ export const GET = async (request: Request) => {
           digest: siteAgentSkillDigest(),
           name: "frakment",
           type: "skill-md",
-          url: `${base}${ROUTES.AGENT_SKILLS_SITE_SKILL}`,
+          url: `${base}${ROUTES.agentSkillsSiteSkill}`,
         },
         ...(frakmentUsageDigest
           ? [

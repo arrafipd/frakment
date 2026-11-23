@@ -2,8 +2,8 @@ import { PageTransition } from "@/components/docs/page-transition";
 import { HomeCtas } from "@/components/home/home-ctas";
 import HomeDemoStage from "@/components/home/home-demo-stage";
 import { CommandBox } from "@/components/site/command-box";
-import { ROUTES } from "@/constants/routes";
-import { BreadcrumbJsonLd } from "@/seo/json-ld";
+import { ROUTES } from "@/config/routes";
+import { BreadcrumbJsonLd } from "@/features/seo/json-ld";
 
 export const dynamic = "force-static";
 export const revalidate = false;
@@ -20,8 +20,8 @@ export default function IndexPage() {
             </h1>
 
             <p className="text-muted-foreground max-w-md text-sm leading-tight text-pretty">
-              Components drop in from the registry directly, adapt to your theme
-              natively, and move with your interface smoothly.
+              Composable and accessible UI primitives for React and React Native
+              with motion built in, customizable styling and AI-ready tooling.
             </p>
 
             <CommandBox className="mt-4 w-full max-w-xl" />

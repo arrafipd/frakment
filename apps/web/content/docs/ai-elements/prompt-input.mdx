@@ -33,7 +33,7 @@ import { ArrowUpIcon, PlusIcon } from "lucide-react";
 
 Prompt Input is a composer for chat and agent surfaces. Attachment chips sit above a textarea, and a bottom bar holds the attach action, a model picker, an effort picker, and the send button.
 
-Prompt Input is a **composition**, not a primitive. It composes [InputGroup](/docs/components/input-group), [Attachment](/docs/components/attachment), [Dropdown Menu](/docs/components/dropdown-menu), and [Button](/docs/components/button).
+Prompt Input is a **composition**, not a primitive. It composes [InputGroup](/docs/components/web/input-group), [Attachment](/docs/components/web/attachment), [Dropdown Menu](/docs/components/web/dropdown-menu), and [Button](/docs/components/web/button).
 
 ## Installation
 
@@ -162,7 +162,7 @@ Files selected with a hidden `<input type="file">` are stored in component state
 
 ## Pickers
 
-Model and effort use `DropdownMenuRadioGroup`. The trigger is an `InputGroupButton` wrapped with `asChild`, which preserves the composer styles. Radix closes the menu on select, no extra handler needed.
+Model and effort use `DropdownMenuRadioGroup`. The trigger is an `InputGroupButton` wrapped with `asChild`, which preserves the composer styles. The menu closes on selection without an extra handler.
 
 ## Send state
 

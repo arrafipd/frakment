@@ -14,11 +14,17 @@ export function ButtonGroupDemoExample() {
           </Button>
         </ButtonGroup>
         <ButtonGroup>
-          <Button variant="outline">Archive</Button>
-          <Button variant="outline">Report</Button>
+          <Button size="sm" variant="outline">
+            Archive
+          </Button>
+          <Button size="sm" variant="outline">
+            Report
+          </Button>
         </ButtonGroup>
         <ButtonGroup>
-          <Button variant="outline">Snooze</Button>
+          <Button size="sm" variant="outline">
+            Snooze
+          </Button>
           <Button
             accessibilityLabel="More Options"
             size="icon"

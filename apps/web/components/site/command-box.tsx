@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { CopyButton } from "@/components/docs/copy-button";
 import { AgentsPopover } from "@/components/site/agents-popover";
@@ -88,18 +87,12 @@ export const CommandBox = ({ className }: { className?: string }) => {
                 </span>
               </TabsContent>
             ))}
-            <AnimatePresence initial={false} mode="popLayout">
-              <motion.span
-                animate={{ opacity: 1, y: 0 }}
-                className="text-foreground inline-block"
-                exit={{ opacity: 0, y: 12 }}
-                initial={{ opacity: 0, y: -12 }}
-                key={itemIndex}
-                transition={{ duration: 0.3 }}
-              >
-                {registryItemNames[itemIndex]}
-              </motion.span>
-            </AnimatePresence>
+            <span
+              className="text-foreground frakment-command-word inline-block"
+              key={itemIndex}
+            >
+              {registryItemNames[itemIndex]}
+            </span>
           </code>
         </pre>
       </Tabs>

@@ -14,18 +14,18 @@ import {
 } from "@/components/ui/code-block";
 import { useHighlightedCode } from "@/hooks/use-highlighted-code";
 
-const code = `import { streamText } from "ai"
+const code = `type ChatMessage = {
+  id: string
+  role: "assistant" | "user"
+  text: string
+}
 
-export async function POST(request: Request) {
-  const { messages } = await request.json()
-
-  const result = streamText({
-    model: "anthropic/claude-sonnet-4.5",
-    system: "You are a helpful assistant. Answer in one short paragraph.",
-    messages,
-  })
-
-  return result.toUIMessageStreamResponse()
+export function createReply(message: ChatMessage) {
+  return {
+    id: "reply-" + message.id,
+    role: "assistant" as const,
+    text: "This response is generated locally.",
+  }
 }`;
 
 function download(value: string, filename: string) {

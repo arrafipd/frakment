@@ -1,8 +1,12 @@
 "use client";
 
-import type { Variants } from "motion/react";
-import { motion, useAnimation } from "motion/react";
-import { forwardRef, useCallback, useImperativeHandle, useRef } from "react";
+import {
+  forwardRef,
+  useCallback,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -15,29 +19,16 @@ interface ShareIconProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const arrowVariants: Variants = {
-  animate: {
-    transition: {
-      damping: 10,
-      mass: 1,
-      stiffness: 220,
-      type: "spring",
-    },
-    y: -2,
-  },
-  normal: { y: 0 },
-};
-
 export const ShareIcon = forwardRef<ShareIconHandle, ShareIconProps>(
   ({ className, onMouseEnter, onMouseLeave, size = 20, ...props }, ref) => {
-    const controls = useAnimation();
+    const [isAnimating, setIsAnimating] = useState(false);
     const controlledRef = useRef(false);
 
     useImperativeHandle(ref, () => {
       controlledRef.current = true;
       return {
-        startAnimation: () => controls.start("animate"),
-        stopAnimation: () => controls.start("normal"),
+        startAnimation: () => setIsAnimating(true),
+        stopAnimation: () => setIsAnimating(false),
       };
     });
 
@@ -48,9 +39,9 @@ export const ShareIcon = forwardRef<ShareIconHandle, ShareIconProps>(
           return;
         }
 
-        void controls.start("animate");
+        setIsAnimating(true);
       },
-      [controls, onMouseEnter]
+      [onMouseEnter]
     );
 
     const handleMouseLeave = useCallback(
@@ -60,9 +51,9 @@ export const ShareIcon = forwardRef<ShareIconHandle, ShareIconProps>(
           return;
         }
 
-        void controls.start("normal");
+        setIsAnimating(false);
       },
-      [controls, onMouseLeave]
+      [onMouseLeave]
     );
 
     return (
@@ -83,10 +74,13 @@ export const ShareIcon = forwardRef<ShareIconHandle, ShareIconProps>(
           viewBox="0 0 24 24"
           width={size}
         >
-          <motion.g animate={controls} variants={arrowVariants}>
+          <g
+            className="transition-transform duration-200 ease-out motion-reduce:transition-none"
+            style={{ transform: isAnimating ? "translateY(-2px)" : undefined }}
+          >
             <path d="M12 2v13" />
             <path d="m16 6-4-4-4 4" />
-          </motion.g>
+          </g>
           <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
         </svg>
       </div>

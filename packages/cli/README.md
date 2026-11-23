@@ -5,21 +5,23 @@
 
 Monochrome design system and component registry CLI.
 
+Frakment-authored CLI code is licensed under MIT, which permits commercial use, modification, distribution, and sublicensing. Third-party dependencies retain their own licenses; see the [repository third-party notices](https://github.com/frakment/ui/blob/main/docs/legal/THIRD_PARTY_NOTICES.md).
+
 ## Requirements
 
-- Node.js >= 22.12.0
+- Node.js >= 22.18.0
 - Tailwind CSS v4 (`@import "tailwindcss";` in your `globals.css`)
 
 ## Package managers
 
 The commands below use `npx`. Every package manager works.
 
-| Package manager | Run |
-| :-- | :-- |
-| npm | `npx frakment@latest <command>` |
-| pnpm | `pnpm dlx frakment@latest <command>` |
-| yarn | `yarn dlx frakment@latest <command>` |
-| bun | `bunx frakment@latest <command>` |
+| Package manager | Run                                  |
+| :-------------- | :----------------------------------- |
+| npm             | `npx frakment@latest <command>`      |
+| pnpm            | `pnpm dlx frakment@latest <command>` |
+| yarn            | `yarn dlx frakment@latest <command>` |
+| bun             | `bunx frakment@latest <command>`     |
 
 The CLI auto-detects your package manager from the project lockfile when installing dependencies.
 
@@ -31,18 +33,22 @@ The CLI auto-detects your package manager from the project lockfile when install
 npx frakment@latest init
 ```
 
-What it does:
+What it does: <!-- context-drift-ignore-next-line CD001 -->
 
-1. Writes `components.json` at project root (CLI config)
-2. Injects the theme block into `globals.css` between `/* ==== FRAKMENT THEME START/END ==== */` markers (design tokens + 9 `@utility` + `.dark` + `@custom-variant dark`)
-3. Preserves anything outside the markers — your `@import` statements, overrides, and custom CSS stay untouched
-4. Creates `lib/utils.ts` (the `cn` helper) if missing
-5. Installs 6 dependencies: `clsx`, `tailwind-merge`, `class-variance-authority`, `radix-ui`, `lucide-react`, `motion`
+<!-- context-drift-ignore-next-line CD001 -->
+1. Writes `components.json` at project root (CLI config) <!-- context-drift-ignore-next-line CD003 -->
+2. Injects the theme block into `globals.css` between `/* ==== FRAKMENT THEME START/END ==== */` markers (design tokens + 9 `@utility` + `.dark` + `@custom-variant dark`) <!-- context-drift-ignore-next-line CD003 -->
+3. Preserves anything outside the markers — your `@import` statements, overrides, and custom CSS stay untouched <!-- context-drift-ignore-next-line CD001 -->
+4. Creates `lib/utils.ts` and `lib/motion.ts` if missing
+5. Installs four dependencies used by Frakment components: `clsx`, `tailwind-merge`, `class-variance-authority`, `lucide-react`
+
+The optional `motion` npm package is not installed by `frakment init`; install it separately for custom JavaScript animations. Frakment component `motion` props use CSS transitions and do not require the package.
 
 **Idempotent.** Safe to re-run:
 
+<!-- context-drift-ignore-next-line CD001 -->
 - Existing `components.json` is preserved unless you choose to overwrite
-- Marker block is replaced in place (no duplicates)
+- Marker block is replaced in place (no duplicates) <!-- context-drift-ignore-next-line CD001 -->
 - Legacy inline theme blocks (from older `init` versions) are auto-migrated
 
 ### `frakment add <component>`
@@ -54,12 +60,12 @@ npx frakment@latest add button
 Fetches the component (plus all `registryDependencies` recursively) from the registry, writes all files, and installs any missing npm dependencies.
 
 Flags:
-
+<!-- context-drift-ignore-next-line CD001 -->
 - `--registry <url>` — override the registry URL (default: from `components.json`)
 - `--overwrite` — overwrite existing files without prompting
 
-- `--dry-run` â€” show planned file and dependency changes without changing the project
-- `--skip-dependencies` â€” write component files without installing missing npm dependencies
+- `--dry-run` - show planned file and dependency changes without changing the project
+- `--skip-dependencies` — write component files without installing missing npm dependencies
 
 ### `frakment list`
 
@@ -71,6 +77,7 @@ Lists all available components from the registry.
 
 ## Registry
 
+<!-- context-drift-ignore-next-line CD001 -->
 The default registry URL is written to `components.json` during `init`. If the public registry is not live yet, pass `--registry <url>` explicitly:
 
 ```bash
@@ -86,10 +93,10 @@ Your `globals.css` must contain `@import "tailwindcss";`. Frakment relies on Tai
 ### "Could not find globals.css"
 
 The CLI looks for one of:
-
-- `app/globals.css`
-- `src/app/globals.css`
-- `styles/globals.css`
+<!-- context-drift-ignore-next-line CD001 -->
+- `app/globals.css` <!-- context-drift-ignore-next-line CD001 -->
+- `src/app/globals.css` <!-- context-drift-ignore-next-line CD001 -->
+- `styles/globals.css` <!-- context-drift-ignore-next-line CD001 -->
 - `src/styles/globals.css`
 
 If none exist, create one with at minimum:
@@ -100,8 +107,9 @@ If none exist, create one with at minimum:
 
 ### `src/` directory projects
 
+<!-- context-drift-ignore-next-line CD001 -->
 If your `globals.css` lives at `src/app/globals.css`, component files are written to `src/components/`, `src/lib/`, `src/hooks/`. Binary assets under `public/` are written to `public/` at the project root (Next.js serves `public/` from the root regardless of `src/` layout).
 
 ## License
 
-MIT licensed. See [LICENSE](./LICENSE).
+The CLI's own source is MIT licensed; see [LICENSE](./LICENSE). Third-party dependencies retain their respective licenses.

@@ -1,8 +1,7 @@
 "use client";
 
-import { useChat } from "@ai-sdk/react";
-import type { UIDataTypes, UIMessage } from "ai";
 import { TerminalIcon } from "lucide-react";
+import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block";
 import {
@@ -20,45 +19,71 @@ import {
   TraceLine,
   TraceTitle,
 } from "@/components/ui/trace";
-import { createChat, getMessageText } from "@/lib/ai";
 
-type ChatMessage = UIMessage<
-  unknown,
-  UIDataTypes,
+interface ToolPart {
+  errorText?: string;
+  input: { command: string };
+  output?: { stdout: string };
+  state: string;
+  toolCallId: string;
+  type: "tool-runCommand";
+}
+
+interface TextPart {
+  text: string;
+  type: "text";
+}
+interface ChatMessage {
+  id: string;
+  parts: (TextPart | ToolPart)[];
+  role: "user" | "assistant";
+}
+
+const transcript: ChatMessage[] = [
   {
-    runCommand: {
-      input: { command: string };
-      output: { stdout: string };
-    };
-  }
->;
+    id: "msg-1",
+    parts: [{ text: "Which package managers are installed?", type: "text" }],
+    role: "user",
+  },
+  {
+    id: "msg-2",
+    parts: [
+      {
+        input: { command: "node --version" },
+        output: { stdout: "v24.18.0" },
+        state: "output-available",
+        toolCallId: "call-1",
+        type: "tool-runCommand",
+      },
+      {
+        input: { command: "npm --version" },
+        output: { stdout: "11.6.2" },
+        state: "output-available",
+        toolCallId: "call-2",
+        type: "tool-runCommand",
+      },
+      {
+        errorText: "command not found: pnpm",
+        input: { command: "pnpm --version" },
+        state: "output-error",
+        toolCallId: "call-3",
+        type: "tool-runCommand",
+      },
+      {
+        text: "Node 24 and npm 11 are installed. pnpm is not.",
+        type: "text",
+      },
+    ],
+    role: "assistant",
+  },
+];
 
-type ToolPart = Extract<
-  ChatMessage["parts"][number],
-  { type: "tool-runCommand" }
->;
-
-const chat = createChat<ChatMessage>()
-  .user("Which package managers are installed?")
-  .assistant(({ writer }) => {
-    writer
-      .tool("runCommand", { input: { command: "node --version" } })
-      .sleep(900)
-      .output({ stdout: "v24.18.0" });
-    writer
-      .tool("runCommand", { input: { command: "npm --version" } })
-      .sleep(900)
-      .output({ stdout: "11.6.2" });
-    writer
-      .tool("runCommand", { input: { command: "pnpm --version" } })
-      .sleep(900)
-      .error("command not found: pnpm");
-    writer.text("Node 24 and npm 11 are installed. pnpm is not.");
-  });
-
-const transcript = chat.get();
-const [question] = chat.get(1);
-const transport = chat.transport({ delayMs: 20 });
+function getMessageText(message: ChatMessage): string {
+  return message.parts
+    .filter((part): part is TextPart => part.type === "text")
+    .map((part) => part.text)
+    .join("");
+}
 
 function ToolRow({
   part,
@@ -89,7 +114,7 @@ function ToolRow({
         <TraceCollapsibleContent>
           <CodeBlock size="sm">
             <CodeBlockContent className="max-h-64" wrap>
-              {failed ? part.errorText : part.output.stdout}
+              {failed ? part.errorText : part.output?.stdout}
             </CodeBlockContent>
           </CodeBlock>
         </TraceCollapsibleContent>
@@ -110,11 +135,17 @@ function ToolRow({
 }
 
 export function ToolDemo() {
-  const { messages, sendMessage, setMessages, status } = useChat({
-    messages: transcript,
-    transport,
-  });
-  const busy = status === "submitted" || status === "streaming";
+  const [messages, setMessages] = React.useState<ChatMessage[]>(transcript);
+  const [busy, setBusy] = React.useState(false);
+
+  function replay() {
+    setMessages([transcript[0]]);
+    setBusy(true);
+    window.setTimeout(() => {
+      setMessages(transcript);
+      setBusy(false);
+    }, 350);
+  }
 
   return (
     <div className="flex min-h-72 w-full max-w-sm flex-col gap-4 py-6 text-sm">
@@ -133,7 +164,7 @@ export function ToolDemo() {
 
         const streaming = busy && message === messages.at(-1);
         const tools = message.parts.filter(
-          (part) => part.type === "tool-runCommand"
+          (part): part is ToolPart => part.type === "tool-runCommand"
         );
         const text = getMessageText(message);
 
@@ -159,16 +190,10 @@ export function ToolDemo() {
           </Message>
         );
       })}
-      {!busy && question && (
+      {!busy && transcript.length > 0 && (
         <Button
           className="mt-auto self-start"
-          onClick={() => {
-            if (!question) {
-              return;
-            }
-            setMessages([]);
-            sendMessage(question);
-          }}
+          onClick={replay}
           size="sm"
           variant="outline"
         >

@@ -67,7 +67,6 @@ export const getRegistryComponent = (
 
   for (const candidate of candidates) {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const mod = require(candidate);
       const comp = (mod as { default?: React.ComponentType }).default;
       if (comp) {

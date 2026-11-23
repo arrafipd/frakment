@@ -93,17 +93,17 @@ By default, each digit slides with a 900ms "cubic-bezier(0.2, 0, 0.2, 1)" transi
 <NumberFlow motion="off" value={42} />
 ```
 
-"prefers-reduced-motion: reduce" overrides every value. Third-party motion libraries that write inline styles to the element disable the internal transition automatically.
+"prefers-reduced-motion: reduce" overrides every value. Inline style changes to the element disable the internal transition automatically.
 
-### Using your own animation library
+### Inline style overrides
 
-Attach GSAP, Framer Motion, or the Web Animations API by writing inline styles to the element. The component detects the first external write and disables its own CSS transition automatically.
+When an inline style changes the animated value, the component disables its CSS transition to prevent competing updates.
 
 ## API Reference
 
 <PropsTable
   rows={[
-    { name: "value", type: "number", description: "The number to display. Animates on change." },
+    { name: "value", type: "number", required: true, description: "The number to display. Animates on change." },
     { name: "format", type: "Intl.NumberFormatOptions", description: "Formatting options passed to Intl.NumberFormat." },
     { name: "locales", type: "Intl.LocalesArgument", description: "Locale tag or array for Intl.NumberFormat." },
     { name: "prefix", type: "string", description: "Text rendered before the number." },
@@ -124,8 +124,3 @@ Attach GSAP, Framer Motion, or the Web Animations API by writing inline styles t
 - **Keep values short.** Two to six digits animate cleanly.
 - **Prefer prefix and suffix over concatenation.** Keeps screen reader announcements readable.
 - **Use motion off when changing values rapidly.**
-
-## Related Components
-
-- [Credit Card](/docs/modules/credit-card) — animated card surface with locale-aware numbers
-- [Pulse](/docs/modules/pulse) — animated status indicator

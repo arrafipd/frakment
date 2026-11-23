@@ -324,7 +324,7 @@ Extend `React.ComponentProps<"div">`. Each maps to a `data-slot` attribute for C
 
 - `Item` renders a `<div>` — for interactive rows, use `as` with `<a>` or `<button>` so keyboard and screen readers work.
 - `ItemMedia` should be `aria-hidden` when the visual is decorative (e.g., a status dot).
-- `ItemTitle` acts as the accessible name — write it as a short label.
+- `ItemTitle` is a visual text container, not a labeling relationship. Ensure each interactive link or button has its own accessible name.
 
 ## Best Practices
 

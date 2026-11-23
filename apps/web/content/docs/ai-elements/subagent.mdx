@@ -28,7 +28,7 @@ import {
 
 Subagent renders a delegated task as a live trace. The parent message holds a `researchAgent` tool call, the subagent streams its own tool calls as partial output, and the final report lands at the bottom. Every step updates in place.
 
-Subagent is a **composition**, not a primitive. It composes [Trace](/docs/components/trace) and [Code Block](/docs/components/code-block) and streams nested tool calls through a chat transport.
+Subagent is a **composition**, not a primitive. It composes [Trace](/docs/components/web/trace) and [Code Block](/docs/components/web/code-block) and can replay nested steps from local state.
 
 ## Installation
 
@@ -41,7 +41,7 @@ Subagent is a **composition**, not a primitive. It composes [Trace](/docs/compon
 <TabsContent value="cli">
 
 ~~~bash
-npx frakment add trace code-block message bubble button
+npx frakment add trace code-block message button
 ~~~
 
 </TabsContent>
@@ -51,7 +51,7 @@ npx frakment add trace code-block message bubble button
       <Step>Install the primitives:</Step>
 
       ~~~bash
-      npx frakment add trace code-block message bubble button
+      npx frakment add trace code-block message button
       ~~~
 
       <Step>Copy the demo into your project:</Step>
@@ -117,19 +117,16 @@ import {
 - **TraceCollapsibleContent** — nested `Trace` with one step row per tool call
 - **TraceLine** — a single step, marked `running` while the subagent is still working
 
-## Streaming partial output
+## Replaying partial output
 
-The parent calls `writer.tool("researchAgent", ...)` and then emits partial outputs with `{ preliminary: true }`. Each partial output is a full subagent message with one more step completed. The `preliminary` flag keeps the call open until the final output lands.
+The demo advances an array of subagent steps locally. Each snapshot contains one more completed step, while the final snapshot adds the report.
 
 ~~~ts title="subagent.ts"
-const subagent = writer.tool("researchAgent", { input: { task } })
-
-steps.forEach((_, index) => {
-  subagent.output(getSubagentMessage(index), { preliminary: true })
-  writer.sleep(1000)
-})
-
-subagent.output(getSubagentMessage(steps.length, report))
+setSteps((current) =>
+  current.map((step, index) =>
+    index === activeIndex ? { ...step, status: "running" } : step
+  )
+)
 ~~~
 
 ## Running

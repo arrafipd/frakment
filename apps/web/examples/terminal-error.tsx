@@ -11,7 +11,7 @@ import {
   TraceTitle,
 } from "@/components/ui/trace";
 
-const LINT_OUTPUT = `> acme-chat@0.1.0 lint
+const lintOutput = `> acme-chat@0.1.0 lint
 > eslint .
 
 app/api/chat/route.ts
@@ -45,7 +45,7 @@ export function TerminalError() {
         <TraceCollapsibleContent>
           <CodeBlock size="sm">
             <CodeBlockContent className="max-h-64" wrap>
-              {LINT_OUTPUT}
+              {lintOutput}
             </CodeBlockContent>
           </CodeBlock>
         </TraceCollapsibleContent>

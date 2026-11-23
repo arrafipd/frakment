@@ -6,42 +6,17 @@ on:
   pull_request:
     branches: ["main"]
   schedule:
-    - cron: '0 6 * * 1'
+    - cron: "0 6 * * 1"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  analyze:
-    name: Analyze (${{ matrix.language }})
-    runs-on: ubuntu-latest
+  codeql:
+    uses: frakment/.github/.github/workflows/codeql-reusable.yml@5d397f93bb61629dacb32936d0d23f31a792a40a
     permissions:
       contents: read
       security-events: write
       packages: read
       actions: read
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - language: javascript-typescript
-            build-mode: none
-          - language: actions
-            build-mode: none
-    steps:
-      - name: Checkout
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
-        with:
-          persist-credentials: false
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@9418214df1f2c4b8128c770156c409013b07d6b9
-        with:
-          languages: ${{ matrix.language }}
-          build-mode: ${{ matrix.build-mode }}
-
-      - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@9418214df1f2c4b8128c770156c409013b07d6b9
-        with:
-          category: "/language:${{ matrix.language }}"

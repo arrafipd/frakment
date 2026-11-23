@@ -22,7 +22,7 @@ import { FileCodeIcon, LayersIcon, TerminalIcon } from "lucide-react";
 
 Stack Trace renders a failed command as a collapsible trace. The error message sits at the top in destructive color, app frames are links to the file, and framework frames from `node_modules` or `node:` collapse into a monospace list.
 
-Stack Trace is a **composition**, not a primitive. It composes [Trace](/docs/components/trace) and [Code Block](/docs/components/code-block) and streams failures through a chat transport.
+Stack Trace is a **composition**, not a primitive. It composes [Trace](/docs/components/web/trace) and [Code Block](/docs/components/web/code-block) and can render a scripted or local failure state.
 
 ## Installation
 
@@ -35,7 +35,7 @@ Stack Trace is a **composition**, not a primitive. It composes [Trace](/docs/com
 <TabsContent value="cli">
 
 ~~~bash
-npx frakment add trace code-block message bubble button
+npx frakment add trace code-block message button
 ~~~
 
 </TabsContent>
@@ -45,7 +45,7 @@ npx frakment add trace code-block message bubble button
       <Step>Install the primitives:</Step>
 
       ~~~bash
-      npx frakment add trace code-block message bubble button
+      npx frakment add trace code-block message button
       ~~~
 
       <Step>Copy the demo into your project:</Step>
@@ -150,7 +150,7 @@ function parseFrame(line: string) {
 
 ## Static frames
 
-Render a fixed stack without a chat transport for a read-only summary.
+Render a fixed stack for a read-only summary.
 
 <ComponentPreview name="stack-trace-frames" title="stack-trace-frames.tsx" src="examples/stack-trace-frames.tsx" align="start" previewClassName="h-auto">
   <StackTraceFrames />
@@ -158,7 +158,7 @@ Render a fixed stack without a chat transport for a read-only summary.
 
 ## With command output
 
-Successful commands render their stdout in a [Code Block](/docs/components/code-block). The failed command renders the stack trace in place. The demo alternates between the two so the transition is visible on replay.
+Successful commands render their stdout in a [Code Block](/docs/components/web/code-block). The failed command renders the stack trace in place. The demo alternates between the two so the transition is visible on replay.
 
 ## Accessibility
 

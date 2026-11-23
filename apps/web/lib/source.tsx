@@ -5,8 +5,8 @@ import type { ReactNode } from "react";
 
 import { docs } from "@/.source/server";
 import { NewDot } from "@/components/docs/new-dot";
-import { ROUTES } from "@/constants/routes";
-import { agentDocsDirectiveMarkdown } from "@/lib/agent-discovery/directive";
+import { ROUTES } from "@/config/routes";
+import { agentDocsDirectiveMarkdown } from "@/features/agent-discovery/directive";
 import {
   docsContentRoute,
   docsImageRoute,
@@ -19,7 +19,6 @@ const baseSource = loader({
   source: docs.toFumadocsSource(),
 });
 
-// Decorate page names with a "new" dot indicator when the URL is in pagesNew.
 const decorateName = (name: ReactNode, url: string): ReactNode =>
   pagesNew.has(normalizeActivePath(url)) ? (
     <>

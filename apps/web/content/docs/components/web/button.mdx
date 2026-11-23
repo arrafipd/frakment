@@ -210,21 +210,11 @@ By default the button uses Tailwind's `transition-all` (150ms, `ease-in-out`). P
 
 To remove the default transition without a motion value, pass `className="transition-none"`. This is not a `motion` prop value — it is a Tailwind utility that wins over the base class.
 
-### Using your own animation library
+### Inline style overrides
 
-Attach GSAP, Framer Motion, the Web Animations API, or any library that writes inline styles to the element. The component detects the first external write and disables its own CSS transition automatically. No extra prop is required.
+When an inline style changes the animated value, the component disables its CSS transition to prevent competing updates. No extra prop is required.
 
-```tsx
-const ref = useRef<HTMLButtonElement>(null);
-
-useEffect(() => {
-  gsap.to(ref.current, { scale: 1.1, duration: 0.3 });
-}, []);
-
-<Button ref={ref}>Animated by GSAP</Button>
-```
-
-CSS class changes such as hover styles do not trigger the guard. Only inline style writes from a library or a manual ref assignment do.
+CSS class changes such as hover styles do not trigger the guard.
 
 ## Loading State
 
@@ -276,7 +266,7 @@ Custom component:
 
 ## Button Group
 
-For grouped actions, see [Button Group](/docs/components/button-group). A quick example:
+For grouped actions, see [Button Group](/docs/components/web/button-group). A quick example:
 
 <ComponentPreview name="button-group-demo" title="button-group-demo.tsx" src="examples/button-group-demo.tsx">
   <ButtonGroupDemo />
@@ -339,7 +329,7 @@ The `buttonVariants` helper returns the class string for any variant and size. U
 ```tsx
 import { buttonVariants } from "@/lib/utils";
 
-<a className={buttonVariants({ variant: "outline", size: "sm" })} href="/docs">
+<a className={buttonVariants({ variant: "outline", size: "sm" })} href="/docs/getting-started">
   Read the docs
 </a>
 ```
@@ -369,7 +359,7 @@ import { buttonVariants } from "@/lib/utils";
 
 ## Related Components
 
-- [Button Group](/docs/components/button-group) — visually group buttons
-- [Toggle](/docs/components/toggle) — two-state button
-- [Input Group](/docs/components/input-group) — button inside an input
+- [Button Group](/docs/components/web/button-group) — visually group buttons
+- [Toggle](/docs/components/web/toggle) — two-state button
+- [Input Group](/docs/components/web/input-group) — button inside an input
 

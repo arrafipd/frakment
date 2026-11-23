@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useEffect, useState } from "react";
 
 import { CopyButton } from "@/components/docs/copy-button";
 import { SiteButton } from "@/components/site/button";
@@ -13,11 +13,9 @@ import {
   MarkdownDocIcon,
   PerplexityIcon,
   SciraIcon,
-  V0Icon,
 } from "@/components/site/icons";
 import {
   Popover,
-  PopoverAnchor,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/site/popover";
@@ -29,74 +27,97 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
-import { SITE } from "@/constants/site";
+import { toast } from "@/components/ui/sonner";
+import { fallbackSiteOrigin, SITE } from "@/config/site";
 import { ChevronDownIcon } from "@/lib/icons";
 
-const getPromptUrl = (baseURL: string, url: string, param = "q") =>
-  `${baseURL}?${param}=${encodeURIComponent(
-    `I'm looking at this ${SITE.NAME} documentation: ${url}.
-Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.
-`
-  )}`;
+const getShareableUrl = (href: string) => {
+  const url = new URL(href, SITE.URL);
+  if (
+    !(
+      ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname) ||
+      url.hostname.endsWith(".localhost")
+    )
+  ) {
+    return url.toString();
+  }
+
+  const publicUrl = new URL(fallbackSiteOrigin);
+  publicUrl.pathname = `${publicUrl.pathname.replace(/\/+$/u, "")}${url.pathname}`;
+  publicUrl.search = url.search;
+  publicUrl.hash = url.hash;
+  return publicUrl.toString();
+};
+
+const getPrompt = (url: string, markdownUrl: string) =>
+  `Read this ${SITE.NAME} documentation page before answering.
+Page: ${url}
+Markdown: ${markdownUrl}
+Explain how to use it and help with examples or debugging based on its content.`;
+
+const getPromptUrl =
+  (baseUrl: string, param = "q") =>
+  (url: string, markdownUrl: string) => {
+    const destination = new URL(baseUrl);
+    destination.searchParams.set(
+      param,
+      getPrompt(getShareableUrl(url), getShareableUrl(markdownUrl))
+    );
+    return destination.toString();
+  };
 
 interface MenuItemData {
-  href: (url: string) => string;
+  href: (url: string, markdownUrl: string) => string;
   icon: React.ReactNode;
   key: string;
   label: string;
 }
 
-const MENU_ITEMS: MenuItemData[] = [
+const menuItems: MenuItemData[] = [
   {
-    href: (url) => `${url}.md`,
+    href: (_url, markdownUrl) => markdownUrl,
     icon: <MarkdownDocIcon />,
     key: "markdown",
     label: "View as Markdown",
   },
   {
-    href: (url) => getPromptUrl("https://v0.dev", url),
-    icon: <V0Icon />,
-    key: "v0",
-    label: "Open in v0",
-  },
-  {
-    href: (url) => getPromptUrl("https://cursor.com/link/prompt", url, "text"),
+    href: getPromptUrl("https://cursor.com/link/prompt", "text"),
     icon: <CursorIcon />,
     key: "cursor",
     label: "Open in Cursor",
   },
   {
-    href: (url) => getPromptUrl("https://chatgpt.com", url),
+    href: getPromptUrl("https://chatgpt.com/", "q"),
     icon: <ChatGptIcon />,
     key: "chatgpt",
     label: "Open in ChatGPT",
   },
   {
-    href: (url) => getPromptUrl("https://claude.ai/new", url),
+    href: getPromptUrl("https://claude.ai/new", "q"),
     icon: <ClaudeIcon />,
     key: "claude",
     label: "Open in Claude",
   },
   {
-    href: (url) => getPromptUrl("https://perplexity.ai", url),
+    href: getPromptUrl("https://www.perplexity.ai/search/new", "q"),
     icon: <PerplexityIcon />,
     key: "perplexity",
     label: "Open in Perplexity",
   },
   {
-    href: (url) => getPromptUrl("https://gemini.google.com/app", url),
+    href: getPromptUrl("https://gemini.google.com/app", "prompt"),
     icon: <GeminiIcon />,
     key: "gemini",
     label: "Open in Gemini",
   },
   {
-    href: (url) => getPromptUrl("https://grok.com", url),
+    href: getPromptUrl("https://grok.com/", "q"),
     icon: <GrokIcon />,
     key: "grok",
     label: "Open in Grok",
   },
   {
-    href: (url) => getPromptUrl("https://scira.ai/", url),
+    href: getPromptUrl("https://scira.ai/", "q"),
     icon: <SciraIcon />,
     key: "scira",
     label: "Open in Scira AI",
@@ -110,19 +131,40 @@ export const DocsCopyPage = ({
   markdownUrl: string;
   url: string;
 }) => {
-  const copyValue = useCallback(async () => {
-    const response = await fetch(markdownUrl);
-    return response.text();
+  const [markdown, setMarkdown] = useState<string>();
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    fetch(markdownUrl, { signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            `Markdown request failed with status ${response.status}`
+          );
+        }
+        return response.text();
+      })
+      .then(setMarkdown)
+      .catch((error: unknown) => {
+        if (controller.signal.aborted) {
+          return;
+        }
+        console.error("Failed to load page markdown for copying.", error);
+        toast.error("Could not load the page content. Refresh and try again.");
+      });
+
+    return () => controller.abort();
   }, [markdownUrl]);
 
   return (
     <Popover>
       <div className="group/buttons bg-secondary relative flex rounded-lg *:data-[slot=button]:focus-visible:relative *:data-[slot=button]:focus-visible:z-10">
-        <PopoverAnchor />
         <CopyButton
           className="md:h-7 md:text-[0.8rem]"
+          disabled={markdown === undefined}
           showTooltip={false}
-          value={copyValue}
+          value={markdown ?? ""}
           variant="secondary"
         >
           Copy Page
@@ -140,10 +182,10 @@ export const DocsCopyPage = ({
             align="end"
             className="animate-none! rounded-lg shadow-none"
           >
-            {MENU_ITEMS.map((item) => (
+            {menuItems.map((item) => (
               <DropdownMenuItem
                 as="a"
-                href={item.href(url)}
+                href={item.href(url, markdownUrl)}
                 key={item.key}
                 rel="noopener noreferrer"
                 target="_blank"
@@ -158,20 +200,19 @@ export const DocsCopyPage = ({
           className="bg-foreground/5! absolute top-1 right-8 z-0 h-6! peer-focus-visible:opacity-0 sm:right-7 sm:h-5!"
           orientation="vertical"
         />
-        <PopoverTrigger asChild className="flex sm:hidden">
-          <Button
-            className="peer -ml-0.5 size-8 md:size-7 md:text-[0.8rem]"
-            size="sm"
-            variant="secondary"
-          >
-            <ChevronDownIcon className="rotate-180 sm:rotate-0" />
-          </Button>
+        <PopoverTrigger
+          as={Button}
+          className="peer -ml-0.5 flex size-8 sm:hidden md:size-7 md:text-[0.8rem]"
+          size="sm"
+          variant="secondary"
+        >
+          <ChevronDownIcon className="rotate-180 sm:rotate-0" />
         </PopoverTrigger>
         <PopoverContent
           align="start"
           className="bg-background/70 dark:bg-background/60 w-52 origin-center! rounded-lg p-1 shadow-none backdrop-blur-sm"
         >
-          {MENU_ITEMS.map((item) => (
+          {menuItems.map((item) => (
             <SiteButton
               asChild
               className="*:[svg]:text-muted-foreground w-full justify-start text-base font-normal"
@@ -180,7 +221,7 @@ export const DocsCopyPage = ({
               variant="ghost"
             >
               <a
-                href={item.href(url)}
+                href={item.href(url, markdownUrl)}
                 rel="noopener noreferrer"
                 target="_blank"
               >

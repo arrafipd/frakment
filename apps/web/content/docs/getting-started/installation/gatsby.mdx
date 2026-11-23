@@ -12,7 +12,7 @@ Frakment works in any Gatsby 5+ project with React 19 and Tailwind v4. This guid
 - **TypeScript**
 - **Tailwind CSS** v4
 
-Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/guides/theming) manually.
+Frakment web components require React 19 and Tailwind CSS v4.
 
 ## Use the CLI
 
@@ -55,7 +55,7 @@ Create `src/styles/global.css`:
 
 ```bash
 npx frakment@latest init
-npx frakment@latest add bubble
+npx frakment@latest add message
 ```
 
 <Step>Use it</Step>
@@ -103,9 +103,8 @@ In `tsconfig.json`:
 ```json title="tsconfig.json"
 {
   "compilerOptions": {
-    "baseUrl": "src",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./src/*"]
     }
   }
 }
@@ -114,7 +113,7 @@ In `tsconfig.json`:
 <Step>Add a component</Step>
 
 ```bash
-npx frakment@latest add bubble
+npx frakment@latest add message
 ```
 
 </Steps>
@@ -143,7 +142,7 @@ npx frakment@latest add bubble
 ## Verify
 
 ```bash
-ls src/components/ui/bubble.tsx
+ls src/components/ui/message.tsx
 ```
 
 Then render it in a page. If it renders without errors, you are ready.
@@ -165,7 +164,7 @@ Gatsby does not ship Tailwind v4 out of the box. Make sure `gatsby-plugin-postcs
 <AccordionTrigger>Cannot resolve @/components</AccordionTrigger>
 <AccordionContent>
 
-Gatsby puts source in `src/`. Set `"baseUrl": "src"` and `"@/*": ["./*"]` in `tsconfig.json`.
+Gatsby puts source in `src/`. Set the `@/*` path alias to `./src/*` in `tsconfig.json`.
 
 </AccordionContent>
 </AccordionItem>

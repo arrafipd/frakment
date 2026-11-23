@@ -2,8 +2,8 @@
 
 import { useEffect } from "react";
 
-import { ROUTES } from "@/constants/routes";
-import { SITE } from "@/constants/site";
+import { ROUTES } from "@/config/routes";
+import { SITE } from "@/config/site";
 
 type ToolExecute = (
   input: unknown,

@@ -4,12 +4,12 @@ import { Analytics } from "@/components/site/analytics";
 import { ThemeProvider } from "@/components/site/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { JsonLdScripts } from "@/features/seo/json-ld";
 import { fontVariables } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
-import { JsonLdScripts } from "@/seo/json-ld";
 
 import "@/styles/globals.css";
-import { baseMetadata } from "@/seo/metadata";
+import { baseMetadata } from "@/features/seo/metadata";
 
 export const metadata: Metadata = baseMetadata;
 

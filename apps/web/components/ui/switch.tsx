@@ -41,11 +41,10 @@ function Switch({
     React.useState(defaultChecked);
   const checked = isControlled ? checkedProp : uncontrolledChecked;
   const reduce = useReducedMotion();
-  const internalRef = React.useRef<HTMLButtonElement | null>(null);
+  const internalRef = React.useRef<HTMLSpanElement | null>(null);
 
   const setRef = React.useCallback(
     (node: HTMLButtonElement | null) => {
-      internalRef.current = node;
       if (typeof ref === "function") {
         ref(node);
       } else if (ref) {
@@ -81,11 +80,7 @@ function Switch({
 
   const motionEnabled = motionValue !== undefined && !reduce;
   const styleFingerprint = JSON.stringify(thumbStyle);
-  const yielded = useMotionGuard(
-    internalRef as React.RefObject<HTMLElement | null>,
-    motionEnabled,
-    styleFingerprint
-  );
+  const yielded = useMotionGuard(internalRef, motionEnabled, styleFingerprint);
   if (yielded && !reduce) {
     thumbStyle.transition = "none";
   }
@@ -116,6 +111,7 @@ function Switch({
         )}
         data-slot="switch-thumb"
         data-state={checked ? "checked" : "unchecked"}
+        ref={internalRef}
         style={thumbStyle}
       />
     </button>

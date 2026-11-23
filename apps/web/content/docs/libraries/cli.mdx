@@ -5,11 +5,13 @@ description: All Frakment commands, flags, and registry format.
 
 Complete reference for the `frakment` CLI. New to Frakment? Start with [Installation](/docs/getting-started/installation) first — this page assumes the project is already bootstrapped.
 
+The CLI requires Node.js 22.18.0 or newer.
+
 ## Commands
 
 | Command                | Description                                                                                                                                  |
 | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `frakment init`        | Bootstrap the project: write `components.json`, inject the theme block into `globals.css`, create `lib/utils.ts`, install base dependencies. Pass `--expo` for an Expo + NativeWind project. |
+| `frakment init`        | Bootstrap the project: write `components.json`, inject the theme block into `globals.css`, create shared helpers, and install base dependencies. Pass `--expo` for an Expo + NativeWind project. |
 | `frakment add <name…>` | Fetch one or more components (plus `registryDependencies` recursively), write files, install missing npm deps. Pass `--expo` to fetch from the Expo registry. |
 | `frakment list`        | List all components exposed by the configured registry.                                                                                      |
 
@@ -100,7 +102,7 @@ Each component lives at `<registry-url>/r/<name>.json`:
 ```json title="r/button.json"
 {
   "name": "button",
-  "dependencies": ["class-variance-authority", "radix-ui"],
+  "dependencies": ["class-variance-authority"],
   "registryDependencies": [],
   "files": [{ "path": "components/ui/button.tsx", "content": "..." }]
 }
@@ -110,7 +112,7 @@ Each component lives at `<registry-url>/r/<name>.json`:
 
 ## Idempotency
 
-`init` is safe to re-run. Existing `components.json` is preserved unless overwritten. The theme marker block (`/* ==== FRAKMENT THEME START/END ==== */`) is replaced in place — no duplicates. Legacy inline theme blocks are auto-migrated.
+`init` is safe to re-run. Existing `components.json` is preserved unless you confirm overwriting it. The theme block is replaced in place, so repeated runs do not add duplicates.
 
 
 ## Troubleshooting
@@ -119,4 +121,4 @@ Specific errors (Tailwind v4 requirement, missing `globals.css`, `src/` layout) 
 
 ## License
 
-MIT licensed. Free for personal, educational, and commercial use.
+Frakment-authored CLI code is licensed under MIT for personal, educational, and commercial use. Third-party dependencies retain their respective licenses; see the [third-party notices](https://github.com/frakment/ui/blob/main/docs/legal/THIRD_PARTY_NOTICES.md).

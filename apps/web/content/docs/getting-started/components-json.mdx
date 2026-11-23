@@ -9,7 +9,6 @@ The `components.json` file holds the configuration for the Frakment CLI. `npx fr
 
 ```json title="components.json"
 {
-  "$schema": "https://www.arrafi.dev/frakment/schema.json",
   "registry": "https://www.arrafi.dev/frakment/r",
   "aliases": {
     "components": "@/components",
@@ -28,11 +27,7 @@ The `components.json` file holds the configuration for the Frakment CLI. `npx fr
 
 Base URL the CLI fetches components from. Defaults to `https://www.arrafi.dev/frakment/r`.
 
-Override per-command with `--registry <url>`:
-
-```bash
-npx frakment add button --registry http://localhost:3000/r
-```
+Override the registry for one command with `--registry <url>`.
 
 ### `aliases`
 

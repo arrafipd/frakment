@@ -7,7 +7,7 @@ export const Announcement = () => (
   <Badge
     as={Link}
     className="bg-transparent"
-    href="https://github.com/arrafipd/frakment"
+    href="https://github.com/frakment/ui"
     rel="noreferrer"
     target="_blank"
     variant="secondary"

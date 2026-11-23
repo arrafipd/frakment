@@ -1,8 +1,12 @@
 "use client";
 
-import type { Variants } from "motion/react";
-import { motion, useAnimation } from "motion/react";
-import { forwardRef, useCallback, useImperativeHandle, useRef } from "react";
+import {
+  forwardRef,
+  useCallback,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -15,35 +19,18 @@ interface ArrowLeftIconProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const shaftVariants: Variants = {
-  animate: {
-    d: ["M19 12H5", "M19 12H10", "M19 12H5"],
-    transition: { duration: 0.36 },
-  },
-  normal: { d: "M19 12H5" },
-};
-
-const headVariants: Variants = {
-  animate: {
-    d: "m12 19-7-7 7-7",
-    transition: { duration: 0.36 },
-    translateX: [0, 3, 0],
-  },
-  normal: { d: "m12 19-7-7 7-7", translateX: 0 },
-};
-
 export const ArrowLeftIcon = forwardRef<
   ArrowLeftIconHandle,
   ArrowLeftIconProps
 >(({ className, onMouseEnter, onMouseLeave, size = 18, ...props }, ref) => {
-  const controls = useAnimation();
+  const [isAnimating, setIsAnimating] = useState(false);
   const controlledRef = useRef(false);
 
   useImperativeHandle(ref, () => {
     controlledRef.current = true;
     return {
-      startAnimation: () => controls.start("animate"),
-      stopAnimation: () => controls.start("normal"),
+      startAnimation: () => setIsAnimating(true),
+      stopAnimation: () => setIsAnimating(false),
     };
   });
 
@@ -54,9 +41,9 @@ export const ArrowLeftIcon = forwardRef<
         return;
       }
 
-      void controls.start("animate");
+      setIsAnimating(true);
     },
-    [controls, onMouseEnter]
+    [onMouseEnter]
   );
 
   const handleMouseLeave = useCallback(
@@ -66,9 +53,9 @@ export const ArrowLeftIcon = forwardRef<
         return;
       }
 
-      void controls.start("normal");
+      setIsAnimating(false);
     },
-    [controls, onMouseLeave]
+    [onMouseLeave]
   );
 
   return (
@@ -79,6 +66,7 @@ export const ArrowLeftIcon = forwardRef<
       {...props}
     >
       <svg
+        className={cn(isAnimating && "frakment-arrow-left-animate")}
         fill="none"
         height={size}
         stroke="currentColor"
@@ -88,12 +76,8 @@ export const ArrowLeftIcon = forwardRef<
         viewBox="0 0 24 24"
         width={size}
       >
-        <motion.path
-          animate={controls}
-          d="m12 19-7-7 7-7"
-          variants={headVariants}
-        />
-        <motion.path animate={controls} d="M19 12H5" variants={shaftVariants} />
+        <path d="m12 19-7-7 7-7" data-arrow-part="head" />
+        <path d="M19 12H5" data-arrow-part="shaft" />
       </svg>
     </div>
   );

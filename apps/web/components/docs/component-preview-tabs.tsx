@@ -22,7 +22,7 @@ export function ComponentPreviewTabs({
   return (
     <div
       className={cn(
-        "group relative mt-4 mb-12 flex flex-col overflow-hidden rounded-2xl border",
+        "group relative mt-4 mb-12 flex flex-col rounded-2xl border",
         className
       )}
       data-not-typeset
@@ -32,7 +32,7 @@ export function ComponentPreviewTabs({
       <div data-slot="preview" dir="ltr">
         <div
           className={cn(
-            "preview relative flex h-72 w-full items-center justify-center p-10 data-[align=end]:items-start data-[align=start]:items-start sm:data-[align=end]:items-end",
+            "preview relative flex min-h-72 w-full items-center justify-center p-4 data-[align=end]:items-start data-[align=start]:items-start sm:p-10 sm:data-[align=end]:items-end [&>*]:max-w-full [&>*]:min-w-0",
             previewClassName
           )}
           data-align={align}
@@ -43,7 +43,7 @@ export function ComponentPreviewTabs({
 
       {!hideCode && (
         <div
-          className="relative overflow-hidden [&_[data-rehype-pretty-code-figure]]:m-0! [&_[data-rehype-pretty-code-figure]]:rounded-t-none [&_[data-rehype-pretty-code-figure]]:border-t [&_pre]:max-h-72"
+          className="relative overflow-hidden rounded-b-2xl [&_[data-rehype-pretty-code-figure]]:m-0! [&_[data-rehype-pretty-code-figure]]:rounded-t-none [&_[data-rehype-pretty-code-figure]]:border-t [&_pre]:max-h-72"
           data-slot="code"
         >
           {source}

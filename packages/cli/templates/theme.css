@@ -1,5 +1,3 @@
-/* Frakment custom variants — required by registry components using data-*: utilities.
-   Without these, utility classes like data-checked:bg-primary become no-ops. */
 @custom-variant fixed (&:is(.layout-fixed *));
 @custom-variant data-open (&[data-state="open"]);
 @custom-variant data-closed (&[data-state="closed"]);
@@ -151,8 +149,6 @@
   --selection-foreground: oklch(0.205 0 0);
 }
 
-/* Component utilities - kept here for the experiment */
-
 @utility border-grid {
   @apply border-border/50 dark:border-border;
 }
@@ -190,9 +186,6 @@
   }
 }
 
-/* Global scrollbar: transparent track, thin neutral thumb with gap, no arrow.
-   Injected to end users via the FRAKMENT THEME block (cli/templates/theme.css).
-   The `no-scrollbar` utility wins specificity and still hides scrollbars where used. */
 *::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -225,10 +218,6 @@
   scrollbar-gutter: stable;
 }
 
-/* === Registry animations === */
-/* Injected to end users via the FRAKMENT THEME block.
-   Required by registry components that use animate-* utilities. */
-
 @theme {
   --animate-shimmer: shimmer 3.2s linear infinite;
 
@@ -241,8 +230,6 @@
     }
   }
 }
-
-/* ---- shimmer utility (CSS class) ---- */
 
 @property --shimmer-angle {
   syntax: "<angle>";
@@ -306,8 +293,6 @@
   background-image: none;
   animation: none;
 }
-
-/* ---- scroll-fade utility ---- */
 
 @property --scroll-fade-size {
   syntax: "<length-percentage>";
@@ -592,7 +577,6 @@
   }
 }
 
-/* highlight.js — syntax highlight for Markdown code blocks */
 .hljs {
   color: var(--foreground);
   background: transparent;

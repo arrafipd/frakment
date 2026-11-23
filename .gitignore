@@ -85,9 +85,10 @@ _node_modules_old
 **/node_modules/
 
 
-# pnpm (contributor-only, npm is canonical)
-pnpm-lock.yaml
 .pnpm-store/
 
 # commit helper
 .commit-msg-temp.txt
+
+# editor-specific workspace settings
+.vscode/

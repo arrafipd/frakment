@@ -16,11 +16,6 @@ import {
 } from "@/components/docs/file-tree";
 import { PropsTable } from "@/components/docs/props-table";
 import { IntroFeatureCard } from "@/components/home/intro-feature-card";
-import { MotionCurveCustom } from "@/components/home/motion-curve-custom";
-import {
-  ComponentDefaultsGrid,
-  MotionCurveGrid,
-} from "@/components/home/motion-curve-grid";
 import { Alert, AlertDescription, AlertTitle } from "@/components/site/alert";
 import { FrakmentMark } from "@/components/site/brand";
 import { BrandColorSwatch } from "@/components/site/brand-color-swatch";
@@ -41,7 +36,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { IconComponent } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
-const LANGUAGE_TITLES: Record<string, string> = {
+const languageTitles: Record<string, string> = {
   astro: "astro",
   css: "css",
   diff: "diff",
@@ -95,7 +90,6 @@ export const mdxComponents = {
   CodeBlockCommand,
   CodeCollapsibleWrapper,
   CodeTabs,
-  ComponentDefaultsGrid,
   ComponentPreview,
   ComponentSource,
   ComponentsList,
@@ -116,7 +110,7 @@ export const mdxComponents = {
     __pnpm__?: string;
     __bun__?: string;
   }) => {
-    // Inline Code.
+
     if (typeof props.children === "string") {
       return (
         <code
@@ -129,7 +123,7 @@ export const mdxComponents = {
       );
     }
 
-    // npm command.
+
     const isNpmCommand = __npm__ && __yarn__ && __pnpm__ && __bun__;
     if (isNpmCommand) {
       return (
@@ -142,7 +136,7 @@ export const mdxComponents = {
       );
     }
 
-    // Default codeblock.
+
     return (
       <>
         {__raw__ && (
@@ -248,7 +242,7 @@ export const mdxComponents = {
       findLang(child);
     }
 
-    const title = lang ? LANGUAGE_TITLES[lang] : undefined;
+    const title = lang ? languageTitles[lang] : undefined;
     if (!(lang && title)) {
       return (
         <figure className={cn(className)} {...props}>
@@ -365,7 +359,6 @@ export const mdxComponents = {
   ),
   IntroFeatureCard,
   img: ({ className, alt, ...props }: React.ComponentProps<"img">) => (
-    // eslint-disable-next-line @next/next/no-img-element
     <img alt={alt} className={cn("rounded-md", className)} {...props} />
   ),
   Kbd,
@@ -387,8 +380,6 @@ export const mdxComponents = {
   li: ({ className, ...props }: React.ComponentProps<"li">) => (
     <li className={cn("mt-2", className)} {...props} />
   ),
-  MotionCurveCustom,
-  MotionCurveGrid,
   ol: ({ className, ...props }: React.ComponentProps<"ol">) => (
     <ol className={cn("my-6 ml-6 list-decimal", className)} {...props} />
   ),

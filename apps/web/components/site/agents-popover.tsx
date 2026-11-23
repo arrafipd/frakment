@@ -32,7 +32,7 @@ const MCP = {
 };
 
 const SKILL =
-  "curl -s https://frakment.vercel.app/skills/frakment-usage/SKILL.md";
+  "curl -s https://www.arrafi.dev/frakment/skills/frakment-usage/SKILL.md";
 
 const Content = () => (
   <div className="flex w-full flex-col gap-3 md:min-w-[28rem]">

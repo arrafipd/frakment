@@ -7,29 +7,29 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { LINK } from "@/constants/links";
-import { ROUTES } from "@/constants/routes";
+import { LINK } from "@/config/links";
+import { ROUTES } from "@/config/routes";
+import { createPageMetadata } from "@/features/seo/metadata";
 import { getContributors } from "@/lib/github";
-import { ExternalLink, Heart, Star } from "@/lib/icons";
+import { Star } from "@/lib/icons";
 import { sponsors } from "@/lib/sponsors";
-import { createPageMetadata } from "@/seo/metadata";
 
 export const metadata: Metadata = createPageMetadata({
   description:
-    "Support Frakment, an open-source monochrome component registry for AI interfaces.",
+    "Support Frakment, an open-source registry of reusable React web and Expo-native components.",
   path: ROUTES.SPONSOR,
   title: "Sponsor",
 });
 
-const MAX_SPONSORS = 12;
-const MAX_CONTRIBUTORS = 30;
+const maxSponsors = 12;
+const maxContributors = 30;
 
 const SponsorPage = async () => {
   const contributors = await getContributors();
 
-  const visibleSponsors = sponsors.slice(0, MAX_SPONSORS);
+  const visibleSponsors = sponsors.slice(0, maxSponsors);
   const extraSponsors = sponsors.length - visibleSponsors.length;
-  const visibleContributors = contributors.slice(0, MAX_CONTRIBUTORS);
+  const visibleContributors = contributors.slice(0, maxContributors);
   const extraContributors = contributors.length - visibleContributors.length;
 
   return (
@@ -40,18 +40,13 @@ const SponsorPage = async () => {
             Support Frakment
           </h1>
           <p className="text-muted-foreground max-w-md text-sm leading-tight text-pretty">
-            Frakment ships standalone React components you copy into your
-            project &mdash; no lock-in, no paywalled features.
+            Frakment is an open-source registry of reusable React web and
+            Expo-native components.
           </p>
           <p className="text-muted-foreground max-w-md text-sm leading-tight text-pretty">
             Sponsorships fund maintenance, new components, and infrastructure.
           </p>
           <div className="mt-4 flex items-center gap-3">
-            <ExternalLinkButton href={LINK.SPONSOR} size="lg">
-              <Heart />
-              Support on Liberapay
-              <ExternalLink className="size-3.5 opacity-60" />
-            </ExternalLinkButton>
             <ExternalLinkButton href={LINK.GITHUB} size="lg" variant="outline">
               <Star />
               Star on GitHub
@@ -100,15 +95,13 @@ const SponsorPage = async () => {
                 </Tooltip>
               ))}
               {extraSponsors > 0 && (
-                <a
-                  className="bg-muted text-muted-foreground ring-background hover:bg-accent hover:text-foreground relative z-10 flex size-13 items-center justify-center rounded-full text-xs font-medium ring-2 transition-colors hover:z-20"
-                  href={LINK.SPONSOR}
-                  rel="noopener noreferrer"
+                <span
+                  aria-label={`${extraSponsors} more sponsors`}
+                  className="bg-muted text-muted-foreground ring-background relative z-10 flex size-13 items-center justify-center rounded-full text-xs font-medium ring-2"
                   style={{ marginLeft: "-10px" }}
-                  target="_blank"
                 >
                   +{extraSponsors}
-                </a>
+                </span>
               )}
             </div>
           </div>
@@ -146,15 +139,13 @@ const SponsorPage = async () => {
                 </Tooltip>
               ))}
               {extraContributors > 0 && (
-                <a
-                  className="bg-muted text-muted-foreground ring-background hover:bg-accent hover:text-foreground relative z-10 flex size-9 items-center justify-center rounded-full text-[10px] font-medium ring-2 transition-colors hover:z-20"
-                  href={`${LINK.GITHUB}/graphs/contributors`}
-                  rel="noopener noreferrer"
+                <span
+                  aria-label={`${extraContributors} more contributors`}
+                  className="bg-muted text-muted-foreground ring-background relative z-10 flex size-9 items-center justify-center rounded-full text-[10px] font-medium ring-2"
                   style={{ marginLeft: "-8px" }}
-                  target="_blank"
                 >
                   +{extraContributors}
-                </a>
+                </span>
               )}
             </div>
           </div>

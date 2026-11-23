@@ -1,7 +1,7 @@
-import { LINK } from "@/constants/links";
-import { ROUTES } from "@/constants/routes";
-import { SITE } from "@/constants/site";
-import { requestOrigin } from "@/lib/agent-discovery/request-origin";
+import { LINK } from "@/config/links";
+import { ROUTES } from "@/config/routes";
+import { SITE } from "@/config/site";
+import { requestOrigin } from "@/features/agent-discovery/request-origin";
 import { homeContentRoute } from "@/lib/docs";
 
 const PROFILE = "https://www.rfc-editor.org/info/rfc9727";
@@ -16,17 +16,17 @@ const catalogLinkset = (origin: string) => {
         anchor: `${siteBase}`,
         "api-catalog": [
           {
-            href: `${base}${ROUTES.API_CATALOG}`,
+            href: `${base}${ROUTES.apiCatalog}`,
             type: `application/linkset+json; profile="${PROFILE}"`,
           },
         ],
         describedby: [
           {
-            href: `${base}${ROUTES.AGENT_SKILLS_INDEX}`,
+            href: `${base}${ROUTES.agentSkillsIndex}`,
             type: "application/json",
           },
           {
-            href: `${base}${ROUTES.AGENT_SKILLS_SITE_SKILL}`,
+            href: `${base}${ROUTES.agentSkillsSiteSkill}`,
             type: "text/markdown",
           },
         ],
@@ -36,12 +36,12 @@ const catalogLinkset = (origin: string) => {
         "service-doc": [
           { href: `${siteBase}${ROUTES.DOCS}`, type: "text/html" },
           { href: `${siteBase}${ROUTES.LLMS}`, type: "text/plain" },
-          { href: `${siteBase}${ROUTES.LLMS_FULL}`, type: "text/plain" },
+          { href: `${siteBase}${ROUTES.llmsFull}`, type: "text/plain" },
           { href: `${siteBase}${homeContentRoute}`, type: "text/markdown" },
-          { href: `${base}${LINK.FRAKMENT_MCP_DOCS}`, type: "text/html" },
+          { href: `${base}${LINK.frakmentMcpDocs}`, type: "text/html" },
         ],
         status: [
-          { href: `${siteBase}${ROUTES.API_STATUS}`, type: "application/json" },
+          { href: `${siteBase}${ROUTES.apiStatus}`, type: "application/json" },
         ],
       },
       {
@@ -53,7 +53,7 @@ const catalogLinkset = (origin: string) => {
           { href: `${siteBase}${ROUTES.DOCS}`, type: "text/html" },
         ],
         status: [
-          { href: `${siteBase}${ROUTES.API_STATUS}`, type: "application/json" },
+          { href: `${siteBase}${ROUTES.apiStatus}`, type: "application/json" },
         ],
       },
     ],
@@ -78,7 +78,7 @@ export const HEAD = () => {
   return new Response(null, {
     headers: {
       "Content-Type": profile,
-      Link: `<${ROUTES.API_CATALOG}>; rel="api-catalog"`,
+      Link: `<${ROUTES.apiCatalog}>; rel="api-catalog"`,
     },
   });
 };

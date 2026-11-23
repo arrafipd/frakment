@@ -1,5 +1,5 @@
-import { ROUTES } from "@/constants/routes";
-import { SITE } from "@/constants/site";
+import { ROUTES } from "@/config/routes";
+import { SITE } from "@/config/site";
 
 export const GET = () => {
   const body = [

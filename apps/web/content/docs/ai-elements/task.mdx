@@ -11,7 +11,7 @@ import { TaskDemo } from "@/examples/task-demo";
 
 Task renders a multi-step agent operation as a collapsible trace. The header shows the task title and a status icon. The body lists each step with its own status. Every step updates in place as the task advances.
 
-Task is a **composition**, not a primitive. It composes [Trace](/docs/components/trace) and drives its own step state through a chat transport.
+Task is a **composition**, not a primitive. It composes [Trace](/docs/components/web/trace) and can drive its own step state from local React state.
 
 ## Installation
 
@@ -24,7 +24,7 @@ Task is a **composition**, not a primitive. It composes [Trace](/docs/components
 <TabsContent value="cli">
 
 ~~~bash
-npx frakment add trace message bubble button
+npx frakment add trace message button
 ~~~
 
 </TabsContent>
@@ -34,7 +34,7 @@ npx frakment add trace message bubble button
       <Step>Install the primitives:</Step>
 
       ~~~bash
-      npx frakment add trace message bubble button
+      npx frakment add trace message button
       ~~~
 
       <Step>Copy the demo into your project:</Step>

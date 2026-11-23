@@ -30,7 +30,7 @@ export function TraceDescriptionDemo() {
         <TraceIcon>
           <SearchIcon />
         </TraceIcon>
-        <TraceTitle>Searched for useChat</TraceTitle>
+        <TraceTitle>Searched for chat primitives</TraceTitle>
         <TraceDescription>8 results</TraceDescription>
       </TraceLine>
     </Trace>

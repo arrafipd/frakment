@@ -4,12 +4,6 @@ import { axe } from "vitest-axe";
 
 import { Button } from "../button";
 
-/**
- * color-contrast DIMATIKAN permanen:
- *  - Design token warna Frakment dikelola manual oleh maintainer.
- *  - Test TIDAK BOLEH mengubah atau menyesuaikan warna token.
- *  - Test ini fokus: ARIA, label, semantic HTML, landmark.
- */
 const axeOptions = {
   rules: {
     "color-contrast": { enabled: false },

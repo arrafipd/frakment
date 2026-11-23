@@ -1,17 +1,259 @@
 "use client";
 
-import {
-  autoUpdate,
-  flip,
-  offset,
-  shift,
-  useFloating,
-} from "@floating-ui/react-dom";
 import * as React from "react";
 import { createPortal } from "react-dom";
 
 import { parseMotion, useReducedMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+
+type PositioningSide = "top" | "right" | "bottom" | "left";
+type PositioningAlignment = "start" | "center" | "end";
+
+interface PositioningMiddlewareOptions {
+  alignmentAxis?: number;
+  mainAxis?: number;
+  padding?: number;
+}
+
+interface PositioningMiddleware {
+  name: "flip" | "offset" | "shift";
+  options: PositioningMiddlewareOptions;
+}
+
+interface PositioningOptions {
+  elements: { reference: HTMLElement | null };
+  middleware?: Array<PositioningMiddleware | false>;
+  placement?: string;
+  strategy?: "absolute" | "fixed";
+  whileElementsMounted?: (
+    reference: HTMLElement,
+    positioned: HTMLElement,
+    update: () => void
+  ) => () => void;
+}
+
+function offset(options: PositioningMiddlewareOptions = {}) {
+  return { name: "offset" as const, options };
+}
+
+function shift(options: PositioningMiddlewareOptions = {}) {
+  return { name: "shift" as const, options };
+}
+
+function flip(options: PositioningMiddlewareOptions = {}) {
+  return { name: "flip" as const, options };
+}
+
+function autoUpdate(
+  reference: HTMLElement,
+  positioned: HTMLElement,
+  update: () => void
+) {
+  const view = reference.ownerDocument.defaultView;
+  if (!view) {
+    return () => {};
+  }
+
+  view.addEventListener("resize", update);
+  view.addEventListener("scroll", update, true);
+  const observer =
+    typeof ResizeObserver === "undefined" ? null : new ResizeObserver(update);
+  observer?.observe(reference);
+  observer?.observe(positioned);
+
+  return () => {
+    view.removeEventListener("resize", update);
+    view.removeEventListener("scroll", update, true);
+    observer?.disconnect();
+  };
+}
+
+function usePositioning(configuration: PositioningOptions) {
+  const [referenceOverride, setReferenceOverride] =
+    React.useState<HTMLElement | null>(null);
+  const reference = configuration.elements.reference ?? referenceOverride;
+  const [positioned, setPositioned] = React.useState<HTMLElement | null>(null);
+  const [position, setPosition] = React.useState({
+    isPositioned: false,
+    placement: configuration.placement ?? "bottom",
+    x: 0,
+    y: 0,
+  });
+  const referenceRef = React.useRef(reference);
+  const positionedRef = React.useRef(positioned);
+  const configurationRef = React.useRef(configuration);
+  referenceRef.current = reference;
+  positionedRef.current = positioned;
+  configurationRef.current = configuration;
+
+  const setReference = React.useCallback((node: HTMLElement | null) => {
+    setReferenceOverride(node);
+  }, []);
+
+  const update = React.useCallback(() => {
+    const referenceElement = referenceRef.current;
+    const positionedElement = positionedRef.current;
+    if (!(referenceElement && positionedElement)) {
+      return;
+    }
+
+    const referenceRect = referenceElement.getBoundingClientRect();
+    const positionedRect = positionedElement.getBoundingClientRect();
+    const documentElement = referenceElement.ownerDocument.documentElement;
+    const view = referenceElement.ownerDocument.defaultView;
+    if (!view) {
+      return;
+    }
+
+    const viewportWidth = documentElement.clientWidth || view.innerWidth;
+    const viewportHeight = documentElement.clientHeight || view.innerHeight;
+    const middleware = (configurationRef.current.middleware ?? []).filter(
+      (item): item is PositioningMiddleware => Boolean(item)
+    );
+    const findMiddleware = (name: PositioningMiddleware["name"]) =>
+      middleware.find((item) => item.name === name);
+    const [initialSide, alignment = "center"] = (
+      configurationRef.current.placement ?? "bottom"
+    ).split("-") as [PositioningSide, PositioningAlignment?];
+    let side = initialSide;
+
+    const oppositeSide: Record<PositioningSide, PositioningSide> = {
+      bottom: "top",
+      left: "right",
+      right: "left",
+      top: "bottom",
+    };
+    const flipPadding = findMiddleware("flip")?.options.padding ?? 0;
+    const isVertical = side === "top" || side === "bottom";
+    const currentSpace =
+      side === "bottom"
+        ? viewportHeight - referenceRect.bottom - flipPadding
+        : side === "top"
+          ? referenceRect.top - flipPadding
+          : side === "right"
+            ? viewportWidth - referenceRect.right - flipPadding
+            : referenceRect.left - flipPadding;
+    const opposite = oppositeSide[side];
+    const oppositeSpace =
+      opposite === "bottom"
+        ? viewportHeight - referenceRect.bottom - flipPadding
+        : opposite === "top"
+          ? referenceRect.top - flipPadding
+          : opposite === "right"
+            ? viewportWidth - referenceRect.right - flipPadding
+            : referenceRect.left - flipPadding;
+    const mainSize = isVertical ? positionedRect.height : positionedRect.width;
+    if (
+      findMiddleware("flip") &&
+      currentSpace < mainSize &&
+      oppositeSpace > currentSpace
+    ) {
+      side = opposite;
+    }
+
+    const offsetOptions = findMiddleware("offset")?.options;
+    const mainAxisOffset = offsetOptions?.mainAxis ?? 0;
+    const alignmentAxisOffset = offsetOptions?.alignmentAxis ?? 0;
+    const isRtl = view.getComputedStyle(referenceElement).direction === "rtl";
+    const alignmentOffset =
+      alignment === "center"
+        ? (isVertical
+            ? referenceRect.width - positionedRect.width
+            : referenceRect.height - positionedRect.height) / 2
+        : alignment === "start"
+          ? isVertical && isRtl
+            ? referenceRect.width - positionedRect.width
+            : 0
+          : isVertical && isRtl
+            ? 0
+            : isVertical
+              ? referenceRect.width - positionedRect.width
+              : referenceRect.height - positionedRect.height;
+    let x =
+      side === "left"
+        ? referenceRect.left - positionedRect.width
+        : side === "right"
+          ? referenceRect.right
+          : referenceRect.left + alignmentOffset;
+    let y =
+      side === "top"
+        ? referenceRect.top - positionedRect.height
+        : side === "bottom"
+          ? referenceRect.bottom
+          : referenceRect.top + alignmentOffset;
+
+    if (side === "top") {
+      y -= mainAxisOffset;
+      x += alignmentAxisOffset;
+    } else if (side === "bottom") {
+      y += mainAxisOffset;
+      x += alignmentAxisOffset;
+    } else if (side === "left") {
+      x -= mainAxisOffset;
+      y += alignmentAxisOffset;
+    } else {
+      x += mainAxisOffset;
+      y += alignmentAxisOffset;
+    }
+
+    const shiftPadding = findMiddleware("shift")?.options.padding ?? 0;
+    if (findMiddleware("shift")) {
+      if (side === "top" || side === "bottom") {
+        x = Math.min(
+          Math.max(x, shiftPadding),
+          Math.max(
+            shiftPadding,
+            viewportWidth - positionedRect.width - shiftPadding
+          )
+        );
+      } else {
+        y = Math.min(
+          Math.max(y, shiftPadding),
+          Math.max(
+            shiftPadding,
+            viewportHeight - positionedRect.height - shiftPadding
+          )
+        );
+      }
+    }
+
+    const placement = `${side}${alignment === "center" ? "" : `-${alignment}`}`;
+    setPosition((previous) =>
+      previous.x === x &&
+      previous.y === y &&
+      previous.placement === placement &&
+      previous.isPositioned
+        ? previous
+        : { isPositioned: true, placement, x, y }
+    );
+  }, []);
+
+  React.useLayoutEffect(update);
+  React.useLayoutEffect(() => {
+    if (!(reference && positioned && configuration.whileElementsMounted)) {
+      return;
+    }
+    return configuration.whileElementsMounted(reference, positioned, update);
+  }, [configuration.whileElementsMounted, positioned, reference, update]);
+
+  const refs = React.useMemo(
+    () => ({ setPositioned, setReference }),
+    [setReference]
+  );
+  const positionStyles: React.CSSProperties = {
+    left: 0,
+    position: configuration.strategy ?? "absolute",
+    top: 0,
+    transform: `translate(${position.x}px, ${position.y}px)`,
+  };
+
+  return {
+    isPositioned: position.isPositioned,
+    placement: position.placement,
+    positionStyles,
+    refs,
+  };
+}
 
 const defaultDropdownMotion = "150 cubic-bezier(0.16, 1, 0.3, 1)";
 
@@ -351,7 +593,7 @@ function DropdownMenuContent({
 }: DropdownMenuContentProps) {
   const ctx = useDropdownMenuContext("DropdownMenuContent");
   const [present, setPresent] = React.useState(ctx.open);
-  const { refs, floatingStyles, isPositioned } = useFloating({
+  const { refs, positionStyles, isPositioned } = usePositioning({
     elements: { reference: ctx.triggerRef.current },
     middleware: [
       offset({ alignmentAxis: alignOffset, mainAxis: sideOffset }),
@@ -485,7 +727,7 @@ function DropdownMenuContent({
     const isCharacterKey = event.key.length === 1;
     if (isKeyDownInside) {
       if (event.key === "Tab") {
-        event.preventDefault();
+        ctx.onOpenChange(false);
       }
       if (!isModifierKey && isCharacterKey) {
         const search = ctx.searchRef.current + event.key;
@@ -530,12 +772,12 @@ function DropdownMenuContent({
   const node = (
     <div
       data-popper-wrapper=""
-      ref={refs.setFloating}
+      ref={refs.setPositioned}
       style={{
-        ...floatingStyles,
+        ...positionStyles,
         minWidth: "max-content",
         transform: isPositioned
-          ? floatingStyles.transform
+          ? positionStyles.transform
           : "translate(0, -200%)",
       }}
     >
@@ -589,12 +831,14 @@ export type DropdownMenuItemProps = Omit<
   React.ComponentProps<"div">,
   "onSelect"
 > & {
+  as?: React.ElementType;
   disabled?: boolean;
   onSelect?: (event: Event) => void;
   textValue?: string;
 } & Record<string, unknown>;
 
 function DropdownMenuItem({
+  as,
   className,
   disabled = false,
   inset,
@@ -612,7 +856,8 @@ function DropdownMenuItem({
   variant?: "default" | "destructive";
 }) {
   const ctx = useDropdownMenuContext("DropdownMenuItem");
-  const ref = React.useRef<HTMLDivElement>(null);
+  const Component = as ?? "div";
+  const ref = React.useRef<HTMLElement>(null);
   const [focused, setFocused] = React.useState(false);
   const [textContent, setTextContent] = React.useState("");
   const isPointerDownRef = React.useRef(false);
@@ -653,7 +898,7 @@ function DropdownMenuItem({
   };
 
   return (
-    <div
+    <Component
       aria-disabled={disabled || undefined}
       data-disabled={disabled ? "" : undefined}
       data-highlighted={focused ? "" : undefined}
@@ -670,13 +915,13 @@ function DropdownMenuItem({
       )}
       onBlur={() => setFocused(false)}
       onClick={composeEventHandlers(
-        onClick as ((e: React.MouseEvent<HTMLDivElement>) => void) | undefined,
+        onClick as ((e: React.MouseEvent<HTMLElement>) => void) | undefined,
         handleSelect
       )}
       onFocus={() => setFocused(true)}
       onKeyDown={composeEventHandlers(
         onKeyDown as
-          | ((e: React.KeyboardEvent<HTMLDivElement>) => void)
+          | ((e: React.KeyboardEvent<HTMLElement>) => void)
           | undefined,
         (event) => {
           if (disabled || event.target !== event.currentTarget) {
@@ -692,15 +937,15 @@ function DropdownMenuItem({
           }
         }
       )}
-      onPointerDown={(event) => {
+      onPointerDown={(event: React.PointerEvent<HTMLElement>) => {
         (
           onPointerDown as
-            | ((e: React.PointerEvent<HTMLDivElement>) => void)
+            | ((e: React.PointerEvent<HTMLElement>) => void)
             | undefined
         )?.(event);
         isPointerDownRef.current = true;
       }}
-      onPointerMove={(event) => {
+      onPointerMove={(event: React.PointerEvent<HTMLElement>) => {
         if (event.pointerType !== "mouse") {
           return;
         }
@@ -713,7 +958,7 @@ function DropdownMenuItem({
       }}
       onPointerUp={composeEventHandlers(
         onPointerUp as
-          | ((e: React.PointerEvent<HTMLDivElement>) => void)
+          | ((e: React.PointerEvent<HTMLElement>) => void)
           | undefined,
         (event) => {
           if (!isPointerDownRef.current) {
@@ -723,7 +968,7 @@ function DropdownMenuItem({
       )}
     >
       {children}
-    </div>
+    </Component>
   );
 }
 
@@ -946,7 +1191,7 @@ function DropdownMenuSubContent({
   ...props
 }: DropdownMenuSubContentProps) {
   const sub = useDropdownMenuSubContext("DropdownMenuSubContent");
-  const { refs, floatingStyles, isPositioned } = useFloating({
+  const { refs, positionStyles, isPositioned } = usePositioning({
     elements: { reference: sub.trigger },
     middleware: [
       offset({ alignmentAxis: alignOffset, mainAxis: sideOffset }),
@@ -971,12 +1216,12 @@ function DropdownMenuSubContent({
   const node = (
     <div
       data-popper-wrapper=""
-      ref={refs.setFloating}
+      ref={refs.setPositioned}
       style={{
-        ...floatingStyles,
+        ...positionStyles,
         minWidth: "max-content",
         transform: isPositioned
-          ? floatingStyles.transform
+          ? positionStyles.transform
           : "translate(0, -200%)",
       }}
     >

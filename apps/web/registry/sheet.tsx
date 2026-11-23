@@ -1,9 +1,11 @@
 "use client";
 
 import { XIcon } from "lucide-react";
+
 import * as React from "react";
 import { createPortal } from "react-dom";
 
+import { useReducedMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 type SheetSide = "top" | "right" | "bottom" | "left";
@@ -29,7 +31,7 @@ function useSheetContext(): SheetContextValue {
   return ctx;
 }
 
-const FOCUSABLE_SELECTOR =
+const focusableSelector =
   'a[href],button:not([disabled]),textarea:not([disabled]),input:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])';
 
 function getFocusable(root: HTMLElement | null): HTMLElement[] {
@@ -37,7 +39,7 @@ function getFocusable(root: HTMLElement | null): HTMLElement[] {
     return [];
   }
   return Array.from(
-    root.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
+    root.querySelectorAll<HTMLElement>(focusableSelector)
   ).filter((el) => !el.hasAttribute("disabled") && el.offsetParent !== null);
 }
 
@@ -234,6 +236,7 @@ type SheetOverlayProps = React.ComponentPropsWithoutRef<"div">;
 
 function SheetOverlay({ className, style, ...props }: SheetOverlayProps) {
   const ctx = useSheetContext();
+  const reduce = useReducedMotion();
   return (
     <div
       aria-hidden="true"
@@ -251,7 +254,7 @@ function SheetOverlay({ className, style, ...props }: SheetOverlayProps) {
         inset: 0,
         opacity: ctx.open ? 1 : 0,
         position: "fixed",
-        transition: "opacity 200ms ease-out",
+        transition: reduce ? "none" : "opacity 200ms ease-out",
         zIndex: 50,
         ...style,
       }}
@@ -290,6 +293,7 @@ function SheetContent({
 }: SheetContentProps) {
   const ctx = useSheetContext();
   const { contentRef, descriptionId, open, setOpen, titleId, triggerRef } = ctx;
+  const reduce = useReducedMotion();
   const [mounted, setMounted] = React.useState(false);
   const [entered, setEntered] = React.useState(false);
 
@@ -316,9 +320,13 @@ function SheetContent({
       return;
     }
     setEntered(false);
+    if (reduce) {
+      setMounted(false);
+      return;
+    }
     const timer = window.setTimeout(() => setMounted(false), 200);
     return () => window.clearTimeout(timer);
-  }, [open]);
+  }, [open, reduce]);
 
   const setRef = React.useCallback(
     (node: HTMLDivElement | null) => {
@@ -417,8 +425,9 @@ function SheetContent({
         style={{
           opacity: entered ? 1 : 0,
           transform: entered ? "translate3d(0,0,0)" : sideTransform[side],
-          transition:
-            "opacity 200ms ease-out, transform 300ms cubic-bezier(0.32, 0.72, 0, 1)",
+          transition: reduce
+            ? "none"
+            : "opacity 200ms ease-out, transform 300ms cubic-bezier(0.32, 0.72, 0, 1)",
           ...style,
         }}
         tabIndex={-1}

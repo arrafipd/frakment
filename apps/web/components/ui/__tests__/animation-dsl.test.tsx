@@ -5,7 +5,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "../collapsible";
-import { CreditCardNumber } from "../credit-card";
 import {
   Trace,
   TraceCollapsible,
@@ -88,25 +87,5 @@ describe("Trace animation prop", () => {
     expect(
       container.querySelector('[data-slot="trace-collapsible-content"]')
     ).toBeTruthy();
-  });
-});
-
-describe("CreditCardNumber animation prop", () => {
-  it("renders default", () => {
-    const { container } = render(<CreditCardNumber value="4242424242424242" />);
-    expect(container.querySelector("[aria-label]")).toBeTruthy();
-  });
-  it("accepts spring DSL", () => {
-    const { container } = render(
-      <CreditCardNumber animation="spring(300, 25)" value="4242424242424242" />
-    );
-    expect(container.querySelector("[aria-label]")).toBeTruthy();
-  });
-  it("accepts false (plain <p>)", () => {
-    const { container } = render(
-      <CreditCardNumber animation={false} value="4242424242424242" />
-    );
-    expect(container.querySelector("p")).toBeTruthy();
-    expect(container.querySelector("motion.span, [style*=blur]")).toBeFalsy();
   });
 });

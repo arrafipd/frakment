@@ -5,7 +5,7 @@ import * as React from "react";
 import { Tabs } from "@/components/ui/tabs";
 import { useConfig } from "@/hooks/use-config";
 
-const INSTALLATION_VALUES = new Set(["cli", "manual"]);
+const installationValues = new Set(["cli", "manual"]);
 
 const extractValue = (tab: HTMLElement): string | null =>
   tab.id.match(/trigger-(.+)$/u)?.[1] ?? null;
@@ -44,7 +44,7 @@ export function CodeTabs({
   }, [activeValue, configValue]);
 
   React.useEffect(() => {
-    if (!(configValue && INSTALLATION_VALUES.has(configValue))) {
+    if (!(configValue && installationValues.has(configValue))) {
       return;
     }
     if (activeValue === configValue) {
@@ -66,7 +66,7 @@ export function CodeTabs({
 
   const handleValueChange = (value: string) => {
     setActiveValue(value);
-    if (INSTALLATION_VALUES.has(value)) {
+    if (installationValues.has(value)) {
       setConfig({ ...config, installationType: value as "cli" | "manual" });
     }
   };

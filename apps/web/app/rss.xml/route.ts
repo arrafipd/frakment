@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-import { ROUTES } from "@/constants/routes";
-import { SITE } from "@/constants/site";
+import { ROUTES } from "@/config/routes";
+import { SITE } from "@/config/site";
 import type { ChangelogPageData } from "@/lib/changelog";
 import { getChangelogPages } from "@/lib/changelog";
 

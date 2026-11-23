@@ -1,8 +1,8 @@
 "use client";
 
 import type { VariantProps } from "class-variance-authority";
-import { Slot } from "radix-ui";
 import type * as React from "react";
+import { Slot } from "@/components/ui/slot";
 import { buttonVariants, cn } from "@/lib/utils";
 
 export interface SiteButtonProps
@@ -18,7 +18,7 @@ export function SiteButton({
   asChild,
   ...props
 }: SiteButtonProps) {
-  const Comp = asChild ? Slot.Root : "button";
+  const Comp = asChild ? Slot : "button";
   return (
     <Comp
       className={cn(buttonVariants({ className, size, variant }))}

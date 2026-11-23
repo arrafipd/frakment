@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/button";
   <DropdownMenuBasic />
 </ComponentPreview>
 
-Dropdown Menu is a compound primitive built on Floating UI for positioning. It supports plain items, groups with labels, separators, nested submenus, checkbox / radio items, icons, and destructive variants.
+Dropdown Menu is a compound primitive with automatic positioning that keeps menus within the viewport. It supports plain items, groups with labels, separators, nested submenus, checkbox / radio items, icons, and destructive variants.
 
 ## Installation
 
@@ -42,12 +42,6 @@ npx frakment add dropdown-menu
 
   <TabsContent value="manual">
     <Steps className="mb-0 pt-2">
-      <Step>Install the following dependencies:</Step>
-
-      ```bash
-      npm install @floating-ui/react-dom
-      ```
-
       <Step>Copy and paste the following code into your project.</Step>
 
       <ComponentSource name="dropdown-menu" title="components/ui/dropdown-menu.tsx" />
@@ -321,6 +315,7 @@ const [open, setOpen] = React.useState(false)
 | `→` / `←` | Open or close a submenu |
 | `Home` / `End` | First / last item |
 | `Esc` | Close |
+| `Tab` / `Shift + Tab` | Close and move focus to the next / previous control |
 
 ## Data Attributes
 
@@ -347,6 +342,7 @@ The menu fades and scales in through Frakment's motion engine. Pass `motion` on 
 - The trigger must have `aria-label` when icon-only.
 - Items are focusable; arrow keys move focus.
 - Escape closes the menu and returns focus to the trigger.
+- Tab and Shift+Tab close the menu and continue focus navigation outside it.
 - Destructive items are visually distinct but still focusable.
 
 ## Best Practices
@@ -357,7 +353,7 @@ The menu fades and scales in through Frakment's motion engine. Pass `motion` on 
 - **Keep labels verb-based.** "Delete", not "Deletion".
 ## Related Components
 
-- [Select](/docs/components/select): single-value picker with keyboard search
-- [Popover](/docs/components/popover): floating panel anchored to a trigger
-- [Button Group](/docs/components/button-group): groups adjacent buttons into one unit
+- [Select](/docs/components/web/select): single-value picker with keyboard search
+- [Popover](/docs/components/web/popover): floating panel anchored to a trigger
+- [Button Group](/docs/components/web/button-group): groups adjacent buttons into one unit
 

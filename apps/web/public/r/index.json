@@ -37,20 +37,6 @@
     },
     {
       "deprecated": false,
-      "description": "A daily status timeline for service uptime, with inline incident logs.",
-      "name": "pulse",
-      "title": "Pulse",
-      "version": "0.0.0"
-    },
-    {
-      "deprecated": false,
-      "description": "Multi-step form component. Bundles the headless engine and composes checkbox, radio-group, button, and card.",
-      "name": "questionnaire",
-      "title": "Questionnaire",
-      "version": "0.0.0"
-    },
-    {
-      "deprecated": false,
       "description": "An input where the user selects a value from within a given range.",
       "name": "slider",
       "title": "Slider",
@@ -296,7 +282,7 @@
     },
     {
       "deprecated": false,
-      "description": "A modal dialog built on Radix.",
+      "description": "A modal dialog with focus management and keyboard dismissal.",
       "name": "dialog",
       "title": "Dialog",
       "version": "0.0.0"
@@ -310,26 +296,12 @@
     },
     {
       "deprecated": false,
-      "description": "A monochrome credit card display with three variants.",
-      "name": "credit-card",
-      "title": "Credit Card",
-      "version": "0.0.0"
-    },
-    {
-      "deprecated": false,
-      "description": "A card with a procedural foil that reacts to pointer tilt and device motion. Card and image variants.",
-      "name": "holo-card",
-      "title": "Holo Card",
-      "version": "0.0.0"
-    },
-    {
-      "deprecated": false,
       "description": "Merges its props onto its single child element.",
       "name": "slot",
       "title": "Slot",
       "version": "0.0.0"
     }
   ],
-  "homepage": "https://github.com/arrafipd/frakment",
+  "homepage": "https://github.com/frakment/ui",
   "name": "frakment"
 }

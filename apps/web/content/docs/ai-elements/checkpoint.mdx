@@ -24,25 +24,15 @@ Checkpoint is a composition — install the primitives, then wire them together 
 <TabsContent value="cli">
 
 ```bash
-npm install @frakment/ai
-
-npx frakment add bubble button marker message
+npx frakment add message button marker
 ```
 
 </TabsContent>
 
   <TabsContent value="manual">
     <Steps className="mb-0 pt-2">
-      <Step>Install the following dependencies:</Step>
-
-      ```bash
-      npm install @frakment/ai @ai-sdk/react ai motion
-      ```
-
       <Step>Install the required registry components:</Step>
 
-      <ComponentSource src="lib/ai.ts" title="lib/ai.ts" />
-      <ComponentSource name="bubble" title="components/ui/bubble.tsx" />
       <ComponentSource name="button" title="components/ui/button.tsx" />
       <ComponentSource name="marker" title="components/ui/marker.tsx" />
       <ComponentSource name="message" title="components/ui/message.tsx" />
@@ -55,27 +45,18 @@ npx frakment add bubble button marker message
 
 ## Usage
 
-Emit a `data-checkpoint` part from the assistant turn. The part carries a label, which renders as a separator marker in the transcript.
+Store a checkpoint object in local state. Its label renders as a separator marker, and the restore action can trim later messages.
 
 ```tsx title="chat.tsx"
-import { createChat } from "@frakment/ai";
-import type { UIMessage } from "ai";
 
-type ChatMessage = UIMessage<
-  unknown,
-  { checkpoint: { label: string } }
->;
-
-const chat = createChat<ChatMessage>()
-  .user("Rename the button component to action.")
-  .assistant(({ writer }) => {
-    writer.text("Renamed Button to Action.");
-    writer.data({
-      type: "data-checkpoint",
-      id: "rename",
-      data: { label: "Button renamed" },
-    });
-  });
+type ChatMessage = {
+  id: string;
+  role: "assistant" | "user";
+  parts: Array<
+    | { type: "text"; text: string }
+    | { type: "data-checkpoint"; data: { label: string }; id: string }
+  >;
+};
 ```
 
 ## Anatomy
@@ -111,24 +92,7 @@ const chat = createChat<ChatMessage>()
 
 ## Animation
 
-Checkpoint rows animate through the same variants as chat messages.
-
-```tsx title="checkpoint.tsx"
-import { MESSAGE_ANIMATIONS } from "@/lib/message-animations";
-import { motion, useReducedMotion } from "motion/react";
-
-const shouldReduceMotion = useReducedMotion();
-
-<motion.div
-  animate={shouldReduceMotion ? undefined : "animate"}
-  initial={shouldReduceMotion ? undefined : "initial"}
-  variants={MESSAGE_ANIMATIONS["slide-up"].variants}
->
-  ...
-</motion.div>
-```
-
-The checkpoint marker uses the `fade` variant, so it appears after the message it belongs to.
+The preview uses a CSS entrance animation for checkpoint rows and respects the reduced-motion preference.
 
 ## Restore semantics
 
@@ -147,10 +111,10 @@ The restore button hides when the checkpoint is already the last message. Send t
 ## Next
 
 - [Chat](/docs/ai-elements/chat) — full streaming chat surface.
-- [Message](/docs/components/message) — message row primitive.
-- [Bubble](/docs/components/bubble) — chat bubble surface.
-- [Marker](/docs/components/marker) — separator and status line.
-- [Button](/docs/components/button) — restore action.
+- [Message](/docs/components/web/message) — message row primitive.
+- [Bubble](/docs/components/web/message) — chat bubble surface.
+- [Marker](/docs/components/web/marker) — separator and status line.
+- [Button](/docs/components/web/button) — restore action.
 
 ## Accessibility
 

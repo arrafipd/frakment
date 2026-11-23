@@ -150,7 +150,7 @@ Set `aria-invalid` on slots to mark them invalid.
 
 <PropsTable
   rows={[
-    { name: "maxLength", type: "number", description: "Number of character slots." },
+    { name: "maxLength", type: "number", required: true, description: "Number of character slots." },
     { name: "value", type: "string", description: "Controlled value." },
     { name: "onChange", type: "function", description: "Called with the new value." },
     { name: "pattern", type: "string", description: "Regex string that limits allowed characters." },
@@ -163,7 +163,7 @@ Set `aria-invalid` on slots to mark them invalid.
 
 <PropsTable
   rows={[
-    { name: "index", type: "number", description: "Position of this slot within the input." },
+    { name: "index", type: "number", required: true, description: "Position of this slot within the input." },
   ]}
 />
 
@@ -214,6 +214,6 @@ const [value, setValue] = React.useState("")
 
 ## Related Components
 
-- [Input](/docs/components/input) — plain text
-- [Field](/docs/components/field) — label + error
+- [Input](/docs/components/web/input) — plain text
+- [Field](/docs/components/web/field) — label + error
 

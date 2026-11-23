@@ -3,7 +3,7 @@ import type { ClassValue } from "clsx";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-import { SITE } from "@/constants/site";
+import { SITE } from "@/config/site";
 
 export const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
 

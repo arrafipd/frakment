@@ -24,9 +24,7 @@ Confirmation is a composition — install the primitives, then wire the approval
 <TabsContent value="cli">
 
 ```bash
-npm install @frakment/ai
-
-npx frakment add bubble button item message trace
+npx frakment add message button item trace
 ```
 
 </TabsContent>
@@ -36,13 +34,11 @@ npx frakment add bubble button item message trace
       <Step>Install the following dependencies:</Step>
 
       ```bash
-      npm install @frakment/ai @ai-sdk/react ai motion lucide-react
+      npm install lucide-react
       ```
 
       <Step>Install the required registry components:</Step>
 
-      <ComponentSource src="lib/ai.ts" title="lib/ai.ts" />
-      <ComponentSource name="bubble" title="components/ui/bubble.tsx" />
       <ComponentSource name="button" title="components/ui/button.tsx" />
       <ComponentSource name="item" title="components/ui/item.tsx" />
       <ComponentSource name="message" title="components/ui/message.tsx" />
@@ -56,40 +52,14 @@ npx frakment add bubble button item message trace
 
 ## Usage
 
-Mark the tool call with `needsApproval: true`. The writer emits an `approval-requested` state instead of running the tool immediately.
+Keep the pending tool call in local state, then update its approval state from the two action buttons.
 
 ```tsx title="chat.tsx"
-import { createChat } from "@frakment/ai";
-import type { UIDataTypes, UIMessage } from "ai";
+const [approved, setApproved] = useState<boolean>();
 
-type ChatMessage = UIMessage<
-  unknown,
-  UIDataTypes,
-  { runCommand: { input: { command: string }; output: { stdout: string } } }
->;
-
-const chat = createChat<ChatMessage>()
-  .user("Clean up the build folder.")
-  .assistant(({ writer }) => {
-    writer.tool("runCommand", {
-      input: { command: "rm -rf dist" },
-      needsApproval: true,
-      output: { stdout: "" },
-    });
-  });
-```
-
-Wire the approval handler into `useChat` and let the SDK auto-send the follow-up turn.
-
-```tsx title="chat.tsx"
-import { useChat } from "@ai-sdk/react";
-import { lastAssistantMessageIsCompleteWithApprovalResponses } from "ai";
-
-const { messages, addToolApprovalResponse } = useChat({
-  messages: initialMessages,
-  transport,
-  sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithApprovalResponses,
-});
+function respond(approvalId: string, approved: boolean) {
+  setApproved(approved);
+}
 ```
 
 ## Anatomy
@@ -158,31 +128,14 @@ The tool call moves through states:
 
 ## Animation
 
-User turns animate with the `slide-up` variant, assistant turns fade in, and the approval card slides up when it appears.
-
-```tsx title="confirmation.tsx"
-import { MESSAGE_ANIMATIONS } from "@/lib/message-animations";
-import { motion, useReducedMotion } from "motion/react";
-
-const shouldReduceMotion = useReducedMotion();
-
-<motion.div
-  animate={shouldReduceMotion ? undefined : "animate"}
-  initial={shouldReduceMotion ? undefined : "initial"}
-  variants={MESSAGE_ANIMATIONS["slide-up"].variants}
->
-  <Item variant="outline" size="sm">...</Item>
-</motion.div>
-```
-
-Motion is skipped when the user prefers reduced motion.
+The preview uses CSS entrance animations for new turns and approval cards, and respects the reduced-motion preference.
 
 ## Next
 
 - [Chat](/docs/ai-elements/chat) — full streaming chat surface.
 - [Checkpoint](/docs/ai-elements/checkpoint) — restore points in a conversation.
-- [Trace](/docs/components/trace) — collapsible reasoning and tool-call lines.
-- [Item](/docs/components/item) — card with media, content, and actions.
+- [Trace](/docs/components/web/trace) — collapsible reasoning and tool-call lines.
+- [Item](/docs/components/web/item) — card with media, content, and actions.
 
 ## Accessibility
 

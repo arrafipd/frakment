@@ -29,7 +29,7 @@ import { MessageHeaderFooterDemo } from "@/examples/message-header-footer-demo";
   <MessageDemo />
 </ComponentPreview>
 
-Message ships every primitive a chat UI needs. Layout primitives (`Message`, `MessageGroup`) handle alignment and avatar placement. `Bubble` provides the rounded visual box with variant colors. `MessageScroller` anchors the viewport, follows streamed replies, and restores position on refresh. `MessageAnimated` fades in an incoming `UIMessage` with one line.
+Message ships every primitive a chat UI needs. Layout primitives (`Message`, `MessageGroup`) handle alignment and avatar placement. `Bubble` provides the rounded visual box with variant colors. `MessageScroller` anchors the viewport, follows streamed replies, and restores position on refresh. `MessageAnimated` fades in an incoming local message with one line.
 
 ## Installation
 
@@ -148,7 +148,7 @@ import { Bubble, BubbleContent, Message, MessageAvatar, MessageContent, MessageG
 
 **Animated**
 
-- **MessageAnimated** - reads a `UIMessage`, extracts text parts, fades the bubble in on mount
+- **MessageAnimated** - reads a local message object, extracts text parts, and fades the bubble in on mount
 
 ## Examples
 
@@ -259,7 +259,7 @@ Show inline error detail from a bubble without leaving the conversation.
 
 ### Streamed reply animation
 
-`MessageAnimated` reads a `UIMessage`, extracts its text parts, and fades the bubble in. Pass `motion` to override the transition.
+`MessageAnimated` reads a local message object, extracts its text parts, and fades the bubble in. Pass `motion` to override the transition.
 
 <ComponentPreview name="message-animated-demo" title="message-animated-demo.tsx" src="examples/message-animated-demo.tsx" previewClassName="h-auto py-8">
   <MessageAnimatedDemo />
@@ -348,7 +348,7 @@ All layout primitives (**MessageGroup**, **Message**, **MessageAvatar**, **Messa
 
 <PropsTable
   rows={[
-    { name: 'message', type: "UIMessage", description: "The message to render. Text parts are concatenated." },
+    { name: 'message', type: "LocalMessage", required: true, description: "The message to render. Text parts are concatenated." },
     { name: 'motion', type: "string", description: "CSS transition override; e.g. 200 ease-out or 300 cubic-bezier(...)." },
     { name: 'scrollAnchor', type: "boolean", defaultValue: "false", description: "Forwarded to the underlying MessageScrollerItem." },
   ]}
@@ -387,6 +387,6 @@ Returns `{ currentAnchorId: string | null, visibleMessageIds: string[] }`. `curr
 
 - **Always wrap the scroller in `MessageScrollerProvider`.** The provider owns the scroll context; children throw if the context is missing.
 - **Pass `messageId` on every `MessageScrollerItem`.** Without it, `scrollToMessage` and visibility tracking cannot find the item.
-- **Use `MessageAnimated` for streamed replies.** It expects a `UIMessage` from the AI SDK and handles text extraction and fade-in.
+- **Use `MessageAnimated` for streamed replies.** It accepts a local message object and handles text extraction and fade-in.
 - **Reduce motion is honored automatically.** When the OS requests reduced motion, transitions are disabled; `motion` values are ignored.
 - **Prefer `Bubble` variants over custom colors.** The seven built-in variants cover the common message types.

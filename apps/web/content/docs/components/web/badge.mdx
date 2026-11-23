@@ -266,7 +266,7 @@ Badges can sit next to headings or inline text to mark status without breaking f
 
 - Badges are not interactive unless `as` wraps an interactive element such as `<a>` or `<button>`. Do not attach `onClick` handlers to a plain `<Badge>` — use `<Button>` instead.
 - When a badge conveys essential information, ensure that information is also present in the surrounding text so screen reader users are not forced to encounter it as a standalone fragment.
-- For icon-only badges, provide an `aria-label` so screen readers can announce the intent. Without it, the badge is read as "graphic" or skipped entirely.
+- A plain `Badge` is a generic `<span>`, so an `aria-label` alone may not give an icon-only badge an accessible name. Prefer visible text or place the icon inside an appropriately named semantic element.
 - Color alone must not convey state. The `destructive` variant pairs color with text or an icon. When adding custom colors, always include a text label or an icon with an accessible name.
 - For badges that indicate a loading state, pair the spinner with a text label such as "Generating" so screen readers can announce what is happening.
 - Do not use the `destructive` variant for emphasis. It communicates a failure or prohibition — using it for non-error cases dilutes its meaning.
@@ -280,6 +280,6 @@ Badges can sit next to headings or inline text to mark status without breaking f
 - **Compose with other components.** Badges work best inside `Button`, `Table`, `Card`, or alongside headings. They are not standalone UI elements.
 ## Related Components
 
-- [Marker](/docs/components/marker) — inline status row
+- [Marker](/docs/components/web/marker) — inline status row
 - `Kbd` — keyboard hint
 

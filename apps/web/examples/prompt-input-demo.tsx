@@ -150,7 +150,7 @@ export function PromptInputDemo() {
             placeholder="Ask the agent to change your code..."
             value={text}
           />
-          <InputGroupAddon align="block-end">
+          <InputGroupAddon align="block-end" className="flex-wrap">
             <InputGroupButton
               aria-label="Attach files"
               onClick={() => inputRef.current?.click()}

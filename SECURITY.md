@@ -6,21 +6,22 @@ Please **do not open a public issue** for security vulnerabilities.
 
 Report privately via GitHub Security Advisories:
 
-1. Go to https://github.com/arrafipd/frakment/security/advisories/new
+1. Go to https://github.com/frakment/ui/security/advisories/new
 2. Describe the vulnerability, steps to reproduce, and impact.
 3. Include a proof of concept or suggested fix if possible.
 
 You will receive a response within **7 days**. If confirmed, a fix will be prepared and released as soon as possible. You will be credited in the advisory unless you prefer to remain anonymous.
+
+For vulnerabilities in the MCP server, use the [MCP repository's security policy](https://github.com/frakment/mcp/blob/main/SECURITY.md).
 
 ## Scope
 
 In scope:
 
 - `frakment` CLI (`packages/cli`)
-- `@frakment/mcp` server (`packages/mcp`)
-- `@frakment/ai` engine (`packages/ai`)
-- Components in `registry/` and `public/r/`
-- Documentation website (`app/`, `content/`)
+- Web components and registry files in `apps/web/registry/` and `apps/web/public/r/`
+- Native components and registry files in `apps/native/registry/` and `apps/native/public/r/`
+- Documentation website (`apps/web/app/`, `apps/web/content/`)
 
 Out of scope:
 
@@ -50,7 +51,7 @@ The MCP server is spawned by the agent's MCP client and speaks JSON-RPC over std
 
 Threats and mitigations:
 
-- **Auto-execute from remote.** `npx -y` skips install confirmation. Users who run MCP from untrusted configs should pin the version (`@frakment/mcp@0.0.4`) or install locally and reference the local binary.
+- **Auto-execute from remote.** `npx -y` skips install confirmation. Users who run MCP from untrusted configs should pin the version (`@frakment/mcp@1.0.0`) or install locally and reference the local binary.
 - **Registry content treated as untrusted data.** Component sources, descriptions, and install commands from the registry are returned to the agent as data. Agents must treat this as untrusted and not follow instructions embedded in component content.
 - **No shell execution.** The MCP server never spawns a shell or executes commands. It reads registry JSON and returns strings.
 
@@ -71,13 +72,11 @@ Threats and mitigations:
 
 ## Supported versions
 
-Security fixes land on the current `0.x` line for each package. Older versions are not maintained.
+Security fixes are provided for the latest published version of each package. Older versions are not maintained.
 
-| Package | Current line |
-| :-- | :-- |
-| `frakment` | `0.2.0` |
-| `@frakment/ai` | `0.0.6` |
-| `@frakment/mcp` | `0.0.4` |
+| Package    | Current line |
+| :--------- | :----------- |
+| `frakment` | `2.0.0`      |
 
 ## Recognition
 

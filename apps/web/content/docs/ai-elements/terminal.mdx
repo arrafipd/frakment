@@ -8,13 +8,13 @@ import { TerminalError } from "@/examples/terminal-error";
 import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block";
 import { Terminal, TerminalCommand } from "@/components/ui/terminal";
 
-<ComponentPreview name="terminal" title="terminal.tsx">
+<ComponentPreview name="terminal" title="terminal.tsx" src="examples/terminal-demo.tsx">
   <TerminalDemo />
 </ComponentPreview>
 
 Terminal renders a list of shell commands as collapsible trace rows. Each command streams character by character, output appears line by line, and a spinner flips to a checkmark when the command finishes.
 
-Built on top of [Trace](/docs/components/trace) and [Code Block](/docs/components/code-block), so the visual language stays consistent with the rest of the registry.
+Built on top of [Trace](/docs/components/web/trace) and [Code Block](/docs/components/web/code-block), so the visual language stays consistent with the rest of the registry.
 
 ## Installation
 
@@ -37,7 +37,7 @@ npx frakment add trace code-block spinner
       <Step>Install the following dependencies:</Step>
 
       ```bash
-      npm install lucide-react motion
+      npm install lucide-react
       ```
 
       <Step>Install the required registry components first:</Step>
@@ -82,27 +82,27 @@ A terminal has three visible parts.
 
 Mark a `TraceLine` with `status="error"` to turn the title red. The collapsible body still uses `CodeBlock` — anything that fits inside a `TraceCollapsibleContent` works.
 
-<ComponentPreview name="terminal" title="terminal.tsx">
+<ComponentPreview name="terminal" title="terminal.tsx" src="examples/terminal-error.tsx">
   <TerminalError />
 </ComponentPreview>
 
 ### Full demo
 
-The preview on this page shows the terminal primitive composing with `useChat`, `createChat`, and `transport` from `@frakment/ai`. It streams three commands and uses `TraceCollapsible` for auto-expand during streaming and manual toggle afterwards.
+The preview uses a scripted conversation to show the terminal primitive, streamed commands, and `TraceCollapsible` auto-expansion.
 
-The composition pulls `@ai-sdk/react`, `ai`, and every UI primitive it uses. Follow the [Chat tutorial](/docs/ai-elements/chat) for the wiring pattern, or replace `createChat` with your own backend that streams `data-terminal` parts.
+The composition uses local React state and Frakment UI primitives. The terminal result is rendered from the demo transcript.
 
 ## In Context
 
 ### Build output
 
-<ComponentPreview name="terminal" title="terminal-demo.tsx">
+<ComponentPreview name="terminal" title="terminal-demo.tsx" src="examples/terminal-demo.tsx">
   <TerminalDemo />
 </ComponentPreview>
 
 ### Failed command
 
-<ComponentPreview name="terminal" title="terminal-error.tsx">
+<ComponentPreview name="terminal" title="terminal-error.tsx" src="examples/terminal-error.tsx">
   <TerminalError />
 </ComponentPreview>
 

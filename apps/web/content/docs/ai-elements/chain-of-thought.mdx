@@ -15,6 +15,7 @@ import { CheckIcon, CircleAlertIcon } from "lucide-react";
 <ComponentPreview
   name="chain-of-thought"
   title="chain-of-thought.tsx"
+  src="examples/chain-of-thought-demo.tsx"
   align="start"
   previewClassName="h-auto"
 >
@@ -53,16 +54,15 @@ npx frakment add trace code-block badge
       npx frakment add trace
       ```
 
-      <Step>Optional — install these primitives to replicate the full demo:</Step>
+      <Step>Optional — install these primitives to build a chat demo:</Step>
 
       ```bash
-      npx frakment add badge bubble code-block message
-      npm install @ai-sdk/react ai
+      npx frakment add badge message code-block
       ```
 
       <div className="text-sm text-muted-foreground">
 
-The demo uses `useChat` from `@ai-sdk/react` to simulate streaming agent output. If you only need the `ChainOfThought` component itself, you can skip this step — `trace` is the only required dependency.
+The site preview uses scripted data to simulate streaming agent output. If you only need the `ChainOfThought` component itself, you can skip this step — `trace` is the only required dependency.
 
       </div>
 
@@ -102,15 +102,15 @@ import {
 
 ### Full demo
 
-The preview on this page shows the chain-of-thought primitive composing with `useChat`, `createChat`, and `transport` from `@frakment/ai`. It streams three tool calls with a line-by-line build log and uses nested `TraceCollapsible` for auto-expand and manual toggle.
+The preview uses a scripted conversation to replay three tool calls and a line-by-line build log, then uses nested `TraceCollapsible` for auto-expansion and manual toggling.
 
-The composition pulls `@ai-sdk/react`, `ai`, `badge`, `bubble`, `button`, `code-block`, `message`, and `trace`. Follow the [Chat tutorial](/docs/ai-elements/chat) for the wiring pattern, or replace `createChat` with your own backend that streams `data-buildLog` and tool parts.
+The composition pulls local React state and the `badge`, `bubble`, `button`, `code-block`, `message`, and `trace` primitives. The demo transcript supplies build-log and tool parts inline.
 
 ## In Context
 
 ### Research summary
 
-<ComponentPreview name="chain-of-thought" title="chain-of-thought.tsx">
+<ComponentPreview name="chain-of-thought" title="chain-of-thought.tsx" src="examples/chain-of-thought-demo.tsx">
   <ChainOfThoughtDemo />
 </ComponentPreview>
 

@@ -1,10 +1,10 @@
 import type { MetadataRoute } from "next";
 
-import { META_THEME_COLORS, SITE } from "@/constants/site";
+import { metaThemeColors, SITE } from "@/config/site";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    background_color: META_THEME_COLORS.light,
+    background_color: metaThemeColors.light,
     description: SITE.DESCRIPTION.LONG,
     display: "standalone",
     icons: [
@@ -22,6 +22,6 @@ export default function manifest(): MetadataRoute.Manifest {
     name: SITE.NAME,
     short_name: SITE.NAME,
     start_url: "/frakment",
-    theme_color: META_THEME_COLORS.light,
+    theme_color: metaThemeColors.light,
   };
 }

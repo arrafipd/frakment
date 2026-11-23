@@ -1,0 +1,173 @@
+---
+title: "Login Form"
+description: "Login form layouts assembled from Frakment primitives."
+---
+
+import { LoginFormBranded } from "@/examples/login-form-branded";
+import { LoginFormSocial } from "@/examples/login-form-social";
+import { LoginFormBasic } from "@/examples/login-form-basic";
+
+<ComponentPreview name="login-form-basic" title="login-form-basic.tsx" src="examples/login-form-basic.tsx" previewClassName="h-auto py-8">
+  <LoginFormBasic />
+</ComponentPreview>
+
+A login form is a sign-in layout assembled from Frakment's [button](/docs/components/web/button), [card](/docs/components/web/card), [field](/docs/components/web/field), and [input](/docs/components/web/input) primitives.
+
+This composition includes a basic layout, a social sign-in layout, and a branded layout.
+
+It is not a standalone registry item, and its forms do not implement authentication or application-specific validation.
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx frakment add button card field input
+```
+
+The CLI also installs the `label` and `separator` registry dependencies required by `field`.
+
+</TabsContent>
+
+  <TabsContent value="manual">
+    <Steps className="mb-0 pt-2">
+      <Step>Follow the [manual setup](/docs/getting-started/installation/manual) through the theme setup, then continue with the Login Form files below.</Step>
+
+      <Step>Copy the primitives and the registry dependencies required by `field`:</Step>
+
+      <ComponentSource name="button" title="components/ui/button.tsx" />
+      <ComponentSource name="card" title="components/ui/card.tsx" />
+      <ComponentSource name="field" title="components/ui/field.tsx" />
+      <ComponentSource name="input" title="components/ui/input.tsx" />
+      <ComponentSource name="label" title="components/ui/label.tsx" />
+      <ComponentSource name="separator" title="components/ui/separator.tsx" />
+
+      <Step>Copy the basic login form layout into your project:</Step>
+
+      <ComponentSource name="login-form-basic" src="examples/login-form-basic.tsx" title="login-form-basic.tsx" />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+Use the primitives to build the layout, then connect form submission to your application's authentication flow.
+
+```tsx title="login-form.tsx"
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+
+export function LoginForm() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Login to your account</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form>
+          <FieldGroup>
+            <Field>
+              <FieldLabel htmlFor="email">Email</FieldLabel>
+              <Input id="email" type="email" autoComplete="email" required />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="password">Password</FieldLabel>
+              <Input id="password" type="password" autoComplete="current-password" required />
+            </Field>
+            <Field>
+              <Button type="submit">Login</Button>
+            </Field>
+          </FieldGroup>
+        </form>
+      </CardContent>
+    </Card>
+  );
+}
+```
+
+## Anatomy
+
+The basic layout places the form inside a card and groups its labelled controls with `FieldGroup`.
+
+```text
+Card
+├── CardHeader
+└── CardContent
+    └── form
+        └── FieldGroup
+            ├── Field (email)
+            ├── Field (password)
+            └── Field (submit action)
+```
+
+The social layout adds social sign-in buttons and a `FieldSeparator`, while the branded layout places its brand mark and actions in a standalone form surface.
+
+## Examples
+
+### Social sign-in
+
+This layout places Apple and Google sign-in actions above the email form.
+
+<ComponentPreview name="login-form-social" title="login-form-social.tsx" src="examples/login-form-social.tsx" previewClassName="h-auto py-8">
+  <LoginFormSocial />
+</ComponentPreview>
+
+### Branded
+
+This layout adds a brand mark and places the social sign-in actions side by side.
+
+<ComponentPreview name="login-form-branded" title="login-form-branded.tsx" src="examples/login-form-branded.tsx" previewClassName="h-auto py-8">
+  <LoginFormBranded />
+</ComponentPreview>
+
+The branded example uses `GalleryVerticalEnd` from `lucide-react`, which is installed during Frakment setup.
+
+## API
+
+`LoginFormBasic` and `LoginFormSocial` do not accept props.
+
+`LoginFormBranded` accepts native `div` props and forwards them to its root element.
+
+<PropsTable
+  rows={[
+    {
+      name: "className",
+      type: "string",
+      description: "Merged with the default layout classes.",
+    },
+  ]}
+/>
+
+## Accessibility
+
+- Give each input a matching `FieldLabel` and `id`, and set the appropriate autocomplete value for email and password fields.
+- For invalid fields, set `data-invalid` on `Field`, set `aria-invalid` on the control, and render `FieldError` for the validation message.
+- Connect submit and social sign-in buttons to real authentication handlers before using the layouts in an application.
+
+## Best Practices
+
+- **Treat the examples as layout starting points.** Add the validation and authentication behavior required by your application.
+- **Replace placeholder links.** Account, recovery, and legal links in the examples use `href="#"`.
+- **Keep the primary action clear.** Use one primary submit button for the form.
+
+## Related Components
+
+- [Button](/docs/components/web/button) — form and social sign-in actions.
+- [Card](/docs/components/web/card) — groups the form content.
+- [Field](/docs/components/web/field) — labels, descriptions, and validation states.
+- [Input](/docs/components/web/input) — email and password controls.

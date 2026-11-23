@@ -9,9 +9,23 @@ AI assistants, editors, linters, local automation. We do not police your
 stack. Pull requests are judged by their content, not by how they were
 produced.
 
-**Do not clutter the repo with non-product files.** Editor config
-(`.cursor/`, `CLAUDE.md`, `.claude/`), personal notes, and temporary
-experiments belong in your local environment or your fork.
+**Do not clutter the repo with non-product files.** Editor configuration,
+local AI assistant instructions, personal notes, and temporary experiments
+belong in your local environment or your fork.
+
+## Cross-repository documentation
+
+The deployed website and public documentation are maintained in [`frakment/ui`](https://github.com/frakment/ui), even when the related source changes live in another Frakment repository.
+
+When a contribution to any Frakment repository changes shipped behavior, installation, configuration, public APIs or tools, or published skill content, update the corresponding documentation or published source in `frakment/ui` as part of the same contribution.
+
+Link and coordinate related pull requests so the documentation change ships with the source change.
+
+The deployed site consumes published skill files through the `apps/web/skills-source` submodule. When published skill content changes, update that submodule pointer in a linked UI pull request; update the Skills documentation page when its user-facing guidance also changes.
+
+For repository-specific steps, see the [MCP contribution guide](https://github.com/frakment/mcp/blob/main/CONTRIBUTING.md) and the [Skills contribution guide](https://github.com/frakment/skills/blob/main/CONTRIBUTING.md).
+
+Internal CI, tests, and refactors that do not change user-facing behavior do not require a documentation update.
 
 ## Package manager
 
@@ -25,20 +39,17 @@ npm ci
 npm run build
 
 # pnpm
-pnpm install
+pnpm install --frozen-lockfile
 pnpm build
 ```
 
-Every workspace-aware script (`prebuild`, `precheck`, `predev`, `pretest`, `pretypecheck`, `release`) detects the active package manager through `scripts/workspaces.mjs` and dispatches to either `npm run <script> --workspaces` or `pnpm -r`. You do not need to configure anything.
+Every workspace-aware script (`prebuild`, `precheck`, `predev`, `pretest`, `pretypecheck`, `release`) detects the active package manager through `scripts/workspaces.ts` and dispatches to either `npm run <script> --workspaces` or `pnpm -r`. You do not need to configure anything.
 
 ### Lockfiles
 
-Only `package-lock.json` is committed. `pnpm-lock.yaml` is gitignored on purpose:
+Both `package-lock.json` and `pnpm-lock.yaml` are committed, and CI installs from each with its frozen-lockfile mode.
 
-- **Single source of truth.** Two committed lockfiles drift apart when only one is regenerated. Dependency bumps, overrides, and engine constraints must match across both or contributors get inconsistent installs.
-- **Deterministic CI.** CI resolves dependencies from `package-lock.json` only, so every job sees the same graph regardless of which PM a contributor uses locally.
-
-If you use pnpm locally, `pnpm install` will create `pnpm-lock.yaml` in your working tree. Do not commit it. If you add a dependency, run `pnpm install` locally to install it, then `npm install` to update the committed `package-lock.json`, and commit only the npm lockfile change.
+When dependencies change, update both lockfiles with `npm install` and `pnpm install`, then commit both so contributors using either package manager get reproducible installs.
 
 ### Overrides and build approvals
 
@@ -51,12 +62,12 @@ When you change `package.json#overrides`, mirror the change into `pnpm-workspace
 
 ### CI
 
-Every PR runs all six CI jobs against **both** package managers (matrix `[npm, pnpm]`). The `gitleaks` and theme-drift jobs are PM-neutral and run once.
+Every PR runs CI checks for linting and formatting, typechecking, registry drift, theme drift, tests, and Gitleaks. Linting and formatting, typechecking, registry drift, and tests run with both npm and pnpm; theme drift and Gitleaks run once.
 
-If `pnpm` CI fails, reproduce locally with:
+If either package-manager CI job fails, reproduce locally with:
 
 ```bash
-pnpm install
+pnpm install --frozen-lockfile
 pnpm build
 pnpm run check
 ```
@@ -83,7 +94,7 @@ Report unacceptable behavior to the maintainer via the private channel in [SECUR
 Open an issue using the **Bug report** template. Before filing:
 
 - **Search existing issues** and discussions for the same problem.
-- **Upgrade to the latest version** - `npx frakment add <name>` rewrites the file with the newest release.
+- **Upgrade to the latest version** - `npx frakment@latest add <name> --overwrite` replaces the file with the newest registry source.
 - **Reduce to a minimal reproduction** - one component plus the props that trigger the bug.
 
 A bug report includes:
@@ -98,7 +109,7 @@ Issues filed without the template are closed with a one-line reply asking for it
 
 ## Requesting features
 
-Open an issue with the **Feature request** template, or start a [Discussion](https://github.com/arrafipd/frakment/discussions) if you are unsure whether the feature belongs in Frakment.
+Open an issue with the **Feature request** template, or start a [Discussion](https://github.com/frakment/ui/discussions) if you are unsure whether the feature belongs in Frakment.
 
 A feature request includes:
 
@@ -115,10 +126,9 @@ Features that do not fit Frakment:
 
 ## Questions
 
-For how-to questions ("how do I use X with Y?"), open a [GitHub Discussion](https://github.com/arrafipd/frakment/discussions). Issues are for actionable bugs and features; discussions are for open-ended answers.
+For how-to questions ("how do I use X with Y?"), open a [GitHub Discussion](https://github.com/frakment/ui/discussions). Issues are for actionable bugs and features; discussions are for open-ended answers.
 
 For security issues, do **not** open a public issue. See [SECURITY.md](./SECURITY.md) for the private reporting process.
-
 
 ## Docs style
 
@@ -128,12 +138,12 @@ Rich but simple. One sentence per paragraph. Every component page follows the sa
 
 Every component page follows the same preview pattern:
 
-- **Hero** (top of page): `<ComponentPreview name="<component>" title="<component>.tsx">` — no `src` prop. The Code tab shows the registry source (`registry/<component>.tsx`).
+- **Hero** (top of page): `<ComponentPreview name="<component>" title="<component>.tsx">` — no `src` prop. The Code tab shows the registry source (`apps/web/registry/<component>.tsx`).
 - **Every other preview**: `<ComponentPreview name="<slug>" title="<slug>.tsx" src="examples/<slug>.tsx">` — the Code tab shows the demo file, not the registry.
 
 The registry source appears **once** per page (hero). Every other preview's Code tab must show usage, not implementation. `name` without `src` falls back to registry source; use it only for the hero.
 
-Demo files live at `examples/<slug>.tsx` and export a named component (`<Slug>`). Import them in the MDX and pass as children.
+Demo files live at `apps/web/examples/<slug>.tsx` and export a named component (`<Slug>`). Import them in the MDX and pass as children.
 
 ### Component naming
 
@@ -228,37 +238,36 @@ import { X } from "@/components/ui/x";
 - Consumer responsibilities
 ````
 
-
 ### Reference
 
-`content/docs/components/button.mdx` is the reference implementation. Copy its structure, not its content.
+`apps/web/content/docs/components/web/button.mdx` is the reference implementation. Copy its structure, not its content.
 
 ### Rules
 
-| Do | Do not |
-| --- | --- |
-| One sentence per paragraph | Wall of text |
-| Live `<ComponentPreview>` | Screenshot or placeholder |
-| `<Steps>` for installation | Inline bash mid-paragraph |
-| `## Usage` with a minimal example | Full demo source |
-| Link related components | Duplicate another page |
+| Do                                | Do not                    |
+| --------------------------------- | ------------------------- |
+| One sentence per paragraph        | Wall of text              |
+| Live `<ComponentPreview>`         | Screenshot or placeholder |
+| `<Steps>` for installation        | Inline bash mid-paragraph |
+| `## Usage` with a minimal example | Full demo source          |
+| Link related components           | Duplicate another page    |
 
 ## Changelog policy
 
 Changelog entries exist **only** for library and package changes that affect users.
 
-| Change | Changelog? |
-| --- | --- |
-| New registry component | Yes |
-| Component visual or behaviour change | Yes |
-| Public API change (props, exports) | Yes |
-| CLI command or flag change | Yes |
-| Theme token change in `theme.css` | Yes |
-| Registry schema change | Yes |
-| Package rename or publish | Yes |
-| Site-only change (header, sidebar, demo page) | No |
-| Docs typo, refactor, or wording | No |
-| Internal tooling, CI, or dev scripts | No |
+| Change                                        | Changelog? |
+| --------------------------------------------- | ---------- |
+| New registry component                        | Yes        |
+| Component visual or behaviour change          | Yes        |
+| Public API change (props, exports)            | Yes        |
+| CLI command or flag change                    | Yes        |
+| Theme token change in `theme.css`             | Yes        |
+| Registry schema change                        | Yes        |
+| Package rename or publish                     | Yes        |
+| Site-only change (header, sidebar, demo page) | No         |
+| Docs typo, refactor, or wording               | No         |
+| Internal tooling, CI, or dev scripts          | No         |
 
 ### Template
 
@@ -310,8 +319,7 @@ npx frakment@latest add x
 - **One file per day.** Name is `YYYY-MM-DD.mdx`. Immutable after merge.
 - **No internal detail.** No dependency bumps without a user-visible effect, no `package.json` diffs, no CI notes, no roadmap language.
 
-
-**Before merging the `changeset-release/main` bot PR**, verify every changeset description matches the final shipped state:
+**Before merging a Changesets release pull request**, verify every changeset description matches the final shipped state:
 
 - Every file the changeset mentions still exists.
 - Every feature the changeset names is observable by a user of the published package.
@@ -343,19 +351,19 @@ Format:
 
 Types:
 
-| Type | Use for |
-| :-- | :-- |
-| `feat` | New component, new prop, new CLI command |
-| `fix` | Bug fix in a component, CLI, or build |
-| `docs` | README, CONTRIBUTING, docs page, changelog |
-| `style` | Formatting, no behaviour change |
-| `refactor` | Restructure without behaviour change |
-| `perf` | Performance improvement |
-| `test` | Add or fix tests |
-| `build` | Build config, package.json, tsconfig |
-| `ci` | GitHub Actions, release workflow |
-| `revert` | Revert a previous commit |
-| `chore` | Version bump, dependency bump |
+| Type       | Use for                                    |
+| :--------- | :----------------------------------------- |
+| `feat`     | New component, new prop, new CLI command   |
+| `fix`      | Bug fix in a component, CLI, or build      |
+| `docs`     | README, CONTRIBUTING, docs page, changelog |
+| `style`    | Formatting, no behaviour change            |
+| `refactor` | Restructure without behaviour change       |
+| `perf`     | Performance improvement                    |
+| `test`     | Add or fix tests                           |
+| `build`    | Build config, package.json, tsconfig       |
+| `ci`       | GitHub Actions, release workflow           |
+| `revert`   | Revert a previous commit                   |
+| `chore`    | Version bump, dependency bump              |
 
 Rules:
 
@@ -374,7 +382,6 @@ Examples:
 - `chore(deps): bump motion to 14.10.0`
 - `feat(animation)!: rename constants to camelCase`
 
-
 ## Sign-off (DCO)
 
 Every commit must be signed off with the Developer Certificate of Origin (DCO). Add `-s` to your commit command:
@@ -383,7 +390,7 @@ Every commit must be signed off with the Developer Certificate of Origin (DCO). 
 git commit -s -m "docs: fix typo in theming page"
 ```
 
-This adds a `Signed-off-by: Your Name <email>` line to the commit message. It certifies you have the right to submit the contribution under this project's license. See [DCO.txt](./DCO.txt) for the full text.
+This adds a `Signed-off-by: Your Name <email>` line to the commit message. It certifies you have the right to submit the contribution under this project's license. See [DCO.txt](./docs/legal/DCO.txt) for the full text.
 
 Commits without a valid `Signed-off-by` line fail the DCO check in CI and cannot be merged. Amend existing commits with `git commit --amend -s` (last commit) or `git rebase -i --signoff main` (multiple commits).
 
@@ -403,8 +410,8 @@ npx playwright install chromium
 
 What it generates:
 
-- `assets/hero-dark.webp` — homepage screenshot, 8K (7680×4320), dark mode
-- `assets/og.png` — social preview, 1200×630, dark mode
+- `apps/web/assets/hero-dark.webp` — homepage screenshot, 8K (7680×4320), dark mode
+- `apps/web/assets/og.png` — social preview, 1200×630, dark mode
 
 Run this whenever the homepage layout, hero copy, or theme changes. Commit both files together with the change.
 
@@ -425,14 +432,14 @@ Follow every step. The component can install via the CLI and compile fine, yet s
 
 Two files, identical content:
 
-- `registry/<name>.tsx` - ships via `npx frakment add <name>`
-- `components/ui/<name>.tsx` - mirror for local dev and examples
+- `apps/web/registry/<name>.tsx` - ships via `npx frakment add <name>`
+- `apps/web/components/ui/<name>.tsx` - mirror for local dev and examples
 
 Keep them identical. `npm run registry:audit` fails if they diverge.
 
 ### 2. Registry entry
 
-Add to `frakment.json` under `components`:
+Add to `apps/web/frakment.json` under `components`:
 
 ```json
 {
@@ -450,7 +457,7 @@ Add to `frakment.json` under `components`:
 
 ### 3. Examples
 
-Create `examples/<name>-demo.tsx` with `"use client"` at the top. Add variants as separate files when useful.
+Create `apps/web/examples/<name>-demo.tsx` with `"use client"` at the top. Add variants as separate files when useful.
 
 Rules:
 
@@ -461,27 +468,27 @@ Rules:
 
 ### 4. Docs page
 
-Create `content/docs/{category}/<name>.mdx`. Template: see [Docs style](#docs-style) above. Reference:
+Create `apps/web/content/docs/{category}/<name>.mdx`. Template: see [Docs style](#docs-style) above. Reference:
 
-- Simple: `content/docs/components/button.mdx`
-- Composed: `content/docs/modules/questionnaire.mdx`
-- Utility: `content/docs/utilities/shimmer.mdx`
+- Simple: `apps/web/content/docs/components/web/button.mdx`
+- Composed: `apps/web/content/docs/composites/login-form.mdx`
+- Utility: `apps/web/content/docs/utilities/shimmer.mdx`
 
 The `<ComponentPreview>` `src` prop must point at the example file. Without it, the Code tab shows the component source instead of the usage example.
 
 ### 5. Sidebar and mobile nav
 
-Add `"<name>"` to `content/docs/{category}/meta.json` under `pages`, alphabetically. Without this the page exists at its URL but is not linked from the sidebar, mobile nav, or command menu.
+Add `"<name>"` to `apps/web/content/docs/{category}/meta.json` under `pages`, alphabetically. Without this the page exists at its URL but is not linked from the sidebar, mobile nav, or command menu.
 
 ### 6. New badge
 
-Add `"/docs/{category}/<name>"` to `pagesNew` in `lib/docs.ts`. This drives the blue dot in the sidebar, mobile nav, command menu, and component list grid.
+Add `"/docs/{category}/<name>"` to `pagesNew` in `apps/web/lib/docs.ts`. This drives the blue dot in the sidebar, mobile nav, command menu, and component list grid.
 
 `pagesNew` is a rotating set of the components shipped on the current working day, not a cumulative list. A new calendar day of shipped work starts a new batch: replace the entire set with only the components shipped that day. Components from previous days graduate and their dots disappear.
 
 ### 7. Changelog
 
-Create `content/docs/changelog/YYYY-MM-DD.mdx`. Template: see [Changelog policy](#changelog-policy) above. Add the date to `content/docs/changelog/meta.json` under `pages`, newest first. One file per day, immutable after merge.
+Create the dated MDX entry in `apps/web/content/docs/changelog/`, using `YYYY-MM-DD.mdx` as the filename. Template: see [Changelog policy](#changelog-policy) above. Add the date to `apps/web/content/docs/changelog/meta.json` under `pages`, newest first. One file per day, immutable after merge.
 
 ### 8. Build
 
@@ -499,40 +506,38 @@ npm run build
 
 ### 9. Silent failure checklist
 
-| Missing | Symptom |
-| :-- | :-- |
-| `frakment.json` entry | CLI returns 404 |
-| `meta.json` entry | Page not in sidebar, mobile nav, or command menu |
-| `pagesNew` entry | Page linked everywhere, no new badge in sidebar, mobile nav, command menu, or component list grid |
-| `changelog/meta.json` entry | Release missing from changelog |
-| `npm run registry:build` not run | `public/r/<name>.json` missing |
+| Missing                                           | Symptom                                                                                           |
+| :------------------------------------------------ | :------------------------------------------------------------------------------------------------ |
+| `apps/web/frakment.json` entry                    | CLI returns 404                                                                                   |
+| Category navigation metadata contains the entry   | Page not in sidebar, mobile nav, or command menu                                                  |
+| `pagesNew` entry in `apps/web/lib/docs.ts`        | Page linked everywhere, no new badge in sidebar, mobile nav, command menu, or component list grid |
+| `apps/web/content/docs/changelog/meta.json` entry | Release missing from changelog                                                                    |
+| `npm run registry:build` not run                  | `apps/web/public/r/<name>.json` missing                                                           |
 
 ### PR checklist
 
-- [ ] `registry/<name>.tsx` and `components/ui/<name>.tsx` identical
-- [ ] `frakment.json` entry has correct deps
-- [ ] `examples/<name>-demo.tsx` exists and renders
+- [ ] `apps/web/registry/<name>.tsx` and `apps/web/components/ui/<name>.tsx` are identical
+- [ ] `apps/web/frakment.json` entry has correct deps
+- [ ] `apps/web/examples/<name>-demo.tsx` exists and renders
 - [ ] Docs page follows [Docs style](#docs-style)
-- [ ] `meta.json` has the entry
+- [ ] Category navigation metadata has the entry
 - [ ] `pagesNew` has the entry (drives blue dot in sidebar, mobile nav, command menu, component list grid)
-- [ ] Changelog file exists + `changelog/meta.json` has the entry
-- [ ] `npm run registry:build` ran and `public/r/<name>.json` in diff
+- [ ] Changelog file exists + `apps/web/content/docs/changelog/meta.json` has the entry
+- [ ] `npm run registry:build` ran and `apps/web/public/r/<name>.json` is in the diff
 - [ ] `npm run build` passes
 - [ ] Commit signed off (`git commit -s`)
 
 ## Adding a new docs section
 
-Sections come from two sources: manual groups in `SECTION_GROUPS` (in `lib/docs.ts`) and auto-discovered folders from the page tree. Add manual sections to `SECTION_GROUPS`, then register the folder in `content/docs/meta.json` and the route in `constants/routes.ts`. Auto-discovered folders need only steps 1-3 below.
+Sections come from two sources: manual groups in `sectionGroups` (in `apps/web/lib/docs.ts`) and auto-discovered folders from the page tree. Add manual sections to `sectionGroups`, then register the folder in `apps/web/content/docs/meta.json` and the route in `apps/web/config/routes.ts`. Auto-discovered folders need only steps 1-3 below.
 
-The sidebar, mobile nav, and command menu all call `buildNavGroups(tree)` from `lib/docs.ts`. Update `SECTION_GROUPS` and `EXCLUDED_SECTIONS` there. Never render nav items directly in consumer files.
+The sidebar, mobile nav, and command menu all call `buildNavGroups(tree)` from `apps/web/lib/docs.ts`. Update `sectionGroups` and `excludedSections` there. Never render nav items directly in consumer files.
 
 Steps:
 
-1. Create `content/docs/<slug>/index.mdx` with frontmatter (`title`, `description`).
-2. Create `content/docs/<slug>/meta.json` with `{ "title": "<Display Name>" }`.
-3. Add `"<slug>"` to `content/docs/meta.json` `pages` at the desired position.
-4. Add `DOCS_<SLUG>: "/docs/<slug>"` to `constants/routes.ts`.
-5. If manually grouped, add `{ label: "<Group>", sections: [{ href: ROUTES.DOCS_<SLUG>, name: "<Display Name>" }] }` to `SECTION_GROUPS` in `lib/docs.ts`. Auto-discovered folders need no `SECTION_GROUPS` entry.
+1. Create `apps/web/content/docs/<slug>/index.mdx` with frontmatter (`title`, `description`).
+2. Create `apps/web/content/docs/<slug>/meta.json` with `{ "title": "<Display Name>" }`.
+3. Add `"<slug>"` to `apps/web/content/docs/meta.json` `pages` at the desired position.
+4. Add `docsSlug: "/docs/<slug>"` to `apps/web/config/routes.ts`.
+5. If manually grouped, add `{ label: "<Group>", sections: [{ href: routes.docsSlug, name: "<Display Name>" }] }` to `sectionGroups` in `apps/web/lib/docs.ts`. Auto-discovered folders need no `sectionGroups` entry.
 6. Run `npm run build` to verify.
-
-

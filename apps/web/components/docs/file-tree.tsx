@@ -1,7 +1,5 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
-import { Collapsible as CollapsiblePrimitive } from "radix-ui";
 import * as React from "react";
 
 import {
@@ -45,21 +43,7 @@ import { cn } from "@/lib/utils";
 
 type FileIconComponent = React.ComponentType<{ className?: string }>;
 
-const SPRING_SMOOTH = {
-  damping: 36,
-  mass: 0.9,
-  stiffness: 320,
-  type: "spring" as const,
-};
-
-const SPRING_SHARP = {
-  damping: 32,
-  mass: 0.7,
-  stiffness: 420,
-  type: "spring" as const,
-};
-
-const FILE_COLORS: Record<string, string> = {
+const fileColors: Record<string, string> = {
   avif: "text-pink-600 dark:text-pink-400",
   env: "text-yellow-600 dark:text-yellow-400",
   gitignore: "text-orange-500 dark:text-orange-400",
@@ -76,7 +60,7 @@ const FILE_COLORS: Record<string, string> = {
   woff2: "text-muted-foreground",
 };
 
-const EXT_ICONS: Record<string, FileIconComponent> = {
+const extIcons: Record<string, FileIconComponent> = {
   astro: AstroBrandIcon,
   bash: BashBrandIcon,
   cjs: JavascriptBrandIcon,
@@ -103,7 +87,7 @@ const EXT_ICONS: Record<string, FileIconComponent> = {
   zsh: BashBrandIcon,
 };
 
-const BRAND_ICONS: Record<string, FileIconComponent> = {
+const brandIcons: Record<string, FileIconComponent> = {
   "astro.config.js": AstroBrandIcon,
   "astro.config.mjs": AstroBrandIcon,
   "astro.config.ts": AstroBrandIcon,
@@ -126,7 +110,7 @@ const BRAND_ICONS: Record<string, FileIconComponent> = {
   "yarn.lock": YarnIcon,
 };
 
-const CUSTOM_ICONS: Record<string, FileIconComponent> = {
+const customIcons: Record<string, FileIconComponent> = {
   chat: ChatCentered,
   circle: CircleIcon,
   code: CodeIcon,
@@ -141,15 +125,15 @@ const CUSTOM_ICONS: Record<string, FileIconComponent> = {
 };
 
 function getFileIcon(name: string, iconOverride?: string): FileIconComponent {
-  if (iconOverride && CUSTOM_ICONS[iconOverride]) {
-    return CUSTOM_ICONS[iconOverride];
+  if (iconOverride && customIcons[iconOverride]) {
+    return customIcons[iconOverride];
   }
-  if (BRAND_ICONS[name]) {
-    return BRAND_ICONS[name];
+  if (brandIcons[name]) {
+    return brandIcons[name];
   }
   const ext = name.split(".").pop()?.toLowerCase() ?? "";
-  if (EXT_ICONS[ext]) {
-    return EXT_ICONS[ext];
+  if (extIcons[ext]) {
+    return extIcons[ext];
   }
   return FileIcon;
 }
@@ -172,53 +156,57 @@ function FileTreeFolder({
   children: React.ReactNode;
 }) {
   const [open, setOpen] = React.useState(defaultOpen);
-  const shouldReduce = useReducedMotion();
+  const contentId = React.useId();
   const FolderIconResolved =
-    icon && CUSTOM_ICONS[icon] ? CUSTOM_ICONS[icon] : FolderIcon;
+    icon && customIcons[icon] ? customIcons[icon] : FolderIcon;
 
   return (
-    <CollapsiblePrimitive.Root onOpenChange={setOpen} open={open}>
-      <CollapsiblePrimitive.Trigger className="group/folder hover:bg-muted/40 focus-visible:bg-muted/40 flex w-full items-center gap-2 rounded-md px-2.5 py-2 text-left transition-colors focus-visible:outline-none">
-        <motion.span
-          animate={{ rotate: open ? 90 : 0 }}
-          className="flex shrink-0 items-center justify-center"
-          initial={false}
-          transition={shouldReduce ? { duration: 0 } : SPRING_SHARP}
+    <>
+      <button
+        aria-controls={contentId}
+        aria-expanded={open}
+        className="group/folder hover:bg-muted/40 focus-visible:bg-muted/40 flex w-full items-center gap-2 rounded-md px-2.5 py-2 text-left transition-colors focus-visible:outline-none"
+        onClick={() => setOpen((value) => !value)}
+        type="button"
+      >
+        <span
+          className={cn(
+            "flex shrink-0 items-center justify-center transition-transform duration-300 ease-out motion-reduce:transition-none",
+            open && "rotate-90"
+          )}
         >
           <ChevronRightIcon className="text-muted-foreground/70 size-4" />
-        </motion.span>
+        </span>
         <FolderIconResolved className="text-muted-foreground size-4 shrink-0" />
         <span className="text-foreground truncate font-medium">{name}</span>
-      </CollapsiblePrimitive.Trigger>
-      <CollapsiblePrimitive.Content forceMount>
-        <motion.div
-          animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
-          initial={false}
-          style={{ overflow: "hidden", transform: "translateZ(0)" }}
-          transition={
-            shouldReduce
-              ? { duration: 0 }
-              : {
-                  height: SPRING_SMOOTH,
-                  opacity: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
-                }
-          }
+      </button>
+      <div
+        className={cn(
+          "grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none",
+          open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+        )}
+        id={contentId}
+      >
+        <div
+          className="min-h-0 overflow-hidden"
+          inert={!open}
+          style={{ transform: "translateZ(0)" }}
         >
           <div className="border-border/60 ml-[19px] border-l py-0.5 pl-3">
             {children}
           </div>
-        </motion.div>
-      </CollapsiblePrimitive.Content>
-    </CollapsiblePrimitive.Root>
+        </div>
+      </div>
+    </>
   );
 }
 
 function FileTreeFile({ name, icon }: { name: string; icon?: string }) {
   const ext = name.split(".").pop()?.toLowerCase() ?? "";
   const Icon = getFileIcon(name, icon);
-  const isGeneric = !(icon || BRAND_ICONS[name] || EXT_ICONS[ext]);
+  const isGeneric = !(icon || brandIcons[name] || extIcons[ext]);
   const colorClass = isGeneric
-    ? (FILE_COLORS[ext] ?? "text-muted-foreground")
+    ? (fileColors[ext] ?? "text-muted-foreground")
     : "text-muted-foreground";
   return (
     <div className="text-muted-foreground hover:bg-muted/40 flex items-center gap-2 rounded-md px-2.5 py-1.5 transition-colors">

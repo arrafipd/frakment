@@ -1,12 +1,8 @@
-import { cva, type VariantProps } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 import * as React from "react";
-import {
-  Text,
-  type TextStyle,
-  View,
-  type ViewProps,
-  type ViewStyle,
-} from "react-native";
+import type { TextStyle, ViewProps, ViewStyle } from "react-native";
+import { Text, View } from "react-native";
 
 import { Separator } from "@/components/ui/separator";
 import { useThemeColors } from "@/lib/theme";

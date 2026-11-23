@@ -1,14 +1,10 @@
-import { cva, type VariantProps } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 import * as React from "react";
-import {
-  Pressable,
-  type PressableProps,
-  Text,
-  type TextStyle,
-  type ViewStyle,
-} from "react-native";
-
-import { type ThemeColors, useThemeColors } from "@/lib/theme";
+import type { PressableProps, TextStyle, ViewStyle } from "react-native";
+import { Pressable, Text } from "react-native";
+import type { ThemeColors } from "@/lib/theme";
+import { useThemeColors } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
 type SizeKey =

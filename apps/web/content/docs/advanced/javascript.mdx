@@ -35,7 +35,7 @@ Frakment uses four TypeScript patterns. Remove them in this order:
 
 ## Example
 
-A typical Frakment component has a props interface, a `ComponentProps` generic, and a `cva` call. Strip all three:
+A typical Frakment component declares a props interface and extends `React.ComponentProps`. Remove the type-only declarations and annotations while keeping the component logic:
 
 ```tsx title="button.tsx (before)"
 interface ButtonProps extends React.ComponentProps<"button"> {
@@ -71,44 +71,11 @@ function DialogContent({
 
 JavaScript:
 
-```tsx
+```jsx
 function DialogContent({ className, ...props }) {
   return <DialogPrimitive.Content className={className} {...props} />;
 }
 ```
-
-```jsx title="button.jsx (after)"
-export function Button({ variant = "default", size = "md", ...props }) {
-  return <button data-variant={variant} data-size={size} {...props} />;
-}
-```
-
-## Components with more types
-
-Compound components use more patterns. Here is a Dialog example:
-
-TypeScript:
-
-```tsx
-function DialogContent({
-  className,
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Content>) {
-  return <DialogPrimitive.Content className={className} {...props} />;
-}
-```
-
-JavaScript:
-
-```tsx
-function DialogContent({ className, ...props }) {
-  return <DialogPrimitive.Content className={className} {...props} />;
-}
-```
-
-## Engine packages
-
-`@frakment/ai` ships compiled JavaScript with `.d.ts` types. They work in JS projects without any changes. Keep the `.d.ts` files — your editor uses them for hints even in a JS project.
 
 ## Common errors
 

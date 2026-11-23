@@ -1,5 +1,5 @@
-import { SITE } from "@/constants/site";
-import { buildOpenApiDocument } from "@/lib/agent-discovery/openapi-document";
+import { SITE } from "@/config/site";
+import { buildOpenApiDocument } from "@/features/agent-discovery/openapi-document";
 
 export const GET = (request: Request) => {
   const origin = SITE.URL;

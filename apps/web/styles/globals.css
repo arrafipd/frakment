@@ -4,16 +4,11 @@
 @import "./theme.css";
 @import "./site.css";
 
-/* @custom-variant declarations live in ./theme.css (single source of truth,
-   also distributed to end users via cli/templates/theme.css). */
-
 @layer base {
   * {
     @apply border-border;
   }
 
-  /* Focus ring is handled per-component via Tailwind ring utilities.
-     Disable the browser's native (square) outline on focus. */
   *:focus-visible {
     outline: none;
   }
@@ -308,18 +303,6 @@
   animation-name: via-blur;
 }
 
-::view-transition-group(.text-morph) {
-  animation-duration: var(--duration-move);
-}
-::view-transition-old(.text-morph) {
-  display: none;
-}
-::view-transition-new(.text-morph) {
-  object-fit: none;
-  object-position: left top;
-  animation: none;
-}
-
 ::view-transition-old(.scale-out) {
   animation: var(--duration-exit) ease-in scale-down;
 }
@@ -345,7 +328,6 @@
   }
 }
 
-/* === Trace shimmer (single source of truth) === */
 @keyframes shimmer {
   0% {
     background-position: 220% 0;
@@ -362,9 +344,7 @@
     animation: none !important;
   }
 }
-/* === data-open / data-closed variants === */
 
-/* === Accordion animation === */
 @theme {
   --animate-accordion-down: accordion-down 200ms ease-out;
   --animate-accordion-up: accordion-up 200ms ease-out;
@@ -387,7 +367,7 @@
     height: 0;
   }
 }
-/* === Collapsible animation === */
+
 @theme {
   --animate-collapsible-down: collapsible-down 250ms
     cubic-bezier(0.32, 0.72, 0, 1);
@@ -412,25 +392,21 @@
   }
 }
 
-/* === Shiki dark mode === */
 .dark [data-slot="code-block-content"] .shiki,
 .dark [data-slot="code-block-content"] .shiki span {
   color: var(--shiki-dark) !important;
   background-color: var(--shiki-dark-bg) !important;
 }
-/* === Smooth accordion overrides === */
+
 @theme {
   --animate-accordion-down: accordion-down 320ms cubic-bezier(0.16, 1, 0.3, 1);
   --animate-accordion-up: accordion-up 320ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-/* === Smoother accordion === */
+
 @theme {
   --animate-accordion-down: accordion-down 500ms cubic-bezier(0.32, 0.72, 0, 1);
   --animate-accordion-up: accordion-up 500ms cubic-bezier(0.32, 0.72, 0, 1);
 }
-/* === Cursor pointer untuk semua elemen interaktif === */
-/* @custom-variant declarations live in ./theme.css (single source of truth,
-   also distributed to end users via cli/templates/theme.css). */
 
 @layer base {
   button:not(:disabled),
@@ -463,7 +439,6 @@
   letter-spacing: inherit !important;
 }
 
-/* Safety: prevent horizontal scroll (sticky-safe via clip, not hidden). */
 html,
 body {
   overflow-x: clip;

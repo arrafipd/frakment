@@ -19,12 +19,13 @@ export interface ButtonBaseProps extends VariantProps<typeof buttonVariants> {
   download?: string | boolean;
   href?: string;
   motion?: string;
+  ref?: React.Ref<HTMLButtonElement | HTMLAnchorElement>;
   rel?: string;
   target?: React.HTMLAttributeAnchorTarget;
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: loose polymorphic props for the `as` escape hatch
-export type ButtonProps = ButtonBaseProps & Record<string, any>;
+export type ButtonProps = ButtonBaseProps &
+  React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 function Button({
   as,

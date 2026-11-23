@@ -1,4 +1,5 @@
-import { cva, type VariantProps } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 import { Separator } from "@/components/ui/separator";
 import { Slot } from "@/components/ui/slot";
 import { cn } from "@/lib/utils";

@@ -1,6 +1,6 @@
-import { ROUTES } from "@/constants/routes";
-import { SITE } from "@/constants/site";
-import { agentDocsDirectiveMarkdown } from "@/lib/agent-discovery/directive";
+import { ROUTES } from "@/config/routes";
+import { SITE } from "@/config/site";
+import { agentDocsDirectiveMarkdown } from "@/features/agent-discovery/directive";
 import { markdownResponse } from "@/lib/api";
 
 export const revalidate = false;
@@ -16,13 +16,13 @@ ${agentDocsDirectiveMarkdown}
 
 ## Quick links
 
-- [Get started](${base}${ROUTES.DOCS_INSTALLATION}.md)
-- [Browse components](${base}${ROUTES.DOCS_COMPONENTS}.md)
+- [Get started](${base}${ROUTES.docsInstallation}.md)
+- [Browse components](${base}${ROUTES.docsComponents}.md)
 - [Documentation](${base}${ROUTES.DOCS}.md)
 - [LLM index (llms.txt)](${base}${ROUTES.LLMS})
-- [API catalog](${base}${ROUTES.API_CATALOG})
+- [API catalog](${base}${ROUTES.apiCatalog})
 - [OpenAPI description](${base}${ROUTES.OPENAPI})
-- [Agent skills index](${base}${ROUTES.AGENT_SKILLS_INDEX})
+- [Agent skills index](${base}${ROUTES.agentSkillsIndex})
 `;
 };
 

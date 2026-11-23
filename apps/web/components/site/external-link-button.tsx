@@ -1,6 +1,7 @@
 "use client";
 
-import { SiteButton, type SiteButtonProps } from "@/components/site/button";
+import type { SiteButtonProps } from "@/components/site/button";
+import { SiteButton } from "@/components/site/button";
 
 interface ExternalLinkButtonProps extends SiteButtonProps {
   href: string;

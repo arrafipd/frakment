@@ -21,18 +21,18 @@ Frakment is a set of components you install into your own project. There are two
 
 - A working `components.json` with registry URL and import aliases
 - Theme CSS variables injected into your globals
-- `lib/utils.ts`, `lib/motion.ts`, and `lib/animation.ts`
-- Six dependencies installed: `clsx`, `tailwind-merge`, `class-variance-authority`, `radix-ui`, `lucide-react`, `motion`
+- `lib/utils.ts` and `lib/motion.ts`
+- Four dependencies used by Frakment components
 - Your first component installed and rendering
 
 ## Prerequisites
 
-- **Node.js** 18 or newer
+- **Node.js** 22.18.0 or newer
 - **React** 19
 - **Tailwind CSS** v4
 - **TypeScript** (recommended)
 
-Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/guides/theming) manually.
+Frakment web components require React 19 and Tailwind CSS v4.
 
 ## Use the CLI
 
@@ -46,19 +46,19 @@ For all commands, flags, and registry format, see the [CLI Reference](/docs/libr
 npx frakment@latest init
 ```
 
-Creates `components.json`, injects the theme block (tokens + dark mode + 9 utilities) into `globals.css` between `/* ==== FRAKMENT THEME START/END ==== */` markers, adds `lib/utils.ts`, and installs 6 dependencies: `class-variance-authority`, `clsx`, `tailwind-merge`, `radix-ui`, `lucide-react`, `motion`.
+Creates `components.json`, adds the theme to `globals.css`, creates shared helper files, and installs the base dependencies.
 
 <Step>Add components</Step>
 
 ```bash
-npx frakment@latest add bubble
+npx frakment@latest add message
 ```
 
-Fetches `bubble.json`, resolves registry dependencies, resolves npm dependencies, writes source into `components/ui/`.
+Fetches `message.json`, resolves registry dependencies, resolves npm dependencies, writes source into `components/ui/`.
 
 <Step>Import and use</Step>
 
-```tsx title="bubble.tsx"
+```tsx title="message.tsx"
 import { Bubble, BubbleContent } from "@/components/ui/message";
 
 export default function Page() {
@@ -72,44 +72,42 @@ export default function Page() {
 
 </Steps>
 
-The `avatar` component ships with five AVIF avatars, embedded as base64 in `avatar.json` and written to `public/avatars/` on install.
+The Avatar component includes image assets that the CLI adds to your project when needed.
 
 ## What you get
 
 After `frakment init`, your project will have:
 
 <FileTree>
-  <FileTreeFolder name="apps" defaultOpen>
+  <FileTreeFolder name="project" defaultOpen>
     <FileTreeFile name="components.json" />
     <FileTreeFolder name="app" defaultOpen>
       <FileTreeFile name="globals.css" />
     </FileTreeFolder>
     <FileTreeFolder name="lib" defaultOpen>
       <FileTreeFile name="utils.ts" />
-      <FileTreeFile name="animation.ts" />
       <FileTreeFile name="motion.ts" />
     </FileTreeFolder>
   </FileTreeFolder>
 </FileTree>
 
 - **`components.json`** - registry URL, import aliases, Tailwind CSS path. Read by the CLI on every `add`.
-- **`app/globals.css`** - theme tokens (colors, radii, spacing) injected between `/* ==== FRAKMENT THEME START/END ==== */` markers, plus `.dark` variant and 9 utility classes.
+- **`app/globals.css`** - theme tokens and dark-mode styles.
 - **`lib/utils.ts`** - `cn()` helper for merging Tailwind classes.
 - **`lib/motion.ts`** - The per-component motion API. `parseMotion()` parses the `motion?: string` prop into duration and easing. `getTransition()` turns that into a CSS transition. `useReducedMotion()` and `useMotionGuard()` handle reduced motion and style overrides.
-- **`lib/animation.ts`** - Motion tokens (`easeInOut`, `easeInOutQuad`, `easeOutExpo`, `easeSmoothOut`, `springSoft`, `durationFast`, `durationNormal`, `durationSlow`, `delayTight`) and the `parseAnimation()` parser. Still used by components that have not yet migrated to `lib/motion.ts`.
 
 ### Dependencies
 
-`frakment init` checks your `package.json` and installs any missing package:
+`frakment init` checks your `package.json` and installs these four dependencies used by Frakment components:
 
 - `clsx`
 - `tailwind-merge`
 - `class-variance-authority`
-- `radix-ui`
 - `lucide-react`
-- `motion`
 
-These are the current runtime dependencies. `radix-ui` and `motion` are being removed incrementally as components move to Frakment-owned primitives and `lib/motion.ts`.
+Component transitions use the generated `lib/motion.ts` helper and CSS.
+
+Adding a component installs any additional dependencies declared by its registry entry.
 
 The theme block includes `.dark` and `@custom-variant dark`. As soon as your app toggles `.dark` on `<html>` (via `next-themes`, a custom button, or anything else), components switch automatically - no extra config needed. See [Theming](/docs/guides/theming) for the full wiring.
 
@@ -212,12 +210,12 @@ Pick your framework and follow that path.
 ### Check the file exists
 
 ```bash
-ls components/ui/bubble.tsx
+ls components/ui/message.tsx
 ```
 
 ### Import and render it
 
-```tsx title="bubble.tsx"
+```tsx title="message.tsx"
 import { Bubble, BubbleContent } from "@/components/ui/message";
 
 export default function Page() {
@@ -250,7 +248,7 @@ Make sure your globals.css includes the theme tokens from [Theming](/docs/guides
 <AccordionTrigger>Does it work with React 18?</AccordionTrigger>
 <AccordionContent>
 
-Partially. Some components use React 19 features. For React 18, wrap with forwardRef manually.
+No. Frakment web components require React 19.
 
 </AccordionContent>
 </AccordionItem>
@@ -269,5 +267,5 @@ Yes. components.json accepts any registry URL. Point it at https://your-domain.c
 ## Next
 
 - [Theming](/docs/guides/theming) - customize tokens and dark mode
-- [Components](/docs/components/bubble) - browse the catalog
-- [Introduction](/docs) - principles and quick example
+- [Components](/docs/components/web/message) - browse the catalog
+- [Introduction](/docs/getting-started) - principles and quick example

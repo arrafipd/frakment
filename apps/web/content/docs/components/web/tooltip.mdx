@@ -15,7 +15,7 @@ import { TooltipAnatomy } from "@/examples/tooltip-anatomy";
   <TooltipDemo />
 </ComponentPreview>
 
-Tooltip shows a small label on hover or focus. It supports `side` / `align` / `sideOffset` via floating-ui, and requires wrapping the app in `TooltipProvider` only if you want a shared delay.
+Tooltip shows a small label on hover or focus. It supports `side`, `align`, and `sideOffset` positioning, and requires wrapping the app in `TooltipProvider` only if you want a shared delay.
 
 ## Installation
 
@@ -35,12 +35,6 @@ npx frakment add tooltip
 
   <TabsContent value="manual">
     <Steps className="mb-0 pt-2">
-      <Step>Install the following dependency:</Step>
-
-      ```bash
-      npm install @floating-ui/react-dom
-      ```
-
       <Step>Copy and paste the following code into your project.</Step>
 
       <ComponentSource name="tooltip" title="components/ui/tooltip.tsx" />
@@ -153,7 +147,7 @@ Wrap a disabled button in a `<span>` — the trigger needs a hoverable host to r
 
 ## Motion
 
-The tooltip fades in with a default `150ms cubic-bezier(0.16, 1, 0.3, 1)` transition. Override with `motion`:
+The tooltip fades in with a default `120ms ease-out` transition. Override with `motion`:
 
 ```tsx
 <TooltipContent motion="200 ease-out">Read more</TooltipContent>
@@ -161,12 +155,12 @@ The tooltip fades in with a default `150ms cubic-bezier(0.16, 1, 0.3, 1)` transi
 
 | Value | Result |
 | :-- | :-- |
-| omitted | 150ms cubic-bezier default |
+| omitted | 120ms ease-out |
 | `"200"` | 200ms ease-in-out |
 | `"300 cubic-bezier(...)"` | 300ms custom easing |
 | `"off"` | instant (no transition) |
 
-When `prefers-reduced-motion` is set, the transition is disabled. Third-party animation libraries that write inline styles to the tooltip automatically suppress the internal CSS transition.
+When `prefers-reduced-motion` is set, the transition is disabled. Inline style changes to the tooltip automatically suppress the internal CSS transition.
 
 ## Keyboard
 

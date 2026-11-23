@@ -203,7 +203,7 @@ function TraceCollapsibleTrigger({
   return (
     <CollapsibleTrigger
       className={cn(
-        "group/trace-collapsible-trigger text-muted-foreground flex w-fit max-w-full min-w-0 cursor-pointer items-center gap-2 text-left outline-none",
+        "group/trace-collapsible-trigger text-muted-foreground flex w-full max-w-full min-w-0 cursor-pointer items-center gap-2 text-left outline-none",
         "has-[[data-status=error]]:text-destructive",
         className
       )}
@@ -211,7 +211,7 @@ function TraceCollapsibleTrigger({
       onClick={onClick}
       {...props}
     >
-      <span className="inline-flex items-center gap-2 transition-transform duration-200 hover:translate-x-px motion-reduce:transition-none motion-reduce:hover:translate-x-0">
+      <span className="inline-flex max-w-full min-w-0 flex-1 items-center gap-2 transition-transform duration-200 hover:translate-x-px motion-reduce:transition-none motion-reduce:hover:translate-x-0">
         {children}
       </span>
       <span

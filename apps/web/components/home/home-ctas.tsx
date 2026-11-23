@@ -5,7 +5,7 @@ import { useCallback, useRef } from "react";
 import type { ArrowRightIconHandle } from "@/components/site/animated-icons/arrow-right";
 import { SiteButton } from "@/components/site/button";
 import { Button } from "@/components/ui/button";
-import { ROUTES } from "@/constants/routes";
+import { ROUTES } from "@/config/routes";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { CheckIcon, CopyIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
@@ -28,7 +28,7 @@ const GetStartedButton = () => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Link href={ROUTES.DOCS_INSTALLATION} transitionTypes={["nav-forward"]}>
+      <Link href={ROUTES.docsInstallation} transitionTypes={["nav-forward"]}>
         Get Started
       </Link>
     </SiteButton>

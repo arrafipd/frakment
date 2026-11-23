@@ -1,16 +1,25 @@
 ---
 title: "MCP"
-description: "Run Frakment as a Model Context Protocol server so any MCP-capable agent can browse and install components."
+description: "Use Frakment registry tools to discover components, inspect source, compose scenarios, and get install commands."
 ---
 
 import { DownloadIcon, ListIcon, SearchIcon, TerminalIcon } from "lucide-react";
 
 <Callout type="success" title="One line to start">
-  `npx -y @frakment/mcp`. No install, no config file, just a working MCP server
-  on stdio.
+  `npx -y @frakment/mcp`. No global installation is required.
 </Callout>
 
-Frakment ships an MCP server that exposes the registry as tools. Agents call the tools instead of scraping HTML or writing custom HTTP glue.
+Frakment provides MCP tools to search the web registry, inspect component source, compose scenarios, and retrieve CLI install commands.
+
+The MCP server does not write files into a project or execute the returned commands.
+
+The MCP server exposes web components only; use `/r/expo/index.json` and the CLI `--expo` option for native components.
+
+Connect from any AI client that supports MCP over stdio.
+
+For clients without MCP support, the registry HTTPS endpoints and provider-neutral skill offer alternative workflows.
+
+The CLI and MCP server require Node.js 22.18.0 or newer.
 
 ## Quick start
 
@@ -57,7 +66,7 @@ npx @frakment/mcp
 <FeatureCard
   icon={DownloadIcon}
   title="view_component"
-  description="Full source, npm dependencies, and registry dependencies of one component."
+  description="Component files and dependency metadata, with binary assets labeled as base64."
 />
 
 <FeatureCard
@@ -75,7 +84,7 @@ npx @frakment/mcp
 <FeatureCard
   icon={TerminalIcon}
   title="compose"
-  description="Components, resolved dependencies, and install command for a scenario."
+  description="A curated component list, install command, and dependency notes for a scenario."
 />
 
 </div>
@@ -84,7 +93,7 @@ npx @frakment/mcp
 
 ### list_components
 
-Returns every component with `name` and `description`.
+Returns every web component with `name` and `description`.
 
 **Input**: none
 
@@ -92,24 +101,26 @@ Returns every component with `name` and `description`.
 
 ### view_component
 
-Returns the full source of one component.
+Returns the component files, npm dependencies, and registry dependencies.
+
+Binary assets remain base64 text and are labeled with their encoding in the file header.
 
 <PropsTable
   rows={[
     {
       name: "name",
       type: "string",
-      description: "Component slug from /r/index.json.",
+      description: "      Web component slug from /r/index.json.",
       required: true,
     },
   ]}
 />
 
-**Output**: markdown with file contents, npm dependencies, and registry dependencies.
+**Output**: markdown with file contents, npm dependencies, and registry dependencies. Binary assets include an encoding label and retain their base64 content.
 
 ### search_components
 
-Case-insensitive substring search across `name` and `description`.
+Case-insensitive substring search across web component `name` and `description`.
 
 <PropsTable
   rows={[
@@ -126,14 +137,14 @@ Case-insensitive substring search across `name` and `description`.
 
 ### get_install_command
 
-Returns the exact CLI command.
+Formats the CLI command without validating the component name. Call `list_components` first to choose a valid slug.
 
 <PropsTable
   rows={[
     {
       name: "name",
       type: "string",
-      description: "Component slug.",
+      description: "      Web component slug.",
       required: true,
     },
   ]}
@@ -149,7 +160,7 @@ Returns the built-in compositions available for common UI scenarios. No paramete
 
 ### compose
 
-Returns the components, resolved dependencies, and install command for a scenario.
+Returns the curated components, install command, and a note about registry dependencies for a scenario.
 
 <PropsTable
   rows={[
@@ -162,9 +173,9 @@ Returns the components, resolved dependencies, and install command for a scenari
   ]}
 />
 
-**Output**: scenario name, description, components, install command, and a note about transitive dependencies.
+**Output**: scenario name, description, components, install command, and dependency note; the CLI resolves registry dependencies.
 
-Supported scenarios: `chat`, `agent-timeline`, `code-output`, `login-form`, `settings-panel`, `empty-state`, `search-input`, `status-dashboard`.
+Supported scenarios: `chat`, `agent-timeline`, `code-output`, `login-form`, `settings-panel`, `empty-state`, `search-input`.
 
 ## Client configuration
 
@@ -181,6 +192,22 @@ Config lives at `~/Library/Application Support/Claude/claude_desktop_config.json
 {
   "mcpServers": {
     "frakment": {
+      "command": "npx",
+      "args": ["-y", "@frakment/mcp"]
+    }
+  }
+}
+```
+
+### VS Code with GitHub Copilot
+
+Save this configuration as `.vscode/mcp.json`:
+
+```json title="mcp.json"
+{
+  "servers": {
+    "frakment": {
+      "type": "stdio",
       "command": "npx",
       "args": ["-y", "@frakment/mcp"]
     }
@@ -208,7 +235,7 @@ Config lives at `~/.cursor/mcp.json`:
 Any client that spawns stdio processes:
 
 ```bash
-npx @frakment/mcp
+npx -y @frakment/mcp
 ```
 
 ## Environment
@@ -218,9 +245,8 @@ npx @frakment/mcp
     {
       name: "FRAKMENT_REGISTRY",
       type: "string",
-      default: "https://www.arrafi.dev/frakment/r",
-      description:
-        "Override the registry base URL. Useful for local dev against http://localhost:3000.",
+      default: "https://www.arrafi.dev/frakment",
+      description: "Registry root URL. Do not include the trailing `/r` path.",
     },
   ]}
 />
@@ -240,8 +266,8 @@ npx @frakment/mcp
 <AccordionItem value="fetch-failed">
   <AccordionTrigger>fetch failed</AccordionTrigger>
   <AccordionContent>
-    The registry is unreachable. Check `FRAKMENT_REGISTRY` or your network. For
-    local dev, run `FRAKMENT_REGISTRY=http://localhost:3000 npx @frakment/mcp`.
+    The registry is unreachable. Check `FRAKMENT_REGISTRY`, confirm it points
+    to the registry root, and verify network access.
   </AccordionContent>
 </AccordionItem>
 
@@ -257,4 +283,4 @@ npx @frakment/mcp
 
 ## Source
 
-The MCP server lives in the [`mcp/` directory](https://github.com/arrafipd/frakment/tree/main/mcp) of the Frakment repo. It is a thin wrapper over the registry JSON with no interpretation logic. Browse the source on [GitHub](https://github.com/arrafipd/frakment/tree/main/packages/mcp).
+The MCP server source is available on [GitHub](https://github.com/frakment/mcp).

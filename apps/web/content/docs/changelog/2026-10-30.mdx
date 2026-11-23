@@ -1,6 +1,6 @@
 ---
 title: "October 30, 2026"
-description: "Initial component release with 14 primitives."
+description: "Initial component release with component previews."
 date: "2026-10-30"
 ---
 
@@ -13,14 +13,13 @@ import { CodeBlockDemo } from "@/examples/code-block-demo";
 import { ItemDemo } from "@/examples/item-demo";
 import { MarkerDemo } from "@/examples/marker-demo";
 import { MessageDemo } from "@/examples/message-demo";
-import { PulseDemo } from "@/examples/pulse-demo";
 import { SeparatorDemo } from "@/examples/separator-demo";
 import { SpinnerDemo } from "@/examples/spinner-demo";
 import { TraceDemo } from "@/examples/trace-demo";
 
-First public release of Frakment with 14 components, component-registry docs, and the CLI. Every component is standalone — copy a single file, no registry chain required.
+First public release of Frakment with a component catalog, component-registry docs, and the CLI. Every component is standalone — copy a single file, no registry chain required.
 
-- [Components](#components): 14 primitives, each with a live preview.
+- [Components](#components): component previews.
 - [CLI](#cli): `init` and `add` commands.
 
 <hr className="my-16 border-border/40" />
@@ -74,14 +73,6 @@ Collapsible timeline for agent steps and tool calls.
 </ComponentPreview>
 
 Reasoning steps with collapsible body.
-
-#### Pulse
-
-<ComponentPreview name="pulse" title="pulse.tsx">
-  <PulseDemo />
-</ComponentPreview>
-
-Animated status indicator.
 
 #### Marker
 

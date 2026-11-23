@@ -2,8 +2,8 @@
 
 Read `AGENTS.md` at the repository root first. It is the canonical source for build commands, conventions, docs rules, and commit policy.
 
-Key commands: `npm ci`, `npm run build`, `npm run typecheck`, `npm run check`, `npm test`, `npm run registry:build`.
+Use `npm ci` or `pnpm install --frozen-lockfile`. Run scripts with `npm run <script>` or `pnpm <script>`, including `build`, `typecheck`, `check`, `test`, and `registry:build`.
 
 Brand name is `Frakment` in prose, lowercase `frakment` only for package names and commands.
 
-All of `npm run check`, `npm run typecheck`, and `npm test` must pass before committing. Do not use `--no-verify`.
+All of `check`, `typecheck`, and `test` must pass before committing with the selected package manager. Do not use `--no-verify`.

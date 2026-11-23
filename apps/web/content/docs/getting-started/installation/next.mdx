@@ -12,7 +12,7 @@ Frakment works in any Next.js 15+ project with React 19 and Tailwind v4. This gu
 - **TypeScript**
 - **Tailwind CSS** v4
 
-Components target React 19 and Tailwind v4. For React 18, some components need `forwardRef` adjustments. For Tailwind v3, port the tokens from [Theming](/docs/guides/theming) manually.
+Frakment web components require React 19 and Tailwind CSS v4.
 
 <div id="use-cli" className="scroll-mt-24" />
 
@@ -33,7 +33,7 @@ cd app
 
 ```bash
 npx frakment@latest init
-npx frakment@latest add bubble
+npx frakment@latest add message
 ```
 
 <Step>Use it</Step>
@@ -85,7 +85,6 @@ In `tsconfig.json`:
 ```json title="tsconfig.json"
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./*"]
     }
@@ -96,7 +95,7 @@ In `tsconfig.json`:
 <Step>Add a component</Step>
 
 ```bash
-npx frakment@latest add bubble
+npx frakment@latest add message
 ```
 
 <Step>Import and use</Step>
@@ -141,7 +140,7 @@ After `create-next-app`, your project will have:
 After installing your first component, confirm the setup:
 
 ```bash
-ls components/ui/bubble.tsx
+ls components/ui/message.tsx
 ```
 
 Then import and render it in a page. If it renders without errors, you're ready.
@@ -173,4 +172,4 @@ Make sure `globals.css` includes the theme tokens from [Theming](/docs/guides/th
 ## Next
 
 - [Theming](/docs/guides/theming) - customize tokens and dark mode
-- [Components](/docs/components/bubble) - browse the catalog
+- [Components](/docs/components/web/message) - browse the catalog

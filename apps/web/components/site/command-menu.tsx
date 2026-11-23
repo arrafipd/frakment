@@ -44,7 +44,7 @@ type DocUrlKind =
   | { kind: "template"; slug: string }
   | { kind: "page" };
 
-const GROUP_HEADING_CLS =
+const groupHeadingCls =
   "!p-0 [&_[cmdk-group-heading]]:scroll-mt-16 [&_[cmdk-group-heading]]:!p-3 [&_[cmdk-group-heading]]:!pb-1";
 
 const parseDocPageUrl = (url: string): DocUrlKind => {
@@ -82,16 +82,6 @@ const buildDocPageKeywords = (
 ];
 
 const DocPageLeadingIcon = ({ parsed }: { parsed: DocUrlKind }) => {
-  // if (parsed.kind === "theme") {
-  //   const color = themePrimaryBySlug[parsed.slug];
-  //   return (
-  //     <span
-  //       className="border-border/60 size-4 shrink-0 rounded-sm border"
-  //       style={color ? { backgroundColor: color } : undefined}
-  //       aria-hidden
-  //     />
-  //   );
-  // }
   if (parsed.kind === "component") {
     return <CircleDashedIcon />;
   }
@@ -317,7 +307,7 @@ export const CommandMenu = ({
             </CommandEmpty>
             {navGroups.map((group) => (
               <CommandGroup
-                className={GROUP_HEADING_CLS}
+                className={groupHeadingCls}
                 heading={group.label}
                 key={group.label}
               >

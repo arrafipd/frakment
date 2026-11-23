@@ -10,12 +10,12 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-const SHEET_SIDES = ["top", "right", "bottom", "left"] as const;
+const sheetSides = ["top", "right", "bottom", "left"] as const;
 
 export function SheetSide() {
   return (
     <div className="flex flex-wrap gap-2">
-      {SHEET_SIDES.map((side) => (
+      {sheetSides.map((side) => (
         <Sheet key={side}>
           <SheetTrigger as={Button} className="capitalize" variant="outline">
             {side}
