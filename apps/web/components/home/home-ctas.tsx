@@ -70,7 +70,7 @@ const BrowseComponentsButton = () => {
   return (
     <Button
       className="rounded-full pr-3 pl-2"
-      onClick={() => copyToClipboard("npx frakment-mcp@latest")}
+      onClick={() => copyToClipboard("npx -y @frakment/mcp@latest")}
       type="button"
       variant="outline"
     >

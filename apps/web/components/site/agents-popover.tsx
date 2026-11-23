@@ -25,10 +25,10 @@ import { cn } from "@/lib/utils";
 const title = "For Agents";
 
 const MCP = {
-  bun: "bunx frakment-mcp",
-  npm: "npx -y @frakment/mcp",
-  pnpm: "pnpm dlx frakment-mcp",
-  yarn: "yarn dlx frakment-mcp",
+  bun: "bunx @frakment/mcp@latest",
+  npm: "npx -y @frakment/mcp@latest",
+  pnpm: "pnpm dlx @frakment/mcp@latest",
+  yarn: "yarn dlx @frakment/mcp@latest",
 };
 
 const SKILL =
