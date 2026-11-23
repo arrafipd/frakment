@@ -17,4 +17,4 @@ concurrency:
 
 jobs:
   ci:
-    uses: frakment/.github/.github/workflows/ui-ci-reusable.yml@434c77d270241a9c4f2cf61415f1660894e1735f
+    uses: frakment/.github/.github/workflows/ui-ci-reusable.yml@07feda662f01616aa3cf4c1c2af70757813c6f5c
