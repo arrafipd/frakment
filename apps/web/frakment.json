@@ -471,7 +471,7 @@
       "name": "frakment-usage",
       "title": "Frakment Usage",
       "description": "Provider-neutral instructions for discovering, inspecting, and installing Frakment web and Expo components.",
-      "source": "skills/frakment-usage/SKILL.md",
+      "source": "skills-source/skills/frakment-usage/SKILL.md",
       "version": "0.2.0"
     }
   ]

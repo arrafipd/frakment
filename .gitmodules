@@ -1,0 +1,4 @@
+[submodule "apps/web/skills-source"]
+	path = apps/web/skills-source
+	url = https://github.com/frakment/skills.git
+	branch = main

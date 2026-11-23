@@ -12,12 +12,13 @@ Report privately via GitHub Security Advisories:
 
 You will receive a response within **7 days**. If confirmed, a fix will be prepared and released as soon as possible. You will be credited in the advisory unless you prefer to remain anonymous.
 
+For vulnerabilities in the MCP server, use the [MCP repository's security policy](https://github.com/frakment/mcp/blob/main/SECURITY.md).
+
 ## Scope
 
 In scope:
 
 - `frakment` CLI (`packages/cli`)
-- `@frakment/mcp` server (`packages/mcp`)
 - Web components and registry files in `apps/web/registry/` and `apps/web/public/r/`
 - Native components and registry files in `apps/native/registry/` and `apps/native/public/r/`
 - Documentation website (`apps/web/app/`, `apps/web/content/`)
@@ -73,10 +74,9 @@ Threats and mitigations:
 
 Security fixes are provided for the latest published version of each package. Older versions are not maintained.
 
-| Package         | Current line |
-| :-------------- | :----------- |
-| `frakment`      | `2.0.0`      |
-| `@frakment/mcp` | `1.0.0`      |
+| Package    | Current line |
+| :--------- | :----------- |
+| `frakment` | `2.0.0`      |
 
 ## Recognition
 

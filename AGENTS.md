@@ -50,6 +50,8 @@ Preview first: for visual changes, `<ComponentPreview>` goes above the prose.
 
 `apps/web/registry/*.tsx` is the source of truth for web components. `apps/web/components/ui/*.tsx` must be byte-identical. Native sources live in `apps/native/registry/*.tsx`. After editing registry sources or metadata, run `npm run registry:build`. If a component imports `@/lib/icons`, its `registryDependencies` must include `icons`.
 
+Initialize the Skills submodule with `git submodule update --init apps/web/skills-source` before running registry builds or tests.
+
 ### Commit policy
 
 All of `npm run check`, `npm run typecheck`, and `npm test` must pass before committing. Do not use `--no-verify`. Commit messages use conventional prefixes: `feat:`, `fix:`, `docs:`, `chore:`, `ci:`.
@@ -60,9 +62,9 @@ Do not edit files under `apps/web/content/docs/` with PowerShell 5.1 string repl
 
 ## Agent resources
 
-- Skill: `apps/web/skills/frakment-usage/SKILL.md` for discovering, fetching, and installing components
+- Skill source: `apps/web/skills-source/skills/frakment-usage/SKILL.md` in the `frakment/skills` submodule
 - Registry index: `https://www.arrafi.dev/frakment/r/index.json`
-- MCP server: `npx -y @frakment/mcp` with tools `list_components`, `view_component`, `search_components`, `get_install_command`, `list_scenarios`, `compose`
+- MCP server: `npx -y @frakment/mcp` with tools `list_components`, `view_component`, `search_components`, `get_install_command`, `list_scenarios`, `compose`; source and releases live in `frakment/mcp`
 - Full agent docs: `https://www.arrafi.dev/frakment/llms.txt`
 
 ## Never

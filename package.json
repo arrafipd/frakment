@@ -33,11 +33,11 @@
     "release": "node scripts/workspaces.ts build && changeset publish",
     "start": "npm run start -w @frakment/web",
     "pretest": "node scripts/workspaces.ts build",
-    "test": "npm run test -w @frakment/web && npm run test -w @frakment/mcp && vitest run --config config/vitest.packages.config.ts",
+    "test": "npm run test -w @frakment/web && vitest run --config config/vitest.packages.config.ts",
     "test:watch": "npm run test:watch -w @frakment/web",
     "tooling:typecheck": "tsc --noEmit -p tooling/tsconfig.json",
     "pretypecheck": "node scripts/workspaces.ts build",
-    "typecheck": "npm run tooling:typecheck && npm run typecheck -w frakment && npm run typecheck -w @frakment/mcp && npm run typecheck -w @frakment/web && npm run typecheck -w @frakment/native",
+    "typecheck": "npm run tooling:typecheck && npm run typecheck -w frakment && npm run typecheck -w @frakment/web && npm run typecheck -w @frakment/native",
     "version:packages": "changeset version"
   },
   "overrides": {

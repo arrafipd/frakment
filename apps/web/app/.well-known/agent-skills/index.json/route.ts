@@ -24,7 +24,7 @@ export const GET = async (request: Request) => {
   const base = origin.replace(/\/$/u, "");
 
   const frakmentUsageDigest = await fileDigest(
-    "skills/frakment-usage/SKILL.md"
+    "public/skills/frakment-usage/SKILL.md"
   );
 
   return Response.json(
