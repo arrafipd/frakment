@@ -1,7 +1,6 @@
 "use client";
 
 import { CircleCheckIcon, LoaderCircleIcon, TerminalIcon } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -326,7 +325,6 @@ export function ConfirmationDemo() {
     status,
     addToolApprovalResponse,
   } = useDemoChat(transcript, initialMessages);
-  const shouldReduceMotion = useReducedMotion();
   const nextMessage = getNextMessage(transcript, messages);
   const busy = status === "submitted" || status === "streaming";
 
@@ -335,15 +333,7 @@ export function ConfirmationDemo() {
       {messages.map((message) => {
         if (message.role === "user") {
           return (
-            <motion.div
-              animate={shouldReduceMotion ? undefined : "animate"}
-              initial={shouldReduceMotion ? undefined : "initial"}
-              key={message.id}
-              variants={{
-                animate: { opacity: 1, y: 0 },
-                initial: { opacity: 0, y: 8 },
-              }}
-            >
+            <div className="frakment-demo-enter" key={message.id}>
               <Message align="end">
                 <MessageContent>
                   <Bubble align="end" variant="muted">
@@ -351,17 +341,12 @@ export function ConfirmationDemo() {
                   </Bubble>
                 </MessageContent>
               </Message>
-            </motion.div>
+            </div>
           );
         }
 
         return (
-          <motion.div
-            animate={shouldReduceMotion ? undefined : "animate"}
-            initial={shouldReduceMotion ? undefined : "initial"}
-            key={message.id}
-            variants={{ animate: { opacity: 1 }, initial: { opacity: 0 } }}
-          >
+          <div className="frakment-demo-enter" key={message.id}>
             <Message>
               <MessageContent className="gap-4">
                 {message.parts.map((part, index) => {
@@ -386,14 +371,9 @@ export function ConfirmationDemo() {
 
                   if (part.state === "approval-requested") {
                     return (
-                      <motion.div
-                        animate={shouldReduceMotion ? undefined : "animate"}
-                        initial={shouldReduceMotion ? undefined : "initial"}
+                      <div
+                        className="frakment-demo-enter"
                         key={part.toolCallId}
-                        variants={{
-                          animate: { opacity: 1, y: 0 },
-                          initial: { opacity: 0, y: 8 },
-                        }}
                       >
                         <Item variant="outline">
                           <ItemMedia>
@@ -431,7 +411,7 @@ export function ConfirmationDemo() {
                             </Button>
                           </ItemActions>
                         </Item>
-                      </motion.div>
+                      </div>
                     );
                   }
 
@@ -468,7 +448,7 @@ export function ConfirmationDemo() {
                 })}
               </MessageContent>
             </Message>
-          </motion.div>
+          </div>
         );
       })}
       {!busy && (

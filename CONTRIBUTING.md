@@ -98,7 +98,7 @@ Issues filed without the template are closed with a one-line reply asking for it
 
 ## Requesting features
 
-Open an issue with the **Feature request** template, or start a [Discussion](https://github.com/arrafipd/frakment/discussions) if you are unsure whether the feature belongs in Frakment.
+Open an issue with the **Feature request** template, or start a [Discussion](https://github.com/frakment/ui/discussions) if you are unsure whether the feature belongs in Frakment.
 
 A feature request includes:
 
@@ -115,7 +115,7 @@ Features that do not fit Frakment:
 
 ## Questions
 
-For how-to questions ("how do I use X with Y?"), open a [GitHub Discussion](https://github.com/arrafipd/frakment/discussions). Issues are for actionable bugs and features; discussions are for open-ended answers.
+For how-to questions ("how do I use X with Y?"), open a [GitHub Discussion](https://github.com/frakment/ui/discussions). Issues are for actionable bugs and features; discussions are for open-ended answers.
 
 For security issues, do **not** open a public issue. See [SECURITY.md](./SECURITY.md) for the private reporting process.
 

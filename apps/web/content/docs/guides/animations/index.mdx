@@ -46,32 +46,29 @@ Native components use immediate state changes and do not expose the web `motion`
 
 ## Custom animations
 
-The `motion` package is optional and is not installed by the CLI initializer.
+Use CSS animations for custom effects, and disable them when reduced motion is preferred.
 
-The `motion` npm package is not required by the Frakment component `motion` prop, which uses CSS transitions and the local `lib/motion.ts` helper.
+```css
+.fade-in {
+  animation: fade-in 200ms ease-out both;
+}
 
-Install it with `npm install motion` when you need custom JavaScript-driven animations.
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-Use the package directly when a composition needs frame-based animation:
-
-```tsx
-"use client";
-
-import { motion } from "motion/react";
-
-export function FadeIn({ children }: { children: React.ReactNode }) {
-  return (
-    <motion.div
-      animate={{ opacity: 1, y: 0 }}
-      initial={{ opacity: 0, y: 8 }}
-      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
+@media (prefers-reduced-motion: reduce) {
+  .fade-in {
+    animation: none;
+  }
 }
 ```
-
-Respect the user's reduced-motion preference in custom animations as well.
 
 See the [component catalog](/docs/components) for component-specific APIs.

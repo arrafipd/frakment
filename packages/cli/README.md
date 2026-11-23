@@ -5,7 +5,7 @@
 
 Monochrome design system and component registry CLI.
 
-Frakment-authored CLI code is licensed under MIT, which permits commercial use, modification, distribution, and sublicensing. Third-party dependencies retain their own licenses; see the [repository third-party notices](https://github.com/arrafipd/frakment/blob/main/docs/legal/THIRD_PARTY_NOTICES.md).
+Frakment-authored CLI code is licensed under MIT, which permits commercial use, modification, distribution, and sublicensing. Third-party dependencies retain their own licenses; see the [repository third-party notices](https://github.com/frakment/ui/blob/main/docs/legal/THIRD_PARTY_NOTICES.md).
 
 ## Requirements
 

@@ -2,9 +2,9 @@
   "name": "@frakment/site",
   "version": "0.0.1",
   "private": true,
-  "description": "A component registry for React. Copy-paste primitives with motion built in. MIT.",
+  "description": "Composable and accessible UI primitives for React and React Native with motion built in, customizable styling and AI-ready tooling.",
   "license": "MIT",
-  "author": "The Frakment Authors (https://github.com/arrafipd/frakment)",
+  "author": "The Frakment Authors (https://github.com/frakment/ui)",
   "type": "module",
   "workspaces": [
     "apps/*",

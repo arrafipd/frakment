@@ -1,7 +1,5 @@
 "use client";
 
-import type { HTMLMotionProps, Variants } from "motion/react";
-import { AnimatePresence, motion } from "motion/react";
 import { useCallback } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -16,20 +14,6 @@ import type { Event } from "@/lib/events";
 import { trackEvent } from "@/lib/events";
 import { CheckIcon, CopyIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
-
-export const motionIconVariants: Variants = {
-  animate: { filter: "blur(0px)", opacity: 1, scale: 1 },
-  exit: { opacity: 0, scale: 0.8 },
-  initial: { filter: "blur(2px)", opacity: 0, scale: 0.8 },
-};
-
-export const motionIconProps: HTMLMotionProps<"span"> = {
-  animate: "animate",
-  exit: "exit",
-  initial: "initial",
-  transition: { duration: 0.15, ease: "easeOut" },
-  variants: motionIconVariants,
-};
 
 export interface CopyButtonProps
   extends Omit<React.ComponentProps<typeof Button>, "value"> {
@@ -102,17 +86,15 @@ export const CopyButton = ({
       {...props}
     >
       <span className="sr-only">Copy</span>
-      <AnimatePresence initial={false} mode="popLayout">
-        {isCopied ? (
-          <motion.span key="done" {...motionIconProps}>
-            <CheckIcon weight="bold" />
-          </motion.span>
-        ) : (
-          <motion.span key="idle" {...motionIconProps}>
-            <CopyIcon />
-          </motion.span>
-        )}
-      </AnimatePresence>
+      {isCopied ? (
+        <span className="frakment-icon-enter inline-flex" key="done">
+          <CheckIcon weight="bold" />
+        </span>
+      ) : (
+        <span className="frakment-icon-enter inline-flex" key="idle">
+          <CopyIcon />
+        </span>
+      )}
       {children}
     </Button>
   );

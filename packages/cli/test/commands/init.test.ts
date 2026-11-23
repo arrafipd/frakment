@@ -19,7 +19,7 @@ const packageRoot = path.resolve(
 const cliPath = path.join(packageRoot, "dist", "bin", "index.js");
 
 describe("frakment init", () => {
-  it("does not install Motion or scaffold the removed animation helper", () => {
+  it("does not install dependencies or scaffold the removed animation helper", () => {
     const projectRoot = mkdtempSync(path.join(os.tmpdir(), "frakment-init-"));
 
     try {

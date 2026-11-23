@@ -31,12 +31,6 @@ npx frakment add message button marker
 
   <TabsContent value="manual">
     <Steps className="mb-0 pt-2">
-      <Step>Install the following dependencies:</Step>
-
-      ```bash
-      npm install motion
-      ```
-
       <Step>Install the required registry components:</Step>
 
       <ComponentSource name="button" title="components/ui/button.tsx" />
@@ -98,23 +92,7 @@ type ChatMessage = {
 
 ## Animation
 
-Checkpoint rows animate through the same variants as chat messages.
-
-```tsx title="checkpoint.tsx"
-import { motion, useReducedMotion } from "motion/react";
-
-const shouldReduceMotion = useReducedMotion();
-
-<motion.div
-  animate={shouldReduceMotion ? undefined : "animate"}
-  initial={shouldReduceMotion ? undefined : "initial"}
-  variants={{ animate: { opacity: 1, y: 0 }, initial: { opacity: 0, y: 8 } }}
->
-  ...
-</motion.div>
-```
-
-The checkpoint marker uses the `fade` variant, so it appears after the message it belongs to.
+The preview uses a CSS entrance animation for checkpoint rows and respects the reduced-motion preference.
 
 ## Restore semantics
 

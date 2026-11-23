@@ -36,7 +36,6 @@ This version list is not a complete license-by-license inventory or a grant of r
 - `lucide-react` ^1.75.0
 - `lucide-react-native` ^1.75.0
 - `marked` ^18.2.1
-- `motion` ^14.14.0
 - `nativewind` 5.0.0-rc.1
 - `next` ^16.4.3
 - `next-themes` 0.4.6

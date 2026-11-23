@@ -6,7 +6,7 @@ Please **do not open a public issue** for security vulnerabilities.
 
 Report privately via GitHub Security Advisories:
 
-1. Go to https://github.com/arrafipd/frakment/security/advisories/new
+1. Go to https://github.com/frakment/ui/security/advisories/new
 2. Describe the vulnerability, steps to reproduce, and impact.
 3. Include a proof of concept or suggested fix if possible.
 

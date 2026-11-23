@@ -22,8 +22,10 @@ describe("config/site", () => {
   });
 
   describe("descriptions", () => {
-    it("long description is non-empty", () => {
-      expect(SITE.DESCRIPTION.LONG.length).toBeGreaterThan(20);
+    it("uses the current brand description", () => {
+      expect(SITE.DESCRIPTION.LONG).toBe(
+        "Composable and accessible UI primitives for React and React Native with motion built in, customizable styling and AI-ready tooling."
+      );
     });
 
     it("short description is non-empty", () => {

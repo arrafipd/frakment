@@ -128,9 +128,9 @@ Toasts animate with CSS transitions: enter, exit, and height use 400ms ease, and
 
 When `prefers-reduced-motion` is set, the transition is disabled regardless of the value.
 
-### Using your own animation library
+### Inline style overrides
 
-The CSS engine lives inside `sonner.tsx` as the `sonnerStyles` constant. To swap it for GSAP, Framer Motion, or the Web Animations API, edit that constant and the `Toast` render function directly. The `motion` prop covers CSS transitions only; a third-party engine bypasses it entirely.
+The CSS engine lives inside `sonner.tsx` as the `sonnerStyles` constant. The `motion` prop covers CSS transitions only; custom inline styles bypass it.
 
 ## In Context
 

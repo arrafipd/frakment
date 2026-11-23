@@ -1,6 +1,5 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
 import * as React from "react";
 
 import {
@@ -43,20 +42,6 @@ import {
 import { cn } from "@/lib/utils";
 
 type FileIconComponent = React.ComponentType<{ className?: string }>;
-
-const springSmooth = {
-  damping: 36,
-  mass: 0.9,
-  stiffness: 320,
-  type: "spring" as const,
-};
-
-const springSharp = {
-  damping: 32,
-  mass: 0.7,
-  stiffness: 420,
-  type: "spring" as const,
-};
 
 const fileColors: Record<string, string> = {
   avif: "text-pink-600 dark:text-pink-400",
@@ -172,7 +157,6 @@ function FileTreeFolder({
 }) {
   const [open, setOpen] = React.useState(defaultOpen);
   const contentId = React.useId();
-  const shouldReduce = useReducedMotion();
   const FolderIconResolved =
     icon && customIcons[icon] ? customIcons[icon] : FolderIcon;
 
@@ -185,36 +169,33 @@ function FileTreeFolder({
         onClick={() => setOpen((value) => !value)}
         type="button"
       >
-        <motion.span
-          animate={{ rotate: open ? 90 : 0 }}
-          className="flex shrink-0 items-center justify-center"
-          initial={false}
-          transition={shouldReduce ? { duration: 0 } : springSharp}
+        <span
+          className={cn(
+            "flex shrink-0 items-center justify-center transition-transform duration-300 ease-out motion-reduce:transition-none",
+            open && "rotate-90"
+          )}
         >
           <ChevronRightIcon className="text-muted-foreground/70 size-4" />
-        </motion.span>
+        </span>
         <FolderIconResolved className="text-muted-foreground size-4 shrink-0" />
         <span className="text-foreground truncate font-medium">{name}</span>
       </button>
-      <div id={contentId}>
-        <motion.div
-          animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
+      <div
+        className={cn(
+          "grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none",
+          open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+        )}
+        id={contentId}
+      >
+        <div
+          className="min-h-0 overflow-hidden"
           inert={!open}
-          initial={false}
-          style={{ overflow: "hidden", transform: "translateZ(0)" }}
-          transition={
-            shouldReduce
-              ? { duration: 0 }
-              : {
-                  height: springSmooth,
-                  opacity: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
-                }
-          }
+          style={{ transform: "translateZ(0)" }}
         >
           <div className="border-border/60 ml-[19px] border-l py-0.5 pl-3">
             {children}
           </div>
-        </motion.div>
+        </div>
       </div>
     </>
   );

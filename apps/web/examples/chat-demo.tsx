@@ -12,7 +12,6 @@ import {
   TelescopeIcon,
   TerminalIcon,
 } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { CodeBlock, CodeBlockContent } from "@/components/ui/code-block";
@@ -445,8 +444,6 @@ const transcript: ChatMessage[] = [
 
 const initialMessages: ChatMessage[] = [];
 
-const MotionMessageScrollerItem = motion.create(MessageScrollerItem);
-
 export function ChatDemo() {
   const { messages, sendMessage, setMessages, status } = useDemoChat(
     transcript,
@@ -455,7 +452,6 @@ export function ChatDemo() {
   );
   const [draft, setDraft] = React.useState<string | null>(null);
   const formRef = React.useRef<HTMLFormElement>(null);
-  const shouldReduceMotion = useReducedMotion();
   const nextMessage = getNextMessage(transcript, messages);
   const busy = status === "submitted" || status === "streaming";
   const text = draft ?? (nextMessage ? getMessageText(nextMessage) : "");
@@ -529,16 +525,11 @@ export function ChatDemo() {
                     {messages.map((message) => {
                       if (message.role === "user") {
                         return (
-                          <MotionMessageScrollerItem
-                            animate="animate"
-                            initial={shouldReduceMotion ? false : "initial"}
+                          <MessageScrollerItem
+                            className="frakment-demo-enter"
                             key={message.id}
                             messageId={message.id}
                             scrollAnchor
-                            variants={{
-                              animate: { opacity: 1, y: 0 },
-                              initial: { opacity: 0, y: 8 },
-                            }}
                           >
                             <Message align="end">
                               <MessageContent>
@@ -549,7 +540,7 @@ export function ChatDemo() {
                                 </Bubble>
                               </MessageContent>
                             </Message>
-                          </MotionMessageScrollerItem>
+                          </MessageScrollerItem>
                         );
                       }
 

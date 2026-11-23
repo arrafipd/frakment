@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "motion/react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -44,13 +43,13 @@ export const CodeCollapsibleWrapper = ({
 
   const needsCollapse = contentHeight > collapseThreshold;
 
-  let targetHeight: number | "auto";
+  let targetHeight: number | undefined;
   if (!hasMeasured) {
     targetHeight = collapseThreshold;
   } else if (needsCollapse) {
-    targetHeight = isOpened ? "auto" : collapseThreshold;
+    targetHeight = isOpened ? contentHeight : collapseThreshold;
   } else {
-    targetHeight = "auto";
+    targetHeight = undefined;
   }
 
   return (
@@ -82,20 +81,20 @@ export const CodeCollapsibleWrapper = ({
         </CollapsibleTrigger>
       )}
 
-      <motion.div
-        animate={{ height: targetHeight }}
-        className="relative"
-        initial={false}
-        style={{ overflow: "hidden" }}
-        transition={{
-          duration: hasInteracted ? 0.3 : 0,
-          ease: [0.4, 0, 0.2, 1],
+      <div
+        className={cn(
+          "relative overflow-hidden",
+          hasInteracted &&
+            "transition-[max-height] duration-300 ease-in-out motion-reduce:transition-none"
+        )}
+        style={{
+          maxHeight: targetHeight,
         }}
       >
         <div className="[&>figure]:mt-0 [&>figure]:md:mx-0!" ref={contentRef}>
           {children}
         </div>
-      </motion.div>
+      </div>
 
       {needsCollapse && (
         <div className="from-code/70 to-code absolute inset-x-0 -bottom-2 flex h-20 items-center justify-center rounded-b-lg bg-linear-to-b group-data-[state=open]/collapsible:hidden">

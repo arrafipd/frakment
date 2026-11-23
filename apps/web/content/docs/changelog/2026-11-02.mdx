@@ -8,7 +8,6 @@ This release moves the theme block inline into `globals.css` and hardens the CLI
 
 - [Inline theme block](#inline-theme-block): One block, no extra CSS file.
 - [Smarter CLI](#smarter-cli): Fail-fast on missing Tailwind v4 or `globals.css`, `src/` layout support, smarter prompt.
-- [Trace fix](#trace-fix): `motion` installed automatically.
 
 <hr className="my-16 border-border/40" />
 
@@ -24,7 +23,3 @@ Re-running `init` replaces the block in place. Custom CSS below the `END` marker
 - **Fail-fast `globals.css` check:** If no `globals.css` is found, `init` exits instead of silently skipping the theme.
 - **`src/` layout support:** `frakment add` writes components to `src/components/`, `src/lib/`, and `src/hooks/` when `components.json` points at `src/app/globals.css`. Binary assets still go to `public/`.
 - **Smarter prompt:** If `components.json` exists, `init` asks before overwriting. Choosing "no" keeps your config but still re-injects the theme block.
-
-### Trace fix
-
-The `trace` component depends on `motion` for animations. `frakment init` now installs `motion` alongside the existing five dependencies, so `frakment add trace` works out of the box.

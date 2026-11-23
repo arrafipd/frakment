@@ -1,6 +1,6 @@
 ---
 title: "November 6, 2026"
-description: "Dialog and Sheet primitives, full-demo registry blocks, and a unified Motion animation system."
+description: "Dialog and Sheet primitives, full-demo registry blocks, and CSS-based component transitions."
 date: "2026-11-06"
 ---
 
@@ -8,12 +8,12 @@ import { DialogDemo } from "@/examples/dialog-demo";
 import { SheetDemo } from "@/examples/sheet-demo";
 import { TraceDemo } from "@/examples/trace-demo";
 
-This release adds two modal primitives, ships full-demo registry blocks for AI-heavy examples, and moves every state transition onto Motion.
+This release adds two modal primitives, ships full-demo registry blocks for AI-heavy examples, and standardizes component transitions.
 
 - [Dialog](#dialog): Modal window built on Radix with a close button toggle.
 - [Sheet](#sheet): Modal panel that slides in from any edge.
 - [Trace demos](#trace-demos): Six full-demo blocks for trace and AI examples.
-- [Animation system](#animation-system): Accordion, collapsible, and shimmer now run on Motion.
+- [Animation system](#animation-system): Accordion, Collapsible, and Shimmer use CSS transitions.
 <hr className="my-16 border-border/40" />
 
 ### Dialog
@@ -81,12 +81,6 @@ The preview above is the exact code you get from the install command.
 
 ### Animation system
 
-Accordion and Collapsible now animate height through Motion instead of CSS keyframes. Shimmer is a Motion component. `TraceCollapsibleContent` uses `ResizeObserver` so streaming content updates the spring target instead of stalling on `auto`.
+Accordion and Collapsible animate height with CSS, and Shimmer uses CSS keyframes. `TraceCollapsibleContent` uses `ResizeObserver` to follow streaming content.
 
-`lib/animation.ts` ships with `npx frakment init` and exports `springSmooth`, `EASE_OUT`, `EASE_SMOOTH`, `EASE_IN_OUT`, `DURATION_FAST`, `DURATION_SMOOTH`. Import from it when you build animated components so timing matches the library.
-
-~~~ts
-import { springSmooth } from "@/lib/animation";
-~~~
-
-See the [Animations guide](/docs/guides/animations) for the two-engine model.
+See the [Animations guide](/docs/guides/animations) for the component transition API.
