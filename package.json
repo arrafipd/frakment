@@ -65,7 +65,7 @@
     "textlint-plugin-mdx": "1.1.0",
     "textlint-rule-common-misspellings": "1.0.1",
     "typescript": "^5.9.3",
-    "ultracite": "8.3.0",
+    "ultracite": "8.3.1",
     "vitest": "^5.1.1"
   },
   "optionalDependencies": {
