@@ -10,9 +10,7 @@ permissions:
 
 jobs:
   dco:
-    uses: frakment/.github/.github/workflows/dco-reusable.yml@5d397f93bb61629dacb32936d0d23f31a792a40a
+    uses: frakment/.github/.github/workflows/dco-reusable.yml@91e5c204666274d1c5238636d26543637f926aba
     permissions:
       contents: read
       pull-requests: read
-    secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
