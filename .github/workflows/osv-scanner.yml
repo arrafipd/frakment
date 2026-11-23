@@ -1,22 +1,20 @@
 name: OSV-Scanner
+
 on:
   push:
     branches: ["main"]
   pull_request:
     branches: ["main"]
   schedule:
-    - cron: '0 6 * * 1'
+    - cron: "0 6 * * 1"
+
 permissions:
   contents: read
   actions: read
+
 jobs:
   osv:
-    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@3c399db9dd6dd8106a27d280d53c55077d3f7cea
-    with:
-      scan-args: |-
-        --lockfile=package-lock.json
-        --format=sarif
-        --output=osv.sarif
+    uses: frakment/.github/.github/workflows/osv-scanner-reusable.yml@5d397f93bb61629dacb32936d0d23f31a792a40a
     permissions:
       contents: read
       actions: read
