@@ -26,7 +26,7 @@ pre-commit:
 
     - name: typecheck
       glob: "apps/web/**/*.{ts,tsx}"
-      run: npm run typecheck
+      run: node scripts/run-package-script.ts typecheck
 
     - name: registry-audit
       glob:
@@ -49,6 +49,6 @@ pre-push:
   parallel: false
   jobs:
     - name: build
-      run: npm run build
+      run: node scripts/run-package-script.ts build
     - name: test
-      run: npm run test
+      run: node scripts/run-package-script.ts test

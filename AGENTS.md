@@ -6,22 +6,22 @@ Frakment is a component registry for React interfaces. The Next.js site is in `a
 
 - Next.js 16 (App Router, Turbopack) + React 19 + Tailwind CSS v4
 - Fumadocs for docs, Biome via Ultracite for lint and format
-- npm workspaces, TypeScript `^5.9.3` for package declaration builds
+- npm and pnpm workspaces, TypeScript `^5.9.3` for package declaration builds
 - Vitest for tests
 
 ## Commands
 
-| Task                     | Command                   |
-| ------------------------ | ------------------------- |
-| Install (locked)         | `npm ci`                  |
-| Dev server               | `npm run dev`             |
-| Build site               | `npm run build`           |
-| Typecheck                | `npm run typecheck`       |
-| Lint + format check      | `npm run check`           |
-| Auto-fix lint and format | `npm run fix`             |
-| Tests                    | `npm test`                |
-| Rebuild registry JSON    | `npm run registry:build`  |
-| Regenerate README images | `npm run assets:generate` |
+| Task                     | Command                                             |
+| ------------------------ | --------------------------------------------------- |
+| Install (locked)         | `npm ci` or `pnpm install --frozen-lockfile`        |
+| Dev server               | `npm run dev` or `pnpm dev`                         |
+| Build site               | `npm run build` or `pnpm build`                     |
+| Typecheck                | `npm run typecheck` or `pnpm typecheck`             |
+| Lint + format check      | `npm run check` or `pnpm check`                     |
+| Auto-fix lint and format | `npm run fix` or `pnpm fix`                         |
+| Tests                    | `npm test` or `pnpm test`                           |
+| Rebuild registry JSON    | `npm run registry:build` or `pnpm registry:build`   |
+| Regenerate README images | `npm run assets:generate` or `pnpm assets:generate` |
 
 Use `npm install` only when changing dependencies. Otherwise `npm ci`.
 

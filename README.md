@@ -43,7 +43,9 @@ Node.js `>=22.18.0` · React `19` · Tailwind CSS `v4`
 Both **npm** and **pnpm** are supported. CI runs every PR against both, and the workspace scripts detect the active package manager automatically.
 
 ```bash
-npm ci && npm run build      # or: pnpm install && pnpm build
+npm ci && npm run build
+# or
+pnpm install --frozen-lockfile && pnpm build
 ```
 
 See [CONTRIBUTING.md](https://github.com/frakment/ui/blob/main/CONTRIBUTING.md#package-manager) for the full policy, lockfile rules, and troubleshooting.

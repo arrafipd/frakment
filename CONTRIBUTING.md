@@ -25,7 +25,7 @@ npm ci
 npm run build
 
 # pnpm
-pnpm install
+pnpm install --frozen-lockfile
 pnpm build
 ```
 
@@ -33,12 +33,9 @@ Every workspace-aware script (`prebuild`, `precheck`, `predev`, `pretest`, `pret
 
 ### Lockfiles
 
-Only `package-lock.json` is committed. `pnpm-lock.yaml` is gitignored on purpose:
+Both `package-lock.json` and `pnpm-lock.yaml` are committed, and CI installs from each with its frozen-lockfile mode.
 
-- **Single source of truth.** Two committed lockfiles drift apart when only one is regenerated. Dependency bumps, overrides, and engine constraints must match across both or contributors get inconsistent installs.
-- **Deterministic CI.** CI resolves dependencies from `package-lock.json` only, so every job sees the same graph regardless of which PM a contributor uses locally.
-
-If you use pnpm locally, `pnpm install` will create `pnpm-lock.yaml` in your working tree. Do not commit it. If you add a dependency, run `pnpm install` locally to install it, then `npm install` to update the committed `package-lock.json`, and commit only the npm lockfile change.
+When dependencies change, update both lockfiles with `npm install` and `pnpm install`, then commit both so contributors using either package manager get reproducible installs.
 
 ### Overrides and build approvals
 
@@ -53,10 +50,10 @@ When you change `package.json#overrides`, mirror the change into `pnpm-workspace
 
 Every PR runs CI checks for linting and formatting, typechecking, registry drift, theme drift, tests, and Gitleaks. Linting and formatting, typechecking, registry drift, and tests run with both npm and pnpm; theme drift and Gitleaks run once.
 
-If `pnpm` CI fails, reproduce locally with:
+If either package-manager CI job fails, reproduce locally with:
 
 ```bash
-pnpm install
+pnpm install --frozen-lockfile
 pnpm build
 pnpm run check
 ```
