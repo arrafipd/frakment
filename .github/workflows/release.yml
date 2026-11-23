@@ -12,8 +12,10 @@ permissions: read-all
 
 jobs:
   release:
-    uses: frakment/.github/.github/workflows/ui-release-reusable.yml@596725c531f4cdde69a45c708e941d888af6e7d4
+    uses: frakment/.github/.github/workflows/ui-release-reusable.yml@cafe51a38816def7ba40125957b7c3c38a6ec9db
     permissions:
       contents: write
       pull-requests: write
       id-token: write
+    secrets:
+      github_token: ${{ secrets.GITHUB_TOKEN }}

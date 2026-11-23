@@ -7,10 +7,12 @@ on:
 permissions:
   contents: read
   pull-requests: read
+secrets:
+  github_token: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   dco:
-    uses: frakment/.github/.github/workflows/dco-reusable.yml@91e5c204666274d1c5238636d26543637f926aba
+    uses: frakment/.github/.github/workflows/dco-reusable.yml@cafe51a38816def7ba40125957b7c3c38a6ec9db
     permissions:
       contents: read
       pull-requests: read
