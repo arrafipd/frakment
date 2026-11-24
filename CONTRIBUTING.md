@@ -335,6 +335,14 @@ npx frakment@latest add x
 5. Sign off your commits with `git commit -s` (see [Sign-off](#sign-off-dco) below).
 6. Open a pull request. Required checks must pass before merge.
 
+All contributions to the protected default branch go through a pull request, including changes from developers and maintainers.
+
+Maintainers and developers may help review pull requests, while the owner performs the required final review and is the only person who merges to the protected default branch.
+
+Direct updates to the protected default branch are reserved for exceptional owner-only bypasses, and pull requests remain the normal path.
+
+See the [Frakment governance guide](https://github.com/frakment/.github/blob/main/GOVERNANCE.md) for contributor levels and repository access.
+
 ## Commit messages
 
 Every commit follows [Conventional Commits](https://www.conventionalcommits.org/). The `commit-msg` hook rejects messages that do not match the pattern.
