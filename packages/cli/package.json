@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@types/prompts": "^2.4.9",
-    "@types/react": "19.3.0",
+    "@types/react": "19.3.1",
     "clsx": "^2.1.1",
     "react": "19.3.1",
     "react-native": "0.88.1",
